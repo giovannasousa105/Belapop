@@ -1,0 +1,42 @@
+# dependencies
+/node_modules
+
+# Next.js build output
+/.next
+/out
+
+# TypeScript build cache
+*.tsbuildinfo
+
+# Python artifacts
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+
+# Virtual environments
+.venv/
+venv/
+ENV/
+env/
+
+# Logs
+*.log
+*.err
+
+# Local databases
+*.db
+
+# Local scratch files
+tmp_*
+
+# Environment files (never commit secrets)
+.env
+.env.*
+!.env.example
+
+# OS/editor files
+.DS_Store
+Thumbs.db
+.vscode/
