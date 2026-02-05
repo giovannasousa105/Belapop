@@ -47,7 +47,15 @@ function MarqueeText({
 
 export const Footer = () => {
   const pathname = usePathname();
-  const isRetail = pathname === "/" || pathname === "/catalogo" || pathname.startsWith("/produto/");
+  const retailRoutes = new Set([
+    "/",
+    "/catalogo",
+    "/sobre",
+    "/seguranca",
+    "/privacidade",
+    "/termos"
+  ]);
+  const isRetail = retailRoutes.has(pathname) || pathname.startsWith("/produto/");
 
   const instagramUrl = process.env.NEXT_PUBLIC_INSTAGRAM_URL || "https://www.instagram.com";
   const facebookUrl = process.env.NEXT_PUBLIC_FACEBOOK_URL || "https://www.facebook.com";
