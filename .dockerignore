@@ -1,0 +1,12 @@
+.git
+.next
+node_modules
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+*.log
+*.env
+.env*
+*.sqlite
+*.db
