@@ -2,11 +2,11 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { Heart, Search, ShoppingBag, User } from "lucide-react";
+import { Heart, ShoppingBag, User } from "lucide-react";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
 
 import { PromoBar } from "@/components/PromoBar";
+import { SearchBar } from "@/components/SearchBar";
 import { useAuth } from "@/lib/AuthContext";
 import { useCart } from "@/lib/CartContext";
 
@@ -23,12 +23,12 @@ const categories = [
 export const Navbar = () => {
   const { user, ready: authReady } = useAuth();
   const { itemCount, ready: cartReady } = useCart();
-  const [query, setQuery] = useState("");
   const pathname = usePathname();
   const logoUrl = process.env.NEXT_PUBLIC_LOGO_URL;
   const isRetail =
     pathname === "/" ||
     pathname === "/catalogo" ||
+    pathname === "/products" ||
     pathname.startsWith("/produto/");
   const actionTone = isRetail ? "text-noir-700" : "text-blush-100/80";
   const actionHover = isRetail ? "hover:text-luxe-600" : "hover:text-blush-50";
@@ -73,30 +73,11 @@ export const Navbar = () => {
               </span>
             )}
           </Link>
-          <form
-            action="/catalogo"
-            className={`flex w-full items-center gap-3 rounded-2xl border px-4 py-3 text-sm md:order-none md:flex-1 ${
-              isRetail
-                ? "border-black/10 bg-white text-noir-700 shadow-sm"
-                : "border-white/10 bg-noir-900/70 text-blush-100/70"
-            }`}
-          >
-            <Search
-              size={16}
-              className={isRetail ? "text-noir-400" : "text-blush-100/50"}
-            />
-            <input
-              name="q"
-              value={query}
-              onChange={(event) => setQuery(event.target.value)}
-              placeholder="Busque produtos, marcas, rituais"
-              className={`w-full bg-transparent text-sm outline-none ${
-                isRetail
-                  ? "text-noir-900 placeholder:text-noir-400"
-                  : "text-blush-50 placeholder:text-blush-100/50"
-              }`}
-            />
-          </form>
+          <SearchBar
+            tone={isRetail ? "light" : "dark"}
+            className="md:order-none md:flex-1"
+            action="/products"
+          />
           <div className="flex items-center gap-4 text-xs">
             <Link
               href={
@@ -113,13 +94,13 @@ export const Navbar = () => {
               <User size={16} />
               {authReady && user ? "Minha conta" : "Entrar"}
             </Link>
-            <button
-              type="button"
+            <Link
+              href="/account/favorites"
               className={`flex items-center gap-2 ${actionTone} ${actionHover}`}
             >
               <Heart size={16} />
               Favoritos
-            </button>
+            </Link>
             <Link
               href="/carrinho"
               className={`relative flex items-center gap-2 ${actionTone} ${actionHover}`}
@@ -143,7 +124,7 @@ export const Navbar = () => {
           {categories.map((category) => (
             <Link
               key={category}
-              href="/catalogo"
+              href="/products"
               className={`${
                 isRetail ? "text-noir-600 hover:text-luxe-600" : "text-blush-100/70 hover:text-blush-50"
               } ${category === "Ofertas" ? "text-luxe-600" : ""}`}
@@ -174,7 +155,7 @@ export const Navbar = () => {
           <div className="flex items-center justify-between pb-2">
             <p className="text-[10px] uppercase tracking-[0.35em] text-noir-500">Explorar</p>
             <Link
-              href="/catalogo"
+              href="/products"
               className="text-[11px] uppercase tracking-[0.3em] text-luxe-600"
             >
               Ver tudo
@@ -189,7 +170,7 @@ export const Navbar = () => {
                     ? "/diario"
                     : category === "Lojista"
                     ? merchantLink
-                    : "/catalogo"
+                    : "/products"
                 }
                 className="whitespace-nowrap rounded-full border border-black/10 bg-white px-4 py-2 text-[11px] font-semibold text-noir-700 shadow-sm"
               >

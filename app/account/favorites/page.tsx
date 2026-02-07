@@ -1,49 +1,39 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import Link from "next/link";
+import { useMemo } from "react";
 
 import { PageHeading } from "@/components/PageHeading";
-import { useAuth } from "@/lib/AuthContext";
-import { getSupabaseBrowserClient } from "@/lib/supabaseBrowser";
+import { ProductGrid } from "@/components/ProductGrid";
+import { useWishlist } from "@/lib/hooks/useWishlist";
 import { formatPrice } from "@/lib/utils";
 
-type FavoriteRow = {
-  id: string;
-  product_id: string;
-  products:
-    | {
-        id: string;
-        name: string;
-        price_cents: number;
-      }[]
-    | null;
-};
-
 export default function AccountFavoritesPage() {
-  const { ready, user } = useAuth();
-  const [rows, setRows] = useState<FavoriteRow[]>([]);
-  const [loading, setLoading] = useState(true);
+  const { items, loading } = useWishlist();
 
-  useEffect(() => {
-    if (!ready || !user) return;
-    let active = true;
-    const supabase = getSupabaseBrowserClient();
-    setLoading(true);
-    const load = async () => {
-      const { data } = await supabase
-        .from("favorites")
-        .select("id,product_id,products(id,name,price_cents)")
-        .eq("user_id", user.id);
-      if (!active) return;
-      setRows(data ?? []);
-      setLoading(false);
-    };
-    void load();
-    return () => {
-      active = false;
-    };
-  }, [ready, user]);
+  const products = useMemo(
+    () =>
+      items
+        .map((item) => item.products)
+        .filter((product): product is NonNullable<typeof product> => Boolean(product))
+        .map((product) => ({
+          id: product.id,
+          name: product.name,
+          price: Number(product.price_cents ?? 0) / 100,
+          category: product.category ?? "Categoria",
+          sellerId: product.seller_id ?? ""
+        })),
+    [items]
+  );
+
+  const ratingMap = useMemo(() => {
+    return products.reduce<Record<string, { avg: number; count: number }>>(
+      (acc, product) => {
+        acc[product.id] = { avg: 0, count: 0 };
+        return acc;
+      },
+      {}
+    );
+  }, [products]);
 
   return (
     <div className="space-y-6">
@@ -53,29 +43,29 @@ export default function AccountFavoritesPage() {
       />
       {loading ? (
         <p className="text-sm text-noir-500">Carregando...</p>
-      ) : rows.length === 0 ? (
+      ) : products.length === 0 ? (
         <div className="rounded-2xl border border-black/10 bg-white p-6 text-sm text-noir-600">
           Nada salvo ainda. Explore a curadoria e guarde seus favoritos.
         </div>
       ) : (
-        <div className="grid gap-4 md:grid-cols-2">
-          {rows.map((row) => {
-            const product = row.products?.[0] ?? null;
-            return (
-              <Link
-                key={row.id}
-                href={`/produto/${row.product_id}`}
-                className="rounded-2xl border border-black/10 bg-white p-5 text-sm shadow-sm"
-              >
-                <p className="font-semibold text-noir-900">
-                  {product?.name ?? "Produto"}
-                </p>
-                <p className="mt-2 text-sm text-noir-600">
-                  {formatPrice((product?.price_cents ?? 0) / 100)}
-                </p>
-              </Link>
-            );
-          })}
+        <div className="space-y-4">
+          <div className="rounded-2xl border border-black/10 bg-white p-4 text-xs text-noir-500">
+            Favoritos salvos:{" "}
+            <span className="font-semibold text-noir-900">
+              {products.length}
+            </span>
+            {products.length ? (
+              <span className="ml-2">
+                Total estimado:{" "}
+                <span className="font-semibold text-noir-900">
+                  {formatPrice(
+                    products.reduce((acc, product) => acc + product.price, 0)
+                  )}
+                </span>
+              </span>
+            ) : null}
+          </div>
+          <ProductGrid products={products} tone="light" ratings={ratingMap} />
         </div>
       )}
     </div>

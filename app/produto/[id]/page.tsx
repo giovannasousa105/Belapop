@@ -13,6 +13,16 @@ import { buildShippingItems } from "@/lib/shipping/prepareItems";
 import { formatPrice } from "@/lib/utils";
 import { getSupabaseBrowserClient } from "@/lib/supabaseBrowser";
 import { trackEvent } from "@/lib/analytics/tracker";
+import { useAuth } from "@/lib/AuthContext";
+
+type Review = {
+  id: string;
+  rating: number;
+  comment: string | null;
+  is_verified: boolean;
+  created_at: string;
+  profiles?: { full_name: string | null } | null;
+};
 
 const toneMap: Record<string, string> = {
   rose: "from-luxe-600/30 via-blush-100/20 to-noir-950",
@@ -25,6 +35,7 @@ export default function ProdutoPage() {
   const params = useParams();
   const router = useRouter();
   const { addItem } = useCart();
+  const { user } = useAuth();
   const { products } = useStoredProducts();
   const productId = String(params?.id ?? "");
 
@@ -35,6 +46,13 @@ export default function ProdutoPage() {
   const [sellerName, setSellerName] = useState<string>("");
   const [sellerBio, setSellerBio] = useState<string | null>(null);
   const [sellerApproved, setSellerApproved] = useState(true);
+  const [reviews, setReviews] = useState<Review[]>([]);
+  const [ratingAvg, setRatingAvg] = useState(0);
+  const [ratingCount, setRatingCount] = useState(0);
+  const [reviewRating, setReviewRating] = useState(5);
+  const [reviewComment, setReviewComment] = useState("");
+  const [reviewStatus, setReviewStatus] = useState<string | null>(null);
+  const [reviewSubmitting, setReviewSubmitting] = useState(false);
 
   useEffect(() => {
     if (!product) return;
@@ -48,6 +66,22 @@ export default function ProdutoPage() {
       }
     });
   }, [product]);
+
+  useEffect(() => {
+    if (!productId) return;
+    const loadReviews = async () => {
+      const res = await fetch(`/api/reviews?productId=${productId}`);
+      const json = (await res.json()) as {
+        reviews: Review[];
+        ratingAvg: number;
+        ratingCount: number;
+      };
+      setReviews(json.reviews ?? []);
+      setRatingAvg(json.ratingAvg ?? 0);
+      setRatingCount(json.ratingCount ?? 0);
+    };
+    void loadReviews();
+  }, [productId]);
 
   useEffect(() => {
     if (!product) return;
@@ -141,6 +175,13 @@ export default function ProdutoPage() {
             <h1 className="mt-3 font-display text-3xl text-noir-950">
               {product.name}
             </h1>
+            <div className="mt-2 flex items-center gap-2 text-xs text-noir-600">
+              <span className="font-semibold text-noir-900">
+                {ratingAvg ? ratingAvg.toFixed(1) : "0.0"}
+              </span>
+              <span className="text-noir-400">•</span>
+              <span>{ratingCount} avaliações</span>
+            </div>
             <p className="mt-4 text-sm text-noir-600">{product.description}</p>
           </div>
           {product.highlights?.length ? (
@@ -156,23 +197,19 @@ export default function ProdutoPage() {
             </div>
           ) : null}
           {sellerName ? (
-          <div className="rounded-2xl border border-black/10 bg-white p-5 shadow-sm">
-            <p className="text-xs uppercase tracking-luxe text-noir-500">
-              Vendedor
-            </p>
-            <h3 className="mt-3 font-display text-xl text-noir-950">
-              {sellerName}
-            </h3>
-            {sellerBio ? (
-              <p className="mt-2 text-sm text-noir-600">{sellerBio}</p>
-            ) : null}
-          </div>
-        ) : null}
-          <ShippingCalculator
-            cartItems={shippingItems}
-            tone="light"
-            mode="merge"
-          />
+            <div className="rounded-2xl border border-black/10 bg-white p-5 shadow-sm">
+              <p className="text-xs uppercase tracking-luxe text-noir-500">
+                Vendedor
+              </p>
+              <h3 className="mt-3 font-display text-xl text-noir-950">
+                {sellerName}
+              </h3>
+              {sellerBio ? (
+                <p className="mt-2 text-sm text-noir-600">{sellerBio}</p>
+              ) : null}
+            </div>
+          ) : null}
+          <ShippingCalculator cartItems={shippingItems} tone="light" mode="merge" />
           <div className="flex items-center justify-between border-t border-black/10 pt-6">
             <span className="text-2xl font-semibold text-noir-950">
               {formatPrice(product.price)}
@@ -195,6 +232,132 @@ export default function ProdutoPage() {
             >
               Comprar agora
             </LuxuryButton>
+          </div>
+
+          <div
+            id="avaliacoes"
+            className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm"
+          >
+            <p className="text-xs uppercase tracking-[0.3em] text-noir-500">
+              Avaliações
+            </p>
+            <h3 className="mt-3 font-display text-2xl text-noir-950">
+              Impressões reais, curadoria honesta
+            </h3>
+            <p className="mt-2 text-sm text-noir-600">
+              {ratingCount
+                ? `${ratingAvg.toFixed(1)} • ${ratingCount} avaliações`
+                : "Ainda não há avaliações para este produto."}
+            </p>
+
+            <div className="mt-6 space-y-4">
+              {reviews.map((review) => (
+                <div
+                  key={review.id}
+                  className="rounded-2xl border border-black/10 bg-noir-50 p-4"
+                >
+                  <div className="flex items-center justify-between">
+                    <p className="text-sm font-semibold text-noir-900">
+                      {review.profiles?.full_name ?? "Cliente BelaPop"}
+                    </p>
+                    {review.is_verified ? (
+                      <span className="rounded-full bg-luxe-600/10 px-3 py-1 text-[10px] uppercase tracking-[0.2em] text-luxe-700">
+                        Compra verificada
+                      </span>
+                    ) : null}
+                  </div>
+                  <p className="mt-2 text-xs text-noir-500">
+                    Nota {review.rating} •{" "}
+                    {new Date(review.created_at).toLocaleDateString("pt-BR")}
+                  </p>
+                  {review.comment ? (
+                    <p className="mt-2 text-sm text-noir-700">
+                      {review.comment}
+                    </p>
+                  ) : null}
+                </div>
+              ))}
+            </div>
+
+            <div className="mt-8 rounded-2xl border border-black/10 bg-white p-4">
+              <p className="text-xs uppercase tracking-[0.3em] text-noir-500">
+                Sua avaliação
+              </p>
+              {user ? (
+                <form
+                  onSubmit={async (event) => {
+                    event.preventDefault();
+                    setReviewSubmitting(true);
+                    setReviewStatus(null);
+                    const res = await fetch("/api/reviews", {
+                      method: "POST",
+                      headers: { "Content-Type": "application/json" },
+                      body: JSON.stringify({
+                        productId: product.id,
+                        rating: reviewRating,
+                        comment: reviewComment
+                      })
+                    });
+                    if (!res.ok) {
+                      setReviewStatus(
+                        "Somente clientes que compraram podem avaliar."
+                      );
+                    } else {
+                      setReviewStatus("Avaliação enviada com sucesso.");
+                      setReviewComment("");
+                      const refreshed = await fetch(
+                        `/api/reviews?productId=${product.id}`
+                      );
+                      const json = (await refreshed.json()) as {
+                        reviews: Review[];
+                        ratingAvg: number;
+                        ratingCount: number;
+                      };
+                      setReviews(json.reviews ?? []);
+                      setRatingAvg(json.ratingAvg ?? 0);
+                      setRatingCount(json.ratingCount ?? 0);
+                    }
+                    setReviewSubmitting(false);
+                  }}
+                  className="mt-4 space-y-4"
+                >
+                  <div className="flex items-center gap-3">
+                    <label className="text-sm text-noir-600">Nota (1-5)</label>
+                    <input
+                      type="number"
+                      min={1}
+                      max={5}
+                      value={reviewRating}
+                      onChange={(event) =>
+                        setReviewRating(Number(event.target.value))
+                      }
+                      className="w-20 rounded-xl border border-black/10 px-3 py-2 text-sm"
+                    />
+                  </div>
+                  <textarea
+                    value={reviewComment}
+                    onChange={(event) => setReviewComment(event.target.value)}
+                    placeholder="Escreva sua experiência com o produto."
+                    className="min-h-[120px] w-full rounded-2xl border border-black/10 px-4 py-3 text-sm text-noir-700"
+                  />
+                  {reviewStatus ? (
+                    <p className="text-xs text-noir-500">{reviewStatus}</p>
+                  ) : null}
+                  <LuxuryButton
+                    type="submit"
+                    size="sm"
+                    tone="retail"
+                    disabled={reviewSubmitting}
+                  >
+                    Enviar avaliação
+                  </LuxuryButton>
+                </form>
+              ) : (
+                <div className="mt-4 text-sm text-noir-600">
+                  Entre para avaliar este produto.
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>

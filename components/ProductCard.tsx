@@ -7,11 +7,19 @@ import { useEffect, useMemo, useState } from "react";
 import { LuxuryButton } from "@/components/LuxuryButton";
 import { useCart } from "@/lib/CartContext";
 import { sellers } from "@/data/sellers";
-import { readStorage, storageKeys, writeStorage } from "@/lib/storage";
 import { getSupabaseBrowserClient } from "@/lib/supabaseBrowser";
-import { Product } from "@/lib/types";
+import { type ProductImageTone } from "@/lib/types";
 
-const toneStyles: Record<NonNullable<Product["imageTone"]>, string> = {
+export type ProductCardData = {
+  id: string;
+  name: string;
+  price: number;
+  category: string;
+  sellerId: string;
+  imageTone?: ProductImageTone;
+};
+
+const toneStyles: Record<NonNullable<ProductImageTone>, string> = {
   rose: "from-blush-100/30 via-blush-100/10 to-white",
   blush: "from-blush-100/40 via-white to-white",
   noir: "from-noir-900/10 via-white to-white",
@@ -19,24 +27,39 @@ const toneStyles: Record<NonNullable<Product["imageTone"]>, string> = {
 };
 
 type ProductCardProps = {
-  product: Product;
+  product: ProductCardData;
   tone?: "light" | "dark";
+  ratingAvg?: number;
+  ratingCount?: number;
+  isWishlisted?: boolean;
+  onToggleWishlist?: (productId: string) => void;
 };
 
-export const ProductCard = ({ product, tone = "light" }: ProductCardProps) => {
+export const ProductCard = ({
+  product,
+  tone = "light",
+  ratingAvg,
+  ratingCount,
+  isWishlisted,
+  onToggleWishlist
+}: ProductCardProps) => {
   const [sellerName, setSellerName] = useState("BelaPop");
-  const [isFavorite, setIsFavorite] = useState(false);
   const { addItem } = useCart();
   const isLight = tone === "light";
 
-  const rating = useMemo(
-    () => (4.6 + (product.name.length % 3) * 0.1).toFixed(1),
-    [product.name]
-  );
-  const reviewCount = useMemo(
-    () => 120 + ((product.name.length * 37) % 900),
-    [product.name]
-  );
+  const rating = useMemo(() => {
+    if (typeof ratingAvg === "number" && ratingAvg > 0) {
+      return ratingAvg.toFixed(1);
+    }
+    return (4.6 + (product.name.length % 3) * 0.1).toFixed(1);
+  }, [ratingAvg, product.name.length]);
+
+  const reviewCount = useMemo(() => {
+    if (typeof ratingCount === "number" && ratingCount > 0) {
+      return ratingCount;
+    }
+    return 120 + ((product.name.length * 37) % 900);
+  }, [ratingCount, product.name.length]);
 
   useEffect(() => {
     let active = true;
@@ -63,18 +86,9 @@ export const ProductCard = ({ product, tone = "light" }: ProductCardProps) => {
     };
   }, [product.sellerId]);
 
-  useEffect(() => {
-    const favorites = readStorage<string[]>(storageKeys.favorites, []);
-    setIsFavorite(favorites.includes(product.id));
-  }, [product.id]);
-
   const toggleFavorite = () => {
-    const favorites = readStorage<string[]>(storageKeys.favorites, []);
-    const next = favorites.includes(product.id)
-      ? favorites.filter((id) => id !== product.id)
-      : [...favorites, product.id];
-    writeStorage(storageKeys.favorites, next);
-    setIsFavorite(next.includes(product.id));
+    if (!onToggleWishlist) return;
+    onToggleWishlist(product.id);
   };
 
   return (
@@ -95,16 +109,16 @@ export const ProductCard = ({ product, tone = "light" }: ProductCardProps) => {
           type="button"
           onClick={toggleFavorite}
           aria-label={
-            isFavorite ? "Remover dos favoritos" : "Adicionar aos favoritos"
+            isWishlisted ? "Remover dos favoritos" : "Adicionar aos favoritos"
           }
-          aria-pressed={isFavorite}
+          aria-pressed={isWishlisted}
           className={`absolute right-4 top-4 flex h-9 w-9 items-center justify-center rounded-full border transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-luxe-600/70 ${
             isLight
               ? "border-black/10 bg-white text-noir-600 hover:text-luxe-600"
               : "border-white/20 bg-noir-950/70 text-blush-100/80 hover:text-blush-50"
           }`}
         >
-          <Heart size={16} fill={isFavorite ? "currentColor" : "none"} />
+          <Heart size={16} fill={isWishlisted ? "currentColor" : "none"} />
         </button>
       </div>
       <div className="flex flex-1 flex-col gap-3 p-5">
@@ -146,7 +160,9 @@ export const ProductCard = ({ product, tone = "light" }: ProductCardProps) => {
           >
             Ver preço
           </LuxuryButton>
-          <p className={`text-xs ${isLight ? "text-noir-500" : "text-blush-100/60"}`}>
+          <p
+            className={`text-xs ${isLight ? "text-noir-500" : "text-blush-100/60"}`}
+          >
             Valor exibido ao abrir o produto.
           </p>
         </div>
