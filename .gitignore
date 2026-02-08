@@ -42,3 +42,6 @@ Thumbs.db
 .vscode/
 
 .vercel
+# Supabase local artifacts
+supabase/.branches/
+supabase/.temp/
