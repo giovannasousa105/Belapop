@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import uuid
 import os
+import logging
 from enum import Enum as PyEnum
 from typing import Any, Dict, List, Optional
 
@@ -38,6 +39,7 @@ from database import Base, engine, get_db
 # =========================
 stripe.api_key = os.getenv("STRIPE_SECRET_KEY", "")
 STRIPE_WEBHOOK_SECRET = os.getenv("STRIPE_WEBHOOK_SECRET", "")
+logger = logging.getLogger("belapop.webhook")
 
 PAGARME_API_KEY = os.getenv("PAGARME_API_KEY")
 PAGARME_ENCRYPTION_KEY = os.getenv("PAGARME_ENCRYPTION_KEY")
@@ -1158,11 +1160,14 @@ async def stripe_webhook(request: Request, db: Session = Depends(get_db)):
         raise HTTPException(500, "Webhook secret nao configurado")
     payload = await request.body()
     sig = request.headers.get("stripe-signature")
+    if not sig:
+        logger.warning("Stripe webhook sem assinatura (stripe-signature ausente)")
     try:
         event = stripe.Webhook.construct_event(
             payload=payload, sig_header=sig, secret=STRIPE_WEBHOOK_SECRET
         )
     except Exception as exc:
+        logger.exception("Webhook invalido (falha na verificacao de assinatura)")
         raise HTTPException(400, f"Webhook invalido: {exc}")
 
     event_type = event["type"]
