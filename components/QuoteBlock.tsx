@@ -17,14 +17,14 @@ export const QuoteBlock = ({ quote, tone = "light" }: QuoteBlockProps) => {
     >
       <p
         className={`font-display text-2xl md:text-3xl ${
-          isLight ? "text-noir-950" : "text-blush-50"
+          isLight ? "text-bpBlack" : "text-bpOffWhite"
         }`}
       >
         &ldquo;{quote}&rdquo;
       </p>
       <p
-        className={`mt-4 text-xs uppercase tracking-luxe ${
-          isLight ? "text-noir-500" : "text-blush-100/60"
+        className={`mt-4 text-xs uppercase tracking-[0.08em] ${
+          isLight ? "text-bpGraphite/70" : "text-bpPinkSoft/60"
         }`}
       >
         Modo editorial BelaPop

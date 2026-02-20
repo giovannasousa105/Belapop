@@ -3,27 +3,42 @@
 import React from "react";
 import { usePathname } from "next/navigation";
 
-import { CuradoriaChat } from "@/components/CuradoriaChat";
-import { Footer } from "@/components/Footer";
-import { Navbar } from "@/components/Navbar";
 import { WhatsappWidget } from "@/components/WhatsappWidget";
+import { AccessibilityButton } from "@/components/AccessibilityButton";
+import { CookieConsent } from "@/components/CookieConsent";
+import { BPFooter } from "@/components/layout/BPFooter";
+import { BPHeader } from "@/components/layout/BPHeader";
 
 export const AppShell = ({ children }: { children: React.ReactNode }) => {
   const pathname = usePathname();
   const isSellerRoute = pathname?.startsWith("/seller");
   const isAdminRoute = pathname?.startsWith("/admin");
+  const hasAccessibilityWidget = Boolean(
+    process.env.NEXT_PUBLIC_ACCESSIBILITY_ACCOUNT_ID ||
+      process.env.NEXT_PUBLIC_ACCESSIBE_ACCOUNT_ID
+  );
+  const hideFloating =
+    !pathname ||
+    pathname.startsWith("/checkout") ||
+    pathname.startsWith("/carrinho") ||
+    pathname.startsWith("/login") ||
+    pathname.startsWith("/register") ||
+    pathname.startsWith("/minha-conta") ||
+    pathname.startsWith("/account") ||
+    pathname.startsWith("/pedido") ||
+    isSellerRoute ||
+    isAdminRoute;
 
   return (
     <>
-      {isSellerRoute || isAdminRoute ? null : <Navbar />}
-      <main className={isSellerRoute || isAdminRoute ? "pt-0" : "pt-36"}>
+      {isSellerRoute || isAdminRoute ? null : <BPHeader />}
+      <main className={isSellerRoute || isAdminRoute ? "pt-0" : "pt-[72px]"}>
         {children}
       </main>
-      {isSellerRoute || isAdminRoute ? null : <Footer />}
-      {!isAdminRoute ? (
-        <CuradoriaChat variant={isSellerRoute ? "seller" : "customer"} />
-      ) : null}
-      {!isAdminRoute ? <WhatsappWidget /> : null}
+      {isSellerRoute || isAdminRoute ? null : <BPFooter />}
+      {!hideFloating ? <WhatsappWidget /> : null}
+      {!hideFloating && hasAccessibilityWidget ? <AccessibilityButton /> : null}
+      {!isSellerRoute && !isAdminRoute ? <CookieConsent /> : null}
     </>
   );
 };

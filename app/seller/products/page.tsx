@@ -66,10 +66,10 @@ export default function SellerProductsPage() {
     <div className="flex w-full flex-col gap-8">
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div>
-          <p className="text-xs uppercase tracking-[0.3em] text-noir-500">
+          <p className="text-xs uppercase tracking-[0.3em] text-bpGraphite/70">
             Produtos da loja
           </p>
-          <h1 className="mt-2 font-display text-3xl text-noir-950">
+          <h1 className="mt-2 font-display text-3xl text-bpBlack">
             Catálogo institucional
           </h1>
         </div>
@@ -79,7 +79,7 @@ export default function SellerProductsPage() {
       </div>
 
       <div className="flex flex-wrap items-center gap-3 rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
-        <p className="text-xs uppercase tracking-[0.3em] text-noir-500">
+        <p className="text-xs uppercase tracking-[0.3em] text-bpGraphite/70">
           Filtros
         </p>
         {statusOptions.map((option) => (
@@ -88,8 +88,8 @@ export default function SellerProductsPage() {
             onClick={() => setStatusFilter(option.value)}
             className={`rounded-full border px-4 py-2 text-xs uppercase tracking-[0.3em] transition ${
               statusFilter === option.value
-                ? "border-luxe-600/60 text-noir-900"
-                : "border-black/10 text-noir-500 hover:border-luxe-600/40 hover:text-noir-900"
+                ? "border-bpPink/60 text-bpBlackSoft"
+                : "border-black/10 text-bpGraphite/70 hover:border-bpPink/40 hover:text-bpBlackSoft"
             }`}
           >
             {option.label}
@@ -99,7 +99,7 @@ export default function SellerProductsPage() {
 
       {filteredProducts.length === 0 ? (
         <div className="rounded-2xl border border-black/10 bg-white p-6 shadow-sm">
-          <p className="text-sm text-noir-600">
+          <p className="text-sm text-bpGraphite/80">
             Nenhum produto encontrado para o filtro selecionado.
           </p>
         </div>
@@ -111,13 +111,13 @@ export default function SellerProductsPage() {
               className="flex flex-col gap-4 rounded-2xl border border-black/10 bg-white p-5 shadow-sm md:flex-row md:items-center md:justify-between"
             >
               <div>
-                <p className="text-xs uppercase tracking-[0.3em] text-noir-500">
+                <p className="text-xs uppercase tracking-[0.3em] text-bpGraphite/70">
                   {product.category} • {statusLabel(product.status)}
                 </p>
-                <h3 className="mt-2 font-display text-xl text-noir-950">
+                <h3 className="mt-2 font-display text-xl text-bpBlack">
                   {product.name}
                 </h3>
-                <p className="mt-2 text-sm text-noir-600">
+                <p className="mt-2 text-sm text-bpGraphite/80">
                   {formatPrice(product.price)}
                 </p>
               </div>
@@ -135,7 +135,7 @@ export default function SellerProductsPage() {
                     Enviar para curadoria
                   </LuxuryButton>
                 ) : product.status === "review" ? (
-                  <span className="rounded-full border border-black/10 px-3 py-2 text-[10px] uppercase tracking-[0.3em] text-noir-500">
+                  <span className="rounded-full border border-black/10 px-3 py-2 text-[10px] uppercase tracking-[0.3em] text-bpGraphite/70">
                     Em curadoria
                   </span>
                 ) : (
@@ -150,7 +150,7 @@ export default function SellerProductsPage() {
                 )}
                 <button
                   onClick={() => handleDelete(product.id)}
-                  className="text-xs uppercase tracking-[0.3em] text-noir-500 hover:text-noir-900"
+                  className="text-xs uppercase tracking-[0.3em] text-bpGraphite/70 hover:text-bpBlackSoft"
                 >
                   Excluir
                 </button>

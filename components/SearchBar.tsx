@@ -51,14 +51,14 @@ export const SearchBar = ({
   const toneClasses = useMemo(() => {
     return tone === "light"
       ? {
-          wrapper: "border-black/10 bg-white text-noir-700 shadow-sm",
-          input: "text-noir-900 placeholder:text-noir-400",
-          icon: "text-noir-400"
+          wrapper: "border-black/10 bg-white text-bpGraphite shadow-sm",
+          input: "text-bpBlackSoft placeholder:text-bpGraphite/60",
+          icon: "text-bpGraphite/60"
         }
       : {
-          wrapper: "border-white/10 bg-noir-900/70 text-blush-100/70",
-          input: "text-blush-50 placeholder:text-blush-100/50",
-          icon: "text-blush-100/50"
+          wrapper: "border-white/10 bg-bpBlackSoft/70 text-bpPinkSoft/70",
+          input: "text-bpOffWhite placeholder:text-bpPinkSoft/50",
+          icon: "text-bpPinkSoft/50"
         };
   }, [tone]);
 
@@ -120,11 +120,11 @@ export const SearchBar = ({
       {open && results ? (
         <div className="absolute left-0 right-0 top-[calc(100%+8px)] z-50 rounded-3xl border border-black/10 bg-white p-4 shadow-xl">
           {loading ? (
-            <p className="text-sm text-noir-500">Buscando...</p>
+            <p className="text-sm text-bpGraphite/70">Buscando...</p>
           ) : (
             <div className="grid gap-4 md:grid-cols-[1.4fr_1fr]">
               <div>
-                <p className="text-[10px] uppercase tracking-[0.3em] text-noir-500">
+                <p className="text-[10px] uppercase tracking-[0.3em] text-bpGraphite/70">
                   Produtos
                 </p>
                 <div className="mt-3 space-y-3">
@@ -133,23 +133,23 @@ export const SearchBar = ({
                       <Link
                         key={product.id}
                         href={`/produto/${product.id}`}
-                        className="flex items-center justify-between gap-4 rounded-2xl border border-black/10 bg-white px-4 py-3 text-sm transition hover:border-luxe-600/40"
+                        className="flex items-center justify-between gap-4 rounded-2xl border border-black/10 bg-white px-4 py-3 text-sm transition hover:border-bpPink/40"
                       >
                         <div>
-                          <p className="font-semibold text-noir-900">
+                          <p className="font-semibold text-bpBlackSoft">
                             {product.name}
                           </p>
-                          <p className="text-xs text-noir-500">
+                          <p className="text-xs text-bpGraphite/70">
                             {product.brand ?? "Curadoria BelaPop"}
                           </p>
                         </div>
-                        <span className="text-xs font-semibold text-noir-900">
+                        <span className="text-xs font-semibold text-bpBlackSoft">
                           {formatPrice(product.price)}
                         </span>
                       </Link>
                     ))
                   ) : (
-                    <p className="text-sm text-noir-500">
+                    <p className="text-sm text-bpGraphite/70">
                       Nenhum produto encontrado.
                     </p>
                   )}
@@ -158,7 +158,7 @@ export const SearchBar = ({
 
               <div className="space-y-4">
                 <div>
-                  <p className="text-[10px] uppercase tracking-[0.3em] text-noir-500">
+                  <p className="text-[10px] uppercase tracking-[0.3em] text-bpGraphite/70">
                     Marcas
                   </p>
                   <div className="mt-3 flex flex-wrap gap-2">
@@ -169,20 +169,20 @@ export const SearchBar = ({
                           href={`${action}?q=${encodeURIComponent(
                             results.normalizedQuery
                           )}&brand=${encodeURIComponent(brand.name)}`}
-                          className="rounded-full border border-black/10 px-3 py-1 text-xs text-noir-700 hover:border-luxe-600/40"
+                          className="rounded-full border border-black/10 px-3 py-1 text-xs text-bpGraphite hover:border-bpPink/40"
                         >
                           {brand.name} ({brand.count})
                         </Link>
                       ))
                     ) : (
-                      <span className="text-xs text-noir-500">
+                      <span className="text-xs text-bpGraphite/70">
                         Nenhuma marca.
                       </span>
                     )}
                   </div>
                 </div>
                 <div>
-                  <p className="text-[10px] uppercase tracking-[0.3em] text-noir-500">
+                  <p className="text-[10px] uppercase tracking-[0.3em] text-bpGraphite/70">
                     Categorias
                   </p>
                   <div className="mt-3 flex flex-wrap gap-2">
@@ -193,13 +193,13 @@ export const SearchBar = ({
                           href={`${action}?q=${encodeURIComponent(
                             results.normalizedQuery
                           )}&category=${encodeURIComponent(category.name)}`}
-                          className="rounded-full border border-black/10 px-3 py-1 text-xs text-noir-700 hover:border-luxe-600/40"
+                          className="rounded-full border border-black/10 px-3 py-1 text-xs text-bpGraphite hover:border-bpPink/40"
                         >
                           {category.name} ({category.count})
                         </Link>
                       ))
                     ) : (
-                      <span className="text-xs text-noir-500">
+                      <span className="text-xs text-bpGraphite/70">
                         Nenhuma categoria.
                       </span>
                     )}
@@ -209,7 +209,7 @@ export const SearchBar = ({
                   href={`${action}?q=${encodeURIComponent(
                     results.normalizedQuery
                   )}`}
-                  className="inline-flex rounded-full border border-black/10 px-4 py-2 text-xs uppercase tracking-[0.3em] text-noir-700 hover:border-luxe-600/40"
+                  className="inline-flex rounded-full border border-black/10 px-4 py-2 text-xs uppercase tracking-[0.3em] text-bpGraphite hover:border-bpPink/40"
                 >
                   Ver todos os resultados
                 </Link>

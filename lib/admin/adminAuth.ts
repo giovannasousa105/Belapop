@@ -18,9 +18,9 @@ export async function ensureAdminRequest(request: NextRequest): Promise<AdminRes
   }
 
   const { data, error } = await supabase
-    .from("profiles")
+    .from("user_roles")
     .select("role")
-    .eq("id", user.id)
+    .eq("user_id", user.id)
     .maybeSingle();
 
   if (error || !data || data.role !== "admin") {

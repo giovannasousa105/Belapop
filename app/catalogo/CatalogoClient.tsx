@@ -53,16 +53,16 @@ export const CatalogoClient = () => {
   }, [search, category, sort, products]);
 
   return (
-    <div className="min-h-screen bg-white text-noir-900">
+    <div className="min-h-screen bg-white text-bpBlackSoft">
       <div className="mx-auto flex w-full max-w-7xl flex-col gap-10 px-6 py-10">
         <div className="rounded-3xl border border-black/10 bg-white p-8 shadow-sm">
-          <p className="text-xs uppercase tracking-[0.3em] text-noir-500">
+          <p className="text-xs uppercase tracking-[0.3em] text-bpGraphite/70">
             Catálogo BelaPop
           </p>
-          <h1 className="mt-3 font-display text-3xl text-noir-950">
+          <h1 className="mt-3 font-display text-3xl text-bpBlack">
             Explore a curadoria premium
           </h1>
-          <p className="mt-2 text-sm text-noir-600">
+          <p className="mt-2 text-sm text-bpGraphite/80">
             Selecione por categoria, encontre seu ritual e descubra novidades.
           </p>
         </div>
@@ -77,7 +77,7 @@ export const CatalogoClient = () => {
           tone="light"
         />
         {filtered.length === 0 ? (
-          <div className="rounded-2xl border border-black/10 bg-white p-6 text-sm text-noir-600 shadow-sm">
+          <div className="rounded-2xl border border-black/10 bg-white p-6 text-sm text-bpGraphite/80 shadow-sm">
             Nenhum produto encontrado com os filtros selecionados.
           </div>
         ) : (

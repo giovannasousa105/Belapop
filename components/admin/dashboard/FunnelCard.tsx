@@ -19,7 +19,7 @@ type Props = {
 export function FunnelCard({ title, steps }: Props) {
   return (
     <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
-      <div className="text-xs uppercase tracking-[0.25em] text-noir-500">
+      <div className="text-xs uppercase tracking-[0.25em] text-bpGraphite/70">
         {title}
       </div>
       <div className="h-48 mt-4">

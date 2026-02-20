@@ -22,15 +22,15 @@ export const LuxurySection = ({
       <div className="mx-auto flex w-full max-w-7xl flex-col gap-6 px-6">
         <div className="max-w-2xl">
           {eyebrow ? (
-            <p className="text-xs uppercase tracking-luxe text-blush-100/70">
+            <p className="text-xs uppercase tracking-[0.08em] text-bpPinkSoft/70">
               {eyebrow}
             </p>
           ) : null}
-          <h2 className="editorial-line mt-2 font-display text-3xl font-semibold text-blush-50 md:text-4xl">
+          <h2 className="editorial-line mt-2 font-display text-3xl font-semibold text-bpOffWhite md:text-4xl">
             {title}
           </h2>
           {subtitle ? (
-            <p className="mt-4 text-sm text-blush-100/70 md:text-base">
+            <p className="mt-4 text-sm text-bpPinkSoft/70 md:text-base">
               {subtitle}
             </p>
           ) : null}

@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 360" role="img" aria-label="BelaPop Oficial">
+  <rect width="600" height="360" fill="none" />
+  <text x="250" y="260" fill="#FFFFFF" font-size="260" font-family="Georgia, 'Times New Roman', serif" font-weight="700">B</text>
+  <circle cx="455" cy="260" r="28" fill="#F7BFD1" />
+  <text x="210" y="215" fill="#F7BFD1" font-size="46" font-family="Arial, Helvetica, sans-serif" font-weight="700" transform="rotate(-90 210 215)">BELAPOP</text>
+  <text x="300" y="310" fill="#FFFFFF" font-size="22" font-family="Arial, Helvetica, sans-serif" letter-spacing="6">OFICIAL</text>
+</svg>

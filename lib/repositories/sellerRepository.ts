@@ -1,4 +1,4 @@
-import { getSupabaseBrowserClient } from "@/lib/supabaseBrowser";
+import { getSupabaseClient } from "@/lib/supabase/client";
 import { SellerStatus, SellerStore } from "@/lib/types";
 
 const selectFields =
@@ -27,7 +27,7 @@ const mapSeller = (row: any): SellerStore => ({
 
 export const sellerRepository = {
   getAll: async (): Promise<SellerStore[]> => {
-    const supabase = getSupabaseBrowserClient();
+    const supabase = getSupabaseClient();
     const { data, error } = await supabase.from("sellers").select(selectFields);
     if (error) {
       console.error("[sellers] getAll failed:", error);
@@ -36,7 +36,7 @@ export const sellerRepository = {
     return (data ?? []).map(mapSeller);
   },
   getById: async (id: string): Promise<SellerStore | null> => {
-    const supabase = getSupabaseBrowserClient();
+    const supabase = getSupabaseClient();
     const { data, error } = await supabase
       .from("sellers")
       .select(selectFields)
@@ -50,7 +50,7 @@ export const sellerRepository = {
   },
   getByIds: async (ids: string[]): Promise<SellerStore[]> => {
     if (ids.length === 0) return [];
-    const supabase = getSupabaseBrowserClient();
+    const supabase = getSupabaseClient();
     const { data, error } = await supabase
       .from("sellers")
       .select(selectFields)
@@ -62,7 +62,7 @@ export const sellerRepository = {
     return (data ?? []).map(mapSeller);
   },
   updateStatus: async (sellerId: string, status: SellerStatus) => {
-    const supabase = getSupabaseBrowserClient();
+    const supabase = getSupabaseClient();
     const { error } = await supabase
       .from("sellers")
       .update({ status })

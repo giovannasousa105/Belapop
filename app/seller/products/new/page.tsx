@@ -107,13 +107,13 @@ export default function NewProductPage() {
   return (
     <div className="flex w-full flex-col gap-8">
       <div>
-        <p className="text-xs uppercase tracking-[0.3em] text-noir-500">
+        <p className="text-xs uppercase tracking-[0.3em] text-bpGraphite/70">
           Novo produto
         </p>
-        <h1 className="mt-2 font-display text-3xl text-noir-950">
+        <h1 className="mt-2 font-display text-3xl text-bpBlack">
           Cadastro de produto
         </h1>
-        <p className="mt-2 text-sm text-noir-600">
+        <p className="mt-2 text-sm text-bpGraphite/80">
           Preencha os dados essenciais e defina o status de publicação.
         </p>
       </div>
@@ -129,7 +129,7 @@ export default function NewProductPage() {
           placeholder="Nome do produto"
           value={form.name}
           onChange={(event) => setForm({ ...form, name: event.target.value })}
-          className="rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-noir-900 placeholder:text-noir-400 md:col-span-2"
+          className="rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-bpBlackSoft placeholder:text-bpGraphite/60 md:col-span-2"
         />
         <textarea
           placeholder="Descrição institucional"
@@ -137,7 +137,7 @@ export default function NewProductPage() {
           onChange={(event) =>
             setForm({ ...form, description: event.target.value })
           }
-          className="min-h-[120px] rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-noir-900 placeholder:text-noir-400 md:col-span-2"
+          className="min-h-[120px] rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-bpBlackSoft placeholder:text-bpGraphite/60 md:col-span-2"
         />
         <input
           type="number"
@@ -146,14 +146,14 @@ export default function NewProductPage() {
           placeholder="Preço (ex.: 199)"
           value={form.price}
           onChange={(event) => setForm({ ...form, price: event.target.value })}
-          className="rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-noir-900"
+          className="rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-bpBlackSoft"
         />
         <select
           value={form.category}
           onChange={(event) =>
             setForm({ ...form, category: event.target.value })
           }
-          className="rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-noir-900"
+          className="rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-bpBlackSoft"
         >
           {categories.map((item) => (
             <option key={item} value={item}>
@@ -168,7 +168,7 @@ export default function NewProductPage() {
           placeholder="Peso (kg)"
           value={form.weightKg}
           onChange={(event) => setForm({ ...form, weightKg: event.target.value })}
-          className="rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-noir-900"
+          className="rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-bpBlackSoft"
         />
         <input
           type="number"
@@ -177,7 +177,7 @@ export default function NewProductPage() {
           placeholder="Largura (cm)"
           value={form.widthCm}
           onChange={(event) => setForm({ ...form, widthCm: event.target.value })}
-          className="rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-noir-900"
+          className="rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-bpBlackSoft"
         />
         <input
           type="number"
@@ -186,7 +186,7 @@ export default function NewProductPage() {
           placeholder="Altura (cm)"
           value={form.heightCm}
           onChange={(event) => setForm({ ...form, heightCm: event.target.value })}
-          className="rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-noir-900"
+          className="rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-bpBlackSoft"
         />
         <input
           type="number"
@@ -195,20 +195,20 @@ export default function NewProductPage() {
           placeholder="Comprimento (cm)"
           value={form.lengthCm}
           onChange={(event) => setForm({ ...form, lengthCm: event.target.value })}
-          className="rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-noir-900"
+          className="rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-bpBlackSoft"
         />
         <input
           placeholder="Imagens (separe por vírgula)"
           value={form.images}
           onChange={(event) => setForm({ ...form, images: event.target.value })}
-          className="rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-noir-900 placeholder:text-noir-400 md:col-span-2"
+          className="rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-bpBlackSoft placeholder:text-bpGraphite/60 md:col-span-2"
         />
         <select
           value={form.status}
           onChange={(event) =>
             setForm({ ...form, status: event.target.value })
           }
-          className="rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-noir-900"
+          className="rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-bpBlackSoft"
         >
           <option value="draft">Rascunho</option>
           <option value="review">Aguardando curadoria</option>
@@ -219,7 +219,7 @@ export default function NewProductPage() {
           onChange={(event) =>
             setForm({ ...form, imageTone: event.target.value })
           }
-          className="rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-noir-900"
+          className="rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-bpBlackSoft"
         >
           {tones.map((tone) => (
             <option key={tone} value={tone}>
@@ -228,7 +228,7 @@ export default function NewProductPage() {
           ))}
         </select>
         {message ? (
-          <p className="text-xs text-luxe-600 md:col-span-2">{message}</p>
+          <p className="text-xs text-bpPink md:col-span-2">{message}</p>
         ) : null}
         <div className="flex flex-wrap gap-3 md:col-span-2">
           <LuxuryButton tone="retail" size="lg" onClick={() => handleSubmit("draft")}>

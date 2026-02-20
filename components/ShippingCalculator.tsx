@@ -163,14 +163,14 @@ export const ShippingCalculator = ({
         <div>
           <p
             className={`text-xs uppercase tracking-[0.3em] ${
-              isLight ? "text-noir-500" : "text-blush-100/60"
+              isLight ? "text-bpGraphite/70" : "text-bpPinkSoft/60"
             }`}
           >
             Frete por vendedor
           </p>
           <h3
             className={`mt-2 font-display text-xl ${
-              isLight ? "text-noir-950" : "text-blush-50"
+              isLight ? "text-bpBlack" : "text-bpOffWhite"
             }`}
           >
             Calcular frete
@@ -189,10 +189,10 @@ export const ShippingCalculator = ({
           placeholder="Digite seu CEP"
           inputMode="numeric"
           pattern="\d*"
-          className={`w-full rounded-2xl border px-4 py-3 text-sm outline-none focus-visible:border-luxe-600/60 md:max-w-[220px] ${
+          className={`w-full rounded-2xl border px-4 py-3 text-sm outline-none focus-visible:border-bpPink/60 md:max-w-[220px] ${
             isLight
-              ? "border-slate-200 bg-white text-noir-900 placeholder:text-noir-400"
-              : "border-white/10 bg-noir-900 text-blush-50 placeholder:text-blush-100/50"
+              ? "border-slate-200 bg-white text-bpBlackSoft placeholder:text-bpGraphite/60"
+              : "border-white/10 bg-bpBlackSoft text-bpOffWhite placeholder:text-bpPinkSoft/50"
           }`}
         />
         <LuxuryButton
@@ -209,7 +209,7 @@ export const ShippingCalculator = ({
       {message ? (
         <p
           className={`mt-3 text-xs ${
-            isLight ? "text-noir-500" : "text-blush-100/70"
+            isLight ? "text-bpGraphite/70" : "text-bpPinkSoft/70"
           }`}
         >
           {message}
@@ -230,7 +230,7 @@ export const ShippingCalculator = ({
         <div className="mt-5 space-y-3">
           <p
             className={`text-xs uppercase tracking-[0.2em] ${
-              isLight ? "text-noir-500" : "text-blush-100/60"
+              isLight ? "text-bpGraphite/70" : "text-bpPinkSoft/60"
             }`}
           >
             Opções encontradas
@@ -241,20 +241,20 @@ export const ShippingCalculator = ({
               className={`flex flex-col gap-1 rounded-2xl border px-4 py-3 text-sm ${
                 isLight
                   ? "border-slate-200 bg-white"
-                  : "border-white/10 bg-noir-900/40"
+                  : "border-white/10 bg-bpBlackSoft/40"
               }`}
             >
               <span
                 className={`font-medium ${
-                  isLight ? "text-noir-900" : "text-blush-50"
+                  isLight ? "text-bpBlackSoft" : "text-bpOffWhite"
                 }`}
               >
                 {shipment.sellerName} • {shipment.carrier}
               </span>
-              <span className={isLight ? "text-noir-600" : "text-blush-100/70"}>
+              <span className={isLight ? "text-bpGraphite/80" : "text-bpPinkSoft/70"}>
                 {shipment.serviceName} • {shipment.originCep} → {shipment.destinationCep}
               </span>
-              <span className={isLight ? "text-noir-900" : "text-blush-50"}>
+              <span className={isLight ? "text-bpBlackSoft" : "text-bpOffWhite"}>
                 {formatPrice(shipment.price)} • {shipment.deliveryTimeDays} dia(s)
               </span>
             </div>

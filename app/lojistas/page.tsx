@@ -152,19 +152,19 @@ const faqItems = [
 
 export default function LojistasPage() {
   return (
-    <div className="bg-white text-noir-900">
+    <div className="bg-white text-bpBlackSoft">
       <HeroSeller />
 
       <section className="bg-white">
         <div className="mx-auto flex w-full max-w-7xl flex-col gap-10 px-6 py-16">
           <div className="max-w-2xl">
-            <p className="text-xs uppercase tracking-[0.3em] text-noir-500">
+            <p className="text-xs uppercase tracking-[0.3em] text-bpGraphite/70">
               Benefícios BelaPop
             </p>
-            <h2 className="mt-3 font-display text-3xl text-noir-950">
+            <h2 className="mt-3 font-display text-3xl text-bpBlack">
               Por que vender na BelaPop
             </h2>
-            <p className="mt-3 text-sm text-noir-600">
+            <p className="mt-3 text-sm text-bpGraphite/80">
               Operação estruturada, diretrizes editoriais e governança comercial
               para marcas com posicionamento premium.
             </p>
@@ -180,13 +180,13 @@ export default function LojistasPage() {
       <section id="como-funciona" className="bg-white">
         <div className="mx-auto flex w-full max-w-7xl flex-col gap-10 px-6 py-16">
           <div className="max-w-2xl">
-            <p className="text-xs uppercase tracking-[0.3em] text-noir-500">
+            <p className="text-xs uppercase tracking-[0.3em] text-bpGraphite/70">
               Como funciona
             </p>
-            <h2 className="mt-3 font-display text-3xl text-noir-950">
+            <h2 className="mt-3 font-display text-3xl text-bpBlack">
               Processo estruturado em quatro etapas.
             </h2>
-            <p className="mt-3 text-sm text-noir-600">
+            <p className="mt-3 text-sm text-bpGraphite/80">
               Onboarding claro, com critérios de curadoria e alinhamento de marca.
             </p>
           </div>
@@ -197,13 +197,13 @@ export default function LojistasPage() {
       <section className="bg-white">
         <div className="mx-auto flex w-full max-w-7xl flex-col gap-10 px-6 py-16">
           <div className="max-w-2xl">
-            <p className="text-xs uppercase tracking-[0.3em] text-noir-500">
+            <p className="text-xs uppercase tracking-[0.3em] text-bpGraphite/70">
               Soluções do ecossistema
             </p>
-            <h2 className="mt-3 font-display text-3xl text-noir-950">
+            <h2 className="mt-3 font-display text-3xl text-bpBlack">
               Ecossistema BelaPop
             </h2>
-            <p className="mt-3 text-sm text-noir-600">
+            <p className="mt-3 text-sm text-bpGraphite/80">
               Pagamentos, logística, visibilidade e formação em um único ambiente.
             </p>
           </div>
@@ -214,13 +214,13 @@ export default function LojistasPage() {
       <section className="bg-white">
         <div className="mx-auto flex w-full max-w-5xl flex-col gap-10 px-6 py-16">
           <div className="max-w-2xl">
-            <p className="text-xs uppercase tracking-[0.3em] text-noir-500">
+            <p className="text-xs uppercase tracking-[0.3em] text-bpGraphite/70">
               Dúvidas frequentes
             </p>
-            <h2 className="mt-3 font-display text-3xl text-noir-950">
+            <h2 className="mt-3 font-display text-3xl text-bpBlack">
               Perguntas frequentes
             </h2>
-            <p className="mt-3 text-sm text-noir-600">
+            <p className="mt-3 text-sm text-bpGraphite/80">
               Esclarecimentos essenciais sobre curadoria, operação e política comercial.
             </p>
           </div>

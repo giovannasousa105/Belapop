@@ -86,9 +86,9 @@ export default function SellerNotificationsPage() {
   return (
     <div className="flex w-full flex-col gap-6">
       <div className="rounded-3xl border border-black/10 bg-white p-8 shadow-sm">
-        <p className="text-xs uppercase tracking-[0.3em] text-noir-500">Central</p>
-        <h1 className="mt-3 font-display text-3xl text-noir-950">Notificações BelaPop</h1>
-        <p className="mt-2 text-sm text-noir-600">
+        <p className="text-xs uppercase tracking-[0.3em] text-bpGraphite/70">Central</p>
+        <h1 className="mt-3 font-display text-3xl text-bpBlack">Notificações BelaPop</h1>
+        <p className="mt-2 text-sm text-bpGraphite/80">
           Um registro elegante de aprovações, ajustes e ações da curadoria.
         </p>
         <div className="mt-6 flex flex-wrap items-center gap-3 text-sm">
@@ -98,14 +98,14 @@ export default function SellerNotificationsPage() {
               onClick={() => setFilter(option.value)}
               className={`rounded-full border px-4 py-2 uppercase tracking-[0.3em] transition ${
                 filter === option.value
-                  ? "border-luxe-600/60 bg-luxe-100/40 text-noir-900"
-                  : "border-black/10 text-noir-600 hover:border-luxe-600/40 hover:text-noir-900"
+                  ? "border-bpPink/60 bg-bpPinkSoft/40 text-bpBlackSoft"
+                  : "border-black/10 text-bpGraphite/80 hover:border-bpPink/40 hover:text-bpBlackSoft"
               }`}
             >
               {option.label}
             </button>
           ))}
-          <span className="ml-auto text-xs text-noir-500">
+          <span className="ml-auto text-xs text-bpGraphite/70">
             {unreadCount} nova{unreadCount === 1 ? "" : "s"}
           </span>
         </div>
@@ -114,8 +114,8 @@ export default function SellerNotificationsPage() {
       <div className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
-            <p className="text-xs uppercase tracking-[0.3em] text-noir-500">Atividade recente</p>
-            <h2 className="mt-1 font-display text-2xl text-noir-950">Histórico</h2>
+            <p className="text-xs uppercase tracking-[0.3em] text-bpGraphite/70">Atividade recente</p>
+            <h2 className="mt-1 font-display text-2xl text-bpBlack">Histórico</h2>
           </div>
           <LuxuryButton
             tone="retail"
@@ -130,25 +130,25 @@ export default function SellerNotificationsPage() {
 
         <div className="mt-6 space-y-4">
           {loading ? (
-            <p className="text-sm text-noir-500">Sincronizando notificações...</p>
+            <p className="text-sm text-bpGraphite/70">Sincronizando notificações...</p>
           ) : error ? (
             <p className="text-sm text-rose-500">{error}</p>
           ) : notifications.length === 0 ? (
-            <p className="text-sm text-noir-600">Nenhuma notificação por enquanto.</p>
+            <p className="text-sm text-bpGraphite/80">Nenhuma notificação por enquanto.</p>
           ) : (
             notifications.map((notification) => (
               <div
                 key={notification.id}
-                className="rounded-3xl border border-black/10 bg-noir-50/60 p-4"
+                className="rounded-3xl border border-black/10 bg-bpOffWhite/60 p-4"
               >
                 <div className="flex flex-wrap items-start justify-between gap-3">
                   <div className="flex-1">
-                    <p className="text-sm font-semibold text-noir-900">{notification.title}</p>
-                    <p className="mt-2 text-sm text-noir-600">{notification.body}</p>
+                    <p className="text-sm font-semibold text-bpBlackSoft">{notification.title}</p>
+                    <p className="mt-2 text-sm text-bpGraphite/80">{notification.body}</p>
                   </div>
-                  <div className="flex flex-col items-end gap-2 text-right text-xs text-noir-500">
+                  <div className="flex flex-col items-end gap-2 text-right text-xs text-bpGraphite/70">
                     {!notification.isRead && (
-                      <span className="rounded-full border border-luxe-600/70 px-3 py-1 text-[10px] uppercase tracking-[0.3em] text-luxe-600">
+                      <span className="rounded-full border border-bpPink/70 px-3 py-1 text-[10px] uppercase tracking-[0.3em] text-bpPink">
                         Nova
                       </span>
                     )}
@@ -170,7 +170,7 @@ export default function SellerNotificationsPage() {
                     <button
                       onClick={() => handleMarkRead(notification.id)}
                       disabled={marking}
-                      className="text-xs uppercase tracking-[0.3em] text-noir-500 hover:text-noir-900"
+                      className="text-xs uppercase tracking-[0.3em] text-bpGraphite/70 hover:text-bpBlackSoft"
                     >
                       Marcar como lida
                     </button>

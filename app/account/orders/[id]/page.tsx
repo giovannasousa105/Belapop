@@ -7,7 +7,7 @@ import { useParams } from "next/navigation";
 import { OrderTimeline } from "@/components/OrderTimeline";
 import { PageHeading } from "@/components/PageHeading";
 import { useAuth } from "@/lib/AuthContext";
-import { getSupabaseBrowserClient } from "@/lib/supabaseBrowser";
+import { getSupabaseClient } from "@/lib/supabase/client";
 import { formatPrice } from "@/lib/utils";
 
 type OrderRow = {
@@ -63,7 +63,7 @@ export default function AccountOrderDetailPage() {
   useEffect(() => {
     if (!ready || !user || !orderId) return;
     let active = true;
-    const supabase = getSupabaseBrowserClient();
+    const supabase = getSupabaseClient();
     setLoading(true);
 
     const load = async () => {
@@ -177,12 +177,12 @@ export default function AccountOrderDetailPage() {
   );
 
   if (loading) {
-    return <p className="text-sm text-noir-500">Carregando pedido...</p>;
+    return <p className="text-sm text-bpGraphite/70">Carregando pedido...</p>;
   }
 
   if (!order) {
     return (
-      <div className="rounded-2xl border border-black/10 bg-white p-6 text-sm text-noir-600">
+      <div className="rounded-2xl border border-black/10 bg-white p-6 text-sm text-bpGraphite/80">
         Pedido não encontrado.
       </div>
     );
@@ -197,15 +197,15 @@ export default function AccountOrderDetailPage() {
 
       <div className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
         <div className="flex items-center justify-between">
-          <p className="text-xs uppercase tracking-[0.3em] text-noir-500">Pedido</p>
-          <span className="text-xs uppercase tracking-[0.3em] text-noir-500">
+          <p className="text-xs uppercase tracking-[0.3em] text-bpGraphite/70">Pedido</p>
+          <span className="text-xs uppercase tracking-[0.3em] text-bpGraphite/70">
             {order.status}
           </span>
         </div>
-        <p className="mt-3 text-2xl font-semibold text-noir-950">
+        <p className="mt-3 text-2xl font-semibold text-bpBlack">
           {formatPrice(total)}
         </p>
-        <p className="text-sm text-noir-600">
+        <p className="text-sm text-bpGraphite/80">
           Criado em{" "}
           {new Date(order.created_at).toLocaleDateString("pt-BR", {
             day: "2-digit",
@@ -219,9 +219,9 @@ export default function AccountOrderDetailPage() {
 
       <div className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
         <div className="flex items-center justify-between">
-          <p className="text-xs uppercase tracking-[0.3em] text-noir-500">Envios</p>
+          <p className="text-xs uppercase tracking-[0.3em] text-bpGraphite/70">Envios</p>
         </div>
-        <p className="mt-3 text-sm text-noir-600">
+        <p className="mt-3 text-sm text-bpGraphite/80">
           Quando há mais de uma marca, os envios são realizados separadamente para
           garantir rastreio adequado.
         </p>
@@ -232,22 +232,22 @@ export default function AccountOrderDetailPage() {
               className="rounded-2xl border border-black/10 p-4 text-sm"
             >
               <div className="flex items-center justify-between">
-                <p className="font-semibold text-noir-900">
+                <p className="font-semibold text-bpBlackSoft">
                   {sellerMap[sub.seller_id] ?? "Marca"}
                 </p>
-                <span className="text-xs uppercase tracking-[0.3em] text-noir-500">
+                <span className="text-xs uppercase tracking-[0.3em] text-bpGraphite/70">
                   {sub.status}
                 </span>
               </div>
-              <p className="mt-2 text-sm text-noir-600">
+              <p className="mt-2 text-sm text-bpGraphite/80">
                 Serviço {sub.shipping_service ?? "Padrão"} • Prazo{" "}
                 {sub.shipping_days ? `${sub.shipping_days} dias` : "em atualização"}
               </p>
-              <p className="mt-1 text-xs text-noir-500">
+              <p className="mt-1 text-xs text-bpGraphite/70">
                 Frete {formatPrice((sub.shipping_total_cents ?? 0) / 100)} • Produtos{" "}
                 {formatPrice((sub.product_total_cents ?? 0) / 100)}
               </p>
-              <p className="mt-2 text-xs text-noir-500">
+              <p className="mt-2 text-xs text-bpGraphite/70">
                 Tracking disponível após postagem.
               </p>
             </div>
@@ -256,7 +256,7 @@ export default function AccountOrderDetailPage() {
         <div className="mt-4">
           <Link
             href={`/account/support?order=${order.id}`}
-            className="inline-flex rounded-full border border-black/10 px-4 py-2 text-xs uppercase tracking-[0.3em] text-noir-700"
+            className="inline-flex rounded-full border border-black/10 px-4 py-2 text-xs uppercase tracking-[0.3em] text-bpGraphite"
           >
             Ajuda com este pedido
           </Link>
@@ -265,7 +265,7 @@ export default function AccountOrderDetailPage() {
 
       <div className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
         <div className="flex items-center justify-between">
-          <p className="text-xs uppercase tracking-[0.3em] text-noir-500">
+          <p className="text-xs uppercase tracking-[0.3em] text-bpGraphite/70">
             Itens do pedido
           </p>
         </div>
@@ -281,22 +281,22 @@ export default function AccountOrderDetailPage() {
                   className="flex flex-wrap items-center justify-between gap-4 rounded-2xl border border-black/10 px-4 py-3 text-sm"
                 >
                   <div>
-                    <p className="font-semibold text-noir-900">
+                    <p className="font-semibold text-bpBlackSoft">
                       {productMap[item.productId] ?? "Produto"}
                     </p>
-                    <p className="text-xs text-noir-500">
+                    <p className="text-xs text-bpGraphite/70">
                       {sellerMap[item.sellerId] ?? "Marca"} • {item.quantity}x
                     </p>
                   </div>
                   {canReview && item.productId ? (
                     <Link
                       href={`/produto/${item.productId}#avaliacoes`}
-                      className="rounded-full border border-black/10 px-4 py-2 text-[10px] uppercase tracking-[0.3em] text-noir-700 hover:border-luxe-600/40"
+                      className="rounded-full border border-black/10 px-4 py-2 text-[10px] uppercase tracking-[0.3em] text-bpGraphite hover:border-bpPink/40"
                     >
                       Avaliar
                     </Link>
                   ) : (
-                    <span className="text-xs text-noir-500">
+                    <span className="text-xs text-bpGraphite/70">
                       Avaliação disponível após entrega
                     </span>
                   )}
@@ -304,7 +304,7 @@ export default function AccountOrderDetailPage() {
               );
             })
           ) : (
-            <p className="text-sm text-noir-600">Itens em atualização.</p>
+            <p className="text-sm text-bpGraphite/80">Itens em atualização.</p>
           )}
         </div>
       </div>

@@ -47,7 +47,7 @@ export default function AccountAddressesNewPage() {
         ].map(({ label, field }) => (
           <label
             key={field}
-            className="flex flex-col gap-2 text-sm text-noir-600"
+            className="flex flex-col gap-2 text-sm text-bpGraphite/80"
           >
             {label}
             <input
@@ -55,7 +55,7 @@ export default function AccountAddressesNewPage() {
               onChange={(event) =>
                 handleChange(field as keyof typeof form, event.target.value)
               }
-              className="rounded-2xl border border-black/10 bg-noir-50 px-4 py-3 text-sm text-noir-900 focus:border-luxe-600 focus:outline-none"
+              className="rounded-2xl border border-black/10 bg-bpOffWhite px-4 py-3 text-sm text-bpBlackSoft focus:border-bpPink focus:outline-none"
             />
           </label>
         ))}

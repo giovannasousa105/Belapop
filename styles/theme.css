@@ -1,0 +1,41 @@
+﻿:root {
+  --bp-black: #0F0F10;
+  --bp-black-soft: #141416;
+  --bp-pink: #C2185B;
+  --bp-pink-soft: #F4B6C2;
+  --bp-offwhite: #FAF7F8;
+  --bp-graphite: #2B2B2E;
+
+  --bp-radius-sm: 10px;
+  --bp-radius-md: 16px;
+  --bp-radius-lg: 22px;
+
+  --bp-shadow-soft: 0 10px 30px rgba(15, 15, 16, 0.10);
+  --bp-shadow-micro: 0 6px 18px rgba(15, 15, 16, 0.08);
+
+  --bp-container-max: 1240px;
+}
+
+.section {
+  padding: 48px 0;
+}
+
+@media (min-width: 768px) {
+  .section {
+    padding: 80px 0;
+  }
+}
+
+.container {
+  max-width: var(--bp-container-max);
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+@media (min-width: 768px) {
+  .container {
+    padding: 0 32px;
+  }
+}
+
+

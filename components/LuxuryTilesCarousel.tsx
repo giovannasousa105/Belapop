@@ -33,7 +33,7 @@ export default function LuxuryTilesCarousel() {
     <section className="w-full py-14">
       <div className="max-w-6xl mx-auto px-6">
         <div className="mb-6 text-center">
-          <h2 className="text-xl md:text-2xl font-serif tracking-wide text-noir-900">Marcas Selecionadas</h2>
+          <h2 className="text-xl md:text-2xl font-serif tracking-wide text-bpBlackSoft">Marcas Selecionadas</h2>
           <p className="mt-2 text-sm text-black/60">
             Espaço reservado: em breve, os ícones das marcas que entram na curadoria BelaPop.
           </p>

@@ -23,17 +23,17 @@ export const Steps = ({ steps }: StepsProps) => {
             className="flex h-full flex-col gap-4 rounded-2xl border border-black/10 bg-white p-6 shadow-sm"
           >
             <div className="flex items-center justify-between">
-              <div className="flex h-10 w-10 items-center justify-center rounded-full border border-black/10 text-luxe-600">
+              <div className="flex h-10 w-10 items-center justify-center rounded-full border border-black/10 text-bpPink">
                 <Icon size={18} />
               </div>
-              <span className="text-xs uppercase tracking-[0.3em] text-noir-400">
+              <span className="text-xs uppercase tracking-[0.3em] text-bpGraphite/60">
                 Passo {index + 1}
               </span>
             </div>
-            <h3 className="font-display text-lg text-noir-950">
+            <h3 className="font-display text-lg text-bpBlack">
               {step.title}
             </h3>
-            <p className="text-sm text-noir-600">{step.description}</p>
+            <p className="text-sm text-bpGraphite/80">{step.description}</p>
           </div>
         );
       })}

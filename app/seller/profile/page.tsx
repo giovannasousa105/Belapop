@@ -49,13 +49,13 @@ export default function SellerProfilePage() {
   return (
     <div className="flex w-full flex-col gap-8">
       <div>
-        <p className="text-xs uppercase tracking-[0.3em] text-noir-500">
+        <p className="text-xs uppercase tracking-[0.3em] text-bpGraphite/70">
           Perfil do lojista
         </p>
-        <h1 className="mt-2 font-display text-3xl text-noir-950">
+        <h1 className="mt-2 font-display text-3xl text-bpBlack">
           Dados institucionais
         </h1>
-        <p className="mt-2 text-sm text-noir-600">
+        <p className="mt-2 text-sm text-bpGraphite/80">
           Atualize informações essenciais para operação e logística.
         </p>
       </div>
@@ -70,7 +70,7 @@ export default function SellerProfilePage() {
           onChange={(event) =>
             setForm({ ...form, storeName: event.target.value })
           }
-          className="rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-noir-900 md:col-span-2"
+          className="rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-bpBlackSoft md:col-span-2"
         />
         <input
           placeholder="CEP de origem"
@@ -78,7 +78,7 @@ export default function SellerProfilePage() {
           onChange={(event) =>
             setForm({ ...form, postalCode: event.target.value })
           }
-          className="rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-noir-900"
+          className="rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-bpBlackSoft"
         />
         <input
           placeholder="Categoria principal"
@@ -86,7 +86,7 @@ export default function SellerProfilePage() {
           onChange={(event) =>
             setForm({ ...form, category: event.target.value })
           }
-          className="rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-noir-900"
+          className="rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-bpBlackSoft"
         />
         <input
           placeholder="WhatsApp ou Instagram"
@@ -94,10 +94,10 @@ export default function SellerProfilePage() {
           onChange={(event) =>
             setForm({ ...form, contact: event.target.value })
           }
-          className="rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-noir-900 md:col-span-2"
+          className="rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-bpBlackSoft md:col-span-2"
         />
         {message ? (
-          <p className="text-xs text-luxe-600 md:col-span-2">{message}</p>
+          <p className="text-xs text-bpPink md:col-span-2">{message}</p>
         ) : null}
         <div className="flex flex-wrap gap-3 md:col-span-2">
           <LuxuryButton tone="retail" size="lg" type="submit">

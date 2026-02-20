@@ -1,4 +1,4 @@
-import { getSupabaseBrowserClient } from "@/lib/supabaseBrowser";
+import { getSupabaseClient } from "@/lib/supabase/client";
 import { CartItem, Order, SubOrder } from "@/lib/types";
 
 const mapOrder = (row: any): Order => ({
@@ -37,7 +37,7 @@ const mapSubOrder = (row: any): SubOrder => ({
 
 export const orderRepository = {
   getAll: async (): Promise<Order[]> => {
-    const supabase = getSupabaseBrowserClient();
+    const supabase = getSupabaseClient();
     const { data, error } = await supabase
       .from("orders")
       .select("*")
@@ -49,7 +49,7 @@ export const orderRepository = {
     return (data ?? []).map(mapOrder);
   },
   save: async (order: Order) => {
-    const supabase = getSupabaseBrowserClient();
+    const supabase = getSupabaseClient();
     const { error } = await supabase.from("orders").insert({
       id: order.id,
       customer_id: order.customerId,
@@ -72,7 +72,7 @@ export const orderRepository = {
     return { ok: true };
   },
   getSubOrders: async (): Promise<SubOrder[]> => {
-    const supabase = getSupabaseBrowserClient();
+    const supabase = getSupabaseClient();
     const { data, error } = await supabase
       .from("sub_orders")
       .select("*")
@@ -84,7 +84,7 @@ export const orderRepository = {
     return (data ?? []).map(mapSubOrder);
   },
   saveSubOrders: async (subOrders: SubOrder[]) => {
-    const supabase = getSupabaseBrowserClient();
+    const supabase = getSupabaseClient();
     const payload = subOrders.map((subOrder) => ({
       id: subOrder.id,
       order_id: subOrder.orderId,

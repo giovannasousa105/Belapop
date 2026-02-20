@@ -76,7 +76,7 @@ export default function EditProductPage() {
   if (!product) {
     return (
       <div className="mx-auto flex min-h-[60vh] w-full max-w-4xl items-center justify-center px-6">
-        <p className="text-sm text-noir-600">{message ?? "Carregando..."}</p>
+        <p className="text-sm text-bpGraphite/80">{message ?? "Carregando..."}</p>
       </div>
     );
   }
@@ -84,13 +84,13 @@ export default function EditProductPage() {
   return (
     <div className="flex w-full flex-col gap-8">
       <div>
-        <p className="text-xs uppercase tracking-[0.3em] text-noir-500">
+        <p className="text-xs uppercase tracking-[0.3em] text-bpGraphite/70">
           Editar produto
         </p>
-        <h1 className="mt-2 font-display text-3xl text-noir-950">
+        <h1 className="mt-2 font-display text-3xl text-bpBlack">
           {product.name}
         </h1>
-        <p className="mt-2 text-sm text-noir-600">
+        <p className="mt-2 text-sm text-bpGraphite/80">
           Atualize informações e mantenha o padrão editorial da vitrine.
         </p>
       </div>
@@ -108,7 +108,7 @@ export default function EditProductPage() {
           onChange={(event) =>
             setProduct({ ...product, name: event.target.value })
           }
-          className="rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-noir-900 md:col-span-2"
+          className="rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-bpBlackSoft md:col-span-2"
         />
         <textarea
           placeholder="Descrição institucional"
@@ -116,7 +116,7 @@ export default function EditProductPage() {
           onChange={(event) =>
             setProduct({ ...product, description: event.target.value })
           }
-          className="min-h-[120px] rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-noir-900 md:col-span-2"
+          className="min-h-[120px] rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-bpBlackSoft md:col-span-2"
         />
         <input
           type="number"
@@ -127,7 +127,7 @@ export default function EditProductPage() {
           onChange={(event) =>
             setProduct({ ...product, price: Number(event.target.value) })
           }
-          className="rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-noir-900"
+          className="rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-bpBlackSoft"
         />
         <select
           value={product.category}
@@ -137,7 +137,7 @@ export default function EditProductPage() {
               category: event.target.value as ProductCategory
             })
           }
-          className="rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-noir-900"
+          className="rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-bpBlackSoft"
         >
           {categories.map((item) => (
             <option key={item} value={item}>
@@ -154,7 +154,7 @@ export default function EditProductPage() {
           onChange={(event) =>
             setProduct({ ...product, weightKg: Number(event.target.value) })
           }
-          className="rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-noir-900"
+          className="rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-bpBlackSoft"
         />
         <input
           type="number"
@@ -165,7 +165,7 @@ export default function EditProductPage() {
           onChange={(event) =>
             setProduct({ ...product, widthCm: Number(event.target.value) })
           }
-          className="rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-noir-900"
+          className="rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-bpBlackSoft"
         />
         <input
           type="number"
@@ -176,7 +176,7 @@ export default function EditProductPage() {
           onChange={(event) =>
             setProduct({ ...product, heightCm: Number(event.target.value) })
           }
-          className="rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-noir-900"
+          className="rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-bpBlackSoft"
         />
         <input
           type="number"
@@ -187,7 +187,7 @@ export default function EditProductPage() {
           onChange={(event) =>
             setProduct({ ...product, lengthCm: Number(event.target.value) })
           }
-          className="rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-noir-900"
+          className="rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-bpBlackSoft"
         />
         <input
           placeholder="Imagens (separe por vírgula)"
@@ -201,7 +201,7 @@ export default function EditProductPage() {
                 .filter(Boolean)
             })
           }
-          className="rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-noir-900 md:col-span-2"
+          className="rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-bpBlackSoft md:col-span-2"
         />
         <select
           value={product.status}
@@ -211,7 +211,7 @@ export default function EditProductPage() {
               status: event.target.value as Product["status"]
             })
           }
-          className="rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-noir-900"
+          className="rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-bpBlackSoft"
         >
           <option value="draft">Rascunho</option>
           <option value="review">Aguardando curadoria</option>
@@ -225,7 +225,7 @@ export default function EditProductPage() {
               imageTone: event.target.value as ProductImageTone
             })
           }
-          className="rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-noir-900"
+          className="rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-bpBlackSoft"
         >
           {tones.map((tone) => (
             <option key={tone} value={tone}>
@@ -234,7 +234,7 @@ export default function EditProductPage() {
           ))}
         </select>
         {message ? (
-          <p className="text-xs text-luxe-600 md:col-span-2">{message}</p>
+          <p className="text-xs text-bpPink md:col-span-2">{message}</p>
         ) : null}
         <div className="flex flex-wrap gap-3 md:col-span-2">
           <LuxuryButton tone="retail" size="lg" onClick={() => handleSubmit("draft")}>

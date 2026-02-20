@@ -1,5 +1,5 @@
 import { analyticsEventTypes, AnalyticsEventType } from "@/lib/analytics/types";
-import { getSupabaseBrowserClient } from "@/lib/supabaseBrowser";
+import { getSupabaseClient } from "@/lib/supabase/client";
 
 type TrackerPayload = {
   type: AnalyticsEventType;
@@ -16,7 +16,7 @@ const isValidEventType = (type: string): type is AnalyticsEventType =>
 export const trackEvent = async (payload: TrackerPayload) => {
   if (typeof window === "undefined") return;
   if (!isValidEventType(payload.type)) return;
-  const supabase = getSupabaseBrowserClient();
+  const supabase = getSupabaseClient();
   const { data } = await supabase.auth.getSession();
   const sessionUser = data.session?.user;
   try {

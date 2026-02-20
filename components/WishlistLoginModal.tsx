@@ -16,13 +16,13 @@ export const WishlistLoginModal = ({
   return (
     <div className="fixed inset-0 z-[80] flex items-center justify-center bg-black/40 px-6">
       <div className="w-full max-w-md rounded-3xl border border-black/10 bg-white p-6 shadow-xl">
-        <p className="text-xs uppercase tracking-[0.3em] text-noir-500">
+        <p className="text-xs uppercase tracking-[0.3em] text-bpGraphite/70">
           Favoritos
         </p>
-        <h2 className="mt-3 font-display text-2xl text-noir-950">
+        <h2 className="mt-3 font-display text-2xl text-bpBlack">
           Entre para salvar seus favoritos
         </h2>
-        <p className="mt-2 text-sm text-noir-600">
+        <p className="mt-2 text-sm text-bpGraphite/80">
           Guarde seus rituais preferidos e acompanhe a curadoria com uma conta
           BelaPop.
         </p>
@@ -36,7 +36,7 @@ export const WishlistLoginModal = ({
           <button
             type="button"
             onClick={onClose}
-            className="rounded-full border border-black/10 px-5 py-2 text-xs uppercase tracking-[0.3em] text-noir-700"
+            className="rounded-full border border-black/10 px-5 py-2 text-xs uppercase tracking-[0.3em] text-bpGraphite"
           >
             Agora não
           </button>

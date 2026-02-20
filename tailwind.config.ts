@@ -10,39 +10,28 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        noir: {
-          950: "#07070A",
-          900: "#0E0E14",
-          800: "#1B1B24",
-          700: "#2C2C37",
-          600: "#3E3E4A",
-          500: "#585866",
-          400: "#777787"
-        },
-        blush: {
-          50: "#FAF7F8",
-          100: "#F6D6E2"
-        },
-        luxe: {
-          600: "#B80F5A"
-        }
+        bpBlack: "#0F0F10",
+        bpBlackSoft: "#141416",
+        bpPink: "#C2185B",
+        bpPinkSoft: "#F4B6C2",
+        bpOffWhite: "#FAF7F8",
+        bpGraphite: "#2B2B2E"
       },
       boxShadow: {
-        "soft-luxe": "0 20px 40px -30px rgba(184, 15, 90, 0.45)",
-        "card-luxe": "0 18px 35px -28px rgba(7, 7, 10, 0.65)"
+        bpSoft: "0 10px 30px rgba(15,15,16,0.10)",
+        bpMicro: "0 6px 18px rgba(15,15,16,0.08)"
       },
       borderRadius: {
-        "luxe": "1.25rem"
-      },
-      letterSpacing: {
-        luxe: "0.08em"
+        bpSm: "10px",
+        bpMd: "16px",
+        bpLg: "22px"
       },
       backgroundImage: {
-        "luxe-glow":
-          "radial-gradient(circle at top, rgba(184, 15, 90, 0.25), rgba(7, 7, 10, 0))",
-        "luxe-sheen":
-          "linear-gradient(135deg, rgba(246, 214, 226, 0.28), rgba(184, 15, 90, 0.1))",
-        "belapop-rose": "linear-gradient(135deg, #B80F5A 0%, #F06292 100%)"
+        bpGlow:
+          "radial-gradient(circle at top, rgba(194, 24, 91, 0.22), rgba(15, 15, 16, 0))",
+        bpSheen:
+          "linear-gradient(135deg, rgba(244, 182, 194, 0.22), rgba(194, 24, 91, 0.12))",
+        "belapop-rose": "linear-gradient(135deg, #C2185B 0%, #F4B6C2 100%)"
       },
       fontFamily: {
         sans: ["var(--font-inter)", "sans-serif"],

@@ -83,8 +83,8 @@ export default function PendingProductList({ products }: PendingListProps) {
             onClick={() => setFilter(option.value)}
             className={`rounded-full border px-4 py-2 text-xs uppercase tracking-[0.3em] transition ${
               filter === option.value
-                ? "border-luxe-600/70 bg-luxe-100/40 text-noir-900"
-                : "border-black/10 text-noir-600 hover:border-luxe-600/40 hover:text-noir-900"
+                ? "border-bpPink/70 bg-bpPinkSoft/40 text-bpBlackSoft"
+                : "border-black/10 text-bpGraphite/80 hover:border-bpPink/40 hover:text-bpBlackSoft"
             }`}
           >
             {option.label}
@@ -97,15 +97,15 @@ export default function PendingProductList({ products }: PendingListProps) {
           className="grid gap-4 rounded-3xl border border-black/10 bg-white p-5 shadow-sm md:grid-cols-[1.1fr_0.9fr]"
         >
           <div className="space-y-2">
-            <p className="text-xs uppercase tracking-[0.3em] text-noir-500">
+            <p className="text-xs uppercase tracking-[0.3em] text-bpGraphite/70">
               {product.seller_name ?? "Loja BelaPop"}
             </p>
-            <h3 className="font-display text-2xl text-noir-950">{product.name}</h3>
-            <p className="text-sm text-noir-600">
+            <h3 className="font-display text-2xl text-bpBlack">{product.name}</h3>
+            <p className="text-sm text-bpGraphite/80">
               {formatPrice(product.price_cents / 100)} · Enviado em{" "}
               {new Date(product.created_at ?? 0).toLocaleDateString("pt-BR")}
             </p>
-            <p className="text-xs uppercase tracking-[0.3em] text-noir-500">Status: {product.status}</p>
+            <p className="text-xs uppercase tracking-[0.3em] text-bpGraphite/70">Status: {product.status}</p>
           </div>
           <div className="flex flex-wrap items-center gap-3 justify-end">
             <LuxuryButton tone="retail" href={`/admin/products/${product.id}`}>
@@ -124,7 +124,7 @@ export default function PendingProductList({ products }: PendingListProps) {
         </div>
       ))}
       {filtered.length === 0 && (
-        <div className="rounded-2xl border border-black/10 bg-white p-6 text-sm text-noir-600 shadow-sm">
+        <div className="rounded-2xl border border-black/10 bg-white p-6 text-sm text-bpGraphite/80 shadow-sm">
           Nenhum produto com o filtro selecionado.
         </div>
       )}

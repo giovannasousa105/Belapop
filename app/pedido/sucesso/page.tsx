@@ -5,7 +5,7 @@ import { useSearchParams } from "next/navigation";
 
 import { LuxuryButton } from "@/components/LuxuryButton";
 import { useStoredProducts } from "@/lib/hooks/useStoredProducts";
-import { getSupabaseBrowserClient } from "@/lib/supabaseBrowser";
+import { getSupabaseClient } from "@/lib/supabase/client";
 import { Order, SubOrder } from "@/lib/types";
 import { formatPrice } from "@/lib/utils";
 
@@ -19,7 +19,7 @@ function PedidoSucessoInner() {
   useEffect(() => {
     if (!orderId) return;
     let active = true;
-    const supabase = getSupabaseBrowserClient();
+    const supabase = getSupabaseClient();
 
     const load = async () => {
       const { data: orderRow } = await supabase
@@ -96,10 +96,10 @@ function PedidoSucessoInner() {
     return (
       <div className="mx-auto flex min-h-[60vh] w-full max-w-4xl items-center justify-center px-6">
         <div className="glass-panel rounded-2xl p-8 text-center">
-          <h1 className="font-display text-3xl text-blush-50">
+          <h1 className="font-display text-3xl text-bpOffWhite">
             Pedido não localizado
           </h1>
-          <p className="mt-2 text-sm text-blush-100/70">
+          <p className="mt-2 text-sm text-bpPinkSoft/70">
             Finalize um pedido para acompanhar o status por aqui.
           </p>
           <div className="mt-6">
@@ -113,13 +113,13 @@ function PedidoSucessoInner() {
   return (
     <div className="mx-auto flex w-full max-w-4xl flex-col gap-8 px-6 py-16">
       <div className="glass-panel rounded-3xl p-10 text-center">
-        <p className="text-xs uppercase tracking-luxe text-blush-100/70">
+        <p className="text-xs uppercase tracking-[0.08em] text-bpPinkSoft/70">
           Pedido confirmado
         </p>
-        <h1 className="mt-4 font-display text-3xl text-blush-50 md:text-4xl">
+        <h1 className="mt-4 font-display text-3xl text-bpOffWhite md:text-4xl">
           Seu pedido está em separação com todo cuidado.
         </h1>
-        <p className="mt-4 text-sm text-blush-100/70">
+        <p className="mt-4 text-sm text-bpPinkSoft/70">
           Status atual: {order.status}
         </p>
         <div className="mt-6 flex flex-wrap justify-center gap-4">
@@ -130,8 +130,8 @@ function PedidoSucessoInner() {
         </div>
       </div>
       <div className="glass-panel rounded-2xl p-6">
-        <h2 className="font-display text-2xl text-blush-50">Resumo</h2>
-        <div className="mt-6 space-y-4 text-sm text-blush-100/70">
+        <h2 className="font-display text-2xl text-bpOffWhite">Resumo</h2>
+        <div className="mt-6 space-y-4 text-sm text-bpPinkSoft/70">
           {items.map((item) => (
             <div
               key={`${item.productId}-${item.sellerId}`}
@@ -147,7 +147,7 @@ function PedidoSucessoInner() {
               </span>
             </div>
           ))}
-          <div className="flex justify-between border-t border-white/10 pt-3 text-blush-50">
+          <div className="flex justify-between border-t border-white/10 pt-3 text-bpOffWhite">
             <span>Total</span>
             <span>{formatPrice(order.totalOrder)}</span>
           </div>
@@ -163,7 +163,7 @@ export default function PedidoSucessoPage() {
       fallback={
         <div className="mx-auto flex min-h-[60vh] w-full max-w-4xl items-center justify-center px-6">
           <div className="glass-panel rounded-2xl p-8 text-center">
-            <p className="text-sm text-blush-100/70">Carregando...</p>
+            <p className="text-sm text-bpPinkSoft/70">Carregando...</p>
           </div>
         </div>
       }

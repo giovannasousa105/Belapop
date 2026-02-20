@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useState, type FormEvent } from "react";
 
 import { LuxuryButton } from "@/components/LuxuryButton";
 import { useAuth } from "@/lib/AuthContext";
@@ -18,11 +18,11 @@ export default function SellerRegisterPage() {
     contact: "",
     mainCategory: "",
     postalCode: "",
-    commissionRate: "10"
+    commissionRate: ""
   });
   const [message, setMessage] = useState<string | null>(null);
 
-  const handleSubmit = async (event: React.FormEvent) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (
       !form.storeName ||
@@ -55,19 +55,20 @@ export default function SellerRegisterPage() {
       setMessage(result.message ?? "Erro ao cadastrar.");
       return;
     }
-    router.push("/seller/dashboard");
+    router.push("/seller/activation");
   };
 
   return (
-    <div className="mx-auto flex min-h-[70vh] w-full max-w-xl items-center px-6 py-16">
+    <div className="bg-bpOffWhite">
+      <div className="mx-auto flex min-h-[70vh] w-full max-w-xl items-center px-6 py-16">
       <form
         onSubmit={handleSubmit}
-        className="glass-panel w-full rounded-3xl p-8"
+        className="w-full rounded-bpLg border border-bpPink/15 bg-white p-8 shadow-bpMicro"
       >
-        <h1 className="font-display text-3xl text-blush-50">
+        <h1 className="font-display text-3xl text-bpBlack">
           Cadastro de lojista
         </h1>
-        <p className="mt-2 text-sm text-blush-100/70">
+        <p className="mt-2 text-sm text-bpGraphite/80">
           Conte-nos sobre sua marca para iniciar a curadoria.
         </p>
         <div className="mt-6 grid gap-4 md:grid-cols-2">
@@ -77,7 +78,7 @@ export default function SellerRegisterPage() {
             onChange={(event) =>
               setForm({ ...form, storeName: event.target.value })
             }
-            className="rounded-2xl border border-white/10 px-4 py-3 text-sm md:col-span-2"
+            className="rounded-2xl border border-black/10 bg-white px-4 py-3 text-sm text-bpBlack outline-none focus:border-bpPink md:col-span-2"
           />
           <input
             placeholder="Responsável"
@@ -85,7 +86,7 @@ export default function SellerRegisterPage() {
             onChange={(event) =>
               setForm({ ...form, responsibleName: event.target.value })
             }
-            className="rounded-2xl border border-white/10 px-4 py-3 text-sm"
+            className="rounded-2xl border border-black/10 bg-white px-4 py-3 text-sm text-bpBlack outline-none focus:border-bpPink"
           />
           <input
             placeholder="Categoria principal"
@@ -93,7 +94,7 @@ export default function SellerRegisterPage() {
             onChange={(event) =>
               setForm({ ...form, mainCategory: event.target.value })
             }
-            className="rounded-2xl border border-white/10 px-4 py-3 text-sm"
+            className="rounded-2xl border border-black/10 bg-white px-4 py-3 text-sm text-bpBlack outline-none focus:border-bpPink"
           />
           <input
             placeholder="CEP de origem"
@@ -101,7 +102,7 @@ export default function SellerRegisterPage() {
             onChange={(event) =>
               setForm({ ...form, postalCode: event.target.value })
             }
-            className="rounded-2xl border border-white/10 px-4 py-3 text-sm"
+            className="rounded-2xl border border-black/10 bg-white px-4 py-3 text-sm text-bpBlack outline-none focus:border-bpPink"
           />
           <input
             type="email"
@@ -110,7 +111,7 @@ export default function SellerRegisterPage() {
             onChange={(event) =>
               setForm({ ...form, email: event.target.value })
             }
-            className="rounded-2xl border border-white/10 px-4 py-3 text-sm"
+            className="rounded-2xl border border-black/10 bg-white px-4 py-3 text-sm text-bpBlack outline-none focus:border-bpPink"
           />
           <input
             type="password"
@@ -119,7 +120,7 @@ export default function SellerRegisterPage() {
             onChange={(event) =>
               setForm({ ...form, password: event.target.value })
             }
-            className="rounded-2xl border border-white/10 px-4 py-3 text-sm"
+            className="rounded-2xl border border-black/10 bg-white px-4 py-3 text-sm text-bpBlack outline-none focus:border-bpPink"
           />
           <input
             placeholder="WhatsApp ou Instagram"
@@ -127,33 +128,45 @@ export default function SellerRegisterPage() {
             onChange={(event) =>
               setForm({ ...form, contact: event.target.value })
             }
-            className="rounded-2xl border border-white/10 px-4 py-3 text-sm md:col-span-2"
+            className="rounded-2xl border border-black/10 bg-white px-4 py-3 text-sm text-bpBlack outline-none focus:border-bpPink md:col-span-2"
           />
-          <input
-            type="number"
-            placeholder="Comissão BelaPop (%)"
-            value={form.commissionRate}
-            onChange={(event) =>
-              setForm({ ...form, commissionRate: event.target.value })
-            }
-            className="rounded-2xl border border-white/10 px-4 py-3 text-sm md:col-span-2"
-          />
+          <div className="md:col-span-2">
+            <label className="mb-2 block text-xs uppercase tracking-[0.24em] text-bpGraphite/75">
+              Comissao BelaPop (%)
+            </label>
+            <input
+              type="number"
+              min={0}
+              max={100}
+              step="0.1"
+              placeholder="Ex: 10"
+              value={form.commissionRate}
+              onChange={(event) =>
+                setForm({ ...form, commissionRate: event.target.value })
+              }
+              className="w-full rounded-2xl border border-black/10 bg-white px-4 py-3 text-sm text-bpBlack outline-none focus:border-bpPink"
+            />
+            <p className="mt-2 text-xs text-bpGraphite/70">
+              10 significa 10% sobre cada venda no marketplace.
+            </p>
+          </div>
         </div>
         {message ? (
-          <p className="mt-4 text-xs text-luxe-600">{message}</p>
+          <p className="mt-4 text-xs text-bpPink">{message}</p>
         ) : null}
         <div className="mt-6">
           <LuxuryButton size="lg" className="w-full" type="submit">
             Criar conta de lojista
           </LuxuryButton>
         </div>
-        <p className="mt-6 text-center text-xs text-blush-100/70">
-          Já tem acesso?{" "}
-          <Link href="/seller/login" className="text-blush-50">
+        <p className="mt-6 text-center text-xs text-bpGraphite/75">
+          Ja tem acesso?{" "}
+          <Link href="/seller/login" className="text-bpPink">
             Entrar no painel
           </Link>
         </p>
       </form>
+      </div>
     </div>
   );
 }

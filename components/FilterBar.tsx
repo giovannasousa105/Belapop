@@ -35,19 +35,19 @@ export const FilterBar = ({
           value={search}
           onChange={(event) => onSearchChange(event.target.value)}
           placeholder="Buscar por nome"
-          className={`w-full rounded-2xl border px-4 py-3 text-sm outline-none focus-visible:border-luxe-600/60 ${
+          className={`w-full rounded-2xl border px-4 py-3 text-sm outline-none focus-visible:border-bpPink/60 ${
             isLight
-              ? "border-slate-200 bg-white text-noir-900 placeholder:text-noir-400"
-              : "border-white/10 bg-noir-900 text-blush-50 placeholder:text-blush-100/50"
+              ? "border-slate-200 bg-white text-bpBlackSoft placeholder:text-bpGraphite/60"
+              : "border-white/10 bg-bpBlackSoft text-bpOffWhite placeholder:text-bpPinkSoft/50"
           }`}
         />
         <select
           value={category}
           onChange={(event) => onCategoryChange(event.target.value)}
-          className={`w-full rounded-2xl border px-4 py-3 text-sm outline-none focus-visible:border-luxe-600/60 md:w-56 ${
+          className={`w-full rounded-2xl border px-4 py-3 text-sm outline-none focus-visible:border-bpPink/60 md:w-56 ${
             isLight
-              ? "border-slate-200 bg-white text-noir-900"
-              : "border-white/10 bg-noir-900 text-blush-50"
+              ? "border-slate-200 bg-white text-bpBlackSoft"
+              : "border-white/10 bg-bpBlackSoft text-bpOffWhite"
           }`}
         >
           <option value="">Todas categorias</option>
@@ -61,10 +61,10 @@ export const FilterBar = ({
       <select
         value={sort}
         onChange={(event) => onSortChange(event.target.value)}
-        className={`w-full rounded-2xl border px-4 py-3 text-sm outline-none focus-visible:border-luxe-600/60 md:w-56 ${
+        className={`w-full rounded-2xl border px-4 py-3 text-sm outline-none focus-visible:border-bpPink/60 md:w-56 ${
           isLight
-            ? "border-slate-200 bg-white text-noir-900"
-            : "border-white/10 bg-noir-900 text-blush-50"
+            ? "border-slate-200 bg-white text-bpBlackSoft"
+            : "border-white/10 bg-bpBlackSoft text-bpOffWhite"
         }`}
       >
         <option value="featured">Destaque</option>

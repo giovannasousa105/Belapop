@@ -20,7 +20,7 @@ type Props = {
 export function TrendCard({ title, data, valueFormatter }: Props) {
   return (
     <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
-      <div className="text-xs uppercase tracking-[0.25em] text-noir-500">
+      <div className="text-xs uppercase tracking-[0.25em] text-bpGraphite/70">
         {title}
       </div>
       <div className="h-56 mt-4">

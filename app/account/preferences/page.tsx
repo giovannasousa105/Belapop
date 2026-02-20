@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 
 import { PageHeading } from "@/components/PageHeading";
 import { useAuth } from "@/lib/AuthContext";
-import { getSupabaseBrowserClient } from "@/lib/supabaseBrowser";
+import { getSupabaseClient } from "@/lib/supabase/client";
 
 type PreferenceRow = {
   email_opt_in: boolean;
@@ -25,7 +25,7 @@ export default function AccountPreferencesPage() {
   useEffect(() => {
     if (!ready || !user) return;
     let active = true;
-    const supabase = getSupabaseBrowserClient();
+    const supabase = getSupabaseClient();
     const load = async () => {
       const { data } = await supabase
         .from("notification_preferences")
@@ -51,7 +51,7 @@ export default function AccountPreferencesPage() {
     if (!user) return;
     setSaving(true);
     setMessage(null);
-    const supabase = getSupabaseBrowserClient();
+    const supabase = getSupabaseClient();
     const { error } = await supabase
       .from("notification_preferences")
       .upsert({
@@ -92,8 +92,8 @@ export default function AccountPreferencesPage() {
               className="flex items-center justify-between rounded-2xl border border-black/10 p-4 text-sm"
             >
               <div>
-                <p className="font-semibold text-noir-900">{item.label}</p>
-                <p className="text-xs text-noir-500">{item.description}</p>
+                <p className="font-semibold text-bpBlackSoft">{item.label}</p>
+                <p className="text-xs text-bpGraphite/70">{item.description}</p>
               </div>
               <input
                 type="checkbox"
@@ -112,11 +112,11 @@ export default function AccountPreferencesPage() {
         <button
           onClick={handleSave}
           disabled={saving}
-          className="mt-6 rounded-full bg-luxe-600 px-6 py-2 text-xs uppercase tracking-[0.3em] text-white shadow-soft-luxe disabled:opacity-60"
+          className="mt-6 rounded-full bg-bpPink px-6 py-2 text-xs uppercase tracking-[0.3em] text-white shadow-bpSoft disabled:opacity-60"
         >
           Salvar preferências
         </button>
-        {message && <p className="mt-3 text-xs text-luxe-600">{message}</p>}
+        {message && <p className="mt-3 text-xs text-bpPink">{message}</p>}
       </div>
     </div>
   );

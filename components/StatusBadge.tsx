@@ -4,7 +4,7 @@ type Props = { status: string };
 
 const COLORS: Record<string, string> = {
   active: "bg-emerald-100 text-emerald-800 border-emerald-200",
-  inactive: "bg-noir-100 text-noir-700 border-noir-200",
+  inactive: "bg-bpOffWhite text-bpGraphite border-bpBlack/20",
   pending: "bg-amber-100 text-amber-800 border-amber-200",
   paused: "bg-amber-100 text-amber-800 border-amber-200",
   rejected: "bg-rose-100 text-rose-800 border-rose-200",
@@ -15,7 +15,7 @@ const COLORS: Record<string, string> = {
 
 export function StatusBadge({ status }: Props) {
   const key = status?.toLowerCase?.() ?? "active";
-  const color = COLORS[key] ?? "bg-noir-100 text-noir-700 border-noir-200";
+  const color = COLORS[key] ?? "bg-bpOffWhite text-bpGraphite border-bpBlack/20";
   return (
     <span
       className={`rounded-full border px-3 py-1 text-[11px] uppercase tracking-[0.25em] ${color}`}

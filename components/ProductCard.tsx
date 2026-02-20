@@ -7,7 +7,7 @@ import { useEffect, useMemo, useState } from "react";
 import { LuxuryButton } from "@/components/LuxuryButton";
 import { useCart } from "@/lib/CartContext";
 import { sellers } from "@/data/sellers";
-import { getSupabaseBrowserClient } from "@/lib/supabaseBrowser";
+import { getSupabaseClient } from "@/lib/supabase/client";
 import { type ProductImageTone } from "@/lib/types";
 
 export type ProductCardData = {
@@ -20,10 +20,10 @@ export type ProductCardData = {
 };
 
 const toneStyles: Record<NonNullable<ProductImageTone>, string> = {
-  rose: "from-blush-100/30 via-blush-100/10 to-white",
-  blush: "from-blush-100/40 via-white to-white",
-  noir: "from-noir-900/10 via-white to-white",
-  plum: "from-luxe-600/20 via-blush-100/10 to-white"
+  rose: "from-bpPinkSoft/30 via-bpPinkSoft/10 to-white",
+  blush: "from-bpPinkSoft/40 via-white to-white",
+  noir: "from-bpBlackSoft/10 via-white to-white",
+  plum: "from-bpPink/20 via-bpPinkSoft/10 to-white"
 };
 
 type ProductCardProps = {
@@ -63,7 +63,7 @@ export const ProductCard = ({
 
   useEffect(() => {
     let active = true;
-    const supabase = getSupabaseBrowserClient();
+    const supabase = getSupabaseClient();
     const load = async () => {
       const { data } = await supabase
         .from("sellers")
@@ -100,7 +100,7 @@ export const ProductCard = ({
               toneStyles[product.imageTone ?? "rose"]
             }`}
           >
-            <div className="absolute left-4 top-4 rounded-full border border-[#F6D6E2] bg-white/90 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.3em] text-noir-900">
+            <div className="absolute left-4 top-4 rounded-full border border-[#F6D6E2] bg-white/90 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.3em] text-bpBlackSoft">
               Curadoria BelaPop
             </div>
           </div>
@@ -112,10 +112,10 @@ export const ProductCard = ({
             isWishlisted ? "Remover dos favoritos" : "Adicionar aos favoritos"
           }
           aria-pressed={isWishlisted}
-          className={`absolute right-4 top-4 flex h-9 w-9 items-center justify-center rounded-full border transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-luxe-600/70 ${
+          className={`absolute right-4 top-4 flex h-9 w-9 items-center justify-center rounded-full border transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-bpPink/70 ${
             isLight
-              ? "border-black/10 bg-white text-noir-600 hover:text-luxe-600"
-              : "border-white/20 bg-noir-950/70 text-blush-100/80 hover:text-blush-50"
+              ? "border-black/10 bg-white text-bpGraphite/80 hover:text-bpPink"
+              : "border-white/20 bg-bpBlack/70 text-bpPinkSoft/80 hover:text-bpOffWhite"
           }`}
         >
           <Heart size={16} fill={isWishlisted ? "currentColor" : "none"} />
@@ -124,28 +124,28 @@ export const ProductCard = ({
       <div className="flex flex-1 flex-col gap-3 p-5">
         <p
           className={`text-[11px] uppercase tracking-[0.3em] ${
-            isLight ? "text-noir-500" : "text-blush-100/60"
+            isLight ? "text-bpGraphite/70" : "text-bpPinkSoft/60"
           }`}
         >
           {sellerName}
         </p>
         <h3
           className={`line-clamp-2 font-display text-lg ${
-            isLight ? "text-noir-950" : "text-blush-50"
+            isLight ? "text-bpBlack" : "text-bpOffWhite"
           }`}
         >
           {product.name}
         </h3>
         <div
           className={`flex items-center gap-2 text-xs ${
-            isLight ? "text-noir-600" : "text-blush-100/60"
+            isLight ? "text-bpGraphite/80" : "text-bpPinkSoft/60"
           }`}
         >
           <span className="flex items-center gap-1 text-amber-500">
             <Star size={14} fill="currentColor" stroke="none" />
             {rating}
           </span>
-          <span className={isLight ? "text-noir-500" : "text-blush-100/60"}>
+          <span className={isLight ? "text-bpGraphite/70" : "text-bpPinkSoft/60"}>
             ({reviewCount})
           </span>
         </div>
@@ -161,7 +161,7 @@ export const ProductCard = ({
             Ver preço
           </LuxuryButton>
           <p
-            className={`text-xs ${isLight ? "text-noir-500" : "text-blush-100/60"}`}
+            className={`text-xs ${isLight ? "text-bpGraphite/70" : "text-bpPinkSoft/60"}`}
           >
             Valor exibido ao abrir o produto.
           </p>

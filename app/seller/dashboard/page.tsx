@@ -48,8 +48,8 @@ const ACTIVATION_LEVEL_META: Record<
   },
   info: {
     label: "Info",
-    border: "border-noir-200",
-    background: "bg-noir-50/60"
+    border: "border-bpBlack/20",
+    background: "bg-bpOffWhite/60"
   }
 };
 
@@ -276,13 +276,13 @@ export default function SellerDashboardPage() {
   return (
     <div className="flex w-full flex-col gap-8">
       <div className="rounded-3xl border border-black/10 bg-white p-8 shadow-sm">
-        <p className="text-xs uppercase tracking-[0.3em] text-noir-500">
+        <p className="text-xs uppercase tracking-[0.3em] text-bpGraphite/70">
           Dashboard do lojista
         </p>
-        <h1 className="mt-3 font-display text-3xl text-noir-950">
+        <h1 className="mt-3 font-display text-3xl text-bpBlack">
           {user?.sellerProfile?.storeName ?? "Sua loja"}
         </h1>
-        <p className="mt-2 text-sm text-noir-600">
+        <p className="mt-2 text-sm text-bpGraphite/80">
           Visão consolidada de catálogo, pedidos e indicadores operacionais.
         </p>
       </div>
@@ -290,21 +290,21 @@ export default function SellerDashboardPage() {
         <div className="rounded-2xl border border-black/10 bg-white p-8 shadow-sm">
           <div className="flex flex-wrap items-start justify-between gap-4">
             <div>
-              <p className="text-xs uppercase tracking-[0.3em] text-noir-500">
+              <p className="text-xs uppercase tracking-[0.3em] text-bpGraphite/70">
                 Centro de Ativa��o
               </p>
-              <h2 className="mt-2 font-display text-2xl text-noir-950">
+              <h2 className="mt-2 font-display text-2xl text-bpBlack">
                 Prepare sua loja para come�ar a vender.
               </h2>
             </div>
             <div className="text-right">
-              <p className="text-xs uppercase tracking-[0.3em] text-noir-500">Progresso</p>
-              <p className="mt-1 text-3xl font-semibold text-noir-950">
+              <p className="text-xs uppercase tracking-[0.3em] text-bpGraphite/70">Progresso</p>
+              <p className="mt-1 text-3xl font-semibold text-bpBlack">
                 {activationLoading ? "Carregando" : `${activationPercent}%`}
               </p>
             </div>
           </div>
-          <div className="mt-4 h-2 w-full overflow-hidden rounded-full bg-noir-100">
+          <div className="mt-4 h-2 w-full overflow-hidden rounded-full bg-bpOffWhite">
             <div
               className="h-full rounded-full bg-[#B80F5A] transition-[width]"
               style={{
@@ -314,9 +314,9 @@ export default function SellerDashboardPage() {
           </div>
           <ul className="mt-6 space-y-3">
             {activationLoading ? (
-              <li className="text-sm text-noir-500">Carregando checklist...</li>
+              <li className="text-sm text-bpGraphite/70">Carregando checklist...</li>
             ) : checklistItems.length === 0 ? (
-              <li className="text-sm text-noir-500">
+              <li className="text-sm text-bpGraphite/70">
                 Nenhum item dispon�vel no momento.
               </li>
             ) : (
@@ -327,15 +327,15 @@ export default function SellerDashboardPage() {
                 >
                   <div className="flex items-center gap-3">
                     <span
-                      className={`text-2xl font-semibold ${item.completed ? "text-luxe-600" : "text-noir-400"}`}
+                      className={`text-2xl font-semibold ${item.completed ? "text-bpPink" : "text-bpGraphite/60"}`}
                     >
                       {item.completed ? "✓" : "○"}
                     </span>
                     <div>
-                      <p className="text-sm font-semibold text-noir-900">
+                      <p className="text-sm font-semibold text-bpBlackSoft">
                         {item.label}
                       </p>
-                      <p className="text-[10px] uppercase tracking-[0.3em] text-noir-500">
+                      <p className="text-[10px] uppercase tracking-[0.3em] text-bpGraphite/70">
                         {item.completed ? "Completo" : "Pendente"}
                       </p>
                     </div>
@@ -356,17 +356,17 @@ export default function SellerDashboardPage() {
           </ul>
           <div className="mt-6 space-y-4">
             <div className="flex items-center justify-between gap-3">
-              <p className="text-xs uppercase tracking-[0.3em] text-noir-500">
+              <p className="text-xs uppercase tracking-[0.3em] text-bpGraphite/70">
                 Pend�ncias inteligentes
               </p>
-              <span className="text-xs uppercase tracking-[0.3em] text-noir-500">
+              <span className="text-xs uppercase tracking-[0.3em] text-bpGraphite/70">
                 Atualizado
               </span>
             </div>
             {activationLoading ? (
-              <p className="text-sm text-noir-500">Sincronizando pend�ncias...</p>
+              <p className="text-sm text-bpGraphite/70">Sincronizando pend�ncias...</p>
             ) : activationIssues.length === 0 ? (
-              <p className="text-sm text-noir-500">Sem pend�ncias no momento.</p>
+              <p className="text-sm text-bpGraphite/70">Sem pend�ncias no momento.</p>
             ) : (
               activationIssues.map((issue) => (
                 <div
@@ -374,8 +374,8 @@ export default function SellerDashboardPage() {
                   className={`rounded-2xl border-l-4 ${ACTIVATION_LEVEL_META[issue.level].border} ${ACTIVATION_LEVEL_META[issue.level].background} border border-black/5 p-4`}
                 >
                   <div className="flex items-center justify-between gap-2">
-                    <p className="text-sm font-semibold text-noir-900">{issue.message}</p>
-                    <span className="text-[11px] uppercase tracking-[0.3em] text-noir-500">
+                    <p className="text-sm font-semibold text-bpBlackSoft">{issue.message}</p>
+                    <span className="text-[11px] uppercase tracking-[0.3em] text-bpGraphite/70">
                       {ACTIVATION_LEVEL_META[issue.level].label}
                     </span>
                   </div>
@@ -401,51 +401,51 @@ export default function SellerDashboardPage() {
       <div className="rounded-2xl border border-black/10 bg-white p-6 shadow-sm">
         <div className="flex items-start justify-between gap-4">
           <div>
-            <p className="text-xs uppercase tracking-[0.3em] text-noir-500">
+            <p className="text-xs uppercase tracking-[0.3em] text-bpGraphite/70">
               Notificações
             </p>
-            <h2 className="mt-2 font-display text-2xl text-noir-950">
+            <h2 className="mt-2 font-display text-2xl text-bpBlack">
               Atualizações da curadoria
             </h2>
           </div>
-          <span className="rounded-full border border-noir-200 px-4 py-1 text-xs uppercase tracking-[0.3em] text-noir-500">
+          <span className="rounded-full border border-bpBlack/20 px-4 py-1 text-xs uppercase tracking-[0.3em] text-bpGraphite/70">
             {unreadNotifications} nova{unreadNotifications === 1 ? "" : "s"}
           </span>
         </div>
         <div className="mt-4 space-y-3">
           {notificationsLoading ? (
-            <p className="text-sm text-noir-500">
+            <p className="text-sm text-bpGraphite/70">
               Sincronizando notificações...
             </p>
           ) : notificationsError ? (
             <p className="text-sm text-rose-500">{notificationsError}</p>
           ) : notifications.length === 0 ? (
-            <p className="text-sm text-noir-600">
+            <p className="text-sm text-bpGraphite/80">
               Nenhuma atualização recente da curadoria.
             </p>
           ) : (
             notifications.map((notification) => (
               <div
                 key={notification.id}
-                className="flex flex-col gap-2 rounded-2xl border border-black/10 bg-noir-50/60 p-4 sm:flex-row sm:items-center sm:justify-between"
+                className="flex flex-col gap-2 rounded-2xl border border-black/10 bg-bpOffWhite/60 p-4 sm:flex-row sm:items-center sm:justify-between"
               >
                 <div>
-                  <p className="text-sm font-semibold text-noir-900">
+                  <p className="text-sm font-semibold text-bpBlackSoft">
                     {notification.title}
                   </p>
-                  <p className="mt-1 text-xs text-noir-500">
+                  <p className="mt-1 text-xs text-bpGraphite/70">
                     {new Date(notification.createdAt).toLocaleDateString(
                       "pt-BR",
                       { dateStyle: "short", timeStyle: "short" }
                     )}
                   </p>
-                  <p className="mt-2 text-sm text-noir-600">
+                  <p className="mt-2 text-sm text-bpGraphite/80">
                     {notification.body}
                   </p>
                 </div>
-                <div className="flex flex-wrap items-center gap-2 text-xs text-noir-500">
+                <div className="flex flex-wrap items-center gap-2 text-xs text-bpGraphite/70">
                   {!notification.isRead && (
-                    <span className="rounded-full border border-luxe-600/70 px-3 py-1 uppercase tracking-[0.3em] text-luxe-600">
+                    <span className="rounded-full border border-bpPink/70 px-3 py-1 uppercase tracking-[0.3em] text-bpPink">
                       Nova
                     </span>
                   )}
@@ -475,10 +475,10 @@ export default function SellerDashboardPage() {
         <div className="rounded-2xl border border-black/10 bg-white p-6 shadow-sm">
           <div className="flex flex-wrap items-center justify-between gap-4">
             <div>
-              <p className="text-xs uppercase tracking-[0.3em] text-noir-500">
+              <p className="text-xs uppercase tracking-[0.3em] text-bpGraphite/70">
                 Pedidos recentes
               </p>
-              <h2 className="mt-2 font-display text-2xl text-noir-950">
+              <h2 className="mt-2 font-display text-2xl text-bpBlack">
                 Últimas movimentações
               </h2>
             </div>
@@ -487,28 +487,28 @@ export default function SellerDashboardPage() {
             </LuxuryButton>
           </div>
           {recentOrders.length === 0 ? (
-            <p className="mt-6 text-sm text-noir-600">
+            <p className="mt-6 text-sm text-bpGraphite/80">
               Nenhum pedido registrado para sua loja no momento.
             </p>
           ) : (
-            <div className="mt-6 space-y-4 text-sm text-noir-600">
+            <div className="mt-6 space-y-4 text-sm text-bpGraphite/80">
               {recentOrders.map((order) => (
                 <div
                   key={order.id}
                   className="flex flex-wrap items-center justify-between gap-4 rounded-2xl border border-black/10 p-4"
                 >
                   <div>
-                    <p className="text-xs uppercase tracking-[0.3em] text-noir-500">
+                    <p className="text-xs uppercase tracking-[0.3em] text-bpGraphite/70">
                       Pedido {order.orderId}
                     </p>
-                    <p className="mt-2 text-sm text-noir-900">
+                    <p className="mt-2 text-sm text-bpBlackSoft">
                       {order.customerName} • {order.itemCount} item(ns)
                     </p>
-                    <p className="mt-1 text-xs text-noir-500">
+                    <p className="mt-1 text-xs text-bpGraphite/70">
                       Frete: {order.shippingService} • {formatPrice(order.shippingValue)}
                     </p>
                   </div>
-                  <span className="rounded-full border border-black/10 px-3 py-2 text-xs uppercase tracking-[0.3em] text-noir-600">
+                  <span className="rounded-full border border-black/10 px-3 py-2 text-xs uppercase tracking-[0.3em] text-bpGraphite/80">
                     {order.status}
                   </span>
                 </div>
@@ -518,19 +518,19 @@ export default function SellerDashboardPage() {
         </div>
 
         <div className="rounded-2xl border border-black/10 bg-white p-6 shadow-sm">
-          <p className="text-xs uppercase tracking-[0.3em] text-noir-500">
+          <p className="text-xs uppercase tracking-[0.3em] text-bpGraphite/70">
             Avisos da plataforma
           </p>
-          <h2 className="mt-2 font-display text-2xl text-noir-950">
+          <h2 className="mt-2 font-display text-2xl text-bpBlack">
             Comunicados institucionais
           </h2>
-          <div className="mt-6 space-y-4 text-sm text-noir-600">
+          <div className="mt-6 space-y-4 text-sm text-bpGraphite/80">
             {notices.map((notice) => (
               <div key={notice.title} className="rounded-2xl border border-black/10 p-4">
-                <p className="text-sm font-medium text-noir-900">
+                <p className="text-sm font-medium text-bpBlackSoft">
                   {notice.title}
                 </p>
-                <p className="mt-2 text-sm text-noir-600">
+                <p className="mt-2 text-sm text-bpGraphite/80">
                   {notice.description}
                 </p>
               </div>

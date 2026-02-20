@@ -14,18 +14,18 @@ export const DiaryPreview = ({ title, subtitle, content }: DiaryPreviewProps) =>
 
   return (
     <div className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
-      <p className="text-xs uppercase tracking-[0.3em] text-noir-500">
+      <p className="text-xs uppercase tracking-[0.3em] text-bpGraphite/70">
         Preview editorial
       </p>
-      <h3 className="mt-3 font-display text-2xl text-noir-950">
+      <h3 className="mt-3 font-display text-2xl text-bpBlack">
         {title || "Título do conteúdo"}
       </h3>
-      <p className="mt-2 text-sm text-noir-600">
+      <p className="mt-2 text-sm text-bpGraphite/80">
         {subtitle || "Subtítulo institucional para o Diário."}
       </p>
-      <div className="mt-6 space-y-4 text-sm text-noir-600">
+      <div className="mt-6 space-y-4 text-sm text-bpGraphite/80">
         {paragraphs.length === 0 ? (
-          <p className="text-sm text-noir-500">
+          <p className="text-sm text-bpGraphite/70">
             O conteúdo aparecerá aqui conforme o texto for inserido.
           </p>
         ) : (

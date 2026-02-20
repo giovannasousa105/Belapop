@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 
 import { PageHeading } from "@/components/PageHeading";
 import { useAuth } from "@/lib/AuthContext";
-import { getSupabaseBrowserClient } from "@/lib/supabaseBrowser";
+import { getSupabaseClient } from "@/lib/supabase/client";
 import { formatPrice } from "@/lib/utils";
 
 type WalletRow = {
@@ -23,7 +23,7 @@ export default function AccountWalletPage() {
   useEffect(() => {
     if (!ready || !user) return;
     let active = true;
-    const supabase = getSupabaseBrowserClient();
+    const supabase = getSupabaseClient();
     setLoading(true);
     const load = async () => {
       const { data } = await supabase
@@ -54,19 +54,19 @@ export default function AccountWalletPage() {
       />
 
       <div className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
-        <p className="text-xs uppercase tracking-[0.3em] text-noir-500">Saldo</p>
-        <p className="mt-2 text-3xl font-semibold text-noir-950">
+        <p className="text-xs uppercase tracking-[0.3em] text-bpGraphite/70">Saldo</p>
+        <p className="mt-2 text-3xl font-semibold text-bpBlack">
           {formatPrice(balance)}
         </p>
-        <p className="text-sm text-noir-600">Disponível para próximas compras.</p>
+        <p className="text-sm text-bpGraphite/80">Disponível para próximas compras.</p>
       </div>
 
       <div className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
-        <p className="text-xs uppercase tracking-[0.3em] text-noir-500">Histórico</p>
+        <p className="text-xs uppercase tracking-[0.3em] text-bpGraphite/70">Histórico</p>
         {loading ? (
-          <p className="mt-4 text-sm text-noir-500">Carregando...</p>
+          <p className="mt-4 text-sm text-bpGraphite/70">Carregando...</p>
         ) : rows.length === 0 ? (
-          <p className="mt-4 text-sm text-noir-600">
+          <p className="mt-4 text-sm text-bpGraphite/80">
             Nenhuma movimentação registrada ainda.
           </p>
         ) : (
@@ -77,12 +77,12 @@ export default function AccountWalletPage() {
                 className="flex items-center justify-between rounded-2xl border border-black/10 p-4 text-sm"
               >
                 <div>
-                  <p className="font-semibold text-noir-900">{row.reason ?? "Movimentação"}</p>
-                  <p className="text-xs text-noir-500">
+                  <p className="font-semibold text-bpBlackSoft">{row.reason ?? "Movimentação"}</p>
+                  <p className="text-xs text-bpGraphite/70">
                     {new Date(row.created_at).toLocaleDateString("pt-BR")}
                   </p>
                 </div>
-                <span className="text-sm text-noir-900">
+                <span className="text-sm text-bpBlackSoft">
                   {formatPrice(Number(row.amount_cents ?? 0) / 100)}
                 </span>
               </div>

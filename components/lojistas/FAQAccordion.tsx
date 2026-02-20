@@ -28,12 +28,12 @@ export const FAQAccordion = ({ items }: FAQAccordionProps) => {
               aria-expanded={isOpen}
               aria-controls={`faq-panel-${index}`}
             >
-              <span className="font-display text-lg text-noir-950">
+              <span className="font-display text-lg text-bpBlack">
                 {item.question}
               </span>
               <span
                 className={`flex h-8 w-8 items-center justify-center rounded-full border border-black/10 transition ${
-                  isOpen ? "bg-belapop-rose text-white" : "text-noir-600"
+                  isOpen ? "bg-belapop-rose text-white" : "text-bpGraphite/80"
                 }`}
               >
                 <ChevronDown
@@ -49,7 +49,7 @@ export const FAQAccordion = ({ items }: FAQAccordionProps) => {
               }`}
             >
               <div className="overflow-hidden">
-                <p className="mt-3 text-sm text-noir-600">{item.answer}</p>
+                <p className="mt-3 text-sm text-bpGraphite/80">{item.answer}</p>
               </div>
             </div>
           </div>

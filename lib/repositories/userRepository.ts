@@ -1,4 +1,4 @@
-import { getSupabaseBrowserClient } from "@/lib/supabaseBrowser";
+import { getSupabaseClient } from "@/lib/supabase/client";
 import { SellerProfile, User, UserRole } from "@/lib/types";
 
 const selectFields =
@@ -30,7 +30,7 @@ const mapUser = (data: any): User => {
 
 export const userRepository = {
   getAll: async (): Promise<User[]> => {
-    const supabase = getSupabaseBrowserClient();
+    const supabase = getSupabaseClient();
     const { data, error } = await supabase.from("profiles").select(selectFields);
     if (error) {
       console.error("[users] getAll failed:", error);
@@ -39,7 +39,7 @@ export const userRepository = {
     return (data ?? []).map(mapUser);
   },
   findById: async (id: string): Promise<User | null> => {
-    const supabase = getSupabaseBrowserClient();
+    const supabase = getSupabaseClient();
     const { data, error } = await supabase
       .from("profiles")
       .select(selectFields)
@@ -55,7 +55,7 @@ export const userRepository = {
     userId: string,
     profile: Partial<SellerProfile>
   ) => {
-    const supabase = getSupabaseBrowserClient();
+    const supabase = getSupabaseClient();
     const { error } = await supabase
       .from("sellers")
       .update({

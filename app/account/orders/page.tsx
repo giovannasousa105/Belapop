@@ -6,7 +6,7 @@ import Link from "next/link";
 import { EmptyState } from "@/components/EmptyState";
 import { PageHeading } from "@/components/PageHeading";
 import { useAuth } from "@/lib/AuthContext";
-import { getSupabaseBrowserClient } from "@/lib/supabaseBrowser";
+import { getSupabaseClient } from "@/lib/supabase/client";
 import { formatPrice } from "@/lib/utils";
 
 type OrderRow = {
@@ -32,7 +32,7 @@ export default function AccountOrdersPage() {
       return;
     }
     let active = true;
-    const supabase = getSupabaseBrowserClient();
+    const supabase = getSupabaseClient();
     setLoading(true);
 
     const load = async () => {
@@ -59,7 +59,7 @@ export default function AccountOrdersPage() {
         subtitle="Cada escolha, registrada com cuidado."
       />
       {loading ? (
-        <p className="text-sm text-noir-500">Carregando pedidos...</p>
+        <p className="text-sm text-bpGraphite/70">Carregando pedidos...</p>
       ) : orders.length === 0 ? (
         <EmptyState
           title="Nenhum pedido por aqui ainda"
@@ -73,17 +73,17 @@ export default function AccountOrdersPage() {
             <Link
               key={order.id}
               href={`/account/orders/${order.id}`}
-              className="block rounded-2xl border border-black/10 bg-white p-5 text-sm text-noir-700 shadow-sm transition hover:border-black/30"
+              className="block rounded-2xl border border-black/10 bg-white p-5 text-sm text-bpGraphite shadow-sm transition hover:border-black/30"
             >
               <div className="flex items-center justify-between gap-2">
-                <p className="font-semibold text-noir-900">
+                <p className="font-semibold text-bpBlackSoft">
                   Pedido {formatOrderId(order.id)}
                 </p>
-                <span className="text-xs uppercase tracking-[0.3em] text-noir-500">
+                <span className="text-xs uppercase tracking-[0.3em] text-bpGraphite/70">
                   {order.status}
                 </span>
               </div>
-              <p className="mt-2 text-sm text-noir-600">
+              <p className="mt-2 text-sm text-bpGraphite/80">
                 Total {formatPrice((order.total_order_cents ?? 0) / 100)} •{" "}
                 {new Date(order.created_at).toLocaleDateString("pt-BR", {
                   day: "2-digit",

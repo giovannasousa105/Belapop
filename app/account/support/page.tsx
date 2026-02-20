@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 
 import { PageHeading } from "@/components/PageHeading";
 import { useAuth } from "@/lib/AuthContext";
-import { getSupabaseBrowserClient } from "@/lib/supabaseBrowser";
+import { getSupabaseClient } from "@/lib/supabase/client";
 
 type TicketRow = {
   id: string;
@@ -24,7 +24,7 @@ export default function AccountSupportPage() {
   useEffect(() => {
     if (!ready || !user) return;
     let active = true;
-    const supabase = getSupabaseBrowserClient();
+    const supabase = getSupabaseClient();
     const load = async () => {
       const { data } = await supabase
         .from("support_tickets")
@@ -49,7 +49,7 @@ export default function AccountSupportPage() {
     }
     setLoading(true);
     setStatusMessage(null);
-    const supabase = getSupabaseBrowserClient();
+    const supabase = getSupabaseClient();
     const { data: ticket, error } = await supabase
       .from("support_tickets")
       .insert({ user_id: user.id, subject, status: "open" })
@@ -80,7 +80,7 @@ export default function AccountSupportPage() {
       />
 
       <div className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
-        <p className="text-xs uppercase tracking-[0.3em] text-noir-500">Novo ticket</p>
+        <p className="text-xs uppercase tracking-[0.3em] text-bpGraphite/70">Novo ticket</p>
         <form onSubmit={handleCreate} className="mt-4 space-y-3">
           <input
             value={subject}
@@ -97,18 +97,18 @@ export default function AccountSupportPage() {
           <button
             type="submit"
             disabled={loading}
-            className="rounded-full bg-luxe-600 px-5 py-2 text-xs uppercase tracking-[0.3em] text-white shadow-soft-luxe disabled:opacity-60"
+            className="rounded-full bg-bpPink px-5 py-2 text-xs uppercase tracking-[0.3em] text-white shadow-bpSoft disabled:opacity-60"
           >
             Enviar
           </button>
-          {statusMessage && <p className="text-xs text-luxe-600">{statusMessage}</p>}
+          {statusMessage && <p className="text-xs text-bpPink">{statusMessage}</p>}
         </form>
       </div>
 
       <div className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
-        <p className="text-xs uppercase tracking-[0.3em] text-noir-500">Meus tickets</p>
+        <p className="text-xs uppercase tracking-[0.3em] text-bpGraphite/70">Meus tickets</p>
         {tickets.length === 0 ? (
-          <p className="mt-4 text-sm text-noir-600">Nenhum ticket aberto.</p>
+          <p className="mt-4 text-sm text-bpGraphite/80">Nenhum ticket aberto.</p>
         ) : (
           <div className="mt-4 space-y-3">
             {tickets.map((ticket) => (
@@ -117,12 +117,12 @@ export default function AccountSupportPage() {
                 className="flex items-center justify-between rounded-2xl border border-black/10 p-4 text-sm"
               >
                 <div>
-                  <p className="font-semibold text-noir-900">{ticket.subject}</p>
-                  <p className="text-xs text-noir-500">
+                  <p className="font-semibold text-bpBlackSoft">{ticket.subject}</p>
+                  <p className="text-xs text-bpGraphite/70">
                     {new Date(ticket.created_at).toLocaleDateString("pt-BR")}
                   </p>
                 </div>
-                <span className="text-xs uppercase tracking-[0.3em] text-noir-500">
+                <span className="text-xs uppercase tracking-[0.3em] text-bpGraphite/70">
                   {ticket.status}
                 </span>
               </div>

@@ -42,22 +42,22 @@ export default function AccountFavoritesPage() {
         subtitle="Sua lista de desejos com assinatura editorial."
       />
       {loading ? (
-        <p className="text-sm text-noir-500">Carregando...</p>
+        <p className="text-sm text-bpGraphite/70">Carregando...</p>
       ) : products.length === 0 ? (
-        <div className="rounded-2xl border border-black/10 bg-white p-6 text-sm text-noir-600">
+        <div className="rounded-2xl border border-black/10 bg-white p-6 text-sm text-bpGraphite/80">
           Nada salvo ainda. Explore a curadoria e guarde seus favoritos.
         </div>
       ) : (
         <div className="space-y-4">
-          <div className="rounded-2xl border border-black/10 bg-white p-4 text-xs text-noir-500">
+          <div className="rounded-2xl border border-black/10 bg-white p-4 text-xs text-bpGraphite/70">
             Favoritos salvos:{" "}
-            <span className="font-semibold text-noir-900">
+            <span className="font-semibold text-bpBlackSoft">
               {products.length}
             </span>
             {products.length ? (
               <span className="ml-2">
                 Total estimado:{" "}
-                <span className="font-semibold text-noir-900">
+                <span className="font-semibold text-bpBlackSoft">
                   {formatPrice(
                     products.reduce((acc, product) => acc + product.price, 0)
                   )}

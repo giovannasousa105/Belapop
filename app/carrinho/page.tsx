@@ -47,10 +47,10 @@ export default function CarrinhoPage() {
   return (
     <div className="mx-auto flex w-full max-w-6xl flex-col gap-8 px-6 py-16 lg:flex-row">
       <div className="flex flex-1 flex-col gap-6">
-        <h1 className="font-display text-3xl text-blush-50">Carrinho</h1>
+        <h1 className="font-display text-3xl text-bpBlack">Carrinho</h1>
         {cartItems.length === 0 ? (
           <div className="glass-panel rounded-2xl p-6">
-            <p className="text-sm text-blush-100/70">
+            <p className="text-sm text-bpGraphite/80">
               Seu carrinho está vazio. Explore a curadoria.
             </p>
             <div className="mt-6">
@@ -65,13 +65,13 @@ export default function CarrinhoPage() {
                 className="glass-panel flex flex-col gap-4 rounded-2xl p-5 md:flex-row md:items-center md:justify-between"
               >
                 <div>
-                  <p className="text-xs uppercase tracking-luxe text-blush-100/70">
+                  <p className="text-xs uppercase tracking-[0.08em] text-bpPink/80">
                     {item.product.category}
                   </p>
-                  <h3 className="mt-2 text-lg text-blush-50">
+                  <h3 className="mt-2 text-lg text-bpBlack">
                     {item.product.name}
                   </h3>
-                  <p className="mt-1 text-sm text-blush-100/70">
+                  <p className="mt-1 text-sm text-bpGraphite/80">
                     {formatPrice(item.product.price)}
                   </p>
                 </div>
@@ -80,24 +80,24 @@ export default function CarrinhoPage() {
                     onClick={() =>
                       updateQuantity(item.product.id, item.quantity - 1)
                     }
-                    className="rounded-full border border-white/10 px-3 py-1 text-sm text-blush-100/80"
+                    className="rounded-full border border-bpBlack/15 px-3 py-1 text-sm text-bpGraphite"
                   >
                     -
                   </button>
-                  <span className="text-sm text-blush-50">
+                  <span className="text-sm text-bpBlack">
                     {item.quantity}
                   </span>
                   <button
                     onClick={() =>
                       updateQuantity(item.product.id, item.quantity + 1)
                     }
-                    className="rounded-full border border-white/10 px-3 py-1 text-sm text-blush-100/80"
+                    className="rounded-full border border-bpBlack/15 px-3 py-1 text-sm text-bpGraphite"
                   >
                     +
                   </button>
                   <button
                     onClick={() => removeItem(item.product.id)}
-                    className="text-xs uppercase tracking-luxe text-blush-100/70 hover:text-blush-50"
+                    className="text-xs uppercase tracking-[0.08em] text-bpPink/85 hover:text-bpBlack"
                   >
                     Remover
                   </button>
@@ -110,28 +110,28 @@ export default function CarrinhoPage() {
       <div className="w-full max-w-sm">
         <div className="flex flex-col gap-6">
           {cartItems.length > 0 ? (
-            <ShippingCalculator cartItems={shippingItems} tone="dark" />
+            <ShippingCalculator cartItems={shippingItems} tone="light" />
           ) : null}
           <div className="glass-panel rounded-2xl p-6">
-            <h2 className="font-display text-2xl text-blush-50">Resumo</h2>
-            <div className="mt-6 space-y-3 text-sm text-blush-100/70">
+            <h2 className="font-display text-2xl text-bpBlack">Resumo</h2>
+            <div className="mt-6 space-y-3 text-sm text-bpGraphite/80">
               <div className="flex items-center justify-between">
                 <span>Subtotal</span>
                 <span>{formatPrice(subtotal)}</span>
               </div>
               <div className="space-y-2">
-                <p className="text-xs uppercase tracking-[0.2em] text-blush-100/60">
+                <p className="text-xs uppercase tracking-[0.2em] text-bpPink/75">
                   Entrega por vendedor
                 </p>
                 {shipments.length === 0 ? (
-                  <p className="text-xs text-blush-100/60">
+                  <p className="text-xs text-bpGraphite/70">
                     Calcule o frete para ver as opções por lojista.
                   </p>
                 ) : (
                   shipments.map((shipment) => (
                     <div
                       key={`${shipment.sellerId}-${shipment.serviceId}`}
-                      className="flex items-center justify-between text-xs text-blush-100/70"
+                      className="flex items-center justify-between text-xs text-bpGraphite/80"
                     >
                       <span>
                         {shipment.sellerName} • {shipment.deliveryTimeDays} dia(s)
@@ -145,7 +145,7 @@ export default function CarrinhoPage() {
                 <span>Total frete</span>
                 <span>{formatPrice(totalShipping)}</span>
               </div>
-              <div className="flex items-center justify-between border-t border-white/10 pt-3 text-blush-50">
+              <div className="flex items-center justify-between border-t border-bpBlack/10 pt-3 text-bpBlack">
                 <span>Total</span>
                 <span>{formatPrice(total)}</span>
               </div>

@@ -6,7 +6,7 @@ import Link from "next/link";
 import { EmptyState } from "@/components/EmptyState";
 import { PageHeading } from "@/components/PageHeading";
 import { useAuth } from "@/lib/AuthContext";
-import { getSupabaseBrowserClient } from "@/lib/supabaseBrowser";
+import { getSupabaseClient } from "@/lib/supabase/client";
 import { Order } from "@/lib/types";
 import { formatPrice } from "@/lib/utils";
 
@@ -29,7 +29,7 @@ export default function AccountHomePage() {
     }
 
     let active = true;
-    const supabase = getSupabaseBrowserClient();
+    const supabase = getSupabaseClient();
     setLoading(true);
 
     const loadSummary = async () => {
@@ -101,23 +101,23 @@ export default function AccountHomePage() {
         <div className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
           <div className="flex items-center justify-between gap-3">
             <div>
-              <p className="text-xs uppercase tracking-[0.3em] text-noir-500">
+              <p className="text-xs uppercase tracking-[0.3em] text-bpGraphite/70">
                 Pedidos
               </p>
-              <h2 className="mt-2 font-display text-2xl text-noir-950">
+              <h2 className="mt-2 font-display text-2xl text-bpBlack">
                 Historico recente
               </h2>
             </div>
             <Link
               href="/account/orders"
-              className="rounded-full border border-black/10 px-4 py-2 text-xs uppercase tracking-[0.3em] text-noir-700"
+              className="rounded-full border border-black/10 px-4 py-2 text-xs uppercase tracking-[0.3em] text-bpGraphite"
             >
               Ver todos
             </Link>
           </div>
           <div className="mt-6 space-y-3">
             {loading ? (
-              <p className="text-sm text-noir-500">Carregando pedidos...</p>
+              <p className="text-sm text-bpGraphite/70">Carregando pedidos...</p>
             ) : recentOrders.length === 0 ? (
               <EmptyState
                 title="Nenhum pedido por aqui ainda"
@@ -129,17 +129,17 @@ export default function AccountHomePage() {
               recentOrders.map((order) => (
                 <div
                   key={order.id}
-                  className="rounded-2xl border border-black/10 p-4 text-sm text-noir-600"
+                  className="rounded-2xl border border-black/10 p-4 text-sm text-bpGraphite/80"
                 >
                   <div className="flex items-center justify-between gap-2">
-                    <p className="font-semibold text-noir-900">
+                    <p className="font-semibold text-bpBlackSoft">
                       Pedido {formatOrderId(order.id)}
                     </p>
-                    <span className="text-xs uppercase tracking-[0.3em] text-noir-500">
+                    <span className="text-xs uppercase tracking-[0.3em] text-bpGraphite/70">
                       {order.status}
                     </span>
                   </div>
-                  <p className="mt-2 text-sm text-noir-600">
+                  <p className="mt-2 text-sm text-bpGraphite/80">
                     Total {formatPrice(order.totalOrder)} -{" "}
                     {new Date(order.createdAt).toLocaleDateString("pt-BR", {
                       day: "2-digit",
@@ -153,21 +153,21 @@ export default function AccountHomePage() {
         </div>
         <div className="space-y-6">
           <div className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
-            <p className="text-xs uppercase tracking-[0.3em] text-noir-500">Entregas</p>
-            <p className="mt-2 text-2xl font-semibold text-noir-950">{inProgressCount}</p>
-            <p className="text-sm text-noir-600">Em andamento</p>
+            <p className="text-xs uppercase tracking-[0.3em] text-bpGraphite/70">Entregas</p>
+            <p className="mt-2 text-2xl font-semibold text-bpBlack">{inProgressCount}</p>
+            <p className="text-sm text-bpGraphite/80">Em andamento</p>
           </div>
           <div className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
-            <p className="text-xs uppercase tracking-[0.3em] text-noir-500">Carteira</p>
-            <p className="mt-2 text-2xl font-semibold text-noir-950">
+            <p className="text-xs uppercase tracking-[0.3em] text-bpGraphite/70">Carteira</p>
+            <p className="mt-2 text-2xl font-semibold text-bpBlack">
               {formatPrice(walletBalance)}
             </p>
-            <p className="text-sm text-noir-600">Creditos disponiveis</p>
+            <p className="text-sm text-bpGraphite/80">Creditos disponiveis</p>
           </div>
           <div className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
-            <p className="text-xs uppercase tracking-[0.3em] text-noir-500">Favoritos</p>
-            <p className="mt-2 text-2xl font-semibold text-noir-950">{favoritesCount}</p>
-            <p className="text-sm text-noir-600">Produtos guardados</p>
+            <p className="text-xs uppercase tracking-[0.3em] text-bpGraphite/70">Favoritos</p>
+            <p className="mt-2 text-2xl font-semibold text-bpBlack">{favoritesCount}</p>
+            <p className="text-sm text-bpGraphite/80">Produtos guardados</p>
           </div>
         </div>
       </div>
@@ -182,7 +182,7 @@ export default function AccountHomePage() {
           <Link
             key={item.label}
             href={item.href}
-            className="rounded-2xl border border-black/10 bg-white px-6 py-4 text-sm font-semibold text-noir-900 shadow-sm transition hover:border-black/30"
+            className="rounded-2xl border border-black/10 bg-white px-6 py-4 text-sm font-semibold text-bpBlackSoft shadow-sm transition hover:border-black/30"
           >
             {item.label}
           </Link>

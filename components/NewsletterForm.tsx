@@ -37,12 +37,12 @@ export const NewsletterForm = ({ tone = "light" }: NewsletterFormProps) => {
       <div>
         <h4
           className={`font-display text-lg ${
-            isLight ? "text-noir-950" : "text-blush-50"
+            isLight ? "text-bpBlack" : "text-bpOffWhite"
           }`}
         >
           Receber novidades
         </h4>
-        <p className={`text-sm ${isLight ? "text-noir-600" : "text-blush-100/70"}`}>
+        <p className={`text-sm ${isLight ? "text-bpGraphite/80" : "text-bpPinkSoft/70"}`}>
           Uma curadoria semanal com beleza, pele e bem-estar.
         </p>
       </div>
@@ -52,10 +52,10 @@ export const NewsletterForm = ({ tone = "light" }: NewsletterFormProps) => {
           placeholder="seu@email.com"
           value={email}
           onChange={(event) => setEmail(event.target.value)}
-          className={`w-full rounded-2xl border px-4 py-3 text-sm outline-none focus-visible:border-luxe-600/60 md:w-64 ${
+          className={`w-full rounded-2xl border px-4 py-3 text-sm outline-none focus-visible:border-bpPink/60 md:w-64 ${
             isLight
-              ? "border-slate-200 bg-white text-noir-900 placeholder:text-noir-400"
-              : "border-white/10 bg-noir-900 text-blush-50 placeholder:text-blush-100/50"
+              ? "border-slate-200 bg-white text-bpBlackSoft placeholder:text-bpGraphite/60"
+              : "border-white/10 bg-bpBlackSoft text-bpOffWhite placeholder:text-bpPinkSoft/50"
           }`}
         />
         <LuxuryButton type="submit" size="md" tone={isLight ? "retail" : "default"}>
@@ -63,7 +63,7 @@ export const NewsletterForm = ({ tone = "light" }: NewsletterFormProps) => {
         </LuxuryButton>
       </div>
       {message ? (
-        <p className={`text-xs md:ml-auto ${isLight ? "text-noir-500" : "text-blush-100/70"}`}>
+        <p className={`text-xs md:ml-auto ${isLight ? "text-bpGraphite/70" : "text-bpPinkSoft/70"}`}>
           {message}
         </p>
       ) : null}

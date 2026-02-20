@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 
 import { PageHeading } from "@/components/PageHeading";
 import { useAuth } from "@/lib/AuthContext";
-import { getSupabaseBrowserClient } from "@/lib/supabaseBrowser";
+import { getSupabaseClient } from "@/lib/supabase/client";
 
 type PaymentMethodRow = {
   id: string;
@@ -25,7 +25,7 @@ export default function AccountPaymentsPage() {
   useEffect(() => {
     if (!ready || !user) return;
     let active = true;
-    const supabase = getSupabaseBrowserClient();
+    const supabase = getSupabaseClient();
     setLoading(true);
     const load = async () => {
       const { data } = await supabase
@@ -52,15 +52,15 @@ export default function AccountPaymentsPage() {
 
       <div className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
         <div className="flex items-center justify-between">
-          <p className="text-xs uppercase tracking-[0.3em] text-noir-500">Cartões e Pix</p>
-          <button className="rounded-full bg-luxe-600 px-4 py-2 text-xs uppercase tracking-[0.3em] text-white shadow-soft-luxe">
+          <p className="text-xs uppercase tracking-[0.3em] text-bpGraphite/70">Cartões e Pix</p>
+          <button className="rounded-full bg-bpPink px-4 py-2 text-xs uppercase tracking-[0.3em] text-white shadow-bpSoft">
             Adicionar método
           </button>
         </div>
         {loading ? (
-          <p className="mt-4 text-sm text-noir-500">Carregando...</p>
+          <p className="mt-4 text-sm text-bpGraphite/70">Carregando...</p>
         ) : methods.length === 0 ? (
-          <p className="mt-4 text-sm text-noir-600">
+          <p className="mt-4 text-sm text-bpGraphite/80">
             Nenhum método salvo. Adicione para checkout mais rápido.
           </p>
         ) : (
@@ -71,24 +71,24 @@ export default function AccountPaymentsPage() {
                 className="flex items-center justify-between rounded-2xl border border-black/10 p-4 text-sm"
               >
                 <div>
-                  <p className="font-semibold text-noir-900">
+                  <p className="font-semibold text-bpBlackSoft">
                     {method.brand ?? method.provider} •••• {method.last4 ?? "0000"}
                   </p>
-                  <p className="text-xs text-noir-500">
+                  <p className="text-xs text-bpGraphite/70">
                     Validade {method.exp_month ?? "--"}/{method.exp_year ?? "--"}
                   </p>
                 </div>
                 <div className="flex items-center gap-3">
                   {method.is_default ? (
-                    <span className="text-[10px] uppercase tracking-[0.3em] text-luxe-600">
+                    <span className="text-[10px] uppercase tracking-[0.3em] text-bpPink">
                       Padrão
                     </span>
                   ) : (
-                    <button className="text-xs uppercase tracking-[0.3em] text-noir-500">
+                    <button className="text-xs uppercase tracking-[0.3em] text-bpGraphite/70">
                       Definir padrão
                     </button>
                   )}
-                  <button className="text-xs uppercase tracking-[0.3em] text-noir-500">
+                  <button className="text-xs uppercase tracking-[0.3em] text-bpGraphite/70">
                     Remover
                   </button>
                 </div>

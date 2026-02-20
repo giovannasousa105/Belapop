@@ -40,21 +40,21 @@ export const EssentialsCarousel = ({
         <div>
           <p
             className={`text-xs uppercase tracking-[0.3em] ${
-              isLight ? "text-noir-500" : "text-blush-100/60"
+              isLight ? "text-bpGraphite/70" : "text-bpPinkSoft/60"
             }`}
           >
             Essenciais BelaPop
           </p>
           <h2
             className={`mt-2 font-display text-3xl ${
-              isLight ? "text-noir-950" : "text-blush-50"
+              isLight ? "text-bpBlack" : "text-bpOffWhite"
             }`}
           >
             {title}
           </h2>
           <p
             className={`mt-2 text-sm ${
-              isLight ? "text-noir-600" : "text-blush-100/70"
+              isLight ? "text-bpGraphite/80" : "text-bpPinkSoft/70"
             }`}
           >
             {subtitle}
@@ -65,8 +65,8 @@ export const EssentialsCarousel = ({
             onClick={() => scrollBy(-320)}
             className={`flex h-10 w-10 items-center justify-center rounded-full border transition ${
               isLight
-                ? "border-black/10 text-noir-600 hover:border-luxe-600/60 hover:text-noir-900"
-                : "border-white/20 text-blush-50 hover:border-luxe-600/60"
+                ? "border-black/10 text-bpGraphite/80 hover:border-bpPink/60 hover:text-bpBlackSoft"
+                : "border-white/20 text-bpOffWhite hover:border-bpPink/60"
             }`}
           >
             <ChevronLeft size={18} />
@@ -75,8 +75,8 @@ export const EssentialsCarousel = ({
             onClick={() => scrollBy(320)}
             className={`flex h-10 w-10 items-center justify-center rounded-full border transition ${
               isLight
-                ? "border-black/10 text-noir-600 hover:border-luxe-600/60 hover:text-noir-900"
-                : "border-white/20 text-blush-50 hover:border-luxe-600/60"
+                ? "border-black/10 text-bpGraphite/80 hover:border-bpPink/60 hover:text-bpBlackSoft"
+                : "border-white/20 text-bpOffWhite hover:border-bpPink/60"
             }`}
           >
             <ChevronRight size={18} />

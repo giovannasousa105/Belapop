@@ -10,7 +10,7 @@ type BadgeProps = {
 
 const variants: Record<BadgeVariant, string> = {
   curadoria:
-    "bg-white/90 border border-[#F6D6E2] text-noir-900 shadow-[0_6px_20px_rgba(246,214,226,0.5)]",
+    "bg-white/90 border border-[#F6D6E2] text-bpBlackSoft shadow-[0_6px_20px_rgba(246,214,226,0.5)]",
   novidade:
     "bg-[#F6D6E2] text-[#B80F5A] border border-[#B80F5A]/30 shadow-[0_8px_20px_rgba(184,15,90,0.25)]",
   premium:

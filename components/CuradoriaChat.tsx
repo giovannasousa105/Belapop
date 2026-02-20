@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 
-import { getSupabaseBrowserClient } from "@/lib/supabaseBrowser";
+import { getSupabaseClient } from "@/lib/supabase/client";
 import { useCart } from "@/lib/CartContext";
 import { usePublishedDiaryPosts } from "@/lib/hooks/useDiaryPosts";
 
@@ -88,7 +88,7 @@ const buildCustomerFlowOptions = (
     <Link
       key={story.slug}
       href={`/diario/${story.slug}`}
-      className="text-sm text-luxe-600 underline decoration-luxe-600"
+      className="text-sm text-bpPink underline decoration-bpPink"
     >
       Ler {story.title}
     </Link>
@@ -166,8 +166,8 @@ const getPageType = (path: string | null) => {
 
 const renderFlowContent = (flow: FlowOption) => (
   <div className="space-y-3">
-    <p className="text-sm text-noir-800">{flow.lead}</p>
-    <div className="space-y-2 text-sm text-noir-600">
+    <p className="text-sm text-bpBlackSoft">{flow.lead}</p>
+    <div className="space-y-2 text-sm text-bpGraphite/80">
       {flow.detail.map((item, index) => (
         <div key={`${flow.id}-detail-${index}`} className="leading-relaxed">
           {item}
@@ -179,7 +179,7 @@ const renderFlowContent = (flow: FlowOption) => (
         {flow.subtopics.map((topic) => (
           <span
             key={topic}
-            className="rounded-full border border-black/10 px-3 py-1 text-[10px] uppercase tracking-[0.3em] text-noir-500"
+            className="rounded-full border border-black/10 px-3 py-1 text-[10px] uppercase tracking-[0.3em] text-bpGraphite/70"
           >
             {topic}
           </span>
@@ -192,7 +192,7 @@ const renderFlowContent = (flow: FlowOption) => (
           <Link
             key={cta.href}
             href={cta.href}
-            className="rounded-full bg-luxe-600 px-3 py-2 text-[11px] font-semibold uppercase tracking-[0.3em] text-white"
+            className="rounded-full bg-bpPink px-3 py-2 text-[11px] font-semibold uppercase tracking-[0.3em] text-white"
           >
             {cta.label}
           </Link>
@@ -215,10 +215,10 @@ export const CuradoriaChat = ({ variant }: { variant: FlowVariant }) => {
       auto: true,
       content: (
         <div className="space-y-2">
-          <p className="text-sm text-noir-800">
+          <p className="text-sm text-bpBlackSoft">
             Posso te orientar sobre pedidos, produtos ou pr�ximas escolhas.
           </p>
-          <p className="text-[10px] uppercase tracking-[0.3em] text-noir-500">
+          <p className="text-[10px] uppercase tracking-[0.3em] text-bpGraphite/70">
             Orienta��o autom�tica � Conversa guiada
           </p>
         </div>
@@ -241,7 +241,7 @@ export const CuradoriaChat = ({ variant }: { variant: FlowVariant }) => {
     let isCurrent = true;
     const fetchStatus = async () => {
       try {
-        const supabase = getSupabaseBrowserClient();
+        const supabase = getSupabaseClient();
         const { data } = await supabase
           .from("carts")
           .select("status")
@@ -267,19 +267,19 @@ export const CuradoriaChat = ({ variant }: { variant: FlowVariant }) => {
         auto: true,
         content: (
           <div className="space-y-2">
-            <p className="text-sm text-noir-800">
+            <p className="text-sm text-bpBlackSoft">
               Notamos que seu carrinho ficou marcado como abandonado h� mais de 2 horas. Posso retomar a sele��o sempre que quiser.
             </p>
             <div className="flex flex-wrap gap-2">
               <Link
                 href="/carrinho"
-                className="rounded-full bg-luxe-600 px-3 py-2 text-[11px] font-semibold uppercase tracking-[0.3em] text-white"
+                className="rounded-full bg-bpPink px-3 py-2 text-[11px] font-semibold uppercase tracking-[0.3em] text-white"
               >
                 Retomar carrinho
               </Link>
               <Link
                 href="/checkout"
-                className="rounded-full bg-luxe-600 px-3 py-2 text-[11px] font-semibold uppercase tracking-[0.3em] text-white"
+                className="rounded-full bg-bpPink px-3 py-2 text-[11px] font-semibold uppercase tracking-[0.3em] text-white"
               >
                 Finalizar pedido
               </Link>
@@ -333,7 +333,7 @@ export const CuradoriaChat = ({ variant }: { variant: FlowVariant }) => {
     const userMessage: ChatMessage = {
       id: nextMessageId("user"),
       role: "user",
-      content: <p className="text-sm text-noir-900">{trimmed}</p>
+      content: <p className="text-sm text-bpBlackSoft">{trimmed}</p>
     };
     const autoReply: ChatMessage = {
       id: nextMessageId("auto"),
@@ -341,10 +341,10 @@ export const CuradoriaChat = ({ variant }: { variant: FlowVariant }) => {
       auto: true,
       content: (
         <div className="space-y-2">
-          <p className="text-sm text-noir-800">
+          <p className="text-sm text-bpBlackSoft">
             Recebi sua mensagem e mantenho o tom editorial enquanto preparo sugest�es alinhadas ao seu contexto.
           </p>
-          <p className="text-[10px] uppercase tracking-[0.3em] text-noir-500">Orienta��o autom�tica � Curadoria BelaPop</p>
+          <p className="text-[10px] uppercase tracking-[0.3em] text-bpGraphite/70">Orienta��o autom�tica � Curadoria BelaPop</p>
         </div>
       )
     };
@@ -363,17 +363,17 @@ export const CuradoriaChat = ({ variant }: { variant: FlowVariant }) => {
   return (
     <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end gap-3">
       {isOpen ? (
-        <div className="pointer-events-auto w-[320px] rounded-[32px] border border-[#F6D6E2] bg-white p-0 shadow-soft-luxe">
+        <div className="pointer-events-auto w-[320px] rounded-[32px] border border-[#F6D6E2] bg-white p-0 shadow-bpSoft">
           <div className="flex items-start justify-between rounded-[32px] bg-white p-5">
             <div className="space-y-1">
-              <p className="text-[10px] uppercase tracking-[0.4em] text-noir-500">Curadoria BelaPop</p>
-              <p className="text-lg font-display text-noir-950">Curadoria BelaPop Chat</p>
-              <p className="text-[11px] text-noir-500">Orienta��o autom�tica � Editorial premium</p>
+              <p className="text-[10px] uppercase tracking-[0.4em] text-bpGraphite/70">Curadoria BelaPop</p>
+              <p className="text-lg font-display text-bpBlack">Curadoria BelaPop Chat</p>
+              <p className="text-[11px] text-bpGraphite/70">Orienta��o autom�tica � Editorial premium</p>
             </div>
             <button
               type="button"
               onClick={() => setIsOpen(false)}
-              className="rounded-full border border-black/10 px-2 py-1 text-xs text-noir-500"
+              className="rounded-full border border-black/10 px-2 py-1 text-xs text-bpGraphite/70"
               aria-label="Fechar chat"
             >
               �
@@ -385,18 +385,18 @@ export const CuradoriaChat = ({ variant }: { variant: FlowVariant }) => {
                 <div
                   key={message.id}
                   className={`rounded-2xl border border-black/10 bg-white p-3 text-sm ${
-                    message.role === "user" ? "self-end text-noir-900" : "text-noir-700"
+                    message.role === "user" ? "self-end text-bpBlackSoft" : "text-bpGraphite"
                   }`}
                 >
                   {message.content}
                   {message.auto ? (
-                    <p className="mt-2 text-[10px] uppercase tracking-[0.3em] text-noir-500">Orienta��o autom�tica</p>
+                    <p className="mt-2 text-[10px] uppercase tracking-[0.3em] text-bpGraphite/70">Orienta��o autom�tica</p>
                   ) : null}
                 </div>
               ))}
             </div>
             <div className="space-y-2">
-              <p className="text-xs uppercase tracking-[0.3em] text-noir-500">Atalhos</p>
+              <p className="text-xs uppercase tracking-[0.3em] text-bpGraphite/70">Atalhos</p>
               <div className="grid grid-cols-2 gap-2">
                 {flowOptions.map((flow) => (
                   <button
@@ -405,7 +405,7 @@ export const CuradoriaChat = ({ variant }: { variant: FlowVariant }) => {
                     onClick={() => appendFlowMessage(flow)}
                     aria-pressed={activeFlowId === flow.id}
                     className={`rounded-full px-3 py-2 text-[11px] font-semibold uppercase tracking-[0.3em] text-white transition ${
-                      activeFlowId === flow.id ? "bg-noir-950" : "bg-luxe-600"
+                      activeFlowId === flow.id ? "bg-bpBlack" : "bg-bpPink"
                     }`}
                   >
                     {flow.label}
@@ -422,11 +422,11 @@ export const CuradoriaChat = ({ variant }: { variant: FlowVariant }) => {
                 rows={2}
                 value={inputValue}
                 onChange={(event) => setInputValue(event.target.value)}
-                className="w-full rounded-2xl border border-black/10 bg-white p-3 text-sm text-noir-900 focus:border-luxe-600 focus:outline-none"
+                className="w-full rounded-2xl border border-black/10 bg-white p-3 text-sm text-bpBlackSoft focus:border-bpPink focus:outline-none"
               />
               <button
                 type="submit"
-                className="w-full rounded-full bg-luxe-600 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.3em] text-white"
+                className="w-full rounded-full bg-bpPink px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.3em] text-white"
               >
                 Enviar
               </button>
@@ -435,25 +435,25 @@ export const CuradoriaChat = ({ variant }: { variant: FlowVariant }) => {
               <button
                 type="button"
                 onClick={handleHuman}
-                className="w-full rounded-full border border-black/10 bg-white px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.3em] text-noir-900"
+                className="w-full rounded-full border border-black/10 bg-white px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.3em] text-bpBlackSoft"
               >
                 Falar com atendimento
               </button>
-              <p className="mt-2 text-[10px] uppercase tracking-[0.3em] text-noir-500">
+              <p className="mt-2 text-[10px] uppercase tracking-[0.3em] text-bpGraphite/70">
                 Atendimento humano dispon�vel para d�vidas al�m da orienta��o autom�tica.
               </p>
             </div>
-            <div className="text-[10px] uppercase tracking-[0.2em] text-noir-500">{contextLabel}</div>
+            <div className="text-[10px] uppercase tracking-[0.2em] text-bpGraphite/70">{contextLabel}</div>
           </div>
         </div>
       ) : null}
       <button
         type="button"
         onClick={() => setIsOpen((prev) => !prev)}
-        className="pointer-events-auto flex items-center justify-center rounded-full border border-black/10 bg-white p-3 shadow-card-luxe"
+        className="pointer-events-auto flex items-center justify-center rounded-full border border-black/10 bg-white p-3 shadow-bpMicro"
         aria-label="Abrir chat Curadoria BelaPop"
       >
-        <span className="text-xs font-semibold uppercase tracking-[0.3em] text-noir-950">CB</span>
+        <span className="text-xs font-semibold uppercase tracking-[0.3em] text-bpBlack">CB</span>
       </button>
     </div>
   );

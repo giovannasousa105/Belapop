@@ -70,8 +70,8 @@ export const AdminCartTabs = () => {
             onClick={() => setActiveTab(status)}
             className={`rounded-2xl border px-4 py-2 text-sm transition ${
               activeTab === status
-                ? "border-noir-900 bg-noir-900/10 text-noir-900"
-                : "border-[#F6D6E2] text-noir-600 hover:border-noir-900"
+                ? "border-bpBlackSoft bg-bpBlackSoft/10 text-bpBlackSoft"
+                : "border-[#F6D6E2] text-bpGraphite/80 hover:border-bpBlackSoft"
             }`}
           >
             {statusLabels[status]} ({counts[status] ?? 0})
@@ -80,19 +80,19 @@ export const AdminCartTabs = () => {
       </div>
       {error && <p className="text-sm text-red-600">{error}</p>}
       {loading ? (
-        <p className="text-sm text-noir-500">Carregando...</p>
+        <p className="text-sm text-bpGraphite/70">Carregando...</p>
       ) : (
         <div className="space-y-3">
           {activeItems.map((cart) => (
             <details
               key={cart.id}
-              className="group rounded-2xl border border-[#F6D6E2] p-4 transition hover:border-noir-900"
+              className="group rounded-2xl border border-[#F6D6E2] p-4 transition hover:border-bpBlackSoft"
             >
-              <summary className="flex items-center justify-between text-sm font-semibold text-noir-900">
+              <summary className="flex items-center justify-between text-sm font-semibold text-bpBlackSoft">
                 <span>Cart {cart.id}</span>
                 <span>{formatPrice(cart.subtotal_cents)}</span>
               </summary>
-              <div className="mt-3 text-xs text-noir-600">
+              <div className="mt-3 text-xs text-bpGraphite/80">
                 <p>Status: {cart.status}</p>
                 <p>
                   Atualizado em{" "}
@@ -115,7 +115,7 @@ export const AdminCartTabs = () => {
             </details>
           ))}
           {activeItems.length === 0 && (
-            <p className="text-sm text-noir-600">Nenhum carrinho nesta categoria.</p>
+            <p className="text-sm text-bpGraphite/80">Nenhum carrinho nesta categoria.</p>
           )}
         </div>
       )}

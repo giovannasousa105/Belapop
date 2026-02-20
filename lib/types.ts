@@ -10,7 +10,17 @@ export type ProductStatus = "draft" | "review" | "published" | "paused";
 
 export type ProductImageTone = "rose" | "noir" | "blush" | "plum";
 
-export type Product = {
+export type ProductCurationFields = {
+  brand?: string | null;
+  currency?: string | null;
+  badges?: string[] | null;
+  ritual?: string | null;
+  texture?: string | null;
+  sensation?: string[] | null;
+  result?: string[] | null;
+};
+
+export type Product = ProductCurationFields & {
   id: string;
   name: string;
   price: number;
@@ -31,8 +41,30 @@ export type Product = {
   stockQuantity?: number;
   curated?: boolean;
   curationFeedback?: string;
-  currency?: string;
   imageUrls?: string[];
+};
+
+// Public catalog shape used by App Router pages and Supabase queries.
+export type PublicProduct = ProductCurationFields & {
+  id: string;
+  slug: string;
+  title: string;
+  price_cents: number;
+  hero_image_url?: string | null;
+};
+
+export type Article = {
+  id: string;
+  slug: string;
+  title: string;
+  category?: string | null;
+  excerpt?: string | null;
+  cover_image_url?: string | null;
+  content_md?: string | null;
+  reading_time_minutes?: number | null;
+  related_product_slugs?: string[] | null;
+  status?: "published" | "draft" | null;
+  published_at?: string | null;
 };
 
 export type Seller = {
@@ -125,7 +157,30 @@ export type SellerShipment = ShippingOption & {
 
 export type UserRole = "customer" | "seller" | "admin";
 
-export type SellerStatus = "pending" | "active" | "paused" | "rejected";
+export type SellerStatus =
+  | "draft"
+  | "pending"
+  | "approved"
+  | "active"
+  | "paused"
+  | "rejected";
+
+export type PartnerApplicationStatus = "pending" | "approved" | "rejected";
+
+export type PartnerApplication = {
+  id: string;
+  userId: string;
+  brandName: string;
+  cnpj?: string | null;
+  contactName: string;
+  phone?: string | null;
+  instagram?: string | null;
+  catalogLink?: string | null;
+  status: PartnerApplicationStatus;
+  notesAdmin?: string | null;
+  createdAt?: string;
+  updatedAt?: string;
+};
 
 export type SellerProfile = {
   sellerId?: string;

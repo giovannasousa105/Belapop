@@ -48,8 +48,8 @@ export const AccountLayoutShell = ({ children }: { children: React.ReactNode }) 
 
   if (!ready || !user) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-white text-noir-500">
-        <p className="text-sm uppercase tracking-[0.3em] text-noir-500">Carregando...</p>
+      <div className="flex min-h-screen items-center justify-center bg-white text-bpGraphite/70">
+        <p className="text-sm uppercase tracking-[0.3em] text-bpGraphite/70">Carregando...</p>
       </div>
     );
   }
@@ -58,7 +58,7 @@ export const AccountLayoutShell = ({ children }: { children: React.ReactNode }) 
     <div className="min-h-screen bg-white py-10">
       <div className="mx-auto grid max-w-6xl gap-8 px-6 lg:grid-cols-[240px_1fr]">
         <aside className="space-y-4 rounded-3xl border border-black/10 bg-white p-6 shadow-sm lg:sticky lg:top-10 lg:h-fit">
-          <p className="text-xs uppercase tracking-[0.4em] text-noir-500">
+          <p className="text-xs uppercase tracking-[0.4em] text-bpGraphite/70">
             Minha Conta
           </p>
           <nav className="space-y-1">
@@ -71,8 +71,8 @@ export const AccountLayoutShell = ({ children }: { children: React.ReactNode }) 
                   href={item.href}
                   className={`flex items-center border-l-2 px-3 py-2 text-sm font-medium transition ${
                     isActive
-                      ? "border-luxe-600 text-noir-950"
-                      : "border-transparent text-noir-600 hover:text-noir-900"
+                      ? "border-bpPink text-bpBlack"
+                      : "border-transparent text-bpGraphite/80 hover:text-bpBlackSoft"
                   }`}
                 >
                   <span>{item.label}</span>
@@ -80,10 +80,10 @@ export const AccountLayoutShell = ({ children }: { children: React.ReactNode }) 
               );
             })}
           </nav>
-          <div className="mt-4 border-t border-black/5 pt-4 text-sm text-noir-600">
+          <div className="mt-4 border-t border-black/5 pt-4 text-sm text-bpGraphite/80">
             <button
               onClick={handleLogout}
-              className="w-full text-left text-sm font-medium text-noir-600 transition hover:text-noir-900"
+              className="w-full text-left text-sm font-medium text-bpGraphite/80 transition hover:text-bpBlackSoft"
             >
               Sair
             </button>

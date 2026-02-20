@@ -1,4 +1,5 @@
 export type AcsbConfig = {
+  accountId?: string;
   language: string;
   position: "left" | "right";
   leadColor: string;
@@ -20,8 +21,13 @@ export const getAcsbConfig = (): AcsbConfig => {
     | "left"
     | "right");
   const leadColor = getEnv("NEXT_PUBLIC_ACCESSIBILITY_COLOR", "#111827");
+  const accountId =
+    process.env.NEXT_PUBLIC_ACCESSIBILITY_ACCOUNT_ID ||
+    process.env.NEXT_PUBLIC_ACCESSIBE_ACCOUNT_ID ||
+    "";
 
   return {
+    accountId: accountId || undefined,
     language,
     position,
     leadColor,

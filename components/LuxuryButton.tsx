@@ -17,17 +17,17 @@ type LuxuryButtonProps = {
 };
 
 const base =
-  "inline-flex items-center justify-center rounded-2xl border border-transparent font-medium transition-all focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-luxe-600/70 disabled:opacity-60 disabled:pointer-events-none";
+  "inline-flex items-center justify-center rounded-2xl border border-transparent font-medium transition-all focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-bpPink/70 disabled:opacity-60 disabled:pointer-events-none";
 
 const variants: Record<NonNullable<LuxuryButtonProps["variant"]>, string> = {
   primary:
     "bg-[#B80F5A] text-white border border-[#B80F5A] shadow-[0_10px_25px_rgba(184,15,90,0.25)] hover:bg-[#F06292] hover:shadow-[0_15px_30px_rgba(184,15,90,0.35)]",
   secondary:
-    "bg-white border border-[#F6D6E2] text-noir-950 shadow-sm hover:bg-[#F6D6E2]/60",
+    "bg-white border border-[#F6D6E2] text-bpBlack shadow-sm hover:bg-[#F6D6E2]/60",
   outline:
-    "border-blush-100/30 text-blush-50 hover:border-luxe-600/70 hover:text-blush-50",
+    "border-bpPinkSoft/30 text-bpOffWhite hover:border-bpPink/70 hover:text-bpOffWhite",
   ghost:
-    "border-white/10 text-blush-100 hover:border-luxe-600/60 hover:text-blush-50"
+    "border-white/10 text-bpPinkSoft hover:border-bpPink/60 hover:text-bpOffWhite"
 };
 
 const retailVariants: Record<NonNullable<LuxuryButtonProps["variant"]>, string> =
@@ -35,11 +35,11 @@ const retailVariants: Record<NonNullable<LuxuryButtonProps["variant"]>, string> 
     primary:
       "bg-[#B80F5A] text-white shadow-[0_10px_25px_rgba(184,15,90,0.25)] hover:bg-[#F06292]",
     secondary:
-      "bg-white border border-[#F6D6E2] text-noir-950 hover:bg-[#F6D6E2]/60",
+      "bg-white border border-[#F6D6E2] text-bpBlack hover:bg-[#F6D6E2]/60",
     outline:
-      "bg-white border-slate-200 text-noir-900 hover:bg-slate-50 hover:shadow-sm",
+      "bg-white border-slate-200 text-bpBlackSoft hover:bg-slate-50 hover:shadow-sm",
     ghost:
-      "bg-white/70 border-slate-200 text-noir-700 hover:bg-white hover:shadow-sm"
+      "bg-white/70 border-slate-200 text-bpGraphite hover:bg-white hover:shadow-sm"
   };
 
 const sizes: Record<NonNullable<LuxuryButtonProps["size"]>, string> = {

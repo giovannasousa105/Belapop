@@ -1,4 +1,4 @@
-import { getSupabaseBrowserClient } from "@/lib/supabaseBrowser";
+import { getSupabaseClient } from "@/lib/supabase/client";
 import { Product } from "@/lib/types";
 
 const selectFields =
@@ -81,7 +81,7 @@ const fetchSeller = async (path: string, init: RequestInit) => {
 
 export const productRepository = {
   getAll: async (): Promise<Product[]> => {
-    const supabase = getSupabaseBrowserClient();
+    const supabase = getSupabaseClient();
     const { data, error } = await supabase
       .from("products")
       .select(selectFields)
@@ -93,7 +93,7 @@ export const productRepository = {
     return (data ?? []).map(mapProduct);
   },
   getPublished: async (): Promise<Product[]> => {
-    const supabase = getSupabaseBrowserClient();
+    const supabase = getSupabaseClient();
     const { data, error } = await supabase
       .from("products")
       .select(`${selectFields}, sellers(status)`)
@@ -111,7 +111,7 @@ export const productRepository = {
       .map(mapProduct);
   },
   getById: async (id: string): Promise<Product | null> => {
-    const supabase = getSupabaseBrowserClient();
+    const supabase = getSupabaseClient();
     const { data, error } = await supabase
       .from("products")
       .select(selectFields)
@@ -124,7 +124,7 @@ export const productRepository = {
     return data ? mapProduct(data) : null;
   },
   upsert: async (product: Product) => {
-    const supabase = getSupabaseBrowserClient();
+    const supabase = getSupabaseClient();
     const { error } = await supabase.from("products").upsert(toRow(product));
     if (error) {
       console.error("[products] upsert failed:", error);
@@ -133,7 +133,7 @@ export const productRepository = {
     return { ok: true };
   },
   remove: async (id: string) => {
-    const supabase = getSupabaseBrowserClient();
+    const supabase = getSupabaseClient();
     const { error } = await supabase.from("products").delete().eq("id", id);
     if (error) {
       console.error("[products] remove failed:", error);

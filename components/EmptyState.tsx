@@ -21,13 +21,13 @@ export function EmptyState({
 }: Props) {
   const copy = description ?? body;
   return (
-    <div className="rounded-2xl border border-black/10 bg-noir-50 p-6 text-center text-sm text-noir-600">
-      <p className="font-semibold text-noir-900">{title}</p>
+    <div className="rounded-2xl border border-black/10 bg-bpOffWhite p-6 text-center text-sm text-bpGraphite/80">
+      <p className="font-semibold text-bpBlackSoft">{title}</p>
       {copy && <p className="mt-1">{copy}</p>}
       {ctaLabel && ctaHref && (
         <a
           href={ctaHref}
-          className="mt-3 inline-block rounded-full border border-noir-200 px-4 py-2 text-xs uppercase tracking-[0.25em] text-noir-800 hover:border-noir-400"
+          className="mt-3 inline-block rounded-full border border-bpBlack/20 px-4 py-2 text-xs uppercase tracking-[0.25em] text-bpBlackSoft hover:border-bpGraphite/50"
         >
           {ctaLabel}
         </a>
@@ -35,7 +35,7 @@ export function EmptyState({
       {actionLabel && onAction && (
         <button
           onClick={onAction}
-          className="mt-3 rounded-full border border-noir-200 px-4 py-2 text-xs uppercase tracking-[0.25em] text-noir-800 hover:border-noir-400"
+          className="mt-3 rounded-full border border-bpBlack/20 px-4 py-2 text-xs uppercase tracking-[0.25em] text-bpBlackSoft hover:border-bpGraphite/50"
         >
           {actionLabel}
         </button>

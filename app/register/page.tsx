@@ -31,8 +31,8 @@ export default function RegisterPage() {
         onSubmit={handleSubmit}
         className="glass-panel w-full rounded-3xl p-8"
       >
-        <h1 className="font-display text-3xl text-blush-50">Criar conta</h1>
-        <p className="mt-2 text-sm text-blush-100/70">
+        <h1 className="font-display text-3xl text-bpOffWhite">Criar conta</h1>
+        <p className="mt-2 text-sm text-bpPinkSoft/70">
           Cadastre-se para acompanhar pedidos e wishlist.
         </p>
         <div className="mt-6 flex flex-col gap-4">
@@ -59,22 +59,22 @@ export default function RegisterPage() {
           />
         </div>
         {message ? (
-          <p className="mt-4 text-xs text-luxe-600">{message}</p>
+          <p className="mt-4 text-xs text-bpPink">{message}</p>
         ) : null}
         <div className="mt-6">
           <LuxuryButton size="lg" className="w-full" type="submit">
             Criar cadastro
           </LuxuryButton>
         </div>
-        <p className="mt-6 text-center text-xs text-blush-100/70">
+        <p className="mt-6 text-center text-xs text-bpPinkSoft/70">
           Já tem conta?{" "}
-          <Link href="/login" className="text-blush-50">
+          <Link href="/login" className="text-bpOffWhite">
             Entrar
           </Link>
         </p>
-        <p className="mt-3 text-center text-xs text-blush-100/70">
+        <p className="mt-3 text-center text-xs text-bpPinkSoft/70">
           Cadastro de lojista?{" "}
-          <Link href="/seller/register" className="text-blush-50">
+          <Link href="/seller/register" className="text-bpOffWhite">
             Ir para o portal
           </Link>
         </p>

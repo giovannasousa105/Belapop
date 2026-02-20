@@ -89,7 +89,7 @@ export const OrderTimeline = ({ history = [], currentStatus }: OrderTimelineProp
 
   return (
     <div className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
-      <p className="text-xs uppercase tracking-[0.3em] text-noir-500">
+      <p className="text-xs uppercase tracking-[0.3em] text-bpGraphite/70">
         Linha do tempo
       </p>
       <div className="mt-6 flex flex-col gap-6 md:flex-row md:items-start md:gap-4">
@@ -104,15 +104,15 @@ export const OrderTimeline = ({ history = [], currentStatus }: OrderTimelineProp
               <div
                 className={`mt-1 h-3 w-3 rounded-full border ${
                   isComplete
-                    ? "border-luxe-600 bg-luxe-600"
+                    ? "border-bpPink bg-bpPink"
                     : "border-black/20 bg-white"
                 }`}
               />
               <div className="space-y-1">
-                <p className="text-xs uppercase tracking-[0.25em] text-noir-600">
+                <p className="text-xs uppercase tracking-[0.25em] text-bpGraphite/80">
                   {step.label}
                 </p>
-                <p className="text-xs text-noir-500">
+                <p className="text-xs text-bpGraphite/70">
                   {date ? formatDate(date) : "Em atualização"}
                 </p>
               </div>

@@ -1,8 +1,7 @@
 ﻿"use client";
 
-import Image from "next/image";
 import Link from "next/link";
-import { Heart, ShoppingBag, User } from "lucide-react";
+import { Heart, ShoppingCart, User } from "lucide-react";
 import { usePathname } from "next/navigation";
 
 import { PromoBar } from "@/components/PromoBar";
@@ -24,14 +23,16 @@ export const Navbar = () => {
   const { user, ready: authReady } = useAuth();
   const { itemCount, ready: cartReady } = useCart();
   const pathname = usePathname();
-  const logoUrl = process.env.NEXT_PUBLIC_LOGO_URL;
   const isRetail =
     pathname === "/" ||
     pathname === "/catalogo" ||
     pathname === "/products" ||
     pathname.startsWith("/produto/");
-  const actionTone = isRetail ? "text-noir-700" : "text-blush-100/80";
-  const actionHover = isRetail ? "hover:text-luxe-600" : "hover:text-blush-50";
+  const logoUrl = isRetail
+    ? process.env.NEXT_PUBLIC_LOGO_DARK_URL || "/logo-dark.svg"
+    : process.env.NEXT_PUBLIC_LOGO_URL || "/logo.svg";
+  const actionTone = isRetail ? "text-bpGraphite" : "text-bpPinkSoft/80";
+  const actionHover = isRetail ? "hover:text-bpPink" : "hover:text-bpOffWhite";
 
   const merchantLink = authReady
     ? user
@@ -45,8 +46,8 @@ export const Navbar = () => {
     <header
       className={`sticky top-0 z-50 w-full border-b backdrop-blur ${
         isRetail
-          ? "border-black/10 bg-white text-noir-900 shadow-sm"
-          : "border-white/10 bg-noir-950/95 text-blush-50"
+          ? "border-black/10 bg-white text-bpBlackSoft shadow-sm"
+          : "border-white/10 bg-bpBlack/95 text-bpOffWhite"
       }`}
     >
       <PromoBar tone="dark" />
@@ -55,20 +56,18 @@ export const Navbar = () => {
           <Link
             href="/"
             className={`font-display text-lg tracking-[0.3em] transition ${
-              isRetail ? "text-noir-950" : "text-blush-50"
+              isRetail ? "text-bpBlack" : "text-bpOffWhite"
             }`}
           >
             {logoUrl ? (
-              <Image
+              <img
                 src={logoUrl}
                 alt="BelaPop"
-                width={140}
-                height={36}
-                className="h-9 w-auto"
-                priority
+                className="h-12 w-auto md:h-14"
+                loading="eager"
               />
             ) : (
-              <span className="inline-flex items-center text-2xl font-semibold text-noir-950">
+              <span className="inline-flex items-center text-2xl font-semibold text-bpBlack">
                 BelaPop
               </span>
             )}
@@ -82,9 +81,7 @@ export const Navbar = () => {
             <Link
               href={
                 authReady && user
-                  ? user.role === "admin"
-                    ? "/admin"
-                    : user.role === "seller"
+                  ? user.role === "seller"
                     ? "/seller/dashboard"
                     : "/minha-conta"
                   : "/login"
@@ -105,11 +102,13 @@ export const Navbar = () => {
               href="/carrinho"
               className={`relative flex items-center gap-2 ${actionTone} ${actionHover}`}
             >
-              <ShoppingBag size={16} />
-              Sacola
-              <span className="absolute -right-3 -top-2 flex h-5 min-w-[20px] items-center justify-center rounded-full bg-luxe-600 px-1 text-[10px] font-semibold text-blush-50">
-                {cartReady ? itemCount : 0}
-              </span>
+              <ShoppingCart size={16} />
+              Carrinho
+              {cartReady && itemCount > 0 ? (
+                <span className="absolute -right-3 -top-2 flex h-5 min-w-[20px] items-center justify-center rounded-full bg-bpPink px-1 text-[10px] font-semibold text-bpOffWhite">
+                  {itemCount}
+                </span>
+              ) : null}
             </Link>
           </div>
         </div>
@@ -117,8 +116,8 @@ export const Navbar = () => {
         <nav
           className={`hidden flex-wrap items-center gap-4 border-t pt-4 text-xs uppercase tracking-[0.3em] md:flex ${
             isRetail
-              ? "border-black/10 text-noir-600"
-              : "border-white/10 text-blush-100/70"
+              ? "border-black/10 text-bpGraphite/80"
+              : "border-white/10 text-bpPinkSoft/70"
           }`}
         >
           {categories.map((category) => (
@@ -126,8 +125,8 @@ export const Navbar = () => {
               key={category}
               href="/products"
               className={`${
-                isRetail ? "text-noir-600 hover:text-luxe-600" : "text-blush-100/70 hover:text-blush-50"
-              } ${category === "Ofertas" ? "text-luxe-600" : ""}`}
+                isRetail ? "text-bpGraphite/80 hover:text-bpPink" : "text-bpPinkSoft/70 hover:text-bpOffWhite"
+              } ${category === "Ofertas" ? "text-bpPink" : ""}`}
             >
               {category}
             </Link>
@@ -135,7 +134,7 @@ export const Navbar = () => {
           <Link
             href="/diario"
             className={`${
-              isRetail ? "text-noir-600 hover:text-luxe-600" : "text-blush-100/70 hover:text-blush-50"
+              isRetail ? "text-bpGraphite/80 hover:text-bpPink" : "text-bpPinkSoft/70 hover:text-bpOffWhite"
             }`}
           >
             Diário
@@ -143,7 +142,7 @@ export const Navbar = () => {
           <Link
             href={merchantLink}
             className={`${
-              isRetail ? "text-noir-600 hover:text-luxe-600" : "text-blush-100/70 hover:text-blush-50"
+              isRetail ? "text-bpGraphite/80 hover:text-bpPink" : "text-bpPinkSoft/70 hover:text-bpOffWhite"
             }`}
           >
             Área do Lojista
@@ -153,10 +152,10 @@ export const Navbar = () => {
         {/* Navegação mobile simplificada */}
         <div className="md:hidden">
           <div className="flex items-center justify-between pb-2">
-            <p className="text-[10px] uppercase tracking-[0.35em] text-noir-500">Explorar</p>
+            <p className="text-[10px] uppercase tracking-[0.35em] text-bpGraphite/70">Explorar</p>
             <Link
               href="/products"
-              className="text-[11px] uppercase tracking-[0.3em] text-luxe-600"
+              className="text-[11px] uppercase tracking-[0.3em] text-bpPink"
             >
               Ver tudo
             </Link>
@@ -172,7 +171,7 @@ export const Navbar = () => {
                     ? merchantLink
                     : "/products"
                 }
-                className="whitespace-nowrap rounded-full border border-black/10 bg-white px-4 py-2 text-[11px] font-semibold text-noir-700 shadow-sm"
+                className="whitespace-nowrap rounded-full border border-black/10 bg-white px-4 py-2 text-[11px] font-semibold text-bpGraphite shadow-sm"
               >
                 {category}
               </Link>

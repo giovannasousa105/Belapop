@@ -74,11 +74,11 @@ function PaymentForm({
   };
 
   return (
-    <div className="space-y-3 rounded-xl border border-noir-200 bg-white p-4 shadow-sm">
-      <p className="text-xs uppercase tracking-[0.3em] text-noir-500">
+    <div className="space-y-3 rounded-xl border border-bpBlack/20 bg-white p-4 shadow-sm">
+      <p className="text-xs uppercase tracking-[0.3em] text-bpGraphite/70">
         Pagamento Stripe
       </p>
-      <p className="text-sm text-noir-700">
+      <p className="text-sm text-bpGraphite">
         Total {(amountCents / 100).toFixed(2)} {currency.toUpperCase()}
       </p>
       <PaymentElement />

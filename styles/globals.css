@@ -3,7 +3,22 @@
 @tailwind utilities;
 
 :root {
-  color-scheme: dark;
+  color-scheme: light;
+  --bp-black: #0f0f10;
+  --bp-black-soft: #141416;
+  --bp-pink: #c2185b;
+  --bp-pink-soft: #f4b6c2;
+  --bp-offwhite: #faf7f8;
+  --bp-off-white: #faf7f8;
+  --bp-graphite: #2b2b2e;
+  --bp-radius-sm: 10px;
+  --bp-radius-md: 16px;
+  --bp-radius-lg: 22px;
+  --bp-shadow-soft: 0 10px 30px rgba(15, 15, 16, 0.1);
+  --bp-shadow-micro: 0 6px 18px rgba(15, 15, 16, 0.08);
+  --bp-section-y: 80px;
+  --bp-section-y-mobile: 48px;
+  --bp-container-max: 1240px;
 }
 
 html,
@@ -19,25 +34,25 @@ body {
 }
 
 body {
-  @apply bg-noir-950 text-blush-50 antialiased;
+  @apply bg-bpOffWhite text-bpGraphite antialiased;
   min-height: 100vh;
-  background-image: radial-gradient(circle at 20% 0%, rgba(246, 214, 226, 0.08), transparent 40%),
-    radial-gradient(circle at 80% 10%, rgba(184, 15, 90, 0.08), transparent 35%);
+  background-image: radial-gradient(circle at 25% 0%, rgba(244, 182, 194, 0.18), transparent 44%),
+    radial-gradient(circle at 85% 12%, rgba(194, 24, 91, 0.06), transparent 36%);
   background-attachment: fixed;
 }
 
 a {
-  @apply text-blush-50;
+  @apply text-bpPink;
 }
 
 input,
 select,
 textarea {
-  @apply bg-noir-900 border border-white/10 text-blush-50 placeholder:text-blush-100/50;
+  @apply border border-black/10 bg-white text-bpGraphite placeholder:text-bpGraphite/60;
 }
 
 .lux-outline {
-  outline: 1px solid rgba(246, 214, 226, 0.25);
+  outline: 1px solid rgba(194, 24, 91, 0.18);
 }
 
 .glow-hover {
@@ -45,14 +60,14 @@ textarea {
 }
 
 .glow-hover:hover {
-  box-shadow: 0 20px 40px -30px rgba(184, 15, 90, 0.55);
+  box-shadow: var(--bp-shadow-soft);
   transform: translateY(-4px);
 }
 
 .glass-panel {
-  background: rgba(14, 14, 20, 0.75);
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(246, 214, 226, 0.12);
+  background: rgba(250, 247, 248, 0.84);
+  backdrop-filter: blur(14px);
+  border: 1px solid rgba(194, 24, 91, 0.14);
 }
 
 .editorial-line {
@@ -66,7 +81,7 @@ textarea {
   left: 0;
   width: 60px;
   height: 1px;
-  background: rgba(246, 214, 226, 0.4);
+  background: rgba(194, 24, 91, 0.34);
 }
 
 .line-clamp-2 {
@@ -89,10 +104,21 @@ textarea {
 }
 
 ::-webkit-scrollbar-track {
-  background: rgba(14, 14, 20, 0.4);
+  background: rgba(20, 20, 22, 0.08);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(184, 15, 90, 0.5);
+  background: rgba(194, 24, 91, 0.5);
   border-radius: 999px;
+}
+
+/* Hide vendor floating launcher to avoid overlap with WhatsApp button. */
+#acsb-trigger,
+.acsb-trigger,
+#acsb-accessibility-trigger,
+[data-acsb-trigger],
+[data-acsb="trigger"] {
+  display: none !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
 }

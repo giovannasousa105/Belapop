@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useState, type FormEvent } from "react";
 
 import { LuxuryButton } from "@/components/LuxuryButton";
 import { useAuth } from "@/lib/AuthContext";
@@ -14,7 +14,7 @@ export default function SellerLoginPage() {
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState<string | null>(null);
 
-  const handleSubmit = async (event: React.FormEvent) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const result = await login(email, password, "seller");
     if (!result.ok) {
@@ -25,16 +25,17 @@ export default function SellerLoginPage() {
   };
 
   return (
-    <div className="mx-auto flex min-h-[70vh] w-full max-w-md items-center px-6 py-16">
+    <div className="bg-bpOffWhite">
+      <div className="mx-auto flex min-h-[70vh] w-full max-w-md items-center px-6 py-16">
       <form
         onSubmit={handleSubmit}
-        className="glass-panel w-full rounded-3xl p-8"
+        className="w-full rounded-bpLg border border-bpPink/15 bg-white p-8 shadow-bpMicro"
       >
-        <h1 className="font-display text-3xl text-blush-50">
+        <h1 className="font-display text-3xl text-bpBlack">
           Portal do Lojista
         </h1>
-        <p className="mt-2 text-sm text-blush-100/70">
-          Acesse seu painel editorial de produtos.
+        <p className="mt-2 text-sm text-bpGraphite/80">
+          Acesse sua operacao editorial de produtos.
         </p>
         <div className="mt-6 flex flex-col gap-4">
           <input
@@ -42,31 +43,32 @@ export default function SellerLoginPage() {
             placeholder="E-mail"
             value={email}
             onChange={(event) => setEmail(event.target.value)}
-            className="rounded-2xl border border-white/10 px-4 py-3 text-sm"
+            className="rounded-2xl border border-black/10 bg-white px-4 py-3 text-sm text-bpBlack outline-none focus:border-bpPink"
           />
           <input
             type="password"
             placeholder="Senha"
             value={password}
             onChange={(event) => setPassword(event.target.value)}
-            className="rounded-2xl border border-white/10 px-4 py-3 text-sm"
+            className="rounded-2xl border border-black/10 bg-white px-4 py-3 text-sm text-bpBlack outline-none focus:border-bpPink"
           />
         </div>
         {message ? (
-          <p className="mt-4 text-xs text-luxe-600">{message}</p>
+          <p className="mt-4 text-xs text-bpPink">{message}</p>
         ) : null}
         <div className="mt-6">
           <LuxuryButton size="lg" className="w-full" type="submit">
             Entrar no painel
           </LuxuryButton>
         </div>
-        <p className="mt-6 text-center text-xs text-blush-100/70">
-          Ainda não tem cadastro?{" "}
-          <Link href="/seller/register" className="text-blush-50">
+        <p className="mt-6 text-center text-xs text-bpGraphite/75">
+          Ainda nao tem cadastro?{" "}
+          <Link href="/seller/apply" className="text-bpPink">
             Criar conta de lojista
           </Link>
         </p>
       </form>
+      </div>
     </div>
   );
 }

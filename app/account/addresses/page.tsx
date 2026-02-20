@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 
 import { PageHeading } from "@/components/PageHeading";
 import { useAuth } from "@/lib/AuthContext";
-import { getSupabaseBrowserClient } from "@/lib/supabaseBrowser";
+import { getSupabaseClient } from "@/lib/supabase/client";
 
 type AddressRow = {
   id: string;
@@ -37,7 +37,7 @@ export default function AccountAddressesPage() {
   useEffect(() => {
     if (!ready || !user) return;
     let active = true;
-    const supabase = getSupabaseBrowserClient();
+    const supabase = getSupabaseClient();
     setLoading(true);
     const load = async () => {
       const { data } = await supabase
@@ -62,7 +62,7 @@ export default function AccountAddressesPage() {
   const handleCreate = async (event: React.FormEvent) => {
     event.preventDefault();
     if (!user) return;
-    const supabase = getSupabaseBrowserClient();
+    const supabase = getSupabaseClient();
     const payload = {
       user_id: user.id,
       label: form.label || "Principal",
@@ -102,7 +102,7 @@ export default function AccountAddressesPage() {
       />
 
       <div className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
-        <p className="text-xs uppercase tracking-[0.3em] text-noir-500">Novo endereço</p>
+        <p className="text-xs uppercase tracking-[0.3em] text-bpGraphite/70">Novo endereço</p>
         <form onSubmit={handleCreate} className="mt-4 grid gap-3 md:grid-cols-2">
           <input
             value={form.label}
@@ -154,7 +154,7 @@ export default function AccountAddressesPage() {
           />
           <button
             type="submit"
-            className="rounded-full bg-luxe-600 px-5 py-2 text-xs uppercase tracking-[0.3em] text-white shadow-soft-luxe"
+            className="rounded-full bg-bpPink px-5 py-2 text-xs uppercase tracking-[0.3em] text-white shadow-bpSoft"
           >
             Salvar endereço
           </button>
@@ -162,27 +162,27 @@ export default function AccountAddressesPage() {
       </div>
 
       <div className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
-        <p className="text-xs uppercase tracking-[0.3em] text-noir-500">Endereços salvos</p>
+        <p className="text-xs uppercase tracking-[0.3em] text-bpGraphite/70">Endereços salvos</p>
         {loading ? (
-          <p className="mt-4 text-sm text-noir-500">Carregando...</p>
+          <p className="mt-4 text-sm text-bpGraphite/70">Carregando...</p>
         ) : rows.length === 0 ? (
-          <p className="mt-4 text-sm text-noir-600">Nenhum endereço cadastrado.</p>
+          <p className="mt-4 text-sm text-bpGraphite/80">Nenhum endereço cadastrado.</p>
         ) : (
           <div className="mt-4 space-y-3">
             {rows.map((row) => (
               <div key={row.id} className="rounded-2xl border border-black/10 p-4 text-sm">
                 <div className="flex items-center justify-between">
-                  <p className="font-semibold text-noir-900">{row.label ?? "Endereço"}</p>
+                  <p className="font-semibold text-bpBlackSoft">{row.label ?? "Endereço"}</p>
                   {row.is_default ? (
-                    <span className="text-[10px] uppercase tracking-[0.3em] text-luxe-600">
+                    <span className="text-[10px] uppercase tracking-[0.3em] text-bpPink">
                       Principal
                     </span>
                   ) : null}
                 </div>
-                <p className="text-sm text-noir-600">
+                <p className="text-sm text-bpGraphite/80">
                   {row.street}, {row.number} • {row.city}/{row.state}
                 </p>
-                <p className="text-xs text-noir-500">
+                <p className="text-xs text-bpGraphite/70">
                   CEP {row.zip} {row.complement ? `• ${row.complement}` : ""}
                 </p>
               </div>

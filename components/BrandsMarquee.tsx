@@ -52,7 +52,7 @@ export function BrandsMarquee() {
           {items.map((brand, index) => (
             <div
               key={`${brand.name}-${index}`}
-              className="min-w-[180px] md:min-w-[220px] rounded-2xl border border-black/5 bg-white shadow-md shadow-black/5 px-6 py-4 flex items-center justify-center text-center text-sm font-semibold text-noir-800"
+              className="min-w-[180px] md:min-w-[220px] rounded-2xl border border-black/5 bg-white shadow-md shadow-black/5 px-6 py-4 flex items-center justify-center text-center text-sm font-semibold text-bpBlackSoft"
             >
               {brand.name}
             </div>

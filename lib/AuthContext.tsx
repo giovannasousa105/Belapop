@@ -9,7 +9,7 @@ import React, {
   useState
 } from "react";
 
-import { getSupabaseBrowserClient } from "@/lib/supabaseBrowser";
+import { getSupabaseClient } from "@/lib/supabase/client";
 import { SellerProfile, User, UserRole } from "@/lib/types";
 
 type AuthContextValue = {
@@ -21,10 +21,12 @@ type AuthContextValue = {
     role?: UserRole
   ) => Promise<{ ok: boolean; message?: string }>;
   loginWithMagicLink: (
-    email: string
+    email: string,
+    redirectTo?: string
   ) => Promise<{ ok: boolean; message?: string }>;
   loginWithOAuth: (
-    provider: "google" | "facebook"
+    provider: "google" | "facebook",
+    redirectTo?: string
   ) => Promise<{ ok: boolean; message?: string }>;
   registerCustomer: (
     name: string,
@@ -71,7 +73,15 @@ const mapUser = (data: any): User => {
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const [ready, setReady] = useState(false);
-  const supabase = useMemo(() => getSupabaseBrowserClient(), []);
+  const supabase = useMemo(() => getSupabaseClient(), []);
+
+  const ensureUserRole = useCallback(async () => {
+    try {
+      await fetch("/api/auth/ensure-role", { method: "POST" });
+    } catch (error) {
+      console.warn("[auth] ensure-role failed", error);
+    }
+  }, []);
 
   const loadProfile = useCallback(
     async (userId: string) => {
@@ -92,11 +102,26 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         setUser(null);
         return null;
       }
-      const mapped = mapUser(data);
+
+      const { data: roleRow } = await supabase
+        .from("user_roles")
+        .select("role")
+        .eq("user_id", userId)
+        .maybeSingle();
+
+      const resolvedRole: UserRole =
+        (roleRow?.role as UserRole | undefined) ??
+        (data.sellers ? "seller" : "customer");
+
+      if (!roleRow) {
+        void ensureUserRole();
+      }
+
+      const mapped = mapUser({ ...data, role: resolvedRole });
       setUser(mapped);
       return mapped;
     },
-    [supabase]
+    [supabase, ensureUserRole]
   );
 
   useEffect(() => {
@@ -255,13 +280,19 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     return { ok: true };
   };
 
-  const loginWithMagicLink = async (email: string) => {
-    const redirectTo =
-      typeof window !== "undefined" ? `${window.location.origin}/login` : undefined;
+  const resolveRedirect = (redirectTo?: string) => {
+    if (typeof window === "undefined") return undefined;
+    if (!redirectTo) return `${window.location.origin}/login`;
+    if (redirectTo.startsWith("http")) return redirectTo;
+    return `${window.location.origin}${redirectTo.startsWith("/") ? redirectTo : `/${redirectTo}`}`;
+  };
+
+  const loginWithMagicLink = async (email: string, redirectTo?: string) => {
+    const resolved = resolveRedirect(redirectTo);
     const { error } = await supabase.auth.signInWithOtp({
       email,
       options: {
-        emailRedirectTo: redirectTo
+        emailRedirectTo: resolved
       }
     });
     if (error) {
@@ -270,13 +301,15 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     return { ok: true, message: "Enviamos um link seguro para o seu e-mail." };
   };
 
-  const loginWithOAuth = async (provider: "google" | "facebook") => {
-    const redirectTo =
-      typeof window !== "undefined" ? `${window.location.origin}/login` : undefined;
+  const loginWithOAuth = async (
+    provider: "google" | "facebook",
+    redirectTo?: string
+  ) => {
+    const resolved = resolveRedirect(redirectTo);
     const { error } = await supabase.auth.signInWithOAuth({
       provider,
       options: {
-        redirectTo
+        redirectTo: resolved
       }
     });
     if (error) {

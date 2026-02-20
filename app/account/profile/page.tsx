@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 
 import { PageHeading } from "@/components/PageHeading";
 import { useAuth } from "@/lib/AuthContext";
-import { getSupabaseBrowserClient } from "@/lib/supabaseBrowser";
+import { getSupabaseClient } from "@/lib/supabase/client";
 
 type ProviderStatus = {
   google: boolean;
@@ -18,7 +18,7 @@ export default function AccountProfilePage() {
 
   useEffect(() => {
     const load = async () => {
-      const supabase = getSupabaseBrowserClient();
+      const supabase = getSupabaseClient();
       const { data } = await supabase.auth.getUser();
       const identities = data.user?.identities ?? [];
       setStatus({
@@ -52,15 +52,15 @@ export default function AccountProfilePage() {
         subtitle="Informações simples ajudam a personalizar sua experiência."
       />
 
-      <div className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm text-sm text-noir-600">
-        <p className="text-sm text-noir-900">{greeting}</p>
-        <p className="mt-3 text-sm text-noir-600">
+      <div className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm text-sm text-bpGraphite/80">
+        <p className="text-sm text-bpBlackSoft">{greeting}</p>
+        <p className="mt-3 text-sm text-bpGraphite/80">
           Atualize nome, e-mail e telefone para manter a curadoria alinhada.
         </p>
       </div>
 
       <div className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
-        <p className="text-xs uppercase tracking-[0.3em] text-noir-500">Contas conectadas</p>
+        <p className="text-xs uppercase tracking-[0.3em] text-bpGraphite/70">Contas conectadas</p>
         <div className="mt-4 space-y-3">
           {(["google", "facebook"] as const).map((provider) => (
             <div
@@ -68,28 +68,28 @@ export default function AccountProfilePage() {
               className="flex items-center justify-between rounded-2xl border border-black/10 p-4 text-sm"
             >
               <div>
-                <p className="font-semibold text-noir-900">
+                <p className="font-semibold text-bpBlackSoft">
                   {provider === "google" ? "Google" : "Facebook"}
                 </p>
-                <p className="text-xs text-noir-500">
+                <p className="text-xs text-bpGraphite/70">
                   {status[provider] ? "Conectado" : "Não conectado"}
                 </p>
               </div>
               <div className="flex items-center gap-2">
                 <button
                   onClick={() => handleConnect(provider)}
-                  className="rounded-full border border-black/10 px-4 py-2 text-xs uppercase tracking-[0.3em] text-noir-700"
+                  className="rounded-full border border-black/10 px-4 py-2 text-xs uppercase tracking-[0.3em] text-bpGraphite"
                 >
                   {status[provider] ? "Reconectar" : "Conectar"}
                 </button>
-                <span className="text-[10px] uppercase tracking-[0.3em] text-noir-400">
+                <span className="text-[10px] uppercase tracking-[0.3em] text-bpGraphite/60">
                   Desconectar não disponível
                 </span>
               </div>
             </div>
           ))}
         </div>
-        {message && <p className="mt-3 text-xs text-luxe-600">{message}</p>}
+        {message && <p className="mt-3 text-xs text-bpPink">{message}</p>}
       </div>
     </div>
   );

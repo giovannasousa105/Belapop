@@ -43,26 +43,26 @@ export default function HeroLuxuryPanels() {
                 className={`rounded-[32px] border border-white/5 shadow-xl p-8 md:p-12 h-full flex flex-col justify-center text-white ${
                   i === 0
                     ? "bg-gradient-to-br from-[#0b0b10] via-[#0c0c11] to-[#b80f5a]"
-                    : "bg-gradient-to-br from-[#f8dfe9] via-white to-[#fbeaf1] text-noir-900"
+                    : "bg-gradient-to-br from-[#f8dfe9] via-white to-[#fbeaf1] text-bpBlackSoft"
                 }`}
               >
                 <p
                   className={`text-[11px] uppercase tracking-[0.35em] ${
-                    i === 0 ? "text-white/75" : "text-noir-500"
+                    i === 0 ? "text-white/75" : "text-bpGraphite/70"
                   }`}
                 >
                   {slide.tag}
                 </p>
                 <h3
                   className={`mt-3 font-display text-4xl md:text-5xl leading-tight ${
-                    i === 0 ? "text-white" : "text-noir-900"
+                    i === 0 ? "text-white" : "text-bpBlackSoft"
                   }`}
                 >
                   {slide.title}
                 </h3>
                 <p
                   className={`mt-4 text-base md:text-lg max-w-3xl ${
-                    i === 0 ? "text-white/80" : "text-noir-700"
+                    i === 0 ? "text-white/80" : "text-bpGraphite"
                   }`}
                 >
                   {slide.body}

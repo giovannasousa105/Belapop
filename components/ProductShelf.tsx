@@ -28,14 +28,14 @@ export const ProductShelf = ({
         <div>
           <p
             className={`text-xs uppercase tracking-[0.3em] ${
-              isLight ? "text-noir-500" : "text-blush-100/60"
+              isLight ? "text-bpGraphite/70" : "text-bpPinkSoft/60"
             }`}
           >
             {label}
           </p>
           <h2
             className={`mt-2 font-display text-2xl ${
-              isLight ? "text-noir-950" : "text-blush-50"
+              isLight ? "text-bpBlack" : "text-bpOffWhite"
             }`}
           >
             {title}
@@ -43,7 +43,7 @@ export const ProductShelf = ({
           {subtitle ? (
             <p
               className={`mt-2 text-sm ${
-                isLight ? "text-noir-600" : "text-blush-100/70"
+                isLight ? "text-bpGraphite/80" : "text-bpPinkSoft/70"
               }`}
             >
               {subtitle}
@@ -54,8 +54,8 @@ export const ProductShelf = ({
           href="/catalogo"
           className={`text-xs uppercase tracking-[0.2em] ${
             isLight
-              ? "text-noir-500 hover:text-luxe-600"
-              : "text-blush-100/60 hover:text-blush-50"
+              ? "text-bpGraphite/70 hover:text-bpPink"
+              : "text-bpPinkSoft/60 hover:text-bpOffWhite"
           }`}
         >
           Ver tudo
