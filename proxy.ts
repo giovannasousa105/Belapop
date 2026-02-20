@@ -4,7 +4,7 @@ export const config = {
   matcher: ["/admin/:path*", "/seller/:path*", "/parceiro/:path*"]
 };
 
-export function middleware(request: NextRequest) {
+export function proxy(request: NextRequest) {
   const requestHeaders = new Headers(request.headers);
   requestHeaders.set("x-pathname", request.nextUrl.pathname);
   return NextResponse.next({
