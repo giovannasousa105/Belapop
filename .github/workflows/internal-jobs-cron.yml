@@ -1,0 +1,187 @@
+name: Internal Jobs Cron
+
+on:
+  schedule:
+    - cron: "*/5 * * * *"    # notification outbox processor
+    - cron: "*/15 * * * *"   # support SLA escalation
+    - cron: "*/10 * * * *"   # reverse logistics + exception SLA
+    - cron: "12 * * * *"     # antifraud risk + holdbacks refresh
+    - cron: "20 3 * * *"     # T+1 gateway reconciliation
+    - cron: "*/2 * * * *"    # ranking near-real-time queue
+  workflow_dispatch:
+    inputs:
+      base_url:
+        description: "URL alvo opcional para executar jobs internos"
+        required: false
+        type: string
+      outbox_limit:
+        description: "Limite do worker de outbox"
+        required: false
+        default: "200"
+        type: string
+      sla_limit:
+        description: "Limite do worker de SLA"
+        required: false
+        default: "250"
+        type: string
+      reverse_limit:
+        description: "Limite do worker de logistica reversa"
+        required: false
+        default: "300"
+        type: string
+      sre_limit:
+        description: "Limite para envio de alertas SRE/DR"
+        required: false
+        default: "250"
+        type: string
+      ranking_limit:
+        description: "Limite da fila de ranking realtime"
+        required: false
+        default: "200"
+        type: string
+      risk_limit:
+        description: "Limite do worker de risco/holdback"
+        required: false
+        default: "500"
+        type: string
+      recon_limit:
+        description: "Limite da reconciliacao T+1"
+        required: false
+        default: "200"
+        type: string
+      recon_date:
+        description: "Data da reconciliacao (YYYY-MM-DD). Vazio = ontem."
+        required: false
+        type: string
+      recon_provider:
+        description: "Provider opcional (ex: pagarme, stripe)."
+        required: false
+        type: string
+
+env:
+  BASE_URL: ${{ github.event.inputs.base_url || vars.BELAPOP_BASE_URL || 'https://belapopoficial.com.br' }}
+  JOB_SECRET: ${{ secrets.INTERNAL_JOB_SECRET || secrets.CRON_JOB_SECRET }}
+  OUTBOX_LIMIT: ${{ github.event.inputs.outbox_limit || '200' }}
+  SLA_LIMIT: ${{ github.event.inputs.sla_limit || '250' }}
+  REVERSE_LIMIT: ${{ github.event.inputs.reverse_limit || '300' }}
+  SRE_LIMIT: ${{ github.event.inputs.sre_limit || '250' }}
+  RANKING_LIMIT: ${{ github.event.inputs.ranking_limit || '200' }}
+  RISK_LIMIT: ${{ github.event.inputs.risk_limit || '500' }}
+  RECON_LIMIT: ${{ github.event.inputs.recon_limit || '200' }}
+  RECON_DATE: ${{ github.event.inputs.recon_date || '' }}
+  RECON_PROVIDER: ${{ github.event.inputs.recon_provider || '' }}
+
+jobs:
+  process_notification_outbox:
+    if: github.event.schedule == '*/5 * * * *' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger process-notification-outbox
+        run: |
+          if [ -z "$JOB_SECRET" ]; then
+            echo "JOB_SECRET ausente. Configure INTERNAL_JOB_SECRET ou CRON_JOB_SECRET."
+            exit 1
+          fi
+          curl --fail-with-body --show-error --silent \
+            -X POST "$BASE_URL/api/internal/jobs/process-notification-outbox?limit=$OUTBOX_LIMIT" \
+            -H "x-job-secret: $JOB_SECRET" \
+            -H "Content-Type: application/json"
+
+  support_sla_escalation:
+    if: github.event.schedule == '*/15 * * * *' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger support-sla-escalation
+        run: |
+          if [ -z "$JOB_SECRET" ]; then
+            echo "JOB_SECRET ausente. Configure INTERNAL_JOB_SECRET ou CRON_JOB_SECRET."
+            exit 1
+          fi
+          curl --fail-with-body --show-error --silent \
+            -X POST "$BASE_URL/api/internal/jobs/support-sla-escalation?limit=$SLA_LIMIT" \
+            -H "x-job-secret: $JOB_SECRET" \
+            -H "Content-Type: application/json"
+
+  process_reverse_logistics:
+    if: github.event.schedule == '*/10 * * * *' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger process-reverse-logistics
+        run: |
+          if [ -z "$JOB_SECRET" ]; then
+            echo "JOB_SECRET ausente. Configure INTERNAL_JOB_SECRET ou CRON_JOB_SECRET."
+            exit 1
+          fi
+          curl --fail-with-body --show-error --silent \
+            -X POST "$BASE_URL/api/internal/jobs/process-reverse-logistics?limit=$REVERSE_LIMIT" \
+            -H "x-job-secret: $JOB_SECRET" \
+            -H "Content-Type: application/json"
+
+  evaluate_sre:
+    if: github.event.schedule == '*/5 * * * *' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger evaluate-sre
+        run: |
+          if [ -z "$JOB_SECRET" ]; then
+            echo "JOB_SECRET ausente. Configure INTERNAL_JOB_SECRET ou CRON_JOB_SECRET."
+            exit 1
+          fi
+          curl --fail-with-body --show-error --silent \
+            -X POST "$BASE_URL/api/internal/jobs/evaluate-sre?limit=$SRE_LIMIT&window_minutes=60&dr_max_age_days=30" \
+            -H "x-job-secret: $JOB_SECRET" \
+            -H "Content-Type: application/json"
+
+  process_ranking_realtime:
+    if: github.event.schedule == '*/2 * * * *' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger process-ranking-realtime
+        run: |
+          if [ -z "$JOB_SECRET" ]; then
+            echo "JOB_SECRET ausente. Configure INTERNAL_JOB_SECRET ou CRON_JOB_SECRET."
+            exit 1
+          fi
+          curl --fail-with-body --show-error --silent \
+            -X POST "$BASE_URL/api/internal/jobs/process-ranking-realtime?limit=$RANKING_LIMIT&attribution_days=14" \
+            -H "x-job-secret: $JOB_SECRET" \
+            -H "Content-Type: application/json"
+
+  refresh_risk_holdbacks:
+    if: github.event.schedule == '12 * * * *' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger refresh-risk-holdbacks
+        run: |
+          if [ -z "$JOB_SECRET" ]; then
+            echo "JOB_SECRET ausente. Configure INTERNAL_JOB_SECRET ou CRON_JOB_SECRET."
+            exit 1
+          fi
+          curl --fail-with-body --show-error --silent \
+            -X POST "$BASE_URL/api/internal/jobs/refresh-risk-holdbacks?limit=$RISK_LIMIT&min_score=55" \
+            -H "x-job-secret: $JOB_SECRET" \
+            -H "Content-Type: application/json"
+
+  reconcile_gateway_t1:
+    if: github.event.schedule == '20 3 * * *' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger reconcile-gateway-t1
+        run: |
+          if [ -z "$JOB_SECRET" ]; then
+            echo "JOB_SECRET ausente. Configure INTERNAL_JOB_SECRET ou CRON_JOB_SECRET."
+            exit 1
+          fi
+
+          QUERY="limit=$RECON_LIMIT"
+          if [ -n "$RECON_DATE" ]; then
+            QUERY="$QUERY&date=$RECON_DATE"
+          fi
+          if [ -n "$RECON_PROVIDER" ]; then
+            QUERY="$QUERY&provider=$RECON_PROVIDER"
+          fi
+
+          curl --fail-with-body --show-error --silent \
+            -X POST "$BASE_URL/api/internal/jobs/reconcile-gateway-t1?$QUERY" \
+            -H "x-job-secret: $JOB_SECRET" \
+            -H "Content-Type: application/json"
