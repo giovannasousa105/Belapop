@@ -71,7 +71,7 @@ export async function GET(request: NextRequest) {
   ).length;
 
   const awaitingCurationCount = productRows.filter((product) =>
-    ["pending_review", "needs_adjustment"].includes(product.status ?? "")
+    ["review", "needs_adjustment"].includes(product.status ?? "")
   ).length;
 
   const hasPostalCode = Boolean(seller.postal_code?.trim());
@@ -148,7 +148,7 @@ export async function GET(request: NextRequest) {
         awaitingCurationCount === 1 ? "" : "s"
       } aguardando curadoria.`,
       ctaLabel: "Ver produtos",
-      ctaHref: "/seller/products?filter=pending_review"
+      ctaHref: "/seller/products?filter=review"
     });
   }
 

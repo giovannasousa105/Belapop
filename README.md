@@ -1,4 +1,4 @@
-﻿# BelaPop — Mini-marketplace editorial (MVP)
+﻿﻿# BelaPop — Mini-marketplace editorial (MVP)
 
 Projeto Next.js (App Router) com estética ultra luxo para curadoria de beleza.
 
@@ -6,7 +6,7 @@ Projeto Next.js (App Router) com estética ultra luxo para curadoria de beleza.
 
 ```bash
 npm install
-PORT=3001 npm run dev
+npm run dev
 ```
 
 Ou, no PowerShell:
@@ -89,7 +89,7 @@ where email = 'admin@belapop.com';
 
 - Se preferir, ajuste outros campos (`created_at`, `metadata` etc.) ou insira um registro direto em `profiles`. Também é possível automatizar a criação com `supabase.auth.admin.createUser` via API.
 - Confirme em **Authentication → Users** e na tabela `public.profiles` que o `role` foi atualizado.
-- Depois disso, acesse `http://localhost:3000/login`, selecione o modo “Admin” e entre com as credenciais configuradas para acessar `/admin`.
+- Depois disso, acesse `http://localhost:3001/adm/login` para autenticar na governança e acessar `/adm`.
 - Se estiver rodando Supabase local via Docker, verifique que `public.profiles` tem o registro criado (o trigger só dispara quando um usuário é inserido em `auth.users`).
 - Como alternativa, use `node scripts/make-admin.mjs` (de preferência com `NEXT_PUBLIC_SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`, e opcionalmente `ADMIN_EMAIL`/`ADMIN_FULL_NAME` no `.env.local`) para promover um usuário direto no Supabase.
 
@@ -242,7 +242,7 @@ MELHORENVIO_FROM_POSTAL_CODE=00000000
 
 ## Como integrar pagamento depois
 
-- Substitua a função `handleConfirm` em `app/checkout/page.tsx` por uma chamada ao seu provedor (ex.: Stripe, Pagar.me).
+- Substitua a função `handleConfirm` em `app/checkout/page.tsx` por uma chamada ao Stripe.
 - Mantenha o objeto `Order` para salvar o retorno da transação.
 
 ## Como integrar autenticação depois
@@ -271,8 +271,3 @@ MELHORENVIO_FROM_POSTAL_CODE=00000000
 - Produtos publicados ficam visíveis no catálogo público (`status = "published"`).
 - Posts publicados ficam visíveis no Diário público (`status = "published"`).
 - O layout segue direção editorial com microanimações (framer-motion).
-
-
-
-
-

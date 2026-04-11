@@ -1,0 +1,23 @@
+<svg width="1600" height="900" viewBox="0 0 1600 900" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="110" y1="84" x2="1496" y2="824" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFF7FA"/>
+      <stop offset="0.44" stop-color="#F8E4EC"/>
+      <stop offset="1" stop-color="#F1D5E1"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="920" y1="160" x2="1342" y2="730" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#2A0F1D"/>
+      <stop offset="1" stop-color="#5A1838"/>
+    </linearGradient>
+  </defs>
+  <rect width="1600" height="900" fill="url(#bg)"/>
+  <rect x="92" y="92" width="1416" height="716" rx="34" fill="#FFFCFD" stroke="#EAB7C7" stroke-opacity="0.72"/>
+  <image href="/logo-dark.svg" x="124" y="126" width="170" height="178" opacity="0.92"/>
+  <rect x="916" y="160" width="452" height="572" rx="30" fill="url(#accent)"/>
+  <circle cx="1162" cy="318" r="126" fill="#F7BFD1" fill-opacity="0.16"/>
+  <circle cx="1270" cy="268" r="34" fill="#F7BFD1"/>
+  <text x="162" y="226" fill="#C4587D" font-size="25" letter-spacing="8" font-family="Arial, Helvetica, sans-serif">DIARIO BELAPOP</text>
+  <text x="162" y="384" fill="#1A1416" font-size="108" font-family="Georgia, 'Times New Roman', serif">Makeup</text>
+  <text x="162" y="480" fill="#1A1416" font-size="108" font-family="Georgia, 'Times New Roman', serif">editorial</text>
+  <text x="162" y="576" fill="#5B4A52" font-size="40" font-family="Arial, Helvetica, sans-serif">Pigmento, luz e acabamento com elegancia diaria.</text>
+</svg>

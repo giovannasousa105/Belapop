@@ -111,7 +111,7 @@ export async function fetchOrders(): Promise<AdminOrderRow[]> {
     .from("orders")
     .select("id,total_cents,status,created_at,shipping_cents")
     .order("created_at", { ascending: false })
-    .limit(20);
+    .limit(120);
 
   return (data ?? []).map((row) => ({
     ...row,

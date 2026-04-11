@@ -4,6 +4,8 @@ type Props = { status: string };
 
 const COLORS: Record<string, string> = {
   active: "bg-emerald-100 text-emerald-800 border-emerald-200",
+  scheduled: "bg-sky-100 text-sky-800 border-sky-200",
+  expired: "bg-bpOffWhite text-bpGraphite border-bpBlack/20",
   inactive: "bg-bpOffWhite text-bpGraphite border-bpBlack/20",
   pending: "bg-amber-100 text-amber-800 border-amber-200",
   paused: "bg-amber-100 text-amber-800 border-amber-200",

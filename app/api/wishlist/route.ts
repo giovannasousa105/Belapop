@@ -78,6 +78,18 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 
+  const { error: analyticsError } = await supabase.from("analytics_events").insert({
+    type: "favorite",
+    user_id: user.id,
+    product_id: body.productId,
+    metadata: {
+      source: "wishlist"
+    }
+  });
+  if (analyticsError) {
+    console.error("[wishlist] failed to persist favorite analytics:", analyticsError.message);
+  }
+
   return NextResponse.json({ ok: true });
 }
 

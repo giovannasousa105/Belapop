@@ -32,9 +32,10 @@ const sizeClasses: Record<ButtonSize, string> = {
 
 const variantClasses: Record<ButtonVariant, string> = {
   primary: "bg-bpBlack text-bpOffWhite hover:bg-bpBlackSoft",
-  accent: "bg-bpPink text-white hover:bg-[#ab1550]",
+  accent:
+    "bg-bpPinkCta text-white shadow-[0_14px_32px_rgba(213,30,113,0.24)] hover:bg-[#bf165f]",
   secondary:
-    "border border-bpBlack/20 bg-transparent text-bpBlack hover:bg-bpOffWhite hover:border-bpPink/30 hover:text-bpPink"
+    "border border-bpBlack/20 bg-transparent text-bpBlack hover:bg-bpOffWhite hover:border-bpPink/30 hover:text-bpBlackSoft"
 };
 
 function getButtonClassName({

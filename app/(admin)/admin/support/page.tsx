@@ -1,12 +1,44 @@
-﻿import { SectionFrame } from "@/components/SectionFrame";
+import { headers } from "next/headers";
+
+import { SectionFrame } from "@/components/SectionFrame";
 import { StatusBadge } from "@/components/StatusBadge";
 
-const baseUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
+function normalizeBaseUrl(rawValue: string | undefined) {
+  if (!rawValue) return null;
+  const trimmed = rawValue.trim().replace(/^['"]|['"]$/g, "");
+  if (!trimmed) return null;
+
+  const withProtocol = /^https?:\/\//i.test(trimmed) ? trimmed : `https://${trimmed}`;
+  try {
+    return new URL(withProtocol).origin;
+  } catch {
+    return null;
+  }
+}
+
+async function resolveBaseUrl() {
+  const fromEnv = normalizeBaseUrl(process.env.NEXT_PUBLIC_SITE_URL);
+  if (fromEnv) return fromEnv;
+
+  const headerStore = await headers();
+  const host = headerStore.get("x-forwarded-host") ?? headerStore.get("host");
+  if (host) {
+    const proto = headerStore.get("x-forwarded-proto") ?? (host.includes("localhost") ? "http" : "https");
+    return `${proto}://${host}`;
+  }
+
+  return "http://localhost:3000";
+}
 
 async function getTickets() {
-  const res = await fetch(new URL("/api/admin/support", baseUrl).toString(), { cache: "no-store" });
-  if (!res.ok) return { tickets: [] };
-  return res.json();
+  try {
+    const baseUrl = await resolveBaseUrl();
+    const res = await fetch(`${baseUrl}/api/admin/support`, { cache: "no-store" });
+    if (!res.ok) return { tickets: [] };
+    return res.json();
+  } catch {
+    return { tickets: [] };
+  }
 }
 
 export default async function SupportPage() {

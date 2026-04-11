@@ -1,0 +1,212 @@
+openapi: 3.0.3
+info:
+  title: BelaPop Admin Metrics API
+  version: 1.3.0
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+    RollupPoint:
+      type: object
+      required: [ts, gmv_cents, orders_paid, cancels, cancel_rate_bps]
+      properties:
+        ts:
+          type: string
+          format: date-time
+        gmv_cents:
+          type: integer
+          format: int64
+        orders_paid:
+          type: integer
+        cancels:
+          type: integer
+        cancel_rate_bps:
+          type: integer
+          description: basis points (120 = 1.20%)
+
+    RealtimePoint:
+      type: object
+      required: [ts, gmv_cents, orders_paid, cancels, refunds_cents, refunds_count, chargeback_cents, chargeback_count, cancel_rate_bps]
+      properties:
+        ts:
+          type: string
+          format: date-time
+        gmv_cents:
+          type: integer
+          format: int64
+        orders_paid:
+          type: integer
+        cancels:
+          type: integer
+        refunds_cents:
+          type: integer
+          format: int64
+        refunds_count:
+          type: integer
+        chargeback_cents:
+          type: integer
+          format: int64
+        chargeback_count:
+          type: integer
+        cancel_rate_bps:
+          type: integer
+          description: basis points (120 = 1.20%)
+
+paths:
+  /api/admin/metrics:
+    get:
+      summary: Serie agregada executiva (7d/30d/90d)
+      description: |
+        Requer autenticacao de administrador.
+        RBAC recomendado:
+        - admin.metrics.read
+        - admin.metrics.read:all
+        - admin.metrics.read:store
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: range
+          required: true
+          schema:
+            type: string
+            enum: [7d, 30d, 90d]
+        - in: query
+          name: channel
+          required: false
+          schema:
+            type: string
+            enum: [marketplace, site, app]
+        - in: query
+          name: store_id
+          required: false
+          schema:
+            type: string
+            format: uuid
+        - in: query
+          name: timezone
+          required: false
+          schema:
+            type: string
+          example: America/Sao_Paulo
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [range, granularity, series, updated_at]
+                properties:
+                  range:
+                    type: string
+                    enum: [7d, 30d, 90d]
+                  granularity:
+                    type: string
+                    enum: [hour, day]
+                  series:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/RollupPoint"
+                  updated_at:
+                    type: string
+                    format: date-time
+                  timezone:
+                    type: string
+        "400":
+          description: Parametros invalidos
+        "401":
+          description: Nao autenticado
+        "403":
+          description: Sem permissao
+        "500":
+          description: Erro interno
+
+  /api/admin/metrics/realtime:
+    get:
+      summary: Serie tempo real agregada
+      description: |
+        Requer autenticacao de administrador.
+        RBAC recomendado:
+        - admin.metrics.read:all
+        - admin.metrics.read:store
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: window
+          required: true
+          schema:
+            type: string
+            enum: [3h, 6h, 7d, 30d, 90d]
+          example: 3h
+        - in: query
+          name: bucket
+          required: false
+          schema:
+            type: string
+            enum: [1m, 2m, 5m, 1h, 1d]
+          description: Se nao informado, backend escolhe pelo window
+          example: 1m
+        - in: query
+          name: channel
+          required: false
+          schema:
+            type: string
+            enum: [marketplace, site, app]
+        - in: query
+          name: store_id
+          required: false
+          schema:
+            type: string
+            format: uuid
+          description: Escopo opcional por loja
+        - in: query
+          name: timezone
+          required: false
+          schema:
+            type: string
+          example: America/Sao_Paulo
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [window, bucket, series, updated_at]
+                properties:
+                  window:
+                    type: string
+                    enum: [3h, 6h, 7d, 30d, 90d]
+                  bucket:
+                    type: string
+                    enum: [1m, 2m, 5m, 1h, 1d]
+                  series:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/RealtimePoint"
+                  updated_at:
+                    type: string
+                    format: date-time
+                  timezone:
+                    type: string
+                  source:
+                    type: string
+                    example: metrics_marketplace_minute
+                  lag_seconds:
+                    type: integer
+                  status:
+                    type: string
+                    enum: [online, delayed, partial]
+        "401":
+          description: Nao autenticado
+        "403":
+          description: Sem permissao
+        "500":
+          description: Erro interno

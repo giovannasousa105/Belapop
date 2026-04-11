@@ -9,7 +9,8 @@ const footerColumns = [
   {
     title: "Fluxo IA",
     links: [
-      { label: "Objetivos", href: "/skin-scan" },
+      { label: "Apresentacao", href: "/skin-scan" },
+      { label: "Objetivos", href: "/skin-scan/foco" },
       { label: "Captura", href: "/skin-scan/captura" },
       { label: "Diagnostico", href: "/skin-scan/diagnostico" }
     ]

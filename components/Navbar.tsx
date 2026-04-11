@@ -8,6 +8,7 @@ import { PromoBar } from "@/components/PromoBar";
 import { SearchBar } from "@/components/SearchBar";
 import { useAuth } from "@/lib/AuthContext";
 import { useCart } from "@/lib/CartContext";
+import { getPublicAsset } from "@/lib/publicEnv";
 
 const categories = [
   "Maquiagem",
@@ -29,15 +30,15 @@ export const Navbar = () => {
     pathname === "/products" ||
     pathname.startsWith("/produto/");
   const logoUrl = isRetail
-    ? process.env.NEXT_PUBLIC_LOGO_DARK_URL || "/logo-dark.svg"
-    : process.env.NEXT_PUBLIC_LOGO_URL || "/logo.svg";
+    ? getPublicAsset(process.env.NEXT_PUBLIC_LOGO_DARK_URL, "/logo-dark.svg")
+    : getPublicAsset(process.env.NEXT_PUBLIC_LOGO_URL, "/logo.svg");
   const actionTone = isRetail ? "text-bpGraphite" : "text-bpPinkSoft/80";
   const actionHover = isRetail ? "hover:text-bpPink" : "hover:text-bpOffWhite";
 
   const merchantLink = authReady
     ? user
       ? user.role === "seller"
-        ? "/seller/dashboard"
+        ? "/parceiro"
         : "/lojistas"
       : "/seller/login"
     : "/seller/login";
@@ -82,7 +83,7 @@ export const Navbar = () => {
               href={
                 authReady && user
                   ? user.role === "seller"
-                    ? "/seller/dashboard"
+                    ? "/parceiro"
                     : "/minha-conta"
                   : "/login"
               }
@@ -92,7 +93,7 @@ export const Navbar = () => {
               {authReady && user ? "Minha conta" : "Entrar"}
             </Link>
             <Link
-              href="/account/favorites"
+              href="/conta/favoritos"
               className={`flex items-center gap-2 ${actionTone} ${actionHover}`}
             >
               <Heart size={16} />

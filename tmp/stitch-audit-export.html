@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+
+<html class="light" lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Auditoria Financeira - BelaPop</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;family=Noto+Serif:ital,wght@0,400;0,700;1,400&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "secondary": "#6e5b4d",
+                        "surface-tint": "#5f5e5e",
+                        "inverse-primary": "#ffffff",
+                        "surface-dim": "#d9dbcf",
+                        "surface-container": "#efeee6",
+                        "primary-container": "#e5e2e1",
+                        "surface-container-low": "#f5f4ed",
+                        "primary-fixed": "#e5e2e1",
+                        "surface": "#fbf9f4",
+                        "on-background": "#31332c",
+                        "tertiary-fixed-dim": "#ee7775",
+                        "tertiary-dim": "#923233",
+                        "on-tertiary-fixed-variant": "#661017",
+                        "on-tertiary-container": "#5a060f",
+                        "error-container": "#fe8983",
+                        "surface-container-highest": "#e2e3d9",
+                        "background": "#fbf9f4",
+                        "tertiary-container": "#ff8482",
+                        "secondary-container": "#f8decc",
+                        "on-primary-container": "#525151",
+                        "on-error-container": "#752121",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-bright": "#fbf9f4",
+                        "inverse-surface": "#0e0e0c",
+                        "on-secondary-fixed-variant": "#6a584a",
+                        "surface-variant": "#e2e3d9",
+                        "primary-dim": "#535252",
+                        "on-secondary-fixed": "#4d3c2f",
+                        "error": "#9f403d",
+                        "secondary-fixed-dim": "#e9d0be",
+                        "primary": "#5f5e5e",
+                        "on-secondary-container": "#604e41",
+                        "secondary-fixed": "#f8decc",
+                        "on-secondary": "#fff7f4",
+                        "primary-fixed-dim": "#d6d4d3",
+                        "on-primary": "#faf7f6",
+                        "inverse-on-surface": "#9e9d99",
+                        "error-dim": "#4e0309",
+                        "tertiary-fixed": "#ff8482",
+                        "on-tertiary": "#fff7f6",
+                        "secondary-dim": "#625042",
+                        "surface-container-high": "#e8e9e0",
+                        "on-tertiary-fixed": "#230002",
+                        "on-primary-fixed": "#403f3f",
+                        "on-surface": "#31332c",
+                        "on-error": "#fff7f6",
+                        "tertiary": "#a23d3e",
+                        "outline-variant": "#b1b3a9",
+                        "on-primary-fixed-variant": "#5c5b5b",
+                        "on-surface-variant": "#5e6058",
+                        "outline": "#797c73"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "fontFamily": {
+                        "headline": ["Noto Serif"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #fbf9f4;
+            color: #31332c;
+        }
+        h1, h2, h3, .serif {
+            font-family: 'Noto Serif', serif;
+        }
+        .editorial-shadow {
+            box-shadow: 0 20px 40px rgba(49, 51, 44, 0.05);
+        }
+        .ghost-border {
+            outline: 1px solid rgba(177, 179, 169, 0.15);
+        }
+    </style>
+</head>
+<body class="bg-surface selection:bg-secondary-container">
+<!-- Sidebar Component (Anchored from JSON) -->
+<aside class="h-screen w-64 fixed left-0 top-0 bg-stone-100 dark:bg-stone-900 border-r border-stone-200/50 dark:border-stone-800/50 flex flex-col py-8 z-50">
+<div class="px-8 mb-10">
+<h1 class="font-serif text-lg italic text-stone-900 dark:text-stone-50">BelaPop</h1>
+<p class="font-sans text-[10px] tracking-widest uppercase text-stone-500 mt-1">Premium Marketplace</p>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-3 text-stone-500 dark:text-stone-400 pl-8 py-3 hover:bg-stone-200/50 transition-all font-sans text-sm tracking-wide uppercase" href="#">
+<span class="material-symbols-outlined text-[20px]">dashboard</span>
+                Dashboard
+            </a>
+<a class="flex items-center gap-3 text-stone-500 dark:text-stone-400 pl-8 py-3 hover:bg-stone-200/50 transition-all font-sans text-sm tracking-wide uppercase" href="#">
+<span class="material-symbols-outlined text-[20px]">auto_awesome</span>
+                Curadoria
+            </a>
+<a class="flex items-center gap-3 text-stone-500 dark:text-stone-400 pl-8 py-3 hover:bg-stone-200/50 transition-all font-sans text-sm tracking-wide uppercase" href="#">
+<span class="material-symbols-outlined text-[20px]">storefront</span>
+                Sellers
+            </a>
+<a class="flex items-center gap-3 text-stone-500 dark:text-stone-400 pl-8 py-3 hover:bg-stone-200/50 transition-all font-sans text-sm tracking-wide uppercase" href="#">
+<span class="material-symbols-outlined text-[20px]">shopping_bag</span>
+                Pedidos
+            </a>
+<a class="flex items-center gap-3 text-stone-500 dark:text-stone-400 pl-8 py-3 hover:bg-stone-200/50 transition-all font-sans text-sm tracking-wide uppercase" href="#">
+<span class="material-symbols-outlined text-[20px]">local_shipping</span>
+                Logística
+            </a>
+<a class="flex items-center gap-3 text-stone-500 dark:text-stone-400 pl-8 py-3 hover:bg-stone-200/50 transition-all font-sans text-sm tracking-wide uppercase" href="#">
+<span class="material-symbols-outlined text-[20px]">verified_user</span>
+                Risco
+            </a>
+<!-- Active Tab: Financeiro -->
+<a class="flex items-center gap-3 text-stone-900 dark:text-stone-50 font-bold border-l-2 border-stone-800 dark:border-stone-200 pl-8 py-3 bg-stone-200/30 dark:bg-stone-800/30 font-sans text-sm tracking-wide uppercase" href="#">
+<span class="material-symbols-outlined text-[20px]">payments</span>
+                Financeiro
+            </a>
+<a class="flex items-center gap-3 text-stone-500 dark:text-stone-400 pl-8 py-3 hover:bg-stone-200/50 transition-all font-sans text-sm tracking-wide uppercase" href="#">
+<span class="material-symbols-outlined text-[20px]">settings</span>
+                Configurações
+            </a>
+</nav>
+<div class="px-8 pt-6 border-t border-stone-200/30">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-stone-200 overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="close-up portrait of a professional man in a beige linen shirt with soft natural lighting and neutral background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCy51e1qtyzJphpphWO5eyLN2uxWGhkLtWSncdYIJbxfVFtzhqDxjRCEzHBLHr0jvlvvw5szOZOp1sgppwxs328kOK-HwHP3kbaPfgIsu4R7WY26EvXWGvHEuvPpMHgCfffSA6wTNUcpjF26an5EQR-kUFCDydoQKQIHHuRM79TF5NliJ30VjuHqygDDoivef1G_WlskmjC5AAFAy3DHnMkcd0xSyD5LRugNcyC-KPnyR0FhwJpkR-dcR-IMBPJKaEoJ857mo0MUYYL"/>
+</div>
+<div>
+<p class="text-xs font-bold text-on-surface">Admin Curator</p>
+<p class="text-[10px] text-outline">Internal Audit</p>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="ml-64 min-h-screen">
+<!-- TopAppBar Component -->
+<header class="w-full sticky top-0 z-40 bg-stone-50/80 dark:bg-stone-950/80 backdrop-blur-xl shadow-sm shadow-stone-200/50 dark:shadow-none flex justify-between items-center px-12 py-6">
+<div>
+<h2 class="text-2xl font-serif tracking-tight text-stone-900 italic">Auditoria Financeira</h2>
+<nav class="flex gap-4 mt-1 text-[10px] uppercase tracking-[0.2em] text-outline">
+<span>Overview</span>
+<span class="text-stone-300">/</span>
+<span class="text-secondary font-bold">Inconsistências</span>
+</nav>
+</div>
+<div class="flex items-center gap-8">
+<!-- Filters -->
+<div class="flex gap-4 items-center">
+<div class="flex items-center gap-2 px-4 py-2 bg-surface-container-low rounded-full ghost-border cursor-pointer hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined text-sm">calendar_today</span>
+<span class="text-xs font-medium">Últimos 30 dias</span>
+</div>
+<div class="flex items-center gap-2 px-4 py-2 bg-surface-container-low rounded-full ghost-border cursor-pointer hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined text-sm">filter_list</span>
+<span class="text-xs font-medium">Todos os Status</span>
+</div>
+</div>
+<div class="flex items-center gap-4 text-stone-500">
+<span class="material-symbols-outlined cursor-pointer hover:text-stone-900 transition-colors">notifications</span>
+<span class="material-symbols-outlined cursor-pointer hover:text-stone-900 transition-colors">help_outline</span>
+</div>
+</div>
+</header>
+<!-- Page Body -->
+<div class="px-12 py-10 max-w-7xl mx-auto">
+<!-- Summary Stats (Editorial Layout) -->
+<section class="grid grid-cols-12 gap-8 mb-16">
+<div class="col-span-8 bg-surface-container-low p-10 rounded-xl relative overflow-hidden">
+<div class="relative z-10">
+<p class="text-[10px] uppercase tracking-[0.2em] text-secondary font-bold mb-4">Impacto Financeiro Total</p>
+<h3 class="text-5xl font-serif text-stone-900">- R$ 14.850,00</h3>
+<p class="mt-6 text-sm text-outline max-w-md leading-relaxed">
+                            Monitoramento em tempo real de divergências transacionais. 
+                            Cinco incidentes críticos aguardam resolução imediata para garantir a integridade do marketplace.
+                        </p>
+</div>
+<!-- Decorative Element -->
+<div class="absolute right-0 top-0 h-full w-1/3 opacity-10 pointer-events-none">
+<img class="w-full h-full object-cover grayscale" data-alt="abstract architectural close-up of curved concrete and soft shadows creating elegant rhythmic lines in sunlight" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDGV4Lr_KDAH422537R1_M8ADkaHG9mqih3ZE0Sxgxg7ErUaAWj3bJoCXv8z_Dpl_KoQS48aTr9a3e2t1Y19isIYdBVF5T_kuE3qGn2DBCA3oQ2CD7HGjBdi02aTalMpb1EYg7GjaN2iGUthbHo3IpyLZO2OcSAW5xftyhJSeCU4m73ylvwkMmWK-5T3bE6o_16ej1OPIBk30p6BOUDyeHXMyvjd2iYoBwD6qSEW2BGR4LdWP2KjGDbdR_bWOvm9hcSBQqckNTbyLms"/>
+</div>
+</div>
+<div class="col-span-4 flex flex-col gap-6">
+<div class="bg-surface-container-lowest p-8 rounded-xl ghost-border flex flex-col justify-between">
+<span class="material-symbols-outlined text-tertiary mb-4">warning</span>
+<div>
+<p class="text-3xl font-serif mb-1">05</p>
+<p class="text-xs uppercase tracking-widest text-outline">Incidentes Ativos</p>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-8 rounded-xl ghost-border flex flex-col justify-between">
+<span class="material-symbols-outlined text-secondary mb-4">verified</span>
+<div>
+<p class="text-3xl font-serif mb-1">128</p>
+<p class="text-xs uppercase tracking-widest text-outline">Resolvidos este mês</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Audit List -->
+<section class="space-y-6">
+<div class="flex justify-between items-end mb-8 border-b border-stone-200/30 pb-4">
+<h4 class="text-xl font-serif italic">Registros de Auditoria</h4>
+<p class="text-xs text-outline">Filtrando por: <span class="font-bold text-on-surface">Pendentes e Em Investigação</span></p>
+</div>
+<!-- Item 1 -->
+<article class="bg-surface-container-lowest rounded-xl editorial-shadow p-8 flex flex-col md:flex-row gap-8 items-start hover:translate-y-[-2px] transition-transform duration-300">
+<div class="flex-1">
+<div class="flex items-center gap-3 mb-3">
+<span class="px-3 py-1 bg-secondary-container text-on-secondary-container text-[10px] font-bold uppercase tracking-widest rounded-full">Em Investigação</span>
+<span class="text-[10px] uppercase tracking-widest text-outline">ID: AUD-8821</span>
+</div>
+<h5 class="text-lg font-serif text-stone-900 mb-2">Divergência entre pedido e pagamento</h5>
+<p class="text-sm text-on-surface-variant leading-relaxed max-w-2xl">
+                            Diferença de valor identificada entre o checkout do cliente e o gateway de pagamento. Possível falha na atualização de cache de preços durante a transação.
+                        </p>
+<div class="mt-6 flex items-center gap-6">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-outline text-sm">person</span>
+<span class="text-xs font-medium">Helena M.</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-outline text-sm">schedule</span>
+<span class="text-xs font-medium">Há 2 horas</span>
+</div>
+</div>
+</div>
+<div class="text-right flex flex-col justify-between h-full min-w-[180px]">
+<p class="text-2xl font-serif text-tertiary mb-8">- R$ 1.200,00</p>
+<div class="flex justify-end gap-3">
+<button class="p-2 rounded-full hover:bg-surface-container transition-colors text-outline hover:text-stone-900" title="Investigar">
+<span class="material-symbols-outlined">search</span>
+</button>
+<button class="p-2 rounded-full hover:bg-surface-container transition-colors text-outline hover:text-stone-900" title="Corrigir">
+<span class="material-symbols-outlined">auto_fix_high</span>
+</button>
+<button class="p-2 rounded-full hover:bg-surface-container transition-colors text-outline hover:text-stone-900" title="Marcar como Resolvido">
+<span class="material-symbols-outlined">check_circle</span>
+</button>
+</div>
+</div>
+</article>
+<!-- Item 2 -->
+<article class="bg-surface-container-lowest rounded-xl editorial-shadow p-8 flex flex-col md:flex-row gap-8 items-start hover:translate-y-[-2px] transition-transform duration-300">
+<div class="flex-1">
+<div class="flex items-center gap-3 mb-3">
+<span class="px-3 py-1 bg-surface-container text-outline text-[10px] font-bold uppercase tracking-widest rounded-full">Pendente</span>
+<span class="text-[10px] uppercase tracking-widest text-outline">ID: AUD-8819</span>
+</div>
+<h5 class="text-lg font-serif text-stone-900 mb-2">Erro de comissão</h5>
+<p class="text-sm text-on-surface-variant leading-relaxed max-w-2xl">
+                            Taxa de marketplace calculada incorretamente para seller de luxo <span class="italic font-bold">"Vogue Noir"</span>. Contrato especial de 12% aplicado como 15%.
+                        </p>
+<div class="mt-6 flex items-center gap-6">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-outline text-sm">person</span>
+<span class="text-xs font-medium">Arthur K.</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-outline text-sm">schedule</span>
+<span class="text-xs font-medium">Há 5 horas</span>
+</div>
+</div>
+</div>
+<div class="text-right flex flex-col justify-between h-full min-w-[180px]">
+<p class="text-2xl font-serif text-tertiary mb-8">- R$ 450,00</p>
+<div class="flex justify-end gap-3">
+<button class="p-2 rounded-full hover:bg-surface-container transition-colors text-outline hover:text-stone-900" title="Investigar">
+<span class="material-symbols-outlined">search</span>
+</button>
+<button class="p-2 rounded-full hover:bg-surface-container transition-colors text-outline hover:text-stone-900" title="Corrigir">
+<span class="material-symbols-outlined">auto_fix_high</span>
+</button>
+<button class="p-2 rounded-full hover:bg-surface-container transition-colors text-outline hover:text-stone-900" title="Marcar como Resolvido">
+<span class="material-symbols-outlined">check_circle</span>
+</button>
+</div>
+</div>
+</article>
+<!-- Item 3 (High Impact) -->
+<article class="bg-surface-container-lowest rounded-xl editorial-shadow p-8 flex flex-col md:flex-row gap-8 items-start border-l-4 border-tertiary hover:translate-y-[-2px] transition-transform duration-300">
+<div class="flex-1">
+<div class="flex items-center gap-3 mb-3">
+<span class="px-3 py-1 bg-secondary-container text-on-secondary-container text-[10px] font-bold uppercase tracking-widest rounded-full">Em Investigação</span>
+<span class="text-[10px] uppercase tracking-widest text-tertiary font-bold">ALTO IMPACTO</span>
+</div>
+<h5 class="text-lg font-serif text-stone-900 mb-2">Duplicidade de repasse</h5>
+<p class="text-sm text-on-surface-variant leading-relaxed max-w-2xl">
+                            Sistema de pagamento automatizado gerou repasse duplicado para o pedido <span class="underline underline-offset-4">#99281</span>. Necessário estorno manual junto ao parceiro bancário.
+                        </p>
+<div class="mt-6 flex items-center gap-6">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-outline text-sm">person</span>
+<span class="text-xs font-medium">Marina L.</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-outline text-sm">schedule</span>
+<span class="text-xs font-medium">Há 1 dia</span>
+</div>
+</div>
+</div>
+<div class="text-right flex flex-col justify-between h-full min-w-[180px]">
+<p class="text-2xl font-serif text-tertiary mb-8">- R$ 8.900,00</p>
+<div class="flex justify-end gap-3">
+<button class="p-2 rounded-full hover:bg-surface-container transition-colors text-outline hover:text-stone-900" title="Investigar">
+<span class="material-symbols-outlined">search</span>
+</button>
+<button class="p-2 rounded-full hover:bg-surface-container transition-colors text-outline hover:text-stone-900" title="Corrigir">
+<span class="material-symbols-outlined">auto_fix_high</span>
+</button>
+<button class="p-2 rounded-full hover:bg-surface-container transition-colors text-outline hover:text-stone-900" title="Marcar como Resolvido">
+<span class="material-symbols-outlined">check_circle</span>
+</button>
+</div>
+</div>
+</article>
+<!-- Item 4 -->
+<article class="bg-surface-container-lowest rounded-xl editorial-shadow p-8 flex flex-col md:flex-row gap-8 items-start hover:translate-y-[-2px] transition-transform duration-300">
+<div class="flex-1">
+<div class="flex items-center gap-3 mb-3">
+<span class="px-3 py-1 bg-surface-container text-outline text-[10px] font-bold uppercase tracking-widest rounded-full">Pendente</span>
+<span class="text-[10px] uppercase tracking-widest text-outline">ID: AUD-8750</span>
+</div>
+<h5 class="text-lg font-serif text-stone-900 mb-2">Pedido pago não enviado</h5>
+<p class="text-sm text-on-surface-variant leading-relaxed max-w-2xl">
+                            3 pedidos sinalizados com ausência de dados de envio após confirmação de pagamento (30 dias). Risco alto de chargeback e quebra de SLA.
+                        </p>
+<div class="mt-6 flex items-center gap-6">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-outline text-sm">person</span>
+<span class="text-xs font-medium">Arthur K.</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-outline text-sm">schedule</span>
+<span class="text-xs font-medium">Há 2 dias</span>
+</div>
+</div>
+</div>
+<div class="text-right flex flex-col justify-between h-full min-w-[180px]">
+<p class="text-2xl font-serif text-tertiary mb-8">- R$ 3.100,00</p>
+<div class="flex justify-end gap-3">
+<button class="p-2 rounded-full hover:bg-surface-container transition-colors text-outline hover:text-stone-900" title="Investigar">
+<span class="material-symbols-outlined">search</span>
+</button>
+<button class="p-2 rounded-full hover:bg-surface-container transition-colors text-outline hover:text-stone-900" title="Corrigir">
+<span class="material-symbols-outlined">auto_fix_high</span>
+</button>
+<button class="p-2 rounded-full hover:bg-surface-container transition-colors text-outline hover:text-stone-900" title="Marcar como Resolvido">
+<span class="material-symbols-outlined">check_circle</span>
+</button>
+</div>
+</div>
+</article>
+<!-- Item 5 -->
+<article class="bg-surface-container-lowest rounded-xl editorial-shadow p-8 flex flex-col md:flex-row gap-8 items-start hover:translate-y-[-2px] transition-transform duration-300">
+<div class="flex-1">
+<div class="flex items-center gap-3 mb-3">
+<span class="px-3 py-1 bg-secondary-container text-on-secondary-container text-[10px] font-bold uppercase tracking-widest rounded-full">Em Investigação</span>
+<span class="text-[10px] uppercase tracking-widest text-outline">ID: AUD-8742</span>
+</div>
+<h5 class="text-lg font-serif text-stone-900 mb-2">Reembolso indevido</h5>
+<p class="text-sm text-on-surface-variant leading-relaxed max-w-2xl">
+                            Processamento automático de estorno para o pedido <span class="underline underline-offset-4">#11002</span> sem devolução do produto físico. Identificado possível falha no webhook da transportadora.
+                        </p>
+<div class="mt-6 flex items-center gap-6">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-outline text-sm">person</span>
+<span class="text-xs font-medium">Helena M.</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-outline text-sm">schedule</span>
+<span class="text-xs font-medium">Há 3 dias</span>
+</div>
+</div>
+</div>
+<div class="text-right flex flex-col justify-between h-full min-w-[180px]">
+<p class="text-2xl font-serif text-tertiary mb-8">- R$ 1.200,00</p>
+<div class="flex justify-end gap-3">
+<button class="p-2 rounded-full hover:bg-surface-container transition-colors text-outline hover:text-stone-900" title="Investigar">
+<span class="material-symbols-outlined">search</span>
+</button>
+<button class="p-2 rounded-full hover:bg-surface-container transition-colors text-outline hover:text-stone-900" title="Corrigir">
+<span class="material-symbols-outlined">auto_fix_high</span>
+</button>
+<button class="p-2 rounded-full hover:bg-surface-container transition-colors text-outline hover:text-stone-900" title="Marcar como Resolvido">
+<span class="material-symbols-outlined">check_circle</span>
+</button>
+</div>
+</div>
+</article>
+</section>
+<!-- Pagination/Footer -->
+<footer class="mt-16 flex justify-between items-center text-outline">
+<p class="text-xs uppercase tracking-widest">Página 1 de 4</p>
+<div class="flex gap-4">
+<button class="px-6 py-2 rounded-full border border-outline-variant/30 text-xs uppercase tracking-widest hover:bg-surface-container-low transition-colors">Anterior</button>
+<button class="px-6 py-2 rounded-full bg-stone-900 text-stone-50 text-xs uppercase tracking-widest hover:opacity-90 transition-opacity">Próxima</button>
+</div>
+</footer>
+</div>
+</main>
+</body></html>

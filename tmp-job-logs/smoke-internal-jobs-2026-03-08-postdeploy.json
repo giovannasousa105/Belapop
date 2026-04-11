@@ -1,0 +1,187 @@
+﻿[
+    {
+        "job":  "process-notification-outbox",
+        "ok":  true,
+        "started_at":  "2026-03-08T13:31:07.2357104-03:00",
+        "finished_at":  "2026-03-08T13:31:14.9265182-03:00",
+        "response":  {
+                         "ok":  true,
+                         "worker_token":  "27b4c6b4-990f-4edf-afdb-33e7113cae09",
+                         "looked_up":  12,
+                         "claimed":  12,
+                         "sent":  0,
+                         "skipped":  0,
+                         "failed":  12
+                     }
+    },
+    {
+        "job":  "support-sla-escalation",
+        "ok":  true,
+        "started_at":  "2026-03-08T13:31:14.9653731-03:00",
+        "finished_at":  "2026-03-08T13:31:15.8417172-03:00",
+        "response":  {
+                         "ok":  true,
+                         "scanned":  0,
+                         "touched_deadlines":  0,
+                         "escalated":  0
+                     }
+    },
+    {
+        "job":  "process-reverse-logistics",
+        "ok":  true,
+        "started_at":  "2026-03-08T13:31:15.8417172-03:00",
+        "finished_at":  "2026-03-08T13:31:17.0821258-03:00",
+        "response":  {
+                         "ok":  true,
+                         "limit":  200,
+                         "exceptions_refreshed":  0,
+                         "escalations_created":  0,
+                         "alerts_upserted":  0,
+                         "alerts_notified":  0,
+                         "admin_recipients":  0,
+                         "queued_notifications":  0,
+                         "next_actions":  [
+
+                                          ]
+                     }
+    },
+    {
+        "job":  "refresh-sre-foundations",
+        "ok":  true,
+        "started_at":  "2026-03-08T13:31:17.0821258-03:00",
+        "finished_at":  "2026-03-08T13:31:24.1303223-03:00",
+        "response":  {
+                         "ok":  true,
+                         "limit":  150,
+                         "oncall_days_ahead":  21,
+                         "incident_ack_minutes":  1,
+                         "oncall_coverage_days_ahead":  0,
+                         "budget_window_days":  30,
+                         "dr_months_ahead":  6,
+                         "dr_day_of_month":  10,
+                         "dr_grace_days":  3,
+                         "dr_reminder_days_ahead":  1,
+                         "dr_failure_lookback_days":  1,
+                         "oncall_refreshed":  22,
+                         "oncall_shift_states_refreshed":  0,
+                         "incidents_assigned":  0,
+                         "incidents_escalated":  0,
+                         "oncall_coverage_alerts_upserted":  1,
+                         "budget_rollups_refreshed":  4,
+                         "error_budget_alerts_upserted":  0,
+                         "dr_calendar_upserted":  0,
+                         "dr_game_day_calendar_upserted":  14,
+                         "dr_calendar_synced":  0,
+                         "dr_calendar_alerts_upserted":  0,
+                         "dr_upcoming_alerts_upserted":  0,
+                         "dr_failed_alerts_upserted":  0,
+                         "alerts_notified":  5,
+                         "admin_recipients":  3,
+                         "queued_notifications":  15
+                     }
+    },
+    {
+        "job":  "evaluate-sre",
+        "ok":  true,
+        "started_at":  "2026-03-08T13:31:24.1303223-03:00",
+        "finished_at":  "2026-03-08T13:31:25.8216262-03:00",
+        "response":  {
+                         "ok":  true,
+                         "window_minutes":  60,
+                         "dr_max_age_days":  30,
+                         "incident_ack_minutes":  10,
+                         "slo_alerts_upserted":  0,
+                         "dr_alerts_upserted":  1,
+                         "incidents_assigned":  0,
+                         "incidents_escalated":  0,
+                         "oncall_coverage_alerts_upserted":  2,
+                         "alerts_notified":  0,
+                         "admin_recipients":  0,
+                         "queued_notifications":  0
+                     }
+    },
+    {
+        "job":  "process-ranking-realtime",
+        "ok":  true,
+        "started_at":  "2026-03-08T13:31:25.8216262-03:00",
+        "finished_at":  "2026-03-08T13:31:26.7846379-03:00",
+        "response":  {
+                         "ok":  true,
+                         "limit":  120,
+                         "attribution_days":  14,
+                         "ranking_queue_processed":  0,
+                         "attribution_rows_upserted":  0
+                     }
+    },
+    {
+        "job":  "refresh-risk-holdbacks",
+        "ok":  true,
+        "started_at":  "2026-03-08T13:31:26.7846379-03:00",
+        "finished_at":  "2026-03-08T13:31:27.9263512-03:00",
+        "response":  {
+                         "ok":  true,
+                         "seller_id":  null,
+                         "limit":  500,
+                         "refreshed_profiles":  1,
+                         "holdbacks_applied":  0,
+                         "alerts_upserted":  0,
+                         "alerts_notified":  0,
+                         "admin_recipients":  0,
+                         "queued_notifications":  0,
+                         "risk_tier_counts":  {
+                                                  "low":  1
+                                              },
+                         "blocked_sellers_by_tier":  {
+
+                                                     },
+                         "blocked_payout_batches":  0,
+                         "released_holdbacks_last_24h":  0,
+                         "top_risk_sellers":  [
+                                                  {
+                                                      "seller_id":  "ee74c0c4-1418-43f8-9f20-b5546fc40413",
+                                                      "risk_score":  2.8,
+                                                      "risk_tier":  "low",
+                                                      "holdback_bps":  0,
+                                                      "payouts_blocked":  false,
+                                                      "device_risk_30d":  0,
+                                                      "velocity_risk_30d":  0.35,
+                                                      "orders_30d":  1,
+                                                      "computed_at":  "2026-03-08T16:31:22.881582+00:00"
+                                                  }
+                                              ]
+                     }
+    },
+    {
+        "job":  "reconcile-gateway-t1",
+        "ok":  true,
+        "started_at":  "2026-03-08T13:31:27.9263512-03:00",
+        "finished_at":  "2026-03-08T13:31:29.3512619-03:00",
+        "response":  {
+                         "ok":  true,
+                         "date":  "2026-03-07",
+                         "provider":  null,
+                         "critical_delta_cents":  10000,
+                         "reconciled_rows":  1,
+                         "alerts_upserted":  0,
+                         "critical_provider_alerts_upserted":  0,
+                         "alerts_notified":  0,
+                         "admin_recipients":  0,
+                         "queued_notifications":  0,
+                         "critical_provider_alerts_open":  0,
+                         "critical_provider_alerts":  [
+
+                                                      ],
+                         "runs":  [
+                                      {
+                                          "provider":  "unknown",
+                                          "recon_date":  "2026-03-07",
+                                          "status":  "ok",
+                                          "delta_cash_in_vs_gateway_gross_cents":  0,
+                                          "delta_ledger_net_vs_gateway_net_cents":  0,
+                                          "delta_payout_vs_ledger_cash_out_cents":  0,
+                                          "computed_at":  "2026-03-08T16:31:24.384403+00:00"
+                                      }
+                                  ]
+                     }
+    }
+]

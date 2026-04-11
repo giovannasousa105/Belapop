@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+
+<html class="light" lang="pt-br"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>BelaPop | Regras de Curadoria</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;family=Noto+Serif:ital,wght@0,400;0,700;1,400&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+            font-size: 20px;
+        }
+        .serif-tight { letter-spacing: -0.02em; }
+        .ghost-border { outline: 1px solid rgba(177, 179, 169, 0.15); }
+        body { background-color: #fbf9f4; color: #31332c; }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "primary": "#5f5e5e",
+                      "on-secondary-fixed-variant": "#6a584a",
+                      "surface-container": "#efeee6",
+                      "secondary-fixed-dim": "#e9d0be",
+                      "on-tertiary-container": "#5a060f",
+                      "on-background": "#31332c",
+                      "error-dim": "#4e0309",
+                      "on-tertiary": "#fff7f6",
+                      "surface-container-high": "#e8e9e0",
+                      "secondary-fixed": "#f8decc",
+                      "primary-fixed": "#e5e2e1",
+                      "on-tertiary-fixed-variant": "#661017",
+                      "surface-dim": "#d9dbcf",
+                      "on-tertiary-fixed": "#230002",
+                      "inverse-on-surface": "#9e9d99",
+                      "on-secondary": "#fff7f4",
+                      "secondary-dim": "#625042",
+                      "tertiary-fixed": "#ff8482",
+                      "on-primary": "#faf7f6",
+                      "on-primary-fixed": "#403f3f",
+                      "on-primary-container": "#525151",
+                      "inverse-surface": "#0e0e0c",
+                      "tertiary-container": "#ff8482",
+                      "primary-container": "#e5e2e1",
+                      "surface-container-lowest": "#ffffff",
+                      "surface-variant": "#e2e3d9",
+                      "on-error-container": "#752121",
+                      "tertiary-fixed-dim": "#ee7775",
+                      "on-error": "#fff7f6",
+                      "surface-container-highest": "#e2e3d9",
+                      "error": "#9f403d",
+                      "primary-dim": "#535252",
+                      "surface": "#fbf9f4",
+                      "surface-container-low": "#f5f4ed",
+                      "secondary": "#6e5b4d",
+                      "on-surface": "#31332c",
+                      "background": "#fbf9f4",
+                      "primary-fixed-dim": "#d6d4d3",
+                      "on-primary-fixed-variant": "#5c5b5b",
+                      "outline-variant": "#b1b3a9",
+                      "on-secondary-fixed": "#4d3c2f",
+                      "on-surface-variant": "#5e6058",
+                      "tertiary-dim": "#923233",
+                      "surface-tint": "#5f5e5e",
+                      "error-container": "#fe8983",
+                      "surface-bright": "#fbf9f4",
+                      "secondary-container": "#f8decc",
+                      "on-secondary-container": "#604e41",
+                      "tertiary": "#a23d3e",
+                      "outline": "#797c73",
+                      "inverse-primary": "#ffffff"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.125rem",
+                      "lg": "0.25rem",
+                      "xl": "0.5rem",
+                      "full": "0.75rem"
+              },
+              "fontFamily": {
+                      "headline": ["Noto Serif"],
+                      "body": ["Inter"],
+                      "label": ["Inter"]
+              }
+            },
+          },
+        }
+    </script>
+</head>
+<body class="font-body selection:bg-secondary-fixed selection:text-on-secondary-fixed flex overflow-hidden">
+<!-- Sidebar Lateral -->
+<aside class="hidden md:flex h-screen w-64 border-r border-stone-200/20 dark:border-stone-800/20 bg-stone-100 dark:bg-stone-900 flex-col py-8">
+<div class="px-8 mb-12">
+<h1 class="text-2xl font-serif italic text-stone-900 dark:text-stone-50">BelaPop</h1>
+<p class="text-[10px] tracking-[0.2em] uppercase text-stone-500 mt-1">Premium Curator</p>
+</div>
+<nav class="flex-1 space-y-2">
+<a class="flex items-center space-x-3 text-stone-500 dark:text-stone-400 pl-4 py-3 hover:translate-x-1 transition-transform duration-200 font-sans text-sm tracking-wide uppercase" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span>Dashboard</span>
+</a>
+<a class="flex items-center space-x-3 text-stone-500 dark:text-stone-400 pl-4 py-3 hover:translate-x-1 transition-transform duration-200 font-sans text-sm tracking-wide uppercase" href="#">
+<span class="material-symbols-outlined">auto_awesome</span>
+<span>Inventory</span>
+</a>
+<!-- Active Tab: Curadoria -->
+<a class="flex items-center space-x-3 text-stone-900 dark:text-stone-50 font-bold border-l-2 border-stone-800 dark:border-stone-200 pl-4 py-3 font-sans text-sm tracking-wide uppercase" href="#">
+<span class="material-symbols-outlined">gavel</span>
+<span>Curadoria</span>
+</a>
+<a class="flex items-center space-x-3 text-stone-500 dark:text-stone-400 pl-4 py-3 hover:translate-x-1 transition-transform duration-200 font-sans text-sm tracking-wide uppercase" href="#">
+<span class="material-symbols-outlined">auto_fix_high</span>
+<span>Marketing</span>
+</a>
+<a class="flex items-center space-x-3 text-stone-500 dark:text-stone-400 pl-4 py-3 hover:translate-x-1 transition-transform duration-200 font-sans text-sm tracking-wide uppercase" href="#">
+<span class="material-symbols-outlined">analytics</span>
+<span>Analytics</span>
+</a>
+</nav>
+<div class="px-4 mb-8">
+<button class="w-full bg-primary text-on-primary py-3 rounded-xl font-medium text-sm tracking-wide transition-all duration-300 hover:opacity-90">
+                New Rule Set
+            </button>
+</div>
+<footer class="border-t border-stone-200/10 pt-6 space-y-2">
+<a class="flex items-center space-x-3 text-stone-500 dark:text-stone-400 pl-4 py-2 hover:translate-x-1 transition-transform duration-200 font-sans text-sm tracking-wide uppercase" href="#">
+<span class="material-symbols-outlined">help_outline</span>
+<span>Support</span>
+</a>
+<a class="flex items-center space-x-3 text-stone-500 dark:text-stone-400 pl-4 py-2 hover:translate-x-1 transition-transform duration-200 font-sans text-sm tracking-wide uppercase" href="#">
+<span class="material-symbols-outlined">logout</span>
+<span>Logout</span>
+</a>
+</footer>
+</aside>
+<!-- Main Content -->
+<main class="flex-1 h-screen overflow-y-auto relative flex flex-col">
+<!-- TopNavBar -->
+<header class="flex justify-between items-center w-full px-12 h-20 bg-stone-50/80 dark:bg-stone-950/80 backdrop-blur-xl sticky top-0 z-50">
+<div class="flex items-center space-x-8">
+<nav class="hidden lg:flex items-center space-x-8 font-sans text-[11px] tracking-widest uppercase">
+<a class="text-stone-400 dark:text-stone-500 hover:text-stone-600 transition-all duration-300" href="#">Global Rules</a>
+<a class="text-stone-400 dark:text-stone-500 hover:text-stone-600 transition-all duration-300" href="#">Audit Log</a>
+<a class="text-stone-900 dark:text-stone-50 font-semibold border-b border-stone-800 dark:border-stone-200 pb-1" href="#">Settings</a>
+</nav>
+</div>
+<div class="flex items-center space-x-6">
+<div class="relative hidden sm:block">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-stone-400">search</span>
+<input class="bg-surface-container-low border-none rounded-full pl-10 pr-4 py-2 text-sm w-64 focus:ring-1 focus:ring-primary/20 placeholder:text-stone-400 transition-all" placeholder="Search rules..." type="text"/>
+</div>
+<div class="flex items-center space-x-4">
+<button class="material-symbols-outlined text-stone-800 dark:text-stone-200 hover:opacity-70 transition-all">notifications</button>
+<div class="h-8 w-8 rounded-full overflow-hidden bg-stone-200">
+<img alt="Admin" class="h-full w-full object-cover" data-alt="close-up portrait of a professional curator with clean minimalist style in soft studio lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDpP8B8NkZ7Ydmp12uBGa6nYZ-y6lkjjMLBHZ8jQIpyc1zU2PrkEgDtTZtxm7oVXEkFt18vceWjqIwPgteialgONxTn772IsriSWjlbUjLYMFmE6TCHWb4CfKlH7JjynpaW5A30o6HR6foNynPbmr0UQBsH72MNYB6k5Av104-Swi518JQuNe7h6SsAmczxGI1oP9abVlUhGJmtczAQx4SvAXdPn2RblM7-EP_p-hQ-4MLKJrI7hHUIYuaPbSwlsUeXhDoIw0YxZlwQ"/>
+</div>
+</div>
+</div>
+</header>
+<!-- Canvas de Conteúdo -->
+<div class="p-12 max-w-7xl mx-auto w-full space-y-16">
+<!-- Hero Section -->
+<section>
+<h2 class="font-headline text-5xl text-on-background serif-tight mb-4">Regras de Curadoria</h2>
+<p class="text-on-surface-variant max-w-2xl text-lg font-light leading-relaxed">
+                    Defina os parâmetros automáticos para aprovação e pontuação de novos itens no catálogo. Transforme diretrizes editoriais em inteligência operacional.
+                </p>
+</section>
+<!-- Rules Grid: Editorial Layout -->
+<div class="grid grid-cols-1 xl:grid-cols-12 gap-8 items-start">
+<!-- Left Column: Key Categories -->
+<div class="xl:col-span-8 space-y-12">
+<!-- Section: Critérios de Conteúdo -->
+<div class="space-y-6">
+<div class="flex justify-between items-end border-b border-outline-variant/10 pb-4">
+<h3 class="font-headline text-2xl italic">Critérios de Conteúdo</h3>
+<span class="text-[10px] tracking-widest uppercase text-stone-400">02 Active Rules</span>
+</div>
+<div class="space-y-1">
+<!-- Rule Card -->
+<div class="group bg-surface-container-lowest p-8 rounded-xl ghost-border hover:border-primary/20 transition-all flex justify-between items-center">
+<div class="space-y-3 max-w-xl">
+<div class="flex items-center space-x-3">
+<span class="material-symbols-outlined text-primary text-sm">subject</span>
+<span class="label-sm font-semibold tracking-tighter uppercase text-[10px] text-stone-500">Incomplete Description</span>
+</div>
+<h4 class="font-headline text-xl">Lista de ingredientes ausente</h4>
+<p class="text-sm text-stone-500">Gatilho: Se campo 'Ingredients' estiver vazio na submissão.</p>
+<div class="flex items-center space-x-2">
+<span class="bg-error-container/10 text-on-error-container text-[11px] px-3 py-1 rounded-full font-medium">Ação: Reduzir score em 20%</span>
+</div>
+</div>
+<div class="flex flex-col items-end space-y-6">
+<div class="flex items-center space-x-4">
+<button class="text-xs font-semibold underline underline-offset-4 text-stone-400 hover:text-primary transition-colors">Editar</button>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox" value=""/>
+<div class="w-10 h-5 bg-stone-200 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div>
+</div>
+</div>
+<div class="group bg-surface-container-lowest p-8 rounded-xl ghost-border hover:border-primary/20 transition-all flex justify-between items-center">
+<div class="space-y-3 max-w-xl">
+<div class="flex items-center space-x-3">
+<span class="material-symbols-outlined text-primary text-sm">short_text</span>
+<span class="label-sm font-semibold tracking-tighter uppercase text-[10px] text-stone-500">Content Quality</span>
+</div>
+<h4 class="font-headline text-xl">Descrição com menos de 200 caracteres</h4>
+<p class="text-sm text-stone-500">Gatilho: Contagem de strings no campo 'Main Description' &lt; 200.</p>
+<div class="flex items-center space-x-2">
+<span class="bg-secondary-container text-on-secondary-container text-[11px] px-3 py-1 rounded-full font-medium">Ação: Marcar para revisão manual</span>
+</div>
+</div>
+<div class="flex flex-col items-end space-y-6">
+<div class="flex items-center space-x-4">
+<button class="text-xs font-semibold underline underline-offset-4 text-stone-400 hover:text-primary transition-colors">Editar</button>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox" value=""/>
+<div class="w-10 h-5 bg-stone-200 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Section: Critérios de Claims (Visual Asymmetry) -->
+<div class="space-y-6">
+<div class="flex justify-between items-end border-b border-outline-variant/10 pb-4">
+<h3 class="font-headline text-2xl italic">Critérios de Claims</h3>
+<span class="text-[10px] tracking-widest uppercase text-stone-400">02 Active Rules</span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-1">
+<div class="bg-surface-container-lowest p-8 rounded-xl ghost-border flex flex-col justify-between">
+<div class="space-y-4">
+<span class="material-symbols-outlined text-tertiary">warning</span>
+<h4 class="font-headline text-lg">Uso de termos proibidos</h4>
+<p class="text-xs text-stone-500 leading-relaxed">Gatilho: Presença de "cura milagrosa", "reversão total" ou "imediato".</p>
+</div>
+<div class="mt-8 flex justify-between items-center">
+<span class="text-[10px] text-tertiary font-bold uppercase tracking-widest">Reprovar automático</span>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox" value=""/>
+<div class="w-8 h-4 bg-stone-200 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-3 after:w-3 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div>
+</div>
+<div class="bg-surface-container-low p-8 rounded-xl flex flex-col justify-between">
+<div class="space-y-4">
+<span class="material-symbols-outlined text-primary">flag</span>
+<h4 class="font-headline text-lg">Promessa de resultado imediato</h4>
+<p class="text-xs text-stone-500 leading-relaxed">Gatilho: Texto contendo menção a resultados em menos de 24h.</p>
+</div>
+<div class="mt-8 flex justify-between items-center">
+<span class="text-[10px] text-on-surface-variant font-bold uppercase tracking-widest">Flag de atenção</span>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox" value=""/>
+<div class="w-8 h-4 bg-stone-200 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-3 after:w-3 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column: Image & Category Rules -->
+<div class="xl:col-span-4 space-y-8">
+<!-- Section: Critérios de Imagem -->
+<div class="bg-stone-900 text-stone-50 p-10 rounded-[2rem] space-y-10">
+<header>
+<h3 class="font-headline text-2xl mb-2">Critérios de Imagem</h3>
+<p class="text-stone-400 text-xs font-light tracking-wide">Padrões visuais de excelência</p>
+</header>
+<div class="space-y-8">
+<div class="space-y-2">
+<div class="flex justify-between items-center">
+<span class="text-[10px] tracking-widest uppercase text-stone-500">Resolução Técnica</span>
+<span class="material-symbols-outlined text-xs">photo_size_select_actual</span>
+</div>
+<h5 class="text-sm font-medium">Resolução inferior a 1080p</h5>
+<p class="text-[11px] text-stone-400">Ação: Solicitar novo envio automático ao fornecedor.</p>
+</div>
+<div class="space-y-2">
+<div class="flex justify-between items-center">
+<span class="text-[10px] tracking-widest uppercase text-stone-500">Contexto Visual</span>
+<span class="material-symbols-outlined text-xs">wallpaper</span>
+</div>
+<h5 class="text-sm font-medium">Fundo não neutro detectado</h5>
+<p class="text-[11px] text-stone-400">Ação: Reduzir qualidade visual no algoritmo de busca.</p>
+</div>
+</div>
+<div class="pt-6">
+<div class="h-40 w-full rounded-xl overflow-hidden grayscale opacity-40">
+<img alt="Skincare aesthetic" class="h-full w-full object-cover" data-alt="high-end skincare product bottle on a minimalist stone surface with dramatic shadows and neutral palette" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCaUGuoSwsrZf_nzlPIihlo3psIIgrDj_r1xnUp97T2z7jpYXFTCSJuxb5e-wjW5FHTYrBVxyMDNlbGAbyDGQOKt2Yq6iPRMfbOmFhsvVd-DPfylL2Pp1Bdad8OjuVUNLhvOEQARGG3enmvovOFZryguyVgKcpwkKufeLatlI1PUnGBthtlNTZaNQyQ2sDM0NA0HY4aNAbyPnXPrfOgZMRhfCuMrf3MGSzYjpc9l8fZ1kgHCeSEQgWevMz96_s5r3dy-gb4dVwn6iyL"/>
+</div>
+</div>
+</div>
+<!-- Section: Critérios de Categoria -->
+<div class="bg-surface-container-high p-8 rounded-xl space-y-6">
+<h3 class="font-headline text-xl italic border-b border-outline-variant pb-3">Critérios de Categoria</h3>
+<div class="space-y-6">
+<div class="group">
+<div class="flex justify-between items-start mb-2">
+<p class="text-xs font-bold uppercase tracking-tighter">Maquiagem</p>
+<button class="material-symbols-outlined text-stone-400 hover:text-stone-900 transition-colors">edit</button>
+</div>
+<p class="text-sm">Exigir teste de alergia certificado em anexo.</p>
+</div>
+<div class="group">
+<div class="flex justify-between items-start mb-2">
+<p class="text-xs font-bold uppercase tracking-tighter">Skincare</p>
+<button class="material-symbols-outlined text-stone-400 hover:text-stone-900 transition-colors">edit</button>
+</div>
+<p class="text-sm">Exigir registro ANVISA válido no campo 'Legal'.</p>
+</div>
+</div>
+<button class="w-full border border-stone-800 text-stone-800 py-3 rounded-full text-[10px] font-bold uppercase tracking-widest hover:bg-stone-800 hover:text-stone-50 transition-all duration-300 mt-4">
+                            Adicionar Categoria
+                        </button>
+</div>
+</div>
+</div>
+</div>
+<!-- Footer / Global Stats -->
+<footer class="mt-auto p-12 bg-surface-container-low border-t border-outline-variant/10">
+<div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center opacity-60">
+<div class="flex space-x-12">
+<div>
+<p class="text-[10px] uppercase tracking-widest">Total de Regras</p>
+<p class="font-headline text-2xl">24</p>
+</div>
+<div>
+<p class="text-[10px] uppercase tracking-widest">Eficiência de Filtro</p>
+<p class="font-headline text-2xl">89.2%</p>
+</div>
+</div>
+<div class="mt-8 md:mt-0 italic text-sm">
+                    "A curadoria é a arte de escolher o que não mostrar."
+                </div>
+</div>
+</footer>
+</main>
+</body></html>

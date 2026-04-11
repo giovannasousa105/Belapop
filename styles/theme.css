@@ -1,17 +1,20 @@
 ﻿:root {
-  --bp-black: #0F0F10;
-  --bp-black-soft: #141416;
-  --bp-pink: #C2185B;
-  --bp-pink-soft: #F4B6C2;
-  --bp-offwhite: #FAF7F8;
-  --bp-graphite: #2B2B2E;
+  --bp-black: #1E1E1E;
+  --bp-black-soft: #5B3138;
+  --bp-pink: #D8A0AC;
+  --bp-pink-soft: #F6E8EA;
+  --bp-pink-lux: #F8EEF0;
+  --bp-pink-cta: #D51E71;
+  --bp-offwhite: #FBF7F4;
+  --bp-graphite: #6E5F61;
+  --bp-rose-gold: #B88E8E;
 
   --bp-radius-sm: 10px;
   --bp-radius-md: 16px;
   --bp-radius-lg: 22px;
 
-  --bp-shadow-soft: 0 10px 30px rgba(15, 15, 16, 0.10);
-  --bp-shadow-micro: 0 6px 18px rgba(15, 15, 16, 0.08);
+  --bp-shadow-soft: 0 18px 48px rgba(36, 31, 32, 0.10);
+  --bp-shadow-micro: 0 10px 24px rgba(36, 31, 32, 0.08);
 
   --bp-container-max: 1240px;
 }
@@ -37,5 +40,3 @@
     padding: 0 32px;
   }
 }
-
-

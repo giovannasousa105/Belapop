@@ -2,17 +2,22 @@ name: Admin Cron
 
 on:
   schedule:
-    - cron: "5 0 * * *"      # rollup diário 00:05 UTC
+    - cron: "5 0 * * *"      # rollup diario 00:05 UTC
     - cron: "*/15 * * * *"   # SLA notify a cada 15 min
   workflow_dispatch:
+    inputs:
+      base_url:
+        description: "URL alvo opcional para executar o cron"
+        required: false
+        type: string
 
 env:
-  BASE_URL: http://localhost:3000 # ajuste se usar domínio público
+  BASE_URL: ${{ github.event.inputs.base_url || vars.BELAPOP_BASE_URL || 'https://belapopsite-git-staging-belapop.vercel.app' }}
   SERVICE_TOKEN: ${{ secrets.SERVICE_TOKEN }} # opcional para auth
 
 jobs:
   rollup:
-    if: github.event.schedule == '5 0 * * *'
+    if: github.event.schedule == '5 0 * * *' || github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     steps:
       - name: Rollup metrics_daily
@@ -22,7 +27,7 @@ jobs:
             ${SERVICE_TOKEN:+-H "Authorization: Bearer $SERVICE_TOKEN"}
 
   sla_notify:
-    if: github.event.schedule == '*/15 * * * *'
+    if: github.event.schedule == '*/15 * * * *' || github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     steps:
       - name: SLA notify

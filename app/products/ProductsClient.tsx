@@ -1,11 +1,12 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Search, SlidersHorizontal } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 
 import { CatalogFilters } from "@/components/catalog/Filters";
 import { ProductGrid } from "@/components/ProductGrid";
+import { trackEvent } from "@/lib/analytics/tracker";
 import { useDebounce } from "@/lib/hooks/useDebounce";
 import { parseListParam } from "@/lib/search";
 import { formatPrice } from "@/lib/utils";
@@ -135,6 +136,7 @@ export const ProductsClient = () => {
   const [filtersOpen, setFiltersOpen] = useState(false);
   const [priceMinInput, setPriceMinInput] = useState("");
   const [priceMaxInput, setPriceMaxInput] = useState("");
+  const lastTrackedSearchRef = useRef("");
 
   const q = searchParams.get("q") ?? "";
   const [searchInput, setSearchInput] = useState(q);
@@ -178,6 +180,20 @@ export const ProductsClient = () => {
     const next = params.toString();
     router.replace(next ? `/catalogo?${next}` : "/catalogo", { scroll: false });
   }, [debouncedSearchInput, q, router, searchParams]);
+
+  useEffect(() => {
+    const normalizedQuery = debouncedSearchInput.trim();
+    if (normalizedQuery.length < 2) return;
+    if (lastTrackedSearchRef.current === normalizedQuery) return;
+    lastTrackedSearchRef.current = normalizedQuery;
+    void trackEvent({
+      type: "search",
+      metadata: {
+        query: normalizedQuery,
+        surface: "products_catalog"
+      }
+    });
+  }, [debouncedSearchInput]);
 
   useEffect(() => {
     setPriceMinInput(min);
@@ -264,7 +280,7 @@ export const ProductsClient = () => {
     router.replace("/catalogo?sort=featured&availability=in_stock", { scroll: false });
   };
 
-  const items = data?.items ?? [];
+  const items = useMemo(() => data?.items ?? [], [data]);
   const facets = data?.facets ?? DEFAULT_FACETS;
 
   const cardProducts = items.map((item) => ({
@@ -272,7 +288,8 @@ export const ProductsClient = () => {
     name: item.name,
     price: item.price,
     category: item.category ?? "Curadoria",
-    sellerId: item.sellerId ?? ""
+    sellerId: item.sellerId ?? "",
+    imageUrl: item.imageUrl
   }));
 
   const ratingMap = useMemo(() => {
@@ -464,19 +481,19 @@ export const ProductsClient = () => {
             onPriceMaxChange={setPriceMaxInput}
             onApplyPriceRange={applyPriceRange}
             onSelectPricePreset={selectPricePreset}
-            onToggleBrand={(value) => toggleListValue("brand", value)}
-            onToggleCategory={(value) => toggleListValue("category", value)}
-            onToggleMoment={(value) => toggleListValue("moment", value)}
-            onToggleRitual={(value) => toggleListValue("ritual", value)}
-            onToggleTexture={(value) => toggleListValue("texture", value)}
-            onToggleFinish={(value) => toggleListValue("finish", value)}
-            onToggleSkinType={(value) => toggleListValue("skin_type", value)}
-            onToggleSensation={(value) => toggleListValue("sensation", value)}
-            onToggleResult={(value) => toggleListValue("result", value)}
-            onToggleTag={(value) => toggleListValue("tags", value)}
+            onToggleBrand={(value: string) => toggleListValue("brand", value)}
+            onToggleCategory={(value: string) => toggleListValue("category", value)}
+            onToggleMoment={(value: string) => toggleListValue("moment", value)}
+            onToggleRitual={(value: string) => toggleListValue("ritual", value)}
+            onToggleTexture={(value: string) => toggleListValue("texture", value)}
+            onToggleFinish={(value: string) => toggleListValue("finish", value)}
+            onToggleSkinType={(value: string) => toggleListValue("skin_type", value)}
+            onToggleSensation={(value: string) => toggleListValue("sensation", value)}
+            onToggleResult={(value: string) => toggleListValue("result", value)}
+            onToggleTag={(value: string) => toggleListValue("tags", value)}
             onToggleCurated={() => updateQuery({ curated: curated ? null : "1" })}
             onToggleIsNew={() => updateQuery({ new: isNew ? null : "1" })}
-            onSetAvailability={(value) => updateQuery({ availability: value })}
+            onSetAvailability={(value: string) => updateQuery({ availability: value })}
             showSkincareFilters={hasSkincareCategory}
             showMakeFilters={hasMakeCategory}
             formatPrice={formatPrice}

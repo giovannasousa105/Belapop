@@ -2,6 +2,8 @@ export const analyticsEventTypes = [
   "view_home",
   "view_catalog",
   "view_product",
+  "search",
+  "favorite",
   "add_to_cart",
   "remove_from_cart",
   "start_checkout",

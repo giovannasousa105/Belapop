@@ -1,0 +1,29 @@
+<svg width="1600" height="1100" viewBox="0 0 1600 1100" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="40" y1="120" x2="1550" y2="980" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFF9FB"/>
+      <stop offset="0.48" stop-color="#F7E8EE"/>
+      <stop offset="1" stop-color="#F0DCE5"/>
+    </linearGradient>
+    <linearGradient id="shape" x1="980" y1="170" x2="1360" y2="920" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#231219"/>
+      <stop offset="1" stop-color="#432233"/>
+    </linearGradient>
+  </defs>
+  <rect width="1600" height="1100" fill="url(#bg)"/>
+  <rect x="80" y="80" width="1440" height="940" rx="40" fill="#FFFCFD" stroke="#E7BCCB" stroke-opacity="0.8"/>
+  <path d="M948 158H1342C1401.65 158 1450 206.346 1450 266V842C1450 901.654 1401.65 950 1342 950H948V158Z" fill="url(#shape)"/>
+  <circle cx="1208" cy="356" r="142" fill="#F7BFD1" fill-opacity="0.16"/>
+  <circle cx="1286" cy="290" r="38" fill="#F7BFD1"/>
+  <text x="150" y="210" fill="#C65A80" font-size="24" letter-spacing="8" font-family="Arial, Helvetica, sans-serif">DIARIO BELAPOP</text>
+  <text x="150" y="404" fill="#1B1517" font-size="116" font-family="Georgia, 'Times New Roman', serif">Pele em plantao,</text>
+  <text x="150" y="504" fill="#1B1517" font-size="116" font-family="Georgia, 'Times New Roman', serif">conforto e luz.</text>
+  <text x="150" y="630" fill="#5C4B52" font-size="38" font-family="Arial, Helvetica, sans-serif">Barreira forte, protecao discreta e formulas que respeitam</text>
+  <text x="150" y="698" fill="#5C4B52" font-size="38" font-family="Arial, Helvetica, sans-serif">a rotina clinica sem pesar a pele.</text>
+  <g opacity="0.95">
+    <text x="1082" y="836" fill="#FFFFFF" font-size="178" font-family="Arial Black, Arial, Helvetica, sans-serif" font-weight="900">B</text>
+    <circle cx="1282" cy="852" r="18" fill="#F7BFD1"/>
+    <text x="1082" y="918" fill="#F7BFD1" font-size="26" font-family="Arial, Helvetica, sans-serif" font-weight="700" letter-spacing="8">BELAPOP</text>
+    <text x="1082" y="958" fill="#FFFFFF" font-size="22" font-family="Arial, Helvetica, sans-serif" letter-spacing="14">OFICIAL</text>
+  </g>
+</svg>

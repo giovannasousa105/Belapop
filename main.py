@@ -1,4 +1,4 @@
-from __future__ import annotations
+﻿from __future__ import annotations
 
 import uuid
 import os
@@ -33,6 +33,7 @@ from sqlalchemy.orm import Session
 from sqlalchemy.sql import func
 
 from database import Base, engine, get_db
+from skin_ai_service import router as skin_ai_router
 
 # =========================
 # ENV / PROVIDERS
@@ -40,11 +41,6 @@ from database import Base, engine, get_db
 stripe.api_key = os.getenv("STRIPE_SECRET_KEY", "")
 STRIPE_WEBHOOK_SECRET = os.getenv("STRIPE_WEBHOOK_SECRET", "")
 logger = logging.getLogger("belapop.webhook")
-
-PAGARME_API_KEY = os.getenv("PAGARME_API_KEY")
-PAGARME_ENCRYPTION_KEY = os.getenv("PAGARME_ENCRYPTION_KEY")
-PAGARME_BASE_URL = os.getenv("PAGARME_BASE_URL", "https://api.pagar.me/core/v5")
-PAGARME_MODE = os.getenv("PAGARME_MODE", "mock")
 
 MELHOR_ENVIO_TOKEN = os.getenv("MELHOR_ENVIO_TOKEN")
 MELHOR_ENVIO_BASE_URL = os.getenv("MELHOR_ENVIO_BASE_URL", "https://sandbox.melhorenvio.com.br/api/v2")
@@ -379,7 +375,7 @@ class QuoteResponse(BaseModel):
 class CheckoutRequest(BaseModel):
     user_id: uuid.UUID
     postal_code: str = Field(min_length=5, max_length=15)
-    provider: str = "mockpay"
+    provider: str = "stripe"
     coupon_code: Optional[str] = None
     payment_method: Optional[str] = "pix"
     customer: Optional[Dict[str, Any]] = None
@@ -464,7 +460,7 @@ def get_or_create_cart(db: Session, user_id: uuid.UUID) -> Cart:
 def require_user(db: Session, user_id: uuid.UUID) -> User:
     user = db.query(User).filter(User.id == user_id).first()
     if not user:
-        raise HTTPException(404, "Usuário não encontrado")
+        raise HTTPException(404, "UsuÃ¡rio nÃ£o encontrado")
     return user
 
 
@@ -475,7 +471,7 @@ def require_product(db: Session, product_id: uuid.UUID) -> Product:
         .first()
     )
     if not product:
-        raise HTTPException(404, "Produto não encontrado/ativo")
+        raise HTTPException(404, "Produto nÃ£o encontrado/ativo")
     return product
 
 
@@ -486,7 +482,7 @@ def require_store(db: Session, store_id: uuid.UUID) -> Store:
         .first()
     )
     if not store:
-        raise HTTPException(404, "Loja não encontrada/ativa")
+        raise HTTPException(404, "Loja nÃ£o encontrada/ativa")
     return store
 
 
@@ -545,7 +541,7 @@ def cart_view(db: Session, user_id: uuid.UUID) -> CartView:
 
 
 def shipping_quote_for_store(postal_code: str, store_subtotal_cents: int, item_count: int) -> int:
-    # Melhor Envio (scaffold): se token existir, tente usar cotação real no futuro.
+    # Melhor Envio (scaffold): se token existir, tente usar cotaÃ§Ã£o real no futuro.
     quote = melhor_envio_quote(postal_code, store_subtotal_cents, item_count)
     if quote is not None:
         return quote
@@ -559,47 +555,17 @@ def shipping_quote_for_store(postal_code: str, store_subtotal_cents: int, item_c
 def melhor_envio_quote(postal_code: str, store_subtotal_cents: int, item_count: int) -> Optional[int]:
     """
     Scaffold para integrar Melhor Envio.
-    Retorna None quando não configurado para cair no fallback.
+    Retorna None quando nÃ£o configurado para cair no fallback.
     """
     if MELHOR_ENVIO_MODE != "real" and not MELHOR_ENVIO_TOKEN:
-        # mock: usa fórmula simples para manter o fluxo funcionando
+        # mock: usa fÃ³rmula simples para manter o fluxo funcionando
         base = 1290
         per_item = 200 * max(item_count, 1)
         return base + per_item
     if not MELHOR_ENVIO_TOKEN:
         return None
-    # TODO: Implementar chamada real ao Melhor Envio (cotação por pacote/serviço).
+    # TODO: Implementar chamada real ao Melhor Envio (cotaÃ§Ã£o por pacote/serviÃ§o).
     return None
-
-
-def pagarme_create_payment_stub(
-    order: Order,
-    payment_method: str,
-    customer: Optional[Dict[str, Any]] = None,
-    shipping_address: Optional[Dict[str, Any]] = None,
-) -> tuple[Optional[str], Optional[Dict[str, Any]]]:
-    """
-    Scaffold Pagar.me: retorna provider_ref + detalhes mesmo sem chaves.
-    """
-    if PAGARME_MODE != "real" or not PAGARME_API_KEY:
-        provider_ref = f"pagarme_mock_{order.id}"
-        if payment_method == "boleto":
-            details = {
-                "method": "boleto",
-                "boleto_url": "https://sandbox.pagar.me/boleto/mock",
-                "boleto_barcode": "00000000000000000000000000000000000000000000000000",
-            }
-        elif payment_method == "credit_card":
-            details = {"method": "credit_card", "status": "authorized"}
-        else:
-            details = {
-                "method": "pix",
-                "pix_qr_code": "00020101021226860014BR.GOV.BCB.PIX0136mock-pagarme-qr-code5204000053039865802BR5921BELAPOP MOCK PAYMENT6009SAO PAULO62070503***6304B13F",
-                "pix_expires_at": None,
-            }
-        return provider_ref, details
-    # TODO: Implementar criação de cobrança real no Pagar.me (Pix/Boleto/Cartão + split).
-    return None, None
 
 
 def apply_promotion(db: Session, subtotal_cents: int, code: Optional[str]) -> int:
@@ -614,9 +580,9 @@ def apply_promotion(db: Session, subtotal_cents: int, code: Optional[str]) -> in
         .first()
     )
     if not promo:
-        raise HTTPException(400, "Cupom inválido ou inativo")
+        raise HTTPException(400, "Cupom invÃ¡lido ou inativo")
     if promo.min_subtotal_cents and subtotal_cents < promo.min_subtotal_cents:
-        raise HTTPException(400, "Subtotal não atinge o mínimo do cupom")
+        raise HTTPException(400, "Subtotal nÃ£o atinge o mÃ­nimo do cupom")
     discount = 0
     if promo.percent_off:
         discount += int(subtotal_cents * promo.percent_off / 100)
@@ -699,9 +665,9 @@ def quote(db: Session, user_id: uuid.UUID, postal_code: str) -> QuoteResponse:
 
 def enqueue_payment_event(db: Session, event_id: str, event_type: str, payload: dict):
     """
-    Publica em fila externa se REDIS_URL existir; senão, processa inline.
+    Publica em fila externa se REDIS_URL existir; senÃ£o, processa inline.
     """
-    # Registrar idempotência local
+    # Registrar idempotÃªncia local
     exists = db.query(WebhookEvent).filter(WebhookEvent.event_id == event_id).first()
     if exists:
         return
@@ -761,6 +727,8 @@ def checkout_create_order(
     customer: Optional[Dict[str, Any]] = None,
     shipping_address: Optional[Dict[str, Any]] = None,
 ) -> CheckoutResponse:
+    if provider != "stripe":
+        raise HTTPException(400, "Provider nao suportado. Use stripe.")
     cv = cart_view(db, user_id)
     if cv.subtotal_cents == 0:
         raise HTTPException(400, "Carrinho vazio")
@@ -812,7 +780,7 @@ def checkout_create_order(
             product_id = uuid.UUID(str(item["product_id"]))
             product = db.query(Product).filter(Product.id == product_id).first()
             if not product:
-                raise HTTPException(400, "Produto sumiu do catálogo. Atualize o carrinho.")
+                raise HTTPException(400, "Produto sumiu do catÃ¡logo. Atualize o carrinho.")
 
             qty = int(item["quantity"])
             unit = int(item["unit_price_cents"])
@@ -847,16 +815,6 @@ def checkout_create_order(
     db.add(payment)
     db.flush()
 
-    if provider == "pagarme":
-        provider_ref, payment_details = pagarme_create_payment_stub(
-            order,
-            payment_method or "pix",
-            customer,
-            shipping_address,
-        )
-        if provider_ref:
-            payment.provider_ref = provider_ref
-
     cart = get_or_create_cart(db, user_id)
     db.query(CartItem).filter(CartItem.cart_id == cart.id).delete()
 
@@ -880,7 +838,7 @@ def checkout_create_order(
         status=order.status,
         total_cents=order.total_cents,
         shipments=shipments_out,
-        payment_details=payment_details if provider == "pagarme" else None,
+        payment_details=None,
     )
 
 
@@ -888,6 +846,7 @@ def checkout_create_order(
 # APP
 # =========================
 app = FastAPI(title="BelaPop Marketplace API")
+app.include_router(skin_ai_router)
 
 # criar tabelas
 Base.metadata.create_all(bind=engine)
@@ -903,7 +862,7 @@ def health_db(db: Session = Depends(get_db)):
 def create_user(payload: UserCreate, db: Session = Depends(get_db)):
     exists = db.query(User).filter(User.email == payload.email).first()
     if exists:
-        raise HTTPException(400, "Email já cadastrado")
+        raise HTTPException(400, "Email jÃ¡ cadastrado")
     user = User(role=payload.role, name=payload.name, email=payload.email)
     db.add(user)
     db.commit()
@@ -917,7 +876,7 @@ def create_store(payload: StoreCreate, db: Session = Depends(get_db)):
     require_user(db, payload.owner_user_id)
     exists = db.query(Store).filter(Store.slug == payload.slug).first()
     if exists:
-        raise HTTPException(400, "Slug já existe")
+        raise HTTPException(400, "Slug jÃ¡ existe")
     store = Store(
         owner_user_id=payload.owner_user_id,
         name=payload.name,
@@ -952,7 +911,7 @@ def create_product(payload: ProductCreate, db: Session = Depends(get_db)):
 def create_promotion(payload: PromotionCreate, db: Session = Depends(get_db)):
     exists = db.query(Promotion).filter(Promotion.code.ilike(payload.code)).first()
     if exists:
-        raise HTTPException(400, "Código de cupom já existe")
+        raise HTTPException(400, "CÃ³digo de cupom jÃ¡ existe")
     promo = Promotion(
         code=payload.code.upper(),
         percent_off=payload.percent_off,
@@ -1058,7 +1017,7 @@ def cart_update(payload: CartItemUpdate, db: Session = Depends(get_db)):
         .first()
     )
     if not item:
-        raise HTTPException(404, "Item não existe no carrinho")
+        raise HTTPException(404, "Item nÃ£o existe no carrinho")
     if payload.quantity == 0:
         db.delete(item)
     else:
@@ -1094,7 +1053,7 @@ def checkout(payload: CheckoutRequest, db: Session = Depends(get_db)):
 @app.post("/checkout/stripe-intent", response_model=StripeCheckoutResponse)
 def checkout_stripe(payload: CheckoutRequest, db: Session = Depends(get_db)):
     if not stripe.api_key:
-        raise HTTPException(500, "Stripe não configurado")
+        raise HTTPException(500, "Stripe nÃ£o configurado")
 
     result = checkout_create_order(
         db,
@@ -1137,10 +1096,10 @@ def checkout_stripe(payload: CheckoutRequest, db: Session = Depends(get_db)):
 def payment_update(order_id: uuid.UUID, payload: PaymentUpdate, db: Session = Depends(get_db)):
     payment = db.query(Payment).filter(Payment.order_id == order_id).first()
     if not payment:
-        raise HTTPException(404, "Payment não encontrado")
+        raise HTTPException(404, "Payment nÃ£o encontrado")
     order = db.query(Order).filter(Order.id == order_id).first()
     if not order:
-        raise HTTPException(404, "Order não encontrado")
+        raise HTTPException(404, "Order nÃ£o encontrado")
     payment.status = payload.status
     if payload.provider_ref:
         payment.provider_ref = payload.provider_ref
@@ -1177,7 +1136,7 @@ async def stripe_webhook(request: Request, db: Session = Depends(get_db)):
     if not event_id:
         return {"received": True}
 
-    # Idempotência + processamento (stub de fila)
+    # IdempotÃªncia + processamento (stub de fila)
     enqueue_payment_event(db, event_id, event_type, obj)
     return {"received": True}
 
@@ -1186,7 +1145,7 @@ async def stripe_webhook(request: Request, db: Session = Depends(get_db)):
 def order_get(order_id: uuid.UUID, db: Session = Depends(get_db)):
     order = db.query(Order).filter(Order.id == order_id).first()
     if not order:
-        raise HTTPException(404, "Pedido não encontrado")
+        raise HTTPException(404, "Pedido nÃ£o encontrado")
     items = db.query(OrderItem).filter(OrderItem.order_id == order_id).all()
     shipments = db.query(Shipment).filter(Shipment.order_id == order_id).all()
     payment = db.query(Payment).filter(Payment.order_id == order_id).first()
@@ -1280,3 +1239,4 @@ def list_reviews(product_id: uuid.UUID, db: Session = Depends(get_db)):
         .all()
     )
     return [ReviewOut.from_orm(r) for r in reviews]
+

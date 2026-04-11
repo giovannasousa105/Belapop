@@ -3,25 +3,24 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
+import Sidebar from "@/components/admin/sidebar";
 import { LuxuryButton } from "@/components/LuxuryButton";
+import LogoutButton from "@/components/LogoutButton";
+import PortalBackButton from "@/components/navigation/PortalBackButton";
+import PortalRoleSwitcher from "@/components/PortalRoleSwitcher";
 import { useAuth } from "@/lib/AuthContext";
 
-const adminNav = [
-  {
-    title: "Painel",
-    items: [
-      { href: "/admin/curadoria", label: "Curadoria" },
-      { href: "/admin/parceiros", label: "Parceiros" },
-      { href: "/admin/pedidos", label: "Pedidos" },
-      { href: "/admin/diario", label: "Diario" },
-      { href: "/admin/config", label: "Config" }
-    ]
-  }
-];
-
 export default function AdminShell({ children }: { children: React.ReactNode }) {
-  const { user, ready, logout } = useAuth();
+  const { user, ready } = useAuth();
   const pathname = usePathname();
+
+  const isDashboardRoute =
+    pathname === "/admin/dashboard" || pathname.startsWith("/admin/dashboard/");
+
+  // Dashboard has its own full-screen shell (sidebar + topbar). Avoid double wrapping.
+  if (isDashboardRoute) {
+    return <>{children}</>;
+  }
 
   if (!ready || !user) {
     return (
@@ -32,66 +31,46 @@ export default function AdminShell({ children }: { children: React.ReactNode }) 
   }
 
   return (
-    <div className="min-h-screen bg-white text-bpBlackSoft">
-      <div className="mx-auto w-full max-w-7xl px-6 py-10">
-        <div className="mb-6 flex flex-wrap items-center justify-between gap-4 rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
-          <div>
-            <p className="text-[10px] uppercase tracking-[0.3em] text-bpGraphite/70">
-              Admin BelaPop
-            </p>
-            <h2 className="mt-1 font-display text-xl text-bpBlack">
-              Administracao institucional
-            </h2>
+    <div className="min-h-screen bg-[#F9FAFB] text-slate-900">
+      <Sidebar />
+      <div className="lg:pl-[260px]">
+        <header className="sticky top-0 z-20 border-b border-slate-200 bg-white/95 backdrop-blur">
+          <div className="mx-auto flex max-w-[1500px] flex-col gap-3 px-4 py-4 sm:px-6 lg:flex-row lg:items-center lg:justify-between lg:px-8">
+            <div className="pl-12 lg:pl-0">
+              <PortalBackButton fallbackHref="/admin/dashboard" className="mb-3" />
+              <p className="text-xs uppercase tracking-[0.2em] text-slate-500">Admin BelaPop</p>
+              <h2 className="text-lg font-semibold text-slate-900">Administracao institucional</h2>
+            </div>
+            <div className="flex flex-wrap items-center gap-2">
+              <PortalRoleSwitcher variant="light" compact />
+              <LuxuryButton tone="retail" size="sm" href="/admin/diario/new">
+                Novo post
+              </LuxuryButton>
+              <Link
+                href="/admin/dashboard"
+                className="rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm text-slate-700 transition hover:bg-slate-100"
+              >
+                Dashboard
+              </Link>
+              <Link
+                href="/"
+                className="rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm text-slate-700 transition hover:bg-slate-100"
+              >
+                Ver site
+              </Link>
+              <LogoutButton
+                redirectTo="/admin/login"
+                className="rounded-xl border border-rose-200 bg-rose-50 px-3 py-2 text-sm text-rose-700 transition hover:bg-rose-100 disabled:cursor-not-allowed disabled:opacity-60"
+              >
+                Sair
+              </LogoutButton>
+            </div>
           </div>
-          <div className="flex flex-wrap items-center gap-3">
-            <LuxuryButton tone="retail" size="sm" href="/admin/diario/new">
-              Novo post
-            </LuxuryButton>
-            <Link
-              href="/"
-              className="text-xs uppercase tracking-[0.3em] text-bpGraphite/70 hover:text-bpBlackSoft"
-            >
-              Ver site
-            </Link>
-            <button
-              onClick={logout}
-              className="text-xs uppercase tracking-[0.3em] text-bpGraphite/70 hover:text-bpBlackSoft"
-            >
-              Sair
-            </button>
-          </div>
-        </div>
-        <div className="grid gap-8 lg:grid-cols-[220px_1fr]">
-          <aside className="flex h-fit flex-col gap-4 rounded-3xl border border-black/10 bg-white p-6 shadow-sm text-sm">
-            {adminNav.map((group) => (
-              <div key={group.title} className="flex flex-col gap-2">
-                <p className="text-[10px] uppercase tracking-[0.3em] text-bpGraphite/70">
-                  {group.title}
-                </p>
-                <div className="flex flex-col gap-2">
-                  {group.items.map((item) => {
-                    const isActive =
-                      pathname === item.href || pathname.startsWith(`${item.href}/`);
-                    return (
-                      <Link
-                        key={item.href}
-                        href={item.href}
-                        className={`rounded-2xl border px-4 py-3 transition ${
-                          isActive
-                            ? "border-bpPink/60 text-bpBlackSoft shadow-sm"
-                            : "border-black/10 text-bpGraphite/70 hover:border-bpPink/40 hover:text-bpBlackSoft"
-                        }`}
-                      >
-                        {item.label}
-                      </Link>
-                    );
-                  })}
-                </div>
-              </div>
-            ))}
-          </aside>
+        </header>
+
+        <main className="mx-auto max-w-[1500px] px-4 py-6 sm:px-6 lg:px-8">
           <div className="flex flex-col gap-6">{children}</div>
-        </div>
+        </main>
       </div>
     </div>
   );

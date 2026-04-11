@@ -1,9 +1,10 @@
 import { redirect } from "next/navigation";
 
+import { resolveUserRoleState, setActiveLegacyRole } from "@/lib/auth/roleState";
+import { getSupabaseAdminClient } from "@/lib/supabase/admin";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 
 type Audience = "customer" | "partner";
-type Role = "client" | "partner" | "admin";
 
 type PageProps = {
   searchParams?: Promise<Record<string, string | string[] | undefined>>;
@@ -18,55 +19,63 @@ function normalizeAudience(value: string | undefined): Audience {
   return value === "partner" ? "partner" : "customer";
 }
 
-function normalizeRole(value: string | null | undefined): Role {
-  if (value === "admin") return "admin";
-  if (value === "partner" || value === "seller") return "partner";
-  return "client";
-}
-
 export default async function AuthRedirectPage({ searchParams }: PageProps) {
   const params = (await searchParams) ?? {};
   const audience = normalizeAudience(firstValue(params.audience));
   const supabase = await createSupabaseServerClient();
+  const admin = getSupabaseAdminClient();
 
   const {
     data: { user }
   } = await supabase.auth.getUser();
 
   if (!user) {
-    redirect(`/login?tab=${audience}`);
+    redirect(`/login?tab=${audience}&auth_error=1`);
   }
 
-  const { data: profileRow } = await supabase
-    .from("profiles")
-    .select("role")
-    .eq("id", user.id)
-    .maybeSingle();
+  const roleState = await resolveUserRoleState({
+    userId: user.id,
+    authUser: user,
+    admin
+  });
 
-  let resolvedRole = normalizeRole(profileRow?.role);
+  const hasCustomer = roleState.assignedRoles.includes("customer");
+  const hasSeller = roleState.assignedRoles.includes("seller");
+  const hasAdmin = roleState.assignedRoles.includes("admin");
 
-  if (!profileRow?.role) {
-    const { data: roleRow } = await supabase
-      .from("user_roles")
-      .select("role")
-      .eq("user_id", user.id)
-      .maybeSingle();
+  if (audience === "partner") {
+    if (hasSeller) {
+      await setActiveLegacyRole({ userId: user.id, role: "seller", admin });
+      redirect("/parceiro");
+    }
 
-    resolvedRole = normalizeRole(roleRow?.role);
+    if (hasAdmin) {
+      await setActiveLegacyRole({ userId: user.id, role: "admin", admin });
+      redirect("/adm");
+    }
+
+    if (hasCustomer) {
+      await setActiveLegacyRole({ userId: user.id, role: "customer", admin });
+      redirect("/parceiro/onboarding?status=pending");
+    }
+
+    redirect("/login?tab=partner&forbidden=1");
   }
 
-  if (resolvedRole === "admin") {
-    redirect("/admin");
+  if (hasCustomer) {
+    await setActiveLegacyRole({ userId: user.id, role: "customer", admin });
+    redirect("/conta");
   }
 
-  if (resolvedRole === "partner") {
+  if (hasAdmin) {
+    await setActiveLegacyRole({ userId: user.id, role: "admin", admin });
+    redirect("/adm");
+  }
+
+  if (hasSeller) {
+    await setActiveLegacyRole({ userId: user.id, role: "seller", admin });
     redirect("/parceiro");
   }
 
-  if (audience === "partner") {
-    redirect("/parceiro/onboarding?status=pending");
-  }
-
-  redirect("/conta");
+  redirect(`/login?tab=${audience}&forbidden=1`);
 }
-

@@ -1,24 +1,50 @@
-@tailwind base;
+﻿@tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
   color-scheme: light;
-  --bp-black: #0f0f10;
-  --bp-black-soft: #141416;
-  --bp-pink: #c2185b;
-  --bp-pink-soft: #f4b6c2;
-  --bp-offwhite: #faf7f8;
-  --bp-off-white: #faf7f8;
-  --bp-graphite: #2b2b2e;
+  --bp-black: #1e1e1e;
+  --bp-black-soft: #5b3138;
+  --bp-pink: #d8a0ac;
+  --bp-pink-soft: #f6e8ea;
+  --bp-pink-lux: #f8eef0;
+  --bp-pink-cta: #d51e71;
+  --bp-offwhite: #fbf7f4;
+  --bp-off-white: #fbf7f4;
+  --bp-graphite: #6e5f61;
+  --bp-rose-gold: #b88e8e;
   --bp-radius-sm: 10px;
   --bp-radius-md: 16px;
   --bp-radius-lg: 22px;
-  --bp-shadow-soft: 0 10px 30px rgba(15, 15, 16, 0.1);
-  --bp-shadow-micro: 0 6px 18px rgba(15, 15, 16, 0.08);
+  --bp-shadow-soft: 0 18px 48px rgba(36, 31, 32, 0.1);
+  --bp-shadow-micro: 0 10px 24px rgba(36, 31, 32, 0.08);
   --bp-section-y: 80px;
   --bp-section-y-mobile: 48px;
   --bp-container-max: 1240px;
+
+  --adm-bg: #fbf9f4;
+  --adm-sidebar: #f5f4ed;
+  --adm-surface: #ffffff;
+  --adm-surface-soft: #efeee6;
+  --adm-surface-muted: #f5f4ed;
+  --adm-border: rgba(177, 179, 169, 0.22);
+  --adm-border-strong: rgba(121, 124, 115, 0.2);
+  --adm-text: #31332c;
+  --adm-text-muted: #5e6058;
+  --adm-text-soft: #7b7d75;
+  --adm-primary: #5f5e5e;
+  --adm-secondary: #6e5b4d;
+  --adm-tertiary: #a23d3e;
+  --adm-success: #2f7f59;
+  --adm-warning: #b17818;
+  --adm-info: #446a92;
+  --adm-radius: 16px;
+  --adm-radius-lg: 24px;
+  --adm-shadow-soft: 0 18px 48px rgba(49, 51, 44, 0.05);
+  --adm-shadow-micro: 0 10px 24px rgba(49, 51, 44, 0.04);
+  --adm-header-height: 72px;
+  --adm-sidebar-width: 280px;
 }
 
 html,
@@ -36,13 +62,16 @@ body {
 body {
   @apply bg-bpOffWhite text-bpGraphite antialiased;
   min-height: 100vh;
-  background-image: radial-gradient(circle at 25% 0%, rgba(244, 182, 194, 0.18), transparent 44%),
-    radial-gradient(circle at 85% 12%, rgba(194, 24, 91, 0.06), transparent 36%);
-  background-attachment: fixed;
+  background-color: #fbf7f4;
 }
 
 a {
-  @apply text-bpPink;
+  @apply text-bpBlackSoft;
+}
+
+.bg-bpPink.text-white,
+.bg-bpPink.text-bpOffWhite {
+  color: var(--bp-black) !important;
 }
 
 input,
@@ -52,7 +81,7 @@ textarea {
 }
 
 .lux-outline {
-  outline: 1px solid rgba(194, 24, 91, 0.18);
+  outline: 1px solid rgba(184, 142, 142, 0.24);
 }
 
 .glow-hover {
@@ -64,10 +93,57 @@ textarea {
   transform: translateY(-4px);
 }
 
+.bp-fade-rise {
+  animation: bp-fade-rise 0.9s ease-out both;
+}
+
+.bp-fade-rise-delayed {
+  animation: bp-fade-rise 1.15s ease-out both;
+}
+
+.bp-evidence-marquee {
+  animation: bp-evidence-marquee 28s linear infinite;
+  width: max-content;
+}
+
+.bp-evidence-marquee:hover {
+  animation-play-state: paused;
+}
+
+@keyframes bp-fade-rise {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes bp-evidence-marquee {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bp-fade-rise,
+  .bp-fade-rise-delayed,
+  .bp-evidence-marquee {
+    animation: none !important;
+  }
+}
+
 .glass-panel {
-  background: rgba(250, 247, 248, 0.84);
+  background: rgba(251, 247, 244, 0.84);
   backdrop-filter: blur(14px);
-  border: 1px solid rgba(194, 24, 91, 0.14);
+  border: 1px solid rgba(216, 160, 172, 0.18);
 }
 
 .editorial-line {
@@ -81,7 +157,7 @@ textarea {
   left: 0;
   width: 60px;
   height: 1px;
-  background: rgba(194, 24, 91, 0.34);
+  background: rgba(216, 160, 172, 0.52);
 }
 
 .line-clamp-2 {
@@ -98,6 +174,33 @@ textarea {
   overflow: hidden;
 }
 
+.adm-scrollbar::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+
+.adm-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.adm-scrollbar::-webkit-scrollbar-thumb {
+  background: #d7d9cf;
+  border-radius: 999px;
+}
+
+.adm-surface {
+  background: var(--adm-surface);
+  border: 1px solid var(--adm-border);
+  border-radius: var(--adm-radius);
+  box-shadow: var(--adm-shadow-micro);
+}
+
+.adm-soft-surface {
+  background: var(--adm-surface-muted);
+  border: 1px solid rgba(177, 179, 169, 0.14);
+  border-radius: var(--adm-radius);
+}
+
 ::-webkit-scrollbar {
   height: 6px;
   width: 6px;
@@ -108,11 +211,10 @@ textarea {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(194, 24, 91, 0.5);
+  background: rgba(91, 49, 56, 0.45);
   border-radius: 999px;
 }
 
-/* Hide vendor floating launcher to avoid overlap with WhatsApp button. */
 #acsb-trigger,
 .acsb-trigger,
 #acsb-accessibility-trigger,

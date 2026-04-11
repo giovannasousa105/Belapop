@@ -1,8 +1,8 @@
 import { headers } from "next/headers";
+import { redirect } from "next/navigation";
 
 import SellerPublicShell from "@/app/seller/SellerPublicShell";
-import SellerShell from "@/app/seller/SellerShell";
-import { requireRole } from "@/lib/auth/requireRole";
+import { resolvePartnerPortalFromSellerPath } from "@/lib/partner/legacySellerRouting";
 
 const authRoutes = new Set(["/seller/login", "/seller/register"]);
 const publicRoutes = new Set([
@@ -29,11 +29,6 @@ export default async function SellerLayout({
     return <>{children}</>;
   }
 
-  await requireRole("seller", {
-    redirectTo: "/seller/login",
-    unauthorizedTo: "/"
-  });
-
-  return <SellerShell>{children}</SellerShell>;
+  redirect(resolvePartnerPortalFromSellerPath(pathname));
 }
 

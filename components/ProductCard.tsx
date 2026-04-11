@@ -1,29 +1,34 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { Heart, Star } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 
 import { LuxuryButton } from "@/components/LuxuryButton";
-import { useCart } from "@/lib/CartContext";
 import { sellers } from "@/data/sellers";
+import { useCart } from "@/lib/CartContext";
+import { getProductDisplayImage } from "@/lib/product/productCovers";
 import { getSupabaseClient } from "@/lib/supabase/client";
 import { type ProductImageTone } from "@/lib/types";
 
 export type ProductCardData = {
   id: string;
+  slug?: string;
   name: string;
   price: number;
   category: string;
   sellerId: string;
+  imageUrl?: string | null;
+  images?: string[] | null;
   imageTone?: ProductImageTone;
 };
 
 const toneStyles: Record<NonNullable<ProductImageTone>, string> = {
-  rose: "from-bpPinkSoft/30 via-bpPinkSoft/10 to-white",
-  blush: "from-bpPinkSoft/40 via-white to-white",
-  noir: "from-bpBlackSoft/10 via-white to-white",
-  plum: "from-bpPink/20 via-bpPinkSoft/10 to-white"
+  rose: "from-bpPinkSoft/30 via-bpPinkSoft/10 to-transparent",
+  blush: "from-bpPinkSoft/40 via-white/10 to-transparent",
+  noir: "from-bpBlackSoft/15 via-bpBlackSoft/5 to-transparent",
+  plum: "from-bpPink/25 via-bpPinkSoft/10 to-transparent"
 };
 
 type ProductCardProps = {
@@ -47,6 +52,18 @@ export const ProductCard = ({
   const { addItem } = useCart();
   const isLight = tone === "light";
 
+  const productHref = `/produto/${product.slug ?? product.id}`;
+  const imageUrl = useMemo(
+    () =>
+      getProductDisplayImage({
+        category: product.category,
+        heroImageUrl: product.imageUrl,
+        coverImage: Array.isArray(product.images) ? product.images[0] : null
+      }),
+    [product.category, product.imageUrl, product.images]
+  );
+  const imageIsSvg = imageUrl.toLowerCase().includes(".svg");
+
   const rating = useMemo(() => {
     if (typeof ratingAvg === "number" && ratingAvg > 0) {
       return ratingAvg.toFixed(1);
@@ -65,11 +82,7 @@ export const ProductCard = ({
     let active = true;
     const supabase = getSupabaseClient();
     const load = async () => {
-      const { data } = await supabase
-        .from("sellers")
-        .select("store_name")
-        .eq("id", product.sellerId)
-        .maybeSingle();
+      const { data } = await supabase.from("sellers").select("store_name").eq("id", product.sellerId).maybeSingle();
       if (!active) return;
       if (data?.store_name) {
         setSellerName(data.store_name);
@@ -94,13 +107,20 @@ export const ProductCard = ({
   return (
     <div className="group flex h-full flex-col overflow-hidden bg-white">
       <div className="relative">
-        <Link href={`/produto/${product.id}`} aria-label={`Ver ${product.name}`}>
-          <div
-            className={`relative flex h-56 w-full items-center justify-center bg-gradient-to-br ${
-              toneStyles[product.imageTone ?? "rose"]
-            }`}
-          >
-            <div className="absolute left-4 top-4 rounded-full border border-[#F6D6E2] bg-white/90 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.3em] text-bpBlackSoft">
+        <Link href={productHref} aria-label={`Ver ${product.name}`}>
+          <div className="relative h-56 w-full overflow-hidden bg-bpOffWhite">
+            <Image
+              src={imageUrl}
+              alt={product.name}
+              fill
+              sizes="(max-width: 767px) 90vw, (max-width: 1279px) 33vw, 25vw"
+              className="object-cover transition duration-500 group-hover:scale-[1.02]"
+              unoptimized={imageIsSvg}
+            />
+            <div
+              className={`absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t ${toneStyles[product.imageTone ?? "rose"]}`}
+            />
+            <div className="absolute left-4 top-4 rounded-full border border-[#F6D6E2] bg-white/92 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.3em] text-bpBlackSoft">
               Curadoria BelaPop
             </div>
           </div>
@@ -108,13 +128,11 @@ export const ProductCard = ({
         <button
           type="button"
           onClick={toggleFavorite}
-          aria-label={
-            isWishlisted ? "Remover dos favoritos" : "Adicionar aos favoritos"
-          }
+          aria-label={isWishlisted ? "Remover dos favoritos" : "Adicionar aos favoritos"}
           aria-pressed={isWishlisted}
           className={`absolute right-4 top-4 flex h-9 w-9 items-center justify-center rounded-full border transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-bpPink/70 ${
             isLight
-              ? "border-black/10 bg-white text-bpGraphite/80 hover:text-bpPink"
+              ? "border-black/10 bg-white/92 text-bpGraphite/80 hover:text-bpPink"
               : "border-white/20 bg-bpBlack/70 text-bpPinkSoft/80 hover:text-bpOffWhite"
           }`}
         >
@@ -155,14 +173,12 @@ export const ProductCard = ({
             size="sm"
             variant="primary"
             className="w-full rounded-full text-[11px] uppercase tracking-[0.2em]"
-            href={`/produto/${product.id}`}
-            ariaLabel={`Ver preço de ${product.name}`}
+            href={productHref}
+            ariaLabel={`Ver preco de ${product.name}`}
           >
-            Ver preço
+            Ver preco
           </LuxuryButton>
-          <p
-            className={`text-xs ${isLight ? "text-bpGraphite/70" : "text-bpPinkSoft/60"}`}
-          >
+          <p className={`text-xs ${isLight ? "text-bpGraphite/70" : "text-bpPinkSoft/60"}`}>
             Valor exibido ao abrir o produto.
           </p>
         </div>
@@ -174,7 +190,7 @@ export const ProductCard = ({
           className="w-full rounded-full text-[11px] uppercase tracking-[0.2em]"
           onClick={() => addItem(product.id, 1, product.sellerId)}
         >
-          Adicionar à sacola
+          Adicionar a sacola
         </LuxuryButton>
       </div>
     </div>

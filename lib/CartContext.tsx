@@ -5,13 +5,13 @@ import React, {
   useContext,
   useEffect,
   useMemo,
+  useRef,
   useState
 } from "react";
 
 import { useAuth } from "@/lib/AuthContext";
 import { CartItem, SellerShipment } from "@/lib/types";
 import { readStorage, storageKeys, writeStorage } from "@/lib/storage";
-import { useStoredProducts } from "@/lib/hooks/useStoredProducts";
 import { getCookie, setCookie } from "@/lib/cookies";
 import { trackEvent } from "@/lib/analytics/tracker";
 
@@ -20,6 +20,7 @@ type CartContextValue = {
   addItem: (productId: string, quantity?: number, sellerId?: string) => void;
   removeItem: (productId: string) => void;
   updateQuantity: (productId: string, quantity: number) => void;
+  replaceCart: (items: CartItem[]) => void;
   clearCart: () => void;
   itemCount: number;
   shipments: SellerShipment[];
@@ -29,6 +30,7 @@ type CartContextValue = {
   setShippingCep: (cep: string) => void;
   ready: boolean;
   cartId: string | null;
+  anonId: string | null;
   markCartConverted: (orderId: string) => Promise<void>;
 };
 
@@ -56,8 +58,8 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
   const [ready, setReady] = useState(false);
   const [cartId, setCartId] = useState<string | null>(null);
   const [anonId, setAnonId] = useState<string | null>(null);
+  const syncInFlightRef = useRef(false);
   const { user } = useAuth();
-  const { products } = useStoredProducts();
 
   useEffect(() => {
     const stored = readStorage<CartStorageShape>(storageKeys.cart, []);
@@ -97,13 +99,16 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
     if (!anonId || !ready) return;
+    if (items.length === 0 && !cartId) return;
+    if (syncInFlightRef.current) return;
     const controller = new AbortController();
     const sync = async () => {
+      if (syncInFlightRef.current) return;
+      syncInFlightRef.current = true;
       try {
-        const subtotalCents = items.reduce((total, item) => {
-          const product = products.find((p) => p.id === item.productId);
-          return total + (product?.price ?? 0) * item.quantity;
-        }, 0);
+        // Do not block auth/navigation on catalog fetch errors.
+        // Subtotal can be recomputed server-side when needed.
+        const subtotalCents = 0;
 
         const response = await fetch("/api/cart/sync", {
           method: "POST",
@@ -119,7 +124,17 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
             userId: user?.id ?? null
           })
         });
-        const data = await response.json();
+        const responseText = await response.text();
+        const data = responseText ? JSON.parse(responseText) : null;
+
+        if (!response.ok) {
+          console.error("[cart] sync failed", {
+            status: response.status,
+            data
+          });
+          return;
+        }
+
         if (data?.cartId) {
           setCartId(data.cartId);
         }
@@ -127,6 +142,8 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
         // Ignora aborts do cleanup (ocorrem em dev/strict mode)
         if ((error as any)?.name === "AbortError") return;
         console.error("[cart] sync failed", error);
+      } finally {
+        syncInFlightRef.current = false;
       }
     };
     const timeout = setTimeout(() => {
@@ -137,7 +154,7 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
       clearTimeout(timeout);
       if (!controller.signal.aborted) controller.abort();
     };
-  }, [items, anonId, cartId, ready, user?.id, products]);
+  }, [items, anonId, cartId, ready, user?.id]);
 
   const addItem = (productId: string, quantity = 1, sellerId?: string) => {
     const resolvedSellerId = sellerId ?? "unknown";
@@ -190,6 +207,13 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
     setItems([]);
     setShipmentsState([]);
     setShippingCepState("");
+  };
+
+  const replaceCart = (nextItems: CartItem[]) => {
+    setItems(normalizeItems(nextItems));
+    setShipmentsState([]);
+    setShippingCepState("");
+    setCartId(null);
   };
 
   const markCartConverted = async (orderId: string) => {
@@ -251,34 +275,24 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
     setShippingCepState(cep);
   };
 
-  const value = useMemo(
-    () => ({
-      items,
-      addItem,
-      removeItem,
-      updateQuantity,
-      clearCart,
-      itemCount,
-      shipments,
-      totalShipping,
-      shippingCep,
-      setShipments,
-      setShippingCep,
-      ready,
-      cartId,
-      markCartConverted
-    }),
-    [
-      items,
-      itemCount,
-      shipments,
-      totalShipping,
-      shippingCep,
-      ready,
-      cartId,
-      markCartConverted
-    ]
-  );
+  const value = {
+    items,
+    addItem,
+    removeItem,
+    updateQuantity,
+    replaceCart,
+    clearCart,
+    itemCount,
+    shipments,
+    totalShipping,
+    shippingCep,
+    setShipments,
+    setShippingCep,
+    ready,
+    cartId,
+    anonId,
+    markCartConverted
+  };
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
 };

@@ -1,0 +1,295 @@
+{
+  "version": "1.0.0",
+  "machines": {
+    "order": {
+      "id": "orderMachine",
+      "initial": "CREATED",
+      "states": {
+        "CREATED": {
+          "on": {
+            "PAYMENT.PENDING": { "target": "PAYMENT_PENDING" },
+            "PAYMENT.APPROVED": { "target": "PAID", "actions": ["setPaid"] },
+            "ORDER.CANCEL": { "target": "CANCELLED", "guards": ["canCancelBeforePayment"] }
+          }
+        },
+        "PAYMENT_PENDING": {
+          "on": {
+            "PAYMENT.APPROVED": { "target": "PAID", "actions": ["setPaid"] },
+            "PAYMENT.FAILED": { "target": "CREATED", "actions": ["setUnpaid"] },
+            "ORDER.CANCEL": { "target": "CANCELLED", "guards": ["canCancelBeforePayment"] }
+          }
+        },
+        "PAID": {
+          "on": {
+            "SUB_ORDERS.SYNC": [
+              { "target": "PROCESSING", "guards": ["allSubOrdersProcessing"] },
+              { "target": "PARTIALLY_PROCESSING", "guards": ["someProcessingSomeNot"] }
+            ],
+            "ORDER.CANCEL": {
+              "target": "CANCELLED",
+              "guards": ["canCancelAfterPaymentBeforeShipping"]
+            }
+          }
+        },
+        "PARTIALLY_PROCESSING": {
+          "on": {
+            "SUB_ORDERS.SYNC": [
+              { "target": "PROCESSING", "guards": ["allSubOrdersProcessing"] },
+              { "target": "PARTIALLY_SHIPPED", "guards": ["someSubOrdersShipped"] }
+            ]
+          }
+        },
+        "PROCESSING": {
+          "on": {
+            "SUB_ORDERS.SYNC": [
+              { "target": "PARTIALLY_SHIPPED", "guards": ["someSubOrdersShipped"] },
+              { "target": "SHIPPED", "guards": ["allSubOrdersShipped"] }
+            ],
+            "ORDER.CANCEL": {
+              "target": "CANCELLED",
+              "guards": ["canCancelAfterPaymentBeforeShipping"]
+            }
+          }
+        },
+        "PARTIALLY_SHIPPED": {
+          "on": {
+            "SUB_ORDERS.SYNC": [
+              { "target": "SHIPPED", "guards": ["allSubOrdersShipped"] },
+              { "target": "PARTIALLY_DELIVERED", "guards": ["someSubOrdersDelivered"] }
+            ]
+          }
+        },
+        "SHIPPED": {
+          "on": {
+            "SUB_ORDERS.SYNC": [
+              { "target": "PARTIALLY_DELIVERED", "guards": ["someSubOrdersDelivered"] },
+              { "target": "DELIVERED", "guards": ["allSubOrdersDelivered"] }
+            ]
+          }
+        },
+        "PARTIALLY_DELIVERED": {
+          "on": {
+            "SUB_ORDERS.SYNC": [{ "target": "DELIVERED", "guards": ["allSubOrdersDelivered"] }]
+          }
+        },
+        "DELIVERED": {
+          "on": {
+            "REFUND.PARTIAL": { "target": "PARTIALLY_REFUNDED", "actions": ["recordRefund"] },
+            "REFUND.FULL": { "target": "REFUNDED", "actions": ["recordRefund"] }
+          }
+        },
+        "PARTIALLY_REFUNDED": {
+          "on": {
+            "REFUND.FULL": { "target": "REFUNDED", "actions": ["recordRefund"] }
+          }
+        },
+        "REFUNDED": { "type": "final" },
+        "CANCELLED": { "type": "final" }
+      },
+      "guards": {
+        "canCancelBeforePayment": "payment not paid",
+        "canCancelAfterPaymentBeforeShipping": "no sub order shipped",
+        "allSubOrdersProcessing": "all sub orders processing or ready_to_ship",
+        "someProcessingSomeNot": "mixed processing state",
+        "someSubOrdersShipped": "at least one sub order shipped-like",
+        "allSubOrdersShipped": "all sub orders shipped-like",
+        "someSubOrdersDelivered": "at least one sub order delivered",
+        "allSubOrdersDelivered": "all sub orders delivered"
+      },
+      "actions": ["setPaid", "setUnpaid", "recordRefund"]
+    },
+    "sub_order": {
+      "id": "subOrderMachine",
+      "initial": "PROCESSING",
+      "states": {
+        "PROCESSING": {
+          "on": {
+            "FULFILLMENT.READY_TO_SHIP": { "target": "READY_TO_SHIP" },
+            "SUB_ORDER.CANCEL": { "target": "CANCELLED", "guards": ["canCancelBeforeShip"] }
+          }
+        },
+        "READY_TO_SHIP": {
+          "on": {
+            "SHIPPING.POSTED": { "target": "SHIPPED", "actions": ["markShipped"] },
+            "SUB_ORDER.CANCEL": { "target": "CANCELLED", "guards": ["canCancelBeforeShip"] }
+          }
+        },
+        "SHIPPED": {
+          "on": {
+            "TRACKING.IN_TRANSIT": { "target": "IN_TRANSIT" },
+            "TRACKING.OUT_FOR_DELIVERY": { "target": "OUT_FOR_DELIVERY" },
+            "TRACKING.DELIVERED": { "target": "DELIVERED", "actions": ["markDelivered"] }
+          }
+        },
+        "IN_TRANSIT": {
+          "on": {
+            "TRACKING.OUT_FOR_DELIVERY": { "target": "OUT_FOR_DELIVERY" },
+            "TRACKING.DELIVERED": { "target": "DELIVERED", "actions": ["markDelivered"] }
+          }
+        },
+        "OUT_FOR_DELIVERY": {
+          "on": {
+            "TRACKING.DELIVERED": { "target": "DELIVERED", "actions": ["markDelivered"] }
+          }
+        },
+        "DELIVERED": {
+          "on": {
+            "RETURN.REQUEST": { "target": "RETURN_REQUESTED", "guards": ["canReturn"] }
+          }
+        },
+        "RETURN_REQUESTED": {
+          "on": {
+            "RETURN.APPROVED": { "target": "RETURN_IN_TRANSIT" },
+            "RETURN.DENIED": { "target": "DELIVERED" }
+          }
+        },
+        "RETURN_IN_TRANSIT": {
+          "on": {
+            "RETURN.RECEIVED": { "target": "RETURN_RECEIVED" }
+          }
+        },
+        "RETURN_RECEIVED": {
+          "on": {
+            "REFUND.ISSUED": { "target": "REFUNDED" },
+            "EXCHANGE.ISSUED": { "target": "EXCHANGED" }
+          }
+        },
+        "REFUNDED": { "type": "final" },
+        "EXCHANGED": { "type": "final" },
+        "CANCELLED": { "type": "final" }
+      },
+      "guards": {
+        "canCancelBeforeShip": "no shipment event",
+        "canReturn": "return window valid and delivered"
+      },
+      "actions": ["markShipped", "markDelivered"]
+    },
+    "ticket": {
+      "id": "ticketMachine",
+      "initial": "OPEN",
+      "states": {
+        "OPEN": {
+          "on": {
+            "TICKET.ASSIGN_STORE": { "target": "WAITING_STORE", "actions": ["notifyStore"] },
+            "TICKET.CANCEL": { "target": "CANCELLED", "guards": ["canCancelEarly"] },
+            "TICKET.ESCALATE": { "target": "ESCALATED", "actions": ["notifyOps"] }
+          }
+        },
+        "WAITING_STORE": {
+          "on": {
+            "MESSAGE.FROM_STORE": {
+              "target": "WAITING_CUSTOMER",
+              "actions": ["setLastResponderStore"]
+            },
+            "SLA.BREACH_FIRST_RESPONSE": { "target": "IN_REVIEW", "actions": ["notifyOps"] },
+            "RESOLUTION.PROPOSE": { "target": "RESOLUTION_PROPOSED", "actions": ["markProposed"] }
+          }
+        },
+        "WAITING_CUSTOMER": {
+          "on": {
+            "MESSAGE.FROM_CUSTOMER": {
+              "target": "WAITING_STORE",
+              "actions": ["setLastResponderCustomer"]
+            },
+            "TICKET.NEEDS_REVIEW": { "target": "IN_REVIEW" },
+            "TICKET.ESCALATE": { "target": "ESCALATED", "actions": ["notifyOps"] }
+          }
+        },
+        "IN_REVIEW": {
+          "on": {
+            "RESOLUTION.PROPOSE": {
+              "target": "RESOLUTION_PROPOSED",
+              "actions": ["markProposed", "notifyCustomer"]
+            },
+            "TICKET.ESCALATE": { "target": "ESCALATED", "actions": ["notifyOps"] }
+          }
+        },
+        "RESOLUTION_PROPOSED": {
+          "on": {
+            "RESOLUTION.ACCEPT": {
+              "target": "RESOLVED",
+              "guards": ["hasProposal"],
+              "actions": ["executeResolution"]
+            },
+            "RESOLUTION.REJECT": {
+              "target": "IN_REVIEW",
+              "guards": ["hasProposal"],
+              "actions": ["collectMoreInfo"]
+            },
+            "MESSAGE.FROM_CUSTOMER": {
+              "target": "IN_REVIEW",
+              "actions": ["collectMoreInfo"]
+            }
+          }
+        },
+        "RESOLVED": {
+          "on": {
+            "TICKET.CLOSE": { "target": "CLOSED", "actions": ["closeTicket"] }
+          }
+        },
+        "ESCALATED": {
+          "on": {
+            "RESOLUTION.PROPOSE": {
+              "target": "RESOLUTION_PROPOSED",
+              "actions": ["markProposed", "notifyCustomer"]
+            },
+            "TICKET.CLOSE": { "target": "CLOSED", "actions": ["closeTicket"] }
+          }
+        },
+        "CANCELLED": { "type": "final" },
+        "CLOSED": { "type": "final" }
+      },
+      "guards": {
+        "canCancelEarly": "no store or support action yet",
+        "hasProposal": "resolution already proposed"
+      },
+      "actions": [
+        "notifyStore",
+        "notifyCustomer",
+        "notifyOps",
+        "setLastResponderStore",
+        "setLastResponderCustomer",
+        "markProposed",
+        "executeResolution",
+        "collectMoreInfo",
+        "closeTicket"
+      ]
+    }
+  },
+  "eventVocabulary": {
+    "order": [
+      "PAYMENT.PENDING",
+      "PAYMENT.APPROVED",
+      "PAYMENT.FAILED",
+      "SUB_ORDERS.SYNC",
+      "REFUND.PARTIAL",
+      "REFUND.FULL",
+      "ORDER.CANCEL"
+    ],
+    "sub_order": [
+      "FULFILLMENT.READY_TO_SHIP",
+      "SHIPPING.POSTED",
+      "TRACKING.IN_TRANSIT",
+      "TRACKING.OUT_FOR_DELIVERY",
+      "TRACKING.DELIVERED",
+      "RETURN.REQUEST",
+      "RETURN.APPROVED",
+      "RETURN.DENIED",
+      "RETURN.IN_TRANSIT",
+      "RETURN.RECEIVED",
+      "REFUND.ISSUED",
+      "EXCHANGE.ISSUED"
+    ],
+    "ticket": [
+      "TICKET.ASSIGN_STORE",
+      "MESSAGE.FROM_STORE",
+      "MESSAGE.FROM_CUSTOMER",
+      "SLA.BREACH_FIRST_RESPONSE",
+      "RESOLUTION.PROPOSE",
+      "RESOLUTION.ACCEPT",
+      "RESOLUTION.REJECT",
+      "TICKET.CLOSE",
+      "TICKET.ESCALATE"
+    ]
+  }
+}

@@ -51,7 +51,7 @@ create table if not exists public.products (
   images jsonb not null default '[]'::jsonb,
   highlights jsonb not null default '[]'::jsonb,
   image_tone text,
-  status text not null default 'draft', -- draft|pending_review|needs_adjustment|published|paused|rejected
+  status text not null default 'draft', -- draft|review|needs_adjustment|published|paused|rejected
   is_featured boolean not null default false,
   curated boolean not null default false,
   curation_feedback text,
@@ -174,7 +174,9 @@ alter table public.notifications enable row level security;
 -- Helper: checar role do usuário logado
 create or replace function public.current_role()
 returns public.user_role
-language sql stable as $$
+language sql stable security definer
+set search_path = public
+as $$
   select role from public.profiles where id = auth.uid()
 $$;
 

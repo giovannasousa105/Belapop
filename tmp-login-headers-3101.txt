@@ -1,0 +1,16 @@
+HTTP/1.1 200 OK
+Content-Security-Policy: default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; form-action 'self'; img-src 'self' data: blob: https:; font-src 'self' data: https:; style-src 'self' 'unsafe-inline' https:; script-src 'self' 'unsafe-inline' https:; connect-src 'self' https: wss:; frame-src 'self' https:; worker-src 'self' blob:; manifest-src 'self'; upgrade-insecure-requests
+Strict-Transport-Security: max-age=63072000; includeSubDomains; preload
+X-Frame-Options: DENY
+X-Content-Type-Options: nosniff
+Referrer-Policy: strict-origin-when-cross-origin
+Permissions-Policy: camera=(), microphone=(), geolocation=(), browsing-topics=()
+X-DNS-Prefetch-Control: off
+vary: rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch
+content-type: application/json
+set-cookie: belapop_adm_session=eyJzdWIiOiJhZG0tMDAxIiwiaWF0IjoxNzc1NjUzNTM0LCJleHAiOjE3NzU2OTY3MzR9.BOhVj94gSmGjOA9WZa_ilcWTCDpjhXFFN9PJvlRU_-E; Path=/; Expires=Thu, 09 Apr 2026 01:05:34 GMT; Secure; HttpOnly; SameSite=lax
+Date: Wed, 08 Apr 2026 13:05:34 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+Transfer-Encoding: chunked
+

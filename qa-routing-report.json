@@ -1,0 +1,134 @@
+{
+  "generatedAt": "2026-04-04T21:57:52.644Z",
+  "base": "http://127.0.0.1:3101",
+  "productRoute": "/produto/creme-barrier-celeste",
+  "routes": [
+    {
+      "route": "/",
+      "marker": "home-public",
+      "headerCount": 1,
+      "footerCount": 1,
+      "mainCount": 0,
+      "hasLegacyAnchors": false,
+      "hasOldBuzzword": false,
+      "hasCategoryLinks": true,
+      "categoryLinks": [
+        "skincare",
+        "maquiagem",
+        "cabelos",
+        "perfumes"
+      ],
+      "hasHomeHeroHeadline": true,
+      "hasHomeSubhero": true,
+      "hasCatalogSelectionMicrocopy": false,
+      "hasCatalogPartnerMicrocopy": false,
+      "hasCatalogShippingMicrocopy": false
+    },
+    {
+      "route": "/catalogo?categoria=skincare",
+      "marker": "catalogo-public",
+      "headerCount": 1,
+      "footerCount": 1,
+      "mainCount": 1,
+      "hasLegacyAnchors": false,
+      "hasOldBuzzword": false,
+      "hasCategoryLinks": true,
+      "categoryLinks": [
+        "skincare",
+        "maquiagem",
+        "cabelos",
+        "perfumes"
+      ],
+      "hasHomeHeroHeadline": false,
+      "hasHomeSubhero": false,
+      "hasCatalogSelectionMicrocopy": false,
+      "hasCatalogPartnerMicrocopy": true,
+      "hasCatalogShippingMicrocopy": true
+    },
+    {
+      "route": "/produto/creme-barrier-celeste",
+      "marker": "produto-public",
+      "headerCount": 1,
+      "footerCount": 1,
+      "mainCount": 1,
+      "hasLegacyAnchors": false,
+      "hasOldBuzzword": false,
+      "hasCategoryLinks": true,
+      "categoryLinks": [
+        "skincare",
+        "maquiagem",
+        "cabelos",
+        "perfumes"
+      ],
+      "hasHomeHeroHeadline": false,
+      "hasHomeSubhero": false,
+      "hasCatalogSelectionMicrocopy": false,
+      "hasCatalogPartnerMicrocopy": false,
+      "hasCatalogShippingMicrocopy": false
+    },
+    {
+      "route": "/carrinho",
+      "marker": "curation-cart-public",
+      "headerCount": 1,
+      "footerCount": 1,
+      "mainCount": 1,
+      "hasLegacyAnchors": false,
+      "hasOldBuzzword": false,
+      "hasCategoryLinks": true,
+      "categoryLinks": [
+        "skincare",
+        "maquiagem",
+        "cabelos",
+        "perfumes"
+      ],
+      "hasHomeHeroHeadline": false,
+      "hasHomeSubhero": false,
+      "hasCatalogSelectionMicrocopy": false,
+      "hasCatalogPartnerMicrocopy": false,
+      "hasCatalogShippingMicrocopy": false
+    },
+    {
+      "route": "/checkout",
+      "marker": "checkout-luxury-public",
+      "headerCount": 1,
+      "footerCount": 1,
+      "mainCount": 1,
+      "hasLegacyAnchors": false,
+      "hasOldBuzzword": false,
+      "hasCategoryLinks": true,
+      "categoryLinks": [
+        "skincare",
+        "maquiagem",
+        "cabelos",
+        "perfumes"
+      ],
+      "hasHomeHeroHeadline": false,
+      "hasHomeSubhero": false,
+      "hasCatalogSelectionMicrocopy": false,
+      "hasCatalogPartnerMicrocopy": false,
+      "hasCatalogShippingMicrocopy": false
+    }
+  ],
+  "catalogCategoryChecks": [
+    {
+      "category": "skincare",
+      "urlOk": true,
+      "activeStyleDetected": true
+    },
+    {
+      "category": "maquiagem",
+      "urlOk": true,
+      "activeStyleDetected": true
+    },
+    {
+      "category": "cabelos",
+      "urlOk": true,
+      "activeStyleDetected": true
+    },
+    {
+      "category": "perfumes",
+      "urlOk": true,
+      "activeStyleDetected": true
+    }
+  ]
+}

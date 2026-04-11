@@ -9,6 +9,13 @@ type PartnerApplicationPayload = {
   phone?: string;
   instagram?: string;
   catalogLink?: string;
+  companyPostalCode?: string;
+  companyStreet?: string;
+  companyNumber?: string;
+  companyComplement?: string;
+  companyDistrict?: string;
+  companyCity?: string;
+  companyState?: string;
 };
 
 function normalize(value: unknown) {
@@ -27,7 +34,9 @@ export async function GET() {
 
   const { data, error } = await supabase
     .from("partner_applications")
-    .select("id,status,brand_name,contact_name,created_at,updated_at")
+    .select(
+      "id,status,brand_name,contact_name,company_postal_code,company_street,company_number,company_complement,company_district,company_city,company_state,created_at,updated_at"
+    )
     .eq("user_id", user.id)
     .order("created_at", { ascending: false })
     .limit(1);
@@ -56,7 +65,14 @@ export async function POST(request: Request) {
     contact_name: normalize(raw.contactName),
     phone: normalize(raw.phone) || null,
     instagram: normalize(raw.instagram) || null,
-    catalog_link: normalize(raw.catalogLink) || null
+    catalog_link: normalize(raw.catalogLink) || null,
+    company_postal_code: normalize(raw.companyPostalCode) || null,
+    company_street: normalize(raw.companyStreet) || null,
+    company_number: normalize(raw.companyNumber) || null,
+    company_complement: normalize(raw.companyComplement) || null,
+    company_district: normalize(raw.companyDistrict) || null,
+    company_city: normalize(raw.companyCity) || null,
+    company_state: normalize(raw.companyState).toUpperCase() || null
   };
 
   if (!payload.brand_name || !payload.contact_name) {
@@ -113,4 +129,3 @@ export async function POST(request: Request) {
 
   return NextResponse.json({ ok: true, status: inserted?.status ?? "pending", id: inserted?.id ?? null });
 }
-

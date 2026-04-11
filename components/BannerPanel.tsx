@@ -24,7 +24,7 @@ export const BannerPanel = ({
   className = ""
 }: BannerPanelProps) => (
   <div
-    className={`flex flex-col gap-4 rounded-[28px] border border-[#F6D6E2] bg-white p-6 shadow-sm ${className}`}
+    className={`flex flex-col gap-4 rounded-[28px] border border-bpPinkSoft/60 bg-white p-6 shadow-sm ${className}`}
   >
     {detail && (
       <p className="text-[10px] uppercase tracking-[0.4em] text-bpGraphite/70">{detail}</p>

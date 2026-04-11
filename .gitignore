@@ -39,7 +39,8 @@ tmp_*
 # OS/editor files
 .DS_Store
 Thumbs.db
-.vscode/
+.vscode/*
+!.vscode/extensions.json
 
 .vercel
 # Supabase local artifacts

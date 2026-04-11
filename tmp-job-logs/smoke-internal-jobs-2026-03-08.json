@@ -1,0 +1,129 @@
+﻿[
+    {
+        "job":  "process-notification-outbox",
+        "ok":  true,
+        "started_at":  "2026-03-08T13:28:16.6672425-03:00",
+        "finished_at":  "2026-03-08T13:28:22.5220386-03:00",
+        "response":  {
+                         "ok":  true,
+                         "worker_token":  "1b2680ed-3541-493d-85a0-5ff021194bb2",
+                         "looked_up":  12,
+                         "claimed":  12,
+                         "sent":  0,
+                         "skipped":  0,
+                         "failed":  12
+                     }
+    },
+    {
+        "job":  "support-sla-escalation",
+        "ok":  true,
+        "started_at":  "2026-03-08T13:28:22.5374705-03:00",
+        "finished_at":  "2026-03-08T13:28:23.5004092-03:00",
+        "response":  {
+                         "ok":  true,
+                         "scanned":  0,
+                         "touched_deadlines":  0,
+                         "escalated":  0
+                     }
+    },
+    {
+        "job":  "process-reverse-logistics",
+        "ok":  true,
+        "started_at":  "2026-03-08T13:28:23.5004092-03:00",
+        "finished_at":  "2026-03-08T13:28:24.7371422-03:00",
+        "response":  {
+                         "ok":  true,
+                         "limit":  200,
+                         "exceptions_refreshed":  0,
+                         "escalations_created":  0,
+                         "alerts_upserted":  0,
+                         "alerts_notified":  0,
+                         "admin_recipients":  0,
+                         "queued_notifications":  0,
+                         "next_actions":  [
+
+                                          ]
+                     }
+    },
+    {
+        "job":  "refresh-sre-foundations",
+        "ok":  false,
+        "started_at":  "2026-03-08T13:28:24.7381406-03:00",
+        "finished_at":  "2026-03-08T13:28:25.1578449-03:00",
+        "status_code":  404,
+        "error":  ""
+    },
+    {
+        "job":  "evaluate-sre",
+        "ok":  true,
+        "started_at":  "2026-03-08T13:28:25.1578449-03:00",
+        "finished_at":  "2026-03-08T13:28:26.0572059-03:00",
+        "response":  {
+                         "ok":  true,
+                         "window_minutes":  60,
+                         "dr_max_age_days":  30,
+                         "slo_alerts_upserted":  0,
+                         "dr_alerts_upserted":  1,
+                         "alerts_notified":  0,
+                         "admin_recipients":  0,
+                         "queued_notifications":  0
+                     }
+    },
+    {
+        "job":  "process-ranking-realtime",
+        "ok":  true,
+        "started_at":  "2026-03-08T13:28:26.0572059-03:00",
+        "finished_at":  "2026-03-08T13:28:26.8963319-03:00",
+        "response":  {
+                         "ok":  true,
+                         "limit":  120,
+                         "attribution_days":  14,
+                         "ranking_queue_processed":  0,
+                         "attribution_rows_upserted":  0
+                     }
+    },
+    {
+        "job":  "refresh-risk-holdbacks",
+        "ok":  true,
+        "started_at":  "2026-03-08T13:28:26.8963319-03:00",
+        "finished_at":  "2026-03-08T13:28:27.9189251-03:00",
+        "response":  {
+                         "ok":  true,
+                         "seller_id":  null,
+                         "limit":  500,
+                         "refreshed_profiles":  1,
+                         "holdbacks_applied":  0,
+                         "alerts_upserted":  0,
+                         "alerts_notified":  0,
+                         "admin_recipients":  0,
+                         "queued_notifications":  0
+                     }
+    },
+    {
+        "job":  "reconcile-gateway-t1",
+        "ok":  true,
+        "started_at":  "2026-03-08T13:28:27.9189251-03:00",
+        "finished_at":  "2026-03-08T13:28:29.0285472-03:00",
+        "response":  {
+                         "ok":  true,
+                         "date":  "2026-03-07",
+                         "provider":  null,
+                         "reconciled_rows":  1,
+                         "alerts_upserted":  0,
+                         "alerts_notified":  0,
+                         "admin_recipients":  0,
+                         "queued_notifications":  0,
+                         "runs":  [
+                                      {
+                                          "provider":  "unknown",
+                                          "recon_date":  "2026-03-07",
+                                          "status":  "ok",
+                                          "delta_cash_in_vs_gateway_gross_cents":  0,
+                                          "delta_ledger_net_vs_gateway_net_cents":  0,
+                                          "delta_payout_vs_ledger_cash_out_cents":  0,
+                                          "computed_at":  "2026-03-08T16:28:24.063343+00:00"
+                                      }
+                                  ]
+                     }
+    }
+]

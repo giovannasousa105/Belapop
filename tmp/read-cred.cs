@@ -1,0 +1,4 @@
+using System;
+using System.Runtime.InteropServices;
+using System.Text;
+public class WinCred { [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)] public struct CREDENTIAL { public int Flags; public int Type; public string TargetName; public string Comment; public System.Runtime.InteropServices.ComTypes.FILETIME LastWritten; public int CredentialBlobSize; public IntPtr CredentialBlob; public int Persist; public int AttributeCount; public IntPtr Attributes; public string TargetAlias; public string UserName; } [DllImport("advapi32", CharSet = CharSet.Unicode, SetLastError = true)] public static extern bool CredRead(string target, int type, int reservedFlag, out IntPtr credentialPtr); [DllImport("advapi32", SetLastError = true)] public static extern void CredFree([In] IntPtr cred);} 

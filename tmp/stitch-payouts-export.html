@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+
+<html class="light" lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>BelaPop - Repasses para Sellers</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;family=Noto+Serif:ital,wght@0,400;0,700;1,400&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "inverse-on-surface": "#9e9d99",
+                    "secondary-fixed": "#f8decc",
+                    "on-primary-fixed": "#403f3f",
+                    "surface-variant": "#e2e3d9",
+                    "primary": "#5f5e5e",
+                    "outline-variant": "#b1b3a9",
+                    "secondary-fixed-dim": "#e9d0be",
+                    "secondary": "#6e5b4d",
+                    "surface-tint": "#5f5e5e",
+                    "error": "#9f403d",
+                    "surface-bright": "#fbf9f4",
+                    "on-tertiary-container": "#5a060f",
+                    "error-container": "#fe8983",
+                    "surface-container-highest": "#e2e3d9",
+                    "on-tertiary-fixed-variant": "#661017",
+                    "on-secondary": "#fff7f4",
+                    "tertiary": "#a23d3e",
+                    "primary-container": "#e5e2e1",
+                    "primary-fixed": "#e5e2e1",
+                    "surface-container-low": "#f5f4ed",
+                    "secondary-dim": "#625042",
+                    "on-secondary-fixed-variant": "#6a584a",
+                    "inverse-primary": "#ffffff",
+                    "tertiary-fixed": "#ff8482",
+                    "tertiary-fixed-dim": "#ee7775",
+                    "on-primary": "#faf7f6",
+                    "tertiary-container": "#ff8482",
+                    "on-background": "#31332c",
+                    "on-surface-variant": "#5e6058",
+                    "inverse-surface": "#0e0e0c",
+                    "error-dim": "#4e0309",
+                    "on-secondary-fixed": "#4d3c2f",
+                    "on-secondary-container": "#604e41",
+                    "on-tertiary": "#fff7f6",
+                    "on-surface": "#31332c",
+                    "on-error-container": "#752121",
+                    "outline": "#797c73",
+                    "on-tertiary-fixed": "#230002",
+                    "surface-container-high": "#e8e9e0",
+                    "surface-container": "#efeee6",
+                    "secondary-container": "#f8decc",
+                    "tertiary-dim": "#923233",
+                    "primary-fixed-dim": "#d6d4d3",
+                    "surface-dim": "#d9dbcf",
+                    "surface": "#fbf9f4",
+                    "on-primary-fixed-variant": "#5c5b5b",
+                    "surface-container-lowest": "#ffffff",
+                    "background": "#fbf9f4",
+                    "on-error": "#fff7f6",
+                    "on-primary-container": "#525151",
+                    "primary-dim": "#535252"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "fontFamily": {
+                    "headline": ["Noto Serif"],
+                    "body": ["Inter"],
+                    "label": ["Inter"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3 { font-family: 'Noto Serif', serif; }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+    </style>
+</head>
+<body class="bg-background text-on-background antialiased flex">
+<!-- SideNavBar Component -->
+<aside class="h-screen w-72 fixed left-0 top-0 bg-[#f5f4ed] dark:bg-[#212121] border-r border-[#b1b3a9]/15 flex flex-col h-full py-10 space-y-8 z-50">
+<div class="px-8">
+<h2 class="text-lg font-serif font-bold text-[#31332c] dark:text-[#fbf9f4]">Curator Admin</h2>
+<p class="font-sans text-[10px] tracking-widest uppercase text-[#5f5e5e] mt-1">Luxury Marketplace</p>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center px-8 py-3 text-[#5f5e5e] dark:text-[#b1b3a9] pl-4 hover:bg-[#efeee6] dark:hover:bg-[#31332c] transition-all duration-200 group" href="#">
+<span class="material-symbols-outlined mr-4 group-hover:translate-x-1 duration-300" data-icon="dashboard">dashboard</span>
+<span class="font-sans text-sm tracking-wide uppercase">Dashboard</span>
+</a>
+<a class="flex items-center px-8 py-3 text-[#5f5e5e] dark:text-[#b1b3a9] pl-4 hover:bg-[#efeee6] dark:hover:bg-[#31332c] transition-all duration-200 group" href="#">
+<span class="material-symbols-outlined mr-4 group-hover:translate-x-1 duration-300" data-icon="auto_awesome">auto_awesome</span>
+<span class="font-sans text-sm tracking-wide uppercase">Curadoria</span>
+</a>
+<a class="flex items-center px-8 py-3 text-[#5f5e5e] dark:text-[#b1b3a9] pl-4 hover:bg-[#efeee6] dark:hover:bg-[#31332c] transition-all duration-200 group" href="#">
+<span class="material-symbols-outlined mr-4 group-hover:translate-x-1 duration-300" data-icon="storefront">storefront</span>
+<span class="font-sans text-sm tracking-wide uppercase">Sellers</span>
+</a>
+<a class="flex items-center px-8 py-3 text-[#5f5e5e] dark:text-[#b1b3a9] pl-4 hover:bg-[#efeee6] dark:hover:bg-[#31332c] transition-all duration-200 group" href="#">
+<span class="material-symbols-outlined mr-4 group-hover:translate-x-1 duration-300" data-icon="shopping_bag">shopping_bag</span>
+<span class="font-sans text-sm tracking-wide uppercase">Pedidos</span>
+</a>
+<a class="flex items-center px-8 py-3 text-[#5f5e5e] dark:text-[#b1b3a9] pl-4 hover:bg-[#efeee6] dark:hover:bg-[#31332c] transition-all duration-200 group" href="#">
+<span class="material-symbols-outlined mr-4 group-hover:translate-x-1 duration-300" data-icon="local_shipping">local_shipping</span>
+<span class="font-sans text-sm tracking-wide uppercase">Logística</span>
+</a>
+<a class="flex items-center px-8 py-3 text-[#5f5e5e] dark:text-[#b1b3a9] pl-4 hover:bg-[#efeee6] dark:hover:bg-[#31332c] transition-all duration-200 group" href="#">
+<span class="material-symbols-outlined mr-4 group-hover:translate-x-1 duration-300" data-icon="gavel">gavel</span>
+<span class="font-sans text-sm tracking-wide uppercase">Risco</span>
+</a>
+<!-- Active State: Financeiro -->
+<a class="flex items-center px-8 py-3 text-[#31332c] dark:text-[#ffffff] font-bold border-l-2 border-[#5f5e5e] pl-4 bg-[#efeee6]/50 transition-all duration-200" href="#">
+<span class="material-symbols-outlined mr-4" data-icon="payments">payments</span>
+<span class="font-sans text-sm tracking-wide uppercase">Financeiro</span>
+</a>
+<a class="flex items-center px-8 py-3 text-[#5f5e5e] dark:text-[#b1b3a9] pl-4 hover:bg-[#efeee6] dark:hover:bg-[#31332c] transition-all duration-200 group" href="#">
+<span class="material-symbols-outlined mr-4 group-hover:translate-x-1 duration-300" data-icon="settings">settings</span>
+<span class="font-sans text-sm tracking-wide uppercase">Configurações</span>
+</a>
+</nav>
+<div class="px-8 mt-auto pt-8 border-t border-outline-variant/10">
+<div class="flex items-center gap-3">
+<img alt="Admin User Profile" class="w-10 h-10 rounded-full object-cover" data-alt="Close-up portrait of a professional male editor in a minimalist studio setting with soft natural window lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBrw0eoJiY8N-9lw_fflMMjcD-Fj5AC357hiexhkcbtetTMCHeAj5AMc-BsrmhEuFGy4fV6z6MtED38NXep7xPgBvfD9bj6YLpkBSmlMKGAI8HrB04Zk6GhcUwaFjrTFrMDc_1ymHrhjJREl4HEujm4eAsTudkixKExg4gDOaHKyerwvVQT30vmR4Z6TxW-JHAMFhN5Y4QxUjk44FqTCUjYQre3ZBvZd1lScKRcn49R9mp8js9fLnsEW9iFfC3mfT93XfDfqSrwUYox"/>
+<div>
+<p class="text-xs font-bold">Mariana Silva</p>
+<p class="text-[10px] text-primary/70 uppercase tracking-tighter">Chief Curator</p>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Canvas -->
+<main class="ml-72 flex-1 min-h-screen flex flex-col">
+<!-- TopNavBar Component -->
+<header class="w-full sticky top-0 z-40 bg-[#fbf9f4]/80 dark:bg-[#31332c]/80 backdrop-blur-xl bg-gradient-to-b from-[#fbf9f4] to-[#f5f4ed] dark:from-[#31332c] dark:to-[#212121]">
+<div class="flex justify-between items-center px-12 py-6 w-full max-w-[1920px] mx-auto">
+<div>
+<h1 class="text-2xl font-serif text-[#31332c] dark:text-[#fbf9f4] tracking-tighter">The Editorial Canvas</h1>
+</div>
+<div class="flex items-center space-x-12">
+<nav class="hidden md:flex space-x-8">
+<a class="text-[#31332c] dark:text-[#ffffff] font-semibold border-b border-[#31332c] font-serif italic tracking-tight cursor-pointer transition-opacity active:opacity-70" href="#">Visão Geral</a>
+<a class="text-[#5f5e5e] dark:text-[#b1b3a9] hover:text-[#31332c] dark:hover:text-[#ffffff] transition-colors duration-300 font-serif italic tracking-tight cursor-pointer" href="#">Relatórios</a>
+<a class="text-[#5f5e5e] dark:text-[#b1b3a9] hover:text-[#31332c] dark:hover:text-[#ffffff] transition-colors duration-300 font-serif italic tracking-tight cursor-pointer" href="#">Conciliação</a>
+</nav>
+<div class="flex items-center space-x-4">
+<span class="material-symbols-outlined text-[#5f5e5e] cursor-pointer" data-icon="notifications">notifications</span>
+<span class="material-symbols-outlined text-[#5f5e5e] cursor-pointer" data-icon="account_circle">account_circle</span>
+</div>
+</div>
+</div>
+</header>
+<!-- Content Area -->
+<div class="px-12 py-12 max-w-[1920px] w-full mx-auto flex-1 grid grid-cols-12 gap-12 items-start">
+<!-- Left Column: Repasses List -->
+<div class="col-span-12 lg:col-span-8 space-y-12">
+<!-- Section Header -->
+<div class="flex flex-col md:flex-row justify-between items-end gap-6 border-b border-outline-variant/10 pb-8">
+<div>
+<h2 class="text-5xl font-headline italic tracking-tight text-on-surface">Repasses para Sellers</h2>
+<p class="text-primary mt-2 body-md max-w-lg">Controle e transparência nos pagamentos aos parceiros de curadoria BelaPop.</p>
+</div>
+<div class="flex items-center gap-4">
+<div class="bg-surface-container-low px-4 py-2 rounded-xl flex items-center gap-3 border border-outline-variant/15">
+<span class="material-symbols-outlined text-sm" data-icon="calendar_today">calendar_today</span>
+<span class="text-sm font-label uppercase tracking-widest">Outubro 2023</span>
+</div>
+<button class="bg-primary text-on-primary px-8 py-3 rounded-xl font-label text-sm uppercase tracking-widest hover:bg-primary-dim transition-colors shadow-sm">
+                            Exportar Relatório
+                        </button>
+</div>
+</div>
+<!-- Tabs Filter -->
+<div class="flex space-x-10 overflow-x-auto no-scrollbar">
+<button class="pb-4 border-b-2 border-on-surface font-label text-xs uppercase tracking-[0.2em] font-bold">Todos</button>
+<button class="pb-4 border-b-2 border-transparent text-primary/60 font-label text-xs uppercase tracking-[0.2em] hover:text-on-surface transition-colors">Pendentes</button>
+<button class="pb-4 border-b-2 border-transparent text-primary/60 font-label text-xs uppercase tracking-[0.2em] hover:text-on-surface transition-colors">Aprovados</button>
+<button class="pb-4 border-b-2 border-transparent text-primary/60 font-label text-xs uppercase tracking-[0.2em] hover:text-on-surface transition-colors">Pagos</button>
+<button class="pb-4 border-b-2 border-transparent text-primary/60 font-label text-xs uppercase tracking-[0.2em] hover:text-on-surface transition-colors">Retidos</button>
+</div>
+<!-- Repasses Table -->
+<div class="overflow-hidden">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="text-primary/50 font-label text-[10px] uppercase tracking-[0.15em] border-b border-outline-variant/10">
+<th class="py-6 px-4">Seller</th>
+<th class="py-6 px-4">Período</th>
+<th class="py-6 px-4 text-right">Vendas</th>
+<th class="py-6 px-4 text-right">Valor Líquido</th>
+<th class="py-6 px-4 text-center">Status</th>
+<th class="py-6 px-4">Previsão</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant/5">
+<!-- Row 1 (Selected/Active Row) -->
+<tr class="bg-surface-container-low transition-colors group cursor-pointer border-l-2 border-on-surface">
+<td class="py-8 px-4">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 bg-surface-container-highest rounded-full flex items-center justify-center overflow-hidden">
+<img alt="Maison L'Art" class="w-full h-full object-cover" data-alt="Minimalist abstract architectural shapes in muted beige and grey tones for a high-end luxury brand logo placeholder" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCMkG2Ae0FJsNfutVnLFDXsU8--BDIpRj3cxbyGEqkRwMKeJnsrWDnqMWHq_d2EXCVYpPAD9-qw-FGvOax1laZgzxcXp-KO68iwxRg_XHIKtHC2TucLiuJHNipNpr0KMZfQei41s4KmbHHYT4TzTm7vn77r_xBJvNBbXUmKV3P33hSD5Y_RM8GF9vUywZ268B32_xyg9Yf31jJZkaRPJlWayHgNnK9at0Tt3LcfUK--Gdy12iK_6zFfOslFDaE9N5eA5poQ7qM8n79q"/>
+</div>
+<div>
+<p class="font-headline italic text-lg leading-none">Maison L'Art</p>
+<p class="text-[10px] font-label uppercase text-primary/50 mt-1 tracking-tighter">ID: BELA-9921</p>
+</div>
+</div>
+</td>
+<td class="py-8 px-4 text-sm text-primary">01 - 15 Out</td>
+<td class="py-8 px-4 text-right text-sm font-medium">R$ 12.450,00</td>
+<td class="py-8 px-4 text-right">
+<span class="text-lg font-headline text-on-surface">R$ 9.835,50</span>
+</td>
+<td class="py-8 px-4 text-center">
+<span class="px-3 py-1 bg-amber-50 text-amber-700 text-[10px] font-label uppercase tracking-widest rounded-full border border-amber-200/30">Pendente</span>
+</td>
+<td class="py-8 px-4 text-sm text-primary/70">20 Out 2023</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-surface-container-low transition-colors group cursor-pointer">
+<td class="py-8 px-4">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 bg-surface-container-highest rounded-full flex items-center justify-center overflow-hidden">
+<img alt="Studio Essence" class="w-full h-full object-cover" data-alt="Elegant close-up of refined white silk fabric folds with soft shadows representing a luxury fashion boutique" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCFOigLBhXLgylrWYyEaVRsl_o55xwmw_QKevv6_06-_v0WXS7ZhfdJ0b9qmS-dY2Cz3T0BrAPR8wDWm8N4-sFrXPgDlTG6zUVhTVoiYY2F03lL1KClqUukEUkJ0075cigj1oZmRRUnpl817BevjNfa-naMmaFYV9j1x71QGyzIX8PjK4zAvBu_YLqxMg3FnrkPp1qCW6xvpubLa6e8dJ0a89NYKGw6O1g_wXjDrPjzLXvwsHxo23OFrIa1EIkDL1bgIykZzoOOo_Nj"/>
+</div>
+<div>
+<p class="font-headline italic text-lg leading-none">Studio Essence</p>
+<p class="text-[10px] font-label uppercase text-primary/50 mt-1 tracking-tighter">ID: BELA-8842</p>
+</div>
+</div>
+</td>
+<td class="py-8 px-4 text-sm text-primary">01 - 15 Out</td>
+<td class="py-8 px-4 text-right text-sm font-medium">R$ 8.920,00</td>
+<td class="py-8 px-4 text-right">
+<span class="text-lg font-headline text-on-surface">R$ 7.136,00</span>
+</td>
+<td class="py-8 px-4 text-center">
+<span class="px-3 py-1 bg-emerald-50 text-emerald-700 text-[10px] font-label uppercase tracking-widest rounded-full border border-emerald-200/30">Pago</span>
+</td>
+<td class="py-8 px-4 text-sm text-primary/70">18 Out 2023</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-surface-container-low transition-colors group cursor-pointer">
+<td class="py-8 px-4">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 bg-surface-container-highest rounded-full flex items-center justify-center overflow-hidden">
+<img alt="Nordic Home" class="w-full h-full object-cover" data-alt="Top down view of a clean minimalist watch on a stone surface representing a high-end design store" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDXZ296VSXXUEDAxzmTB2YazLBMl67xlxB9WbkKQ_PHz_fjidqpIX9CpCJhg2C9MU8famNFCNN_LMZVW8Nh1JcyQfT89JeAZnyetv1vhwSnOrTXK9k2aNWDPf_915J5t8h_ILBEwOZWifHtmpA-qah2C2bL6x61O29QxK_27rqOYv1FHOoDRPSK7psLqwneuGai9CWy1N7AgbXJMGpC9Yk0_Pcx6QZdFWFtmXLcO3fMxeH-6fD4VMAfe25oUYEHhJaRj-R5mHVHtvc-"/>
+</div>
+<div>
+<p class="font-headline italic text-lg leading-none">Nordic Home</p>
+<p class="text-[10px] font-label uppercase text-primary/50 mt-1 tracking-tighter">ID: BELA-7731</p>
+</div>
+</div>
+</td>
+<td class="py-8 px-4 text-sm text-primary">01 - 15 Out</td>
+<td class="py-8 px-4 text-right text-sm font-medium">R$ 21.300,00</td>
+<td class="py-8 px-4 text-right">
+<span class="text-lg font-headline text-on-surface">R$ 16.827,00</span>
+</td>
+<td class="py-8 px-4 text-center">
+<span class="px-3 py-1 bg-blue-50 text-blue-700 text-[10px] font-label uppercase tracking-widest rounded-full border border-blue-200/30">Aprovado</span>
+</td>
+<td class="py-8 px-4 text-sm text-primary/70">22 Out 2023</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- Right Column: Details Panel -->
+<div class="col-span-12 lg:col-span-4 sticky top-32">
+<div class="bg-surface-container-lowest border border-outline-variant/15 rounded-xl overflow-hidden shadow-[0_20px_40px_rgba(49,51,44,0.03)]">
+<!-- Detail Header -->
+<div class="p-8 border-b border-outline-variant/10">
+<div class="flex justify-between items-start">
+<div>
+<span class="text-[10px] font-label uppercase tracking-[0.2em] text-primary/50">Detalhes do Repasse</span>
+<h3 class="text-3xl font-headline italic text-on-surface mt-2">Maison L'Art</h3>
+</div>
+<span class="material-symbols-outlined text-primary/30 cursor-pointer" data-icon="close">close</span>
+</div>
+<div class="mt-6 flex items-baseline gap-2">
+<span class="text-4xl font-headline text-on-surface">R$ 9.835,50</span>
+<span class="text-sm font-label text-primary/50 uppercase tracking-widest">Líquido</span>
+</div>
+</div>
+<!-- Breakdown: Pedidos -->
+<div class="p-8 space-y-6">
+<div>
+<h4 class="text-[10px] font-label uppercase tracking-[0.2em] text-primary mb-4 border-b border-outline-variant/10 pb-2">Resumo de Pedidos</h4>
+<div class="space-y-4">
+<div class="flex justify-between items-center text-sm">
+<div>
+<p class="font-medium">#ORD-49210</p>
+<p class="text-[10px] text-primary/50">12 Out, 2023</p>
+</div>
+<p class="font-headline italic text-base">R$ 4.500,00</p>
+</div>
+<div class="flex justify-between items-center text-sm">
+<div>
+<p class="font-medium">#ORD-49215</p>
+<p class="text-[10px] text-primary/50">14 Out, 2023</p>
+</div>
+<p class="font-headline italic text-base">R$ 7.950,00</p>
+</div>
+</div>
+</div>
+<!-- Taxas -->
+<div>
+<h4 class="text-[10px] font-label uppercase tracking-[0.2em] text-primary mb-4 border-b border-outline-variant/10 pb-2">Taxas e Encargos</h4>
+<div class="space-y-3">
+<div class="flex justify-between items-center text-sm">
+<span class="text-primary/70">Comissão de Curadoria (15%)</span>
+<span class="text-error font-medium">- R$ 1.867,50</span>
+</div>
+<div class="flex justify-between items-center text-sm">
+<span class="text-primary/70">Processamento Financeiro</span>
+<span class="text-error font-medium">- R$ 342,00</span>
+</div>
+<div class="flex justify-between items-center text-sm">
+<span class="text-primary/70">Logística Especialista</span>
+<span class="text-error font-medium">- R$ 405,00</span>
+</div>
+</div>
+</div>
+<!-- Ajustes -->
+<div>
+<h4 class="text-[10px] font-label uppercase tracking-[0.2em] text-primary mb-4 border-b border-outline-variant/10 pb-2">Ajustes</h4>
+<div class="flex justify-between items-center text-sm">
+<span class="text-primary/70">Estorno Logística (Reembolso)</span>
+<span class="text-emerald-700 font-medium">+ R$ 125,00</span>
+</div>
+</div>
+</div>
+<!-- Actions -->
+<div class="p-8 bg-surface-container-low/50 flex flex-col gap-3">
+<button class="w-full bg-on-surface text-surface py-4 rounded-xl font-label text-xs uppercase tracking-[0.2em] font-bold hover:opacity-90 transition-opacity">
+                            Aprovar Repasse
+                        </button>
+<button class="w-full bg-transparent border border-outline-variant/40 text-primary py-4 rounded-xl font-label text-xs uppercase tracking-[0.2em] hover:bg-surface-container-highest/50 transition-colors">
+                            Segurar Pagamento
+                        </button>
+</div>
+</div>
+</div>
+</div>
+</main>
+</body></html>

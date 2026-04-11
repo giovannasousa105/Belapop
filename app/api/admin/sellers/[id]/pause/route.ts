@@ -35,7 +35,7 @@ export async function POST(
       title: "Sua loja foi pausada",
       body: "Há uma pendência para resolver antes de voltar a vender.",
       ctaLabel: "Ver pendências",
-      ctaHref: "/seller/dashboard",
+      ctaHref: "/parceiro",
       metadata: { sellerId: data.id }
     });
 

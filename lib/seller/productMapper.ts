@@ -26,15 +26,13 @@ export const PRODUCT_SELECT_FIELDS = `
 `;
 
 export const fromDbStatus = (status?: string): Product["status"] => {
-  if (status === "pending_review") return "review";
-  if (status === "published" || status === "paused" || status === "draft") {
+  if (status === "review" || status === "published" || status === "paused" || status === "draft") {
     return status;
   }
   return "draft";
 };
 
-export const toDbStatus = (status: Product["status"]) =>
-  status === "review" ? "pending_review" : status;
+export const toDbStatus = (status: Product["status"]) => status;
 
 export const mapProductRow = (row: any): Product => ({
   id: row.id,

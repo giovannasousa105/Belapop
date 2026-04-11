@@ -21,9 +21,9 @@ const base =
 
 const variants: Record<NonNullable<LuxuryButtonProps["variant"]>, string> = {
   primary:
-    "bg-[#B80F5A] text-white border border-[#B80F5A] shadow-[0_10px_25px_rgba(184,15,90,0.25)] hover:bg-[#F06292] hover:shadow-[0_15px_30px_rgba(184,15,90,0.35)]",
+    "bg-bpPink text-white border border-bpPink shadow-[0_10px_25px_rgba(194,24,91,0.25)] hover:bg-bpPink/90 hover:shadow-[0_15px_30px_rgba(194,24,91,0.35)]",
   secondary:
-    "bg-white border border-[#F6D6E2] text-bpBlack shadow-sm hover:bg-[#F6D6E2]/60",
+    "bg-white border border-bpPinkSoft/55 text-bpBlack shadow-sm hover:bg-bpPinkSoft/35",
   outline:
     "border-bpPinkSoft/30 text-bpOffWhite hover:border-bpPink/70 hover:text-bpOffWhite",
   ghost:
@@ -33,9 +33,9 @@ const variants: Record<NonNullable<LuxuryButtonProps["variant"]>, string> = {
 const retailVariants: Record<NonNullable<LuxuryButtonProps["variant"]>, string> =
   {
     primary:
-      "bg-[#B80F5A] text-white shadow-[0_10px_25px_rgba(184,15,90,0.25)] hover:bg-[#F06292]",
+      "bg-bpPink text-white shadow-[0_10px_25px_rgba(194,24,91,0.25)] hover:bg-bpPink/90",
     secondary:
-      "bg-white border border-[#F6D6E2] text-bpBlack hover:bg-[#F6D6E2]/60",
+      "bg-white border border-bpPinkSoft/55 text-bpBlack hover:bg-bpPinkSoft/35",
     outline:
       "bg-white border-slate-200 text-bpBlackSoft hover:bg-slate-50 hover:shadow-sm",
     ghost:

@@ -7,3 +7,7 @@ stripe
 redis
 algoliasearch
 pydantic
+numpy
+opencv-python-headless
+pillow
+python-multipart

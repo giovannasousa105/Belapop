@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+
+<html class="light" lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;family=Noto+Serif:ital,wght@0,400;0,700;1,400&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-error-container": "#752121",
+                    "tertiary-container": "#ff8482",
+                    "on-surface": "#31332c",
+                    "on-primary-fixed": "#403f3f",
+                    "secondary-fixed-dim": "#e9d0be",
+                    "outline": "#797c73",
+                    "secondary": "#6e5b4d",
+                    "primary-fixed": "#e5e2e1",
+                    "on-primary-container": "#525151",
+                    "primary": "#5f5e5e",
+                    "error-dim": "#4e0309",
+                    "tertiary-dim": "#923233",
+                    "on-primary": "#faf7f6",
+                    "inverse-primary": "#ffffff",
+                    "on-surface-variant": "#5e6058",
+                    "surface-bright": "#fbf9f4",
+                    "tertiary-fixed": "#ff8482",
+                    "secondary-container": "#f8decc",
+                    "primary-fixed-dim": "#d6d4d3",
+                    "background": "#fbf9f4",
+                    "on-tertiary-fixed-variant": "#661017",
+                    "primary-container": "#e5e2e1",
+                    "outline-variant": "#b1b3a9",
+                    "inverse-on-surface": "#9e9d99",
+                    "on-secondary-fixed-variant": "#6a584a",
+                    "tertiary": "#a23d3e",
+                    "error": "#9f403d",
+                    "surface-dim": "#d9dbcf",
+                    "surface-container-high": "#e8e9e0",
+                    "surface-container-lowest": "#ffffff",
+                    "surface-container-highest": "#e2e3d9",
+                    "on-primary-fixed-variant": "#5c5b5b",
+                    "on-tertiary-fixed": "#230002",
+                    "on-tertiary-container": "#5a060f",
+                    "surface-container-low": "#f5f4ed",
+                    "on-error": "#fff7f6",
+                    "surface-tint": "#5f5e5e",
+                    "secondary-dim": "#625042",
+                    "surface-container": "#efeee6",
+                    "tertiary-fixed-dim": "#ee7775",
+                    "on-secondary-container": "#604e41",
+                    "on-tertiary": "#fff7f6",
+                    "on-secondary": "#fff7f4",
+                    "primary-dim": "#535252",
+                    "surface": "#fbf9f4",
+                    "on-background": "#31332c",
+                    "surface-variant": "#e2e3d9",
+                    "on-secondary-fixed": "#4d3c2f",
+                    "inverse-surface": "#0e0e0c",
+                    "secondary-fixed": "#f8decc",
+                    "error-container": "#fe8983"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "fontFamily": {
+                    "headline": ["Noto Serif"],
+                    "body": ["Inter"],
+                    "label": ["Inter"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3 { font-family: 'Noto Serif', serif; }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+    </style>
+</head>
+<body class="bg-surface text-on-surface antialiased flex">
+<!-- Predicted SideNavBar from JSON -->
+<aside class="h-screen w-64 bg-stone-50 dark:bg-neutral-900 flex flex-col py-8 gap-y-6 fixed left-0 top-0 font-['Noto_Serif'] antialiased">
+<div class="px-8">
+<h1 class="text-xl font-bold tracking-tight text-neutral-900 dark:text-neutral-50">The Curator</h1>
+<p class="text-[10px] uppercase tracking-[0.2em] text-neutral-400 mt-1">Backoffice Admin</p>
+</div>
+<nav class="flex-1 px-4 space-y-1">
+<a class="flex items-center gap-3 py-3 text-neutral-500 dark:text-neutral-400 pl-4 hover:text-neutral-700 dark:hover:text-neutral-200 hover:bg-stone-100/50 dark:hover:bg-neutral-800/50 transition-colors duration-300" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="text-sm">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 py-3 text-neutral-500 dark:text-neutral-400 pl-4 hover:text-neutral-700 dark:hover:text-neutral-200 hover:bg-stone-100/50 dark:hover:bg-neutral-800/50 transition-colors duration-300" href="#">
+<span class="material-symbols-outlined" data-icon="inventory_2">inventory_2</span>
+<span class="text-sm">Catálogo</span>
+</a>
+<a class="flex items-center gap-3 py-3 text-neutral-500 dark:text-neutral-400 pl-4 hover:text-neutral-700 dark:hover:text-neutral-200 hover:bg-stone-100/50 dark:hover:bg-neutral-800/50 transition-colors duration-300" href="#">
+<span class="material-symbols-outlined" data-icon="payments">payments</span>
+<span class="text-sm">Vendas</span>
+</a>
+<!-- ACTIVE: Equipe -->
+<a class="flex items-center gap-3 py-3 text-neutral-900 dark:text-white font-bold border-l-2 border-neutral-800 dark:border-neutral-200 pl-4 bg-stone-100/30" href="#">
+<span class="material-symbols-outlined" data-icon="badge">badge</span>
+<span class="text-sm">Equipe</span>
+</a>
+<a class="flex items-center gap-3 py-3 text-neutral-500 dark:text-neutral-400 pl-4 hover:text-neutral-700 dark:hover:text-neutral-200 hover:bg-stone-100/50 dark:hover:bg-neutral-800/50 transition-colors duration-300" href="#">
+<span class="material-symbols-outlined" data-icon="group">group</span>
+<span class="text-sm">Clientes</span>
+</a>
+<a class="flex items-center gap-3 py-3 text-neutral-500 dark:text-neutral-400 pl-4 hover:text-neutral-700 dark:hover:text-neutral-200 hover:bg-stone-100/50 dark:hover:bg-neutral-800/50 transition-colors duration-300" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="text-sm">Configurações</span>
+</a>
+</nav>
+<div class="px-8 mt-auto flex items-center gap-3">
+<div class="w-8 h-8 rounded-full overflow-hidden bg-surface-container">
+<img alt="Admin Profile Image" class="w-full h-full object-cover grayscale" data-alt="professional portrait of a middle-aged man with short hair and a neutral expression against a plain background in high-end photography style" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCAQcjcKvQhZhgEVBq7Ewd8pZaz55LJGEvRcExWv36irZOAe8oozVFU0qH_FzfxgR3o3JFDVgSlTAGFdMk1fwO5fqrjqEO7UARlj24qtP6WtmHVklTCrPIT6K1cs5lZ1Coc8rcYk5ZghcyyTZefwMIvA8Jqd7goKHryCeVwOFPCaBG0Wt9M1yNf6E1MtETFNT1QZBmrKJal45MoFalHjP4kQidR_9JCu-3GXCjme_sGXYyDlaC7btPGZPlGtjr_FGFIxmMvZAXAXW8K"/>
+</div>
+<div>
+<p class="text-xs font-semibold">Admin</p>
+<p class="text-[10px] text-neutral-400">Logout</p>
+</div>
+</div>
+</aside>
+<!-- Main Canvas -->
+<main class="ml-64 flex-1 min-h-screen">
+<!-- Predicted TopNavBar from JSON -->
+<header class="flex justify-between items-center h-16 px-12 sticky top-0 z-10 bg-white/80 dark:bg-neutral-950/80 backdrop-blur-xl border-b border-neutral-100/50 dark:border-neutral-800/50 font-['Inter'] text-sm tracking-wide">
+<div class="flex items-center gap-10">
+<span class="font-bold text-neutral-900 tracking-tight text-lg">Equipe Admin</span>
+<nav class="flex gap-8">
+<a class="text-neutral-400 dark:text-neutral-500 hover:text-neutral-900 dark:hover:text-neutral-100 transition-all" href="#">Visão Geral</a>
+<a class="text-neutral-900 dark:text-white font-semibold border-b border-neutral-900 dark:border-white pb-1" href="#">Funções</a>
+<a class="text-neutral-400 dark:text-neutral-500 hover:text-neutral-900 dark:hover:text-neutral-100 transition-all" href="#">Logs de Auditoria</a>
+</nav>
+</div>
+<div class="flex items-center gap-6">
+<div class="relative group">
+<span class="material-symbols-outlined text-neutral-400 group-hover:text-neutral-900 transition-colors" data-icon="notifications">notifications</span>
+</div>
+<span class="material-symbols-outlined text-neutral-400" data-icon="help_outline">help_outline</span>
+</div>
+</header>
+<!-- Content Content Area -->
+<div class="px-12 py-16 max-w-7xl mx-auto">
+<!-- Page Header Section -->
+<div class="flex justify-between items-end mb-16">
+<div class="space-y-2">
+<h2 class="text-4xl font-headline tracking-tighter text-on-surface">Equipe e Permissões</h2>
+<p class="text-on-surface-variant font-body text-sm max-w-lg">Gerencie o acesso dos curadores, financeiro e logística. Atribua níveis de segurança para manter a integridade da plataforma.</p>
+</div>
+<button class="bg-primary text-on-primary px-8 py-3 rounded-xl font-label text-xs uppercase tracking-widest hover:bg-primary-dim transition-all active:scale-95 shadow-sm">
+                    Adicionar Novo Membro
+                </button>
+</div>
+<!-- Dashboard Style Bento/Stats Row (Contextual) -->
+<div class="grid grid-cols-4 gap-6 mb-16">
+<div class="bg-surface-container-low p-6 rounded-xl border border-outline-variant/10">
+<p class="text-[10px] uppercase tracking-widest text-on-surface-variant mb-4">Total de Membros</p>
+<p class="text-3xl font-headline italic">24</p>
+</div>
+<div class="bg-surface-container-low p-6 rounded-xl border border-outline-variant/10">
+<p class="text-[10px] uppercase tracking-widest text-on-surface-variant mb-4">Acessos Hoje</p>
+<p class="text-3xl font-headline italic">18</p>
+</div>
+<div class="bg-surface-container-low p-6 rounded-xl border border-outline-variant/10">
+<p class="text-[10px] uppercase tracking-widest text-on-surface-variant mb-4">Novas Solicitações</p>
+<p class="text-3xl font-headline italic text-tertiary">02</p>
+</div>
+<div class="bg-surface-container-low p-6 rounded-xl border border-outline-variant/10">
+<p class="text-[10px] uppercase tracking-widest text-on-surface-variant mb-4">Log de Segurança</p>
+<p class="text-3xl font-headline italic">Estável</p>
+</div>
+</div>
+<!-- Main Sophisticated Table Area -->
+<div class="bg-surface-container-lowest rounded-xl overflow-hidden shadow-[0_20px_40px_rgba(49,51,44,0.03)] border border-outline-variant/5">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container/30 border-b border-outline-variant/10">
+<th class="px-8 py-6 text-[10px] font-label font-bold uppercase tracking-[0.15em] text-on-surface-variant">Nome</th>
+<th class="px-8 py-6 text-[10px] font-label font-bold uppercase tracking-[0.15em] text-on-surface-variant">Função</th>
+<th class="px-8 py-6 text-[10px] font-label font-bold uppercase tracking-[0.15em] text-on-surface-variant">Nível de Acesso</th>
+<th class="px-8 py-6 text-[10px] font-label font-bold uppercase tracking-[0.15em] text-on-surface-variant">Permissões</th>
+<th class="px-8 py-6 text-[10px] font-label font-bold uppercase tracking-[0.15em] text-on-surface-variant">Último Acesso</th>
+<th class="px-8 py-6 text-right"></th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant/10">
+<!-- Table Row 1 -->
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="px-8 py-8">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-full bg-surface-container-high overflow-hidden">
+<img class="w-full h-full object-cover grayscale" data-alt="portrait of a professional woman with blonde hair looking directly at camera with soft natural lighting and minimalist style" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBi7m_Vf0-kyNK4h730MLtly2tb9rWwVzgciHAsodXDw8lwWz6xWrSk72QUR9Au4CEKaVKf8B_FeEs0_8lj1duwiuecWoT6CVlkVDvNNzhb5SVn2c5peIZQ8InlArp9GBZZclxF2C5jJR_6HyNozUPuvB9_51B0nrqjIXMy6sqIBJJAdAIjOaYaYv8LduHmaJxfcR-jOob3CVcgkxi7drATARVr_uNWICfayZGBBYMb08o2rwPhpMAWVXxPAibdzMnC5XDtKiJotYnu"/>
+</div>
+<div>
+<p class="font-headline text-lg leading-tight">Elena Rossi</p>
+<p class="text-xs text-on-surface-variant font-body">elena.rossi@belapop.com</p>
+</div>
+</div>
+</td>
+<td class="px-8 py-8 font-body text-sm font-medium">Curadoria Chefe</td>
+<td class="px-8 py-8">
+<span class="bg-secondary-container text-on-secondary-container text-[10px] px-2 py-1 rounded font-bold">NÍVEL 2</span>
+</td>
+<td class="px-8 py-8">
+<div class="flex flex-wrap gap-2">
+<span class="text-[9px] uppercase tracking-wider bg-surface-container px-2 py-1 rounded-sm text-on-surface-variant">Curadoria</span>
+<span class="text-[9px] uppercase tracking-wider bg-surface-container px-2 py-1 rounded-sm text-on-surface-variant">Logística</span>
+</div>
+</td>
+<td class="px-8 py-8 text-xs text-on-surface-variant font-body">Há 12 minutos</td>
+<td class="px-8 py-8 text-right">
+<div class="flex justify-end gap-4 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="material-symbols-outlined text-on-surface-variant hover:text-primary transition-colors" data-icon="edit" title="Editar">edit</button>
+<button class="material-symbols-outlined text-on-surface-variant hover:text-primary transition-colors" data-icon="key" title="Permissões">key</button>
+<button class="material-symbols-outlined text-on-surface-variant hover:text-tertiary transition-colors" data-icon="delete" title="Remover">delete</button>
+</div>
+</td>
+</tr>
+<!-- Table Row 2 -->
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="px-8 py-8">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-full bg-surface-container-high overflow-hidden">
+<img class="w-full h-full object-cover grayscale" data-alt="portrait of a man with a beard and glasses in a professional white collared shirt soft editorial light" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBj5P3L7iV6sYXsKYHzzdpGARedpdb2aRkJCb0A0gC6eljz78GU4KF9ItCXjZnekwvbT29AzQFgYi25aTQtHRhzYg6Rs-I6wozJhyqu2pfyKIPb-H_43-gig9g5Hh97Nz7IMaXLZVYIvWkWIsmJUwpw5VO38-GAI-j4RGy_9yaCwCshWhyWII2DOYxKKeNjl7X2BnTIIxjrDAu-AeQM60J72oU4rVzxPxYrezjMMQ0hT2o4gepOU-SWc6CTS92S-ea0pmO1Vfj6yU3p"/>
+</div>
+<div>
+<p class="font-headline text-lg leading-tight">Marcus Vinicius</p>
+<p class="text-xs text-on-surface-variant font-body">m.vinicius@belapop.com</p>
+</div>
+</div>
+</td>
+<td class="px-8 py-8 font-body text-sm font-medium">Diretor de Operações</td>
+<td class="px-8 py-8">
+<span class="bg-primary text-on-primary text-[10px] px-2 py-1 rounded font-bold">NÍVEL 3 (ADMIN)</span>
+</td>
+<td class="px-8 py-8">
+<div class="flex flex-wrap gap-2">
+<span class="text-[9px] uppercase tracking-wider bg-on-surface text-surface px-2 py-1 rounded-sm">Admin Total</span>
+</div>
+</td>
+<td class="px-8 py-8 text-xs text-on-surface-variant font-body">Ontem, 16:45</td>
+<td class="px-8 py-8 text-right">
+<div class="flex justify-end gap-4 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="material-symbols-outlined text-on-surface-variant hover:text-primary transition-colors" data-icon="edit" title="Editar">edit</button>
+<button class="material-symbols-outlined text-on-surface-variant hover:text-primary transition-colors" data-icon="key" title="Permissões">key</button>
+<button class="material-symbols-outlined text-on-surface-variant hover:text-tertiary transition-colors" data-icon="delete" title="Remover">delete</button>
+</div>
+</td>
+</tr>
+<!-- Table Row 3 -->
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="px-8 py-8">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-full bg-surface-container-high overflow-hidden">
+<img class="w-full h-full object-cover grayscale" data-alt="artistic portrait of a young woman with a classic style in high contrast black and white lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBi9LFZ39M6NPwmehQ8KsL7I8cQcWck_sFdy3cDBmc5nsuJiPNJSggJ2h-BVr4c77QevQuTvP2ejnLmWF4zy2UdeynjNGyrtJTB21llsXUnCz6rPQg_gLyCgpAnOS2U6_-c6atlUWDQWS7kTHDPB9cmDx_wf8HMMSphLNEyxAB4idZjDUXTWY9unCfaUjx3JW70mhmt4ngHf-DFIhrYMZun7618lWd6VajRmtsyjNOcyj-ORMaxR65BzOlHzt6pdlGnVSj4Gsmc2l9N"/>
+</div>
+<div>
+<p class="font-headline text-lg leading-tight">Sofia Alencar</p>
+<p class="text-xs text-on-surface-variant font-body">sofia.a@belapop.com</p>
+</div>
+</div>
+</td>
+<td class="px-8 py-8 font-body text-sm font-medium">Analista Financeiro</td>
+<td class="px-8 py-8">
+<span class="bg-surface-container-highest text-on-surface text-[10px] px-2 py-1 rounded font-bold">NÍVEL 1</span>
+</td>
+<td class="px-8 py-8">
+<div class="flex flex-wrap gap-2">
+<span class="text-[9px] uppercase tracking-wider bg-surface-container px-2 py-1 rounded-sm text-on-surface-variant">Financeiro</span>
+</div>
+</td>
+<td class="px-8 py-8 text-xs text-on-surface-variant font-body">02 de Out, 09:20</td>
+<td class="px-8 py-8 text-right">
+<div class="flex justify-end gap-4 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="material-symbols-outlined text-on-surface-variant hover:text-primary transition-colors" data-icon="edit" title="Editar">edit</button>
+<button class="material-symbols-outlined text-on-surface-variant hover:text-primary transition-colors" data-icon="key" title="Permissões">key</button>
+<button class="material-symbols-outlined text-on-surface-variant hover:text-tertiary transition-colors" data-icon="delete" title="Remover">delete</button>
+</div>
+</td>
+</tr>
+<!-- Table Row 4 -->
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="px-8 py-8">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-full bg-surface-container-high overflow-hidden">
+<img class="w-full h-full object-cover grayscale" data-alt="candid portrait of a young man with curly hair and a thoughtful look in a minimalist environment" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBXkUCT-O_aLroTGqpdndPWf2SP_Rd5rKkMpvIyUsDSmQdfpjjfjnAP-4SKjEB52LFfIFQ_4rEqIvrywhNk_jEuBtXwio5X61mFRFg7sDXwpWUC1jyrjHLkaALNbtY-ifrAJlpbs_nVtRy4yktDe9KI3lktakgQkMqr9xRgHu54bySTpuawbqPWN3A7bSeOC59yVcz_7yXtoR105zmn-9f9dNqTX2T-ErO1O6Yy3f4BVuFtQfSgeE4NCLGQJvxZc-EIQqeUL98DElcy"/>
+</div>
+<div>
+<p class="font-headline text-lg leading-tight">Arthur Mendes</p>
+<p class="text-xs text-on-surface-variant font-body">arthur.mendes@belapop.com</p>
+</div>
+</div>
+</td>
+<td class="px-8 py-8 font-body text-sm font-medium">Gestor de Logística</td>
+<td class="px-8 py-8">
+<span class="bg-secondary-container text-on-secondary-container text-[10px] px-2 py-1 rounded font-bold">NÍVEL 2</span>
+</td>
+<td class="px-8 py-8">
+<div class="flex flex-wrap gap-2">
+<span class="text-[9px] uppercase tracking-wider bg-surface-container px-2 py-1 rounded-sm text-on-surface-variant">Logística</span>
+</div>
+</td>
+<td class="px-8 py-8 text-xs text-on-surface-variant font-body">Há 2 dias</td>
+<td class="px-8 py-8 text-right">
+<div class="flex justify-end gap-4 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="material-symbols-outlined text-on-surface-variant hover:text-primary transition-colors" data-icon="edit" title="Editar">edit</button>
+<button class="material-symbols-outlined text-on-surface-variant hover:text-primary transition-colors" data-icon="key" title="Permissões">key</button>
+<button class="material-symbols-outlined text-on-surface-variant hover:text-tertiary transition-colors" data-icon="delete" title="Remover">delete</button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+<!-- Pagination / Footer of table -->
+<div class="px-8 py-6 flex justify-between items-center bg-surface-container-lowest border-t border-outline-variant/10">
+<p class="text-xs text-on-surface-variant font-body">Mostrando 4 de 24 membros da equipe</p>
+<div class="flex gap-2">
+<button class="px-4 py-2 border border-outline-variant/20 rounded-lg text-xs font-label hover:bg-surface-container transition-colors">Anterior</button>
+<button class="px-4 py-2 bg-on-surface text-surface rounded-lg text-xs font-label hover:opacity-90 transition-all">Próximo</button>
+</div>
+</div>
+</div>
+<!-- Additional Detail/Insight Card (Asymmetric Layout) -->
+<div class="mt-16 flex gap-12 items-start">
+<div class="w-2/3 bg-surface-container-high/40 p-12 rounded-2xl">
+<div class="flex items-center gap-6 mb-8">
+<span class="material-symbols-outlined text-4xl text-primary" data-icon="verified_user">verified_user</span>
+<h3 class="text-2xl font-headline tracking-tight">Política de Segurança de Dados</h3>
+</div>
+<div class="grid grid-cols-2 gap-12">
+<div class="space-y-4">
+<p class="text-[10px] font-label font-bold uppercase tracking-widest text-primary">Nível 3 (Admin Total)</p>
+<p class="text-sm text-on-surface-variant leading-relaxed">Acesso irrestrito a todas as áreas da plataforma, incluindo exportação de dados sensíveis e gerenciamento de permissões globais.</p>
+</div>
+<div class="space-y-4">
+<p class="text-[10px] font-label font-bold uppercase tracking-widest text-on-surface-variant">Auditoria Automática</p>
+<p class="text-sm text-on-surface-variant leading-relaxed">Todas as alterações de permissões são registradas nos logs de auditoria para revisão mensal pela diretoria.</p>
+</div>
+</div>
+</div>
+<div class="w-1/3 flex flex-col gap-6">
+<div class="bg-primary text-on-primary p-8 rounded-2xl relative overflow-hidden group">
+<div class="absolute top-0 right-0 p-4 opacity-10 scale-150 transform rotate-12 transition-transform group-hover:scale-[2]">
+<span class="material-symbols-outlined text-8xl" data-icon="lock">lock</span>
+</div>
+<h4 class="font-headline text-xl mb-2 relative z-10">Membros Suspensos</h4>
+<p class="text-xs opacity-80 mb-6 relative z-10">Existem 2 contas inativas que requerem revisão.</p>
+<a class="text-[10px] font-label uppercase tracking-widest underline underline-offset-4 relative z-10 hover:opacity-100 opacity-80" href="#">Ver Lista de Inativos</a>
+</div>
+<div class="bg-surface-container p-8 rounded-2xl border border-outline-variant/10">
+<h4 class="font-headline text-lg mb-2">Suporte Interno</h4>
+<p class="text-xs text-on-surface-variant mb-4">Dúvidas sobre hierarquia de acesso? Consulte o guia de conduta.</p>
+<button class="text-xs font-semibold flex items-center gap-2 hover:translate-x-1 transition-transform">
+                             Abrir Guia de Permissões <span class="material-symbols-outlined text-sm" data-icon="arrow_forward">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Footer -->
+<footer class="px-12 py-8 border-t border-outline-variant/10 mt-12 flex justify-between items-center text-[10px] text-on-surface-variant font-label uppercase tracking-[0.2em]">
+<span>BelaPop © 2024</span>
+<span>Sistema Interno de Gestão de Curadoria</span>
+</footer>
+</main>
+</body></html>

@@ -12,25 +12,25 @@ const rituals: EditorialRitual[] = [
     slug: "ritual-noturno",
     title: "Ritual Noturno",
     subtitle: "Texturas que abracam a pele depois de um dia intenso.",
-    coverImageUrl: "/rituais/ritual-noturno.jpg"
+    coverImageUrl: "/editorial/ritual-noturno.svg"
   },
   {
     slug: "presenca-diurna",
     title: "Presenca Diurna",
     subtitle: "Glow elegante para mulheres que lideram.",
-    coverImageUrl: "/rituais/presenca-diurna.jpg"
+    coverImageUrl: "/editorial/presenca-diurna.svg"
   },
   {
     slug: "essencia-sensorial",
     title: "Essencia Sensorial",
     subtitle: "Aromas, toques e memorias em forma de ritual.",
-    coverImageUrl: "/rituais/essencia-sensorial.jpg"
+    coverImageUrl: "/editorial/essencia-sensorial.svg"
   },
   {
     slug: "edicao-limitada",
     title: "Edicao Limitada",
     subtitle: "Pecas raras. Desejo imediato.",
-    coverImageUrl: "/rituais/edicao-limitada.jpg"
+    coverImageUrl: "/editorial/edicao-limitada.svg"
   }
 ];
 

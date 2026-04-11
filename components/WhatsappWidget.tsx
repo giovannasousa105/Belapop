@@ -1,6 +1,7 @@
 "use client";
 
 import { MessageCircle } from "lucide-react";
+import { sanitizePublicEnvValue } from "@/lib/publicEnv";
 
 type WhatsappWidgetProps = {
   phone?: string;
@@ -9,7 +10,7 @@ type WhatsappWidgetProps = {
 const DEFAULT_TEXT = "Ol%C3%A1%2C%20quero%20falar%20com%20o%20concierge%20BelaPop";
 
 export function WhatsappWidget({ phone }: WhatsappWidgetProps) {
-  const targetPhone = phone || process.env.NEXT_PUBLIC_WHATSAPP_NUMBER;
+  const targetPhone = sanitizePublicEnvValue(phone || process.env.NEXT_PUBLIC_WHATSAPP_NUMBER);
 
   if (!targetPhone) {
     return null;

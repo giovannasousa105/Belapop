@@ -1,0 +1,28 @@
+<svg width="1600" height="1800" viewBox="0 0 1600 1800" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="120" y1="80" x2="1450" y2="1670" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0D0E11"/>
+      <stop offset="0.48" stop-color="#1D1418"/>
+      <stop offset="1" stop-color="#090A0C"/>
+    </linearGradient>
+    <radialGradient id="halo" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(1210 300) rotate(128) scale(690 620)">
+      <stop stop-color="#EAB7CA" stop-opacity="0.6"/>
+      <stop offset="1" stop-color="#EAB7CA" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="letter" x1="952" y1="320" x2="952" y2="1310" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFF9FB" stop-opacity="0.96"/>
+      <stop offset="1" stop-color="#EAB7CA" stop-opacity="0.18"/>
+    </linearGradient>
+  </defs>
+  <rect width="1600" height="1800" fill="url(#bg)"/>
+  <rect width="1600" height="1800" fill="url(#halo)"/>
+  <circle cx="1182" cy="430" r="68" fill="#EAB7CA" fill-opacity="0.16"/>
+  <circle cx="1310" cy="1320" r="118" fill="#EAB7CA" fill-opacity="0.92"/>
+  <rect x="120" y="120" width="452" height="112" rx="56" fill="#131217" fill-opacity="0.64" stroke="#EAB7CA" stroke-opacity="0.34"/>
+  <circle cx="196" cy="176" r="42" fill="#F2D0DC"/>
+  <text x="196" y="190" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="54" fill="#1C151A">B.</text>
+  <text x="266" y="188" font-family="Arial, Helvetica, sans-serif" font-size="34" letter-spacing="14" fill="#F7E7EE" fill-opacity="0.84">BELAPOP</text>
+  <text transform="translate(338 1548) rotate(-90)" font-family="Arial, Helvetica, sans-serif" font-size="92" font-weight="700" letter-spacing="8" fill="#E7B5C8" fill-opacity="0.27">ACESSORIOS</text>
+  <text x="686" y="1204" font-family="Georgia, 'Times New Roman', serif" font-size="930" font-weight="700" fill="url(#letter)">A</text>
+  <text x="800" y="1596" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="84" letter-spacing="18" fill="#FFF7FA" fill-opacity="0.92">OFICIAL</text>
+</svg>

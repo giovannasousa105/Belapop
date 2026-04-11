@@ -1,0 +1,477 @@
+openapi: 3.0.3
+info:
+  title: Finance Adjustments Workflow API
+  version: 1.0.0
+servers:
+  - url: https://api.seumarketplace.com
+security:
+  - bearerAuth: []
+paths:
+  /finance/adjustments:
+    get:
+      summary: List finance adjustments
+      description: List adjustments with filters (store-scoped)
+      parameters:
+        - in: query
+          name: store_id
+          schema:
+            type: string
+            format: uuid
+        - in: query
+          name: status
+          schema:
+            type: string
+            enum: [draft, pending_approval, approved, rejected, applied, cancelled]
+        - in: query
+          name: payout_id
+          schema:
+            type: string
+            format: uuid
+        - in: query
+          name: order_id
+          schema:
+            type: string
+            format: uuid
+        - in: query
+          name: page
+          schema:
+            type: integer
+            default: 1
+        - in: query
+          name: page_size
+          schema:
+            type: integer
+            default: 25
+      responses:
+        "200":
+          description: Paginated list
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PaginatedAdjustments"
+
+    post:
+      summary: Create finance adjustment (draft)
+      description: Requires finance.approve_adjustment or Admin; creates in draft by default.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateAdjustmentRequest"
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Adjustment"
+
+  /finance/adjustments/{adjustment_id}:
+    get:
+      summary: Get adjustment detail
+      parameters:
+        - in: path
+          name: adjustment_id
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: Detail
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdjustmentDetail"
+
+    patch:
+      summary: Update draft adjustment
+      description: Only allowed if status=draft. Cannot modify after submitted.
+      parameters:
+        - in: path
+          name: adjustment_id
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateAdjustmentRequest"
+      responses:
+        "200":
+          description: Updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Adjustment"
+
+    delete:
+      summary: Cancel draft adjustment
+      description: Sets status=cancelled (soft-cancel). Only allowed if status=draft.
+      parameters:
+        - in: path
+          name: adjustment_id
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "204":
+          description: Cancelled
+
+  /finance/adjustments/{adjustment_id}/submit:
+    post:
+      summary: Submit draft for approval
+      description: Moves status from draft -> pending_approval.
+      parameters:
+        - in: path
+          name: adjustment_id
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: Submitted
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Adjustment"
+
+  /finance/adjustments/{adjustment_id}/approvals:
+    post:
+      summary: Approve or reject an adjustment
+      description: |
+        Creates an approval decision. Rules:
+        - creator cannot approve their own adjustment
+        - cannot approve twice by same user
+        - if any reject => status=rejected
+        - if requires_dual_approval and 2 distinct approvals => status=approved
+      parameters:
+        - in: path
+          name: adjustment_id
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ApprovalDecisionRequest"
+      responses:
+        "201":
+          description: Decision recorded
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdjustmentDetail"
+
+  /finance/adjustments/{adjustment_id}/apply:
+    post:
+      summary: Apply approved adjustment (posts to ledger)
+      description: |
+        Only allowed if status=approved.
+        This does NOT edit payouts directly; it posts ledger entries and marks adjustment applied.
+      parameters:
+        - in: path
+          name: adjustment_id
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: Applied with ledger postings
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApplyAdjustmentResponse"
+
+  /finance/ledger/entries:
+    get:
+      summary: List ledger entries
+      parameters:
+        - in: query
+          name: store_id
+          schema:
+            type: string
+            format: uuid
+        - in: query
+          name: payout_id
+          schema:
+            type: string
+            format: uuid
+        - in: query
+          name: order_id
+          schema:
+            type: string
+            format: uuid
+        - in: query
+          name: account
+          schema:
+            type: string
+            example: seller_payable
+        - in: query
+          name: from
+          schema:
+            type: string
+            format: date
+        - in: query
+          name: to
+          schema:
+            type: string
+            format: date
+        - in: query
+          name: page
+          schema:
+            type: integer
+            default: 1
+        - in: query
+          name: page_size
+          schema:
+            type: integer
+            default: 50
+      responses:
+        "200":
+          description: Paginated ledger entries
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PaginatedLedgerEntries"
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+    CreateAdjustmentRequest:
+      type: object
+      required: [store_id, amount, reason]
+      properties:
+        store_id:
+          type: string
+          format: uuid
+        payout_id:
+          type: string
+          format: uuid
+        order_id:
+          type: string
+          format: uuid
+        amount:
+          type: number
+          description: "+ credit to seller, - debit"
+          example: -35.90
+        currency:
+          type: string
+          example: BRL
+          default: BRL
+        reason:
+          type: string
+          example: Reembolso por atraso (acordo com cliente)
+        evidence:
+          type: object
+          additionalProperties: true
+          example:
+            protocol: SUP-88231
+            notes: Cliente recebeu com 10 dias de atraso; desconto concedido.
+        requires_dual_approval:
+          type: boolean
+          default: true
+        risk_level:
+          type: string
+          enum: [low, medium, high]
+          default: high
+
+    UpdateAdjustmentRequest:
+      type: object
+      properties:
+        amount:
+          type: number
+        reason:
+          type: string
+        evidence:
+          type: object
+          additionalProperties: true
+        requires_dual_approval:
+          type: boolean
+        risk_level:
+          type: string
+          enum: [low, medium, high]
+
+    ApprovalDecisionRequest:
+      type: object
+      required: [decision]
+      properties:
+        decision:
+          type: string
+          enum: [approved, rejected]
+        comment:
+          type: string
+          example: Concordo com o ajuste; evidencia ok.
+
+    Adjustment:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        store_id:
+          type: string
+          format: uuid
+        payout_id:
+          type: string
+          format: uuid
+          nullable: true
+        order_id:
+          type: string
+          format: uuid
+          nullable: true
+        amount:
+          type: number
+        currency:
+          type: string
+        reason:
+          type: string
+        evidence:
+          type: object
+          additionalProperties: true
+        status:
+          type: string
+          enum: [draft, pending_approval, approved, rejected, applied, cancelled]
+        created_by:
+          type: string
+          format: uuid
+          nullable: true
+        created_at:
+          type: string
+          format: date-time
+        requires_dual_approval:
+          type: boolean
+        risk_level:
+          type: string
+          enum: [low, medium, high]
+
+    Approval:
+      type: object
+      properties:
+        approver_user_id:
+          type: string
+          format: uuid
+        decision:
+          type: string
+          enum: [approved, rejected]
+        comment:
+          type: string
+          nullable: true
+        decided_at:
+          type: string
+          format: date-time
+
+    AdjustmentDetail:
+      allOf:
+        - $ref: "#/components/schemas/Adjustment"
+        - type: object
+          properties:
+            approvals:
+              type: array
+              items:
+                $ref: "#/components/schemas/Approval"
+            approvals_required:
+              type: integer
+              example: 2
+            approvals_received:
+              type: integer
+              example: 1
+
+    ApplyAdjustmentResponse:
+      type: object
+      properties:
+        adjustment:
+          $ref: "#/components/schemas/Adjustment"
+        ledger_posting:
+          $ref: "#/components/schemas/LedgerPosting"
+
+    LedgerPosting:
+      type: object
+      properties:
+        journal_id:
+          type: string
+          format: uuid
+        entries:
+          type: array
+          items:
+            $ref: "#/components/schemas/LedgerEntry"
+
+    LedgerEntry:
+      type: object
+      properties:
+        entry_id:
+          type: string
+          format: uuid
+        store_id:
+          type: string
+          format: uuid
+        payout_id:
+          type: string
+          format: uuid
+          nullable: true
+        order_id:
+          type: string
+          format: uuid
+          nullable: true
+        account:
+          type: string
+          example: seller_payable
+        direction:
+          type: string
+          enum: [debit, credit]
+        amount:
+          type: number
+        currency:
+          type: string
+        occurred_at:
+          type: string
+          format: date-time
+        reference_type:
+          type: string
+          example: finance_adjustment
+        reference_id:
+          type: string
+          format: uuid
+
+    PaginatedAdjustments:
+      type: object
+      properties:
+        page:
+          type: integer
+        page_size:
+          type: integer
+        total:
+          type: integer
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/Adjustment"
+
+    PaginatedLedgerEntries:
+      type: object
+      properties:
+        page:
+          type: integer
+        page_size:
+          type: integer
+        total:
+          type: integer
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/LedgerEntry"

@@ -1,8 +1,18 @@
 import { NextResponse } from "next/server";
 
+import { ensureRoleMemberships, setActiveLegacyRole, type LegacyRole } from "@/lib/auth/roleState";
 import { getSupabaseAdminClient } from "@/lib/supabase/admin";
 
-type Body = { email?: string; userId?: string };
+type Body = {
+  email?: string;
+  userId?: string;
+  roles?: LegacyRole[];
+  activeRole?: LegacyRole;
+};
+
+const isRole = (value: unknown): value is LegacyRole => {
+  return value === "customer" || value === "seller" || value === "admin";
+};
 
 export async function POST(req: Request) {
   const secret = process.env.ADMIN_BOOTSTRAP_SECRET;
@@ -17,14 +27,15 @@ export async function POST(req: Request) {
 
   const admin = getSupabaseAdminClient();
 
+  let body: Body = {};
   let userId: string | null = null;
   let email: string | null = null;
 
   try {
-    const body = (await req.json()) as Body;
+    body = (await req.json()) as Body;
     userId = body.userId ?? null;
     email = body.email ?? null;
-  } catch (error) {
+  } catch {
     return NextResponse.json({ error: "Invalid body." }, { status: 400 });
   }
 
@@ -49,13 +60,37 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "User id not resolved." }, { status: 400 });
   }
 
-  const { error: upsertError } = await admin
-    .from("user_roles")
-    .upsert({ user_id: userId, role: "admin" });
+  const requestedRoles: LegacyRole[] = Array.isArray(body.roles)
+    ? body.roles.filter(isRole)
+    : ["admin"];
+  const roles: LegacyRole[] = Array.from(
+    new Set(requestedRoles.length ? requestedRoles : (["admin"] as LegacyRole[]))
+  );
+  const activeRole: LegacyRole = isRole(body.activeRole)
+    ? body.activeRole
+    : roles.includes("admin")
+      ? "admin"
+      : roles[0];
 
-  if (upsertError) {
-    return NextResponse.json({ error: upsertError.message }, { status: 500 });
+  if (!roles.includes(activeRole)) {
+    roles.push(activeRole);
   }
 
-  return NextResponse.json({ ok: true, userId });
+  try {
+    await ensureRoleMemberships({
+      userId,
+      roles,
+      source: "admin-bootstrap",
+      admin
+    });
+    await setActiveLegacyRole({
+      userId,
+      role: activeRole,
+      admin
+    });
+  } catch (error: any) {
+    return NextResponse.json({ error: error?.message ?? "Falha ao aplicar roles." }, { status: 500 });
+  }
+
+  return NextResponse.json({ ok: true, userId, roles, activeRole });
 }

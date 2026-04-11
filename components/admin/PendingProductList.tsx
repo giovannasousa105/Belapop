@@ -9,7 +9,7 @@ import { AdminPendingProductRow } from "@/lib/admin/productService";
 
 const filterOptions = [
   { label: "Todos", value: "all" },
-  { label: "Aguardando curadoria", value: "pending_review" },
+  { label: "Aguardando curadoria", value: "review" },
   { label: "Ajustes solicitados", value: "needs_adjustment" }
 ] as const;
 
@@ -40,7 +40,25 @@ type PendingListProps = { products: AdminPendingProductRow[] };
 
 export default function PendingProductList({ products }: PendingListProps) {
   const router = useRouter();
-  const [filter, setFilter] = useState<typeof filterOptions[number]["value"]>("pending_review");
+  const [filter, setFilter] = useState<typeof filterOptions[number]["value"]>("review");
+  const counts = useMemo(() => {
+    return products.reduce(
+      (acc, product) => {
+        if (product.status === "review") acc.review += 1;
+        if (product.status === "needs_adjustment") acc.needsAdjustment += 1;
+        acc.total += 1;
+        return acc;
+      },
+      { total: 0, review: 0, needsAdjustment: 0 }
+    );
+  }, [products]);
+
+  const filterCount = (value: (typeof filterOptions)[number]["value"]) => {
+    if (value === "all") return counts.total;
+    if (value === "review") return counts.review;
+    return counts.needsAdjustment;
+  };
+
   const filtered = useMemo(() => {
     if (filter === "all") return products;
     return products.filter((product) => product.status === filter);
@@ -76,6 +94,20 @@ export default function PendingProductList({ products }: PendingListProps) {
 
   return (
     <div className="space-y-6">
+      <div className="grid gap-3 sm:grid-cols-3">
+        <div className="rounded-2xl border border-black/10 bg-white px-4 py-3 shadow-sm">
+          <p className="text-[10px] uppercase tracking-[0.25em] text-bpGraphite/70">Total</p>
+          <p className="font-display text-3xl text-bpBlack">{counts.total}</p>
+        </div>
+        <div className="rounded-2xl border border-black/10 bg-white px-4 py-3 shadow-sm">
+          <p className="text-[10px] uppercase tracking-[0.25em] text-bpGraphite/70">Aguardando curadoria</p>
+          <p className="font-display text-3xl text-bpBlack">{counts.review}</p>
+        </div>
+        <div className="rounded-2xl border border-black/10 bg-white px-4 py-3 shadow-sm">
+          <p className="text-[10px] uppercase tracking-[0.25em] text-bpGraphite/70">Ajustes solicitados</p>
+          <p className="font-display text-3xl text-bpBlack">{counts.needsAdjustment}</p>
+        </div>
+      </div>
       <div className="flex flex-wrap items-center gap-3">
         {filterOptions.map((option) => (
           <button
@@ -87,7 +119,7 @@ export default function PendingProductList({ products }: PendingListProps) {
                 : "border-black/10 text-bpGraphite/80 hover:border-bpPink/40 hover:text-bpBlackSoft"
             }`}
           >
-            {option.label}
+            {option.label} ({filterCount(option.value)})
           </button>
         ))}
       </div>

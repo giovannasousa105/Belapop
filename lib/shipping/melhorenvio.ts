@@ -14,6 +14,10 @@ type MelhorEnvioQuoteResponse = {
 };
 
 const sanitizeCep = (value: string) => value.replace(/\D/g, "");
+const sanitizeToken = (value: string) => value.trim().replace(/^['"]|['"]$/g, "");
+const isPlaceholderToken = (value: string) =>
+  !value || /COLOQUE_SEU_TOKEN_AQUI/i.test(value);
+const isPlaceholderPostalCode = (value: string) => !value || value === "00000000";
 
 const parsePrice = (value: unknown) => {
   if (typeof value === "number") return value;
@@ -24,17 +28,56 @@ const parsePrice = (value: unknown) => {
   return Number.NaN;
 };
 
+const smokeStubEnabled = process.env.ENABLE_SMOKE_SALE_STUB === "1";
+
+export class ShippingProviderConfigError extends Error {
+  code = "SHIPPING_PROVIDER_NOT_CONFIGURED" as const;
+  provider = "melhorenvio" as const;
+}
+
+export class ShippingProviderQuoteError extends Error {
+  code = "SHIPPING_QUOTE_FAILED" as const;
+  provider = "melhorenvio" as const;
+}
+
+const buildSmokeOptions = (items: ShippingQuoteItem[]): ShippingOption[] => {
+  const quantity = items.reduce((sum, item) => sum + item.quantity, 0);
+  const weight = items.reduce((sum, item) => sum + item.weightKg * item.quantity, 0);
+  const insuredValue = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  const basePrice = 12.9 + quantity * 1.75 + weight * 4.5 + insuredValue * 0.008;
+  const price = Number(basePrice.toFixed(2));
+
+  return [
+    {
+      serviceName: "Entrega smoke",
+      price,
+      deliveryTimeDays: 3,
+      carrier: "BelaPop Smoke Carrier",
+      serviceId: "smoke-standard"
+    }
+  ];
+};
+
 export const quoteShipping = async (
   toCep: string,
   items: ShippingQuoteItem[],
   fromPostalCodeOverride?: string
 ): Promise<ShippingOption[]> => {
-  const token = process.env.MELHORENVIO_TOKEN;
-  const fromPostalCode =
-    fromPostalCodeOverride ?? process.env.MELHORENVIO_FROM_POSTAL_CODE;
+  if (smokeStubEnabled) {
+    return buildSmokeOptions(items);
+  }
 
-  if (!token || !fromPostalCode) {
-    throw new Error("Missing MELHORENVIO_TOKEN or MELHORENVIO_FROM_POSTAL_CODE");
+  const token = sanitizeToken(process.env.MELHORENVIO_TOKEN ?? "");
+  const fromPostalCode =
+    fromPostalCodeOverride ?? process.env.MELHORENVIO_FROM_POSTAL_CODE ?? "";
+
+  if (
+    isPlaceholderToken(token) ||
+    isPlaceholderPostalCode(sanitizeCep(fromPostalCode ?? ""))
+  ) {
+    throw new ShippingProviderConfigError(
+      "Melhor Envio nao esta configurado com credenciais validas."
+    );
   }
 
   const toPostalCode = sanitizeCep(toCep);
@@ -70,7 +113,9 @@ export const quoteShipping = async (
 
   if (!response.ok) {
     const text = await response.text();
-    throw new Error(`Melhor Envio error ${response.status}: ${text}`);
+    throw new ShippingProviderQuoteError(
+      `Melhor Envio error ${response.status}: ${text}`
+    );
   }
 
   const data = (await response.json()) as MelhorEnvioQuoteResponse[] | {

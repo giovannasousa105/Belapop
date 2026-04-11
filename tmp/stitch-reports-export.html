@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+
+<html class="light" lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>BelaPop - Relatórios e Performance</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,700;1,400&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface": "#fbf9f4",
+                        "surface-container-highest": "#e2e3d9",
+                        "surface-bright": "#fbf9f4",
+                        "on-tertiary-fixed-variant": "#661017",
+                        "on-tertiary-fixed": "#230002",
+                        "tertiary-dim": "#923233",
+                        "on-surface-variant": "#5e6058",
+                        "surface-variant": "#e2e3d9",
+                        "secondary": "#6e5b4d",
+                        "on-error-container": "#752121",
+                        "surface-container-high": "#e8e9e0",
+                        "on-primary-fixed-variant": "#5c5b5b",
+                        "error": "#9f403d",
+                        "on-error": "#fff7f6",
+                        "tertiary": "#a23d3e",
+                        "error-container": "#fe8983",
+                        "on-secondary-fixed-variant": "#6a584a",
+                        "secondary-fixed-dim": "#e9d0be",
+                        "inverse-surface": "#0e0e0c",
+                        "primary": "#5f5e5e",
+                        "tertiary-fixed-dim": "#ee7775",
+                        "surface-tint": "#5f5e5e",
+                        "primary-container": "#e5e2e1",
+                        "outline-variant": "#b1b3a9",
+                        "primary-dim": "#535252",
+                        "on-tertiary-container": "#5a060f",
+                        "on-secondary-fixed": "#4d3c2f",
+                        "surface-container": "#efeee6",
+                        "on-secondary": "#fff7f4",
+                        "on-tertiary": "#fff7f6",
+                        "outline": "#797c73",
+                        "primary-fixed-dim": "#d6d4d3",
+                        "tertiary-container": "#ff8482",
+                        "inverse-on-surface": "#9e9d99",
+                        "secondary-container": "#f8decc",
+                        "error-dim": "#4e0309",
+                        "on-primary-fixed": "#403f3f",
+                        "secondary-fixed": "#f8decc",
+                        "primary-fixed": "#e5e2e1",
+                        "secondary-dim": "#625042",
+                        "surface-container-low": "#f5f4ed",
+                        "on-secondary-container": "#604e41",
+                        "background": "#fbf9f4",
+                        "on-surface": "#31332c",
+                        "on-primary": "#faf7f6",
+                        "surface-dim": "#d9dbcf",
+                        "surface-container-lowest": "#ffffff",
+                        "on-primary-container": "#525151",
+                        "inverse-primary": "#ffffff",
+                        "tertiary-fixed": "#ff8482",
+                        "on-background": "#31332c"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "fontFamily": {
+                        "headline": ["Noto Serif"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3 { font-family: 'Noto Serif', serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface antialiased flex">
+<!-- SideNavBar -->
+<aside class="h-screen w-64 fixed left-0 top-0 overflow-y-auto bg-[#f5f4ed] dark:bg-stone-900 flex flex-col py-8 px-4 z-50">
+<div class="mb-12 px-4">
+<span class="font-serif text-xl mb-1 block text-[#31332c] dark:text-stone-50">BelaPop</span>
+<span class="font-sans text-[10px] tracking-widest uppercase text-[#5f5e5e] opacity-70">Backoffice Premium</span>
+</div>
+<nav class="space-y-6 font-sans text-sm tracking-wide">
+<a class="flex items-center gap-3 text-[#5f5e5e] dark:text-stone-400 pl-4 hover:text-[#31332c] transition-all duration-200 translate-x-1" href="#">
+<span class="material-symbols-outlined text-[20px]">dashboard</span> Dashboard
+            </a>
+<a class="flex items-center gap-3 text-[#5f5e5e] dark:text-stone-400 pl-4 hover:text-[#31332c] transition-all duration-200 translate-x-1" href="#">
+<span class="material-symbols-outlined text-[20px]">auto_awesome</span> Curadoria
+            </a>
+<a class="flex items-center gap-3 text-[#5f5e5e] dark:text-stone-400 pl-4 hover:text-[#31332c] transition-all duration-200 translate-x-1" href="#">
+<span class="material-symbols-outlined text-[20px]">storefront</span> Sellers
+            </a>
+<a class="flex items-center gap-3 text-[#5f5e5e] dark:text-stone-400 pl-4 hover:text-[#31332c] transition-all duration-200 translate-x-1" href="#">
+<span class="material-symbols-outlined text-[20px]">shopping_cart</span> Pedidos
+            </a>
+<a class="flex items-center gap-3 text-[#5f5e5e] dark:text-stone-400 pl-4 hover:text-[#31332c] transition-all duration-200 translate-x-1" href="#">
+<span class="material-symbols-outlined text-[20px]">local_shipping</span> Logística
+            </a>
+<a class="flex items-center gap-3 text-[#31332c] font-bold border-l-2 border-[#5f5e5e] pl-4 translate-x-1 transition-transform" href="#">
+<span class="material-symbols-outlined text-[20px]">analytics</span> Relatórios
+            </a>
+<a class="flex items-center gap-3 text-[#5f5e5e] dark:text-stone-400 pl-4 hover:text-[#31332c] transition-all duration-200 translate-x-1" href="#">
+<span class="material-symbols-outlined text-[20px]">payments</span> Financeiro
+            </a>
+<a class="flex items-center gap-3 text-[#5f5e5e] dark:text-stone-400 pl-4 hover:text-[#31332c] transition-all duration-200 translate-x-1" href="#">
+<span class="material-symbols-outlined text-[20px]">group</span> Clientes
+            </a>
+<a class="flex items-center gap-3 text-[#5f5e5e] dark:text-stone-400 pl-4 hover:text-[#31332c] transition-all duration-200 translate-x-1" href="#">
+<span class="material-symbols-outlined text-[20px]">settings</span> Configurações
+            </a>
+</nav>
+<div class="mt-auto px-4 flex items-center gap-3 pt-8 border-t border-outline-variant/10">
+<div class="w-8 h-8 rounded-full overflow-hidden bg-surface-container-highest">
+<img alt="BelaPop Admin" class="w-full h-full object-cover" data-alt="professional portrait of a confident fashion industry executive in a minimalist studio setting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBNymLNKD3JuMSRSkOoN80xdGIzi_NhrXUdapUxQrTKuyCeKM-uvabqy5t2NI1VC5C97Lvn4yByox4OrOtyOwpjwRHiVfmWX4HH0Wl1kRRpxgDAZTSeLXyJEuN4DsCdbo9Ok4OKvSeFyYK_VuMq2tDnzjQqx9rFinRJeDz7BCmKAz0QAg6qhVMjn8yCD738mU5eP_mdm3jWsBp8sMgLID9jCgcaD_cF059spFdMkyDZdrffss_QlHEANnZ63Amk0ruw6xS2iMTvdlO0"/>
+</div>
+<div>
+<p class="text-xs font-bold">Admin BelaPop</p>
+<p class="text-[10px] opacity-60">Level 4</p>
+</div>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="flex-1 ml-64 min-h-screen pb-20">
+<!-- TopNavBar -->
+<header class="w-full h-16 sticky top-0 z-40 bg-[#fbf9f4] dark:bg-stone-950 flex justify-between items-center px-12">
+<div class="flex items-center gap-6">
+<h1 class="text-2xl font-serif italic text-[#31332c] dark:text-stone-100">BelaPop</h1>
+</div>
+<div class="flex items-center gap-6">
+<div class="relative">
+<span class="material-symbols-outlined text-primary opacity-70">search</span>
+</div>
+<div class="flex gap-4">
+<span class="material-symbols-outlined text-primary cursor-pointer opacity-90 hover:opacity-100 transition-colors" data-icon="notifications">notifications</span>
+<span class="material-symbols-outlined text-primary cursor-pointer opacity-90 hover:opacity-100 transition-colors" data-icon="shopping_bag">shopping_bag</span>
+</div>
+</div>
+</header>
+<div class="bg-[#efeee6] dark:bg-stone-900 h-[1px] w-full block"></div>
+<div class="max-w-[1200px] mx-auto px-12 pt-12">
+<!-- Title and Export Actions -->
+<div class="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
+<div class="space-y-2">
+<span class="label-sm font-label uppercase tracking-[0.2em] text-outline text-[11px]">Dashboard de Curadoria</span>
+<h2 class="text-5xl font-serif tracking-tight text-on-surface">Relatórios e Performance</h2>
+</div>
+<div class="flex gap-3">
+<button class="bg-surface-container-highest text-on-surface px-8 py-3 rounded-xl font-label text-sm tracking-wide transition-all hover:bg-surface-container-high flex items-center gap-2 group">
+<span class="material-symbols-outlined text-sm group-hover:-translate-y-0.5 transition-transform">download</span>
+                        Exportar CSV
+                    </button>
+<button class="bg-primary text-on-primary px-8 py-3 rounded-xl font-label text-sm tracking-wide transition-all hover:bg-primary-dim shadow-lg shadow-primary/10 flex items-center gap-2 group">
+<span class="material-symbols-outlined text-sm group-hover:-translate-y-0.5 transition-transform">description</span>
+                        Exportar PDF
+                    </button>
+</div>
+</div>
+<!-- Global Filters Bar -->
+<div class="grid grid-cols-1 md:grid-cols-4 gap-6 p-8 bg-surface-container-low rounded-xl mb-12">
+<div class="flex flex-col gap-2">
+<label class="text-[10px] font-label uppercase tracking-widest text-outline">Período</label>
+<div class="relative">
+<select class="w-full bg-surface-container-lowest border-none ring-1 ring-outline-variant/15 rounded-lg py-2.5 px-4 text-sm focus:ring-primary appearance-none cursor-pointer">
+<option>Últimos 30 dias</option>
+<option>Trimestre Atual</option>
+<option>Ano Civil</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-outline text-lg">expand_more</span>
+</div>
+</div>
+<div class="flex flex-col gap-2">
+<label class="text-[10px] font-label uppercase tracking-widest text-outline">Seller</label>
+<div class="relative">
+<select class="w-full bg-surface-container-lowest border-none ring-1 ring-outline-variant/15 rounded-lg py-2.5 px-4 text-sm focus:ring-primary appearance-none cursor-pointer">
+<option>Todos os Vendedores</option>
+<option>Atelier de Beauté</option>
+<option>Maison de Parfum</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-outline text-lg">expand_more</span>
+</div>
+</div>
+<div class="flex flex-col gap-2">
+<label class="text-[10px] font-label uppercase tracking-widest text-outline">Categoria</label>
+<div class="relative">
+<select class="w-full bg-surface-container-lowest border-none ring-1 ring-outline-variant/15 rounded-lg py-2.5 px-4 text-sm focus:ring-primary appearance-none cursor-pointer">
+<option>Todas as Categorias</option>
+<option>Skincare Premium</option>
+<option>Maquiagem Editorial</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-outline text-lg">expand_more</span>
+</div>
+</div>
+<div class="flex items-end">
+<button class="w-full h-[42px] bg-secondary text-white rounded-lg font-label text-xs uppercase tracking-widest hover:bg-secondary-dim transition-colors">Filtrar</button>
+</div>
+</div>
+<!-- Bento Layout Sections -->
+<div class="grid grid-cols-12 gap-8">
+<!-- Section 4: Key Metrics -->
+<div class="col-span-12 grid grid-cols-1 md:grid-cols-4 gap-6">
+<div class="bg-surface-container-lowest p-8 rounded-xl border border-outline-variant/10 group hover:bg-surface-container transition-colors duration-500">
+<p class="text-[10px] font-label uppercase tracking-[0.15em] text-outline mb-4">Total de Vendas</p>
+<div class="flex items-baseline gap-2">
+<span class="text-3xl font-serif">R$ 142.850</span>
+<span class="text-xs text-green-600 flex items-center">+12% <span class="material-symbols-outlined text-xs">trending_up</span></span>
+</div>
+<div class="mt-6 h-1 w-full bg-surface-container-high rounded-full overflow-hidden">
+<div class="h-full bg-primary w-2/3 transition-all duration-1000"></div>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-8 rounded-xl border border-outline-variant/10 group hover:bg-surface-container transition-colors duration-500">
+<p class="text-[10px] font-label uppercase tracking-[0.15em] text-outline mb-4">Margem Média</p>
+<div class="flex items-baseline gap-2">
+<span class="text-3xl font-serif">32.4%</span>
+<span class="text-xs text-secondary flex items-center">-1.2%</span>
+</div>
+<div class="mt-6 h-1 w-full bg-surface-container-high rounded-full overflow-hidden">
+<div class="h-full bg-secondary w-[32%] transition-all duration-1000"></div>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-8 rounded-xl border border-outline-variant/10 group hover:bg-surface-container transition-colors duration-500">
+<p class="text-[10px] font-label uppercase tracking-[0.15em] text-outline mb-4">Taxa de Devolução</p>
+<div class="flex items-baseline gap-2">
+<span class="text-3xl font-serif">2.15%</span>
+<span class="text-xs text-tertiary flex items-center">+0.3%</span>
+</div>
+<div class="mt-6 h-1 w-full bg-surface-container-high rounded-full overflow-hidden">
+<div class="h-full bg-tertiary w-[15%] transition-all duration-1000"></div>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-8 rounded-xl border border-outline-variant/10 group hover:bg-surface-container transition-colors duration-500">
+<p class="text-[10px] font-label uppercase tracking-[0.15em] text-outline mb-4">Clientes Ativos</p>
+<div class="flex items-baseline gap-2">
+<span class="text-3xl font-serif">1.284</span>
+<span class="text-xs text-green-600 flex items-center">+8.5%</span>
+</div>
+<div class="mt-6 h-1 w-full bg-surface-container-high rounded-full overflow-hidden">
+<div class="h-full bg-primary w-4/5 transition-all duration-1000"></div>
+</div>
+</div>
+</div>
+<!-- Section 1: Sales by Category (Visual) -->
+<div class="col-span-12 lg:col-span-5 bg-surface-container-lowest p-10 rounded-xl">
+<h3 class="text-2xl mb-10">Vendas por Categoria</h3>
+<div class="space-y-8">
+<div class="group">
+<div class="flex justify-between mb-2">
+<span class="text-sm font-medium">Skincare Premium</span>
+<span class="text-sm text-outline">R$ 58.400 (41%)</span>
+</div>
+<div class="h-0.5 w-full bg-surface-container-high overflow-hidden">
+<div class="h-full bg-primary w-[41%] group-hover:scale-x-105 origin-left transition-transform duration-500"></div>
+</div>
+</div>
+<div class="group">
+<div class="flex justify-between mb-2">
+<span class="text-sm font-medium">Maquiagem Editorial</span>
+<span class="text-sm text-outline">R$ 32.200 (23%)</span>
+</div>
+<div class="h-0.5 w-full bg-surface-container-high overflow-hidden">
+<div class="h-full bg-secondary w-[23%] group-hover:scale-x-105 origin-left transition-transform duration-500"></div>
+</div>
+</div>
+<div class="group">
+<div class="flex justify-between mb-2">
+<span class="text-sm font-medium">Fragrâncias de Nicho</span>
+<span class="text-sm text-outline">R$ 28.500 (20%)</span>
+</div>
+<div class="h-0.5 w-full bg-surface-container-high overflow-hidden">
+<div class="h-full bg-primary-dim w-[20%] group-hover:scale-x-105 origin-left transition-transform duration-500"></div>
+</div>
+</div>
+<div class="group">
+<div class="flex justify-between mb-2">
+<span class="text-sm font-medium">Hair Care de Luxo</span>
+<span class="text-sm text-outline">R$ 23.750 (16%)</span>
+</div>
+<div class="h-0.5 w-full bg-surface-container-high overflow-hidden">
+<div class="h-full bg-outline-variant w-[16%] group-hover:scale-x-105 origin-left transition-transform duration-500"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Section 3: Best Sellers (List) -->
+<div class="col-span-12 lg:col-span-7 bg-surface-container-lowest p-10 rounded-xl">
+<div class="flex justify-between items-center mb-10">
+<h3 class="text-2xl">Produtos Mais Vendidos</h3>
+<a class="text-xs uppercase tracking-widest font-label border-b border-primary/20 pb-1 hover:border-primary transition-all" href="#">Ver todos</a>
+</div>
+<div class="space-y-6">
+<div class="flex items-center justify-between py-4 group cursor-pointer">
+<div class="flex items-center gap-6">
+<img class="w-14 h-14 object-cover rounded-lg bg-surface shadow-sm" data-alt="luxury skincare bottle on a marble pedestal with soft neutral lighting and minimal composition" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDlTeoiV_otETlWKCLKInDSnhoPVBmiElTrs_grH1iCqrmRLEImn2eB9fqa0_cg5d3F1r72ejnpsIzoSwGO7RNkjqR7ostInvZ5Z6eoMa_ZhUoIU24HZjKqKpxOgSXjPJDaGaBW3PxhWoyt0ZSLD6seY6GywXINeHcF9B76OdVIf4CwlfVgb_zOfJcVV3ofVRUXYPNOQ3B235lU9ACUanAru34SW-FxRi_Uqiveg624SLE0etF6KZQTUYLKcIHkLUqHVN5pY_PuwjwG"/>
+<div>
+<h4 class="font-bold text-sm">Divine Face Oil</h4>
+<p class="text-xs text-outline italic">L'Occitane en Provence</p>
+</div>
+</div>
+<div class="text-right">
+<p class="text-sm font-bold">124 Unidades</p>
+<p class="text-[10px] uppercase text-green-600 font-label tracking-tighter">Margem: 42%</p>
+</div>
+</div>
+<div class="flex items-center justify-between py-4 group cursor-pointer border-t border-outline-variant/5">
+<div class="flex items-center gap-6">
+<img class="w-14 h-14 object-cover rounded-lg bg-surface shadow-sm" data-alt="minimalist makeup palette with soft earth tones and elegant gold detailing on a neutral background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBxqdDiXtd7yRszMdcBxzHm_Ggf_N1fkAf7pMDhxlqtf9Ux2n-etvlHb41law3b7YeeLX-WvC7DISwBHfyVBnC0WjIb0Vloc2dAUrRNiVPQxDmZk9gRZyrgRKNV06q8YeJwfs3ejE00bkqKZ6YseJT6V49umHsVlQj7GTjKi5iSDx07vYVThIGf6wPsNjgEJlct2pELWIwMOjQtMzt8MfNBYyuFHCV6-aMWiHalO9kVVQIy2lWKsL9_CQP8i7rUT1loOpbX7jaMypO_"/>
+<div>
+<h4 class="font-bold text-sm">Palette Terre d'Ombre</h4>
+<p class="text-xs text-outline italic">Maison de Beauté</p>
+</div>
+</div>
+<div class="text-right">
+<p class="text-sm font-bold">98 Unidades</p>
+<p class="text-[10px] uppercase text-green-600 font-label tracking-tighter">Margem: 38%</p>
+</div>
+</div>
+<div class="flex items-center justify-between py-4 group cursor-pointer border-t border-outline-variant/5">
+<div class="flex items-center gap-6">
+<img class="w-14 h-14 object-cover rounded-lg bg-surface shadow-sm" data-alt="high-end perfume bottle with clear glass and minimalist black typography on a soft beige surface" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAcAsafGIELnIMr4goOOeETdU7gtktx6ZN2LGW_OO35g6yYLPw_EcpWDrE4JrQuNP26BrPWPq6o_vuCgRaw_yvniCNiRWWd7kdIWXDz4ag4CL-vMVaKdHPzOewVaPI9RNpRAniCcfjSAki2ZogRMZkrpbZmFGx28JkWZnRlDUpFNfXyCK4ZoxKepCI8cHrHWF7V7XK6mHxqY0VUB10la5sXJpL58e2Ae3xwEKvqMYtFtbrsujrYMHT74FgQfYVU174BixJuUxggIt8S"/>
+<div>
+<h4 class="font-bold text-sm">Nocturne d'Orient</h4>
+<p class="text-xs text-outline italic">Atelier Cologne</p>
+</div>
+</div>
+<div class="text-right">
+<p class="text-sm font-bold">82 Unidades</p>
+<p class="text-[10px] uppercase text-green-600 font-label tracking-tighter">Margem: 45%</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Section 2: Seller Performance (Sophisticated Table) -->
+<div class="col-span-12 bg-surface-container-lowest p-10 rounded-xl overflow-x-auto">
+<h3 class="text-2xl mb-10">Performance por Seller</h3>
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="border-b border-outline-variant/10">
+<th class="pb-6 font-label text-[11px] uppercase tracking-[0.2em] text-outline font-medium">Vendedor</th>
+<th class="pb-6 font-label text-[11px] uppercase tracking-[0.2em] text-outline font-medium">Volume de Vendas</th>
+<th class="pb-6 font-label text-[11px] uppercase tracking-[0.2em] text-outline font-medium">Crescimento</th>
+<th class="pb-6 font-label text-[11px] uppercase tracking-[0.2em] text-outline font-medium">Taxa Retorno</th>
+<th class="pb-6 font-label text-[11px] uppercase tracking-[0.2em] text-outline font-medium text-right">Status</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant/5">
+<tr class="group hover:bg-surface transition-colors">
+<td class="py-8">
+<div class="flex items-center gap-4">
+<div class="w-8 h-8 rounded-full bg-surface-container-high flex items-center justify-center font-serif text-sm">AB</div>
+<span class="text-sm font-bold">Atelier de Beauté Paris</span>
+</div>
+</td>
+<td class="py-8 font-serif text-base">R$ 42.150,00</td>
+<td class="py-8">
+<span class="text-sm text-green-600 font-medium">+15.2%</span>
+</td>
+<td class="py-8">
+<span class="text-sm text-on-surface/70">1.2%</span>
+</td>
+<td class="py-8 text-right">
+<span class="px-3 py-1 bg-green-100 text-green-800 text-[10px] font-bold uppercase rounded-full">Top Performer</span>
+</td>
+</tr>
+<tr class="group hover:bg-surface transition-colors">
+<td class="py-8">
+<div class="flex items-center gap-4">
+<div class="w-8 h-8 rounded-full bg-surface-container-high flex items-center justify-center font-serif text-sm">MP</div>
+<span class="text-sm font-bold">Maison de Parfum</span>
+</div>
+</td>
+<td class="py-8 font-serif text-base">R$ 28.900,00</td>
+<td class="py-8">
+<span class="text-sm text-green-600 font-medium">+8.7%</span>
+</td>
+<td class="py-8">
+<span class="text-sm text-on-surface/70">2.4%</span>
+</td>
+<td class="py-8 text-right">
+<span class="px-3 py-1 bg-surface-container-high text-on-surface/70 text-[10px] font-bold uppercase rounded-full">Estável</span>
+</td>
+</tr>
+<tr class="group hover:bg-surface transition-colors">
+<td class="py-8">
+<div class="flex items-center gap-4">
+<div class="w-8 h-8 rounded-full bg-surface-container-high flex items-center justify-center font-serif text-sm">SG</div>
+<span class="text-sm font-bold">Skin Glow &amp; Co</span>
+</div>
+</td>
+<td class="py-8 font-serif text-base">R$ 19.420,00</td>
+<td class="py-8">
+<span class="text-sm text-tertiary font-medium">-3.1%</span>
+</td>
+<td class="py-8">
+<span class="text-sm text-tertiary">4.8%</span>
+</td>
+<td class="py-8 text-right">
+<span class="px-3 py-1 bg-tertiary/10 text-tertiary text-[10px] font-bold uppercase rounded-full">Revisão</span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</main>
+</body></html>

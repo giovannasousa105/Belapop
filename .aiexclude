@@ -1,0 +1,37 @@
+# Dependencies and build output
+node_modules/
+.next/
+out/
+.vercel/
+
+# TypeScript and local caches
+*.tsbuildinfo
+
+# Python and virtualenv artifacts
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+ENV/
+env/
+
+# Local data, logs and scratch
+*.log
+*.err
+*.db
+tmp/
+tmp_*
+tmp-job-logs/
+
+# Secrets and local env
+.env
+.env.*
+
+# Local editor artifacts
+.vscode/
+
+# Supabase local-only artifacts
+supabase/.branches/
+supabase/.temp/
+supabase/supabase/
+

@@ -19,7 +19,7 @@ export default async function CustomersPage() {
         {customers.length === 0 ? (
           <EmptyState title="Nenhum cliente encontrado." description="Importe dados ou aguarde novos cadastros." />
         ) : (
-          <div className="space-y-3">/* tabela aqui */</div>
+          <div className="space-y-3">{/* tabela aqui */}</div>
         )}
       </SectionFrame>
     </div>

@@ -1,87 +1,71 @@
 import type { Metadata } from "next";
 
+import { LuxuryStaticFooter } from "@/components/layout/LuxuryStaticFooter";
+import { LuxuryStaticHeader } from "@/components/layout/LuxuryStaticHeader";
+
 export const metadata: Metadata = {
   title: "Sobre a BelaPop",
-  description:
-    "Curadoria editorial, marketplace e atendimento concierge para beleza e autocuidado."
+  description: "Uma nova experiencia de beleza, guiada por inteligencia e desejo."
 };
-
-const UPDATED_AT = "05/02/2026";
-
-const SectionTitle = ({ children }: { children: React.ReactNode }) => (
-  <h2 className="mt-10 font-display text-2xl text-bpBlack">{children}</h2>
-);
 
 export default function SobrePage() {
   return (
-    <div className="bg-white text-bpBlack">
-      <div className="mx-auto w-full max-w-4xl px-6 py-14 md:py-20">
-        <p className="text-[10px] font-semibold uppercase tracking-[0.35em] text-bpGraphite/70">
-          Institucional
-        </p>
-        <h1 className="mt-3 font-display text-4xl text-bpBlack">
-          Sobre a BelaPop
-        </h1>
-        <p className="mt-4 max-w-2xl text-sm leading-relaxed text-bpGraphite">
-          A BelaPop é um mini-marketplace editorial de beleza, autocuidado,
-          cosméticos e acessórios. Curadoria humana, comunicação clara e uma
-          experiência de compra pensada para rituais que fluem.
-        </p>
+    <div className="min-h-screen bg-[#F6F1EB] text-[#1B1A18]">
+      <LuxuryStaticHeader />
+      <main className="overflow-hidden">
+        <section className="border-b border-[#DDD3CA] px-6 py-12 md:px-10 lg:px-14">
+          <div className="mx-auto max-w-[1440px]">
+            <p className="text-xs uppercase tracking-[0.45em] text-[#C88FA3]">Sobre</p>
+            <h1 className="mt-4 font-serif text-5xl leading-[0.95] md:text-6xl">
+              Uma nova experiencia de beleza, guiada por inteligencia e desejo.
+            </h1>
+          </div>
+        </section>
 
-        <div className="mt-8 rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
-          <div className="grid gap-3 text-sm text-bpGraphite md:grid-cols-2">
-            <div>
-              <p className="text-[11px] font-semibold uppercase tracking-[0.25em] text-bpGraphite/70">
-                Controladora
+        <section className="border-b border-[#DDD3CA] px-6 py-12 md:px-10 lg:px-14">
+          <div className="mx-auto grid max-w-[1440px] gap-6 lg:grid-cols-2">
+            <div className="rounded-[30px] border border-[#DDD3CA] bg-white/80 p-6">
+              <h2 className="font-serif text-2xl">Quem somos</h2>
+              <p className="mt-3 text-sm text-[#5F5A55]">
+                Uma marca que une leitura de pele, curadoria premium e experiencia editorial.
               </p>
-              <p className="mt-2 font-semibold text-bpBlackSoft">BelaPop</p>
-              <p className="text-bpGraphite/80">CNPJ: 63.945.608/0001-09</p>
             </div>
-            <div>
-              <p className="text-[11px] font-semibold uppercase tracking-[0.25em] text-bpGraphite/70">
-                Atendimento
+            <div className="rounded-[30px] border border-[#DDD3CA] bg-white/80 p-6">
+              <h2 className="font-serif text-2xl">O que nos diferencia</h2>
+              <p className="mt-3 text-sm text-[#5F5A55]">
+                Leitura inteligente, selecao criteriosa e compra refinada em qualquer tela.
               </p>
-              <p className="mt-2 text-bpGraphite">
-                WhatsApp/Telefone:{" "}
-                <span className="font-semibold text-bpBlackSoft">
-                  +55 34 9804-7036
-                </span>
-              </p>
-              <p className="text-xs text-bpGraphite/70">Atualizado em {UPDATED_AT}.</p>
             </div>
           </div>
-        </div>
+        </section>
 
-        <SectionTitle>O que você encontra aqui</SectionTitle>
-        <div className="mt-4 rounded-3xl border border-black/10 bg-bpOffWhite p-6">
-          <ul className="space-y-2 text-sm leading-relaxed text-bpGraphite">
-            <li>
-              Explore e adquira produtos selecionados de beleza, autocuidado,
-              cosméticos e acessórios.
-            </li>
-            <li>
-              Acompanhe o status dos seus pedidos, da confirmação à entrega.
-            </li>
-            <li>
-              Gerencie dados de conta, endereços e preferências de comunicação.
-            </li>
-            <li>
-              Solicite trocas, devoluções e reembolsos, conforme os termos
-              aplicáveis.
-            </li>
-            <li>
-              Acesse nosso atendimento para suporte, dúvidas e solicitações.
-            </li>
-          </ul>
-        </div>
+        <section className="border-b border-[#DDD3CA] px-6 py-12 md:px-10 lg:px-14">
+          <div className="mx-auto max-w-[1440px] rounded-[32px] border border-[#DDD3CA] bg-[#F2E3E8] p-8">
+            <p className="text-xs uppercase tracking-[0.35em] text-[#C88FA3]">Manifesto</p>
+            <p className="mt-4 text-sm text-[#5F5A55]">
+              Menos ruido, mais criterio. Beleza guiada por sensorialidade e precisao.
+            </p>
+          </div>
+        </section>
 
-        <SectionTitle>Uso pessoal</SectionTitle>
-        <p className="mt-4 text-sm leading-relaxed text-bpGraphite">
-          A Plataforma e os produtos adquiridos destinam-se ao uso pessoal. Por
-          isso, você não deve utilizar a Plataforma ou adquirir produtos com
-          finalidade de revenda ou qualquer caráter comercial.
-        </p>
-      </div>
+        <section className="px-6 py-12 md:px-10 lg:px-14">
+          <div className="mx-auto max-w-[1440px] rounded-[32px] border border-[#DDD3CA] bg-white/80 p-6">
+            <h3 className="font-serif text-2xl">Marca + tecnologia</h3>
+            <p className="mt-3 text-sm text-[#5F5A55]">
+              A tecnologia aparece como luxo silencioso, nunca como ruido visual.
+            </p>
+            <div className="mt-6 flex flex-wrap gap-3">
+              <a href="/skin-scan" className="rounded-full bg-[#1B1A18] px-5 py-2 text-xs uppercase tracking-[0.25em] text-white">
+                Fazer leitura
+              </a>
+              <a href="/vitrine" className="rounded-full border border-[#DDD3CA] px-5 py-2 text-xs uppercase tracking-[0.25em] text-[#1B1A18]">
+                Explorar vitrine
+              </a>
+            </div>
+          </div>
+        </section>
+      </main>
+      <LuxuryStaticFooter />
     </div>
   );
 }

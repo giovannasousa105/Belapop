@@ -1,0 +1,54 @@
+<svg width="720" height="1040" viewBox="0 0 720 1040" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="102" y1="40" x2="630" y2="980" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0B0D10"/>
+      <stop offset="0.48" stop-color="#1C1F24"/>
+      <stop offset="1" stop-color="#090A0C"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(474 274) rotate(112.582) scale(410.878 358.529)">
+      <stop stop-color="#F1D4DF" stop-opacity="0.46"/>
+      <stop offset="1" stop-color="#F1D4DF" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="glass" x1="214" y1="194" x2="502" y2="834" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FAF7F8" stop-opacity="0.98"/>
+      <stop offset="0.52" stop-color="#EEE0E5" stop-opacity="0.9"/>
+      <stop offset="1" stop-color="#D8C0C8" stop-opacity="0.84"/>
+    </linearGradient>
+    <linearGradient id="liquid" x1="250" y1="450" x2="460" y2="786" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#D9A7B6"/>
+      <stop offset="1" stop-color="#6D3D4E"/>
+    </linearGradient>
+    <linearGradient id="cap" x1="284" y1="120" x2="430" y2="230" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#191C21"/>
+      <stop offset="1" stop-color="#3D4149"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="720" height="1040" fill="url(#bg)"/>
+  <rect width="720" height="1040" fill="url(#glow)"/>
+
+  <g opacity="0.22" stroke="#FFFFFF">
+    <path d="M96 114L308 0" />
+    <path d="M42 196L400 0" />
+    <path d="M0 282L498 0" />
+    <path d="M0 364L602 20" />
+    <path d="M0 450L704 54" />
+  </g>
+
+  <ellipse cx="360" cy="894" rx="176" ry="42" fill="#000000" fill-opacity="0.26"/>
+
+  <rect x="306" y="84" width="108" height="124" rx="24" fill="url(#cap)"/>
+  <rect x="286" y="184" width="148" height="72" rx="28" fill="#DEE0E5" fill-opacity="0.68"/>
+
+  <path d="M216 252C216 229.909 233.909 212 256 212H464C486.091 212 504 229.909 504 252V764C504 819.228 459.228 864 404 864H316C260.772 864 216 819.228 216 764V252Z" fill="url(#glass)"/>
+  <path d="M236 474C236 462.954 244.954 454 256 454H464V760C464 793.137 437.137 820 404 820H316C272.922 820 236 783.078 236 740V474Z" fill="url(#liquid)"/>
+  <path d="M244 306C244 297.163 251.163 290 260 290H460" stroke="#FFFFFF" stroke-opacity="0.66" stroke-width="16" stroke-linecap="round"/>
+  <path d="M258 340C258 333.373 263.373 328 270 328H438" stroke="#FFFFFF" stroke-opacity="0.42" stroke-width="8" stroke-linecap="round"/>
+  <path d="M248 230H472" stroke="#FFFFFF" stroke-opacity="0.28" stroke-width="6" stroke-linecap="round"/>
+
+  <rect x="252" y="548" width="216" height="136" rx="24" fill="#F7EFF2" fill-opacity="0.92"/>
+  <text x="360" y="596" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="20" letter-spacing="6" fill="#72515D">BELAPOP</text>
+  <text x="360" y="636" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="46" fill="#17181B">PREMIUM</text>
+  <text x="360" y="674" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="46" fill="#17181B">ELIXIR</text>
+  <text x="360" y="714" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="18" letter-spacing="3" fill="#72515D">SKIN RITUAL</text>
+</svg>

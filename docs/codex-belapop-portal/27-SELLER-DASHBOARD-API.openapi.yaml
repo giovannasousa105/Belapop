@@ -1,0 +1,749 @@
+openapi: 3.0.3
+info:
+  title: Marketplace Seller Dashboard API
+  version: 1.0.0
+servers:
+  - url: https://api.seumarketplace.com
+security:
+  - bearerAuth: []
+paths:
+  /dashboard/home:
+    get:
+      summary: Home dashboard widgets (Enterprise)
+      parameters:
+        - in: query
+          name: period
+          schema:
+            type: string
+            example: MTD
+        - in: query
+          name: channel
+          schema:
+            type: string
+            example: all
+        - in: query
+          name: state
+          schema:
+            type: string
+            example: SP
+        - in: query
+          name: city
+          schema:
+            type: string
+            example: Sao Paulo
+        - in: query
+          name: category_id
+          schema:
+            type: string
+            format: uuid
+        - in: query
+          name: compare
+          schema:
+            type: string
+            example: previous_period
+      responses:
+        "200":
+          description: Dashboard payload
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DashboardHomeResponse"
+
+  /orders:
+    get:
+      summary: List orders (supports exceptions filters)
+      parameters:
+        - in: query
+          name: filter
+          schema:
+            type: string
+            enum: [all, exceptions, sla_due, tracking_missing, tracking_stalled]
+            example: exceptions
+        - in: query
+          name: status
+          schema:
+            type: string
+            example: paid
+        - in: query
+          name: operational_status
+          schema:
+            type: string
+            example: separando
+        - in: query
+          name: page
+          schema:
+            type: integer
+            default: 1
+        - in: query
+          name: page_size
+          schema:
+            type: integer
+            default: 25
+      responses:
+        "200":
+          description: Orders list
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PaginatedOrders"
+
+  /orders/{order_id}/add-tracking:
+    post:
+      summary: Add tracking code to an order shipment
+      parameters:
+        - in: path
+          name: order_id
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AddTrackingRequest"
+      responses:
+        "200":
+          description: Updated shipment
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Shipment"
+
+  /shipments/{shipment_id}/update-tracking:
+    post:
+      summary: Append a tracking status update (internal use or carrier aggregator)
+      parameters:
+        - in: path
+          name: shipment_id
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TrackingUpdateRequest"
+      responses:
+        "200":
+          description: Recorded
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ShipmentEvent"
+
+  /alert-rules:
+    get:
+      summary: List alert rules
+      responses:
+        "200":
+          description: Rules
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/AlertRule"
+    post:
+      summary: Create alert rule
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AlertRuleCreateRequest"
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AlertRule"
+
+  /stores/{store_id}/logistics-score:
+    get:
+      summary: Get cached logistics score + breakdown
+      parameters:
+        - in: path
+          name: store_id
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: Score
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LogisticsScoreResponse"
+
+  /lots/{lot_id}/create-queima:
+    post:
+      summary: Create a clearance promo for a lot (suggested)
+      parameters:
+        - in: path
+          name: lot_id
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateQueimaRequest"
+      responses:
+        "201":
+          description: Created promo
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Promo"
+
+  /webhooks/payment:
+    post:
+      summary: Payment provider webhook
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PaymentWebhook"
+      responses:
+        "200":
+          description: OK
+
+  /webhooks/carrier:
+    post:
+      summary: Carrier / aggregator webhook
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CarrierWebhook"
+      responses:
+        "200":
+          description: OK
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+    DashboardHomeResponse:
+      type: object
+      properties:
+        updated_at:
+          type: string
+          format: date-time
+        filters_applied:
+          $ref: "#/components/schemas/DashboardFiltersApplied"
+        cards:
+          type: array
+          items:
+            $ref: "#/components/schemas/DashboardCard"
+        time_series:
+          $ref: "#/components/schemas/TimeSeriesWidget"
+        funnel:
+          $ref: "#/components/schemas/FunnelWidget"
+        attention_now:
+          type: array
+          items:
+            $ref: "#/components/schemas/AttentionItem"
+        exceptions:
+          $ref: "#/components/schemas/OrdersTable"
+        risk_skus:
+          $ref: "#/components/schemas/RiskSkuTable"
+        finance:
+          $ref: "#/components/schemas/FinanceWidget"
+        carriers:
+          type: array
+          items:
+            $ref: "#/components/schemas/CarrierWidget"
+        links:
+          $ref: "#/components/schemas/DashboardLinks"
+
+    DashboardFiltersApplied:
+      type: object
+      properties:
+        period:
+          type: string
+          example: MTD
+        compare:
+          type: string
+          example: previous_period
+        channel:
+          type: string
+          example: all
+        state:
+          type: string
+          example: SP
+        city:
+          type: string
+          example: Sao Paulo
+        category_id:
+          type: string
+          nullable: true
+          format: uuid
+
+    DashboardCard:
+      type: object
+      required: [key, title, value]
+      properties:
+        key:
+          type: string
+          example: sla_today
+        title:
+          type: string
+          example: SLA Hoje
+        value:
+          type: number
+          example: 96.2
+        unit:
+          type: string
+          example: "%"
+        delta:
+          type: number
+          example: 1.3
+        subtitle:
+          type: string
+          example: Pedidos postados dentro do prazo
+        cta_label:
+          type: string
+          example: Ver excecoes
+        cta_link:
+          type: string
+          example: /orders?filter=sla_due
+
+    TimeSeriesWidget:
+      type: object
+      properties:
+        granularity:
+          type: string
+          example: day
+        range_days:
+          type: integer
+          example: 30
+        series:
+          type: array
+          items:
+            $ref: "#/components/schemas/TimeSeriesLine"
+        compare_to_previous_period:
+          $ref: "#/components/schemas/TimeSeriesCompare"
+
+    TimeSeriesLine:
+      type: object
+      properties:
+        name:
+          type: string
+          example: gmv
+        unit:
+          type: string
+          example: BRL
+        points:
+          type: array
+          items:
+            $ref: "#/components/schemas/TimeSeriesPoint"
+
+    TimeSeriesPoint:
+      type: object
+      properties:
+        t:
+          type: string
+          format: date
+        v:
+          type: number
+
+    TimeSeriesCompare:
+      type: object
+      properties:
+        gmv_delta_percent:
+          type: number
+        paid_orders_delta_percent:
+          type: number
+
+    FunnelWidget:
+      type: object
+      properties:
+        window_days:
+          type: integer
+          example: 30
+        steps:
+          type: array
+          items:
+            $ref: "#/components/schemas/FunnelStep"
+
+    FunnelStep:
+      type: object
+      properties:
+        name:
+          type: string
+          example: checkout_started
+        count:
+          type: integer
+          example: 1820
+        rate_from_prev:
+          type: number
+          example: 0.62
+
+    AttentionItem:
+      type: object
+      properties:
+        id:
+          type: string
+        severity:
+          type: string
+          enum: [info, warning, critical]
+        title:
+          type: string
+        message:
+          type: string
+        impact_amount:
+          type: number
+        impact_orders:
+          type: integer
+        primary_action:
+          $ref: "#/components/schemas/ActionLink"
+        secondary_action:
+          $ref: "#/components/schemas/ActionLink"
+
+    ActionLink:
+      type: object
+      properties:
+        label:
+          type: string
+        href:
+          type: string
+
+    OrdersTable:
+      type: object
+      properties:
+        rows:
+          type: array
+          items:
+            $ref: "#/components/schemas/OrderRow"
+
+    OrderRow:
+      type: object
+      properties:
+        order_id:
+          type: string
+          format: uuid
+        status:
+          type: string
+        operational_status:
+          type: string
+        sla_status:
+          type: string
+        sla_due_at:
+          type: string
+          format: date-time
+        total_amount:
+          type: number
+        carrier:
+          type: string
+        tracking_code:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+
+    PaginatedOrders:
+      type: object
+      properties:
+        page:
+          type: integer
+        page_size:
+          type: integer
+        total:
+          type: integer
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/OrderRow"
+
+    AddTrackingRequest:
+      type: object
+      required: [carrier, tracking_code]
+      properties:
+        carrier:
+          type: string
+          example: Jadlog
+        tracking_code:
+          type: string
+          example: JD123456789BR
+        posted_at:
+          type: string
+          format: date-time
+
+    Shipment:
+      type: object
+      properties:
+        shipment_id:
+          type: string
+          format: uuid
+        order_id:
+          type: string
+          format: uuid
+        carrier:
+          type: string
+        tracking_code:
+          type: string
+        posted_at:
+          type: string
+          format: date-time
+        current_status:
+          type: string
+        last_status_at:
+          type: string
+          format: date-time
+
+    TrackingUpdateRequest:
+      type: object
+      required: [status, occurred_at]
+      properties:
+        status:
+          type: string
+          example: in_transit
+        status_details:
+          type: string
+        location:
+          type: string
+        occurred_at:
+          type: string
+          format: date-time
+        raw:
+          type: object
+          additionalProperties: true
+
+    ShipmentEvent:
+      type: object
+      properties:
+        id:
+          type: integer
+        shipment_id:
+          type: string
+          format: uuid
+        status:
+          type: string
+        occurred_at:
+          type: string
+          format: date-time
+
+    AlertRule:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        store_id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        condition:
+          type: object
+        action:
+          type: object
+        is_active:
+          type: boolean
+
+    AlertRuleCreateRequest:
+      type: object
+      required: [name, condition, action]
+      properties:
+        name:
+          type: string
+        condition:
+          type: object
+        action:
+          type: object
+        is_active:
+          type: boolean
+          default: true
+
+    LogisticsScoreResponse:
+      type: object
+      properties:
+        score:
+          type: number
+          example: 82.4
+        components:
+          type: object
+          additionalProperties: true
+        computed_at:
+          type: string
+          format: date-time
+
+    RiskSkuTable:
+      type: object
+      properties:
+        rows:
+          type: array
+          items:
+            $ref: "#/components/schemas/RiskSkuRow"
+
+    RiskSkuRow:
+      type: object
+      properties:
+        sku:
+          type: string
+        product_title:
+          type: string
+        days_coverage:
+          type: number
+        min_expiration_days:
+          type: integer
+        recommended_action:
+          type: string
+          enum: [repor, queima, pausar_ads]
+
+    FinanceWidget:
+      type: object
+      properties:
+        balance_to_receive:
+          type: number
+        next_payout_date:
+          type: string
+          format: date
+        has_disputes:
+          type: boolean
+        disputes_count:
+          type: integer
+
+    CarrierWidget:
+      type: object
+      properties:
+        carrier:
+          type: string
+        avg_delivery_days:
+          type: number
+        late_rate:
+          type: number
+        volume_orders:
+          type: integer
+
+    DashboardLinks:
+      type: object
+      properties:
+        dashboard:
+          type: string
+        orders_exceptions:
+          type: string
+        inventory_lots:
+          type: string
+        finance_reconciliation:
+          type: string
+
+    CreateQueimaRequest:
+      type: object
+      properties:
+        discount_percent:
+          type: integer
+          example: 20
+        duration_days:
+          type: integer
+          example: 5
+        placement:
+          type: array
+          items:
+            type: string
+            example: search_boost
+
+    Promo:
+      type: object
+      properties:
+        promo_id:
+          type: string
+          format: uuid
+        type:
+          type: string
+          example: queima_inteligente
+        discount_percent:
+          type: integer
+        starts_at:
+          type: string
+          format: date-time
+        ends_at:
+          type: string
+          format: date-time
+
+    PaymentWebhook:
+      type: object
+      required: [event, event_id, occurred_at, data]
+      properties:
+        event:
+          type: string
+          example: payment.approved
+        event_id:
+          type: string
+        occurred_at:
+          type: string
+          format: date-time
+        data:
+          type: object
+          required: [order_id, store_id, amount, currency]
+          properties:
+            order_id:
+              type: string
+              format: uuid
+            store_id:
+              type: string
+              format: uuid
+            amount:
+              type: number
+            currency:
+              type: string
+              example: BRL
+            payment_method:
+              type: string
+
+    CarrierWebhook:
+      type: object
+      required: [event, event_id, occurred_at, data]
+      properties:
+        event:
+          type: string
+          example: shipment.tracking.updated
+        event_id:
+          type: string
+        occurred_at:
+          type: string
+          format: date-time
+        data:
+          type: object
+          required: [shipment_id, order_id, status, occurred_at]
+          properties:
+            shipment_id:
+              type: string
+              format: uuid
+            order_id:
+              type: string
+              format: uuid
+            carrier:
+              type: string
+            tracking_code:
+              type: string
+            status:
+              type: string
+            status_details:
+              type: string
+            location:
+              type: string
+            occurred_at:
+              type: string
+              format: date-time
+            raw:
+              type: object
+              additionalProperties: true

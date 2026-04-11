@@ -44,7 +44,11 @@ export type AdminProductDetail = {
 };
 
 const mapPendingRow = (row: any): AdminPendingProductRow => {
-  const sellerInfo = Array.isArray(row.sellers) ? row.sellers[0] : undefined;
+  const sellerInfo = Array.isArray(row.sellers)
+    ? row.sellers[0]
+    : row.sellers && typeof row.sellers === "object"
+      ? row.sellers
+      : undefined;
   return {
     id: row.id,
     name: row.name,
@@ -64,8 +68,10 @@ export async function fetchPendingProducts(): Promise<AdminPendingProductRow[]> 
   const supabase = await getSupabaseServerClient();
   const { data, error } = await supabase
     .from("products")
-    .select(`${PRODUCT_SELECT_FIELDS}, sellers(store_name,status,postal_code,stripe_account_id)`)
-    .in("status", ["pending_review", "needs_adjustment"])
+    .select(
+      `${PRODUCT_SELECT_FIELDS}, sellers!products_seller_id_fkey(store_name,status,postal_code,stripe_account_id)`
+    )
+    .in("status", ["review", "needs_adjustment"])
     .order("created_at", { ascending: false });
 
   if (error) {
@@ -80,7 +86,9 @@ export async function fetchProductDetail(productId: string): Promise<AdminProduc
   const supabase = await getSupabaseServerClient();
   const { data, error } = await supabase
     .from("products")
-    .select(`${PRODUCT_SELECT_FIELDS}, sellers(store_name,status,postal_code,stripe_account_id)`)
+    .select(
+      `${PRODUCT_SELECT_FIELDS}, sellers!products_seller_id_fkey(store_name,status,postal_code,stripe_account_id)`
+    )
     .eq("id", productId)
     .maybeSingle();
 
@@ -89,7 +97,11 @@ export async function fetchProductDetail(productId: string): Promise<AdminProduc
     return null;
   }
 
-  const sellerInfo = Array.isArray(data.sellers) ? data.sellers[0] : undefined;
+  const sellerInfo = Array.isArray(data.sellers)
+    ? data.sellers[0]
+    : data.sellers && typeof data.sellers === "object"
+      ? data.sellers
+      : undefined;
 
   return {
     id: data.id,

@@ -6,12 +6,15 @@ import { Search } from "lucide-react";
 import { useEffect, useMemo, useRef, useState } from "react";
 
 import { useDebounce } from "@/lib/hooks/useDebounce";
+import { trackEvent } from "@/lib/analytics/tracker";
 import { formatPrice } from "@/lib/utils";
 
 type SearchProduct = {
   id: string;
+  slug: string;
   name: string;
   brand: string | null;
+  category: string | null;
   price: number;
   imageUrl: string | null;
   ratingAvg: number;
@@ -38,7 +41,7 @@ export const SearchBar = ({
   tone = "light",
   className,
   placeholder = "Busque produtos, marcas, rituais",
-  action = "/products"
+  action = "/catalogo"
 }: SearchBarProps) => {
   const router = useRouter();
   const [query, setQuery] = useState("");
@@ -97,8 +100,17 @@ export const SearchBar = ({
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    if (!query.trim()) return;
-    router.push(`${action}?q=${encodeURIComponent(query.trim())}`);
+    const normalizedQuery = query.trim();
+    if (!normalizedQuery) return;
+    void trackEvent({
+      type: "search",
+      metadata: {
+        query: normalizedQuery,
+        surface: "global_search",
+        action
+      }
+    });
+    router.push(`${action}?q=${encodeURIComponent(normalizedQuery)}`);
     setOpen(false);
   };
 
@@ -132,7 +144,7 @@ export const SearchBar = ({
                     results.products.map((product) => (
                       <Link
                         key={product.id}
-                        href={`/produto/${product.id}`}
+                        href={`/produto/${product.slug}`}
                         className="flex items-center justify-between gap-4 rounded-2xl border border-black/10 bg-white px-4 py-3 text-sm transition hover:border-bpPink/40"
                       >
                         <div>

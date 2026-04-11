@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+
+<html class="light" lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Campanhas &amp; Destaques | BelaPop Admin</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&amp;family=Noto+Serif:ital,wght@0,400;0,700;1,400&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "secondary-fixed": "#f8decc",
+                        "tertiary-fixed-dim": "#ee7775",
+                        "surface-container": "#efeee6",
+                        "on-secondary": "#fff7f4",
+                        "outline": "#797c73",
+                        "on-secondary-container": "#604e41",
+                        "on-surface-variant": "#5e6058",
+                        "on-tertiary-fixed-variant": "#661017",
+                        "on-secondary-fixed": "#4d3c2f",
+                        "surface-dim": "#d9dbcf",
+                        "surface": "#fbf9f4",
+                        "on-tertiary-container": "#5a060f",
+                        "primary": "#5f5e5e",
+                        "error-dim": "#4e0309",
+                        "background": "#fbf9f4",
+                        "surface-container-lowest": "#ffffff",
+                        "error": "#9f403d",
+                        "primary-dim": "#535252",
+                        "tertiary-container": "#ff8482",
+                        "on-error-container": "#752121",
+                        "primary-fixed-dim": "#d6d4d3",
+                        "on-primary-fixed-variant": "#5c5b5b",
+                        "secondary-container": "#f8decc",
+                        "tertiary-dim": "#923233",
+                        "outline-variant": "#b1b3a9",
+                        "surface-container-highest": "#e2e3d9",
+                        "on-tertiary-fixed": "#230002",
+                        "on-tertiary": "#fff7f6",
+                        "on-error": "#fff7f6",
+                        "inverse-surface": "#0e0e0c",
+                        "on-background": "#31332c",
+                        "error-container": "#fe8983",
+                        "on-primary-container": "#525151",
+                        "primary-fixed": "#e5e2e1",
+                        "secondary": "#6e5b4d",
+                        "surface-container-high": "#e8e9e0",
+                        "tertiary-fixed": "#ff8482",
+                        "secondary-dim": "#625042",
+                        "primary-container": "#e5e2e1",
+                        "tertiary": "#a23d3e",
+                        "on-surface": "#31332c",
+                        "surface-bright": "#fbf9f4",
+                        "inverse-primary": "#ffffff",
+                        "inverse-on-surface": "#9e9d99",
+                        "on-primary-fixed": "#403f3f",
+                        "surface-tint": "#5f5e5e",
+                        "on-secondary-fixed-variant": "#6a584a",
+                        "surface-container-low": "#f5f4ed",
+                        "on-primary": "#faf7f6",
+                        "secondary-fixed-dim": "#e9d0be",
+                        "surface-variant": "#e2e3d9"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "fontFamily": {
+                        "headline": ["Noto Serif"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; -webkit-font-smoothing: antialiased; }
+        .serif { font-family: 'Noto Serif', serif; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 200, 'GRAD' 0, 'opsz' 24; }
+        .active-fill { font-variation-settings: 'FILL' 1; }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #fbf9f4; }
+        ::-webkit-scrollbar-thumb { background: #b1b3a9; border-radius: 10px; }
+    </style>
+</head>
+<body class="bg-surface text-on-surface flex min-h-screen">
+<!-- SideNavBar -->
+<aside class="h-screen w-64 fixed left-0 top-0 z-40 bg-[#f5f4ed] border-r border-[#b1b3a9]/15 flex flex-col py-8 gap-y-6 font-['Inter'] text-sm tracking-wide">
+<div class="px-8 mb-4">
+<h1 class="font-serif text-lg text-[#31332c]">Editorial Admin</h1>
+<p class="text-xs text-[#5f5e5e] uppercase tracking-widest mt-1">Marketplace Premium</p>
+</div>
+<nav class="flex flex-col gap-y-1">
+<a class="flex items-center gap-4 py-3 px-8 text-[#5f5e5e] hover:bg-[#efeee6] transition-all cursor-pointer" href="#">
+<span class="material-symbols-outlined text-[20px]" data-icon="dashboard">dashboard</span>
+<span>Dashboard</span>
+</a>
+<a class="flex items-center gap-4 py-3 px-8 font-semibold text-[#31332c] border-l-2 border-[#5f5e5e] pl-4 transition-all" href="#">
+<span class="material-symbols-outlined text-[20px]" data-icon="auto_awesome">auto_awesome</span>
+<span>Curadoria</span>
+</a>
+<a class="flex items-center gap-4 py-3 px-8 text-[#5f5e5e] hover:bg-[#efeee6] transition-all" href="#">
+<span class="material-symbols-outlined text-[20px]" data-icon="storefront">storefront</span>
+<span>Sellers</span>
+</a>
+<a class="flex items-center gap-4 py-3 px-8 text-[#5f5e5e] hover:bg-[#efeee6] transition-all" href="#">
+<span class="material-symbols-outlined text-[20px]" data-icon="shopping_cart">shopping_cart</span>
+<span>Pedidos</span>
+</a>
+<a class="flex items-center gap-4 py-3 px-8 text-[#5f5e5e] hover:bg-[#efeee6] transition-all" href="#">
+<span class="material-symbols-outlined text-[20px]" data-icon="local_shipping">local_shipping</span>
+<span>Logística</span>
+</a>
+<a class="flex items-center gap-4 py-3 px-8 text-[#5f5e5e] hover:bg-[#efeee6] transition-all" href="#">
+<span class="material-symbols-outlined text-[20px]" data-icon="security">security</span>
+<span>Risco</span>
+</a>
+<a class="flex items-center gap-4 py-3 px-8 text-[#5f5e5e] hover:bg-[#efeee6] transition-all" href="#">
+<span class="material-symbols-outlined text-[20px]" data-icon="payments">payments</span>
+<span>Financeiro</span>
+</a>
+<a class="flex items-center gap-4 py-3 px-8 text-[#5f5e5e] hover:bg-[#efeee6] transition-all" href="#">
+<span class="material-symbols-outlined text-[20px]" data-icon="group">group</span>
+<span>Clientes</span>
+</a>
+<a class="flex items-center gap-4 py-3 px-8 text-[#5f5e5e] hover:bg-[#efeee6] transition-all" href="#">
+<span class="material-symbols-outlined text-[20px]" data-icon="settings">settings</span>
+<span>Configurações</span>
+</a>
+</nav>
+<div class="mt-auto px-8 flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-surface-container-highest flex items-center justify-center overflow-hidden">
+<img alt="Curator Admin" class="w-full h-full object-cover" data-alt="professional portrait of a confident fashion curator in a modern minimalist office setting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA1_kf_3I2JsVepNHg-nKBYRkm5QcrCPANSuFgeCq4cLFQrxGVA-0I4XU7o7QDYUMtI_xW-NTImuvAb-E4liICP0LLGj53s-er7SZuRLUZzsC6rtE7p4A-VizvjixN-Ul4FRwa3cyrJuy2JxHQiNcqCjXsvMAn8pIkNWTbE6pol4a_b4QhpYWJZQRiMI1AbpFQj4u4Nt0OrPBk2ApuypMj6J-M9rHciFCeyO04mZIs-DtBgHIXocQJUxEMw5MH2p9CKDICRVyFjN4Ud"/>
+</div>
+<div>
+<p class="text-xs font-bold text-[#31332c]">Beatriz S.</p>
+<p class="text-[10px] text-[#5f5e5e] uppercase">Head of Curation</p>
+</div>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="flex-1 ml-64 p-12 overflow-y-auto">
+<!-- TopAppBar -->
+<header class="flex justify-between items-center mb-16">
+<div>
+<h2 class="serif text-3xl font-normal text-[#31332c] tracking-tight">Campanhas &amp; Destaques</h2>
+<p class="text-primary-dim text-sm mt-1 font-light italic">Gestão editorial e visual da vitrine BelaPop</p>
+</div>
+<div class="flex gap-4">
+<button class="bg-surface-container-lowest border border-[#b1b3a9]/20 px-6 py-2.5 rounded-xl text-xs font-medium uppercase tracking-widest hover:bg-white transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined text-sm" data-icon="visibility">visibility</span>
+                    Preview Loja
+                </button>
+<button class="bg-primary text-on-primary px-8 py-2.5 rounded-xl text-xs font-medium uppercase tracking-widest hover:bg-primary-dim transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined text-sm" data-icon="add">add</span>
+                    Nova Campanha
+                </button>
+</div>
+</header>
+<!-- Seção de Banners: Grid de Cards -->
+<section class="mb-20">
+<div class="flex justify-between items-end mb-8 border-b border-outline-variant/10 pb-4">
+<h3 class="serif text-xl text-on-surface">Main Banners</h3>
+<button class="text-xs uppercase tracking-widest font-semibold flex items-center gap-2 text-primary hover:text-on-surface transition-colors">
+<span class="material-symbols-outlined text-base" data-icon="swap_vert">swap_vert</span>
+                    Ordenar Vitrine
+                </button>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+<!-- Card Banner 1 -->
+<div class="group relative bg-surface-container-lowest p-4 rounded-xl transition-all duration-500 hover:shadow-[0_20px_40px_rgba(49,51,44,0.05)]">
+<div class="aspect-[16/9] w-full rounded-md overflow-hidden mb-4 bg-surface-container">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="high-end beauty products collection featuring premium glass bottles and minimalist aesthetic with soft sunlight and shadows" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDyVfPLeRyFPZlZqZtK9QjkF37zzfio_dda4jwWewd8xt_mNGiWK3541srvzd92k2oLjO1tsCR3WZ14NdUI95ZpxiZ94Uc2lx9X-5Ul-25NHl1DdwFygySMCXeXhh98JVa1y3A-vQF6oSGjxDR6HkZI6pK2euDzasvt9PW2lSYidrAWA41WRbKbzA7_5GFv_qUnZo4dx_jZXtI9tl78EUcLGMry0nRwuszLXLEow_G0BlUDSOfFStsL02sy80NuLEknfN-9HwRs7AEH"/>
+<div class="absolute top-6 left-6 flex gap-2">
+<span class="bg-white/80 backdrop-blur-md px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-tighter text-on-surface">Ativo</span>
+</div>
+</div>
+<div class="px-1">
+<h4 class="font-medium text-on-surface text-sm">Coleção Essenciais de Verão</h4>
+<div class="flex items-center gap-2 mt-2 text-[#5f5e5e] text-xs font-light">
+<span class="material-symbols-outlined text-sm" data-icon="calendar_today">calendar_today</span>
+                            01 Dez — 28 Fev
+                        </div>
+<div class="flex justify-between items-center mt-6 pt-4 border-t border-outline-variant/10">
+<span class="text-[10px] uppercase tracking-widest font-bold text-outline">Desktop &amp; Mobile</span>
+<div class="flex gap-3">
+<button class="text-primary hover:text-on-surface transition-colors"><span class="material-symbols-outlined text-xl" data-icon="edit_note">edit_note</span></button>
+<button class="text-primary hover:text-on-surface transition-colors"><span class="material-symbols-outlined text-xl" data-icon="delete">delete</span></button>
+</div>
+</div>
+</div>
+</div>
+<!-- Card Banner 2 -->
+<div class="group relative bg-surface-container-lowest p-4 rounded-xl transition-all duration-500 hover:shadow-[0_20px_40px_rgba(49,51,44,0.05)]">
+<div class="aspect-[16/9] w-full rounded-md overflow-hidden mb-4 bg-surface-container">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="minimalist makeup palette on a clean stone background with elegant natural lighting and organic textures" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAerme1nJgdXmnjrY9B-LMOns7-82u2ZLlODwKkcwUg35Fn_S0sHq0tBA8saXG_iNALWEqPzbpyp_fUZbg0uEF2yBEROO1t8eljk07IHMzU3ZySvcBvNbKDQ0GAgi7tuub2svZI6oH5eqOXCDScGa2RBR0YVB81rRbZL_P-OoOjIiPLq74XcpdJoyJrg68xT98SOe7pVcJh8MDqtESkrMn_G1bxquKQ7gwl9cru4nUZ1AjOXj2cujeAPZCM5UJmAKJl01Ddo88mpsrP"/>
+<div class="absolute top-6 left-6 flex gap-2">
+<span class="bg-surface-container-highest/80 backdrop-blur-md px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-tighter text-on-surface">Agendado</span>
+</div>
+</div>
+<div class="px-1">
+<h4 class="font-medium text-on-surface text-sm">Lançamento Palette Nude</h4>
+<div class="flex items-center gap-2 mt-2 text-[#5f5e5e] text-xs font-light">
+<span class="material-symbols-outlined text-sm" data-icon="schedule">schedule</span>
+                            Inicia em 15 Mar
+                        </div>
+<div class="flex justify-between items-center mt-6 pt-4 border-t border-outline-variant/10">
+<span class="text-[10px] uppercase tracking-widest font-bold text-outline">Desktop Only</span>
+<div class="flex gap-3">
+<button class="text-primary hover:text-on-surface transition-colors"><span class="material-symbols-outlined text-xl" data-icon="edit_note">edit_note</span></button>
+<button class="text-primary hover:text-on-surface transition-colors"><span class="material-symbols-outlined text-xl" data-icon="delete">delete</span></button>
+</div>
+</div>
+</div>
+</div>
+<!-- Adicionar Banner Placeholder -->
+<div class="border-2 border-dashed border-outline-variant/30 rounded-xl flex flex-col items-center justify-center p-8 transition-colors hover:border-primary/40 group cursor-pointer">
+<div class="w-12 h-12 rounded-full bg-surface-container flex items-center justify-center mb-4 group-hover:bg-primary/10 transition-colors">
+<span class="material-symbols-outlined text-primary" data-icon="add_photo_alternate">add_photo_alternate</span>
+</div>
+<p class="text-xs uppercase tracking-widest font-bold text-primary-dim">Adicionar Novo Banner</p>
+<p class="text-[10px] text-outline mt-1 italic">Proporção sugerida 21:9</p>
+</div>
+</div>
+</section>
+<!-- Layout Assimétrico: Vitrines e Coleções -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-12 mb-20">
+<!-- Seção de Vitrines (Coluna Esquerda Larga) -->
+<div class="lg:col-span-7">
+<div class="flex justify-between items-end mb-8 border-b border-outline-variant/10 pb-4">
+<h3 class="serif text-xl text-on-surface">Vitrines Inteligentes</h3>
+<span class="text-[10px] uppercase tracking-widest font-bold text-outline">4 Vitrines Ativas</span>
+</div>
+<div class="space-y-4">
+<!-- Vitrine Item -->
+<div class="bg-surface-container-lowest p-6 rounded-xl flex items-center gap-6 group hover:bg-[#fcfcfc] transition-colors border border-transparent hover:border-[#efeee6]">
+<div class="w-12 h-12 bg-surface-container flex items-center justify-center rounded-lg text-primary">
+<span class="material-symbols-outlined" data-icon="auto_awesome">auto_awesome</span>
+</div>
+<div class="flex-1">
+<h5 class="text-sm font-semibold text-on-surface">Novidades da Semana</h5>
+<p class="text-xs text-primary-dim font-light">Ordenação: Automática (Data de Cadastro)</p>
+</div>
+<div class="flex items-center gap-8">
+<div class="text-right">
+<p class="text-[10px] uppercase tracking-widest font-bold text-outline mb-1">Status</p>
+<span class="text-[10px] bg-[#eef2e6] text-[#4d602f] px-2 py-0.5 rounded uppercase font-bold tracking-tighter">Visível</span>
+</div>
+<button class="w-10 h-10 rounded-full flex items-center justify-center hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="settings_input_component">settings_input_component</span>
+</button>
+</div>
+</div>
+<!-- Vitrine Item -->
+<div class="bg-surface-container-lowest p-6 rounded-xl flex items-center gap-6 group hover:bg-[#fcfcfc] transition-colors">
+<div class="w-12 h-12 bg-surface-container flex items-center justify-center rounded-lg text-primary">
+<span class="material-symbols-outlined" data-icon="trending_up">trending_up</span>
+</div>
+<div class="flex-1">
+<h5 class="text-sm font-semibold text-on-surface">Mais Vendidos do Mês</h5>
+<p class="text-xs text-primary-dim font-light">Ordenação: Algoritmo de Conversão</p>
+</div>
+<div class="flex items-center gap-8">
+<div class="text-right">
+<p class="text-[10px] uppercase tracking-widest font-bold text-outline mb-1">Status</p>
+<span class="text-[10px] bg-[#eef2e6] text-[#4d602f] px-2 py-0.5 rounded uppercase font-bold tracking-tighter">Visível</span>
+</div>
+<button class="w-10 h-10 rounded-full flex items-center justify-center hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="settings_input_component">settings_input_component</span>
+</button>
+</div>
+</div>
+<!-- Vitrine Item -->
+<div class="bg-surface-container-lowest/50 p-6 rounded-xl flex items-center gap-6 opacity-60">
+<div class="w-12 h-12 bg-surface-container flex items-center justify-center rounded-lg text-primary">
+<span class="material-symbols-outlined" data-icon="loyalty">loyalty</span>
+</div>
+<div class="flex-1">
+<h5 class="text-sm font-semibold text-on-surface">Ofertas Exclusivas App</h5>
+<p class="text-xs text-primary-dim font-light">Ordenação: Manual</p>
+</div>
+<div class="flex items-center gap-8">
+<div class="text-right">
+<p class="text-[10px] uppercase tracking-widest font-bold text-outline mb-1">Status</p>
+<span class="text-[10px] bg-surface-container-highest text-outline px-2 py-0.5 rounded uppercase font-bold tracking-tighter">Oculto</span>
+</div>
+<button class="w-10 h-10 rounded-full flex items-center justify-center hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="settings_input_component">settings_input_component</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Seção de Coleções Editoriais (Coluna Direita Estreita) -->
+<div class="lg:col-span-5">
+<div class="flex justify-between items-end mb-8 border-b border-outline-variant/10 pb-4">
+<h3 class="serif text-xl text-on-surface">Coleções</h3>
+<button class="text-[10px] uppercase tracking-widest font-bold text-primary hover:underline underline-offset-4">Ver Todas</button>
+</div>
+<div class="grid grid-cols-1 gap-6">
+<!-- Coleção Editorial 1 -->
+<div class="relative group h-40 overflow-hidden rounded-xl">
+<img class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" data-alt="serene high-end luxury spa scene with wooden accents and artisanal ceramic containers in soft morning light" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB44wkUNpPZ21SSWqT4v0_aoRq_GcYP7EXbmAXiYG-w92ia7hOh0i-06GKc9s0zB37Ey4qkJob3ekK3G9L75NL4TiUutIVUrQkRw0nl1gMOCYdFF8fyUTpeBSBTMGxN4NVp0qaKyy5RZA-uE9NzgU2LVSqtUfwlMz3tXkHz3BxS3J11U9wYSiSX3TSXpxzfgyG3TFcueYHlMryIHv_No3A2GTNqT1HM4oLE7gOxlc-2cCoRqUXNNKF4Rhb2LPwv-H0uHbTpgF1oyndx"/>
+<div class="absolute inset-0 bg-gradient-to-t from-on-background/80 via-on-background/20 to-transparent p-6 flex flex-col justify-end">
+<h6 class="text-white font-serif text-lg leading-tight">Skin Care de Luxo</h6>
+<p class="text-white/70 text-[10px] uppercase tracking-[0.2em] mt-1 italic">Vigência: Perene</p>
+</div>
+</div>
+<!-- Coleção Editorial 2 -->
+<div class="relative group h-40 overflow-hidden rounded-xl">
+<img class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" data-alt="elegant perfume bottles on a light sand surface with soft shadows and golden hour lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCNVIE12dftI1ybbEjgbDdoAlm-Mn4LvuHeWp3noalAvm2Y7OnP41UA9PC3cnKaJgI_mZcXc0or_Tz_P5OCzNeuEdRtcV7-2ONeqLnzvr5RLJVLEE62EwhYOPxKcG4xMMSp7IlFXPizoi40PQQjrJ8EqW6bDoF0Gf-2gc4mnvJa004ewh3KqJ8OeeqOH5bbtX2mnup0ews2Jqrf7VWYAdEgbzKZjUDvbbU-EJ9jP2VTnPS4ESQIQteurxohVVWut_ngB5OqbHejhSQO"/>
+<div class="absolute inset-0 bg-gradient-to-t from-on-background/80 via-on-background/20 to-transparent p-6 flex flex-col justify-end">
+<h6 class="text-white font-serif text-lg leading-tight">Fragrâncias de Verão</h6>
+<p class="text-white/70 text-[10px] uppercase tracking-[0.2em] mt-1 italic">Vigência: Até 28/02</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Seção de Produtos em Destaque: Tabela Editorial -->
+<section>
+<div class="flex justify-between items-end mb-8 border-b border-outline-variant/10 pb-4">
+<h3 class="serif text-xl text-on-surface">Destaques da Home</h3>
+<div class="flex gap-4">
+<div class="bg-surface-container rounded-lg flex p-1">
+<button class="px-4 py-1 text-[10px] font-bold uppercase tracking-widest bg-white text-on-surface rounded shadow-sm">Home</button>
+<button class="px-4 py-1 text-[10px] font-bold uppercase tracking-widest text-primary hover:text-on-surface">Categorias</button>
+</div>
+</div>
+</div>
+<div class="bg-surface-container-lowest rounded-xl overflow-hidden">
+<table class="w-full text-left">
+<thead class="bg-surface-container/30 border-b border-outline-variant/10">
+<tr>
+<th class="px-8 py-6 text-[10px] uppercase tracking-widest font-bold text-outline">Posição</th>
+<th class="px-8 py-6 text-[10px] uppercase tracking-widest font-bold text-outline">Produto</th>
+<th class="px-8 py-6 text-[10px] uppercase tracking-widest font-bold text-outline text-center">Score Editorial</th>
+<th class="px-8 py-6 text-[10px] uppercase tracking-widest font-bold text-outline">Clicks (24h)</th>
+<th class="px-8 py-6 text-[10px] uppercase tracking-widest font-bold text-outline text-right">Ações</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant/5">
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="px-8 py-6">
+<span class="font-serif italic text-lg text-primary">#1</span>
+</td>
+<td class="px-8 py-6">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 bg-surface rounded overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="close up of a luxury aesthetic face serum bottle on a clean white background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCg7aS-3uH55aoNEJqFiYfu0qxQLCoWL7ORdK5lAAlp--3FtFzqHx7ZxNCnMiIJyGIFX-gvTLUENfmzJxDuK7wX0SMPWwyc-i9BbWaIom8DgfCbM6ZHmSJQPs-6VL_7vn64xkXSmR3qvOnum-mimOaRja71WpM-6o5uSYXRCSqNOaA1m1fHEo3TYtbGFejlKO_YnpIwGZFifznxhCebDEikVSE4nnBTXGO6phON6bK2nlJSflw-4ptvxU3Ait-HzCZHubHYiMCiRdtM"/>
+</div>
+<div>
+<p class="text-sm font-semibold text-on-surface">Sérum Facial Lumière</p>
+<p class="text-[10px] text-outline uppercase tracking-tighter">Beauté Lab</p>
+</div>
+</div>
+</td>
+<td class="px-8 py-6">
+<div class="flex justify-center items-center gap-1">
+<span class="material-symbols-outlined text-base active-fill text-[#c9b46e]" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-base active-fill text-[#c9b46e]" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-base active-fill text-[#c9b46e]" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-base active-fill text-[#c9b46e]" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-base active-fill text-[#c9b46e]" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+</td>
+<td class="px-8 py-6">
+<p class="text-sm text-on-surface">1.284 <span class="text-xs text-[#4d602f] ml-1">↑ 12%</span></p>
+</td>
+<td class="px-8 py-6 text-right">
+<button class="text-primary hover:text-on-surface transition-colors">
+<span class="material-symbols-outlined" data-icon="more_vert">more_vert</span>
+</button>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="px-8 py-6">
+<span class="font-serif italic text-lg text-primary">#2</span>
+</td>
+<td class="px-8 py-6">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 bg-surface rounded overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="luxury cosmetic cream jar in a minimalist professional product shot" src="https://lh3.googleusercontent.com/aida-public/AB6AXuClVSczN2aohlq1M2PlkBNMYKxcIhXzNNozei_Q_O0BWJvlUsp0YHXvEv-ciVAZVCeT5KpCje_8pQAgQadFw7R5mYDzppNaOxi4MQBT2CodgL1O1mydo3ILQbQtaSjSbbURvZZPamRUtUm0YfO2Gnv6Phd_WkvYglzSN1KiuRE45YdT0zrxVNetKylHMEUOvDIz9xgzkS2O0DwygGCaVzcst-Ahyq74bRr-L8iIm22KYNhZQbCC291LCWLVqX8kgdpQ2qgTw5u0LoxI"/>
+</div>
+<div>
+<p class="text-sm font-semibold text-on-surface">Creme Hidratante Noite</p>
+<p class="text-[10px] text-outline uppercase tracking-tighter">Organique Botanics</p>
+</div>
+</div>
+</td>
+<td class="px-8 py-6">
+<div class="flex justify-center items-center gap-1">
+<span class="material-symbols-outlined text-base active-fill text-[#c9b46e]" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-base active-fill text-[#c9b46e]" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-base active-fill text-[#c9b46e]" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-base active-fill text-[#c9b46e]" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-base text-outline-variant" data-icon="star">star</span>
+</div>
+</td>
+<td class="px-8 py-6">
+<p class="text-sm text-on-surface">956 <span class="text-xs text-on-surface-variant ml-1">—</span></p>
+</td>
+<td class="px-8 py-6 text-right">
+<button class="text-primary hover:text-on-surface transition-colors">
+<span class="material-symbols-outlined" data-icon="more_vert">more_vert</span>
+</button>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="px-8 py-6">
+<span class="font-serif italic text-lg text-primary">#3</span>
+</td>
+<td class="px-8 py-6">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 bg-surface rounded overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="minimalist glass perfume bottle with elegant liquid and simple label design" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCriX9SbaWnD1Xnl2vK50BRJLPQ9hA-AY6Gi2CwVgkx-r3WSOl2ZnAy5fw21_qbcTc_rJKvm4wYIY6jASMfmHIfxabpx6oe1ec2b6wcCsKTWIpZ6LK47MNqJoHRgrYO8BFrZZ25xyo7np9oVDl8cS0mFr0i989G1IBu74cN0zotVf3EK_RZPTlqWwkSmzGSUSRE27y_xh_k16u0PpOm5CW78e-GPFgeGuuVV8M-Fl_BHAvWmTfBhh7JW5pyV8TcMMBqfu0TFG_67apa"/>
+</div>
+<div>
+<p class="text-sm font-semibold text-on-surface">Eau de Parfum Intense</p>
+<p class="text-[10px] text-outline uppercase tracking-tighter">Oud Maison</p>
+</div>
+</div>
+</td>
+<td class="px-8 py-6">
+<div class="flex justify-center items-center gap-1">
+<span class="material-symbols-outlined text-base active-fill text-[#c9b46e]" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-base active-fill text-[#c9b46e]" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-base active-fill text-[#c9b46e]" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-base text-outline-variant" data-icon="star">star</span>
+<span class="material-symbols-outlined text-base text-outline-variant" data-icon="star">star</span>
+</div>
+</td>
+<td class="px-8 py-6">
+<p class="text-sm text-on-surface">812 <span class="text-xs text-[#a23d3e] ml-1">↓ 4%</span></p>
+</td>
+<td class="px-8 py-6 text-right">
+<button class="text-primary hover:text-on-surface transition-colors">
+<span class="material-symbols-outlined" data-icon="more_vert">more_vert</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<!-- Footer Editorial -->
+<footer class="mt-20 pt-10 border-t border-outline-variant/10 flex justify-between items-center text-outline-variant">
+<p class="text-[10px] uppercase tracking-widest">© BelaPop Editorial CMS 2024</p>
+<div class="flex gap-8 text-[10px] uppercase tracking-widest font-bold">
+<a class="hover:text-on-surface transition-colors" href="#">Guia de Estilo</a>
+<a class="hover:text-on-surface transition-colors" href="#">Relatórios de Curação</a>
+<a class="hover:text-on-surface transition-colors" href="#">Suporte Admin</a>
+</div>
+</footer>
+</main>
+</body></html>

@@ -1,0 +1,15 @@
+<svg width="1600" height="900" viewBox="0 0 1600 900" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="120" y1="120" x2="1480" y2="780" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#141416"/>
+      <stop offset="0.45" stop-color="#221425"/>
+      <stop offset="1" stop-color="#0F0F10"/>
+    </linearGradient>
+  </defs>
+  <rect width="1600" height="900" fill="url(#bg)"/>
+  <rect x="108" y="116" width="1384" height="668" rx="34" stroke="#F4B6C2" stroke-opacity="0.28"/>
+  <path d="M1220 170L1440 170L1440 390" stroke="#F4B6C2" stroke-opacity="0.45"/>
+  <text x="160" y="252" fill="#F4B6C2" font-size="26" letter-spacing="8" font-family="serif">CURADORIA BELAPOP</text>
+  <text x="160" y="402" fill="#FAF7F8" font-size="112" font-family="serif">Edicao Limitada</text>
+  <text x="160" y="486" fill="#FAF7F8" fill-opacity="0.84" font-size="42" font-family="sans-serif">Pecas raras com desejo imediato e acabamento premium.</text>
+</svg>

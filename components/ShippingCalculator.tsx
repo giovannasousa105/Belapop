@@ -35,7 +35,7 @@ export const ShippingCalculator = ({
   autoQuote = true,
   mode = "replace"
 }: ShippingCalculatorProps) => {
-  const { shippingCep, setShipments, setShippingCep } = useCart();
+  const { shippingCep, setShipments, setShippingCep, cartId, anonId } = useCart();
   const [cep, setCep] = useState(shippingCep ? maskCep(shippingCep) : "");
   const [shipments, setLocalShipments] = useState<SellerShipment[]>([]);
   const [errors, setErrors] = useState<ShippingError[]>([]);
@@ -86,6 +86,11 @@ export const ShippingCalculator = ({
       return;
     }
 
+    if (!cartId && !anonId) {
+      setMessage("Carrinho ainda nao sincronizado. Tente novamente em instantes.");
+      return;
+    }
+
     setLoading(true);
     setMessage(null);
     setShippingCep(cleanedCep);
@@ -94,7 +99,7 @@ export const ShippingCalculator = ({
       const response = await fetch("/api/shipping/quote", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ destinationCep: cleanedCep, cartItems })
+        body: JSON.stringify({ destinationCep: cleanedCep, cartId, anonId })
       });
       const data = await response.json();
       if (!response.ok) {

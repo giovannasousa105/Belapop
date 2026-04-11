@@ -9,7 +9,7 @@ export default function ProductsPage() {
         <div className="min-h-screen bg-bpOffWhite text-bpBlackSoft">
           <div className="mx-auto flex w-full max-w-7xl flex-col gap-6 px-6 py-16">
             <div className="rounded-3xl border border-black/10 bg-white p-8 shadow-sm">
-              <p className="text-xs uppercase tracking-[0.3em] text-bpGraphite/70">Produtos BelaPop</p>
+              <p className="text-xs uppercase tracking-[0.3em] text-bpGraphite/70">Catalogo BelaPop</p>
               <h1 className="mt-3 font-display text-3xl text-bpBlack">Preparando sua selecao...</h1>
             </div>
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
@@ -28,5 +28,4 @@ export default function ProductsPage() {
     </Suspense>
   );
 }
-
 

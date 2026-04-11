@@ -23,7 +23,7 @@ export function FunnelCard({ title, steps }: Props) {
         {title}
       </div>
       <div className="h-48 mt-4">
-        <ResponsiveContainer width="100%" height="100%">
+        <ResponsiveContainer width="100%" height="100%" minWidth={0} minHeight={180}>
           <BarChart data={steps}>
             <XAxis
               dataKey="label"

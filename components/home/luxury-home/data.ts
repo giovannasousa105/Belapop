@@ -6,7 +6,7 @@ import type {
 import { popClubPaths } from "@/lib/popclub/navigation";
 
 export const primaryNavigation: NavLink[] = [
-  { href: "/skincare", label: "Skincare" },
+  { href: "/catalogo?categoria=skincare", label: "Skincare" },
   { href: "/catalogo?categoria=maquiagem", label: "Maquiagem" },
   { href: "/catalogo?categoria=cabelos", label: "Cabelos" },
   { href: "/catalogo?categoria=perfumes", label: "Perfumes" },

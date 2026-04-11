@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
-import { redirect } from "next/navigation";
 
-import { getPortalSession } from "@/lib/auth/getRole";
+import CustomerPortalShell from "@/components/customer/CustomerPortalShell";
+import { requireRole } from "@/lib/auth/requireRole";
 
 export const metadata: Metadata = {
   robots: {
@@ -15,17 +15,9 @@ export default async function ContaLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const { role } = await getPortalSession({
-    loginRedirectTo: "/login?tab=customer"
+  await requireRole(["client"], {
+    redirectTo: "/login?tab=customer"
   });
 
-  if (role === "partner") {
-    redirect("/parceiro");
-  }
-
-  if (role === "admin") {
-    redirect("/admin");
-  }
-
-  return <>{children}</>;
+  return <CustomerPortalShell>{children}</CustomerPortalShell>;
 }

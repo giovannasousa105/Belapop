@@ -1,0 +1,25 @@
+<svg width="1600" height="1100" viewBox="0 0 1600 1100" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="20" y1="1080" x2="1600" y2="40" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0F0F10"/>
+      <stop offset="0.58" stop-color="#1B1217"/>
+      <stop offset="1" stop-color="#3F1930"/>
+    </linearGradient>
+  </defs>
+  <rect width="1600" height="1100" fill="url(#bg)"/>
+  <rect x="96" y="96" width="1408" height="908" rx="40" stroke="#F3BAC9" stroke-opacity="0.24"/>
+  <rect x="916" y="150" width="444" height="800" rx="38" fill="#FBF6F8" fill-opacity="0.06"/>
+  <circle cx="1142" cy="318" r="166" fill="#F4B6C2" fill-opacity="0.14"/>
+  <circle cx="1288" cy="276" r="34" fill="#F4B6C2"/>
+  <text x="156" y="214" fill="#F4B6C2" font-size="24" letter-spacing="8" font-family="Arial, Helvetica, sans-serif">DIARIO BELAPOP</text>
+  <text x="156" y="422" fill="#FAF7F8" font-size="116" font-family="Georgia, 'Times New Roman', serif">Bem-estar</text>
+  <text x="156" y="522" fill="#FAF7F8" font-size="116" font-family="Georgia, 'Times New Roman', serif">sensorial.</text>
+  <text x="156" y="654" fill="#FAF7F8" fill-opacity="0.82" font-size="38" font-family="Arial, Helvetica, sans-serif">Casa, aroma e textura viram atmosfera. O luxo aqui e silencioso.</text>
+  <text x="156" y="722" fill="#FAF7F8" fill-opacity="0.82" font-size="38" font-family="Arial, Helvetica, sans-serif">Detalhes que deixam o cotidiano mais leve.</text>
+  <g opacity="0.95">
+    <text x="1068" y="850" fill="#FFFFFF" font-size="178" font-family="Arial Black, Arial, Helvetica, sans-serif" font-weight="900">B</text>
+    <circle cx="1268" cy="866" r="18" fill="#F7BFD1"/>
+    <text x="1068" y="932" fill="#F7BFD1" font-size="26" font-family="Arial, Helvetica, sans-serif" font-weight="700" letter-spacing="8">BELAPOP</text>
+    <text x="1068" y="972" fill="#FFFFFF" font-size="22" font-family="Arial, Helvetica, sans-serif" letter-spacing="14">OFICIAL</text>
+  </g>
+</svg>

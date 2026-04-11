@@ -33,11 +33,11 @@ export const AccountLayoutShell = ({ children }: { children: React.ReactNode }) 
       return;
     }
     if (user.role === "seller") {
-      router.push("/seller/dashboard");
+      router.push("/parceiro");
       return;
     }
     if (user.role === "admin") {
-      router.push("/admin/dashboard");
+      router.push("/adm");
     }
   }, [ready, user, router]);
 
@@ -57,8 +57,8 @@ export const AccountLayoutShell = ({ children }: { children: React.ReactNode }) 
   return (
     <div className="min-h-screen bg-white py-10">
       <div className="mx-auto grid max-w-6xl gap-8 px-6 lg:grid-cols-[240px_1fr]">
-        <aside className="space-y-4 rounded-3xl border border-black/10 bg-white p-6 shadow-sm lg:sticky lg:top-10 lg:h-fit">
-          <p className="text-xs uppercase tracking-[0.4em] text-bpGraphite/70">
+        <aside className="space-y-4 rounded-3xl border border-white/12 bg-[#090a0f] p-6 text-white shadow-[0_12px_30px_rgba(0,0,0,0.25)] lg:sticky lg:top-10 lg:h-fit">
+          <p className="text-xs uppercase tracking-[0.4em] text-white/78">
             Minha Conta
           </p>
           <nav className="space-y-1">
@@ -71,8 +71,8 @@ export const AccountLayoutShell = ({ children }: { children: React.ReactNode }) 
                   href={item.href}
                   className={`flex items-center border-l-2 px-3 py-2 text-sm font-medium transition ${
                     isActive
-                      ? "border-bpPink text-bpBlack"
-                      : "border-transparent text-bpGraphite/80 hover:text-bpBlackSoft"
+                      ? "border-bpPink text-white"
+                      : "border-transparent text-white/95 hover:text-white"
                   }`}
                 >
                   <span>{item.label}</span>
@@ -80,10 +80,10 @@ export const AccountLayoutShell = ({ children }: { children: React.ReactNode }) 
               );
             })}
           </nav>
-          <div className="mt-4 border-t border-black/5 pt-4 text-sm text-bpGraphite/80">
+          <div className="mt-4 border-t border-white/12 pt-4 text-sm text-white/92">
             <button
               onClick={handleLogout}
-              className="w-full text-left text-sm font-medium text-bpGraphite/80 transition hover:text-bpBlackSoft"
+              className="w-full rounded-xl border border-white/20 bg-white/5 px-3 py-2 text-left text-sm font-medium text-white/90 transition hover:border-white/35 hover:bg-white/10 hover:text-white"
             >
               Sair
             </button>

@@ -3,6 +3,7 @@ import "server-only";
 import { cache } from "react";
 
 import { posts as seedPosts } from "@/data/posts";
+import { resolveDiaryCardCover } from "@/lib/diary/articleCovers";
 import type { Article as PublicArticle } from "@/lib/types";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 
@@ -29,24 +30,31 @@ const estimateReadingTime = (text: string) => {
 const fallbackArticles = (): EditorialArticle[] =>
   seedPosts
     .filter((post) => post.status === "published")
-    .map((post) => ({
-      id: post.id,
-      slug: post.slug,
-      title: post.title,
-      category: post.category,
-      excerpt: post.excerpt,
-      cover_image_url: `/diario/${post.slug}.jpg`,
-      content_md: post.content,
-      reading_time_minutes: estimateReadingTime(post.content),
-      related_product_slugs: [],
-      status: "published" as const,
-      published_at: post.updatedAt,
-      content: post.content,
-      coverImageUrl: `/diario/${post.slug}.jpg`,
-      readingTimeMinutes: estimateReadingTime(post.content),
-      relatedProductSlugs: [],
-      publishedAt: post.updatedAt
-    }))
+    .map((post) => {
+      const fallbackCover = resolveDiaryCardCover({
+        slug: post.slug,
+        category: post.category
+      });
+
+      return {
+        id: post.id,
+        slug: post.slug,
+        title: post.title,
+        category: post.category,
+        excerpt: post.excerpt,
+        cover_image_url: fallbackCover,
+        content_md: post.content,
+        reading_time_minutes: estimateReadingTime(post.content),
+        related_product_slugs: [],
+        status: "published" as const,
+        published_at: post.updatedAt,
+        content: post.content,
+        coverImageUrl: fallbackCover,
+        readingTimeMinutes: estimateReadingTime(post.content),
+        relatedProductSlugs: [],
+        publishedAt: post.updatedAt
+      };
+    })
     .sort(
       (a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime()
     );
@@ -68,15 +76,22 @@ const mapSupabaseArticle = (row: Record<string, unknown>): EditorialArticle => {
     content.slice(0, 180) ||
     "Notas editoriais de beleza e autocuidado.";
 
+  const fallbackCover = resolveDiaryCardCover({
+    slug: typeof row.slug === "string" ? row.slug : null,
+    category: typeof row.category === "string" ? row.category : null,
+    coverImageUrl:
+      (typeof row.cover_image_url === "string" && row.cover_image_url) ||
+      (typeof row.cover_image === "string" && row.cover_image) ||
+      null
+  });
+
   return {
     id: String(row.id ?? row.slug ?? publishedAt),
     slug: String(row.slug ?? ""),
     title: String(row.title ?? "Diário BelaPop"),
     category: String(row.category ?? "Ritual da Semana"),
     excerpt,
-    cover_image_url:
-      (typeof row.cover_image_url === "string" && row.cover_image_url) ||
-      "/logo.svg",
+    cover_image_url: fallbackCover,
     content_md: content,
     reading_time_minutes:
       typeof row.reading_time_minutes === "number"
@@ -89,9 +104,7 @@ const mapSupabaseArticle = (row: Record<string, unknown>): EditorialArticle => {
         : "published",
     published_at: publishedAt,
     content,
-    coverImageUrl:
-      (typeof row.cover_image_url === "string" && row.cover_image_url) ||
-      "/logo.svg",
+    coverImageUrl: fallbackCover,
     readingTimeMinutes:
       typeof row.reading_time_minutes === "number"
         ? row.reading_time_minutes
@@ -118,11 +131,32 @@ const fetchSupabaseArticles = async (): Promise<EditorialArticle[]> => {
     .filter((article) => article.slug.length > 0);
 };
 
+const fetchEditorialPosts = async (): Promise<EditorialArticle[]> => {
+  const supabase = await createSupabaseServerClient();
+  const { data, error } = await supabase
+    .from("editorial_posts")
+    .select("*")
+    .eq("status", "published")
+    .order("published_at", { ascending: false });
+
+  if (error || !data?.length) {
+    throw new Error(error?.message ?? "No editorial posts found");
+  }
+
+  return (data as Record<string, unknown>[])
+    .map(mapSupabaseArticle)
+    .filter((article) => article.slug.length > 0);
+};
+
 export const getPublishedArticles = cache(async (): Promise<EditorialArticle[]> => {
   try {
-    return await fetchSupabaseArticles();
+    return await fetchEditorialPosts();
   } catch {
-    return fallbackArticles();
+    try {
+      return await fetchSupabaseArticles();
+    } catch {
+      return fallbackArticles();
+    }
   }
 });
 

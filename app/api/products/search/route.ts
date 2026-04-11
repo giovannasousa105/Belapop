@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 
+import { fetchEditorialPriorityIds } from "@/lib/product/editorialOrder";
 import { getSupabaseAdminClient } from "@/lib/supabase/admin";
 import {
   expandSearchTerms,
@@ -311,9 +312,9 @@ const parseSort = (params: URLSearchParams) => {
 const fetchProductRows = async () => {
   const supabase = getSupabaseAdminClient();
   const primarySelect =
-    "id,name,title,brand,description,category,ritual,texture,sensation,result,badges,highlights,price_cents,images,created_at,curated,is_featured,stock_quantity,seller_id,sellers(store_name)";
+    "id,name,title,brand,description,category,ritual,texture,sensation,result,badges,highlights,price_cents,images,created_at,curated,is_featured,stock_quantity,seller_id,sellers!products_seller_id_fkey(store_name)";
   const fallbackSelect =
-    "id,name,title,description,category,ritual,texture,sensation,result,highlights,price_cents,images,created_at,curated,is_featured,stock_quantity,seller_id,sellers(store_name)";
+    "id,name,title,description,category,ritual,texture,sensation,result,highlights,price_cents,images,created_at,curated,is_featured,stock_quantity,seller_id,sellers!products_seller_id_fkey(store_name)";
 
   const primary = await supabase
     .from("products")
@@ -503,12 +504,26 @@ export async function GET(req: Request) {
 
     const ratingMap = new Map<string, { total: number; count: number }>();
     if (ids.length) {
-      const { data: reviewRows } = await supabase
-        .from("product_reviews")
-        .select("product_id,rating")
-        .in("product_id", ids);
+      let reviewRows: Array<{ product_id: string; rating: number; is_hidden?: boolean }> = [];
+      try {
+        const { data, error } = await supabase
+          .from("product_reviews")
+          .select("product_id,rating,is_hidden")
+          .in("product_id", ids)
+          .eq("is_hidden", false);
 
-      (reviewRows ?? []).forEach((row) => {
+        if (error) throw error;
+        reviewRows = (data ?? []) as Array<{ product_id: string; rating: number; is_hidden?: boolean }>;
+      } catch {
+        const { data } = await supabase
+          .from("product_reviews")
+          .select("product_id,rating")
+          .in("product_id", ids);
+
+        reviewRows = (data ?? []) as Array<{ product_id: string; rating: number; is_hidden?: boolean }>;
+      }
+
+      reviewRows.forEach((row) => {
         const entry = ratingMap.get(row.product_id) ?? { total: 0, count: 0 };
         entry.total += row.rating ?? 0;
         entry.count += 1;
@@ -558,7 +573,15 @@ export async function GET(req: Request) {
         return timeB - timeA;
       });
     } else {
+      const priorityIds = await fetchEditorialPriorityIds("featured");
+      const priorityMap = new Map(priorityIds.map((productId, index) => [productId, index]));
       entries = [...entries].sort((a, b) => {
+        const editorialPriorityA = priorityMap.get(a.row.id) ?? Number.MAX_SAFE_INTEGER;
+        const editorialPriorityB = priorityMap.get(b.row.id) ?? Number.MAX_SAFE_INTEGER;
+        if (editorialPriorityA !== editorialPriorityB) {
+          return editorialPriorityA - editorialPriorityB;
+        }
+
         const featuredA = a.row.is_featured ? 1 : 0;
         const featuredB = b.row.is_featured ? 1 : 0;
         if (featuredB !== featuredA) return featuredB - featuredA;

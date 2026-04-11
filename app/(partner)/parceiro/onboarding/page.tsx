@@ -42,7 +42,8 @@ export default function ParceiroOnboardingPage() {
       router.replace("/login?tab=partner");
       return;
     }
-    if (user.role === "seller" || user.role === "admin") {
+    const grantedRoles = new Set([user.role, ...(user.roles ?? [])]);
+    if (grantedRoles.has("seller") || grantedRoles.has("admin")) {
       router.replace("/parceiro");
       return;
     }
@@ -195,4 +196,3 @@ export default function ParceiroOnboardingPage() {
     </div>
   );
 }
-

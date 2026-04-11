@@ -74,7 +74,7 @@ const sellerFlowOptions: FlowOption[] = [
       "Separe embalagens premium e informe o n�mero de rastreio para manter o relato editorial do pedido."
     ],
     subtopics: ["Envios", "Marketplace"],
-    ctas: [{ label: "Acessar log�stica", href: "/seller/dashboard" }]
+    ctas: [{ label: "Acessar log�stica", href: "/parceiro" }]
   }
 ];
 

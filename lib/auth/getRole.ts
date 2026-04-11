@@ -3,8 +3,11 @@ import "server-only";
 import { redirect } from "next/navigation";
 
 import { createSupabaseServer } from "@/lib/supabase/server";
+import {
+  resolveUserRoleState,
+  type PortalRole
+} from "@/lib/auth/roleState";
 
-export type PortalRole = "client" | "partner" | "admin";
 export type UserRole = PortalRole;
 
 type ResolvePortalRoleOptions = {
@@ -15,13 +18,8 @@ type PortalSession = {
   supabase: Awaited<ReturnType<typeof createSupabaseServer>>;
   userId: string;
   role: PortalRole;
+  roles: PortalRole[];
 };
-
-export function normalizePortalRole(value: string | null | undefined): PortalRole {
-  if (value === "admin") return "admin";
-  if (value === "seller" || value === "partner") return "partner";
-  return "client";
-}
 
 export async function getUserRole(): Promise<UserRole | null> {
   const supabase = await createSupabaseServer();
@@ -35,17 +33,8 @@ export async function getUserRole(): Promise<UserRole | null> {
     return null;
   }
 
-  const { data, error } = await supabase
-    .from("profiles")
-    .select("role")
-    .eq("id", user.id)
-    .maybeSingle();
-
-  if (error || !data?.role) {
-    return "client";
-  }
-
-  return normalizePortalRole(data.role);
+  const state = await resolveUserRoleState({ userId: user.id, authUser: user });
+  return state.activePortalRole;
 }
 
 export async function getPortalSession(
@@ -60,21 +49,15 @@ export async function getPortalSession(
     redirect(options.loginRedirectTo ?? "/login");
   }
 
-  const [{ data: profileRow }, { data: userRoleRow }, { data: sellerRow }, { data: sellerProfileRow }] =
-    await Promise.all([
-      supabase.from("profiles").select("role").eq("id", user.id).maybeSingle(),
-      supabase.from("user_roles").select("role").eq("user_id", user.id).maybeSingle(),
-      supabase.from("sellers").select("id").eq("user_id", user.id).maybeSingle(),
-      supabase.from("seller_profiles").select("id").eq("user_id", user.id).maybeSingle()
-    ]);
-
-  const role = normalizePortalRole(
-    profileRow?.role ?? userRoleRow?.role ?? (sellerRow || sellerProfileRow ? "seller" : "customer")
-  );
+  const state = await resolveUserRoleState({
+    userId: user.id,
+    authUser: user
+  });
 
   return {
     supabase,
     userId: user.id,
-    role
+    role: state.activePortalRole,
+    roles: state.assignedPortalRoles
   };
 }

@@ -2,18 +2,16 @@ import { getSupabaseClient } from "@/lib/supabase/client";
 import { Product } from "@/lib/types";
 
 const selectFields =
-  "id,name,price_cents,currency,category,description,images,status,created_at,updated_at,seller_id,weight_kg,width_cm,height_cm,length_cm,highlights,image_tone,is_featured";
+  "id,name,price_cents,currency,category,description,images,status,created_at,updated_at,seller_id,weight_kg,width_cm,height_cm,length_cm,highlights,image_tone,is_featured,stock_quantity";
 
 const fromDbStatus = (status?: string): Product["status"] => {
-  if (status === "pending_review") return "review";
-  if (status === "published" || status === "paused" || status === "draft") {
+  if (status === "review" || status === "published" || status === "paused" || status === "draft") {
     return status;
   }
   return "draft";
 };
 
-const toDbStatus = (status: Product["status"]) =>
-  status === "review" ? "pending_review" : status;
+const toDbStatus = (status: Product["status"]) => status;
 
 const mapProduct = (row: any): Product => ({
   id: row.id,
@@ -31,7 +29,8 @@ const mapProduct = (row: any): Product => ({
   lengthCm: row.length_cm ?? undefined,
   highlights: Array.isArray(row.highlights) ? row.highlights : [],
   imageTone: row.image_tone ?? undefined,
-  featured: row.is_featured ?? false
+  featured: row.is_featured ?? false,
+  stockQuantity: row.stock_quantity ?? undefined
 });
 
 const toRow = (product: Product) => ({
@@ -51,7 +50,8 @@ const toRow = (product: Product) => ({
   length_cm: product.lengthCm ?? null,
   highlights: product.highlights ?? [],
   image_tone: product.imageTone ?? null,
-  is_featured: product.featured ?? false
+  is_featured: product.featured ?? false,
+  stock_quantity: product.stockQuantity ?? null
 });
 
 const SELLER_API_BASE = "/api/seller/products";
@@ -96,7 +96,7 @@ export const productRepository = {
     const supabase = getSupabaseClient();
     const { data, error } = await supabase
       .from("products")
-      .select(`${selectFields}, sellers(status)`)
+      .select(`${selectFields}, sellers!products_seller_id_fkey(status)`)
       .eq("status", "published");
     if (error) {
       console.error("[products] getPublished failed:", error);

@@ -176,14 +176,14 @@ export function CurationCartExperience() {
       />
 
       <main className="mx-auto min-h-screen max-w-screen-2xl px-4 pb-16 pt-24 sm:px-6 lg:px-8 lg:pb-24 lg:pt-32">
-        <header className="mb-12 max-w-3xl lg:mb-16">
+        <div className="mb-12 max-w-3xl lg:mb-16">
           <h1 className="font-editorial text-4xl font-bold tracking-[-0.06em] sm:text-5xl lg:text-7xl">
             Sua Sacola
           </h1>
           <p className="mt-4 text-base italic leading-7 text-[#444748] sm:text-lg">
             &ldquo;Sua curadoria de luxo esta pronta para ser enviada.&rdquo;
           </p>
-        </header>
+        </div>
 
         <div className="grid gap-8 lg:grid-cols-12 lg:items-start lg:gap-12">
           <section className="space-y-8 lg:col-span-8 lg:space-y-12">

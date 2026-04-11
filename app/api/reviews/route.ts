@@ -10,6 +10,8 @@ type ReviewRow = {
   rating: number;
   comment: string | null;
   is_verified: boolean;
+  is_hidden?: boolean;
+  moderation_status?: string | null;
   created_at: string;
   profiles?: { full_name: string | null } | null;
 };
@@ -28,13 +30,27 @@ export async function GET(req: Request) {
   }
 
   const supabase = getSupabaseAdminClient();
-  const { data } = await supabase
-    .from("product_reviews")
-    .select("id,user_id,product_id,rating,comment,is_verified,created_at,profiles(full_name)")
-    .eq("product_id", productId)
-    .order("created_at", { ascending: false });
+  let rawReviews: RawReviewRow[] = [];
+  try {
+    const { data, error } = await supabase
+      .from("product_reviews")
+      .select("id,user_id,product_id,rating,comment,is_verified,is_hidden,moderation_status,created_at,profiles(full_name)")
+      .eq("product_id", productId)
+      .eq("is_hidden", false)
+      .order("created_at", { ascending: false });
 
-  const rawReviews = (data ?? []) as RawReviewRow[];
+    if (error) throw error;
+    rawReviews = (data ?? []) as RawReviewRow[];
+  } catch {
+    const { data } = await supabase
+      .from("product_reviews")
+      .select("id,user_id,product_id,rating,comment,is_verified,created_at,profiles(full_name)")
+      .eq("product_id", productId)
+      .order("created_at", { ascending: false });
+
+    rawReviews = (data ?? []) as RawReviewRow[];
+  }
+
   const reviews: ReviewRow[] = rawReviews.map((row) => ({
     ...row,
     profiles: Array.isArray(row.profiles)

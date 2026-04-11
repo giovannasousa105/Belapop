@@ -32,7 +32,7 @@ export default function CarreirasPage() {
           <p className="text-[11px] uppercase tracking-[0.4em] text-[#F7BFD1]">
             Trabalhe Conosco
           </p>
-          <h1 className="mt-6 font-display text-4xl leading-[1.1] text-white md:text-6xl">
+          <h1 className="mt-6 font-display text-3xl leading-[1.12] text-white md:text-5xl">
             Oferecer uma{" "}
             <span className="text-[#F7BFD1]">experiência de beleza completa</span>,
             uma curadoria especial de marcas, inovação e prestígio, dando às pessoas

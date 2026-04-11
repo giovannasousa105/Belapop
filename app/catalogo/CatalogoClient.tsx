@@ -60,10 +60,10 @@ export const CatalogoClient = () => {
             Catálogo BelaPop
           </p>
           <h1 className="mt-3 font-display text-3xl text-bpBlack">
-            Explore a curadoria premium
+            Produtos organizados para facilitar sua escolha
           </h1>
           <p className="mt-2 text-sm text-bpGraphite/80">
-            Selecione por categoria, encontre seu ritual e descubra novidades.
+            Selecione por categoria e encontre produtos por uso, formulação e critério.
           </p>
         </div>
         <FilterBar

@@ -8,6 +8,7 @@ import { useAuth } from "@/lib/AuthContext";
 export default function SellerProfilePage() {
   const { user, updateSellerProfile } = useAuth();
   const [message, setMessage] = useState<string | null>(null);
+  const canEditProfile = user?.sellerProfile?.isOwner !== false;
   const [form, setForm] = useState({
     storeName: "",
     postalCode: "",
@@ -55,6 +56,11 @@ export default function SellerProfilePage() {
         <h1 className="mt-2 font-display text-3xl text-bpBlack">
           Dados institucionais
         </h1>
+        {!canEditProfile ? (
+          <p className="mt-3 text-sm text-bpGraphite/80">
+            Esta loja esta em modo membro. Apenas o owner pode editar os dados institucionais.
+          </p>
+        ) : null}
         <p className="mt-2 text-sm text-bpGraphite/80">
           Atualize informações essenciais para operação e logística.
         </p>
@@ -70,6 +76,7 @@ export default function SellerProfilePage() {
           onChange={(event) =>
             setForm({ ...form, storeName: event.target.value })
           }
+          disabled={!canEditProfile}
           className="rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-bpBlackSoft md:col-span-2"
         />
         <input
@@ -78,6 +85,7 @@ export default function SellerProfilePage() {
           onChange={(event) =>
             setForm({ ...form, postalCode: event.target.value })
           }
+          disabled={!canEditProfile}
           className="rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-bpBlackSoft"
         />
         <input
@@ -86,6 +94,7 @@ export default function SellerProfilePage() {
           onChange={(event) =>
             setForm({ ...form, category: event.target.value })
           }
+          disabled={!canEditProfile}
           className="rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-bpBlackSoft"
         />
         <input
@@ -94,16 +103,17 @@ export default function SellerProfilePage() {
           onChange={(event) =>
             setForm({ ...form, contact: event.target.value })
           }
+          disabled={!canEditProfile}
           className="rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-bpBlackSoft md:col-span-2"
         />
         {message ? (
           <p className="text-xs text-bpPink md:col-span-2">{message}</p>
         ) : null}
         <div className="flex flex-wrap gap-3 md:col-span-2">
-          <LuxuryButton tone="retail" size="lg" type="submit">
+          <LuxuryButton tone="retail" size="lg" type="submit" disabled={!canEditProfile}>
             Salvar alterações
           </LuxuryButton>
-          <LuxuryButton tone="retail" variant="outline" size="lg" href="/seller/dashboard">
+          <LuxuryButton tone="retail" variant="outline" size="lg" href="/parceiro">
             Voltar ao dashboard
           </LuxuryButton>
         </div>

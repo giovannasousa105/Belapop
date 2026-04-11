@@ -1,0 +1,19 @@
+<svg width="1600" height="900" viewBox="0 0 1600 900" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1600" y2="900" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#111113"/>
+      <stop offset="0.6" stop-color="#1A1A1D"/>
+      <stop offset="1" stop-color="#3B1028"/>
+    </linearGradient>
+    <radialGradient id="spot" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(380 260) rotate(42) scale(460)">
+      <stop stop-color="#F4B6C2" stop-opacity="0.38"/>
+      <stop offset="1" stop-color="#C2185B" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1600" height="900" fill="url(#bg)"/>
+  <rect width="1600" height="900" fill="url(#spot)"/>
+  <rect x="108" y="116" width="1384" height="668" rx="34" stroke="#F4B6C2" stroke-opacity="0.28"/>
+  <text x="160" y="252" fill="#F4B6C2" font-size="26" letter-spacing="8" font-family="serif">CURADORIA BELAPOP</text>
+  <text x="160" y="402" fill="#FAF7F8" font-size="120" font-family="serif">Presenca Diurna</text>
+  <text x="160" y="486" fill="#FAF7F8" fill-opacity="0.84" font-size="42" font-family="sans-serif">Acabamento limpo para uma rotina com brilho editorial.</text>
+</svg>

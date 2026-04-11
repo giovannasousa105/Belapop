@@ -1,0 +1,16 @@
+<svg width="1600" height="900" viewBox="0 0 1600 900" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="900" x2="1600" y2="0" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0F0F10"/>
+      <stop offset="0.58" stop-color="#20111D"/>
+      <stop offset="1" stop-color="#3F1630"/>
+    </linearGradient>
+  </defs>
+  <rect width="1600" height="900" fill="url(#bg)"/>
+  <rect x="108" y="116" width="1384" height="668" rx="34" stroke="#F4B6C2" stroke-opacity="0.28"/>
+  <circle cx="1188" cy="372" r="174" fill="#F4B6C2" fill-opacity="0.15"/>
+  <circle cx="1068" cy="420" r="88" fill="#F4B6C2" fill-opacity="0.22"/>
+  <text x="160" y="252" fill="#F4B6C2" font-size="26" letter-spacing="8" font-family="serif">CURADORIA BELAPOP</text>
+  <text x="160" y="402" fill="#FAF7F8" font-size="112" font-family="serif">Essencia Sensorial</text>
+  <text x="160" y="486" fill="#FAF7F8" fill-opacity="0.84" font-size="42" font-family="sans-serif">Aromas, toque e memoria para rituais com assinatura.</text>
+</svg>

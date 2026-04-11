@@ -4,10 +4,10 @@ import { requireRole } from "@/lib/auth/requireRole";
 
 export default async function BelapopMarketplaceDemoRedirectPage() {
   await requireRole("admin", {
-    redirectTo: "/admin/login",
+    redirectTo: "/adm/login",
     unauthorizedTo: "/login?forbidden=1"
   });
 
-  redirect("/admin/dashboard");
+  redirect("/adm");
 }
 

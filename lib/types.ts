@@ -176,10 +176,27 @@ export type PartnerApplication = {
   phone?: string | null;
   instagram?: string | null;
   catalogLink?: string | null;
+  companyPostalCode?: string | null;
+  companyStreet?: string | null;
+  companyNumber?: string | null;
+  companyComplement?: string | null;
+  companyDistrict?: string | null;
+  companyCity?: string | null;
+  companyState?: string | null;
   status: PartnerApplicationStatus;
   notesAdmin?: string | null;
   createdAt?: string;
   updatedAt?: string;
+};
+
+export type CompanyAddress = {
+  postalCode: string;
+  street: string;
+  number: string;
+  complement?: string;
+  district: string;
+  city: string;
+  state: string;
 };
 
 export type SellerProfile = {
@@ -188,6 +205,8 @@ export type SellerProfile = {
   responsibleName: string;
   contact: string;
   mainCategory: string;
+  cnpj?: string;
+  companyAddress?: CompanyAddress;
   postalCode?: string;
   status?: SellerStatus;
   stripeAccountId?: string;
@@ -195,6 +214,9 @@ export type SellerProfile = {
   bio?: string;
   specialty?: string;
   imageTone?: ProductImageTone;
+  ownerUserId?: string;
+  isOwner?: boolean;
+  memberRole?: string | null;
 };
 
 export type User = {
@@ -203,7 +225,9 @@ export type User = {
   email: string;
   password?: string;
   role: UserRole;
+  roles?: UserRole[];
   sellerProfile?: SellerProfile;
+  sellerProfiles?: SellerProfile[];
   createdAt?: string;
 };
 
@@ -217,7 +241,35 @@ export type Address = {
   complement?: string;
 };
 
-export type PaymentStatus = "pending" | "paid";
+export type PaymentStatus =
+  | "pending"
+  | "authorized"
+  | "paid"
+  | "failed"
+  | "refunded"
+  | "chargeback"
+  | "canceled"
+  | "cancelled";
+
+export type OrderStatus =
+  | "created"
+  | "paid"
+  | "cancelled"
+  | "fulfilled"
+  | "Confirmado"
+  | "Em separação"
+  | "Enviado";
+
+export type SubOrderStatus =
+  | "created"
+  | "paid"
+  | "awaiting_shipment"
+  | "shipped"
+  | "delivered"
+  | "cancelled"
+  | "Confirmado"
+  | "Em separação"
+  | "Enviado";
 
 export type Order = {
   id: string;
@@ -225,7 +277,7 @@ export type Order = {
   totalProducts: number;
   totalShipping: number;
   totalOrder: number;
-  status: "Confirmado" | "Em separação" | "Enviado";
+  status: OrderStatus;
   createdAt: string;
   paymentMethod: "cartao" | "pix" | "boleto";
   address: Address;
@@ -242,7 +294,7 @@ export type SubOrder = {
   items: CartItem[];
   shippingValue: number;
   shippingService: string;
-  status: "Confirmado" | "Em separação" | "Enviado";
+  status: SubOrderStatus;
   createdAt: string;
   productTotal?: number;
   shippingTotal?: number;

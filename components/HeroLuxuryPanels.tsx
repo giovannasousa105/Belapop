@@ -42,8 +42,8 @@ export default function HeroLuxuryPanels() {
               <div
                 className={`rounded-[32px] border border-white/5 shadow-xl p-8 md:p-12 h-full flex flex-col justify-center text-white ${
                   i === 0
-                    ? "bg-gradient-to-br from-[#0b0b10] via-[#0c0c11] to-[#b80f5a]"
-                    : "bg-gradient-to-br from-[#f8dfe9] via-white to-[#fbeaf1] text-bpBlackSoft"
+                    ? "bg-gradient-to-br from-bpBlack via-bpBlackSoft to-bpPink/70"
+                    : "bg-gradient-to-br from-bpPinkSoft/45 via-bpOffWhite to-bpPinkSoft/25 text-bpBlackSoft"
                 }`}
               >
                 <p
@@ -73,7 +73,7 @@ export default function HeroLuxuryPanels() {
                     className={`inline-flex items-center rounded-full px-6 py-3 text-sm font-semibold uppercase tracking-[0.18em] ${
                       i === 0
                         ? "bg-white/10 border border-white/30 text-white hover:bg-white/15"
-                        : "bg-[#b80f5a] text-white shadow-[0_10px_30px_rgba(184,15,90,0.25)] hover:brightness-110"
+                        : "bg-bpPink text-white shadow-[0_10px_30px_rgba(194,24,91,0.25)] hover:bg-bpPink/90"
                     }`}
                   >
                     {slide.cta}

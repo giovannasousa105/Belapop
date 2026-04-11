@@ -1,7 +1,10 @@
 import { NextResponse } from "next/server";
-import { ensureAdminRequest } from "@/lib/admin/adminAuth";
 
-type TrendRow = { date: string; gmv_cents: number; orders: number };
+import { ensureAdminRequest } from "@/lib/admin/adminAuth";
+import {
+  fetchExecutiveDashboardData,
+  type DashboardRange
+} from "@/lib/admin/dashboardMetrics";
 
 export async function GET(req: Request) {
   const admin = await ensureAdminRequest(req as any);
@@ -9,79 +12,45 @@ export async function GET(req: Request) {
     return NextResponse.json({ error: admin.error }, { status: admin.status });
   }
 
-  const supabase = admin.supabase;
+  const { searchParams } = new URL(req.url);
+  const requestedRange = searchParams.get("range");
+  const range: DashboardRange =
+    requestedRange === "today" ||
+    requestedRange === "7d" ||
+    requestedRange === "30d" ||
+    requestedRange === "90d"
+      ? requestedRange
+      : "today";
 
-  // Trend (últimos 30 dias)
-  const { data: trend } = await supabase
-    .from("analytics_daily")
-    .select("date,gmv_cents,orders")
-    .order("date", { ascending: true })
-    .limit(30);
+  try {
+    const data = await fetchExecutiveDashboardData(range);
 
-  // KPIs básicos
-  const { data: orders } = await supabase
-    .from("orders")
-    .select("total_cents,shipping_status,payment_status");
-  const totalOrders = orders?.length ?? 0;
-  const gmv = orders?.reduce((sum, o) => sum + (o.total_cents ?? 0), 0) ?? 0;
-  const aov = totalOrders ? gmv / totalOrders : 0;
+    return NextResponse.json(
+      {
+        deprecated: true,
+        source: "executive_dashboard_metrics",
+        message:
+          "Este endpoint foi mantido apenas por compatibilidade. Use a camada executiva atual e nao dependa do payload legado simplificado.",
+        range,
+        data
+      },
+      {
+        headers: {
+          Deprecation: "true",
+          Sunset: "2026-04-30",
+          Link: "</admin/dashboard>; rel=\"successor-version\""
+        }
+      }
+    );
+  } catch (error) {
+    console.error("[api/admin/dashboard] carga executiva indisponivel", error);
 
-  const { data: sellers } = await supabase
-    .from("sellers")
-    .select("id,status");
-  const activeSellers =
-    sellers?.filter((s) => s.status === "active" || s.status === null).length ??
-    0;
-
-  // SLA frete (mock simples: % shipped/delivered vs total)
-  const shipped =
-    orders?.filter(
-      (o) => o.shipping_status === "shipped" || o.shipping_status === "delivered"
-    ).length ?? 0;
-  const sla = totalOrders ? (shipped / totalOrders) * 100 : 0;
-
-  // Pendências
-  const { data: pendingProducts } = await supabase
-    .from("products")
-    .select("id")
-    .eq("status", "review");
-  const { data: pendingSellers } = await supabase
-    .from("sellers")
-    .select("id")
-    .eq("status", "pending");
-
-  // Vendas por categoria (agrupa no app)
-  const { data: productRows } = await supabase
-    .from("products")
-    .select("category, price_cents, status");
-  const byCategory: Record<string, number> = {};
-  (productRows ?? []).forEach((row) => {
-    const cat = row.category ?? "Indefinido";
-    byCategory[cat] = (byCategory[cat] ?? 0) + (row.price_cents ?? 0);
-  });
-
-  // Funil (mock se não houver eventos)
-  const funnel = [
-    { label: "Visitas", value: 1200 },
-    { label: "Add ao carrinho", value: 450 },
-    { label: "Checkout", value: 220 },
-    { label: "Pago", value: totalOrders || 110 }
-  ];
-
-  return NextResponse.json({
-    kpis: {
-      gmv_cents: gmv,
-      total_orders: totalOrders,
-      aov_cents: aov,
-      active_sellers: activeSellers,
-      sla_shipping: sla
-    },
-    trend: (trend ?? []) as TrendRow[],
-    byCategory,
-    funnel,
-    pendings: {
-      products: pendingProducts?.length ?? 0,
-      sellers: pendingSellers?.length ?? 0
-    }
-  });
+    return NextResponse.json(
+      {
+        error: "Camada executiva indisponivel.",
+        detail: error instanceof Error ? error.message : "Erro desconhecido"
+      },
+      { status: 503 }
+    );
+  }
 }

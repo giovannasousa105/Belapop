@@ -79,7 +79,7 @@ export default function SellerActivationPage() {
           </p>
           <div className="mt-6 flex flex-wrap gap-3">
             <Link
-              href="/seller/dashboard"
+              href="/parceiro"
               className="rounded-full border border-black/10 px-5 py-3 text-xs font-semibold uppercase tracking-[0.3em] text-bpGraphite"
             >
               Ir para o painel

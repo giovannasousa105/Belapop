@@ -1,0 +1,29 @@
+<svg width="1600" height="1100" viewBox="0 0 1600 1100" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="70" y1="90" x2="1520" y2="1020" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFF7FA"/>
+      <stop offset="0.46" stop-color="#F8E4EC"/>
+      <stop offset="1" stop-color="#F0D5E0"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="948" y1="180" x2="1382" y2="960" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#231018"/>
+      <stop offset="1" stop-color="#5B1A3B"/>
+    </linearGradient>
+  </defs>
+  <rect width="1600" height="1100" fill="url(#bg)"/>
+  <rect x="80" y="80" width="1440" height="940" rx="40" fill="#FFFCFD" stroke="#E7BCCB" stroke-opacity="0.8"/>
+  <rect x="956" y="168" width="430" height="780" rx="36" fill="url(#accent)"/>
+  <circle cx="1182" cy="326" r="132" fill="#F7BFD1" fill-opacity="0.16"/>
+  <circle cx="1294" cy="274" r="34" fill="#F7BFD1"/>
+  <text x="150" y="210" fill="#C65A80" font-size="24" letter-spacing="8" font-family="Arial, Helvetica, sans-serif">DIARIO BELAPOP</text>
+  <text x="150" y="412" fill="#1B1517" font-size="116" font-family="Georgia, 'Times New Roman', serif">Makeup leve,</text>
+  <text x="150" y="512" fill="#1B1517" font-size="116" font-family="Georgia, 'Times New Roman', serif">acabamento real.</text>
+  <text x="150" y="638" fill="#5C4B52" font-size="38" font-family="Arial, Helvetica, sans-serif">Blush, mascara e luz rosada para dias reais com atitude editorial.</text>
+  <text x="150" y="706" fill="#5C4B52" font-size="38" font-family="Arial, Helvetica, sans-serif">Nada pesado, tudo intencional.</text>
+  <g opacity="0.95">
+    <text x="1092" y="850" fill="#FFFFFF" font-size="178" font-family="Arial Black, Arial, Helvetica, sans-serif" font-weight="900">B</text>
+    <circle cx="1292" cy="866" r="18" fill="#F7BFD1"/>
+    <text x="1092" y="932" fill="#F7BFD1" font-size="26" font-family="Arial, Helvetica, sans-serif" font-weight="700" letter-spacing="8">BELAPOP</text>
+    <text x="1092" y="972" fill="#FFFFFF" font-size="22" font-family="Arial, Helvetica, sans-serif" letter-spacing="14">OFICIAL</text>
+  </g>
+</svg>
