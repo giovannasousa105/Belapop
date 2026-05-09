@@ -5,7 +5,7 @@
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { ArrowRight, Sparkles, Workflow } from "lucide-react";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 
 import { normalizeReturnTo } from "@/lib/auth/redirects";
 import { useAuth } from "@/lib/AuthContext";
@@ -68,7 +68,15 @@ function resolveAuthSurfaceMessage(searchParams: { get(name: string): string | n
   }
 }
 
-export function LoginPreviewScreen({ mode = "preview" }: LoginPreviewScreenProps) {
+export function LoginPreviewScreen(props: LoginPreviewScreenProps) {
+  return (
+    <Suspense fallback={null}>
+      <LoginPreviewScreenContent {...props} />
+    </Suspense>
+  );
+}
+
+function LoginPreviewScreenContent({ mode = "preview" }: LoginPreviewScreenProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { login, loginWithMagicLink, loginWithOAuth, ready, registerCustomer, user } = useAuth();
