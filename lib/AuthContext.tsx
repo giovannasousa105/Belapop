@@ -9,6 +9,7 @@ import React, {
   useState
 } from "react";
 
+import { normalizeReturnTo } from "@/lib/auth/redirects";
 import { getSupabaseClient } from "@/lib/supabase/client";
 import { SellerProfile, User, UserRole } from "@/lib/types";
 
@@ -243,40 +244,61 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     email: string,
     password: string
   ) => {
-    const { data, error } = await supabase.auth.signUp({
-      email,
-      password,
-      options: {
-        data: { full_name: name, role: "customer" }
-      }
+    const response = await fetch("/api/auth/signup", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        email,
+        name,
+        password,
+        returnTo: "/conta"
+      })
     });
 
-    if (error) {
-      return { ok: false, message: error.message };
-    }
+    const payload = (await response.json().catch(() => null)) as
+      | {
+          ok?: boolean;
+          message?: string;
+          session?: {
+            accessToken?: string;
+            refreshToken?: string;
+          };
+          userId?: string;
+        }
+      | null;
 
-    const userId = data.user?.id;
-    if (!userId) {
-      return { ok: false, message: "Não foi possível criar o usuário." };
-    }
-
-    const { error: profileError } = await supabase
-      .from("profiles")
-      .update({ full_name: name, role: "customer", email })
-      .eq("id", userId);
-
-    if (profileError) {
-      return { ok: false, message: profileError.message };
-    }
-
-    if (!data.session) {
+    if (!response.ok || !payload?.ok) {
       return {
         ok: false,
-        message: "Confirme o e-mail para ativar a conta."
+        message: payload?.message ?? "Nao foi possivel criar sua conta agora."
       };
     }
 
-    await loadProfile(userId, data.user);
+    const accessToken = payload.session?.accessToken?.trim();
+    const refreshToken = payload.session?.refreshToken?.trim();
+
+    if (!accessToken || !refreshToken || !payload.userId) {
+      return {
+        ok: false,
+        message: payload.message ?? "Confirme o e-mail para ativar a conta."
+      };
+    }
+
+    const { data, error } = await supabase.auth.setSession({
+      access_token: accessToken,
+      refresh_token: refreshToken
+    });
+
+    if (error || !data.user) {
+      return {
+        ok: false,
+        message: error?.message ?? "Nao foi possivel sincronizar sua sessao."
+      };
+    }
+
+    await loadProfile(payload.userId, data.user);
     return { ok: true };
   };
 
@@ -424,6 +446,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       | {
           ok?: boolean;
           error?: string;
+          message?: string;
           session?: {
             accessToken?: string;
             refreshToken?: string;
@@ -434,7 +457,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     if (!response.ok || !payload?.ok) {
       return {
         ok: false,
-        message: payload?.error ?? "Credenciais inválidas."
+        message: payload?.message ?? payload?.error ?? "E-mail ou senha incorretos."
       };
     }
 
@@ -496,50 +519,24 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     provider: "google" | "facebook",
     redirectTo?: string
   ) => {
+    if (typeof window === "undefined") {
+      return { ok: false, message: "Login social indisponivel neste ambiente." };
+    }
+
     const resolved = resolveRedirect(redirectTo);
-    const { data, error } = await supabase.auth.signInWithOAuth({
+    const redirectUrl = new URL(resolved ?? `${window.location.origin}/auth/callback`);
+    const audience = redirectUrl.searchParams.get("audience") === "partner" ? "partner" : "customer";
+    const returnTo = normalizeReturnTo(
+      redirectUrl.searchParams.get("returnTo") ?? redirectUrl.searchParams.get("next"),
+      audience === "partner" ? "/parceiro" : "/conta"
+    );
+    const params = new URLSearchParams({
+      audience,
       provider,
-      options: {
-        redirectTo: resolved,
-        skipBrowserRedirect: true
-      }
+      returnTo
     });
-    if (error) {
-      const lower = error.message.toLowerCase();
-      if (lower.includes("provider is not enabled")) {
-        const providerLabel = provider === "google" ? "Google" : "Facebook";
-        return {
-          ok: false,
-          message: `Login com ${providerLabel} ainda nao habilitado no Supabase deste ambiente.`
-        };
-      }
-      return { ok: false, message: error.message };
-    }
-    const url = data?.url;
-    if (!url) {
-      return { ok: false, message: "Nao foi possivel iniciar o login social." };
-    }
 
-    // Defensive check: Facebook OAuth must use numeric App ID.
-    if (provider === "facebook") {
-      try {
-        const parsed = new URL(url);
-        const clientId = parsed.searchParams.get("client_id")?.trim() ?? "";
-        if (!/^\d+$/.test(clientId)) {
-          return {
-            ok: false,
-            message:
-              "Facebook Login nao configurado corretamente (App ID invalido no Supabase)."
-          };
-        }
-      } catch {
-        return { ok: false, message: "Nao foi possivel iniciar o login com Facebook." };
-      }
-    }
-
-    if (typeof window !== "undefined") {
-      window.location.assign(url);
-    }
+    window.location.assign(`/api/auth/oauth/start?${params.toString()}`);
     return { ok: true };
   };
 

@@ -3,10 +3,11 @@
 /* eslint-disable @next/next/no-img-element */
 
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { ArrowRight, Sparkles, Workflow } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
+import { normalizeReturnTo } from "@/lib/auth/redirects";
 import { useAuth } from "@/lib/AuthContext";
 
 import { EditorialPreviewFrame } from "./editorial-preview-frame";
@@ -24,22 +25,79 @@ type LoginPreviewScreenProps = {
   mode?: BelapopRenderMode;
 };
 
+function resolveAuthSurfaceMessage(searchParams: { get(name: string): string | null }) {
+  if (searchParams.get("forbidden") === "1") {
+    return "Sua conta nao tem permissao para acessar esta area.";
+  }
+
+  if (searchParams.get("auth_error") === "1") {
+    return "Nao foi possivel concluir sua autenticacao. Tente novamente.";
+  }
+
+  if (searchParams.get("otp_fallback") === "1") {
+    return "O link de acesso nao pode ser validado. Solicite um novo envio.";
+  }
+
+  if (!searchParams.get("oauth_error")) {
+    return null;
+  }
+
+  switch (searchParams.get("oauth_error")) {
+    case "facebook_provider_misconfigured":
+      return "Login com Facebook indisponivel no momento. O provider ainda nao foi configurado corretamente.";
+    case "facebook_start_failed":
+      return "Nao foi possivel iniciar o login com Facebook agora. Tente novamente em instantes.";
+    case "oauth_cancelled":
+      return "Login social cancelado. Voce pode tentar novamente quando quiser.";
+    case "oauth_start_failed":
+      return "Nao foi possivel iniciar o login social agora. Tente novamente em instantes.";
+    case "oauth_provider_invalid":
+      return "O provedor de autenticacao solicitado e invalido.";
+    case "oauth_env_missing":
+      return "Login social indisponivel neste ambiente.";
+    case "oauth_session_exchange_failed":
+    case "oauth_session_missing":
+    case "oauth_session_sync_failed":
+      return "Nao foi possivel concluir o login social com seguranca. Tente novamente.";
+    case "otp_type_invalid":
+    case "otp_verification_failed":
+    case "otp_session_missing":
+      return "Nao foi possivel validar o link de acesso recebido por e-mail.";
+    default:
+      return "Nao foi possivel concluir o login social. Tente novamente.";
+  }
+}
+
 export function LoginPreviewScreen({ mode = "preview" }: LoginPreviewScreenProps) {
   const router = useRouter();
-  const { login, loginWithMagicLink, registerCustomer } = useAuth();
+  const searchParams = useSearchParams();
+  const { login, loginWithMagicLink, loginWithOAuth, ready, registerCustomer, user } = useAuth();
   const [authMode, setAuthMode] = useState<"login" | "signup">("login");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const [oauthLoadingProvider, setOauthLoadingProvider] = useState<"google" | "facebook" | null>(null);
   const [message, setMessage] = useState<string | null>(null);
 
   const isLogin = authMode === "login";
+  const returnTo = normalizeReturnTo(searchParams.get("returnTo"), "/conta");
+  const authRedirectHref = `/auth/redirect?audience=customer&returnTo=${encodeURIComponent(returnTo)}`;
+  const oauthCallbackHref = `/auth/callback?audience=customer&returnTo=${encodeURIComponent(returnTo)}`;
+  const surfaceMessage = resolveAuthSurfaceMessage(searchParams);
+  const visibleMessage = message ?? surfaceMessage;
+
+  useEffect(() => {
+    if (mode !== "live" || !ready || !user) return;
+    router.replace(authRedirectHref);
+  }, [authRedirectHref, mode, ready, router, user]);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setMessage(null);
+
+    if (loading) return;
 
     if (!email.trim() || !password.trim()) {
       setMessage("Preencha e-mail e senha para continuar.");
@@ -67,7 +125,7 @@ export function LoginPreviewScreen({ mode = "preview" }: LoginPreviewScreenProps
           return;
         }
 
-        router.push("/auth/redirect?audience=customer");
+        router.push(authRedirectHref);
         return;
       }
 
@@ -78,7 +136,7 @@ export function LoginPreviewScreen({ mode = "preview" }: LoginPreviewScreenProps
         return;
       }
 
-      router.push("/minha-conta");
+      router.push(authRedirectHref);
     } finally {
       setLoading(false);
     }
@@ -86,6 +144,8 @@ export function LoginPreviewScreen({ mode = "preview" }: LoginPreviewScreenProps
 
   const handleMagicLink = async () => {
     setMessage(null);
+
+    if (loading) return;
 
     if (!email.trim()) {
       setMessage("Informe seu e-mail para receber o link de acesso.");
@@ -95,15 +155,37 @@ export function LoginPreviewScreen({ mode = "preview" }: LoginPreviewScreenProps
     setLoading(true);
 
     try {
-      const result = await loginWithMagicLink(email, "/auth/redirect?audience=customer");
+      const result = await loginWithMagicLink(email, oauthCallbackHref);
       setMessage(result.message ?? (result.ok ? "Link enviado com sucesso." : "Nao foi possivel enviar o link."));
     } finally {
       setLoading(false);
     }
   };
 
+  const handleOAuthLogin = async (provider: "google" | "facebook") => {
+    if (oauthLoadingProvider || loading) return;
+
+    setMessage(null);
+    setOauthLoadingProvider(provider);
+
+    try {
+      const result = await loginWithOAuth(provider, oauthCallbackHref);
+
+      if (!result.ok) {
+        setMessage(result.message ?? "Nao foi possivel iniciar o login social.");
+      }
+    } finally {
+      setOauthLoadingProvider(null);
+    }
+  };
+
   return (
-    <EditorialPreviewFrame mode={mode}>
+    <EditorialPreviewFrame
+      mode={mode}
+      hideMobileHeader={mode === "live"}
+      hideHeader={mode === "live"}
+      hideFooter={mode === "live"}
+    >
       <main className="mx-auto max-w-[1500px] bg-[#fcf9f8]">
         <div className="flex min-h-screen flex-col md:flex-row md:items-stretch">
           <section className="relative hidden overflow-hidden bg-[#ddd9d7] md:block md:w-[47%] md:aspect-[4/5]">
@@ -127,7 +209,11 @@ export function LoginPreviewScreen({ mode = "preview" }: LoginPreviewScreenProps
             </div>
           </section>
 
-          <section className="flex w-full items-start justify-center bg-[#fcf9f8] px-5 pb-14 pt-[92px] sm:px-8 sm:pb-16 md:w-[53%] md:px-14 md:pb-20 md:pt-20 lg:px-16 xl:px-20">
+          <section
+            className={`flex w-full items-start justify-center bg-[#fcf9f8] px-5 pb-14 ${
+              mode === "live" ? "pt-0" : "pt-[92px]"
+            } sm:px-8 sm:pb-16 md:w-[53%] md:px-14 md:pb-20 md:pt-20 lg:px-16 xl:px-20`}
+          >
             <div className="w-full max-w-md">
               <div className="mb-12 overflow-hidden bg-[#ddd9d7] md:hidden">
                 <div className="relative aspect-[4/5]">
@@ -259,7 +345,11 @@ export function LoginPreviewScreen({ mode = "preview" }: LoginPreviewScreenProps
                   </div>
                 ) : null}
 
-                {message ? <p className="text-sm text-[#b42318]">{message}</p> : null}
+                {visibleMessage ? (
+                  <div className="rounded-[20px] border border-[#b42318]/16 bg-[#fff5f4] px-4 py-3 text-sm text-[#b42318]">
+                    {visibleMessage}
+                  </div>
+                ) : null}
 
                 <div className="pt-6 md:pt-8">
                   <button
@@ -281,29 +371,31 @@ export function LoginPreviewScreen({ mode = "preview" }: LoginPreviewScreenProps
                 </div>
 
                 <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-                  <Link
-                    href="/api/auth/oauth/start?provider=google&audience=customer"
-                    prefetch={false}
+                  <button
+                    type="button"
+                    onClick={() => void handleOAuthLogin("google")}
+                    disabled={loading || oauthLoadingProvider !== null}
                     className={`${previewSecondaryButtonClass} px-4 text-[10px] font-bold hover:border-[#ef75ce]`}
                   >
                     <Workflow className="h-4 w-4" />
-                    Conectar com Google
-                  </Link>
-                  <Link
-                    href="/api/auth/oauth/start?provider=facebook&audience=customer"
-                    prefetch={false}
+                    {oauthLoadingProvider === "google" ? "Abrindo Google..." : "Conectar com Google"}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => void handleOAuthLogin("facebook")}
+                    disabled={loading || oauthLoadingProvider !== null}
                     className={`${previewSecondaryButtonClass} px-4 text-[10px] font-bold`}
                   >
                     <Sparkles className="h-4 w-4" />
-                    Entrar com Facebook
-                  </Link>
+                    {oauthLoadingProvider === "facebook" ? "Abrindo Facebook..." : "Entrar com Facebook"}
+                  </button>
                 </div>
               </form>
 
               <p className="mx-auto mt-14 max-w-xs text-center text-[10px] leading-relaxed text-[#444748]/70 md:mt-16">
                 Ao continuar, voce concorda com nossos{" "}
                 <Link href="/termos-e-condicoes" className="text-black underline underline-offset-4">
-                  Termos de Servico
+                  Termos e Condicoes
                 </Link>{" "}
                 e{" "}
                 <Link href="/aviso-de-privacidade" className="text-black underline underline-offset-4">

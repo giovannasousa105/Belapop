@@ -1,8 +1,8 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 import { consumeRateLimit, getRetryAfterSeconds } from "@/lib/security/rateLimit";
 import { getRequestIp } from "@/lib/security/request";
-import { createSupabaseServerClient } from "@/lib/supabase/server";
+import { createSupabaseRouteClient } from "@/lib/supabase/route";
 
 type Payload = {
   email?: string;
@@ -12,6 +12,8 @@ type Payload = {
 const NO_STORE_HEADERS = {
   "Cache-Control": "no-store"
 };
+
+export const dynamic = "force-dynamic";
 
 const json = (
   body: Record<string, unknown>,
@@ -28,7 +30,19 @@ const json = (
     }
   });
 
-export async function POST(request: Request) {
+function mapPasswordLoginMessage(message: string | undefined) {
+  const normalized = (message ?? "").toLowerCase();
+  if (
+    normalized.includes("invalid login") ||
+    normalized.includes("invalid credentials") ||
+    normalized.includes("email not confirmed")
+  ) {
+    return "E-mail ou senha incorretos. Confira os dados e tente novamente.";
+  }
+  return "Nao foi possivel acessar sua conta agora. Tente novamente em instantes.";
+}
+
+export async function POST(request: NextRequest) {
   let payload: Payload;
 
   try {
@@ -69,7 +83,8 @@ export async function POST(request: Request) {
     const retryAfter = getRetryAfterSeconds(blockedRateLimit);
     return json(
       {
-        error: "Rate limit exceeded. Too many login attempts."
+        error: "rate_limited",
+        message: "Muitas tentativas em sequencia. Aguarde alguns minutos antes de tentar novamente."
       },
       {
         status: 429,
@@ -78,7 +93,7 @@ export async function POST(request: Request) {
     );
   }
 
-  const supabase = await createSupabaseServerClient();
+  const { applyCookies, supabase } = createSupabaseRouteClient(request);
   const { data, error } = await supabase.auth.signInWithPassword({
     email,
     password
@@ -92,18 +107,21 @@ export async function POST(request: Request) {
   ) {
     return json(
       {
-        error: error?.message ?? "Credenciais invalidas."
+        error: "invalid_credentials",
+        message: mapPasswordLoginMessage(error?.message)
       },
       { status: 401 }
     );
   }
 
-  return json({
-    ok: true,
-    userId: data.user.id,
-    session: {
-      accessToken: data.session.access_token,
-      refreshToken: data.session.refresh_token
-    }
-  });
+  return applyCookies(
+    json({
+      ok: true,
+      userId: data.user.id,
+      session: {
+        accessToken: data.session.access_token,
+        refreshToken: data.session.refresh_token
+      }
+    })
+  );
 }
