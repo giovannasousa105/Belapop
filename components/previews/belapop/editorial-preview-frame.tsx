@@ -28,10 +28,16 @@ const footerLinks = [
 
 export function EditorialPreviewFrame({
   children,
-  mode = "preview"
+  mode = "preview",
+  hideMobileHeader = false,
+  hideHeader = false,
+  hideFooter = false
 }: {
   children: React.ReactNode;
   mode?: BelapopRenderMode;
+  hideMobileHeader?: boolean;
+  hideHeader?: boolean;
+  hideFooter?: boolean;
 }) {
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -70,7 +76,12 @@ export function EditorialPreviewFrame({
     <div
       className={`${previewBodyFont.className} min-h-screen bg-[#fcf9f8] text-[#1c1b1b] selection:bg-[#f7e382] selection:text-black`}
     >
-      <header className="fixed inset-x-0 top-0 z-50 border-b border-black/5 bg-white/90 backdrop-blur-md">
+      {hideHeader ? null : (
+      <header
+        className={`fixed inset-x-0 top-0 z-50 border-b border-black/5 bg-white/90 backdrop-blur-md ${
+          hideMobileHeader ? "hidden md:block" : ""
+        }`}
+      >
         <div className="mx-auto flex h-20 max-w-[1800px] items-center justify-between px-4 sm:px-6 lg:px-8">
           <div className="flex flex-1 items-center gap-3 lg:gap-12">
             <button
@@ -139,6 +150,7 @@ export function EditorialPreviewFrame({
           </div>
         </div>
       </header>
+      )}
 
       {menuOpen ? (
         <div className="fixed inset-0 z-[60] bg-black/60 backdrop-blur-sm lg:hidden">
@@ -225,6 +237,7 @@ export function EditorialPreviewFrame({
 
       {children}
 
+      {hideFooter ? null : (
       <footer className="flex w-full flex-col items-center justify-center gap-8 bg-stone-100 px-4 py-16 text-black sm:px-6 lg:px-8 lg:py-24">
         <div className={`${previewHeadlineFont.className} text-xl font-bold tracking-[-0.04em]`}>
           BelaPop
@@ -260,6 +273,7 @@ export function EditorialPreviewFrame({
           © 2026 BelaPop. Todos os direitos reservados.
         </p>
       </footer>
+      )}
     </div>
   );
 }
