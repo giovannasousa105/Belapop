@@ -5,7 +5,7 @@ export const ADM_ROLE_LABELS: Record<AdmRole, string> = {
   curadoria: "Curadoria",
   financeiro: "Financeiro",
   logistica: "Logistica",
-  operacao: "Operacao",
+  operação: "Operação",
   catalogo_marca: "Catalogo e Marca",
   suporte: "Suporte",
   leitura: "Leitura"
@@ -47,7 +47,7 @@ export const ADM_ROLE_PERMISSIONS: Record<AdmRole, AdmPermission[]> = {
     "view_activity_logs"
   ],
   logistica: ["view_dashboard", "manage_logistics", "view_reports"],
-  operacao: [
+  "operação": [
     "view_dashboard",
     "manage_logistics",
     "manage_sellers",

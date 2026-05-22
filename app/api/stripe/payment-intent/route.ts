@@ -33,11 +33,17 @@ type PaymentIntentRequest = {
   paymentMethod?: "cartao" | "pix" | "boleto";
   address?: Address;
   cartId?: string | null;
+  requestedPopClubCreditsCents?: number | null;
 };
 
 const fromCents = (value: number) => Number((value / 100).toFixed(2));
 const smokeStubEnabled = process.env.ENABLE_SMOKE_SALE_STUB === "1";
 const CHECKOUT_IN_PROGRESS_WINDOW_MS = 2 * 60 * 1000;
+const normalizeCreditCents = (value: unknown) => {
+  const parsed = Number(value ?? 0);
+  if (!Number.isFinite(parsed)) return 0;
+  return Math.max(0, Math.round(parsed));
+};
 
 const normalizeAvailablePaymentMethods = (value: unknown) => {
   if (!Array.isArray(value)) return [] as Array<"cartao" | "pix" | "boleto">;
@@ -50,6 +56,9 @@ const buildPaymentIntentResponse = ({
   orderId,
   paymentIntentId,
   clientSecret,
+  grossAmountCents,
+  requestedCreditCents,
+  creditAppliedCents,
   totalAmountCents,
   splits,
   availablePaymentMethods,
@@ -59,6 +68,9 @@ const buildPaymentIntentResponse = ({
   orderId: string;
   paymentIntentId: string;
   clientSecret: string;
+  grossAmountCents: number;
+  requestedCreditCents: number;
+  creditAppliedCents: number;
   totalAmountCents: number;
   splits: Awaited<ReturnType<typeof createCheckoutDraft>>["splits"];
   availablePaymentMethods: Array<"cartao" | "pix" | "boleto">;
@@ -69,6 +81,12 @@ const buildPaymentIntentResponse = ({
   orderId,
   paymentIntentId,
   clientSecret,
+  grossAmount: fromCents(grossAmountCents),
+  grossAmountCents,
+  requestedCredits: fromCents(requestedCreditCents),
+  requestedCreditCents,
+  creditsApplied: fromCents(creditAppliedCents),
+  creditsAppliedCents: creditAppliedCents,
   totalAmount: fromCents(totalAmountCents),
   totalAmountCents,
   availablePaymentMethods,
@@ -94,7 +112,8 @@ export async function POST(request: NextRequest) {
     } = await supabase.auth.getUser();
 
     if (authError) {
-      return NextResponse.json({ error: authError.message }, { status: 401 });
+      console.error("[stripe/payment-intent] auth failed", authError.message);
+      return NextResponse.json({ error: "Entre na sua conta para finalizar o pedido." }, { status: 401 });
     }
 
     if (!user) {
@@ -105,6 +124,7 @@ export async function POST(request: NextRequest) {
     const currency = "brl";
     const paymentMethod = body.paymentMethod ?? "cartao";
     const address = body.address;
+    const requestedPopClubCreditsCents = normalizeCreditCents(body.requestedPopClubCreditsCents);
     const requestMeta = extractCheckoutRequestMeta(request);
 
     if (!address) {
@@ -137,7 +157,7 @@ export async function POST(request: NextRequest) {
         return NextResponse.json({ error: cartError.message }, { status: 400 });
       }
       if (cartError.code === "CART_ACCESS_DENIED") {
-        return NextResponse.json({ error: cartError.message }, { status: 403 });
+        return NextResponse.json({ error: "Não foi possivel validar seu carrinho." }, { status: 403 });
       }
       if (cartError.code === "CART_INACTIVE") {
         return NextResponse.json({ error: cartError.message }, { status: 409 });
@@ -152,7 +172,8 @@ export async function POST(request: NextRequest) {
       currency,
       paymentMethodPreference: paymentMethod,
       cartHash,
-      addressHash
+      addressHash,
+      requestedCreditCents: requestedPopClubCreditsCents
     });
 
     const reservedSession = await reserveCheckoutSession({
@@ -160,6 +181,7 @@ export async function POST(request: NextRequest) {
       idempotencyKey,
       cartHash,
       addressHash,
+      requestedCreditCents: requestedPopClubCreditsCents,
       paymentMethodPreference: paymentMethod,
       currency,
       meta: requestMeta
@@ -192,6 +214,9 @@ export async function POST(request: NextRequest) {
             orderId: reusableSession.order_id,
             paymentIntentId: reusableSession.payment_intent_id,
             clientSecret: `stub_reused_${reusableSession.payment_intent_id}`,
+            grossAmountCents: persistedBreakdown.grossAmountCents,
+            requestedCreditCents: persistedBreakdown.requestedCreditCents,
+            creditAppliedCents: persistedBreakdown.creditAppliedCents,
             totalAmountCents,
             splits: persistedBreakdown.splits,
             availablePaymentMethods:
@@ -210,6 +235,9 @@ export async function POST(request: NextRequest) {
           orderId: reusableSession.order_id,
           paymentIntentId: paymentIntent.id,
           clientSecret: paymentIntent.client_secret ?? "",
+          grossAmountCents: persistedBreakdown.grossAmountCents,
+          requestedCreditCents: persistedBreakdown.requestedCreditCents,
+          creditAppliedCents: persistedBreakdown.creditAppliedCents,
           totalAmountCents:
             totalAmountCents > 0 ? totalAmountCents : Number(paymentIntent.amount ?? 0),
           splits: persistedBreakdown.splits,
@@ -248,7 +276,10 @@ export async function POST(request: NextRequest) {
         address,
         paymentMethod,
         currency,
-        allowUnconnectedSellers: smokeStubEnabled
+        allowUnconnectedSellers: smokeStubEnabled,
+        requestedPopClubCreditsCents,
+        checkoutSessionId: reservedSession.session?.id as string | undefined,
+        checkoutIdempotencyKey: idempotencyKey
       });
     } catch (error) {
       await markCheckoutSessionFailure({
@@ -262,7 +293,7 @@ export async function POST(request: NextRequest) {
 
     const risk = await assessCheckoutRisk({
       customerId: user.id,
-      totalAmountCents: draft.totalAmountCents,
+      totalAmountCents: draft.grossAmountCents,
       meta: requestMeta
     });
 
@@ -297,12 +328,34 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    if (draft.totalAmountCents <= 0) {
+      await markCheckoutSessionFailure({
+        customerId: user.id,
+        idempotencyKey,
+        orderId: draft.orderId,
+        failureCode: "CREDIT_ONLY_CHECKOUT_NOT_ENABLED",
+        failureReason:
+          "O uso integral de creditos PopClub ainda não libera checkout sem pagamento externo."
+      });
+      await deleteCheckoutDraft(draft.orderId);
+      return NextResponse.json(
+        {
+          error:
+            "O uso integral de creditos PopClub ainda não libera checkout sem pagamento externo.",
+          code: "CREDIT_ONLY_CHECKOUT_NOT_ENABLED"
+        },
+        { status: 409 }
+      );
+    }
+
     const sessionDraft = await persistCheckoutSessionDraft({
       customerId: user.id,
       orderId: draft.orderId,
       idempotencyKey,
       cartHash,
       addressHash,
+      requestedCreditCents: draft.requestedCreditCents,
+      creditAppliedCents: draft.creditAppliedCents,
       paymentMethodPreference: paymentMethod,
       currency,
       meta: requestMeta,
@@ -355,6 +408,9 @@ export async function POST(request: NextRequest) {
           orderId: draft.orderId,
           paymentIntentId: paymentIntent.id,
           clientSecret: paymentIntent.clientSecret ?? "",
+          grossAmountCents: draft.grossAmountCents,
+          requestedCreditCents: draft.requestedCreditCents,
+          creditAppliedCents: draft.creditAppliedCents,
           totalAmountCents: draft.totalAmountCents,
           availablePaymentMethods:
             paymentMethod === "pix"
@@ -375,7 +431,9 @@ export async function POST(request: NextRequest) {
       metadata: {
         orderId: draft.orderId,
         paymentMethod,
-        checkoutIdempotencyKey: idempotencyKey
+        checkoutIdempotencyKey: idempotencyKey,
+        grossAmountCents: String(draft.grossAmountCents),
+        creditAppliedCents: String(draft.creditAppliedCents)
       },
       transfer_group: draft.orderId
     } as const;
@@ -468,6 +526,9 @@ export async function POST(request: NextRequest) {
         orderId: draft.orderId,
         paymentIntentId: paymentIntent.id,
         clientSecret: paymentIntent.client_secret ?? "",
+        grossAmountCents: draft.grossAmountCents,
+        requestedCreditCents: draft.requestedCreditCents,
+        creditAppliedCents: draft.creditAppliedCents,
         totalAmountCents: draft.totalAmountCents,
         availablePaymentMethods: mapStripePaymentMethodTypes(paymentIntent.payment_method_types),
         splits: draft.splits
@@ -504,7 +565,7 @@ export async function POST(request: NextRequest) {
         return NextResponse.json(
           {
             error:
-              "Frete indisponivel temporariamente. Configure o Melhor Envio com credenciais validas.",
+              "O calculo de frete esta temporariamente indisponivel. Tente novamente em instantes.",
             code: typedError.code
           },
           { status: 503 }
@@ -518,7 +579,7 @@ export async function POST(request: NextRequest) {
       ) {
         return NextResponse.json(
           {
-            error: typedError.message,
+            error: "Não foi possivel calcular o frete para uma das lojas do pedido.",
             code: typedError.code,
             sellerId: typedError.sellerId,
             sellerName: typedError.sellerName
@@ -528,8 +589,10 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    const message =
-      error instanceof Error ? error.message : "Erro ao criar pagamento.";
-    return NextResponse.json({ error: message }, { status: 500 });
+    console.error("[stripe/payment-intent]", error);
+    return NextResponse.json(
+      { error: "Não foi possivel iniciar o pagamento agora." },
+      { status: 500 }
+    );
   }
 }

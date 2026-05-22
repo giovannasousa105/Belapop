@@ -5,12 +5,12 @@ import { PerfumesAtelierExperience } from "@/components/perfumes/PerfumesAtelier
 export const metadata: Metadata = {
   title: "Perfumes | BelaPop",
   description:
-    "Perfumes BelaPop com selecao viva da categoria, notas olfativas e curadoria ativa.",
+    "Perfumes BelaPop com seleção viva da categoria, notas olfativas e curadoria ativa.",
   openGraph: {
     title: "Perfumes | BelaPop",
     description:
-      "Perfumes BelaPop com selecao viva da categoria, notas olfativas e curadoria ativa.",
-    images: [{ url: "/editorial/presenca-diurna.svg", alt: "Perfumes BelaPop" }],
+      "Perfumes BelaPop com seleção viva da categoria, notas olfativas e curadoria ativa.",
+    images: [{ url: "/og-default.jpg", alt: "Perfumes BelaPop" }],
     type: "website"
   }
 };

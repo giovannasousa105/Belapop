@@ -30,12 +30,12 @@ export default async function PainelInternoPage() {
   const cards = [
     {
       title: "Painel Admin",
-      description: "Curadoria, operacao, pedidos, sellers e visao executiva da BelaPop.",
+      description: "Curadoria, operação, pedidos, sellers e visao executiva da BelaPop.",
       href: "/adm"
     },
     {
       title: "Painel Lojista",
-      description: "Pedidos, produtos, repasse, SLA e operacao da loja ativa.",
+      description: "Pedidos, produtos, repasse, SLA e operação da loja ativa.",
       href: "/parceiro"
     },
     {

@@ -207,6 +207,7 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
     setItems([]);
     setShipmentsState([]);
     setShippingCepState("");
+    setCartId(null);
   };
 
   const replaceCart = (nextItems: CartItem[]) => {

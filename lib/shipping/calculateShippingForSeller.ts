@@ -2,10 +2,11 @@ import "server-only";
 
 import { sellers } from "@/data/sellers";
 import {
-  ShippingProviderConfigError,
-  ShippingProviderQuoteError,
-  quoteShipping
-} from "@/lib/shipping/melhorenvio";
+  LogisticsProviderError,
+  pickPreferredShippingOption,
+  sortShippingOptions
+} from "@/lib/logistics/types";
+import { getActiveLogisticsProvider } from "@/lib/logistics/providerRegistry";
 import { getSupabaseAdminClient } from "@/lib/supabase/admin";
 import {
   SellerShipment,
@@ -75,28 +76,59 @@ export const calculateShippingForSeller = async (
 
   if (!originCep) {
     return {
-      error: `CEP de origem nao encontrado para ${sellerName}.`,
+      error: `CEP de origem não encontrado para ${sellerName}.`,
       errorCode: "SELLER_ORIGIN_CEP_MISSING",
       sellerName
     };
   }
 
   let options: ShippingOption[];
+  let providerId = "mandabem";
+  let quoteMode: SellerShipment["quoteMode"] = "live";
   try {
-    options = await quoteShipping(destinationCep, toQuoteItems(items), originCep);
+    const provider = await getActiveLogisticsProvider();
+    providerId = provider.id;
+    const quoteResponse = await provider.getShippingQuotes({
+      originCep,
+      destinationCep,
+      items: toQuoteItems(items)
+    });
+    options = sortShippingOptions(quoteResponse.options);
+    quoteMode = quoteResponse.mode;
   } catch (error) {
-    if (error instanceof ShippingProviderConfigError) {
-      return {
-        error: "Frete indisponivel temporariamente. Melhor Envio nao esta configurado.",
-        errorCode: error.code,
-        sellerName
-      };
-    }
+    if (error instanceof LogisticsProviderError) {
+      if (error.code === "LOGISTICS_PROVIDER_NOT_CONFIGURED") {
+        return {
+          error: "Frete indisponivel temporariamente. Provider logistico não esta configurado.",
+          errorCode: "SHIPPING_PROVIDER_NOT_CONFIGURED",
+          sellerName
+        };
+      }
 
-    if (error instanceof ShippingProviderQuoteError) {
+      if (
+        error.code === "LOGISTICS_UNAVAILABLE_FOR_POSTAL_CODE"
+      ) {
+        return {
+          error: `Não encontramos frete disponivel para ${sellerName} neste CEP.`,
+          errorCode: "SHIPPING_UNAVAILABLE",
+          sellerName
+        };
+      }
+
+      if (
+        error.code === "LOGISTICS_INVALID_TOKEN" ||
+        error.code === "LOGISTICS_AUTH_ERROR"
+      ) {
+        return {
+          error: "Frete indisponivel temporariamente. Credenciais do hub logistico precisam de revisao.",
+          errorCode: "SHIPPING_PROVIDER_NOT_CONFIGURED",
+          sellerName
+        };
+      }
+
       return {
-        error: `Nao foi possivel cotar frete para ${sellerName}.`,
-        errorCode: error.code,
+        error: `Não foi possivel cotar frete para ${sellerName}.`,
+        errorCode: "SHIPPING_QUOTE_FAILED",
         sellerName
       };
     }
@@ -106,18 +138,21 @@ export const calculateShippingForSeller = async (
 
   if (!options.length) {
     return {
-      error: `Sem opcoes de frete para ${sellerName}.`,
+      error: `Sem opções de frete para ${sellerName}.`,
       errorCode: "SHIPPING_UNAVAILABLE",
       sellerName
     };
   }
 
-  const selected = [...options].sort((a, b) => a.price - b.price)[0];
+  const selected = pickPreferredShippingOption(options);
   const shipment: SellerShipment = {
     sellerId,
     sellerName,
     originCep,
     destinationCep,
+    provider: providerId,
+    quoteMode,
+    availableOptions: options,
     ...selected
   };
 

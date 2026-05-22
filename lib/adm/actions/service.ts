@@ -175,7 +175,7 @@ const ensurePermission = (user: AuthenticatedAdmUser, request: AdmActionRequest)
     throw new AdmActionError(
       "FORBIDDEN",
       403,
-      "Seu perfil interno nao possui permissao para executar esta acao."
+      "Seu perfil interno não possui permissao para executar esta acao."
     );
   }
 };
@@ -311,7 +311,7 @@ const getRevalidatedPaths = (request: AdmActionRequest, contextPathname?: string
     case "seller.activate":
     case "seller.deactivate":
     case "seller.block":
-      paths.add("/adm/operacao/parceiros");
+      paths.add("/adm/operação/parceiros");
       break;
     case "payout.approve":
     case "payout.hold":
@@ -327,20 +327,20 @@ const getRevalidatedPaths = (request: AdmActionRequest, contextPathname?: string
       break;
     case "shipment.update-status":
     case "incident.register":
-      paths.add("/adm/operacao/logistica");
-      paths.add("/adm/operacao/logistica/incidentes");
-      paths.add("/adm/operacao/pedidos-criticos");
+      paths.add("/adm/operação/logistica");
+      paths.add("/adm/operação/logistica/incidentes");
+      paths.add("/adm/operação/pedidos-criticos");
       break;
     case "document.validate":
     case "document.request-update":
       paths.add("/adm/curadoria/documentos");
       paths.add("/adm/curadoria/compliance");
-      paths.add("/adm/operacao/parceiros");
+      paths.add("/adm/operação/parceiros");
       break;
     case "review.approve":
     case "review.hide":
       paths.add("/adm/catalogo-marca/reviews");
-      paths.add("/adm/operacao/parceiros");
+      paths.add("/adm/operação/parceiros");
       break;
   }
 
@@ -367,7 +367,7 @@ export async function executeAdmAction(
     switch (request.type) {
       case "product.approve": {
         const product = data.products.find((row) => row.id === request.entityId);
-        if (!product) throw new AdmActionError("NOT_FOUND", 404, "Produto nao encontrado.");
+        if (!product) throw new AdmActionError("NOT_FOUND", 404, "Produto não encontrado.");
 
         const before = buildAuditSnapshot(product, PRODUCT_AUDIT_FIELDS);
         product.status = "aprovado";
@@ -377,7 +377,7 @@ export async function executeAdmAction(
           .forEach((row) => {
             row.status = "aprovado";
             row.reviewer = user.name;
-            row.reason = request.payload?.note ?? "Produto aprovado para publicacao.";
+            row.reason = request.payload?.note ?? "Produto aprovado para publicação.";
             row.updatedAt = now;
           });
 
@@ -387,10 +387,10 @@ export async function executeAdmAction(
           entityType,
           entityId: product.id,
           actionType: request.type,
-          actionLabel: "Aprovou produto para publicacao",
+          actionLabel: "Aprovou produto para publicação",
           status: product.status,
           contextPathname,
-          summary: "Produto liberado para publicacao no catalogo premium.",
+          summary: "Produto liberado para publicação no catalogo premium.",
           before,
           after: buildAuditSnapshot(product, PRODUCT_AUDIT_FIELDS),
           metadata: buildAuditMetadata({ reviewer: user.name, note: request.payload?.note })
@@ -401,7 +401,7 @@ export async function executeAdmAction(
           actionType: request.type,
           entityId: product.id,
           entityType,
-          message: "Produto aprovado para publicacao.",
+          message: "Produto aprovado para publicação.",
           updatedStatus: product.status,
           revalidatedPaths
         };
@@ -409,7 +409,7 @@ export async function executeAdmAction(
 
       case "product.reject": {
         const product = data.products.find((row) => row.id === request.entityId);
-        if (!product) throw new AdmActionError("NOT_FOUND", 404, "Produto nao encontrado.");
+        if (!product) throw new AdmActionError("NOT_FOUND", 404, "Produto não encontrado.");
 
         const before = buildAuditSnapshot(product, PRODUCT_AUDIT_FIELDS);
         product.status = "reprovado";
@@ -452,7 +452,7 @@ export async function executeAdmAction(
 
       case "product.request-adjustment": {
         const product = data.products.find((row) => row.id === request.entityId);
-        if (!product) throw new AdmActionError("NOT_FOUND", 404, "Produto nao encontrado.");
+        if (!product) throw new AdmActionError("NOT_FOUND", 404, "Produto não encontrado.");
 
         const before = buildAuditSnapshot(product, PRODUCT_AUDIT_FIELDS);
         product.status = "em-revisao";
@@ -475,7 +475,7 @@ export async function executeAdmAction(
           actionLabel: "Solicitou ajuste de produto",
           status: product.status,
           contextPathname,
-          summary: "Produto retornou para revisao com solicitacao de ajuste editorial.",
+          summary: "Produto retornou para revisao com solicitação de ajuste editorial.",
           before,
           after: buildAuditSnapshot(product, PRODUCT_AUDIT_FIELDS),
           metadata: buildAuditMetadata({ reviewer: user.name, note: request.payload?.note })
@@ -494,7 +494,7 @@ export async function executeAdmAction(
 
       case "seller.activate": {
         const seller = data.sellers.find((row) => row.id === request.entityId);
-        if (!seller) throw new AdmActionError("NOT_FOUND", 404, "Seller nao encontrado.");
+        if (!seller) throw new AdmActionError("NOT_FOUND", 404, "Seller não encontrado.");
 
         const before = buildAuditSnapshot(seller, SELLER_AUDIT_FIELDS);
         seller.status = getSellerActiveStatus(seller);
@@ -505,7 +505,7 @@ export async function executeAdmAction(
           entityType,
           entityId: seller.id,
           actionType: request.type,
-          actionLabel: "Ativou seller na operacao",
+          actionLabel: "Ativou seller na operação",
           status: seller.status,
           contextPathname,
           summary: "Seller reabilitado para operar no backoffice premium.",
@@ -519,7 +519,7 @@ export async function executeAdmAction(
           actionType: request.type,
           entityId: seller.id,
           entityType,
-          message: "Seller ativado na operacao.",
+          message: "Seller ativado na operação.",
           updatedStatus: seller.status,
           revalidatedPaths
         };
@@ -527,7 +527,7 @@ export async function executeAdmAction(
 
       case "seller.deactivate": {
         const seller = data.sellers.find((row) => row.id === request.entityId);
-        if (!seller) throw new AdmActionError("NOT_FOUND", 404, "Seller nao encontrado.");
+        if (!seller) throw new AdmActionError("NOT_FOUND", 404, "Seller não encontrado.");
 
         const before = buildAuditSnapshot(seller, SELLER_AUDIT_FIELDS);
         seller.status = "alerta";
@@ -541,7 +541,7 @@ export async function executeAdmAction(
           actionLabel: "Inativou seller temporariamente",
           status: seller.status,
           contextPathname,
-          summary: "Seller mantido fora da operacao ate nova validacao operacional.",
+          summary: "Seller mantido fora da operação ate nova validação operacional.",
           before,
           after: buildAuditSnapshot(seller, SELLER_AUDIT_FIELDS)
         });
@@ -559,7 +559,7 @@ export async function executeAdmAction(
 
       case "seller.block": {
         const seller = data.sellers.find((row) => row.id === request.entityId);
-        if (!seller) throw new AdmActionError("NOT_FOUND", 404, "Seller nao encontrado.");
+        if (!seller) throw new AdmActionError("NOT_FOUND", 404, "Seller não encontrado.");
 
         const before = buildAuditSnapshot(seller, SELLER_AUDIT_FIELDS);
         seller.status = "bloqueado";
@@ -592,7 +592,7 @@ export async function executeAdmAction(
 
       case "payout.approve": {
         const payout = data.payouts.find((row) => row.id === request.entityId);
-        if (!payout) throw new AdmActionError("NOT_FOUND", 404, "Repasse nao encontrado.");
+        if (!payout) throw new AdmActionError("NOT_FOUND", 404, "Repasse não encontrado.");
 
         const before = buildAuditSnapshot(payout, PAYOUT_AUDIT_FIELDS);
         payout.status = "aprovado";
@@ -607,7 +607,7 @@ export async function executeAdmAction(
           actionLabel: "Aprovou repasse para processamento",
           status: payout.status,
           contextPathname,
-          summary: "Repasse liberado apos validacao financeira do ciclo.",
+          summary: "Repasse liberado apos validação financeira do ciclo.",
           before,
           after: buildAuditSnapshot(payout, PAYOUT_AUDIT_FIELDS),
           metadata: buildAuditMetadata({
@@ -629,7 +629,7 @@ export async function executeAdmAction(
 
       case "payout.hold": {
         const payout = data.payouts.find((row) => row.id === request.entityId);
-        if (!payout) throw new AdmActionError("NOT_FOUND", 404, "Repasse nao encontrado.");
+        if (!payout) throw new AdmActionError("NOT_FOUND", 404, "Repasse não encontrado.");
 
         const before = buildAuditSnapshot(payout, PAYOUT_AUDIT_FIELDS);
         payout.status = "bloqueado";
@@ -666,7 +666,7 @@ export async function executeAdmAction(
 
       case "refund.approve": {
         const refund = data.refunds.find((row) => row.id === request.entityId);
-        if (!refund) throw new AdmActionError("NOT_FOUND", 404, "Reembolso nao encontrado.");
+        if (!refund) throw new AdmActionError("NOT_FOUND", 404, "Reembolso não encontrado.");
 
         const before = buildAuditSnapshot(refund, REFUND_AUDIT_FIELDS);
         refund.status = "aprovado";
@@ -703,7 +703,7 @@ export async function executeAdmAction(
 
       case "refund.reject": {
         const refund = data.refunds.find((row) => row.id === request.entityId);
-        if (!refund) throw new AdmActionError("NOT_FOUND", 404, "Reembolso nao encontrado.");
+        if (!refund) throw new AdmActionError("NOT_FOUND", 404, "Reembolso não encontrado.");
 
         const before = buildAuditSnapshot(refund, REFUND_AUDIT_FIELDS);
         refund.status = "reprovado";
@@ -718,7 +718,7 @@ export async function executeAdmAction(
           actionLabel: "Recusou reembolso",
           status: refund.status,
           contextPathname,
-          summary: "Solicitacao de reembolso recusada apos revisao do caso.",
+          summary: "Solicitação de reembolso recusada apos revisao do caso.",
           before,
           after: buildAuditSnapshot(refund, REFUND_AUDIT_FIELDS),
           metadata: buildAuditMetadata({
@@ -740,7 +740,7 @@ export async function executeAdmAction(
 
       case "shipment.update-status": {
         const shipment = data.shipments.find((row) => row.id === request.entityId);
-        if (!shipment) throw new AdmActionError("NOT_FOUND", 404, "Envio nao encontrado.");
+        if (!shipment) throw new AdmActionError("NOT_FOUND", 404, "Envio não encontrado.");
 
         const before = buildAuditSnapshot(shipment, SHIPMENT_AUDIT_FIELDS);
         shipment.status = request.payload.status;
@@ -789,7 +789,7 @@ export async function executeAdmAction(
 
       case "incident.register": {
         const shipment = data.shipments.find((row) => row.id === request.entityId);
-        if (!shipment) throw new AdmActionError("NOT_FOUND", 404, "Envio nao encontrado.");
+        if (!shipment) throw new AdmActionError("NOT_FOUND", 404, "Envio não encontrado.");
 
         const order = data.orders.find((row) => row.id === shipment.orderId);
         const existingIncident = data.logisticsIncidents.find((row) => row.shipmentId === shipment.id);
@@ -865,7 +865,7 @@ export async function executeAdmAction(
 
       case "document.validate": {
         const document = data.documents.find((row) => row.id === request.entityId);
-        if (!document) throw new AdmActionError("NOT_FOUND", 404, "Documento nao encontrado.");
+        if (!document) throw new AdmActionError("NOT_FOUND", 404, "Documento não encontrado.");
 
         const before = buildAuditSnapshot(document, DOCUMENT_AUDIT_FIELDS);
         document.status = "aprovado";
@@ -899,7 +899,7 @@ export async function executeAdmAction(
 
       case "document.request-update": {
         const document = data.documents.find((row) => row.id === request.entityId);
-        if (!document) throw new AdmActionError("NOT_FOUND", 404, "Documento nao encontrado.");
+        if (!document) throw new AdmActionError("NOT_FOUND", 404, "Documento não encontrado.");
 
         const before = buildAuditSnapshot(document, DOCUMENT_AUDIT_FIELDS);
         document.status = request.payload?.status ?? "em-revisao";
@@ -928,7 +928,7 @@ export async function executeAdmAction(
           actionType: request.type,
           entityId: document.id,
           entityType,
-          message: "Nova solicitacao enviada para o documento.",
+          message: "Nova solicitação enviada para o documento.",
           updatedStatus: document.status,
           revalidatedPaths
         };
@@ -936,7 +936,7 @@ export async function executeAdmAction(
 
       case "review.approve": {
         const review = data.reviews.find((row) => row.id === request.entityId);
-        if (!review) throw new AdmActionError("NOT_FOUND", 404, "Review nao encontrada.");
+        if (!review) throw new AdmActionError("NOT_FOUND", 404, "Review não encontrada.");
 
         const before = buildAuditSnapshot(review, REVIEW_AUDIT_FIELDS);
         review.status = "aprovado";
@@ -950,7 +950,7 @@ export async function executeAdmAction(
           actionLabel: "Aprovou review para exibicao",
           status: review.status,
           contextPathname,
-          summary: "Review liberada para exibicao publica na experiencia BelaPop.",
+          summary: "Review liberada para exibicao publica na experiência BelaPop.",
           before,
           after: buildAuditSnapshot(review, REVIEW_AUDIT_FIELDS),
           metadata: buildAuditMetadata({
@@ -973,7 +973,7 @@ export async function executeAdmAction(
 
       case "review.hide": {
         const review = data.reviews.find((row) => row.id === request.entityId);
-        if (!review) throw new AdmActionError("NOT_FOUND", 404, "Review nao encontrada.");
+        if (!review) throw new AdmActionError("NOT_FOUND", 404, "Review não encontrada.");
 
         const before = buildAuditSnapshot(review, REVIEW_AUDIT_FIELDS);
         review.status = request.payload?.status ?? "bloqueado";
@@ -1009,7 +1009,7 @@ export async function executeAdmAction(
       }
 
       default: {
-        throw new AdmActionError("UNSUPPORTED_ACTION", 400, "Acao do ADM nao suportada.");
+        throw new AdmActionError("UNSUPPORTED_ACTION", 400, "Acao do ADM não suportada.");
       }
     }
   });
@@ -1032,7 +1032,7 @@ export function toAdmActionFailure(error: unknown) {
     body: {
       success: false,
       code: "INTERNAL_ERROR",
-      message: "Nao foi possivel concluir a acao do ADM."
+      message: "Não foi possivel concluir a acao do ADM."
     }
   };
 }

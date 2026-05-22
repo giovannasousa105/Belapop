@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
-
-import SkinScanFaceShieldExperience from "@/components/popclub/skin-scan/SkinScanFaceShieldExperience";
+import { redirect } from "next/navigation";
 
 export const metadata: Metadata = {
   title: "FaceShield | Skin Scan BelaPop",
@@ -9,5 +8,5 @@ export const metadata: Metadata = {
 };
 
 export default function FaceShieldPage() {
-  return <SkinScanFaceShieldExperience />;
+  redirect("/skin-scan/captura");
 }

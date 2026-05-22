@@ -11,11 +11,11 @@ const compatibilitySignals = [
 const pillars = [
   {
     title: "SkinBela",
-    text: "Analise inteligente da pele para transformar cuidado em decisao precisa."
+    text: "Análise inteligente da pele para transformar cuidado em decisão precisa."
   },
   {
     title: "BelaCode",
-    text: "Um perfil de beleza unico que conecta o rosto, a rotina e a evolucao do cuidado."
+    text: "Um perfil de beleza único que conecta o rosto, a rotina e a evolução do cuidado."
   },
   {
     title: "Curadoria BelaPop",

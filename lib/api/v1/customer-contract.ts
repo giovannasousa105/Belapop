@@ -576,7 +576,7 @@ export const buildSubOrderPayload = ({
     shipping: {
       shipping_cost: shippingCost,
       service_level: subOrder.shipping_service ?? "STANDARD",
-      carrier: carrier ?? "Em definicao",
+      carrier: carrier ?? "Em definição",
       posted_at: postedAt ?? createdAt,
       tracking_code: trackingCode,
       estimated_delivery_date:
@@ -677,7 +677,7 @@ export const buildTrackingPayload = ({
 
   return {
     sub_order_id: subOrderId,
-    carrier: carrier ?? "Em definicao",
+    carrier: carrier ?? "Em definição",
     tracking_code: trackingCode ?? null,
     last_updated_at: timeline[timeline.length - 1]?.occurred_at ?? createdAt,
     current_status: current,

@@ -187,7 +187,7 @@ export default function SellerProductsPage() {
             <option value="price_up">Aumentar preco (%)</option>
             <option value="price_down">Reduzir preco (%)</option>
             <option value="coupon">Criar cupom (tracking)</option>
-            <option value="content">Atualizar conteudo (tracking)</option>
+            <option value="content">Atualizar conteúdo (tracking)</option>
           </select>
           <input value={bulkValue} onChange={(event) => setBulkValue(event.target.value)} placeholder="Valor %" className="rounded-2xl border border-black/10 px-3 py-2 text-sm" />
           <button type="button" onClick={bulkExecute} className="rounded-2xl bg-bpBlack px-4 py-2 text-xs uppercase tracking-[0.2em] text-white">Executar lote</button>

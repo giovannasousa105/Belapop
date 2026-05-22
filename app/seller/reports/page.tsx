@@ -31,8 +31,8 @@ const reportTemplates: ReportTemplate[] = [
   },
   {
     id: "returns_by_reason",
-    title: "Devolucoes por motivo",
-    description: "Analise de perdas e plano de correcao."
+    title: "Devoluções por motivo",
+    description: "Análise de perdas e plano de correcao."
   },
   {
     id: "shipping_performance",
@@ -327,7 +327,7 @@ export default function SellerReportsPage() {
               value={schedule.email}
               onChange={(event) => setSchedule((current) => ({ ...current, email: event.target.value }))}
               className="w-full rounded-2xl border border-black/10 px-3 py-2 text-sm"
-              placeholder="operacao@loja.com"
+              placeholder="operação@loja.com"
             />
 
             <button

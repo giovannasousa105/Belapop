@@ -36,7 +36,7 @@ const BASE_PAYLOAD: DashboardHomePayload = {
       value: 12,
       unit: "pedidos",
       delta: -2,
-      subtitle: "Ainda nao postados",
+      subtitle: "Ainda não postados",
       cta_label: "Despachar agora",
       cta_link: "/orders?filter=sla_due"
     },
@@ -173,7 +173,7 @@ const BASE_PAYLOAD: DashboardHomePayload = {
       id: "att_001",
       severity: "critical",
       title: "5 pedidos vencem em 2h",
-      message: "Priorize separacao e postagem para evitar impacto no ranking.",
+      message: "Priorize separação e postagem para evitar impacto no ranking.",
       impact_amount: 1240.0,
       impact_orders: 5,
       primary_action: { label: "Resolver agora", href: "/orders?filter=sla_due" },

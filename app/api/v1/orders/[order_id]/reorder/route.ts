@@ -3,6 +3,11 @@ import { z } from "zod";
 
 import { requireCustomerApiContext } from "@/lib/api/v1/customer-auth";
 import { loadSubOrdersWithSellers } from "@/lib/api/v1/orders";
+import { buildDeterministicKey, emitPlatformEvent } from "@/lib/events/platformEventBus";
+import {
+  createPopClubReorderRequest,
+  loadPopClubOperationalPrioritySnapshot
+} from "@/lib/popclub/operations";
 
 const ReorderPayloadSchema = z
   .object({
@@ -54,7 +59,7 @@ export async function POST(
     .maybeSingle();
 
   if (orderError) return NextResponse.json({ error: orderError.message }, { status: 500 });
-  if (!order) return NextResponse.json({ error: "Pedido nao encontrado." }, { status: 404 });
+  if (!order) return NextResponse.json({ error: "Pedido não encontrado." }, { status: 404 });
 
   const { subOrders } = await loadSubOrdersWithSellers(admin, [orderId]);
   const scopedSubOrders = bodyResult.sub_order_id
@@ -62,7 +67,7 @@ export async function POST(
     : subOrders;
 
   if (bodyResult.sub_order_id && scopedSubOrders.length === 0) {
-    return NextResponse.json({ error: "Subpedido nao encontrado." }, { status: 404 });
+    return NextResponse.json({ error: "Subpedido não encontrado." }, { status: 404 });
   }
 
   const aggregated = new Map<
@@ -89,12 +94,12 @@ export async function POST(
   }
 
   if (bodyResult.product_id && aggregated.size === 0) {
-    return NextResponse.json({ error: "Item nao encontrado nesse pedido." }, { status: 404 });
+    return NextResponse.json({ error: "Item não encontrado nesse pedido." }, { status: 404 });
   }
 
   const productIds = Array.from(new Set(Array.from(aggregated.values()).map((item) => item.product_id)));
   if (!productIds.length) {
-    return NextResponse.json({ error: "Nao ha itens disponiveis para recompra." }, { status: 409 });
+    return NextResponse.json({ error: "Não ha itens disponiveis para recompra." }, { status: 409 });
   }
 
   const { data: productRows, error: productsError } = await admin
@@ -154,11 +159,67 @@ export async function POST(
   if (!available.length) {
     return NextResponse.json(
       {
-        error: "Os itens desse pedido nao estao disponiveis para recompra agora.",
+        error: "Os itens desse pedido não estao disponiveis para recompra agora.",
         unavailable_items
       },
       { status: 409 }
     );
+  }
+
+  const summary = {
+    products_count: available.length,
+    items_count: available.reduce((sum, item) => sum + item.quantity, 0),
+    unavailable_count: unavailable_items.length
+  };
+  const prioritySnapshot = await loadPopClubOperationalPrioritySnapshot(admin, userId);
+  const reorderSellerId =
+    bodyResult.sub_order_id && scopedSubOrders[0]?.seller_id
+      ? scopedSubOrders[0].seller_id
+      : (() => {
+          const sellerIds = Array.from(new Set(available.map((item) => item.seller_id).filter(Boolean)));
+          return sellerIds.length === 1 ? sellerIds[0] : null;
+        })();
+  const reorderRequest = await createPopClubReorderRequest(admin, {
+    userId,
+    orderId,
+    subOrderId: bodyResult.sub_order_id ?? null,
+    sellerId: reorderSellerId,
+    availableItems: available,
+    unavailableItems: unavailable_items,
+    summary,
+    snapshot: prioritySnapshot,
+    sourceIdempotencyKey: buildDeterministicKey([
+      "reorder.requested",
+      userId,
+      orderId,
+      bodyResult.sub_order_id ?? null,
+      bodyResult.product_id ?? null
+    ])
+  });
+
+  if (reorderRequest.id) {
+    await emitPlatformEvent({
+      eventName: "reorder.requested",
+      aggregateType: "order",
+      aggregateId: orderId,
+      orderId,
+      subOrderId: bodyResult.sub_order_id ?? null,
+      customerUserId: userId,
+      actorUserId: userId,
+      payload: {
+        reorder_request_id: reorderRequest.id,
+        current_tier: reorderRequest.currentTier,
+        priority_score: reorderRequest.priorityScore,
+        priority_band: reorderRequest.priorityBand,
+        products_count: summary.products_count,
+        unavailable_count: summary.unavailable_count
+      },
+      idempotencyKey: buildDeterministicKey([
+        "reorder.requested.event",
+        reorderRequest.id,
+        orderId
+      ])
+    });
   }
 
   return NextResponse.json({
@@ -166,9 +227,16 @@ export async function POST(
     order_id: orderId,
     items: available,
     unavailable_items,
-    summary: {
-      products_count: available.length,
-      items_count: available.reduce((sum, item) => sum + item.quantity, 0)
-    }
+    summary,
+    reorder_request: reorderRequest.id
+      ? {
+          id: reorderRequest.id,
+          status: reorderRequest.status,
+          current_tier: reorderRequest.currentTier,
+          priority_score: reorderRequest.priorityScore,
+          priority_band: reorderRequest.priorityBand,
+          created_at: reorderRequest.createdAt
+        }
+      : null
   });
 }

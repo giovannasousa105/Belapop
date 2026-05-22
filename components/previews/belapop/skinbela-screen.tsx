@@ -187,7 +187,7 @@ export function SkinBelaPreviewScreen({ mode = "preview" }: SkinBelaPreviewScree
                               href={getBelapopProductHref(mode)}
                               className="mt-auto self-start text-[10px] font-bold uppercase tracking-[0.2em] underline underline-offset-4"
                             >
-                              Adicionar a sacola
+                              Adicionar ao carrinho
                             </Link>
                           </div>
                         </article>
@@ -250,7 +250,7 @@ export function SkinBelaPreviewScreen({ mode = "preview" }: SkinBelaPreviewScree
                 </div>
                 <div className="mt-6 space-y-6">
                   {[
-                    { label: "Hidratacao", value: 68, accent: true, note: "Critico: baixa umidade." },
+                    { label: "Hidratação", value: 68, accent: true, note: "Critico: baixa umidade." },
                     { label: "Elasticidade", value: 84, accent: false, note: null },
                     { label: "Luminosidade", value: 92, accent: false, note: null }
                   ].map((metric) => (

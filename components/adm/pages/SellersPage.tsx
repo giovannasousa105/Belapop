@@ -81,12 +81,12 @@ const partnersTheme = {
 const sidebarItems: SidebarItem[] = [
   { label: "Dashboard", href: "/adm/dashboard-executivo", icon: LayoutDashboard },
   { label: "Curadoria", href: "/adm/curadoria/produtos", icon: Sparkles },
-  { label: "Sellers", href: "/adm/operacao/parceiros", icon: Users, active: true },
-  { label: "Pedidos", href: "/adm/operacao/pedidos-criticos", icon: ShoppingBag },
-  { label: "Logística", href: "/adm/operacao/logistica", icon: Truck },
+  { label: "Sellers", href: "/adm/operação/parceiros", icon: Users, active: true },
+  { label: "Pedidos", href: "/adm/operação/pedidos-criticos", icon: ShoppingBag },
+  { label: "Logística", href: "/adm/operação/logistica", icon: Truck },
   { label: "Risco", href: "/adm/financeiro/risco", icon: ShieldAlert },
   { label: "Financeiro", href: "/adm/financeiro", icon: Wallet },
-  { label: "Configurações", href: "/adm/gestao/configuracoes", icon: Settings }
+  { label: "Configurações", href: "/adm/gestao/configurações", icon: Settings }
 ];
 
 const _stats: SellerStat[] = [
@@ -428,7 +428,7 @@ export async function SellersPage({ filters, searchParamsSource = filters }: Sel
                       </td>
                       <td className="px-8 py-6 text-right">
                         <Link
-                          href={`/adm/operacao/parceiros?seller=${seller.id}`}
+                          href={`/adm/operação/parceiros?seller=${seller.id}`}
                           className="inline-flex h-9 w-9 items-center justify-center rounded-full text-[var(--partners-text-soft)] transition-colors hover:text-[var(--partners-primary)]"
                           aria-label={`Abrir ${seller.name}`}
                         >

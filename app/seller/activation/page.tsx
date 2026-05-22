@@ -64,18 +64,18 @@ export default function SellerActivationPage() {
             Ativacao de lojista
           </p>
           <h1 className="mt-2 font-display text-3xl text-bpBlack">
-            {isApproved ? "Sua loja foi aprovada." : "Sua loja ainda nao esta aprovada."}
+            {isApproved ? "Sua loja foi aprovada." : "Sua loja ainda não esta aprovada."}
           </h1>
           <p className="mt-3 text-sm text-bpGraphite/80">
             Status atual:{" "}
             <span className="font-semibold text-bpBlackSoft">
-              {statusCopy[status] ?? "Em analise"}
+              {statusCopy[status] ?? "Em análise"}
             </span>
           </p>
           <p className="mt-3 text-sm text-bpGraphite/80">
             {isApproved
-              ? "Voce ja pode acessar o painel completo e publicar produtos."
-              : "Assim que sua loja for aprovada, voce tera acesso completo ao painel e podera publicar produtos."}
+              ? "Você ja pode acessar o painel completo e publicar produtos."
+              : "Assim que sua loja for aprovada, você tera acesso completo ao painel e podera publicar produtos."}
           </p>
           <div className="mt-6 flex flex-wrap gap-3">
             <Link

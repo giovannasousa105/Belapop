@@ -250,7 +250,7 @@ export const curationStatuses: CurationStatus[] = [
     sellerId: "sel-velvet",
     status: "em-revisao",
     reviewer: "Ana Curadoria",
-    reason: "Ajustar claim de longa duracao",
+    reason: "Ajustar claim de longa duração",
     createdAt: "2026-04-03T10:10:00Z",
     updatedAt: "2026-04-04T13:35:00Z"
   },
@@ -280,7 +280,7 @@ export const curationStatuses: CurationStatus[] = [
     sellerId: "sel-atelierx",
     status: "pendente",
     reviewer: "Ana Curadoria",
-    reason: "Documento tecnico vencido",
+    reason: "Documento técnico vencido",
     createdAt: "2026-04-01T09:00:00Z",
     updatedAt: "2026-04-04T19:00:00Z"
   }
@@ -508,7 +508,7 @@ export const logisticsIncidents: LogisticsIncident[] = [
     sellerId: "sel-atelierx",
     status: "em-revisao",
     priority: "media",
-    type: "Rastreio nao vinculado",
+    type: "Rastreio não vinculado",
     summary: "Etiqueta emitida sem sincronismo no OMS",
     openedAt: "2026-04-05T08:30:00Z"
   }
@@ -624,7 +624,7 @@ export const financialAlerts: FinancialAlert[] = [
     status: "pendente",
     priority: "media",
     type: "Conta bancaria vencida",
-    summary: "Dados bancarios sem validacao para repasse",
+    summary: "Dados bancarios sem validação para repasse",
     createdAt: "2026-04-05T09:10:00Z"
   }
 ];
@@ -714,7 +714,7 @@ export const documents: Document[] = [
 export const curationRules: CurationRule[] = [
   {
     id: "rule-claim-001",
-    name: "Claims de longa duracao exigem evidência validada",
+    name: "Claims de longa duração exigem evidência validada",
     scope: "claim",
     status: "aprovado",
     priority: "alta",
@@ -757,7 +757,7 @@ export const curationRules: CurationRule[] = [
     scope: "reputacao",
     status: "bloqueado",
     priority: "critica",
-    owner: "Operacao",
+    owner: "Operação",
     targetType: "seller",
     targetId: "sel-atelierx",
     condition: "Bloqueio operacional ou regulatorio ativo",
@@ -814,7 +814,7 @@ export const campaigns: Campaign[] = [
   },
   {
     id: "cmp-102",
-    name: "Selecao Hair Recovery",
+    name: "Seleção Hair Recovery",
     productIds: ["prd-007", "prd-008"],
     sellerIds: ["sel-nordic"],
     status: "em-revisao",
@@ -847,7 +847,7 @@ export const internalUsers: InternalUser[] = [
     id: "usr-002",
     name: "Bruno Operacoes",
     role: "Coord. Logistica",
-    area: "Operacao",
+    area: "Operação",
     status: "aprovado",
     lastAccessAt: "2026-04-05T08:55:00Z"
   },
@@ -885,9 +885,9 @@ export const platformSettings: PlatformSetting[] = [
     area: "logistica",
     label: "Janela de SLA critico",
     value: "48h sem evento",
-    owner: "Operacao",
+    owner: "Operação",
     status: "alerta",
-    linkedRoute: "/adm/operacao/logistica/incidentes",
+    linkedRoute: "/adm/operação/logistica/incidentes",
     updatedAt: "2026-04-04T12:00:00Z"
   },
   {
@@ -904,7 +904,7 @@ export const platformSettings: PlatformSetting[] = [
     id: "set-004",
     area: "seguranca",
     label: "Step-up por Passkey para perfis internos",
-    value: "Obrigatorio em rotas sensiveis",
+    value: "Obrigatorio em rotas sensíveis",
     owner: "Seguranca",
     status: "premium",
     linkedRoute: "/adm/gestao/usuarios-internos",
@@ -962,7 +962,7 @@ export const auditTrail: AuditTrailEntry[] = [
     status: "em-revisao",
     createdAt: "2026-04-04T13:40:00Z",
     contextPathname: "/adm/curadoria/produtos?product=prd-003",
-    summary: "Produto devolvido ao seller para ajuste do claim de longa duracao.",
+    summary: "Produto devolvido ao seller para ajuste do claim de longa duração.",
     before: {
       status: "pendente",
       curationStatus: "pendente",
@@ -977,7 +977,7 @@ export const auditTrail: AuditTrailEntry[] = [
     },
     metadata: {
       reviewer: "Ana Curadoria",
-      reason: "Ajustar claim de longa duracao"
+      reason: "Ajustar claim de longa duração"
     }
   },
   {
@@ -989,7 +989,7 @@ export const auditTrail: AuditTrailEntry[] = [
     actionLabel: "Escalonou incidente para transportadora",
     status: "critico",
     createdAt: "2026-04-04T19:02:00Z",
-    contextPathname: "/adm/operacao/logistica/incidentes?shipment=shp-401",
+    contextPathname: "/adm/operação/logistica/incidentes?shipment=shp-401",
     summary: "Incidente logistico mantido em nivel critico e escalado para tratativa manual.",
     before: {
       status: "alerta",
@@ -1043,7 +1043,7 @@ export const auditTrail: AuditTrailEntry[] = [
     status: "bloqueado",
     createdAt: "2026-04-03T11:30:00Z",
     contextPathname: "/adm/curadoria/documentos?document=doc-802",
-    summary: "Documento tecnico vencido manteve o seller em bloqueio ate nova submissao.",
+    summary: "Documento técnico vencido manteve o seller em bloqueio ate nova submissao.",
     before: {
       status: "em-revisao",
       dueDate: "2026-04-03",

@@ -161,7 +161,7 @@ export async function GET(
     });
 
     if (!detail) {
-      return NextResponse.json({ error: "Pedido do lojista nao encontrado." }, { status: 404 });
+      return NextResponse.json({ error: "Pedido do lojista não encontrado." }, { status: 404 });
     }
 
     let orderLookup = await auth.ctx.admin

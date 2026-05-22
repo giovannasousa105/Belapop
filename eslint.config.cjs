@@ -1,5 +1,11 @@
-const nextConfig = require("eslint-config-next");
+const nextConfigModule = require("eslint-config-next/core-web-vitals");
 const belaPopPlugin = require("./eslint-plugin-bela-pop");
+
+const nextConfig = Array.isArray(nextConfigModule)
+  ? nextConfigModule
+  : Array.isArray(nextConfigModule?.default)
+    ? nextConfigModule.default
+    : [];
 
 module.exports = [
   ...nextConfig,

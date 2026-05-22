@@ -1,0 +1,172 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e3]:
+    - complementary [ref=e4]:
+      - generic [ref=e6]:
+        - paragraph [ref=e7]: BelaPop
+        - paragraph [ref=e8]: Curator Admin
+      - navigation [ref=e9]:
+        - generic [ref=e10]:
+          - paragraph [ref=e11]: Visao Geral
+          - generic [ref=e12]:
+            - link "Central de Controle" [ref=e14] [cursor=pointer]:
+              - /url: /adm
+              - img [ref=e16]
+              - generic [ref=e21]: Central de Controle
+            - link "Dashboard Executivo" [ref=e23] [cursor=pointer]:
+              - /url: /adm/dashboard-executivo
+              - img [ref=e25]
+              - generic [ref=e28]: Dashboard Executivo
+            - link "Qualidade do Catalogo" [ref=e30] [cursor=pointer]:
+              - /url: /adm/qualidade-catalogo
+              - img [ref=e32]
+              - generic [ref=e35]: Qualidade do Catalogo
+        - generic [ref=e36]:
+          - paragraph [ref=e37]: Curadoria
+          - generic [ref=e38]:
+            - link "Curadoria de Produtos" [ref=e40] [cursor=pointer]:
+              - /url: /adm/curadoria/produtos
+              - img [ref=e42]
+              - generic [ref=e44]: Curadoria de Produtos
+            - link "Regras de Curadoria" [ref=e46] [cursor=pointer]:
+              - /url: /adm/curadoria/regras
+              - img [ref=e48]
+              - generic [ref=e51]: Regras de Curadoria
+            - link "Score de Qualidade" [ref=e53] [cursor=pointer]:
+              - /url: /adm/curadoria/score
+              - img [ref=e55]
+              - generic [ref=e58]: Score de Qualidade
+            - link "Monitoramento de Qualidade" [ref=e60] [cursor=pointer]:
+              - /url: /adm/curadoria/monitoramento
+              - img [ref=e62]
+              - generic [ref=e64]: Monitoramento de Qualidade
+            - link "Historico de Versoes" [ref=e66] [cursor=pointer]:
+              - /url: /adm/curadoria/historico-versoes
+              - img [ref=e68]
+              - generic [ref=e70]: Historico de Versoes
+            - link "Documentos" [ref=e72] [cursor=pointer]:
+              - /url: /adm/curadoria/documentos
+              - img [ref=e74]
+              - generic [ref=e77]: Documentos
+            - link "Compliance e Confianca" [ref=e79] [cursor=pointer]:
+              - /url: /adm/curadoria/compliance
+              - img [ref=e81]
+              - generic [ref=e84]: Compliance e Confianca
+        - generic [ref=e85]:
+          - paragraph [ref=e86]: Operacao
+          - generic [ref=e87]:
+            - link "Pedidos Criticos" [ref=e89] [cursor=pointer]:
+              - /url: /adm/operacao/pedidos-criticos
+              - img [ref=e91]
+              - generic [ref=e93]: Pedidos Criticos
+            - generic [ref=e94]:
+              - link "Logistica" [ref=e95] [cursor=pointer]:
+                - /url: /adm/operacao/logistica
+                - img [ref=e97]
+                - generic [ref=e102]: Logistica
+              - link "Incidentes Logisticos" [ref=e104] [cursor=pointer]:
+                - /url: /adm/operacao/logistica/incidentes
+            - link "Parceiros" [ref=e106] [cursor=pointer]:
+              - /url: /adm/operacao/parceiros
+              - img [ref=e108]
+              - generic [ref=e113]: Parceiros
+            - link "Comunicacao com Sellers" [ref=e115] [cursor=pointer]:
+              - /url: /adm/operacao/comunicacao-sellers
+              - img [ref=e117]
+              - generic [ref=e119]: Comunicacao com Sellers
+        - generic [ref=e120]:
+          - paragraph [ref=e121]: Financeiro
+          - generic [ref=e122]:
+            - link "Financeiro" [ref=e124] [cursor=pointer]:
+              - /url: /adm/financeiro
+              - img [ref=e126]
+              - generic [ref=e129]: Financeiro
+            - link "Repasses" [ref=e131] [cursor=pointer]:
+              - /url: /adm/financeiro/repasses
+              - img [ref=e133]
+              - generic [ref=e136]: Repasses
+            - link "Reembolsos" [ref=e138] [cursor=pointer]:
+              - /url: /adm/financeiro/reembolsos
+              - img [ref=e140]
+              - generic [ref=e143]: Reembolsos
+            - link "Auditoria Financeira" [ref=e145] [cursor=pointer]:
+              - /url: /adm/financeiro/auditoria
+              - img [ref=e147]
+              - generic [ref=e150]: Auditoria Financeira
+            - link "Antifraude / Risco" [ref=e152] [cursor=pointer]:
+              - /url: /adm/financeiro/risco
+              - img [ref=e154]
+              - generic [ref=e156]: Antifraude / Risco
+        - generic [ref=e157]:
+          - paragraph [ref=e158]: Catalogo e Marca
+          - generic [ref=e159]:
+            - link "Conteudo e Vitrines" [ref=e161] [cursor=pointer]:
+              - /url: /adm/catalogo-marca/conteudo-vitrines
+              - img [ref=e163]
+              - generic [ref=e168]: Conteudo e Vitrines
+            - link "Campanhas / Destaques" [ref=e170] [cursor=pointer]:
+              - /url: /adm/catalogo-marca/campanhas
+              - img [ref=e172]
+              - generic [ref=e175]: Campanhas / Destaques
+            - link "Reviews / Avaliacoes" [ref=e177] [cursor=pointer]:
+              - /url: /adm/catalogo-marca/reviews
+              - img [ref=e179]
+              - generic [ref=e184]: Reviews / Avaliacoes
+            - link "Inteligencia de Catalogo" [ref=e186] [cursor=pointer]:
+              - /url: /adm/catalogo-marca/inteligencia
+              - img [ref=e188]
+              - generic [ref=e191]: Inteligencia de Catalogo
+        - generic [ref=e192]:
+          - paragraph [ref=e193]: Relacionamento
+          - link "Clientes" [ref=e196] [cursor=pointer]:
+            - /url: /adm/relacionamento/clientes
+            - img [ref=e198]
+            - generic [ref=e203]: Clientes
+        - generic [ref=e204]:
+          - paragraph [ref=e205]: Gestao
+          - generic [ref=e206]:
+            - link "Relatorios" [ref=e208] [cursor=pointer]:
+              - /url: /adm/gestao/relatorios
+              - img [ref=e210]
+              - generic [ref=e213]: Relatorios
+            - link "Usuarios Internos" [ref=e215] [cursor=pointer]:
+              - /url: /adm/gestao/usuarios-internos
+              - img [ref=e217]
+              - generic [ref=e222]: Usuarios Internos
+            - link "Log de Atividades" [ref=e224] [cursor=pointer]:
+              - /url: /adm/gestao/log-atividades
+              - img [ref=e226]
+              - generic [ref=e228]: Log de Atividades
+            - link "Configuracoes" [ref=e230] [cursor=pointer]:
+              - /url: /adm/gestao/configuracoes
+              - img [ref=e232]
+              - generic [ref=e235]: Configuracoes
+      - generic [ref=e238]:
+        - generic [ref=e239]: He
+        - generic [ref=e240]:
+          - paragraph [ref=e241]: Helena Martins
+          - paragraph [ref=e242]: Admin Master
+    - generic [ref=e243]:
+      - banner [ref=e244]:
+        - generic [ref=e245]:
+          - generic [ref=e247]:
+            - navigation [ref=e248]:
+              - generic [ref=e249]:
+                - link "ADM" [ref=e250] [cursor=pointer]:
+                  - /url: /adm
+                - generic [ref=e251]: /
+              - generic [ref=e253]: Qualidade do Catalogo
+            - paragraph [ref=e254]: Qualidade do Catalogo
+          - generic [ref=e255]:
+            - button "Buscar" [ref=e256] [cursor=pointer]:
+              - img [ref=e257]
+            - button "H Helena Martins Admin Master" [ref=e261] [cursor=pointer]:
+              - generic [ref=e262]: H
+              - generic [ref=e263]:
+                - generic [ref=e264]: Helena Martins
+                - generic [ref=e265]: Admin Master
+              - img [ref=e266]
+      - main [ref=e268]:
+        - paragraph [ref=e270]: Carregando modulo administrativo...
+  - button "Open Next.js Dev Tools" [ref=e280] [cursor=pointer]:
+    - img [ref=e281]
+  - alert [ref=e284]

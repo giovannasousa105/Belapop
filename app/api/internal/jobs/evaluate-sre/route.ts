@@ -35,7 +35,7 @@ const parseAckSla = (value: string | null) => {
 
 export async function POST(request: NextRequest) {
   if (!isInternalJobAuthorized(request)) {
-    return NextResponse.json({ error: "Nao autorizado para job interno." }, { status: 401 });
+    return NextResponse.json({ error: "Não autorizado para job interno." }, { status: 401 });
   }
 
   const admin = getSupabaseAdminClient();
@@ -50,7 +50,7 @@ export async function POST(request: NextRequest) {
       {
         error: evaluate.error.message,
         detail:
-          "Funcao evaluate_slo_breaches nao encontrada. Rode a migration 20260306_1500_ops_reverse_sre_ranking_ab.sql."
+          "Funcao evaluate_slo_breaches não encontrada. Rode a migration 20260306_1500_ops_reverse_sre_ranking_ab.sql."
       },
       { status: 500 }
     );
@@ -62,7 +62,7 @@ export async function POST(request: NextRequest) {
       {
         error: drFreshness.error.message,
         detail:
-          "Funcao check_dr_test_freshness nao encontrada. Rode a migration 20260306_1500_ops_reverse_sre_ranking_ab.sql."
+          "Funcao check_dr_test_freshness não encontrada. Rode a migration 20260306_1500_ops_reverse_sre_ranking_ab.sql."
       },
       { status: 500 }
     );
@@ -76,7 +76,7 @@ export async function POST(request: NextRequest) {
       {
         error: assignIncidents.error.message,
         detail:
-          "Funcao assign_sre_incidents_to_current_oncall nao encontrada. Rode a migration 20260307_0200_sre_maturity_oncall_error_budget_dr_calendar.sql."
+          "Funcao assign_sre_incidents_to_current_oncall não encontrada. Rode a migration 20260307_0200_sre_maturity_oncall_error_budget_dr_calendar.sql."
       },
       { status: 500 }
     );
@@ -91,7 +91,7 @@ export async function POST(request: NextRequest) {
       {
         error: escalateIncidents.error.message,
         detail:
-          "Funcao escalate_unacknowledged_sre_incidents nao encontrada. Rode a migration 20260307_0300_sre_oncall_24x7_dr_gameday_recurring.sql."
+          "Funcao escalate_unacknowledged_sre_incidents não encontrada. Rode a migration 20260307_0300_sre_oncall_24x7_dr_gameday_recurring.sql."
       },
       { status: 500 }
     );
@@ -106,7 +106,7 @@ export async function POST(request: NextRequest) {
       {
         error: oncallCoverageAlerts.error.message,
         detail:
-          "Funcao create_finance_ops_alerts_from_oncall_coverage nao encontrada. Rode a migration 20260307_0300_sre_oncall_24x7_dr_gameday_recurring.sql."
+          "Funcao create_finance_ops_alerts_from_oncall_coverage não encontrada. Rode a migration 20260307_0300_sre_oncall_24x7_dr_gameday_recurring.sql."
       },
       { status: 500 }
     );

@@ -1,14 +1,15 @@
 import {
-  BadgeCheck,
   CreditCard,
   Headset,
   RotateCcw,
+  Sparkles,
+  ShieldCheck,
   Truck
 } from "lucide-react";
 
-import { trustSignalItems } from "@/lib/legal/content";
+import { commerceTrustMarkers } from "@/lib/legal/content";
 
-const icons = [CreditCard, Truck, RotateCcw, BadgeCheck, Headset] as const;
+const icons = [ShieldCheck, Sparkles, Truck, RotateCcw, Headset, CreditCard] as const;
 
 type TrustSignalsProps = {
   title?: string;
@@ -37,7 +38,7 @@ export function TrustSignals({
       </div>
 
       <div className="mt-8 grid gap-4 md:grid-cols-2 xl:grid-cols-5">
-        {trustSignalItems.map((item, index) => {
+        {commerceTrustMarkers.map((item, index) => {
           const Icon = icons[index];
 
           return (

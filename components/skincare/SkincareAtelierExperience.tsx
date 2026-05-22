@@ -1,24 +1,22 @@
-/* eslint-disable @next/next/no-img-element */
+﻿/* eslint-disable @next/next/no-img-element */
 "use client";
 
 import Link from "next/link";
 import { useRef } from "react";
 import {
-  Camera,
   ChevronLeft,
   ChevronRight,
   Heart,
   Home,
-  Mail,
   ScanFace,
   Search,
   Sparkles,
   SunMedium,
-  Video,
   Waves
 } from "lucide-react";
 
 import { BelaPopValidatedHeader } from "@/components/luxury/BelaPopValidatedHeader";
+import { BelaPopValidatedFooter } from "@/components/luxury/BelaPopValidatedFooter";
 
 type ProductCard = {
   badge?: string;
@@ -41,7 +39,7 @@ const hotProducts: ProductCard[] = [
   {
     badge: "Limited Edition",
     name: "Serum Radiance",
-    subtitle: "Glow Instantâneo 30ml",
+    subtitle: "Glow InstantÃ¢neo 30ml",
     price: "R$ 245",
     image:
       "https://lh3.googleusercontent.com/aida-public/AB6AXuBTJeJby-t_D_GXJKtNaeyWH7_42dJFnOG8RIFgjicKOBQlZV-qWY0QD5jYzbYbEzI-LM8bwrHfrGn9xeW25_IGSInFS5w8dADSicAKYvzVZl1Vog_-v7oatKHA7Opv80hLNBgfc04S6YvHgbOv0u_fiRU2U4koJtTb8lAcghVZY32oOr_3yI9I0Mog7VblTbmavAwPACTcAhJ5CLlbaoIW2pmYMpMTQGIbbcvK1SxM4y26Iu-Bs6JWAuK-QpXgJSwsxU4tnMlBRK0J"
@@ -58,7 +56,7 @@ const hotProducts: ProductCard[] = [
 
 const collectionProducts: CollectionProduct[] = [
   {
-    name: "Óleo Nutritivo",
+    name: "Ã“leo Nutritivo",
     price: "R$ 189",
     image:
       "https://lh3.googleusercontent.com/aida-public/AB6AXuBTS8uDcBF-9_pkPNYtamnQVOcVuSKrPkW5EK4jqFrfHofjiaqMA8d0dhm6RACcVvfXLj80eCqDKFNblRt01rglAvkugnCJ2s-8sQD-Z2axb3Lps7z1esAJUzOOde4bCxKr9QLRSOxxK5UjiV6QUixs6UUrc6I9aLbif4s3L_eraf33q5GCihjIedDbcwZQsMeCvGxdjAXjxy9FUkDT39Gp8527M-13YZ7jEdPnlR3MZSygIeJI4A_M1Oe8J0KWckWWVlDsFrsTirja"
@@ -70,7 +68,7 @@ const collectionProducts: CollectionProduct[] = [
       "https://lh3.googleusercontent.com/aida-public/AB6AXuCNsxwhzTeuvOefInN-p1vGfEuF4u6mHdRFyAOJBPOK7x3FdmMWr6U5C113fzZTVhOMzewSPhnGaP8CViSmGfiNoh7kPeee4SxO6GJC57KGPgHxqbZzKeb0rL8PloKgV-MCkbRpiej4uEk_n4Mq2V5-ldDoKFKMG78cyeU7dbW7e3Jb1oDt5mubMb_DZJ93WV6QyPXt6tWT7ESTjK9vH6sRvPIAm3pTTUnlp36zOP7PwvPBnTwKkQShkliqM_56BUO_y2Moxssrwebn"
   },
   {
-    name: "Tônico Botânico",
+    name: "TÃ´nico BotÃ¢nico",
     price: "R$ 142",
     image:
       "https://lh3.googleusercontent.com/aida-public/AB6AXuCOG4wWR_Uy_M5VygSAGTPk1qmvmBUUn5Uk_UEYCJ3p3_hSE284USWjq1Gi3aHcxOCA15AdSjbnDv-oFnDdAaJlR1kwQvGb58DvzfvAC3SyRDlLUqVZSG6FUFfxE9NQtBbaVMFrXw66xxV_TGyD2Tcemr3_2JkcxI2kmiBdopc6qQaWGmXcymySXyMbuO967l1TSfDl_xVSb8QLiZYSpjdvilma34vMdxPBnvggPYkfvYrPc2X4N7bMVHpOa1klLGDwe2ugIyhmeMzW"
@@ -130,7 +128,7 @@ const collectionProducts: CollectionProduct[] = [
       "https://lh3.googleusercontent.com/aida-public/AB6AXuBCJfCRfm-DtmSHekGSSkydO65LOwQZPwnKSqMCB1NKMCQCOiR-c6H13CZTOR2ui11_Qgxt6Av6wuGBB15ENqzgBFrJ1XbiqcudDHpFy822cgfe4RwaaYHPvOzKe_TaMQCvkA3WC0DkDXk3ZWA1uWZ-TkB8NpetxKSpoJHB-aCTBlCDS-THNENAJCJi-tARKRnO5u2K5hJHfu66aYYcNjxlOJjnP6NC83pt46bxNFggXbQnXgHQsPsXTLmw15Fq4qhhbM69LEl0RIT6"
   },
   {
-    name: "Essence N°1",
+    name: "Essence NÂ°1",
     price: "R$ 450",
     image:
       "https://lh3.googleusercontent.com/aida-public/AB6AXuAuCkGbOKyCE-YIiLbjbohs9yg9Bor6j5nHnH7OJrx_zq55W9IT31wc9dbUhvorHaF6-md4_F4_DSnWXpl7SD4aM3GC4vc5ZcSPSeKYVTBrPpuE2m1Aiw3Qa-v2Va_zm3dV8BNUp9oxJZziAziyh8LDfKwHCJGgjN-vx6kQbO53ynkyQqGLtGwEbEdTBBPpgXJedgnCFR5yWaNjzc21nCpzaGqbpNFHRPhoTHbOkIXqEEn2i8SQBgxvyq8DDF1gG9OA7KmHI1IFidwv"
@@ -154,38 +152,28 @@ const ritualSteps = [
     icon: Waves,
     title: "1. Limpar",
     description:
-      "Remova impurezas preservando a barreira lipídica, ideal após incômodos ou depois do impacto."
+      "Remova impurezas preservando a barreira lipÃ­dica, ideal apÃ³s incÃ´modos ou depois do impacto."
   },
   {
     icon: Sparkles,
     title: "2. Tratar",
     description:
-      "Séruns concentrados com Vitaminas C e Retinol para renovação celular profunda."
+      "SÃ©runs concentrados com Vitaminas C e Retinol para renovaÃ§Ã£o celular profunda."
   },
   {
     icon: ScanFace,
     title: "3. Hidratar",
     description:
-      "Sele a umidade com cremes luxuosos que restauram elasticidade e viço natural."
+      "Sele a umidade com cremes luxuosos que restauram elasticidade e viÃ§o natural."
   },
   {
     icon: SunMedium,
     title: "4. Proteger",
     description:
-      "Escudo inabalável. Proteção UV de amplo espectro com acabamento invisível."
+      "Escudo inabalÃ¡vel. ProteÃ§Ã£o UV de amplo espectro com acabamento invisÃ­vel."
   }
 ];
 
-const footerGroups = [
-  {
-    title: "Institucional",
-    links: ["Sobre a Bela", "Nossa Curadoria", "Carreiras", "Sustentabilidade"]
-  },
-  {
-    title: "Atendimento ao Cliente",
-    links: ["Minha Conta", "Rastrear Pedido", "Trocas e Devoluções", "Fale Conosco"]
-  }
-];
 
 const SKINCARE_PRODUCT_SLUGS = [
   "serum-radiance-01",
@@ -218,7 +206,7 @@ export function SkincareAtelierExperience() {
     <div className="bg-[#fcf9f8] text-[#1c1b1b]" data-belapop-page="skincare-public">
       <BelaPopValidatedHeader />
 
-      <main className="pb-28 pt-16 md:pb-0">
+      <main className="pb-28 pt-[78px] md:pb-0 lg:pt-[86px]">
         <section className="px-4 pb-12 pt-8 sm:px-6 lg:px-8">
           <Link
             href="/skin-scan"
@@ -282,7 +270,7 @@ export function SkincareAtelierExperience() {
                     <ChevronLeft className="h-4 w-4" />
                   </button>
                   <button
-                    aria-label="Próximos produtos"
+                    aria-label="PrÃ³ximos produtos"
                     className="flex h-11 w-11 items-center justify-center border border-black/20 bg-transparent transition-colors hover:bg-white"
                     onClick={() => scrollHotProducts("right")}
                     type="button"
@@ -313,7 +301,7 @@ export function SkincareAtelierExperience() {
                       className="mt-5 inline-flex min-h-14 w-full items-center justify-center bg-black px-5 text-xs font-semibold uppercase tracking-[0.24em] text-white transition hover:bg-black/90"
                       href={resolveSkincareProductHref(index)}
                     >
-                      Adicionar à sacola
+                      Adicionar ao carrinho
                     </Link>
                   </div>
                 </article>
@@ -331,7 +319,7 @@ export function SkincareAtelierExperience() {
                   <ChevronLeft className="h-4 w-4" />
                 </button>
                 <button
-                  aria-label="Próximos produtos"
+                  aria-label="PrÃ³ximos produtos"
                   className="flex h-11 w-11 items-center justify-center border border-black/20 bg-transparent transition-colors hover:bg-white"
                   onClick={() => scrollHotProducts("right")}
                   type="button"
@@ -374,7 +362,7 @@ export function SkincareAtelierExperience() {
                 />
                 <div className="absolute inset-0 flex items-center justify-center bg-black/40 p-8 text-center">
                   <p className="font-editorial text-xl italic text-white sm:text-2xl">
-                    &quot;A beleza é um ritual de autocuidado diário.&quot;
+                    &quot;A beleza Ã© um ritual de autocuidado diÃ¡rio.&quot;
                   </p>
                 </div>
               </div>
@@ -430,69 +418,7 @@ export function SkincareAtelierExperience() {
         </section>
       </main>
 
-      <footer className="bg-black px-8 py-16 text-left text-white">
-        <div className="mx-auto grid max-w-7xl gap-12 lg:grid-cols-5">
-          <div className="lg:col-span-2">
-            <h2 className="font-editorial text-2xl font-bold tracking-widest">BelaPop</h2>
-            <p className="mt-4 max-w-xs text-[11px] font-light leading-relaxed text-white/60">
-              Elevando o conceito de beleza através de curadoria seletiva e rituais digitais para a sua pele.
-            </p>
-          </div>
-
-          {footerGroups.map((group) => (
-            <div key={group.title} className="space-y-4">
-              <h3 className="text-xs font-bold uppercase tracking-[0.2em]">{group.title}</h3>
-              <nav className="flex flex-col gap-3">
-                {group.links.map((label) => (
-                  <Link key={label} className="text-[11px] text-white/60 transition-colors hover:text-white" href="/conta">
-                    {label}
-                  </Link>
-                ))}
-              </nav>
-            </div>
-          ))}
-
-          <div className="space-y-4">
-            <h3 className="text-xs font-bold uppercase tracking-[0.2em]">Social</h3>
-            <div className="flex gap-4">
-              <a className="text-white/60 transition hover:text-white" href="#" aria-label="Instagram">
-                <Camera className="h-5 w-5" />
-              </a>
-              <a className="text-white/60 transition hover:text-white" href="#" aria-label="Vídeo">
-                <Video className="h-5 w-5" />
-              </a>
-              <a className="text-white/60 transition hover:text-white" href="#" aria-label="Email">
-                <Mail className="h-5 w-5" />
-              </a>
-            </div>
-
-            <div className="pt-4">
-              <h3 className="mb-4 text-xs font-bold uppercase tracking-[0.2em]">Formas de Pagamento</h3>
-              <div className="flex flex-wrap gap-2">
-                {["VISA", "MC", "PIX", "AMEX", "APPLE"].map((payment) => (
-                  <div key={payment} className="flex h-6 w-10 items-center justify-center border border-white/20 text-[8px] font-bold">
-                    {payment}
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="mx-auto mt-12 max-w-7xl border-t border-white/10 pt-8">
-          <p className="text-[9px] uppercase tracking-[0.2em] text-white/40">
-            © 2026 BelaPop. TODOS OS DIREITOS RESERVADOS.
-          </p>
-          <div className="mt-4 flex gap-4">
-            <a className="text-[9px] uppercase tracking-[0.1em] text-white/40 transition hover:text-white" href="#">
-              Privacy Policy
-            </a>
-            <a className="text-[9px] uppercase tracking-[0.1em] text-white/40 transition hover:text-white" href="#">
-              Terms of Service
-            </a>
-          </div>
-        </div>
-      </footer>
+      <BelaPopValidatedFooter />
 
       <nav
         className="fixed inset-x-0 bottom-0 z-50 flex h-20 items-center justify-around border-t border-black/5 bg-[#fcf9f8]/90 backdrop-blur-md md:hidden"
@@ -500,7 +426,7 @@ export function SkincareAtelierExperience() {
       >
         <Link className="flex flex-col items-center gap-1 pt-2 text-[#444748] transition hover:text-[#ed93d5]" href="/">
           <Home className="h-5 w-5" />
-          <span className="text-[10px] uppercase tracking-tight">Início</span>
+          <span className="text-[10px] uppercase tracking-tight">InÃ­cio</span>
         </Link>
         <Link className="flex flex-col items-center gap-1 border-t-2 border-[#1a1a1a] pt-2 text-[#1a1a1a]" href="/skincare">
           <Search className="h-5 w-5" />

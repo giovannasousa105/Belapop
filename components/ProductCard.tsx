@@ -6,7 +6,7 @@ import { Heart, Star } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 
 import { LuxuryButton } from "@/components/LuxuryButton";
-import { sellers } from "@/data/sellers";
+import { brandCtas } from "@/lib/brand/ctas";
 import { useCart } from "@/lib/CartContext";
 import { getProductDisplayImage } from "@/lib/product/productCovers";
 import { getSupabaseClient } from "@/lib/supabase/client";
@@ -48,7 +48,7 @@ export const ProductCard = ({
   isWishlisted,
   onToggleWishlist
 }: ProductCardProps) => {
-  const [sellerName, setSellerName] = useState("BelaPop");
+  const [sellerName, setSellerName] = useState("Seller verificado");
   const { addItem } = useCart();
   const isLight = tone === "light";
 
@@ -86,11 +86,6 @@ export const ProductCard = ({
       if (!active) return;
       if (data?.store_name) {
         setSellerName(data.store_name);
-        return;
-      }
-      const fallback = sellers.find((item) => item.id === product.sellerId);
-      if (fallback?.name) {
-        setSellerName(fallback.name);
       }
     };
     void load();
@@ -190,7 +185,7 @@ export const ProductCard = ({
           className="w-full rounded-full text-[11px] uppercase tracking-[0.2em]"
           onClick={() => addItem(product.id, 1, product.sellerId)}
         >
-          Adicionar a sacola
+          {brandCtas.primary.addToCart}
         </LuxuryButton>
       </div>
     </div>

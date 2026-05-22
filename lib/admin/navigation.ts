@@ -19,7 +19,7 @@ export const adminNav: AdminNavGroup[] = [
     ]
   },
   {
-    section: "Operacao",
+    section: "Operação",
     items: [
       { label: "Frete e logistica", href: "/admin/frete-logistica" },
       { label: "Atendimento", href: "/admin/atendimento" },
@@ -52,12 +52,12 @@ export const adminNav: AdminNavGroup[] = [
       {
         label: "Configuracoes",
         href: "/admin/settings",
-        match: ["/admin/configuracoes", "/admin/config"]
+        match: ["/admin/configurações", "/admin/config"]
       }
     ]
   },
   {
-    section: "Conteudo",
+    section: "Conteúdo",
     items: [
       { label: "Diario", href: "/admin/diario" },
       {

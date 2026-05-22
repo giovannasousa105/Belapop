@@ -16,12 +16,12 @@ const mobileMenu = [
   { label: "Skin Scan", href: "/skin-scan" },
   { label: "Objetivos", href: "/skin-scan/foco" },
   { label: "Captura", href: "/skin-scan/captura" },
-  { label: "Diagnostico", href: "/skin-scan/diagnostico" },
+  { label: "Leitura", href: "/skin-scan/diagnóstico" },
   { label: "Skincare", href: "/skincare" },
   { label: "Maquiagem", href: "/maquiagem" },
   { label: "Cabelos", href: "/cabelos" },
   { label: "Perfumes", href: "/perfumes" },
-  { label: "Vitrine", href: "/vitrine" },
+  { label: "Loja", href: "/catalogo" },
   { label: "Diario", href: "/diario" }
 ] as const;
 
@@ -122,7 +122,7 @@ export function SkinScanTopBar() {
 
             <button
               type="button"
-              aria-label="Sacola"
+              aria-label="Carrinho"
               className="inline-flex h-11 w-11 items-center justify-center transition-colors hover:text-gray-300"
             >
               <ShoppingBag className="h-5 w-5" />

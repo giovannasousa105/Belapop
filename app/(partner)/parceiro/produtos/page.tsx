@@ -41,7 +41,7 @@ export default async function ParceiroProdutosPage() {
           <p className="text-xs uppercase tracking-[0.3em] text-bpGraphite/70">Produtos</p>
           <h1 className="mt-2 font-display text-4xl text-bpBlack">Catalogo do parceiro</h1>
           <p className="mt-2 text-sm text-bpGraphite/80">
-            Produtos entram em <strong>active</strong> apenas apos aprovacao da curadoria admin.
+            Produtos entram em <strong>active</strong> apenas apos aprovação da curadoria admin.
           </p>
         </div>
         <Link
@@ -73,7 +73,7 @@ export default async function ParceiroProdutosPage() {
                 {row.editorial_reason ?? "Adicione o motivo curatorial para aprovacao."}
               </p>
               <p className="mt-2 text-xs text-bpGraphite/70">
-                Ritual: {row.ritual ?? "Nao definido"} • Sensacoes: {(row.sensation ?? []).join(", ") || "Nao definido"}
+                Ritual: {row.ritual ?? "Não definido"} • Sensacoes: {(row.sensation ?? []).join(", ") || "Não definido"}
               </p>
               <div className="mt-3">
                 <Link

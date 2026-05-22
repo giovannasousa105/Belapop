@@ -26,7 +26,7 @@ import {
 const evidenceSources = ["COCHRANE", "AAD LIBRARY", "PUBMED CENTRAL", "UPTODATE", "JAMA DERMATOLOGY"];
 
 const biometricBars = [
-  { label: "Hidratacao", valueLabel: "84%", width: "84%", accent: true },
+  { label: "Hidratação", valueLabel: "84%", width: "84%", accent: true },
   { label: "Sensibilidade", valueLabel: "Baixa", width: "20%", accent: false }
 ] as const;
 
@@ -38,7 +38,7 @@ type DiagnosticMetric = {
 };
 
 const diagnostics: DiagnosticMetric[] = [
-  { label: "Hidratacao", value: 68, accent: true, note: "Critico: baixa umidade." },
+  { label: "Hidratação", value: 68, accent: true, note: "Critico: baixa umidade." },
   { label: "Elasticidade", value: 84, accent: false },
   { label: "Luminosidade", value: 92, accent: false }
 ];

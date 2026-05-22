@@ -31,7 +31,7 @@ export const ensurePartnerApiContext = async (
 
   const scope = await resolveSellerScopeContext(user.id);
   if (!scope) {
-    return { ok: false, status: 403, error: "Acesso de parceiro nao autorizado." };
+    return { ok: false, status: 403, error: "Acesso de parceiro não autorizado." };
   }
 
   return {

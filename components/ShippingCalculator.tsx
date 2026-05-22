@@ -1,10 +1,10 @@
 ﻿"use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import { LuxuryButton } from "@/components/LuxuryButton";
 import { useCart } from "@/lib/CartContext";
-import { SellerShipment, ShippingCartItem } from "@/lib/types";
+import { SellerShipment, ShippingCartItem, ShippingOption } from "@/lib/types";
 import { formatPrice } from "@/lib/utils";
 import { trackEvent } from "@/lib/analytics/tracker";
 
@@ -20,6 +20,8 @@ type ShippingError = {
   sellerName: string;
   message: string;
 };
+
+type QuoteWarning = string;
 
 const maskCep = (value: string) => {
   const digits = value.replace(/\D/g, "").slice(0, 8);
@@ -39,6 +41,7 @@ export const ShippingCalculator = ({
   const [cep, setCep] = useState(shippingCep ? maskCep(shippingCep) : "");
   const [shipments, setLocalShipments] = useState<SellerShipment[]>([]);
   const [errors, setErrors] = useState<ShippingError[]>([]);
+  const [warnings, setWarnings] = useState<QuoteWarning[]>([]);
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
 
@@ -69,10 +72,11 @@ export const ShippingCalculator = ({
     if (shippingCep && cleaned !== shippingCep) {
       setLocalShipments([]);
       setErrors([]);
+      setWarnings([]);
     }
   }, [cep, shippingCep]);
 
-  const handleQuote = async (forcedCep?: string) => {
+  const handleQuote = useCallback(async (forcedCep?: string) => {
     const rawCep = forcedCep ?? cep;
     const cleanedCep = sanitizeCep(rawCep);
 
@@ -87,7 +91,7 @@ export const ShippingCalculator = ({
     }
 
     if (!cartId && !anonId) {
-      setMessage("Carrinho ainda nao sincronizado. Tente novamente em instantes.");
+      setMessage("Carrinho ainda não sincronizado. Tente novamente em instantes.");
       return;
     }
 
@@ -109,6 +113,7 @@ export const ShippingCalculator = ({
         );
         setLocalShipments([]);
         setErrors([]);
+        setWarnings([]);
         setLoading(false);
         return;
       }
@@ -119,6 +124,9 @@ export const ShippingCalculator = ({
       const nextErrors: ShippingError[] = Array.isArray(data?.errors)
         ? data.errors
         : [];
+      const nextWarnings: QuoteWarning[] = Array.isArray(data?.warnings)
+        ? data.warnings
+        : [];
 
       if (nextShipments.length === 0 && nextErrors.length === 0) {
         setMessage("Nenhuma opção disponível para este CEP.");
@@ -126,6 +134,7 @@ export const ShippingCalculator = ({
 
       setLocalShipments(nextShipments);
       setErrors(nextErrors);
+      setWarnings(nextWarnings);
       setShipments(nextShipments, mode);
 
       if (nextShipments.length > 0) {
@@ -143,9 +152,37 @@ export const ShippingCalculator = ({
       setMessage("Erro inesperado ao calcular. Tente novamente.");
       setLocalShipments([]);
       setErrors([]);
+      setWarnings([]);
     } finally {
       setLoading(false);
     }
+  }, [anonId, cartId, cartItems.length, cep, mode, setShippingCep, setShipments]);
+
+  const handleSelectOption = (sellerId: string, option: ShippingOption) => {
+    setLocalShipments((current) => {
+      const nextShipments = current.map((shipment) =>
+        shipment.sellerId === sellerId
+          ? {
+              ...shipment,
+              ...option
+            }
+          : shipment
+      );
+
+      setShipments(nextShipments, mode);
+
+      void trackEvent({
+        type: "select_shipping",
+        metadata: {
+          sellerId,
+          serviceId: option.serviceId,
+          carrier: option.carrier,
+          price: option.price
+        }
+      });
+
+      return nextShipments;
+    });
   };
 
   useEffect(() => {
@@ -156,7 +193,7 @@ export const ShippingCalculator = ({
     if (autoKeyRef.current === key) return;
     autoKeyRef.current = key;
     void handleQuote(cleanedCep);
-  }, [autoQuote, cep, shippingCep, itemsKey, cartItems.length]);
+  }, [autoQuote, cep, shippingCep, itemsKey, cartItems.length, handleQuote]);
 
   return (
     <div
@@ -180,6 +217,15 @@ export const ShippingCalculator = ({
           >
             Calcular frete
           </h3>
+          <div
+            className={`mt-3 flex flex-col gap-1 text-xs ${
+              isLight ? "text-bpGraphite/75" : "text-bpPinkSoft/70"
+            }`}
+          >
+            <span>Frete calculado com transportadoras parceiras</span>
+            <span>Entrega rastreavel</span>
+            <span>Opcoes economicas e expressas</span>
+          </div>
         </div>
       </div>
 
@@ -231,6 +277,20 @@ export const ShippingCalculator = ({
         </div>
       ) : null}
 
+      {warnings.length > 0 ? (
+        <div
+          className={`mt-4 space-y-2 rounded-2xl border px-4 py-3 text-xs ${
+            isLight
+              ? "border-amber-200 bg-amber-50 text-amber-800"
+              : "border-amber-500/30 bg-amber-500/10 text-amber-100"
+          }`}
+        >
+          {warnings.map((warning) => (
+            <p key={warning}>{warning}</p>
+          ))}
+        </div>
+      ) : null}
+
       {shipments.length > 0 ? (
         <div className="mt-5 space-y-3">
           <p
@@ -240,30 +300,107 @@ export const ShippingCalculator = ({
           >
             Opções encontradas
           </p>
-          {shipments.map((shipment) => (
-            <div
-              key={`${shipment.sellerId}-${shipment.serviceId}`}
-              className={`flex flex-col gap-1 rounded-2xl border px-4 py-3 text-sm ${
-                isLight
-                  ? "border-slate-200 bg-white"
-                  : "border-white/10 bg-bpBlackSoft/40"
-              }`}
-            >
-              <span
-                className={`font-medium ${
-                  isLight ? "text-bpBlackSoft" : "text-bpOffWhite"
+          {shipments.map((shipment) => {
+            const options =
+              shipment.availableOptions && shipment.availableOptions.length > 0
+                ? shipment.availableOptions
+                : [
+                    {
+                      serviceName: shipment.serviceName,
+                      price: shipment.price,
+                      deliveryTimeDays: shipment.deliveryTimeDays,
+                      carrier: shipment.carrier,
+                      serviceId: shipment.serviceId,
+                      badge: shipment.badge
+                    }
+                  ];
+
+            return (
+              <div
+                key={`${shipment.sellerId}-${shipment.serviceId}`}
+                className={`rounded-2xl border px-4 py-4 text-sm ${
+                  isLight
+                    ? "border-slate-200 bg-white"
+                    : "border-white/10 bg-bpBlackSoft/40"
                 }`}
               >
-                {shipment.sellerName} • {shipment.carrier}
-              </span>
-              <span className={isLight ? "text-bpGraphite/80" : "text-bpPinkSoft/70"}>
-                {shipment.serviceName} • {shipment.originCep} → {shipment.destinationCep}
-              </span>
-              <span className={isLight ? "text-bpBlackSoft" : "text-bpOffWhite"}>
-                {formatPrice(shipment.price)} • {shipment.deliveryTimeDays} dia(s)
-              </span>
-            </div>
-          ))}
+                <div className="flex flex-col gap-1">
+                  <span
+                    className={`font-medium ${
+                      isLight ? "text-bpBlackSoft" : "text-bpOffWhite"
+                    }`}
+                  >
+                    {shipment.sellerName}
+                  </span>
+                  <span className={isLight ? "text-bpGraphite/80" : "text-bpPinkSoft/70"}>
+                    {shipment.originCep} → {shipment.destinationCep}
+                  </span>
+                </div>
+
+                <div className="mt-3 space-y-2">
+                  {options.map((option) => {
+                    const selected = shipment.serviceId === option.serviceId;
+
+                    return (
+                      <button
+                        key={`${shipment.sellerId}-${option.serviceId}`}
+                        type="button"
+                        onClick={() => handleSelectOption(shipment.sellerId, option)}
+                        className={`flex w-full items-center justify-between gap-3 rounded-2xl border px-4 py-3 text-left transition ${
+                          selected
+                            ? isLight
+                              ? "border-bpPink/40 bg-bpPink/5"
+                              : "border-bpPink/40 bg-bpPink/10"
+                            : isLight
+                              ? "border-slate-200 bg-[#fcf9f8]"
+                              : "border-white/10 bg-black/10"
+                        }`}
+                        aria-label={`Selecionar ${option.serviceName} da ${option.carrier}`}
+                      >
+                        <div className="min-w-0">
+                          <div className="flex flex-wrap items-center gap-2">
+                            <span
+                              className={`font-medium ${
+                                isLight ? "text-bpBlackSoft" : "text-bpOffWhite"
+                              }`}
+                            >
+                              {option.carrier} • {option.serviceName}
+                            </span>
+                            {option.badge ? (
+                              <span
+                                className={`rounded-full px-2 py-1 text-[10px] uppercase tracking-[0.2em] ${
+                                  isLight
+                                    ? "bg-bpPink/10 text-bpPink"
+                                    : "bg-bpPink/20 text-bpPinkSoft"
+                                }`}
+                              >
+                                {option.badge}
+                              </span>
+                            ) : null}
+                          </div>
+                          <p
+                            className={`mt-1 text-xs ${
+                              isLight ? "text-bpGraphite/80" : "text-bpPinkSoft/70"
+                            }`}
+                          >
+                            {option.deliveryTimeDays} dia(s) •{" "}
+                            {shipment.provider ?? "provider logistico"}
+                          </p>
+                        </div>
+                        <span
+                          className={`shrink-0 font-medium ${
+                            isLight ? "text-bpBlackSoft" : "text-bpOffWhite"
+                          }`}
+                        >
+                          {formatPrice(option.price)}
+                        </span>
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+            );
+          })}
         </div>
       ) : null}
     </div>

@@ -1,0 +1,350 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e3]:
+    - banner [ref=e4]:
+      - generic [ref=e5]:
+        - generic [ref=e6]:
+          - navigation [ref=e7]:
+            - link "Loja" [ref=e8] [cursor=pointer]:
+              - /url: /catalogo
+              - text: Loja
+            - link "Universos" [ref=e10] [cursor=pointer]:
+              - /url: /universos
+              - text: Universos
+            - link "Skin Scan" [ref=e11] [cursor=pointer]:
+              - /url: /skin-scan
+              - text: Skin Scan
+            - link "PopClub" [ref=e12] [cursor=pointer]:
+              - /url: /popclub
+              - text: PopClub
+            - link "Guias" [ref=e13] [cursor=pointer]:
+              - /url: /guias
+              - text: Guias
+          - link "BelaPop" [ref=e14] [cursor=pointer]:
+            - /url: /
+          - generic [ref=e15]:
+            - button "Buscar produtos" [ref=e16] [cursor=pointer]:
+              - img [ref=e17]
+            - link "Entrar" [ref=e20] [cursor=pointer]:
+              - /url: /login?tab=customer&returnTo=%2Fconta
+              - img [ref=e21]
+            - link "Sacola" [ref=e24] [cursor=pointer]:
+              - /url: /carrinho
+              - img [ref=e25]
+        - generic [ref=e29]:
+          - link "Skincare" [ref=e30] [cursor=pointer]:
+            - /url: /skincare
+            - text: Skincare
+          - link "Maquiagem" [ref=e32] [cursor=pointer]:
+            - /url: /maquiagem
+            - text: Maquiagem
+          - link "Cabelos" [ref=e33] [cursor=pointer]:
+            - /url: /cabelos
+            - text: Cabelos
+          - link "Perfumes" [ref=e34] [cursor=pointer]:
+            - /url: /perfumes
+            - text: Perfumes
+    - main [ref=e35]:
+      - generic [ref=e37]:
+        - generic [ref=e38]:
+          - img "Serum Radiance 01 - imagem 1" [ref=e40]
+          - generic [ref=e41]:
+            - button "Selecionar imagem 1" [ref=e42] [cursor=pointer]:
+              - img "Serum Radiance 01 - imagem 1" [ref=e43]
+            - button "Selecionar imagem 2" [ref=e44] [cursor=pointer]:
+              - img "Serum Radiance 01 - imagem 2" [ref=e45]
+            - button "Selecionar imagem 3" [ref=e46] [cursor=pointer]:
+              - img "Serum Radiance 01 - imagem 3" [ref=e47]
+            - button "Selecionar imagem 4" [ref=e48] [cursor=pointer]:
+              - img "Serum Radiance 01 - imagem 4" [ref=e49]
+        - generic [ref=e51]:
+          - generic [ref=e52]:
+            - generic [ref=e53]:
+              - img [ref=e54]
+              - img [ref=e56]
+              - img [ref=e58]
+              - img [ref=e60]
+              - img [ref=e62]
+            - generic [ref=e64]: 4.9 (120 avaliacoes)
+          - generic [ref=e65]:
+            - heading "Serum Radiance 01" [level=1] [ref=e66]
+            - paragraph [ref=e67]: Tratamento diario com textura leve e acabamento luminoso.
+          - generic [ref=e68]:
+            - paragraph [ref=e69]: R$ 289,00
+            - paragraph [ref=e70]: Em ate 6x de R$ 48,17 sem juros
+          - generic [ref=e71]:
+            - button "Adicionar ao carrinho" [ref=e72] [cursor=pointer]
+            - button "Comprar agora" [ref=e73] [cursor=pointer]
+          - generic [ref=e74]:
+            - generic [ref=e75]:
+              - paragraph [ref=e76]: Origem da venda
+              - paragraph [ref=e77]: Marketplace curado BelaPop
+            - generic [ref=e78]:
+              - paragraph [ref=e79]: Vendido por
+              - paragraph [ref=e80]: BelaPop Curadoria
+            - generic [ref=e81]:
+              - paragraph [ref=e82]: Pos-venda e responsabilidade
+              - paragraph [ref=e83]: Envio e pos-venda conduzidos por BelaPop Curadoria, com acompanhamento pela BelaPop.
+          - generic [ref=e84]:
+            - generic [ref=e85]:
+              - generic [ref=e86]:
+                - img [ref=e87]
+                - text: Produto Autentico
+              - generic [ref=e90]:
+                - img [ref=e91]
+                - text: Seller Verificado
+              - generic [ref=e96]:
+                - img [ref=e97]
+                - text: Envio Premium
+              - generic [ref=e102]:
+                - img [ref=e103]
+                - text: Curadoria BelaPop
+            - generic [ref=e105]:
+              - img [ref=e106]
+              - generic [ref=e109]:
+                - paragraph [ref=e110]: Produto Autentico
+                - paragraph [ref=e111]: Origem validada com NF
+            - generic [ref=e112]:
+              - region "Politica de envio" [ref=e113]:
+                - generic [ref=e114]:
+                  - img [ref=e116]
+                  - generic [ref=e121]:
+                    - paragraph [ref=e122]: Envio
+                    - 'heading "SLA de postagem: ate 24h" [level=3] [ref=e123]'
+                    - paragraph [ref=e124]: Envio com rastreio, embalagem protegida e SLA maximo de 24h.
+                - generic [ref=e125]:
+                  - generic [ref=e126]:
+                    - img [ref=e127]
+                    - text: 2 a 5 dias uteis
+                  - generic [ref=e132]:
+                    - img [ref=e133]
+                    - text: Sudeste, Sul, Centro-Oeste
+              - region "Politica de devolucao" [ref=e136]:
+                - generic [ref=e137]:
+                  - img [ref=e139]
+                  - generic [ref=e142]:
+                    - paragraph [ref=e143]: Devolucao
+                    - heading "7 dias para solicitar" [level=3] [ref=e144]
+                    - paragraph [ref=e145]: Devolucao orientada por concierge e conferida por lote.
+                - generic [ref=e146]:
+                  - img [ref=e147]
+                  - text: Etiqueta reversa emitida pelo atendimento BelaPop.
+          - region "Sinais de confianca de compra" [ref=e150]:
+            - paragraph [ref=e151]: Compra com contexto
+            - heading "Autenticidade, curadoria, entrega, pos-venda e pagamento visiveis antes da decisao." [level=3] [ref=e152]
+            - generic [ref=e153]:
+              - article [ref=e154]:
+                - generic [ref=e155]:
+                  - img [ref=e157]
+                  - paragraph [ref=e160]: Autenticidade
+                - paragraph [ref=e161]: Seller identificado, procedencia declarada e item original com controle de origem antes da compra.
+              - article [ref=e162]:
+                - generic [ref=e163]:
+                  - img [ref=e165]
+                  - paragraph [ref=e167]: Curadoria BelaPop
+                - paragraph [ref=e168]: A selecao editorial deixa claro por que o item entrou na vitrine e em qual contexto ele faz sentido.
+              - article [ref=e169]:
+                - generic [ref=e170]:
+                  - img [ref=e172]
+                  - paragraph [ref=e177]: Envio com rastreio
+                - paragraph [ref=e178]: Prazo consolidado no pedido e acompanhamento de rastreio assim que a expedicao e liberada.
+              - article [ref=e179]:
+                - generic [ref=e180]:
+                  - img [ref=e182]
+                  - paragraph [ref=e185]: Troca facilitada
+                - paragraph [ref=e186]: Fluxo de troca, devolucao ou estorno com protocolo, historico e acompanhamento no pos-venda.
+              - article [ref=e187]:
+                - generic [ref=e188]:
+                  - img [ref=e190]
+                  - paragraph [ref=e193]: Concierge
+                - paragraph [ref=e194]: Suporte humano e contextual para compra, pedido, entrega e pos-venda sem perder o historico.
+              - article [ref=e195]:
+                - generic [ref=e196]:
+                  - img [ref=e198]
+                  - paragraph [ref=e200]: Pagamento seguro
+                - paragraph [ref=e201]: Cobranca condicionada a validacao do backend, antifraude e meios realmente disponiveis para o pedido.
+          - generic [ref=e203]:
+            - generic [ref=e204]:
+              - paragraph [ref=e205]: Consultora BelaPop
+              - heading "Complete a rotina com inteligência" [level=3] [ref=e206]
+              - paragraph [ref=e207]: Eu uso este item como ponto de partida para sugerir os próximos passos com mais coerência e menos excesso.
+            - button "Receber orientação" [ref=e208] [cursor=pointer]
+          - generic [ref=e209]:
+            - paragraph [ref=e210]: Por que a BelaPop selecionou
+            - list [ref=e211]:
+              - listitem [ref=e212]:
+                - img [ref=e213]
+                - text: Hidratacao imediata com conforto durante o dia.
+              - listitem [ref=e215]:
+                - img [ref=e216]
+                - text: Textura leve que encaixa facil na rotina.
+              - listitem [ref=e218]:
+                - img [ref=e219]
+                - text: Acabamento luminoso sem pesar na pele.
+      - generic [ref=e222]:
+        - generic [ref=e223]:
+          - generic [ref=e224]:
+            - paragraph [ref=e225]: Recomendacao
+            - heading "Para quem é indicado" [level=2] [ref=e226]
+            - paragraph [ref=e227]: Analise de contexto para uma rotina com aplicacao simples e consistente.
+          - generic [ref=e228]:
+            - generic [ref=e229]: 92%
+            - generic [ref=e230]: Compatibilidade
+        - generic [ref=e231]:
+          - article [ref=e232]:
+            - heading "Alinhado ao seu tipo de pele" [level=3] [ref=e233]
+            - paragraph [ref=e234]: Formula de absorcao leve para manter consistencia no uso diario.
+          - article [ref=e235]:
+            - heading "Melhora de textura" [level=3] [ref=e236]
+            - paragraph [ref=e237]: Aplicacao uniforme para reduzir aspecto irregular e reforcar maciez.
+          - article [ref=e238]:
+            - heading "Encaixe na sua rotina" [level=3] [ref=e239]
+            - paragraph [ref=e240]: Uso simples em poucos passos, sem aumentar complexidade.
+      - generic [ref=e242]:
+        - heading "Beneficios" [level=2] [ref=e243]
+        - generic [ref=e244]:
+          - article [ref=e245]:
+            - img [ref=e246]
+            - heading "Hidratacao" [level=3] [ref=e249]
+          - article [ref=e250]:
+            - img [ref=e251]
+            - heading "Luminosidade" [level=3] [ref=e257]
+          - article [ref=e258]:
+            - img [ref=e259]
+            - heading "Textura" [level=3] [ref=e263]
+          - article [ref=e264]:
+            - img [ref=e265]
+            - heading "Conforto" [level=3] [ref=e267]
+      - generic [ref=e269]:
+        - heading "Como usar" [level=2] [ref=e270]
+        - generic [ref=e271]:
+          - article [ref=e272]:
+            - paragraph [ref=e273]: "01"
+            - paragraph [ref=e274]: Aplique sobre pele limpa.
+          - article [ref=e275]:
+            - paragraph [ref=e276]: "02"
+            - paragraph [ref=e277]: Distribua em camada uniforme.
+          - article [ref=e278]:
+            - paragraph [ref=e279]: "03"
+            - paragraph [ref=e280]: Repita conforme orientacao de uso do produto.
+      - generic [ref=e282]:
+        - generic [ref=e283]:
+          - generic [ref=e284]:
+            - heading "Avaliacoes" [level=2] [ref=e285]
+            - paragraph [ref=e286]: Nota media 4.9 baseada em 120 avaliacoes
+          - generic [ref=e287]:
+            - img [ref=e288]
+            - img [ref=e290]
+            - img [ref=e292]
+            - img [ref=e294]
+            - img [ref=e296]
+        - generic [ref=e298]:
+          - article [ref=e299]:
+            - paragraph [ref=e300]: “Textura leve, absorcao rapida e acabamento luminoso.”
+            - paragraph [ref=e301]: Mariana S.
+          - article [ref=e302]:
+            - paragraph [ref=e303]: “Produto consistente no uso diario, facil de combinar com outros passos.”
+            - paragraph [ref=e304]: Clara P.
+          - article [ref=e305]:
+            - paragraph [ref=e306]: “Entrega no prazo informado e produto em embalagem original.”
+            - paragraph [ref=e307]: Beatriz M.
+      - generic [ref=e309]:
+        - heading "Perguntas frequentes" [level=2] [ref=e310]
+        - generic [ref=e311]:
+          - group [ref=e312]:
+            - generic "O produto e original?" [ref=e313]:
+              - generic [ref=e314]: O produto e original?
+              - img [ref=e315]
+          - group [ref=e317]:
+            - generic "Qual o prazo de entrega?" [ref=e318]:
+              - generic [ref=e319]: Qual o prazo de entrega?
+              - img [ref=e320]
+          - group [ref=e322]:
+            - generic "Posso usar com outros ativos?" [ref=e323]:
+              - generic [ref=e324]: Posso usar com outros ativos?
+              - img [ref=e325]
+          - group [ref=e327]:
+            - generic "Como funciona devolucao?" [ref=e328]:
+              - generic [ref=e329]: Como funciona devolucao?
+              - img [ref=e330]
+        - paragraph [ref=e332]:
+          - text: Mais detalhes na
+          - link "politica da plataforma" [ref=e333] [cursor=pointer]:
+            - /url: /politica-de-cookies
+          - text: .
+    - contentinfo [ref=e334]:
+      - generic [ref=e335]:
+        - generic [ref=e336]:
+          - heading "BelaPop" [level=2] [ref=e337]
+          - paragraph [ref=e338]: Skincare guided by your skin.
+        - generic [ref=e339]:
+          - heading "Compre com confianca" [level=3] [ref=e340]
+          - generic [ref=e341]:
+            - generic [ref=e342]:
+              - img [ref=e344]
+              - generic [ref=e347]: Produtos autenticos
+            - generic [ref=e348]:
+              - img [ref=e350]
+              - generic [ref=e353]: Pagamentos seguros
+            - generic [ref=e354]:
+              - img [ref=e356]
+              - generic [ref=e361]: Envio com rastreio
+            - generic [ref=e362]:
+              - img [ref=e364]
+              - generic [ref=e369]: Devolucao facil
+            - generic [ref=e370]:
+              - img [ref=e372]
+              - generic [ref=e374]: Selecao curada
+            - generic [ref=e375]:
+              - img [ref=e377]
+              - generic [ref=e380]: Suporte concierge
+        - generic [ref=e381]:
+          - generic [ref=e382]:
+            - heading "Institucional" [level=4] [ref=e383]
+            - generic [ref=e384]:
+              - link "Sobre a BelaPop" [ref=e385] [cursor=pointer]:
+                - /url: /sobre
+              - link "Seguranca" [ref=e386] [cursor=pointer]:
+                - /url: /seguranca
+              - link "Fale conosco" [ref=e387] [cursor=pointer]:
+                - /url: /contato
+          - generic [ref=e388]:
+            - heading "Legal" [level=4] [ref=e389]
+            - generic [ref=e390]:
+              - link "Aviso de Privacidade" [ref=e391] [cursor=pointer]:
+                - /url: /aviso-de-privacidade
+              - link "Termos e Condicoes" [ref=e392] [cursor=pointer]:
+                - /url: /termos-e-condicoes
+              - link "Politica de Cookies" [ref=e393] [cursor=pointer]:
+                - /url: /politica-de-cookies
+              - button "Personalizar cookies" [ref=e394] [cursor=pointer]
+        - generic [ref=e395]:
+          - generic [ref=e396]:
+            - heading "63.945.608 GIOVANNA DE SOUSA FERREIRA SANTOS" [level=5] [ref=e397]
+            - generic [ref=e398]:
+              - generic [ref=e399]: CNPJ 63.945.608/0001-09
+              - generic [ref=e400]: Rua Coromandel, 189 - Araguari - Minas Gerais - Brasil
+          - 'link "Canal de Privacidade / Solicitacao de Dados: privacidade@belapopoficial.com.br" [ref=e401] [cursor=pointer]':
+            - /url: mailto:privacidade@belapopoficial.com.br
+        - generic [ref=e402]:
+          - link "Instagram" [ref=e403] [cursor=pointer]:
+            - /url: https://instagram.com/belapop.oficial
+            - img [ref=e404]
+          - link "TikTok" [ref=e406] [cursor=pointer]:
+            - /url: https://tiktok.com/@belapop.oficial
+            - img [ref=e407]
+          - link "Facebook" [ref=e409] [cursor=pointer]:
+            - /url: https://facebook.com/belapopoficial
+            - img [ref=e410]
+          - link "WhatsApp" [ref=e412] [cursor=pointer]:
+            - /url: https://wa.me/5534999999999
+            - img [ref=e413]
+        - generic [ref=e415]:
+          - paragraph [ref=e416]: © BelaPop 2026 - Todos os direitos reservados
+          - generic [ref=e417]: Brasil
+  - button "Abrir Consultora BelaPop" [ref=e418] [cursor=pointer]:
+    - img [ref=e420]
+    - generic [ref=e422]:
+      - generic [ref=e423]: Precisa de ajuda?
+      - generic [ref=e424]: Rotina, presente ou recompra
+  - button "Open Next.js Dev Tools" [ref=e430] [cursor=pointer]:
+    - img [ref=e431]

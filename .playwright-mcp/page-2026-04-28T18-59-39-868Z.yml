@@ -1,0 +1,10 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e5]:
+    - paragraph [ref=e6]: Skin Scan BelaPop
+    - heading "Vamos iniciar sua leitura visual." [level=1] [ref=e7]
+    - paragraph [ref=e8]: Usaremos sua câmera apenas para analisar sinais visuais da pele e personalizar sua rotina BelaPop.
+    - paragraph [ref=e9]: A imagem não será usada para identificar você e esta leitura não substitui avaliação dermatológica.
+    - generic [ref=e10]:
+      - button "Entendi e quero iniciar" [ref=e11] [cursor=pointer]
+      - button "Voltar" [ref=e12] [cursor=pointer]
+  - alert [ref=e13]

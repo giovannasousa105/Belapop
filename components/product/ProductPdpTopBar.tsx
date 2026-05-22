@@ -74,7 +74,7 @@ export function ProductPdpTopBar({ activeSection }: { activeSection: HeaderSecti
         <div className="flex items-center gap-1 lg:hidden">
           <Link
             href="/carrinho"
-            aria-label="Abrir sacola"
+            aria-label="Abrir carrinho"
             className="inline-flex h-11 w-11 items-center justify-center text-[#1c1b1b]"
           >
             <ShoppingBag className="h-5 w-5" />
@@ -123,7 +123,7 @@ export function ProductPdpTopBar({ activeSection }: { activeSection: HeaderSecti
             </Link>
             <Link
               href="/carrinho"
-              aria-label="Sacola"
+              aria-label="Carrinho"
               className="inline-flex h-10 w-10 items-center justify-center"
             >
               <ShoppingBag className="h-4.5 w-4.5" />

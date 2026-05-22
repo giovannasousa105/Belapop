@@ -32,7 +32,12 @@ export const isInternalJobAuthorized = (request: NextRequest) => {
     request.headers.get("authorization")?.replace(/^Bearer\s+/i, "") ??
     "";
   const headerSecret = headerSecretRaw.trim();
-  const expectedRaw = process.env.INTERNAL_JOB_SECRET ?? process.env.CRON_JOB_SECRET ?? "";
+  const expectedRaw =
+    process.env.INTERNAL_JOBS_SECRET ??
+    process.env.INTERNAL_JOB_SECRET ??
+    process.env.CRON_JOB_SECRET ??
+    process.env.CRON_SECRET ??
+    "";
   const expected = expectedRaw.trim();
   return Boolean(expected) && headerSecret === expected;
 };

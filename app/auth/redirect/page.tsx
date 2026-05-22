@@ -1,5 +1,6 @@
 import { redirect } from "next/navigation";
 
+import { normalizeReturnTo } from "@/lib/auth/redirects";
 import { resolveUserRoleState, setActiveLegacyRole } from "@/lib/auth/roleState";
 import { getSupabaseAdminClient } from "@/lib/supabase/admin";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
@@ -22,6 +23,7 @@ function normalizeAudience(value: string | undefined): Audience {
 export default async function AuthRedirectPage({ searchParams }: PageProps) {
   const params = (await searchParams) ?? {};
   const audience = normalizeAudience(firstValue(params.audience));
+  const returnTo = normalizeReturnTo(firstValue(params.returnTo), audience === "partner" ? "/parceiro" : "/conta");
   const supabase = await createSupabaseServerClient();
   const admin = getSupabaseAdminClient();
 
@@ -30,7 +32,7 @@ export default async function AuthRedirectPage({ searchParams }: PageProps) {
   } = await supabase.auth.getUser();
 
   if (!user) {
-    redirect(`/login?tab=${audience}&auth_error=1`);
+    redirect(`/login?tab=${audience}&auth_error=1&returnTo=${encodeURIComponent(returnTo)}`);
   }
 
   const roleState = await resolveUserRoleState({
@@ -64,7 +66,7 @@ export default async function AuthRedirectPage({ searchParams }: PageProps) {
 
   if (hasCustomer) {
     await setActiveLegacyRole({ userId: user.id, role: "customer", admin });
-    redirect("/conta");
+    redirect(returnTo);
   }
 
   if (hasAdmin) {

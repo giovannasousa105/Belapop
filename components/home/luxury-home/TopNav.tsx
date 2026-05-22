@@ -29,7 +29,7 @@ const popClubDrawerItems = [
     eyebrow: "Skin Scan + clube",
     label: "Rotina personalizada",
     href: popClubPaths.routine,
-    description: "Conecte o diagnostico da pele com uma rotina editorial de alto toque."
+    description: "Conecte a leitura da pele com uma rotina editorial de alto toque."
   }
 ] as const;
 

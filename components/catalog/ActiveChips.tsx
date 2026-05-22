@@ -44,7 +44,7 @@ export function ActiveChips() {
   if (q) chips.push({ key: "q", label: `Busca: ${q}` });
   if (ritual) chips.push({ key: "ritual", label: ritual });
   if (texture) chips.push({ key: "texture", label: texture });
-  if (collection) chips.push({ key: "collection", label: `Colecao: ${prettifySlug(collection)}` });
+  if (collection) chips.push({ key: "collection", label: `Coleção: ${prettifySlug(collection)}` });
   if (origin) chips.push({ key: "origin", label: `Origem: ${prettifySlug(origin)}` });
   if (ingredient) chips.push({ key: "ingredient", label: `Ingrediente: ${prettifySlug(ingredient)}` });
   if (stock === "1") chips.push({ key: "stock", label: "Em estoque" });

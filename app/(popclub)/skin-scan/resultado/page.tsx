@@ -5,7 +5,7 @@ import SkinScanResultExperience from "@/components/popclub/skin-scan/SkinScanRes
 export const metadata: Metadata = {
   title: "Resultado | Skin Scan BelaPop",
   description:
-    "Leitura mobile first do Skin Scan BelaPop com resumo imediato do diagnostico e rotina sugerida."
+    "Leitura mobile first do Skin Scan BelaPop com resumo imediato da leitura da pele e rotina sugerida."
 };
 
 export default function SkinScanResultPage() {

@@ -30,8 +30,8 @@ export default function SkinScanCaptureExperience() {
 
               <p className="max-w-md text-lg font-light leading-relaxed text-[#444748]">
                 Posicione seu rosto dentro da moldura para uma analise profunda. A IA identifica
-                textura, niveis de hidratacao e sinais sutis que orientam a proxima etapa do
-                diagnostico.
+                textura, niveis de hidratacao e sinais sutis que orientam a proxima etapa da
+                leitura.
               </p>
 
               <div className="flex flex-col gap-4 pt-4 sm:flex-row sm:flex-wrap">

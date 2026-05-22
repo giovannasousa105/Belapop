@@ -11,6 +11,7 @@ const sanitizeCep = (value: string) => value.replace(/\D/g, "");
 
 const PRODUCT_SELECT =
   "id,name,price_cents,currency,category,description,images,status,created_at,updated_at,seller_id,weight_kg,width_cm,height_cm,length_cm,highlights,image_tone,is_featured,stock_quantity";
+const SELLABLE_SELLER_STATUSES = new Set(["active", "approved"]);
 
 const toAmount = (value: number) => Number((value / 100).toFixed(2));
 
@@ -87,8 +88,9 @@ export async function POST(request: Request) {
       .in("id", productIds);
 
     if (productLookup.error) {
+      console.error("[shipping/quote] product lookup failed", productLookup.error.message);
       return NextResponse.json(
-        { error: `Falha ao carregar produtos: ${productLookup.error.message}` },
+        { error: "Não foi possivel validar os produtos para o calculo de frete." },
         { status: 500 }
       );
     }
@@ -103,7 +105,69 @@ export async function POST(request: Request) {
     const missingProducts = cart.items.filter((item) => !productMap.has(item.productId));
     if (missingProducts.length > 0) {
       return NextResponse.json(
-        { error: "Um ou mais produtos nao foram encontrados no catalogo." },
+        { error: "Um ou mais produtos não foram encontrados no catalogo." },
+        { status: 400 }
+      );
+    }
+
+    const unavailableItem = cart.items.find((item) => {
+      const product = productMap.get(item.productId);
+      if (!product) return true;
+      const unitPriceCents = Math.round(product.price * 100);
+      const stockQuantity = product.stockQuantity;
+      return (
+        product.status !== "published" ||
+        unitPriceCents <= 0 ||
+        (typeof stockQuantity === "number" &&
+          Number.isFinite(stockQuantity) &&
+          stockQuantity < item.quantity)
+      );
+    });
+
+    if (unavailableItem) {
+      return NextResponse.json(
+        { error: "Um ou mais produtos não estao disponiveis para envio." },
+        { status: 400 }
+      );
+    }
+
+    const sellerIds = Array.from(
+      new Set(Array.from(productMap.values()).map((product) => product.sellerId).filter(Boolean))
+    );
+    const sellerLookup = await admin
+      .from("sellers")
+      .select("id,store_name,status")
+      .in("id", sellerIds);
+
+    if (sellerLookup.error) {
+      console.error("[shipping/quote] seller lookup failed", sellerLookup.error.message);
+      return NextResponse.json(
+        { error: "Não foi possivel validar as lojas parceiras para o calculo de frete." },
+        { status: 500 }
+      );
+    }
+
+    const sellerMap = new Map(
+      (sellerLookup.data ?? []).map((seller) => [
+        String(seller.id),
+        {
+          storeName: String(seller.store_name ?? "Loja parceira"),
+          status: String(seller.status ?? "draft")
+        }
+      ])
+    );
+
+    const invalidSellerId = sellerIds.find((sellerId) => {
+      const seller = sellerMap.get(sellerId);
+      return !seller || !SELLABLE_SELLER_STATUSES.has(seller.status);
+    });
+
+    if (invalidSellerId) {
+      const seller = sellerMap.get(invalidSellerId);
+      return NextResponse.json(
+        {
+          error: `A loja ${seller?.storeName ?? "parceira"} não esta disponivel para envio.`
+        },
         { status: 400 }
       );
     }
@@ -143,14 +207,16 @@ export async function POST(request: Request) {
           console.error("[shipping/quote]", error);
           return {
             sellerId,
-            error: "Nao foi possivel calcular o envio desta loja.",
+            error: "Não foi possivel calcular o envio desta loja.",
             errorCode: "SHIPPING_QUOTE_FAILED"
           };
         }
       })
     );
 
-    const shipments = results.map((result) => result.shipment).filter(Boolean);
+    const shipments = results
+      .map((result) => result.shipment)
+      .filter((shipment): shipment is NonNullable<typeof shipment> => Boolean(shipment));
 
     const errors = results
       .filter((result) => result.error)
@@ -166,12 +232,22 @@ export async function POST(request: Request) {
       0
     );
 
+    const warnings = shipments.flatMap((shipment) => {
+      if (shipment.quoteMode === "fallback") {
+        return [`${shipment.sellerName}: frete estimado. O prazo final sera confirmado no pedido.`];
+      }
+      if (shipment.quoteMode === "sandbox") {
+        return [`${shipment.sellerName}: frete estimado. O prazo final sera confirmado no pedido.`];
+      }
+      return [];
+    });
+
     const hasConfigError = errors.some(
       (error) => error.code === "SHIPPING_PROVIDER_NOT_CONFIGURED"
     );
 
     return NextResponse.json(
-      { shipments, totalShipping, errors },
+      { shipments, totalShipping, errors, warnings },
       { status: hasConfigError ? 503 : 200 }
     );
   } catch (error) {
@@ -191,7 +267,7 @@ export async function POST(request: Request) {
 
     console.error("[shipping/quote]", error);
     return NextResponse.json(
-      { error: "Nao foi possivel calcular o frete agora." },
+      { error: "Não foi possivel calcular o frete agora." },
       { status: 500 }
     );
   }

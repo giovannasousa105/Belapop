@@ -46,6 +46,8 @@ type SessionDraftInput = {
   idempotencyKey: string;
   cartHash: string;
   addressHash: string;
+  requestedCreditCents: number;
+  creditAppliedCents: number;
   paymentMethodPreference: CheckoutPaymentMethodPreference;
   currency: string;
   meta: CheckoutRequestMeta;
@@ -59,6 +61,7 @@ type SessionReservationInput = {
   idempotencyKey: string;
   cartHash: string;
   addressHash: string;
+  requestedCreditCents: number;
   paymentMethodPreference: CheckoutPaymentMethodPreference;
   currency: string;
   meta: CheckoutRequestMeta;
@@ -125,8 +128,13 @@ export const buildCheckoutIdempotencyKey = (input: {
   paymentMethodPreference: CheckoutPaymentMethodPreference;
   cartHash: string;
   addressHash: string;
+  requestedCreditCents?: number | null;
 }) => {
   const bucket = Math.floor(Date.now() / (IDEMPOTENCY_WINDOW_MINUTES * 60 * 1000));
+  const requestedCreditCents =
+    typeof input.requestedCreditCents === "number" && Number.isFinite(input.requestedCreditCents)
+      ? Math.max(0, Math.round(input.requestedCreditCents))
+      : 0;
   return buildDeterministicKey([
     "checkout.payment_intent",
     input.customerId,
@@ -134,6 +142,7 @@ export const buildCheckoutIdempotencyKey = (input: {
     input.paymentMethodPreference,
     input.cartHash,
     input.addressHash,
+    String(requestedCreditCents),
     String(bucket)
   ]);
 };
@@ -299,6 +308,8 @@ export const persistCheckoutSessionDraft = async (input: SessionDraftInput) => {
       .update({
         order_id: input.orderId,
         currency: input.currency.toUpperCase(),
+        requested_credit_cents: Math.max(0, Math.round(input.requestedCreditCents)),
+        credit_applied_cents: Math.max(0, Math.round(input.creditAppliedCents)),
         risk_score: input.risk.score,
         risk_tier: input.risk.tier,
         risk_flags: input.risk.flags,
@@ -387,6 +398,7 @@ export const reserveCheckoutSession = async (input: SessionReservationInput) => 
         idempotency_key: input.idempotencyKey,
         cart_hash: input.cartHash,
         address_hash: input.addressHash,
+        requested_credit_cents: Math.max(0, Math.round(input.requestedCreditCents)),
         payment_method_preference: input.paymentMethodPreference,
         currency: input.currency.toUpperCase(),
         request_ip: input.meta.ipAddress,

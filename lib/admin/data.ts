@@ -1,5 +1,28 @@
 import { getSupabaseServerClient } from "@/lib/supabaseServer";
 
+type SupabaseErrorLike = {
+  code?: string | null;
+  message?: string | null;
+};
+
+const MISSING_SCHEMA_ERROR_CODES = new Set(["42P01", "42703", "PGRST204", "PGRST205"]);
+
+const isMissingSchemaError = (error: SupabaseErrorLike | null | undefined) => {
+  if (!error) return false;
+
+  if (error.code && MISSING_SCHEMA_ERROR_CODES.has(error.code)) {
+    return true;
+  }
+
+  const message = String(error.message ?? "").toLowerCase();
+  return (
+    message.includes("could not find the table") ||
+    message.includes("schema cache") ||
+    message.includes("relation") ||
+    message.includes("does not exist")
+  );
+};
+
 export type AdminDashboardSummary = {
   gmv: number;
   commissionRate: number;
@@ -65,13 +88,18 @@ export async function fetchDashboardSummary(): Promise<AdminDashboardSummary> {
     .in("status", ["review"]);
   const pendingProducts = products?.length ?? 0;
 
-  const { data: settings } = await supabase
+  const { data: settings, error: settingsError } = await supabase
     .from("admin_settings")
     .select("value")
     .eq("key", "commission_rate")
     .maybeSingle();
 
-  const commissionRate = settings ? Number(settings.value) / 100 : 0.05;
+  const commissionRate =
+    settingsError && !isMissingSchemaError(settingsError)
+      ? 0.05
+      : settings
+        ? Number(settings.value) / 100
+        : 0.05;
 
   return {
     gmv,
@@ -132,10 +160,14 @@ export async function fetchDiaryPosts(): Promise<AdminDiaryRow[]> {
 
 export async function fetchAdminSettings() {
   const supabase = await getSupabaseServerClient();
-  const { data } = await supabase
+  const { data, error } = await supabase
     .from("admin_settings")
     .select("key,value")
     .order("key");
+
+  if (error && isMissingSchemaError(error)) {
+    return [] as { key: string; value: string }[];
+  }
 
   return (data ?? []) as { key: string; value: string }[];
 }

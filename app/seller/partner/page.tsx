@@ -3,11 +3,13 @@
 import Link from "next/link";
 import { useMemo, useState } from "react";
 
+import { belapopContact, buildBelapopMailto } from "@/lib/brand/contact";
+
 const steps = [
   { title: "Cadastro", description: "Envie seus dados e conte sobre a marca." },
-  { title: "Curadoria", description: "Analise editorial e alinhamento de vitrine." },
+  { title: "Curadoria", description: "Análise editorial e alinhamento de vitrine." },
   { title: "Publicacao", description: "Produtos com narrativa e visual premium." },
-  { title: "Vendas", description: "Checkout integrado e comunicacao com clientes." },
+  { title: "Vendas", description: "Checkout integrado e comunicação com clientes." },
   { title: "Envio", description: "Frete por origem com rastreio claro." }
 ];
 
@@ -21,7 +23,7 @@ export default function SellerPartnerPage() {
   const [note, setNote] = useState("");
 
   const mailtoHref = useMemo(() => {
-    const subject = "Cadastro de Lojista — BelaPop";
+    const subject = "Cadastro de Lojista - BelaPop";
     const lines = [
       "Cadastro de lojista - BelaPop",
       "",
@@ -36,9 +38,7 @@ export default function SellerPartnerPage() {
       note || ""
     ];
     const body = lines.join("\n");
-    return `mailto:giovannasousa105@gmail.com?subject=${encodeURIComponent(
-      subject
-    )}&body=${encodeURIComponent(body)}`;
+    return buildBelapopMailto(belapopContact.supportEmail, subject, body);
   }, [name, brand, email, whatsapp, channel, category, note]);
 
   return (

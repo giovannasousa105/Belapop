@@ -1,0 +1,113 @@
+- generic [ref=e3]:
+  - banner [ref=e4]:
+    - generic [ref=e5]:
+      - generic [ref=e6]:
+        - link "BelaPop" [ref=e7] [cursor=pointer]:
+          - /url: /
+          - img "BelaPop" [ref=e8]
+        - navigation [ref=e9]:
+          - link "Skincare" [ref=e10] [cursor=pointer]:
+            - /url: /skincare
+          - link "Maquiagem" [ref=e11] [cursor=pointer]:
+            - /url: /maquiagem
+          - link "Cabelos" [ref=e12] [cursor=pointer]:
+            - /url: /cabelos
+          - link "Perfumes" [ref=e13] [cursor=pointer]:
+            - /url: /perfumes
+          - link "Skin Scan Bela" [ref=e14] [cursor=pointer]:
+            - /url: /skin-scan
+      - generic [ref=e16]:
+        - img [ref=e17]
+        - textbox [ref=e20]:
+          - /placeholder: BUSCAR PRODUTOS...
+      - generic [ref=e21]:
+        - link "POPCLUB" [ref=e22] [cursor=pointer]:
+          - /url: /popclub
+          - img [ref=e23]
+          - generic [ref=e25]: POPCLUB
+        - button "FAVORITOS" [ref=e26] [cursor=pointer]:
+          - img [ref=e27]
+          - generic [ref=e29]: FAVORITOS
+        - button "Conta" [ref=e30] [cursor=pointer]:
+          - img [ref=e31]
+        - button "Sacola" [ref=e34] [cursor=pointer]:
+          - img [ref=e35]
+  - main [ref=e38]:
+    - generic [ref=e39]:
+      - generic [ref=e40]: Carrinho
+      - generic [ref=e41]: "-"
+      - generic [ref=e42]: Identificacao
+      - generic [ref=e43]: "-"
+      - generic [ref=e44]: Pagamento
+    - generic [ref=e45]:
+      - generic [ref=e46]:
+        - generic [ref=e47]:
+          - heading "Sua Curadoria" [level=1] [ref=e48]
+          - paragraph [ref=e49]: Itens selecionados para a sua rotina de cuidado.
+        - article [ref=e50]:
+          - heading "Preparando seu carrinho" [level=2] [ref=e51]
+          - paragraph [ref=e52]: Estamos conferindo os itens adicionados antes de seguir para o checkout.
+        - generic [ref=e53]:
+          - heading "PopClub Rewards" [level=3] [ref=e54]
+          - paragraph [ref=e55]: Faca login para acumular pontos na compra e liberar beneficios exclusivos.
+          - button "Acessar conta" [ref=e56] [cursor=pointer]
+        - generic [ref=e57]:
+          - generic [ref=e58]:
+            - img [ref=e59]
+            - generic [ref=e62]: Ambiente seguro
+          - generic [ref=e63]:
+            - img [ref=e64]
+            - generic [ref=e69]: Logistica premium
+          - generic [ref=e70]:
+            - img [ref=e71]
+            - generic [ref=e74]: Pagamento seguro
+      - complementary [ref=e75]:
+        - generic [ref=e76]:
+          - heading "Resumo do pedido" [level=2] [ref=e77]
+          - generic [ref=e78]:
+            - generic [ref=e79]:
+              - generic [ref=e80]: Subtotal
+              - generic [ref=e81]: R$ 0,00
+            - generic [ref=e82]:
+              - generic [ref=e83]: Frete
+              - generic [ref=e84]: Gratis
+          - generic [ref=e86]:
+            - generic [ref=e87]: Total
+            - generic [ref=e88]: R$ 0,00
+          - button "Finalizar curadoria com seguranca" [disabled] [ref=e89]
+          - paragraph [ref=e90]: Ao continuar, voce confirma os termos da plataforma e condicoes do seller.
+  - contentinfo [ref=e91]:
+    - generic [ref=e92]:
+      - generic [ref=e93]:
+        - generic [ref=e94]:
+          - generic [ref=e95]: BelaPop
+          - paragraph [ref=e96]: Curadoria de beleza com seleção precisa, parceiros verificados e experiência de compra transparente.
+        - generic [ref=e97]:
+          - heading "Shop" [level=4] [ref=e98]
+          - generic [ref=e99]:
+            - link "Skincare" [ref=e100] [cursor=pointer]:
+              - /url: /skincare
+            - link "Maquiagem" [ref=e101] [cursor=pointer]:
+              - /url: /maquiagem
+            - link "Cabelos" [ref=e102] [cursor=pointer]:
+              - /url: /cabelos
+            - link "Perfumes" [ref=e103] [cursor=pointer]:
+              - /url: /perfumes
+        - generic [ref=e104]:
+          - heading "Atendimento" [level=4] [ref=e105]
+          - generic [ref=e106]:
+            - link "Contato" [ref=e107] [cursor=pointer]:
+              - /url: /contato
+            - link "Rastrear pedido" [ref=e108] [cursor=pointer]:
+              - /url: /rastreio
+            - link "Termos de uso" [ref=e109] [cursor=pointer]:
+              - /url: /termos-e-condicoes
+            - link "Privacidade" [ref=e110] [cursor=pointer]:
+              - /url: /aviso-de-privacidade
+        - generic [ref=e111]:
+          - heading "Institucional" [level=4] [ref=e112]
+          - generic [ref=e113]:
+            - paragraph [ref=e114]: 63.945.608 GIOVANNA DE SOUSA FERREIRA SANTOS
+            - paragraph [ref=e115]: CNPJ 63.945.608/0001-09
+            - paragraph [ref=e116]: Rua Coromandel, 189, Bairro Amorim, Araguari/MG, CEP 38446-093
+      - paragraph [ref=e118]: © 2026 BelaPop Cosméticos Ltda. Todos os direitos reservados.

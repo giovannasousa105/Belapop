@@ -11,7 +11,7 @@ export async function POST(request: Request) {
     return NextResponse.json(
       {
         ok: false,
-        error: "Troca de perfil mock nao disponivel neste ambiente."
+        error: "Troca de perfil mock não disponivel neste ambiente."
       },
       { status: 403 }
     );
@@ -29,7 +29,7 @@ export async function POST(request: Request) {
     return NextResponse.json(
       {
         ok: false,
-        error: "Perfil interno nao encontrado."
+        error: "Perfil interno não encontrado."
       },
       { status: 404 }
     );

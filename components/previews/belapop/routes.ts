@@ -4,7 +4,7 @@ export type BelapopRouteKey =
   | "home"
   | "scan"
   | "scan-capture"
-  | "diagnostico"
+  | "diagnóstico"
   | "concierge"
   | "cart"
   | "checkout"
@@ -20,7 +20,7 @@ const previewRoutes: Record<BelapopRouteKey, string> = {
   home: "/preview/home",
   scan: "/preview/scan",
   "scan-capture": "/preview/scan-2",
-  diagnostico: "/preview/diagnostico",
+  diagnóstico: "/preview/diagnóstico",
   concierge: "/preview/concierge",
   cart: "/preview/carrinho",
   checkout: "/preview/checkout",
@@ -37,8 +37,8 @@ const liveRoutes: Record<BelapopRouteKey, string> = {
   home: "/",
   scan: "/skin-scan",
   "scan-capture": "/skin-scan/captura",
-  diagnostico: "/skin-scan/diagnostico",
-  concierge: "/skinbela/concierge",
+  diagnóstico: "/skin-scan/diagnóstico",
+  concierge: "/belacode",
   cart: "/carrinho",
   checkout: "/checkout",
   login: "/login",
@@ -47,7 +47,7 @@ const liveRoutes: Record<BelapopRouteKey, string> = {
   feedback: "/feedback",
   member: "/conta",
   rewards: "/conta/recompensas",
-  skinbela: "/skinbela"
+  skinbela: "/belacode"
 };
 
 export function getBelapopHref(mode: BelapopRenderMode, key: BelapopRouteKey) {

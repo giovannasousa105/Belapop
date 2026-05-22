@@ -27,10 +27,10 @@ const rituals: EditorialRitual[] = [
     coverImageUrl: "/editorial/essencia-sensorial.svg"
   },
   {
-    slug: "edicao-limitada",
-    title: "Edicao Limitada",
+    slug: "edição-limitada",
+    title: "Edição Limitada",
     subtitle: "Pecas raras. Desejo imediato.",
-    coverImageUrl: "/editorial/edicao-limitada.svg"
+    coverImageUrl: "/editorial/edição-limitada.svg"
   }
 ];
 

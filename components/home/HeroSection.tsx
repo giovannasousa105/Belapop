@@ -63,7 +63,7 @@ export function HeroSection({ imageUrl }: HeroSectionProps) {
               </p>
 
               <div className="mt-5 flex flex-wrap gap-2">
-                {["BelaCode", "SkinBela", "Literatura clinica"].map((item) => (
+                {["BelaCode", "SkinBela", "Literatura clínica"].map((item) => (
                   <span
                     key={item}
                     className="rounded-full border border-[#dfc9cd] bg-white/74 px-3 py-1.5 text-[11px] uppercase tracking-[0.18em] text-[#5B3138]/82"
@@ -91,8 +91,8 @@ export function HeroSection({ imageUrl }: HeroSectionProps) {
               </div>
 
               <p className="mt-7 max-w-3xl text-[11px] leading-6 text-[#5B3138]/72 sm:mt-8 sm:text-xs">
-                BelaCode e SkinBela apoiam triagem cosmetica, leitura de rotina e orientacao de
-                autocuidado com base em literatura clinica. Nao substituem avaliacao dermatologica
+                BelaCode e SkinBela apoiam triagem cosmética, leitura de rotina e orientação de
+                autocuidado com base em literatura clínica. Não substituem avaliação dermatológica
                 presencial.
               </p>
             </div>

@@ -32,7 +32,7 @@ export function CustomersPage({ filters }: CustomersPageProps) {
     return (
       <ErrorState
         title="Falha ao carregar clientes"
-        description={listResult.error?.message ?? "Nao foi possivel carregar os clientes."}
+        description={listResult.error?.message ?? "Não foi possivel carregar os clientes."}
       />
     );
   }

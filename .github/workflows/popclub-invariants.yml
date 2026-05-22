@@ -1,0 +1,111 @@
+name: PopClub Invariants
+
+on:
+  push:
+    paths:
+      - "lib/popclub/**"
+      - "app/api/popclub/**"
+      - "components/popclub/**"
+  pull_request:
+    paths:
+      - "lib/popclub/**"
+      - "app/api/popclub/**"
+      - "components/popclub/**"
+
+jobs:
+  invariants:
+    name: Verificar invariantes do PopClub
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - name: Instalar dependências
+        run: npm ci
+
+      # ── Invariante 1: Tier calculado por acumulados, não disponíveis ───────
+      - name: "Invariante 1 — calcularTierPorPontos usa acumulados"
+        run: |
+          if grep -rn "calcularTierPorPontos" lib/ app/ components/ 2>/dev/null \
+              | grep -v "invariants" \
+              | grep -v "__tests__" \
+              | grep "disponivel"; then
+            echo "❌ ERRO: calcularTierPorPontos recebeu pontos_disponiveis."
+            echo "   Tier deve ser calculado SEMPRE por pontos_acumulados_12m."
+            exit 1
+          fi
+          echo "✅ Invariante 1: calcularTierPorPontos não usa pontos_disponiveis."
+
+      - name: "Invariante 1 — ProgressoTier exibe label_obrigatorio"
+        run: |
+          if grep -rn "calcularProgressoTier\|ProgressoTier" components/ 2>/dev/null \
+              | grep -v "assertProgressoComLabel" \
+              | grep -v "invariants" \
+              | grep "acumulados\|disponiveis"; then
+            echo "⚠️  AVISO: assertProgressoComLabel pode estar ausente."
+          fi
+          echo "✅ Invariante 1: verificação de label concluída."
+
+      # ── Invariante 2: stripe.coupons.create apenas via executarResgate ─────
+      - name: "Invariante 2 — stripe.coupons.create exclusivo no stripeFirstInvariant"
+        run: |
+          COUNT=$(grep -rn "stripe\.coupons\.create\|coupons\.create" \
+            lib/ app/ 2>/dev/null \
+            | grep -v "stripeFirstInvariant" \
+            | grep -v "__tests__" \
+            | grep -v "node_modules" \
+            | wc -l)
+          if [ "$COUNT" -gt "0" ]; then
+            echo "❌ ERRO: stripe.coupons.create encontrado fora de stripeFirstInvariant.ts:"
+            grep -rn "stripe\.coupons\.create\|coupons\.create" lib/ app/ \
+              | grep -v "stripeFirstInvariant" \
+              | grep -v "__tests__"
+            echo "   Todo coupon PopClub deve passar por executarResgate()."
+            exit 1
+          fi
+          echo "✅ Invariante 2: stripe.coupons.create apenas em stripeFirstInvariant."
+
+      # ── Invariante 3: rebaixamento nunca sem avaliarRebaixamento ────────────
+      - name: "Invariante 3 — atualização de tier usa avaliarRebaixamento"
+        run: |
+          # Detectar UPDATE direto de tier sem passar pelo invariant guard
+          if grep -rn "tier_atual.*ESSENCIAL\|tier_atual.*PREMIUM\|tier_atual.*LUXO" \
+              lib/popclub/ app/api/popclub/ 2>/dev/null \
+              | grep -v "invariants" \
+              | grep -v "__tests__" \
+              | grep -v "copilotTypes\|popclubTypes\|Types\|type\|interface\|const\|enum\|test"; then
+            echo "⚠️  AVISO: atualização de tier_atual detectada fora dos invariants."
+            echo "   Verificar se avaliarRebaixamento está sendo usado."
+          fi
+          echo "✅ Invariante 3: verificação de rebaixamento concluída."
+
+      # ── Exportação central ──────────────────────────────────────────────────
+      - name: "Exportação central — invariants importados via index"
+        run: |
+          VIOLATIONS=$(grep -rn \
+            "from.*invariants/pontosInvariant\|from.*invariants/stripeFirstInvariant\|from.*invariants/tierRebaixamentoInvariant" \
+            --include="*.ts" --include="*.tsx" \
+            lib/ app/ components/ 2>/dev/null \
+            | grep -v "lib/popclub/invariants/index.ts" \
+            | grep -v "__tests__" || true)
+          if [ -n "$VIOLATIONS" ]; then
+            echo "❌ ERRO: importações diretas de invariants individuais:"
+            echo "$VIOLATIONS"
+            echo "   Importar APENAS de '@/lib/popclub/invariants'"
+            exit 1
+          fi
+          echo "✅ Exportação central: todos imports passam pelo index."
+
+      # ── Testes unitários ────────────────────────────────────────────────────
+      - name: "Rodar testes das invariantes"
+        run: npx jest lib/popclub/invariants/__tests__/ --no-coverage
+
+      # ── TypeScript ──────────────────────────────────────────────────────────
+      - name: "TypeScript — compilar sem erros"
+        run: npx tsc --noEmit

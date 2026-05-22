@@ -4,7 +4,7 @@ const comfortItems = [
   "Botoes grandes e areas de toque generosas.",
   "Contraste alto para leitura em ambiente real.",
   "Cards mais limpos, com menos ruido visual.",
-  "Fluxo curto para analise, rotina e compra."
+  "Fluxo curto para análise, rotina e compra."
 ];
 
 const focusItems = [

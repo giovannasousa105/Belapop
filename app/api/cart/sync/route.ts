@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 
+import { getSupabaseAdminClient } from "@/lib/supabase/admin";
 import { getSupabaseServerClient } from "@/lib/supabaseServer";
 
 type CartSyncPayload = {
@@ -7,7 +8,6 @@ type CartSyncPayload = {
   subtotalCents: number;
   anonId?: string | null;
   cartId?: string | null;
-  userId?: string | null;
 };
 
 type PostgrestLikeError = {
@@ -19,6 +19,7 @@ type PostgrestLikeError = {
 const normalizeAnonId = (value: string | null | undefined) => {
   if (typeof value !== "string") return null;
   const normalized = value.trim();
+  if (!/^[a-zA-Z0-9._:-]{8,160}$/.test(normalized)) return null;
   return normalized.length > 0 ? normalized : null;
 };
 
@@ -61,8 +62,7 @@ const parsePayload = async (request: NextRequest): Promise<CartSyncPayload> => {
       items: parsed.items ?? [],
       subtotalCents: parsed.subtotalCents ?? 0,
       anonId: parsed.anonId ?? null,
-      cartId: parsed.cartId ?? null,
-      userId: parsed.userId ?? null
+      cartId: parsed.cartId ?? null
     };
   } catch {
     throw new Error("invalid_json");
@@ -70,7 +70,7 @@ const parsePayload = async (request: NextRequest): Promise<CartSyncPayload> => {
 };
 
 const updateExistingUserCart = async (
-  supabase: Awaited<ReturnType<typeof getSupabaseServerClient>>,
+  supabase: ReturnType<typeof getSupabaseAdminClient>,
   resolvedUserId: string,
   basePayload: { items: unknown[]; subtotal_cents: number; status: string }
 ) => {
@@ -101,7 +101,7 @@ const updateExistingUserCart = async (
 };
 
 const updateOrCreateAnonCart = async (
-  supabase: Awaited<ReturnType<typeof getSupabaseServerClient>>,
+  supabase: ReturnType<typeof getSupabaseAdminClient>,
   anonId: string,
   basePayload: { items: unknown[]; subtotal_cents: number; status: string }
 ) => {
@@ -178,11 +178,12 @@ const updateOrCreateAnonCart = async (
 export async function POST(request: NextRequest) {
   try {
     const body = await parsePayload(request);
-    const supabase = await getSupabaseServerClient();
+    const authSupabase = await getSupabaseServerClient();
+    const supabase = getSupabaseAdminClient();
 
-    let resolvedUserId = body.userId ?? null;
+    let resolvedUserId: string | null = null;
     try {
-      const authUser = await supabase.auth.getUser();
+      const authUser = await authSupabase.auth.getUser();
       if (authUser.data.user?.id) {
         resolvedUserId = authUser.data.user.id;
       }
@@ -204,12 +205,32 @@ export async function POST(request: NextRequest) {
     };
 
     if (body.cartId) {
+      const existingCart = await supabase
+        .from("carts")
+        .select("id,user_id,anon_id")
+        .eq("id", body.cartId)
+        .maybeSingle();
+
+      if (existingCart.error) throw existingCart.error;
+
+      const cartUserId = String(existingCart.data?.user_id ?? "");
+      const cartAnonId = String(existingCart.data?.anon_id ?? "");
+      const canUseUserCart = Boolean(resolvedUserId && cartUserId === resolvedUserId);
+      const canUseAnonCart = Boolean(anonId && cartAnonId === anonId && !cartUserId);
+
+      if (!existingCart.data || (!canUseUserCart && !canUseAnonCart)) {
+        return NextResponse.json({ error: "Carrinho não autorizado." }, { status: 403 });
+      }
+
       const updateByIdPayload: Record<string, unknown> = {
         ...basePayload,
         user_id: resolvedUserId
       };
       if (resolvedUserId) {
         updateByIdPayload.anon_id = null;
+      } else if (anonId) {
+        updateByIdPayload.user_id = null;
+        updateByIdPayload.anon_id = anonId;
       }
 
       const byId = await supabase
@@ -320,7 +341,7 @@ export async function POST(request: NextRequest) {
     }
     console.error("[cart/sync]", error);
     return NextResponse.json(
-      { error: "Nao foi possivel sincronizar o carrinho." },
+      { error: "Não foi possivel sincronizar o carrinho." },
       { status: 500 }
     );
   }

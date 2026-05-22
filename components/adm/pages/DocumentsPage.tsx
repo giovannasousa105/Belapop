@@ -69,7 +69,7 @@ export async function DocumentsPage({ filters, searchParamsSource }: DocumentsPa
     return (
       <ErrorState
         title="Falha ao carregar documentos"
-        description={listResult.error?.message ?? "Nao foi possivel carregar documentos."}
+        description={listResult.error?.message ?? "Não foi possivel carregar documentos."}
       />
     );
   }
@@ -104,7 +104,7 @@ export async function DocumentsPage({ filters, searchParamsSource }: DocumentsPa
       ) : rows.length === 0 ? (
         <EmptyState
           title="Nenhum documento para este recorte"
-          description="A base atual nao possui documentos com os filtros selecionados."
+          description="A base atual não possui documentos com os filtros selecionados."
         />
       ) : (
         <AdminTable
@@ -160,7 +160,7 @@ export async function DocumentsPage({ filters, searchParamsSource }: DocumentsPa
                     Detalhe
                   </Link>
                   <Link
-                    href={`/adm/operacao/parceiros?seller=${row.sellerId}`}
+                    href={`/adm/operação/parceiros?seller=${row.sellerId}`}
                     className="underline underline-offset-4"
                   >
                     Seller
@@ -190,7 +190,7 @@ export async function DocumentsPage({ filters, searchParamsSource }: DocumentsPa
             </p>
             <p className="mt-2 text-xs text-[#6f675e]">Atualizado em {formatDateTime(new Date().toISOString())}</p>
             <div className="mt-3 space-y-2 text-xs font-semibold uppercase tracking-[0.14em]">
-              <PermissionGate route="/adm/operacao/parceiros">
+              <PermissionGate route="/adm/operação/parceiros">
                 <Link href={`/adm/operacao/parceiros?seller=${selectedDocument.sellerId}`} className="block underline underline-offset-4">
                   Abrir seller
                 </Link>

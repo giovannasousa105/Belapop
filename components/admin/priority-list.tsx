@@ -17,7 +17,7 @@ const badgeTone = {
 
 const severityLabel = {
   high: "Critico",
-  medium: "Atencao",
+  medium: "Atenção",
   low: "Info"
 } as const;
 

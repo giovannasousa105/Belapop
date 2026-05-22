@@ -57,7 +57,7 @@ export async function ReviewsPage({ filters, searchParamsSource }: ReviewsPagePr
             requiredPermissions: ["manage_reviews"],
             confirmTitle: "Reprovar review",
             confirmDescription:
-              "A avaliacao sera retirada do fluxo publico e o caso ficara registrado na moderacao.",
+              "A avaliação sera retirada do fluxo publico e o caso ficara registrado na moderacao.",
             confirmLabel: "Confirmar reprovacao"
           }
         ])
@@ -67,7 +67,7 @@ export async function ReviewsPage({ filters, searchParamsSource }: ReviewsPagePr
     return (
       <ErrorState
         title="Falha ao carregar reviews"
-        description={listResult.error?.message ?? "Nao foi possivel carregar reviews."}
+        description={listResult.error?.message ?? "Não foi possivel carregar reviews."}
       />
     );
   }
@@ -96,14 +96,14 @@ export async function ReviewsPage({ filters, searchParamsSource }: ReviewsPagePr
       {showNoResults ? (
         <NoResultsState
           title="Sem reviews para os filtros ativos"
-          description="Ajuste seller, status, busca ou ordenacao para localizar avaliacoes."
+          description="Ajuste seller, status, busca ou ordenacao para localizar avaliações."
           actionHref="/adm/catalogo-marca/reviews"
           actionLabel="Limpar filtros"
         />
       ) : rows.length === 0 ? (
         <EmptyState
           title="Nenhuma review neste recorte"
-          description="Nao encontramos avaliacoes para os filtros selecionados."
+          description="Não encontramos avaliações para os filtros selecionados."
         />
       ) : (
         <AdminTable
@@ -129,9 +129,9 @@ export async function ReviewsPage({ filters, searchParamsSource }: ReviewsPagePr
               id: "seller",
               label: "Seller",
               render: (review) => (
-                <PermissionGate route="/adm/operacao/parceiros" fallback={review.sellerName}>
+                <PermissionGate route="/adm/operação/parceiros" fallback={review.sellerName}>
                   <Link
-                    href={`/adm/operacao/parceiros?seller=${review.sellerId}`}
+                    href={`/adm/operação/parceiros?seller=${review.sellerId}`}
                     className="underline underline-offset-4"
                   >
                     {review.sellerName}
@@ -197,7 +197,7 @@ export async function ReviewsPage({ filters, searchParamsSource }: ReviewsPagePr
                   Abrir produto em curadoria
                 </Link>
               </PermissionGate>
-              <PermissionGate route="/adm/operacao/parceiros">
+              <PermissionGate route="/adm/operação/parceiros">
                 <Link href={`/adm/operacao/parceiros?seller=${selectedReview.sellerId}`} className="block underline underline-offset-4">
                   Abrir seller
                 </Link>

@@ -14,7 +14,7 @@ export function SkinScanLuxuryShell({ children }: SkinScanLuxuryShellProps) {
     <div className="min-h-screen bg-[#fcf9f8] text-[#1c1b1b] selection:bg-[#ef75ce]/20 selection:text-[#1c1b1b]">
       <BelaPopValidatedHeader activeSection="skin-scan" featureSet="skin-scan" />
 
-      <main className="pt-16 lg:pt-20">{children}</main>
+      <main className="pt-[78px] lg:pt-[86px]">{children}</main>
 
       <BelaPopValidatedFooter />
     </div>

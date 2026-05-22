@@ -3,8 +3,10 @@
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
+import { ProductStandardsChecklist } from "@/components/catalog-standards";
 import { LuxuryButton } from "@/components/LuxuryButton";
 import { useAuth } from "@/lib/AuthContext";
+import { ClaimValidator, normalizeProductName, type StandardChecklistItem } from "@/lib/catalog-standards";
 import { productRepository } from "@/lib/repositories/productRepository";
 import { Product, ProductCategory, ProductImageTone } from "@/lib/types";
 
@@ -55,6 +57,17 @@ export default function EditProductPage() {
       return;
     }
 
+    const nameStandard = normalizeProductName(product.name);
+    const blockedClaimIssues = ClaimValidator.scanTextForBlockedTerms(`${product.name} ${product.description}`);
+    if (nameStandard.blocked || blockedClaimIssues.length) {
+      setMessage(
+        [...nameStandard.issues, ...blockedClaimIssues]
+          .map((issue) => issue.detail)
+          .join(" ")
+      );
+      return;
+    }
+
     const resolvedStatus =
       statusOverride === "published"
         ? "review"
@@ -62,6 +75,7 @@ export default function EditProductPage() {
 
     const nextProduct: Product = {
       ...product,
+      name: nameStandard.value,
       status: resolvedStatus as Product["status"]
     };
 
@@ -94,6 +108,50 @@ export default function EditProductPage() {
           Atualize informações e mantenha o padrão editorial da vitrine.
         </p>
       </div>
+
+      {(() => {
+        const nameStandard = normalizeProductName(product.name);
+        const claimIssues = ClaimValidator.scanTextForBlockedTerms(`${product.name} ${product.description}`);
+        const checks: StandardChecklistItem[] = [
+          {
+            detail: nameStandard.value || "Use Marca + Linha + Tipo + Ativo + Volume.",
+            label: "Naming padronizado",
+            passed: Boolean(product.name.trim()) && !nameStandard.blocked,
+            required: true
+          },
+          {
+            detail: "Sem promessas medicas, milagrosas ou garantidas.",
+            label: "Claims seguros",
+            passed: claimIssues.length === 0,
+            required: true
+          },
+          {
+            detail: `${product.images.length} imagem(ns) cadastrada(s).`,
+            label: "Imagem principal",
+            passed: product.images.length > 0,
+            required: true
+          },
+          {
+            detail: "Peso, largura, altura e comprimento alimentam frete e checkout.",
+            label: "Regras logisticas",
+            passed: [product.weightKg, product.widthCm, product.heightCm, product.lengthCm].every((value) => Number(value) > 0),
+            required: true
+          },
+          {
+            detail: "Preco valido e seller ativo para seguir para curadoria.",
+            label: "Preco e seller",
+            passed: Number(product.price) > 0 && Boolean(user?.sellerProfile?.sellerId),
+            required: true
+          }
+        ];
+
+        return (
+          <ProductStandardsChecklist
+            checks={checks}
+            title="Minimo obrigatorio antes da curadoria"
+          />
+        );
+      })()}
 
       <form
         onSubmit={(event) => {

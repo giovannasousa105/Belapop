@@ -200,7 +200,7 @@ const navConfig: Array<{ section?: string; key?: TabKey; label?: string }> = [
   { key: "dashboard", label: "Overview" },
   { section: "VENDAS" },
   { key: "orders", label: "Pedidos" },
-  { key: "returns", label: "Devolucoes" },
+  { key: "returns", label: "Devoluções" },
   { section: "CATALOGO" },
   { key: "products", label: "Produtos" },
   { key: "inventory", label: "Estoque" },
@@ -454,6 +454,7 @@ export default function PartnerPortal() {
   const [productsPayload, setProductsPayload] = useState<PartnerProductsResponse | null>(null);
   const [supportPayload, setSupportPayload] = useState<PartnerSupportResponse | null>(null);
   const [logisticsPayload, setLogisticsPayload] = useState<PartnerLogisticsResponse | null>(null);
+  const [renderNow] = useState(() => Date.now());
 
   const replacePortalState = useCallback(
     (nextTab: TabKey, nextRange: RangeKey) => {
@@ -508,7 +509,8 @@ export default function PartnerPortal() {
       })
       .catch((loadError) => {
         if (controller.signal.aborted) return;
-        const message = loadError instanceof Error ? loadError.message : "Falha ao carregar painel.";
+        console.error("[PartnerPortal] load failed", loadError);
+        const message = "Nao foi possivel carregar o painel agora.";
         setError(message);
       })
       .finally(() => {
@@ -524,12 +526,12 @@ export default function PartnerPortal() {
   );
 
   const currentOrders = useMemo(() => {
-    const start = Date.now() - rangeDays(range) * 24 * 60 * 60 * 1000;
+    const start = renderNow - rangeDays(range) * 24 * 60 * 60 * 1000;
     return (ordersPayload?.items ?? []).filter((row) => {
       const ts = new Date(row.created_at).getTime();
       return Number.isFinite(ts) && ts >= start;
     });
-  }, [ordersPayload, range]);
+  }, [ordersPayload, range, renderNow]);
 
   const returnsOrders = useMemo(
     () =>
@@ -625,13 +627,13 @@ export default function PartnerPortal() {
         title: "Pedidos aguardando envio",
         value: waitingShipment,
         tone: waitingShipment > 0 ? "warn" : "ok",
-        hint: "Pedidos ainda nao despachados no periodo."
+        hint: "Pedidos ainda não despachados no periodo."
       },
       {
         title: "SLA em risco",
         value: slaRisk,
         tone: slaRisk > 0 ? "warn" : "ok",
-        hint: "Pedidos proximos do limite operacional."
+        hint: "Pedidos próximos do limite operacional."
       },
       {
         title: "Envios atrasados",
@@ -863,7 +865,7 @@ export default function PartnerPortal() {
             ) : null}
 
             {tab === "orders" ? (
-              <Card title="Pedidos do lojista" subtitle="Dados reais de /api/partner/orders">
+              <Card title="Pedidos do lojista" subtitle="Pedidos consolidados do periodo">
                 {currentOrders.length === 0 ? (
                   <p className="rounded-xl border border-dashed border-slate-300 bg-slate-50 px-3 py-4 text-sm text-slate-500">
                     Sem pedidos no periodo selecionado.
@@ -904,7 +906,7 @@ export default function PartnerPortal() {
             ) : null}
 
             {tab === "returns" ? (
-              <Card title="Devolucoes & Reembolsos" subtitle="Derivado de statuses reais em /api/partner/orders">
+              <Card title="Devoluções & Reembolsos" subtitle="Status operacional dos pedidos">
                 <div className="mb-3 grid grid-cols-1 gap-2 md:grid-cols-4">
                   <Summary label="Com ocorrencia" value={String(returnsOrders.length)} />
                   <Summary label="Reembolsados" value={String(returnsSummary.refunded)} />
@@ -951,7 +953,7 @@ export default function PartnerPortal() {
             ) : null}
 
             {tab === "payouts" ? (
-              <Card title="Repasses" subtitle="Dados reais de /api/partner/payouts">
+              <Card title="Repasses" subtitle="Resumo financeiro do lojista">
                 <div className="mb-3 grid grid-cols-1 gap-2 md:grid-cols-4">
                   <Summary label="Pedidos" value={String(toNumber(payoutsPayload?.summary?.orders))} />
                   <Summary label="GMV" value={fmtBRL(toNumber(payoutsPayload?.summary?.gmv_cents) / 100)} />
@@ -996,7 +998,7 @@ export default function PartnerPortal() {
             ) : null}
 
             {tab === "statement" ? (
-              <Card title="Extrato financeiro" subtitle="Movimentacoes reais a partir de /api/partner/payouts">
+              <Card title="Extrato financeiro" subtitle="Movimentacoes financeiras do periodo">
                 <div className="mb-3 grid grid-cols-1 gap-2 md:grid-cols-4">
                   <Summary label="Lancamentos" value={String(statementRows.length)} />
                   <Summary label="Itens" value={fmtBRL(toNumber(payoutsPayload?.summary?.items_total_cents) / 100)} />
@@ -1041,7 +1043,7 @@ export default function PartnerPortal() {
             ) : null}
 
             {tab === "products" ? (
-              <Card title="Produtos" subtitle="Dados reais de /api/partner/products">
+              <Card title="Produtos" subtitle="Catalogo vinculado ao lojista">
                 <div className="mb-3 grid grid-cols-1 gap-2 md:grid-cols-4">
                   <Summary label="Ativos" value={String(toNumber(productsPayload?.summary?.active))} />
                   <Summary label="Estoque baixo" value={String(toNumber(productsPayload?.summary?.low_stock))} />
@@ -1088,7 +1090,7 @@ export default function PartnerPortal() {
             ) : null}
 
             {tab === "inventory" ? (
-              <Card title="Estoque" subtitle="Visao operacional baseada em /api/partner/products">
+              <Card title="Estoque" subtitle="Visao operacional do catalogo">
                 <div className="mb-3 grid grid-cols-1 gap-2 md:grid-cols-4">
                   <Summary label="Produtos" value={String(toNumber(productsPayload?.total))} />
                   <Summary label="Estoque baixo" value={String(toNumber(productsPayload?.summary?.low_stock))} />
@@ -1141,7 +1143,7 @@ export default function PartnerPortal() {
             ) : null}
 
             {tab === "pricing" ? (
-              <Card title="Precos & Promocoes" subtitle="Baseado no catalogo real de /api/partner/products">
+              <Card title="Precos & Promocoes" subtitle="Condições comerciais do catalogo">
                 <div className="mb-3 grid grid-cols-1 gap-2 md:grid-cols-4">
                   <Summary label="Preco medio" value={fmtBRL(pricingStats.avg / 100)} />
                   <Summary label="Menor preco" value={fmtBRL(pricingStats.min / 100)} />
@@ -1194,11 +1196,11 @@ export default function PartnerPortal() {
             ) : null}
 
             {tab === "support" ? (
-              <Card title="Suporte" subtitle="Dados reais de /api/partner/support">
+              <Card title="Suporte" subtitle="Demandas e protocolos do lojista">
                 <div className="mb-3 grid grid-cols-1 gap-2 md:grid-cols-5">
                   <Summary label="Abertos" value={String(supportSummary.open)} />
                   <Summary label="Aguardando" value={String(supportSummary.waiting)} />
-                  <Summary label="Em analise" value={String(supportSummary.inReview)} />
+                  <Summary label="Em análise" value={String(supportSummary.inReview)} />
                   <Summary label="Resolvidos" value={String(supportSummary.resolved)} />
                   <Summary label="Vencidos SLA" value={String(supportSummary.overdue)} />
                 </div>
@@ -1242,7 +1244,7 @@ export default function PartnerPortal() {
             ) : null}
 
             {tab === "logistics" ? (
-              <Card title="Frete & SLA" subtitle="Dados reais de /api/partner/logistics">
+              <Card title="Frete & SLA" subtitle="Acompanhamento logistico do periodo">
                 <div className="mb-3 grid grid-cols-1 gap-2 md:grid-cols-6">
                   <Summary label="Total" value={String(toNumber(logisticsPayload?.summary?.total))} />
                   <Summary label="Aguardando envio" value={String(toNumber(logisticsPayload?.summary?.awaiting_shipment))} />
@@ -1299,7 +1301,7 @@ export default function PartnerPortal() {
             {tab === "growth" ? (
               <>
                 <section className="grid grid-cols-1 gap-3 xl:grid-cols-2">
-                  <Card title="GMV no periodo" subtitle="Serie real derivada de /api/partner/orders">
+                  <Card title="GMV no periodo" subtitle="Serie financeira do periodo">
                     <Sparkline data={dashboard.series.gmv} />
                   </Card>
                   <Card title="Pedidos por faixa" subtitle="Distribuicao real de status">
@@ -1391,7 +1393,7 @@ export default function PartnerPortal() {
             ) : null}
 
             {tab === "finance" ? (
-              <Card title="Financeiro detalhado" subtitle="Lotes de repasse e composicao financeira por seller order">
+              <Card title="Financeiro detalhado" subtitle="Lotes de repasse e composição financeira por seller order">
                 <div className="mb-3 grid grid-cols-1 gap-2 md:grid-cols-5">
                   <Summary label="Pedidos no lote" value={String(toNumber(payoutsPayload?.summary?.orders))} />
                   <Summary label="Itens" value={fmtBRL(toNumber(payoutsPayload?.summary?.items_total_cents) / 100)} />
@@ -1461,7 +1463,7 @@ export default function PartnerPortal() {
             ) : null}
 
             {tab === "automations" ? (
-              <Card title="Automacoes" subtitle="Playbooks internos para operacao do seller">
+              <Card title="Automacoes" subtitle="Playbooks internos para operação do seller">
                 <div className="space-y-2">
                   <div className="rounded-xl border border-slate-200 bg-slate-50 px-3 py-3 text-sm">
                     <p className="font-medium">Regra: lembrar envio em risco de SLA</p>
@@ -1491,11 +1493,11 @@ export default function PartnerPortal() {
                   <Card title="Serie de GMV" subtitle="Dados reais do periodo selecionado">
                     <Sparkline data={dashboard.series.gmv} />
                   </Card>
-                  <Card title="Pedidos por faixa horaria" subtitle="Demanda real derivada de /api/partner/orders">
+                  <Card title="Pedidos por faixa horaria" subtitle="Distribuicao de demanda por horario">
                     <Bars data={ordersByHour} />
                   </Card>
                 </section>
-                <Card title="Analise consolidada" subtitle="Leituras reais de pedidos, receita e operacao">
+                <Card title="Análise consolidada" subtitle="Leituras reais de pedidos, receita e operação">
                   <div className="grid grid-cols-1 gap-2 md:grid-cols-5">
                     <Summary label="Pedidos" value={String(currentOrders.length)} />
                     <Summary label="Janela de demanda" value={`${String(demandPeakHour).padStart(2, "0")}:00`} />
@@ -1508,7 +1510,7 @@ export default function PartnerPortal() {
             ) : null}
 
             {tab === "reputation" ? (
-              <Card title="Reputacao" subtitle="Saude operacional e experiencia do cliente">
+              <Card title="Reputacao" subtitle="Saude operacional e experiência do cliente">
                 <div className="mb-3 grid grid-cols-1 gap-2 md:grid-cols-5">
                   <Summary label="Score da loja" value={`${dashboard.score}/100`} />
                   <Summary label="SLA" value={`${dashboard.kpis.sla.toFixed(2)}%`} />
@@ -1545,7 +1547,7 @@ export default function PartnerPortal() {
             ) : null}
 
             {tab === "help" ? (
-              <Card title="Central do vendedor" subtitle="Apoio operacional no proprio portal">
+              <Card title="Central do vendedor" subtitle="Apoio operacional no próprio portal">
                 <div className="grid grid-cols-1 gap-2 md:grid-cols-3">
                   <Summary label="Tickets em aberto" value={String(toNumber(supportPayload?.summary?.open))} />
                   <Summary label="Tickets vencidos" value={String(toNumber(supportPayload?.summary?.overdue))} />
@@ -1626,7 +1628,7 @@ function Todo({ label, value }: { label: string; value: number }) {
     <div className="flex items-center justify-between rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-sm">
       <span>{label}</span>
       <span className={`rounded-full border px-2 py-1 text-xs ${value > 0 ? "border-amber-200 bg-amber-50 text-amber-700" : "border-emerald-200 bg-emerald-50 text-emerald-700"}`}>
-        {value > 0 ? `Atencao (${value})` : "OK"}
+        {value > 0 ? `Atenção (${value})` : "OK"}
       </span>
     </div>
   );
@@ -1700,7 +1702,7 @@ function titleFor(tab: TabKey) {
   const titles: Record<TabKey, string> = {
     dashboard: "Overview",
     orders: "Pedidos",
-    returns: "Devolucoes",
+    returns: "Devoluções",
     products: "Produtos",
     inventory: "Estoque",
     pricing: "Precos & Promocoes",

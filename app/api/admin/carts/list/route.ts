@@ -1,8 +1,14 @@
 import { NextRequest, NextResponse } from "next/server";
 
+import { ensureAdminRequest } from "@/lib/admin/adminAuth";
 import { getSupabaseServerClient } from "@/lib/supabaseServer";
 
 export async function GET(request: NextRequest) {
+  const admin = await ensureAdminRequest(request);
+  if ("error" in admin) {
+    return NextResponse.json({ error: admin.error }, { status: admin.status });
+  }
+
   const { searchParams } = request.nextUrl;
   const status = searchParams.get("status");
   const anonId = searchParams.get("anonId");

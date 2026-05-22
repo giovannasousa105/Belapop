@@ -97,7 +97,9 @@ export const productRepository = {
     const { data, error } = await supabase
       .from("products")
       .select(`${selectFields}, sellers!products_seller_id_fkey(status)`)
-      .eq("status", "published");
+      .eq("status", "published")
+      .gt("price_cents", 0)
+      .gt("stock_quantity", 0);
     if (error) {
       console.error("[products] getPublished failed:", error);
       return [];
@@ -106,7 +108,7 @@ export const productRepository = {
     return rows
       .filter((row: any) => {
         const sellerStatus = row.sellers?.status;
-        return !sellerStatus || sellerStatus === "active";
+        return sellerStatus === "active" || sellerStatus === "approved";
       })
       .map(mapProduct);
   },

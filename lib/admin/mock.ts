@@ -171,7 +171,7 @@ export const mockDashboard: AdminDashboardViewModel = {
     payments: [
       { label: "Pagamentos falhos", value: "0" },
       { label: "Chargebacks (30d)", value: "0" },
-      { label: "Taxa de aprovacao", value: "0,0%" }
+      { label: "Taxa de aprovação", value: "0,0%" }
     ],
     catalog: [
       { label: "Produtos publicados", value: "0" },

@@ -36,13 +36,15 @@ export async function POST(request: Request) {
     });
 
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      console.warn("[analytics/event] insert skipped", error.message);
+      return NextResponse.json({ ok: false }, { status: 202 });
     }
 
     return NextResponse.json({ ok: true });
   } catch (error) {
     const message =
       error instanceof Error ? error.message : "Falha ao registrar evento.";
-    return NextResponse.json({ error: message }, { status: 500 });
+    console.warn("[analytics/event] skipped", message);
+    return NextResponse.json({ ok: false }, { status: 202 });
   }
 }

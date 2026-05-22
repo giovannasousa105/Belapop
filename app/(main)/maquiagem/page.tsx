@@ -5,12 +5,12 @@ import { MakeupAtelierExperience } from "@/components/maquiagem/MakeupAtelierExp
 export const metadata: Metadata = {
   title: "Maquiagem | BelaPop",
   description:
-    "Maquiagem BelaPop com selecao viva da categoria, foco em uso, acabamento e rotina.",
+    "Maquiagem BelaPop com seleção viva da categoria, foco em uso, acabamento e rotina.",
   openGraph: {
     title: "Maquiagem | BelaPop",
     description:
-      "Maquiagem BelaPop com selecao viva da categoria, foco em uso, acabamento e rotina.",
-    images: [{ url: "/editorial/presenca-diurna.svg", alt: "Maquiagem BelaPop" }],
+      "Maquiagem BelaPop com seleção viva da categoria, foco em uso, acabamento e rotina.",
+    images: [{ url: "/og-default.jpg", alt: "Maquiagem BelaPop" }],
     type: "website"
   }
 };

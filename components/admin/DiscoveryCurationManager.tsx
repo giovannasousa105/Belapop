@@ -212,11 +212,11 @@ export default function DiscoveryCurationManager({ kinds, collections, available
           })
         });
         const payload = (await response.json().catch(() => null)) as { error?: string } | null;
-        if (!response.ok) throw new Error(payload?.error ?? "Falha ao salvar a ordem das colecoes.");
+        if (!response.ok) throw new Error(payload?.error ?? "Falha ao salvar a ordem das coleções.");
         setMessage(`Ordem de ${getDiscoveryCollectionKindMeta(activeKind).label} salva.`);
         router.refresh();
       } catch (error) {
-        setMessage(error instanceof Error ? error.message : "Falha ao salvar a ordem das colecoes.");
+        setMessage(error instanceof Error ? error.message : "Falha ao salvar a ordem das coleções.");
       } finally {
         setSaveMode(null);
       }
@@ -239,11 +239,11 @@ export default function DiscoveryCurationManager({ kinds, collections, available
           })
         });
         const payload = (await response.json().catch(() => null)) as { error?: string } | null;
-        if (!response.ok) throw new Error(payload?.error ?? "Falha ao salvar os produtos da colecao.");
+        if (!response.ok) throw new Error(payload?.error ?? "Falha ao salvar os produtos da coleção.");
         setMessage(`Produtos de ${selectedCollection.title} salvos.`);
         router.refresh();
       } catch (error) {
-        setMessage(error instanceof Error ? error.message : "Falha ao salvar os produtos da colecao.");
+        setMessage(error instanceof Error ? error.message : "Falha ao salvar os produtos da coleção.");
       } finally {
         setSaveMode(null);
       }
@@ -271,11 +271,11 @@ export default function DiscoveryCurationManager({ kinds, collections, available
           })
         });
         const payload = (await response.json().catch(() => null)) as { error?: string } | null;
-        if (!response.ok) throw new Error(payload?.error ?? "Falha ao salvar os detalhes da colecao.");
+        if (!response.ok) throw new Error(payload?.error ?? "Falha ao salvar os detalhes da coleção.");
         setMessage(`Detalhes de ${selectedCollection.title} salvos.`);
         router.refresh();
       } catch (error) {
-        setMessage(error instanceof Error ? error.message : "Falha ao salvar os detalhes da colecao.");
+        setMessage(error instanceof Error ? error.message : "Falha ao salvar os detalhes da coleção.");
       } finally {
         setSaveMode(null);
       }
@@ -324,7 +324,7 @@ export default function DiscoveryCurationManager({ kinds, collections, available
               className="mt-4 inline-flex items-center gap-2 rounded-full bg-bpBlack px-5 py-3 text-xs uppercase tracking-[0.22em] text-bpOffWhite transition hover:bg-bpBlackSoft disabled:opacity-60"
             >
               <Save size={14} />
-              {isSaving && saveMode === "collections" ? "Salvando..." : "Salvar ordem das colecoes"}
+              {isSaving && saveMode === "collections" ? "Salvando..." : "Salvar ordem das coleções"}
             </button>
           </div>
 
@@ -629,7 +629,7 @@ export default function DiscoveryCurationManager({ kinds, collections, available
                 className="inline-flex items-center gap-2 rounded-full bg-bpBlack px-5 py-3 text-xs uppercase tracking-[0.22em] text-bpOffWhite transition hover:bg-bpBlackSoft disabled:opacity-60"
               >
                 <Save size={14} />
-                {isSaving && saveMode === "products" ? "Salvando..." : "Salvar produtos da colecao"}
+                {isSaving && saveMode === "products" ? "Salvando..." : "Salvar produtos da coleção"}
               </button>
             </>
           ) : (

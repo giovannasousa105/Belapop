@@ -175,7 +175,7 @@ const ritualSteps = [
     icon: SunMedium,
     title: "4. Proteger",
     description:
-      "Protecao UV de amplo espectro com acabamento invisivel para o ritual diario."
+      "Proteção UV de amplo espectro com acabamento invisivel para o ritual diario."
   }
 ] as const;
 
@@ -226,7 +226,7 @@ const footerGroups = [
   },
   {
     title: "Atendimento ao Cliente",
-    items: ["Minha Conta", "Rastrear Pedido", "Trocas e Devolucoes", "Fale Conosco"]
+    items: ["Minha Conta", "Rastrear Pedido", "Trocas e Devoluções", "Fale Conosco"]
   }
 ] as const;
 
@@ -508,7 +508,7 @@ export function AtelierPreviewScreen() {
                   <input
                     id="skincare-search"
                     className="h-11 w-full border-0 bg-transparent px-0 py-0 text-sm text-[#1c1b1b] placeholder:text-[#747878]/70 focus:outline-none focus:ring-0"
-                    placeholder="Serum, limpeza, hidratacao..."
+                    placeholder="Serum, limpeza, hidratação..."
                     type="text"
                     value={searchQuery}
                     onChange={(event) => setSearchQuery(event.target.value)}
@@ -609,7 +609,7 @@ export function AtelierPreviewScreen() {
                       className="min-h-12 w-full bg-black px-3 text-[11px] uppercase tracking-[0.2em] text-white transition-colors hover:bg-black/90 lg:min-h-[56px]"
                       type="button"
                     >
-                      Adicionar a Sacola
+                      Adicionar ao Carrinho
                     </button>
                   </div>
                 </article>

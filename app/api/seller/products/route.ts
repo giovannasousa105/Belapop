@@ -23,7 +23,7 @@ const buildProductRow = (
   return {
     id: createUUID(),
     seller_id: sellerId,
-    name: (payload.name ?? "").toString().trim(),
+    name: validated.normalizedName,
     description: (payload.description ?? "").toString().trim(),
     category: payload.category ?? null,
     price_cents: Math.round(priceValue * 100),

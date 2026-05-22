@@ -112,13 +112,13 @@ export async function POST(request: Request) {
   const publishedAtInput = normalizeOptionalIsoDate(body?.publishedAt);
 
   if (publishedAtInput === "invalid") {
-    return NextResponse.json({ error: "Data de publicacao invalida." }, { status: 400 });
+    return NextResponse.json({ error: "Data de publicação invalida." }, { status: 400 });
   }
 
   const publishedAt = publishedAtInput ?? (status === "published" ? new Date().toISOString() : null);
 
   if (!title || !topicSlug || !textBody) {
-    return NextResponse.json({ error: "Titulo, concern e resumo clinico sao obrigatorios." }, { status: 400 });
+    return NextResponse.json({ error: "Titulo, concern e resumo clínico sao obrigatorios." }, { status: 400 });
   }
 
   const slug = slugify(normalizeOptionalString(body?.slug) ?? title);
@@ -170,7 +170,7 @@ export async function PATCH(request: Request) {
   const publishedAt = normalizeOptionalIsoDate(body?.publishedAt);
 
   if (publishedAt === "invalid") {
-    return NextResponse.json({ error: "Data de publicacao invalida." }, { status: 400 });
+    return NextResponse.json({ error: "Data de publicação invalida." }, { status: 400 });
   }
 
   const payload: Record<string, unknown> = {

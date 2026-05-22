@@ -17,18 +17,19 @@ import { useState } from "react";
 
 import { ImmersiveMenuDrawer } from "@/components/popclub/shared/ImmersiveMenuDrawer";
 import { membershipMenuLinks } from "@/lib/popclub/navigation";
+import { popClubBenefitThemes, popClubTiers } from "@/lib/popclub/tiers";
 
 const membershipBenefits = [
-  { icon: Sparkles, label: "Acesso antecipado a lancamentos" },
-  { icon: Star, label: "Beneficios do programa" },
-  { icon: ArrowRight, label: "Acesso a acoes e ativacoes selecionadas, quando disponiveis" },
-  { icon: Camera, label: "Skin Scan com beneficios do programa" }
+  { icon: Sparkles, label: "Acesso antecipado por nivel" },
+  { icon: Star, label: "Pontos e creditos com progressao clara" },
+  { icon: ArrowRight, label: "Amostras premium em pedidos elegiveis" },
+  { icon: Camera, label: "Skin Scan ligado a recompra assistida" }
 ] as const;
 
 const membershipPillars = [
-  "Beneficios do programa com uso claro no dia a dia da rotina.",
-  "Sugestoes organizadas com mais clareza com base no seu perfil e historico.",
-  "Entrada imediata no Skin Scan e nos proximos passos do cuidado."
+  "Você entra no Essencial e sobe para Premium e Luxo com os pontos acumulados nas compras elegíveis.",
+  "Cada nível aumenta sua vantagem em acesso antecipado, créditos, amostras e prioridade de atendimento.",
+  "O clube conversa com o Skin Scan, com o carrinho e com a recompra para manter sua rotina em continuidade."
 ] as const;
 
 export default function PopClubMembershipExperience() {
@@ -47,12 +48,12 @@ export default function PopClubMembershipExperience() {
             <Menu className="h-5 w-5" />
           </button>
           <div className="text-sm font-semibold tracking-tight text-[#1c1b1b]/80">
-            PopClub Membership
+            Clube PopClub
           </div>
           <Link
             href="/carrinho"
             className="inline-flex h-10 w-10 items-center justify-center text-[#1c1b1b]"
-            aria-label="Abrir sacola"
+            aria-label="Abrir carrinho"
           >
             <ShoppingBag className="h-5 w-5" />
           </Link>
@@ -64,7 +65,7 @@ export default function PopClubMembershipExperience() {
         onClose={() => setMenuOpen(false)}
         title="PopClub"
         links={membershipMenuLinks}
-        searchPlaceholder="Buscar experiencias"
+        searchPlaceholder="Buscar no clube"
       />
 
       <main className="mx-auto max-w-7xl px-6 pb-16 pt-24 lg:px-10 lg:pb-24 lg:pt-32">
@@ -79,14 +80,13 @@ export default function PopClubMembershipExperience() {
                 />
               </div>
               <p className="mb-4 text-[10px] font-bold uppercase tracking-[0.28em] text-[#444748]/70">
-                Membership Edition
+                Niveis do clube
               </p>
               <h1 className="font-[var(--font-playfair)] text-[28px] leading-[1.25] lg:max-w-xl lg:text-6xl lg:leading-[1.08]">
-                Voce esta a um passo de fazer parte.
+                Um clube simples de entender e util de usar.
               </h1>
               <p className="mt-4 max-w-xl text-base leading-relaxed text-[#444748]/80 lg:text-lg">
-                Entrada imediata no ecossistema BelaPop, com beneficios do programa e uma
-                jornada mais organizada para acompanhar sua rotina.
+                Voce comeca no Essencial por R$ 19,90 por mes e evolui para Premium e Luxo com beneficios concretos em compra, atendimento e recompra.
               </p>
             </div>
 
@@ -103,7 +103,7 @@ export default function PopClubMembershipExperience() {
                     Programa PopClub
                   </p>
                   <p className="font-[var(--font-playfair)] text-2xl leading-tight lg:text-4xl">
-                    Jornada mais organizada, com escolhas e acompanhamento em continuidade.
+                    Acesso antecipado, pontos, concierge e recompra no mesmo fluxo.
                   </p>
                 </div>
               </article>
@@ -111,7 +111,7 @@ export default function PopClubMembershipExperience() {
               <div className="space-y-6">
                 <section className="rounded-[24px] border border-black/[0.04] bg-white/75 p-6 shadow-[0_10px_40px_rgba(28,27,27,0.03)] lg:p-7">
                   <h2 className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#444748]/70">
-                    O que voce tera
+                    O que voce desbloqueia
                   </h2>
                   <ul className="mt-5 space-y-5">
                     {membershipBenefits.map((item) => {
@@ -129,7 +129,7 @@ export default function PopClubMembershipExperience() {
 
                 <section className="rounded-[24px] bg-[#f6f3f2] p-6 lg:p-7">
                   <p className="mb-5 text-[10px] font-bold uppercase tracking-[0.24em] text-[#444748]/70">
-                    Por que entrar agora
+                    Como o clube funciona
                   </p>
                   <div className="space-y-5">
                     {membershipPillars.map((pillar, index) => (
@@ -153,7 +153,7 @@ export default function PopClubMembershipExperience() {
                   Criar conta
                 </p>
                 <h2 className="mt-3 font-[var(--font-playfair)] text-3xl leading-tight lg:text-4xl">
-                  Monte seu acesso premium.
+                  Monte seu acesso ao clube.
                 </h2>
               </div>
 
@@ -203,14 +203,54 @@ export default function PopClubMembershipExperience() {
               </div>
             </section>
 
+            <section
+              id="niveis"
+              className="rounded-[28px] border border-black/[0.05] bg-white/80 p-6 shadow-[0_20px_60px_rgba(28,27,27,0.04)] lg:p-8"
+            >
+              <div className="mb-8">
+                <p className="text-[10px] font-bold uppercase tracking-[0.24em] text-[#444748]/65">
+                  Compare os niveis
+                </p>
+                <h2 className="mt-3 font-[var(--font-playfair)] text-3xl leading-tight lg:text-4xl">
+                  Beneficios claros em cada etapa.
+                </h2>
+              </div>
+
+              <div className="space-y-4">
+                {popClubTiers.map((tier) => (
+                  <article key={tier.id} className="rounded-[22px] bg-[#f6f3f2] p-5">
+                    <div className="flex flex-wrap items-start justify-between gap-3">
+                      <div>
+                        <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-[#444748]/60">
+                          {tier.unlockRule}
+                        </p>
+                        <h3 className="mt-2 font-[var(--font-playfair)] text-2xl">{tier.label}</h3>
+                      </div>
+                      <span className="border border-black/10 px-3 py-1 text-[10px] uppercase tracking-[0.2em] text-[#444748]">
+                        Nivel
+                      </span>
+                    </div>
+                    <p className="mt-3 text-sm leading-relaxed text-[#444748]">{tier.summary}</p>
+                    <ul className="mt-4 space-y-2">
+                      {tier.benefits.map((benefit) => (
+                        <li key={benefit} className="text-sm leading-relaxed text-[#1c1b1b]">
+                          {benefit}
+                        </li>
+                      ))}
+                    </ul>
+                  </article>
+                ))}
+              </div>
+            </section>
+
             <section className="rounded-[28px] bg-[#f6f3f2]/80 p-6 lg:p-8">
               <div className="flex flex-col gap-6 border-b border-black/[0.06] pb-6 md:flex-row md:items-end md:justify-between">
                 <div>
                   <span className="text-[11px] uppercase tracking-[0.22em] text-[#444748]">
-                    PopClub
+                    Entrada no Essencial
                   </span>
                   <h3 className="mt-2 max-w-sm font-[var(--font-playfair)] text-2xl lg:text-3xl">
-                    Assinatura mensal para acompanhar sua rotina.
+                    Assinatura mensal para liberar o clube e comecar sua progressao.
                   </h3>
                   <p className="mt-2 text-sm text-[#444748]/75">Cancele quando quiser.</p>
                 </div>
@@ -224,9 +264,21 @@ export default function PopClubMembershipExperience() {
 
               <div className="mt-6 space-y-6">
                 <p className="max-w-xl text-sm leading-relaxed text-[#444748]">
-                  Seu acesso inclui entrada imediata no fluxo do Skin Scan e beneficios e
-                  sugestoes organizados com base no seu perfil, quando disponiveis.
+                  Sua assinatura libera o nivel Essencial na hora. A progressao para Premium e Luxo acontece pelos pontos acumulados nas compras elegiveis.
                 </p>
+
+                <div className="grid gap-4 sm:grid-cols-2">
+                  {popClubBenefitThemes.map((theme) => (
+                    <div key={theme.title} className="rounded-[18px] bg-white/80 p-4">
+                      <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#444748]/65">
+                        {theme.title}
+                      </p>
+                      <p className="mt-2 text-sm leading-relaxed text-[#444748]">
+                        {theme.description}
+                      </p>
+                    </div>
+                  ))}
+                </div>
 
                 <Link
                   href="/popclub/ativar"
@@ -265,19 +317,23 @@ export default function PopClubMembershipExperience() {
               JA TEM CONTA? ENTRAR
             </Link>
             <div className="mt-5 flex flex-wrap justify-center gap-6 lg:justify-start">
-              {["Privacy", "Terms", "Concierge"].map((item) => (
+              {[
+                { label: "Aviso de Privacidade", href: "/aviso-de-privacidade" },
+                { label: "Termos e Condições", href: "/termos-e-condições" },
+                { label: "Fale Conosco", href: "/contato" }
+              ].map((item) => (
                 <Link
-                  key={item}
-                  href="/contato"
+                  key={item.label}
+                  href={item.href}
                   className="text-[10px] uppercase tracking-[0.2em] text-[#444748]/60 hover:text-[#ed93d5]"
                 >
-                  {item}
+                  {item.label}
                 </Link>
               ))}
             </div>
           </div>
           <p className="text-[10px] uppercase tracking-[0.2em] text-[#444748]/40">
-            (c) 2026 Elite Collective. All rights reserved.
+            (c) 2026 BelaPop. Todos os direitos reservados.
           </p>
         </div>
       </footer>

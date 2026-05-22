@@ -43,7 +43,7 @@ function mapSignupMessage(message: string | undefined) {
   if (normalized.includes("password")) {
     return "Use uma senha mais segura, com pelo menos 6 caracteres.";
   }
-  return "Nao foi possivel criar sua conta agora. Tente novamente em instantes.";
+  return "Não foi possivel criar sua conta agora. Tente novamente em instantes.";
 }
 
 export async function POST(request: NextRequest) {
@@ -144,7 +144,7 @@ export async function POST(request: NextRequest) {
     return json(
       {
         error: "profile_sync_failed",
-        message: "Sua conta foi criada, mas nao conseguimos preparar o perfil agora. Tente entrar novamente."
+        message: "Sua conta foi criada, mas não conseguimos preparar o perfil agora. Tente entrar novamente."
       },
       { status: 400 }
     );

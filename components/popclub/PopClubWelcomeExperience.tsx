@@ -5,11 +5,13 @@
 import Link from "next/link";
 import { ArrowRight, Star, X } from "lucide-react";
 
-const benefits = [
-  "Beneficios do programa",
-  "Lancamentos antecipados",
-  "Acoes e ativacoes selecionadas, quando disponiveis",
-  "Sugestoes organizadas com mais clareza"
+import { popClubTierMap } from "@/lib/popclub/tiers";
+
+const welcomeBenefits = [
+  "24h de acesso antecipado em lancamentos selecionados",
+  "1 ponto por R$ 1 em compras elegiveis",
+  "Recompra assistida com lembrete de reposicao",
+  "Base ativa para subir ao Premium e ao Luxo"
 ] as const;
 
 export default function PopClubWelcomeExperience() {
@@ -42,10 +44,10 @@ export default function PopClubWelcomeExperience() {
             <div className="absolute bottom-0 left-0 right-0 hidden p-8 text-white lg:block">
               <div className="max-w-sm rounded-[24px] border border-white/10 bg-white/10 p-6 backdrop-blur-md">
                 <p className="text-[10px] uppercase tracking-[0.24em] text-white/60">
-                  Access unlocked
+                  Nivel ativado
                 </p>
                 <p className="mt-3 font-[var(--font-playfair)] text-3xl leading-tight">
-                  Sua jornada premium comeca agora.
+                  Seu PopClub {popClubTierMap.essencial.label} comeca agora.
                 </p>
               </div>
             </div>
@@ -55,23 +57,21 @@ export default function PopClubWelcomeExperience() {
             <div className="space-y-8 lg:rounded-[32px] lg:border lg:border-black/[0.05] lg:bg-white/72 lg:p-10 lg:shadow-[0_20px_60px_rgba(28,27,27,0.04)]">
               <div className="space-y-4">
                 <p className="text-[10px] font-bold uppercase tracking-[0.28em] text-[#444748]/65">
-                  Membership active
+                  Clube ativado
                 </p>
                 <h1 className="font-[var(--font-playfair)] text-4xl leading-tight tracking-tight lg:text-6xl lg:leading-[1.04]">
                   Bem-vinda ao PopClub.
                 </h1>
                 <h2 className="text-lg font-medium tracking-wide text-[#ed93d5] lg:text-xl">
-                  Seu acesso ja esta ativo.
+                  Seu nivel {popClubTierMap.essencial.label} ja esta ativo.
                 </h2>
                 <p className="max-w-xl leading-relaxed text-[#444748] lg:text-lg">
-                  Voce acaba de desbloquear um programa para acompanhar sua rotina com mais
-                  continuidade, com beneficios do programa e sugestoes organizadas com mais
-                  clareza.
+                  Voce acaba de desbloquear a entrada no clube com acesso antecipado, pontuacao por compra e recompra assistida para manter sua rotina em continuidade.
                 </p>
               </div>
 
               <section className="grid gap-4 sm:grid-cols-2">
-                {benefits.map((item) => (
+                {welcomeBenefits.map((item) => (
                   <div
                     key={item}
                     className="flex items-center gap-4 rounded-[20px] bg-[#f6f3f2] px-5 py-4"
@@ -94,15 +94,15 @@ export default function PopClubWelcomeExperience() {
                     <ArrowRight className="h-4 w-4" />
                   </Link>
                   <p className="text-xs text-[#444748]">
-                    Descubra sua rotina ideal dentro do PopClub.
+                    Descubra sua rotina ideal e comece a acumular pontos com mais criterio.
                   </p>
                 </div>
 
                 <Link
-                  href="/popclub/inicio"
+                  href="/popclub/membership#niveis"
                   className="inline-flex items-center justify-center border-b border-[#1c1b1b] pb-1 text-[11px] uppercase tracking-[0.1em] text-[#1c1b1b] transition-opacity hover:opacity-60"
                 >
-                  Ir para meu dashboard
+                  Ver niveis do clube
                 </Link>
               </section>
             </div>

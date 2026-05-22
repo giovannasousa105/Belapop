@@ -13,7 +13,7 @@ export default function SellerSupportPage() {
 
   const templates = {
     delay:
-      "Oi! Seu pedido esta em separacao e sera despachado dentro do prazo informado. Enviaremos o codigo de rastreio em seguida.",
+      "Oi! Seu pedido esta em separação e sera despachado dentro do prazo informado. Enviaremos o codigo de rastreio em seguida.",
     exchange:
       "Oi! Podemos seguir com troca ou reembolso, conforme sua preferencia. Me confirme o numero do pedido para abrir o protocolo.",
     usage:
@@ -41,7 +41,7 @@ export default function SellerSupportPage() {
         customer: "Cliente BelaPop",
         subject: "Troca de produto com vazamento",
         reason: "troca",
-        status: "em analise",
+        status: "em análise",
         firstResponseMin: 21,
         waitingHours: 6,
         lastMessage: "Coleta reversa solicitada."
@@ -133,7 +133,7 @@ export default function SellerSupportPage() {
         <article className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
           <p className="text-xs uppercase tracking-[0.2em] text-bpGraphite/70">Impacto em reputacao</p>
           <p className="mt-2 text-2xl font-semibold text-bpBlackSoft">
-            {metrics.urgent > 0 ? "Atencao" : "Estavel"}
+            {metrics.urgent > 0 ? "Atenção" : "Estavel"}
           </p>
         </article>
       </section>

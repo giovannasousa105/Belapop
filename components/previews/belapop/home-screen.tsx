@@ -18,7 +18,7 @@ import {
 const products = [
   {
     brand: "LA MER",
-    name: "Creme de la Mer - Hidratacao Profunda",
+    name: "Creme de la Mer - Hidratação Profunda",
     price: "R$ 2.450,00",
     image:
       "https://lh3.googleusercontent.com/aida-public/AB6AXuD96gotqBFx_yo0h4yJZ5OK6V4VeYWFrzWhPSQBfV2BmWW88MGLxeRzWJ4-4hBGcPLPwH3KncNxDrLNNSGVNbdeXHFAW1sVkEuRpErhYuKF-e3_uwR8j91L2KgbzEVu6WjoOP5g_4_zTRvUusAnAkv2YdhXzG-n9eroC94OF9U9o8YK8eIog4YjigOK4N1h8m48LVM6HGXl0CfHpOfyQ1-UXkSwKZS472oCRp5-WUm4mlIpCGcRwvi43fSZ-ljn2l-f0qTe_t1yGH01"

@@ -10,7 +10,7 @@ export default function SkinScanAnalyzingExperience() {
     <div className="min-h-screen overflow-hidden bg-black text-white">
       <header className="fixed inset-x-0 top-0 z-50 bg-[#fcf9f8]/10 px-6 py-4 backdrop-blur-xl">
         <div className="mx-auto flex max-w-md items-center justify-between">
-          <Link href="/faceshield" className="inline-flex h-10 w-10 items-center justify-center">
+          <Link href="/skin-scan/captura" className="inline-flex h-10 w-10 items-center justify-center">
             <X className="h-5 w-5" />
           </Link>
           <h1 className="text-sm uppercase tracking-[0.2em]">Skin Analysis</h1>
@@ -22,7 +22,7 @@ export default function SkinScanAnalyzingExperience() {
         <div className="relative w-full max-w-md overflow-hidden bg-neutral-950">
           <img
             src="https://lh3.googleusercontent.com/aida-public/AB6AXuCJ5CVrb-vZnL41VI6bMR2RTmkV-mBcHa-LopaB1R_Ljfy_FA4BsFrMErMQIYiH9qJVdhsQTnMvlmcfENRAt5MYIcrKKlw1p0vbb3IimzCCmLQXc7MmeAbIcSTv8vJZMDXmL8g9sV94wXSsJzZXrBgcmKNo31h5dMSCQMx53SAic3NExOQxnkuc3-JuCAp_RyiLmcfRATBCwYvlornPP9RGch4y1KLhi0g9EmBy-ONb7wwcncmQPwOY-xLoh8B5-slhCE7MV1OYOMYw"
-            alt="Analise da pele"
+            alt="Análise da pele"
             className="aspect-[3/4] h-full w-full object-cover opacity-60 grayscale brightness-75"
           />
           <div className="absolute inset-0 bg-black/10" />

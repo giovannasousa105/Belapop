@@ -62,7 +62,7 @@ export function ScanScreenOne({ mode = "preview", embedInPage = false }: ScanScr
       return "Selecione seus focos";
     }
 
-    return `Iniciar diagnostico IA (${selected.length})`;
+    return `Iniciar diagnóstico IA (${selected.length})`;
   }, [selected.length]);
 
   function toggleFocus(id: string) {

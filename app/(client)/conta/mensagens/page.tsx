@@ -145,7 +145,7 @@ export default function ContaMensagensPage() {
       setNewMessage("");
       setNotice("Mensagem enviada.");
     } catch (error) {
-      setNotice(error instanceof Error ? error.message : "Nao foi possivel enviar mensagem.");
+      setNotice(error instanceof Error ? error.message : "Não foi possivel enviar mensagem.");
     } finally {
       setSaving(false);
     }

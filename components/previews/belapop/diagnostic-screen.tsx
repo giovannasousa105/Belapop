@@ -35,7 +35,7 @@ type CuratedProduct = {
 };
 
 const biometricMetrics: BiometricMetric[] = [
-  { label: "Hidratacao", value: "84%", qualifier: "Alta", width: "84%", accent: true },
+  { label: "Hidratação", value: "84%", qualifier: "Alta", width: "84%", accent: true },
   { label: "Poros", value: "Minimos", qualifier: "Otimizados", width: "15%" },
   { label: "Sensibilidade", value: "Baixa", qualifier: "Estavel", width: "20%" },
   { label: "Textura", value: "Suave", qualifier: "Radiante", width: "92%", accent: true }

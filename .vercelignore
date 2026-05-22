@@ -1,0 +1,28 @@
+/.git/
+/.next/
+/node_modules/
+/.npm-cache/
+/.playwright-mcp/
+/.claude/
+/__pycache__/
+/.env
+/.env.*
+/.vercel/.env*
+!/.env.example
+
+# Local build, debug, and verification artifacts.
+/tmp/
+/qa-screens/
+/previews/
+/hcs-apr/
+*.log
+*.tsbuildinfo
+*.har
+.tmp-*
+tmp-*
+
+# Root-level screenshots generated during visual QA.
+/*.png
+/*.webp
+/*.jpg
+/*.jpeg

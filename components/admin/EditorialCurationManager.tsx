@@ -106,13 +106,13 @@ export default function EditorialCurationManager({ surface, curated, available }
 
         const payload = (await response.json().catch(() => null)) as { error?: string } | null;
         if (!response.ok) {
-          throw new Error(payload?.error ?? "Nao foi possivel salvar a curadoria.");
+          throw new Error(payload?.error ?? "Não foi possivel salvar a curadoria.");
         }
 
         setMessage("Ordem editorial salva. Home e catalogo featured foram revalidados.");
         router.refresh();
       } catch (error) {
-        setMessage(error instanceof Error ? error.message : "Nao foi possivel salvar a curadoria.");
+        setMessage(error instanceof Error ? error.message : "Não foi possivel salvar a curadoria.");
       }
     });
   };

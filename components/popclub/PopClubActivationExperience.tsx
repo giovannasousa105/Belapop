@@ -6,6 +6,8 @@ import Link from "next/link";
 import { Apple, CreditCard, Lock, Sparkles, X } from "lucide-react";
 import { useState, type ReactNode } from "react";
 
+import { popClubTierMap, popClubTiers } from "@/lib/popclub/tiers";
+
 const trustPoints = [
   "Cobranca mensal automatica",
   "Cancelamento simples a qualquer momento",
@@ -60,15 +62,13 @@ export default function PopClubActivationExperience() {
         <div className="grid gap-12 lg:grid-cols-[minmax(0,0.92fr)_minmax(440px,1.08fr)] lg:gap-16">
           <section className="lg:sticky lg:top-28 lg:self-start">
             <p className="mb-4 text-[10px] font-bold uppercase tracking-[0.28em] text-black/45">
-              Checkout Membership
+              Ativacao do clube
             </p>
             <h2 className="max-w-lg font-[var(--font-playfair)] text-4xl leading-tight tracking-tight lg:text-6xl lg:leading-[1.02]">
-              Falta um passo para liberar seu acesso.
+              Falta um passo para liberar sua entrada no Essencial.
             </h2>
             <p className="mt-5 max-w-xl text-base leading-relaxed text-[#444748] lg:text-lg">
-              Confirme a assinatura mensal e entre no fluxo completo do PopClub com acesso
-              imediato ao Skin Scan e beneficios e sugestoes organizados com base no seu perfil,
-              quando disponiveis.
+              Sua assinatura ativa o primeiro nivel do PopClub imediatamente. Depois disso, seus pontos acumulados liberam Premium e Luxo com mais creditos, amostras e prioridade no concierge.
             </p>
 
             <div className="mt-10 overflow-hidden rounded-[28px] bg-black text-white">
@@ -81,10 +81,10 @@ export default function PopClubActivationExperience() {
                 <div className="absolute inset-0 bg-gradient-to-t from-black via-black/15 to-transparent" />
                 <div className="absolute bottom-0 left-0 right-0 p-6 lg:p-8">
                   <p className="mb-3 text-[10px] uppercase tracking-[0.28em] text-white/65">
-                    Assinatura ativa em segundos
+                    Entrada imediata no Essencial
                   </p>
                   <p className="max-w-sm font-[var(--font-playfair)] text-2xl leading-tight lg:text-4xl">
-                    Confirmacao elegante, acesso imediato e jornada sem atrito.
+                    Confirmacao elegante, acesso imediato e progressao clara.
                   </p>
                 </div>
               </div>
@@ -107,10 +107,10 @@ export default function PopClubActivationExperience() {
               <div className="flex flex-col gap-6 border-b border-black/5 pb-6 md:flex-row md:items-end md:justify-between">
                 <div>
                   <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-black/50">
-                    Plano selecionado
+                    Nivel liberado agora
                   </p>
                   <h3 className="mt-3 font-[var(--font-playfair)] text-3xl leading-tight">
-                    PopClub Membership
+                    PopClub {popClubTierMap.essencial.label}
                   </h3>
                   <p className="mt-2 text-sm text-black/55">Cancele quando quiser.</p>
                 </div>
@@ -124,7 +124,9 @@ export default function PopClubActivationExperience() {
 
               <div className="mt-6 space-y-3 text-sm leading-relaxed text-[#444748]">
                 <p>Seu acesso inclui ativacao imediata e renovacao mensal automatica.</p>
-                <p>Os beneficios do programa ficam disponiveis assim que o pagamento for confirmado.</p>
+                {popClubTierMap.essencial.benefits.map((benefit) => (
+                  <p key={benefit}>{benefit}</p>
+                ))}
               </div>
             </div>
 
@@ -141,8 +143,8 @@ export default function PopClubActivationExperience() {
               {paymentMethod !== "card" ? (
                 <div className="mt-6 rounded-[18px] bg-[#f6f3f2] p-5 text-sm leading-relaxed text-[#444748]">
                   {paymentMethod === "pix"
-                    ? "Pix recorrente sera liberado na proxima etapa. Voce recebera a confirmacao imediata apos a autenticacao."
-                    : "Apple Pay fica disponivel no dispositivo compativel. Ao continuar, o sistema abre a carteira para autenticacao segura."}
+                    ? "Pix recorrente sera liberado na proxima etapa. Você recebera a confirmacao imediata apos a autenticação."
+                    : "Apple Pay fica disponivel no dispositivo compativel. Ao continuar, o sistema abre a carteira para autenticação segura."}
                 </div>
               ) : null}
             </section>
@@ -180,12 +182,31 @@ export default function PopClubActivationExperience() {
               </div>
             </section>
 
+            <section className="rounded-[28px] border border-black/5 bg-white p-6 shadow-[0_12px_40px_rgba(0,0,0,0.03)] lg:p-8">
+              <h3 className="mb-4 text-[10px] font-bold uppercase tracking-[0.2em] text-black/50">
+                Proximos niveis
+              </h3>
+              <div className="grid gap-4 md:grid-cols-2">
+                {popClubTiers
+                  .filter((tier) => tier.id !== "essencial")
+                  .map((tier) => (
+                    <div key={tier.id} className="rounded-[18px] bg-[#f6f3f2] p-5">
+                      <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-black/50">
+                        {tier.unlockRule}
+                      </p>
+                      <h4 className="mt-2 font-[var(--font-playfair)] text-2xl">{tier.label}</h4>
+                      <p className="mt-2 text-sm leading-relaxed text-[#444748]">{tier.summary}</p>
+                    </div>
+                  ))}
+              </div>
+            </section>
+
             <section className="hidden rounded-[28px] bg-[#1a1a1a] p-8 text-white lg:block">
               <p className="mb-3 text-[10px] font-bold uppercase tracking-[0.22em] text-white/55">
                 Confirmacao final
               </p>
               <p className="max-w-md text-sm leading-relaxed text-white/80">
-                O acesso e liberado assim que a confirmacao do pagamento for concluida.
+                O acesso ao Essencial e liberado assim que a confirmacao do pagamento for concluida.
               </p>
               <Link
                 href="/popclub/boas-vindas"

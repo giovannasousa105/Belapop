@@ -84,7 +84,7 @@ export async function CompliancePage({ filters, searchParamsSource }: Compliance
     return (
       <ErrorState
         title="Falha ao carregar compliance"
-        description={listResult.error?.message ?? "Nao foi possivel carregar as flags de compliance."}
+        description={listResult.error?.message ?? "Não foi possivel carregar as flags de compliance."}
       />
     );
   }
@@ -93,7 +93,7 @@ export async function CompliancePage({ filters, searchParamsSource }: Compliance
     return (
       <ErrorState
         title="Falha ao carregar documentos relacionados"
-        description={documentRows.error?.message ?? "Nao foi possivel carregar o contexto documental da rota."}
+        description={documentRows.error?.message ?? "Não foi possivel carregar o contexto documental da rota."}
       />
     );
   }
@@ -120,7 +120,7 @@ export async function CompliancePage({ filters, searchParamsSource }: Compliance
       <AlertBanner
         tone="warning"
         title="Pendencias regulatorias e flags de compliance"
-        description="A tela cruza pendencia documental, seller bloqueado, impacto financeiro e risco reputacional. A base visual segue o modulo de documentos, mas com a lente de governanca da operacao."
+        description="A tela cruza pendencia documental, seller bloqueado, impacto financeiro e risco reputacional. A base visual segue o modulo de documentos, mas com a lente de governanca da operação."
         actionLabel="Abrir documentos pendentes"
         actionHref="/adm/curadoria/documentos?status=pendente"
       />
@@ -176,7 +176,7 @@ export async function CompliancePage({ filters, searchParamsSource }: Compliance
       ) : rows.length === 0 ? (
         <EmptyState
           title="Nenhuma flag de compliance neste recorte"
-          description="A base atual nao possui flags regulatórias com os filtros selecionados."
+          description="A base atual não possui flags regulatórias com os filtros selecionados."
         />
       ) : (
         <AdminTable
@@ -240,7 +240,7 @@ export async function CompliancePage({ filters, searchParamsSource }: Compliance
                     </Link>
                   ) : null}
                   <Link
-                    href={row.alertId ? `/adm/financeiro/auditoria?alert=${row.alertId}` : `/adm/operacao/parceiros?seller=${row.sellerId}`}
+                    href={row.alertId ? `/adm/financeiro/auditoria?alert=${row.alertId}` : `/adm/operação/parceiros?seller=${row.sellerId}`}
                     className="underline underline-offset-4"
                   >
                     {row.alertId ? "Financeiro" : "Seller"}

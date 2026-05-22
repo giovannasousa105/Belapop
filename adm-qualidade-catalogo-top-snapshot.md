@@ -1,0 +1,56 @@
+- generic [active] [ref=e1] [box=0,0,1434,4577]:
+  - generic [ref=e89] [box=0,0,1434,4577]:
+    - complementary [ref=e90] [box=0,0,280,1100]:
+      - generic [ref=e92] [box=24,20,110,59]:
+        - paragraph [ref=e93] [box=24,20,110,40]: BelaPop
+        - paragraph [ref=e94] [box=24,64,110,15]: Curator Admin
+      - navigation [ref=e95] [box=0,99,275,2279]:
+        - generic [ref=e96] [box=20,119,235,219]:
+          - paragraph [ref=e97] [box=20,119,235,15]: Visao Geral
+          - generic [ref=e98] [box=20,146,235,192]
+        - generic [ref=e122] [box=20,370,235,483]:
+          - paragraph [ref=e123] [box=20,370,235,15]: Curadoria
+          - generic [ref=e124] [box=20,397,235,456]
+        - generic [ref=e171] [box=20,885,235,337]:
+          - paragraph [ref=e172] [box=20,885,235,15]: Operacao
+          - generic [ref=e173] [box=20,912,235,310]
+        - generic [ref=e206] [box=20,1254,235,351]:
+          - paragraph [ref=e207] [box=20,1254,235,15]: Financeiro
+          - generic [ref=e208] [box=20,1281,235,324]
+        - generic [ref=e243] [box=20,1637,235,285]:
+          - paragraph [ref=e244] [box=20,1637,235,15]: Catalogo e Marca
+          - generic [ref=e245] [box=20,1664,235,258]
+        - generic [ref=e278] [box=20,1954,235,87]:
+          - paragraph [ref=e279] [box=20,1954,235,15]: Relacionamento
+          - link "Clientes" [ref=e282] [cursor=pointer] [box=20,1981,235,60]:
+            - /url: /adm/relacionamento/clientes
+        - generic [ref=e290] [box=20,2073,235,285]:
+          - paragraph [ref=e291] [box=20,2073,235,15]: Gestao
+          - generic [ref=e292] [box=20,2100,235,258]
+      - generic [ref=e324] [box=36,2415,203,44]:
+        - generic [ref=e325] [box=36,2415,44,44]: He
+        - generic [ref=e326] [box=92,2419,101,35]:
+          - paragraph [ref=e327] [box=92,2419,101,20]: Helena Martins
+          - paragraph [ref=e328] [box=92,2439,101,15]: Admin Master
+    - generic [ref=e329] [box=0,0,1434,4577]:
+      - banner [ref=e330] [box=280,0,1154,73]:
+        - generic [ref=e331] [box=280,0,1154,72]:
+          - generic [ref=e333] [box=312,19,212,35]
+          - generic [ref=e341] [box=1148,9,254,53]
+      - main [ref=e354] [box=280,73,1154,4504]:
+        - generic [ref=e355] [box=312,105,1090,4424]:
+          - generic [ref=e357] [box=333,125,1049,46]
+          - generic [ref=e368] [box=345,252,1025,319]
+          - generic [ref=e391] [box=312,632,1090,386]
+          - generic [ref=e428] [box=312,1046,1090,223]
+          - generic [ref=e451] [box=312,1297,1090,359]
+          - generic [ref=e540] [box=312,1684,1090,514]
+          - generic [ref=e690] [box=312,2226,1090,388]
+          - generic [ref=e751] [box=312,2642,1090,155]
+          - generic [ref=e789] [box=312,2826,1090,645]
+          - generic [ref=e922] [box=312,3498,1090,430]
+          - generic [ref=e957] [box=312,3957,1090,496]
+          - table [ref=e996] [box=313,4481,1089,47]
+  - button "Open Next.js Dev Tools" [ref=e85] [cursor=pointer] [box=22,1046,32,32]:
+    - img [ref=e86] [box=22,1042,40,40]
+  - alert [ref=e1003] [box=-1,4576,1,1]

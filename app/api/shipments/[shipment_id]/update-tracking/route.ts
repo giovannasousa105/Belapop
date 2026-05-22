@@ -64,7 +64,7 @@ const customerNotificationCopy = (status: string, location?: string) => {
     return {
       title: "Pedido em transito",
       body: location
-        ? `Seu pedido esta em transito. Ultima localizacao: ${location}.`
+        ? `Seu pedido esta em transito. Ultima localização: ${location}.`
         : "Seu pedido esta em transito."
     };
   }
@@ -121,7 +121,7 @@ export async function POST(
     return NextResponse.json({ error: shipmentLookupError.message }, { status: 500 });
   }
   if (!shipment) {
-    return NextResponse.json({ error: "Shipment nao encontrado." }, { status: 404 });
+    return NextResponse.json({ error: "Shipment não encontrado." }, { status: 404 });
   }
   const sellerId = await resolveSellerIdForShipment(admin, shipment);
   const scopedStoreId = await resolveStoreIdForSeller(admin, scope.sellerId);

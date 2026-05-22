@@ -5,7 +5,7 @@ import { SkinBelaAssistantExperience } from "@/components/belacode/SkinBelaAssis
 export const metadata: Metadata = {
   title: "SkinBela Code | BelaPop",
   description:
-    "Concierge SkinBela com chat premium, snapshot biometrico, evidencias dermatologicas e recomendacoes conectadas ao diagnostico."
+    "Concierge SkinBela com chat premium, snapshot biometrico, evidencias dermatologicas e recomendações conectadas a leitura da pele."
 };
 
 export default function BelaCodeLandingPage() {

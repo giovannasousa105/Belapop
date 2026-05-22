@@ -211,7 +211,7 @@ export async function GET(
     formula: {
       weights: computed.weights,
       summary:
-        "score = SLA*0.28 + Cancel*0.20 + Devolucao*0.16 + Avaliacao*0.14 + Ruptura*0.12 + Resposta*0.10"
+        "score = SLA*0.28 + Cancel*0.20 + Devolucao*0.16 + Avaliação*0.14 + Ruptura*0.12 + Resposta*0.10"
     },
     benchmark,
     impacts: computed.impacts,

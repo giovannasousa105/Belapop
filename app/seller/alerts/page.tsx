@@ -32,7 +32,7 @@ const initialRules: AlertRule[] = [
     window: "20h",
     threshold: ">= 1 pedido",
     recommendation: "Priorizar despacho",
-    autoAction: "Notificar operacao",
+    autoAction: "Notificar operação",
     escalation: "in-app + email"
   },
   {
@@ -43,7 +43,7 @@ const initialRules: AlertRule[] = [
     window: "12h",
     threshold: ">= 1 pedido",
     recommendation: "Inserir tracking",
-    autoAction: "Avisar time de expedicao",
+    autoAction: "Avisar time de expedição",
     escalation: "in-app + WhatsApp"
   },
   {
@@ -60,7 +60,7 @@ const initialRules: AlertRule[] = [
 ];
 
 const recentAlerts = [
-  { id: "a1", type: "Operacao", title: "8 pedidos pagos ha 20h sem movimentacao", severity: "critico", eta: "agora" },
+  { id: "a1", type: "Operação", title: "8 pedidos pagos ha 20h sem movimentacao", severity: "critico", eta: "agora" },
   { id: "a2", type: "Tracking", title: "12 pedidos enviados sem codigo de rastreio", severity: "alto", eta: "12h" },
   { id: "a3", type: "Transportadora", title: "Tracking parado > 4 dias em 6 pedidos", severity: "critico", eta: "agora" },
   { id: "a4", type: "Estoque", title: "Pico de cancelamento por ruptura nas ultimas 24h", severity: "alto", eta: "agora" },
@@ -68,7 +68,7 @@ const recentAlerts = [
 ] as const;
 
 const alertTaxonomy = [
-  { type: "Operacao", examples: "Pagamento sem movimentacao, SLA vencendo, aguardando confirmacao" },
+  { type: "Operação", examples: "Pagamento sem movimentacao, SLA vencendo, aguardando confirmacao" },
   { type: "Tracking", examples: "Sem tracking apos envio, tracking parado > 3 dias" },
   { type: "Transportadora", examples: "Atraso acima da media, extravio, tentativa frustrada" },
   { type: "Estoque", examples: "Ruptura, cancelamento por falta de estoque, cobertura critica" },
@@ -229,7 +229,7 @@ export default function SellerAlertsPage() {
                 {rule.condition} | janela {rule.window} | threshold {rule.threshold}
               </p>
               <p className="mt-1 text-xs text-bpGraphite/70">
-                recomendacao: {rule.recommendation || "-"} | autoacao: {rule.autoAction || "-"} | escalonamento: {rule.escalation}
+                recomendação: {rule.recommendation || "-"} | autoacao: {rule.autoAction || "-"} | escalonamento: {rule.escalation}
               </p>
             </div>
           ))}

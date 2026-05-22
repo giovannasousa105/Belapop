@@ -29,7 +29,7 @@ type FocusKey =
   | "sensibilidade"
   | "poros"
   | "brilho"
-  | "hidratacao"
+  | "hidratação"
   | "textura"
   | "olheiras";
 
@@ -100,9 +100,9 @@ const focusItems: FocusItem[] = [
     accentClass: "text-[#7FB394]"
   },
   {
-    key: "hidratacao",
+    key: "hidratação",
     number: "08",
-    labelMobile: "Hidratacao",
+    labelMobile: "Hidratação",
     labelDesktop: "Linhas finas e firmeza",
     icon: Droplets,
     accentClass: "text-[#CD7F32]"
@@ -127,10 +127,10 @@ const focusItems: FocusItem[] = [
 
 const topDesktopLinks = [
   { label: "Skincare", href: "/skincare" },
-  { label: "Makeup", href: "/maquiagem" },
-  { label: "Hair", href: "/cabelos" },
-  { label: "Perfume", href: "/perfumes" },
-  { label: "Favorites", href: "/conta/favoritos" },
+  { label: "Maquiagem", href: "/maquiagem" },
+  { label: "Cabelos", href: "/cabelos" },
+  { label: "Perfumes", href: "/perfumes" },
+  { label: "Favoritos", href: "/conta/favoritos" },
   { label: "POPCLUB", href: "/popclub" }
 ] as const;
 
@@ -144,9 +144,9 @@ const mobileMenuLinks = [
 
 const mobileBottomNav = [
   { label: "SCAN", href: "/skin-scan/foco", icon: Sparkles, active: true },
-  { label: "ROUTINE", href: "/skin-scan/rotina", icon: Wind, active: false },
-  { label: "SHOP", href: "/catalogo", icon: Flame, active: false },
-  { label: "PROFILE", href: "/conta", icon: User, active: false }
+  { label: "ROTINA", href: "/skin-scan/rotina", icon: Wind, active: false },
+  { label: "LOJA", href: "/catalogo", icon: Flame, active: false },
+  { label: "CONTA", href: "/conta", icon: User, active: false }
 ] as const;
 
 const desktopImage =
@@ -216,7 +216,7 @@ export default function SkinScanGoalsExperience() {
             <Link
               href="/carrinho"
               className="inline-flex h-10 w-10 items-center justify-center"
-              aria-label="Sacola"
+              aria-label="Carrinho"
             >
               <Flame className="h-5 w-5" />
             </Link>
@@ -273,7 +273,7 @@ export default function SkinScanGoalsExperience() {
         <section className="mb-12 text-center md:mb-24 md:flex md:items-end md:justify-between md:text-left">
           <div className="md:max-w-2xl">
             <span className="mb-4 block text-[10px] uppercase tracking-[0.22em] text-[#444748] md:mb-6">
-              AI Skin Analysis - Step 01
+              Skin Scan - etapa 01
             </span>
             <h2 className="[font-family:var(--font-playfair)] text-3xl leading-tight tracking-tight md:text-7xl md:font-black md:tracking-tighter">
               Selecione seu foco de cuidado
@@ -339,7 +339,7 @@ export default function SkinScanGoalsExperience() {
             href="/skin-scan/captura"
             className="hidden min-h-14 items-center justify-center bg-black px-16 text-xs font-bold uppercase tracking-[0.2em] text-white transition hover:bg-[#1c1b1b] md:inline-flex"
           >
-            Iniciar Diagnostico IA
+            Iniciar leitura
           </Link>
         </section>
 
@@ -348,7 +348,7 @@ export default function SkinScanGoalsExperience() {
             href="/skin-scan/captura"
             className="inline-flex min-h-14 w-full items-center justify-center gap-3 bg-black px-8 text-xs font-extrabold uppercase tracking-[0.2em] text-white transition hover:opacity-90"
           >
-            INICIAR DIAGNOSTICO IA
+            INICIAR LEITURA
             <span aria-hidden>→</span>
           </Link>
         </div>
@@ -369,7 +369,7 @@ export default function SkinScanGoalsExperience() {
             </div>
             <div className="absolute -bottom-12 -right-12 max-w-sm bg-white p-12">
               <h4 className="[font-family:var(--font-playfair)] mb-4 text-2xl font-black italic">
-                The Science of Glow.
+                Ciencia aplicada ao cuidado.
               </h4>
               <p className="text-sm text-[#444748]">
                 Nossa tecnologia analisa marcadores visiveis para entregar uma rotina realmente
@@ -413,31 +413,31 @@ export default function SkinScanGoalsExperience() {
           <div className="space-y-6">
             <div className="[font-family:var(--font-playfair)] text-lg font-bold">BelaPop</div>
             <p className="text-[10px] uppercase tracking-widest text-stone-400">
-              Curated Canvas for the Modern Soul.
+              Skin Scan e rotina conectados ao ecossistema BelaPop.
             </p>
           </div>
           <div className="flex flex-col gap-4">
             <span className="text-sm font-bold text-stone-50">Institutional</span>
             <Link className="text-[10px] uppercase tracking-widest text-stone-400 transition-colors hover:text-white" href="/sobre">
-              About Us
+              Sobre a BelaPop
             </Link>
             <Link className="text-[10px] uppercase tracking-widest text-stone-400 transition-colors hover:text-white" href="/aviso-de-privacidade">
-              Privacy Policy
+              Aviso de Privacidade
             </Link>
             <Link className="text-[10px] uppercase tracking-widest text-stone-400 transition-colors hover:text-white" href="/termos-e-condicoes">
-              Terms of Service
+              Termos e Condicoes
             </Link>
           </div>
           <div className="flex flex-col gap-4">
-            <span className="text-sm font-bold text-stone-50">Customer Support</span>
+            <span className="text-sm font-bold text-stone-50">Atendimento</span>
             <Link className="text-[10px] uppercase tracking-widest text-stone-400 transition-colors hover:text-white" href="/contato">
               FAQ
             </Link>
             <Link className="text-[10px] uppercase tracking-widest text-stone-400 transition-colors hover:text-white" href="/rastreio">
-              Shipping
+              Rastreio
             </Link>
             <Link className="text-[10px] uppercase tracking-widest text-stone-400 transition-colors hover:text-white" href="/termos-e-condicoes">
-              Returns
+              Devolucoes
             </Link>
           </div>
           <div className="flex flex-col gap-4">
@@ -455,7 +455,7 @@ export default function SkinScanGoalsExperience() {
         </div>
         <div className="border-t border-stone-900 px-12 py-8">
           <p className="text-center text-[10px] uppercase tracking-widest text-stone-500">
-            © 2024 THE CURATED CANVAS. ALL RIGHTS RESERVED.
+            © 2026 BelaPop. Todos os direitos reservados.
           </p>
         </div>
       </footer>

@@ -79,12 +79,12 @@ type AuditRecord = {
 const sidebarItems: SidebarItem[] = [
   { label: "Dashboard", href: "/adm/dashboard-executivo", icon: LayoutDashboard },
   { label: "Curadoria", href: "/adm/curadoria/produtos", icon: Sparkles },
-  { label: "Sellers", href: "/adm/operacao/parceiros", icon: Store },
-  { label: "Pedidos", href: "/adm/operacao/pedidos-criticos", icon: ShoppingBag },
-  { label: "Logística", href: "/adm/operacao/logistica", icon: Truck },
+  { label: "Sellers", href: "/adm/operação/parceiros", icon: Store },
+  { label: "Pedidos", href: "/adm/operação/pedidos-criticos", icon: ShoppingBag },
+  { label: "Logística", href: "/adm/operação/logistica", icon: Truck },
   { label: "Risco", href: "/adm/financeiro/risco", icon: ShieldAlert },
   { label: "Financeiro", href: "/adm/financeiro", icon: Wallet, active: true },
-  { label: "Configurações", href: "/adm/gestao/configuracoes", icon: Settings }
+  { label: "Configurações", href: "/adm/gestao/configurações", icon: Settings }
 ];
 
 const records: AuditRecord[] = [
@@ -142,9 +142,9 @@ const records: AuditRecord[] = [
     owner: "Arthur K.",
     age: "Há 2 dias",
     impact: "- R$ 3.100,00",
-    investigateHref: "/adm/operacao/pedidos-criticos",
-    correctHref: "/adm/operacao/logistica/incidentes",
-    resolveHref: "/adm/operacao/pedidos-criticos"
+    investigateHref: "/adm/operação/pedidos-criticos",
+    correctHref: "/adm/operação/logistica/incidentes",
+    resolveHref: "/adm/operação/pedidos-criticos"
   },
   {
     id: "AUD-8742",

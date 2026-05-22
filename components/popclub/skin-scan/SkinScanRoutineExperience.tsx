@@ -16,7 +16,7 @@ import { ImmersiveMenuDrawer } from "@/components/popclub/shared/ImmersiveMenuDr
 import { routineBottomNavItems, routineMenuLinks } from "@/lib/popclub/navigation";
 
 const routineGoals = [
-  "Foco em hidratacao profunda",
+  "Foco em hidratação profunda",
   "Manter equilibrio da barreira",
   "Evitar sobrecarga de ativos"
 ] as const;
@@ -35,10 +35,10 @@ const morningSteps = [
     reverse: false
   },
   {
-    step: "Passo 02 - Hidratacao",
+    step: "Passo 02 - Hidratação",
     title: "Serum Hidratante",
     description:
-      "Acido hialuronico de baixo peso molecular para hidratacao em camadas profundas.",
+      "Acido hialuronico de baixo peso molecular para hidratação em camadas profundas.",
     rationale:
       "Essencial para preencher as linhas finas detectadas ao redor dos olhos no seu scan.",
     price: "R$ 340,00",
@@ -52,7 +52,7 @@ const nightTreatment = {
   step: "Passo 02 - Tratamento",
   title: "Serum Regenerador",
   description:
-    "Complexo noturno que estimula a renovacao celular enquanto voce descansa.",
+    "Complexo noturno que estimula a renovacao celular enquanto você descansa.",
   price: "R$ 890,00",
   note: "Formula Magistral",
   image:
@@ -61,7 +61,7 @@ const nightTreatment = {
 
 const selectedRoutine = [
   { title: "Gel Cleanser", category: "Limpeza Leve", price: "R$ 210,00" },
-  { title: "Serum Hidratante", category: "Hidratacao", price: "R$ 340,00" },
+  { title: "Serum Hidratante", category: "Hidratação", price: "R$ 340,00" },
   { title: "Serum Regenerador", category: "Tratamento", price: "R$ 890,00" }
 ] as const;
 
@@ -86,12 +86,12 @@ export default function SkinScanRoutineExperience() {
             <Menu className="h-5 w-5" />
           </button>
           <h1 className="font-[var(--font-playfair)] text-2xl font-bold uppercase tracking-tight text-[#1a1a1a]">
-            The Atelier
+            BelaPop
           </h1>
           <Link
             href="/carrinho"
             className="inline-flex h-10 w-10 items-center justify-center text-[#1a1a1a] transition-opacity hover:opacity-70"
-            aria-label="Abrir sacola"
+            aria-label="Abrir carrinho"
           >
             <ShoppingBag className="h-5 w-5" />
           </Link>
@@ -101,7 +101,7 @@ export default function SkinScanRoutineExperience() {
       <ImmersiveMenuDrawer
         open={menuOpen}
         onClose={() => setMenuOpen(false)}
-        title="The Atelier"
+        title="Skin Scan"
         links={routineMenuLinks}
         searchPlaceholder="Buscar rotina"
       />
@@ -279,13 +279,13 @@ export default function SkinScanRoutineExperience() {
                     <p className="mt-2 font-[var(--font-playfair)] text-2xl">3 itens selecionados</p>
                   </div>
                   <div className="text-right text-[10px] uppercase tracking-[0.2em] text-[#444748]/70">
-                    Frete cortesia
+                    Envio com rastreio
                   </div>
                 </div>
 
                 <div className="flex items-baseline justify-between gap-6">
                   <span className="text-xs font-bold uppercase tracking-[0.4em]">
-                    Total do Investimento
+                    Total da rotina
                   </span>
                   <span className="font-[var(--font-playfair)] text-4xl lg:text-5xl">
                     R$ 1.440,00
@@ -296,12 +296,12 @@ export default function SkinScanRoutineExperience() {
                   href="/carrinho"
                   className="inline-flex min-h-14 w-full items-center justify-center gap-4 bg-black px-6 text-xs uppercase tracking-[0.3em] text-white transition-colors hover:bg-[#444748]"
                 >
-                  <span>Finalizar rotina</span>
+                  <span>Levar rotina ao carrinho</span>
                   <span aria-hidden="true">-&gt;</span>
                 </Link>
 
                 <p className="text-center text-[10px] uppercase tracking-[0.2em] text-[#444748]/70">
-                  Frete cortesia para rotinas personalizadas
+                  Produtos da rotina seguem seller identificado e prazo informado no pedido
                 </p>
               </div>
             </aside>

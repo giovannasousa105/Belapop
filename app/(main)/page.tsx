@@ -9,6 +9,7 @@ import {
   resolveAudienceParam,
   type SearchParamValue
 } from "@/lib/home/publicHome";
+import { getPublicProducts } from "@/lib/queries/products";
 
 export const revalidate = 120;
 
@@ -22,14 +23,14 @@ export const metadata: Metadata = {
   openGraph: {
     title: "BelaPop | Skincare guiado pela sua pele",
     description: HOME_PAGE_DESCRIPTION,
-    images: [{ url: "/logo-dark.svg", alt: "BelaPop skincare guiado" }],
+    images: [{ url: "/og-home.jpg", width: 1200, height: 630, alt: "BelaPop — Skincare guiado pela sua pele" }],
     type: "website"
   },
   twitter: {
     card: "summary_large_image",
     title: "BelaPop | Skincare guiado pela sua pele",
     description: HOME_PAGE_DESCRIPTION,
-    images: ["/logo-dark.svg"]
+    images: ["/og-home.jpg"]
   }
 };
 
@@ -45,5 +46,7 @@ export default async function HomePage({ searchParams }: HomePageProps) {
     redirect(`/login?tab=${audience}&oauth_fallback=1&oauth_error=${encodeURIComponent(reason)}`);
   }
 
-  return <BelaPopLuxuryHomepage />;
+  const featuredProducts = await getPublicProducts(4);
+
+  return <BelaPopLuxuryHomepage featuredProducts={featuredProducts} />;
 }

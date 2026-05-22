@@ -21,7 +21,7 @@ export async function DELETE(
   try {
     const deleted = await deleteBelaCodeScan(admin, userId, scanId);
     if (!deleted) {
-      return NextResponse.json({ error: "Scan nao encontrado." }, { status: 404 });
+      return NextResponse.json({ error: "Scan não encontrado." }, { status: 404 });
     }
 
     const scans = await loadRecentFaceScans(admin, userId);

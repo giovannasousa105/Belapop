@@ -116,7 +116,7 @@ function SubOrderTrackingCard({
               <div>
                 <p className="text-sm text-bpBlackSoft">{step.status.label}</p>
                 <p className="text-xs text-bpGraphite/65">
-                  {done ? "Etapa concluida." : "Aguardando atualizacao."}
+                  {done ? "Etapa concluída." : "Aguardando atualização."}
                 </p>
               </div>
             </li>
@@ -275,7 +275,7 @@ export default function ContaRastreioPage() {
         <p className="text-xs uppercase tracking-[0.3em] text-bpGraphite/60">Rastreio</p>
         <h1 className="mt-3 font-display text-4xl text-bpBlack">Acompanhe cada entrega</h1>
         <p className="mt-3 text-sm text-bpGraphite/75">
-          Em marketplace, cada lojista tem envio proprio. Aqui voce acompanha cada subpedido com clareza.
+          Em marketplace, cada lojista tem envio próprio. Aqui você acompanha cada subpedido com clareza.
         </p>
       </section>
 
@@ -285,7 +285,7 @@ export default function ContaRastreioPage() {
         </div>
       ) : !selectedOrder ? (
         <div className="rounded-2xl border border-black/10 bg-white p-6 text-sm text-bpGraphite/70">
-          Voce ainda nao possui pedidos para rastrear.
+          Você ainda não possui pedidos para rastrear.
         </div>
       ) : (
         <>

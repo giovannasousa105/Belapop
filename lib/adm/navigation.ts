@@ -83,8 +83,8 @@ export const admSidebarGroups: AdmNavGroup[] = [
         requiredPermissions: ["view_quality"]
       },
       {
-        label: "Historico de Versoes",
-        href: "/adm/curadoria/historico-versoes",
+        label: "Histórico de Versoes",
+        href: "/adm/curadoria/histórico-versoes",
         icon: "activity",
         requiredPermissions: ["view_quality", "view_activity_logs"],
         permissionMode: "any"
@@ -105,36 +105,36 @@ export const admSidebarGroups: AdmNavGroup[] = [
     ]
   },
   {
-    label: "Operacao",
+    label: "Operação",
     items: [
       {
         label: "Pedidos Criticos",
-        href: "/adm/operacao/pedidos-criticos",
+        href: "/adm/operação/pedidos-criticos",
         icon: "triangle-alert",
         requiredPermissions: ["manage_logistics"]
       },
       {
         label: "Logistica",
-        href: "/adm/operacao/logistica",
+        href: "/adm/operação/logistica",
         icon: "truck",
         requiredPermissions: ["manage_logistics"],
         children: [
           {
             label: "Incidentes Logisticos",
-            href: "/adm/operacao/logistica/incidentes",
+            href: "/adm/operação/logistica/incidentes",
             requiredPermissions: ["manage_logistics"]
           }
         ]
       },
       {
         label: "Parceiros",
-        href: "/adm/operacao/parceiros",
+        href: "/adm/operação/parceiros",
         icon: "users",
         requiredPermissions: ["manage_sellers"]
       },
       {
-        label: "Comunicacao com Sellers",
-        href: "/adm/operacao/comunicacao-sellers",
+        label: "Comunicação com Sellers",
+        href: "/adm/operação/comunicação-sellers",
         icon: "message-square",
         requiredPermissions: ["manage_sellers"]
       }
@@ -180,8 +180,8 @@ export const admSidebarGroups: AdmNavGroup[] = [
     label: "Catalogo e Marca",
     items: [
       {
-        label: "Conteudo e Vitrines",
-        href: "/adm/catalogo-marca/conteudo-vitrines",
+        label: "Conteúdo e Vitrines",
+        href: "/adm/catalogo-marca/conteúdo-vitrines",
         icon: "layout-dashboard",
         requiredPermissions: ["manage_campaigns"]
       },
@@ -199,7 +199,7 @@ export const admSidebarGroups: AdmNavGroup[] = [
       },
       {
         label: "Inteligencia de Catalogo",
-        href: "/adm/catalogo-marca/inteligencia",
+        href: "/adm/catalogo-marca/inteligência",
         icon: "line-chart",
         requiredPermissions: ["manage_campaigns", "view_quality"],
         permissionMode: "any"
@@ -213,6 +213,12 @@ export const admSidebarGroups: AdmNavGroup[] = [
         label: "Clientes",
         href: "/adm/relacionamento/clientes",
         icon: "users",
+        requiredPermissions: ["view_customers"]
+      },
+      {
+        label: "CRM Pos-compra",
+        href: "/adm/relacionamento/pos-compra",
+        icon: "message-square",
         requiredPermissions: ["view_customers"]
       }
     ]
@@ -240,7 +246,7 @@ export const admSidebarGroups: AdmNavGroup[] = [
       },
       {
         label: "Configuracoes",
-        href: "/adm/gestao/configuracoes",
+        href: "/adm/gestao/configurações",
         icon: "settings",
         requiredPermissions: ["manage_settings"]
       }
@@ -256,7 +262,7 @@ export const admHiddenRoutes: AdmNavItem[] = [
   },
   {
     label: "Detalhe de Envio",
-    href: "/adm/operacao/logistica/envios",
+    href: "/adm/operação/logistica/envios",
     requiredPermissions: ["manage_logistics"],
     hidden: true,
     matchers: [/^\/adm\/operacao\/logistica\/envios\/[^/]+$/]
@@ -360,18 +366,18 @@ export const toAdmLegacyPath = (pathname: string): string => {
     "/admin/produtos": "/adm/curadoria/produtos",
     "/admin/products": "/adm/curadoria/produtos",
     "/admin/products/pending": "/adm/curadoria/produtos?status=pendente",
-    "/admin/sellers": "/adm/operacao/parceiros",
-    "/admin/parceiros": "/adm/operacao/parceiros",
-    "/admin/orders": "/adm/operacao/pedidos-criticos",
-    "/admin/pedidos": "/adm/operacao/pedidos-criticos",
-    "/admin/frete-logistica": "/adm/operacao/logistica",
+    "/admin/sellers": "/adm/operação/parceiros",
+    "/admin/parceiros": "/adm/operação/parceiros",
+    "/admin/orders": "/adm/operação/pedidos-criticos",
+    "/admin/pedidos": "/adm/operação/pedidos-criticos",
+    "/admin/frete-logistica": "/adm/operação/logistica",
     "/admin/finance": "/adm/financeiro",
     "/admin/auditoria": "/adm/financeiro/auditoria",
     "/admin/campaigns": "/adm/catalogo-marca/campanhas",
     "/admin/customers": "/adm/relacionamento/clientes",
-    "/admin/settings": "/adm/gestao/configuracoes",
-    "/admin/config": "/adm/gestao/configuracoes",
-    "/admin/configuracoes": "/adm/gestao/configuracoes"
+    "/admin/settings": "/adm/gestao/configurações",
+    "/admin/config": "/adm/gestao/configurações",
+    "/admin/configurações": "/adm/gestao/configurações"
   };
 
   const normalized = pathname.length > 1 && pathname.endsWith("/") ? pathname.slice(0, -1) : pathname;
@@ -381,12 +387,12 @@ export const toAdmLegacyPath = (pathname: string): string => {
 
   if (normalized.startsWith("/admin/lojas/") || normalized.startsWith("/admin/sellers/")) {
     const sellerId = normalized.split("/").at(-1) ?? "";
-    return `/adm/operacao/parceiros?seller=${sellerId}`;
+    return `/adm/operação/parceiros?seller=${sellerId}`;
   }
 
   if (normalized.startsWith("/admin/orders/")) {
     const orderId = normalized.split("/").at(-1) ?? "";
-    return `/adm/operacao/pedidos-criticos?order=${orderId}`;
+    return `/adm/operação/pedidos-criticos?order=${orderId}`;
   }
 
   if (normalized.startsWith("/admin/produtos/") || normalized.startsWith("/admin/products/")) {

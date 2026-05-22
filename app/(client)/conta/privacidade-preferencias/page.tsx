@@ -35,7 +35,7 @@ export default function ContaPrivacidadePage() {
       } catch (error) {
         if (active) {
           setMessage(
-            error instanceof Error ? error.message : "Nao foi possivel carregar preferencias."
+            error instanceof Error ? error.message : "Não foi possivel carregar preferencias."
           );
         }
       } finally {
@@ -70,7 +70,7 @@ export default function ContaPrivacidadePage() {
       });
       setMessage("Preferencias atualizadas.");
     } catch (error) {
-      setMessage(error instanceof Error ? error.message : "Nao foi possivel salvar.");
+      setMessage(error instanceof Error ? error.message : "Não foi possivel salvar.");
     } finally {
       setSaving(false);
     }
@@ -79,10 +79,10 @@ export default function ContaPrivacidadePage() {
   return (
     <div className="space-y-6 pb-8">
       <section className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
-        <p className="text-xs uppercase tracking-[0.3em] text-bpGraphite/60">Privacidade e preferencias</p>
+        <p className="text-xs uppercase tracking-[0.3em] text-bpGraphite/60">Privacidade e preferências</p>
         <h1 className="mt-3 font-display text-4xl text-bpBlack">Consentimentos</h1>
         <p className="mt-3 text-sm text-bpGraphite/75">
-          Comunicacoes transacionais e marketing com controles separados e historico de alteracoes.
+          Comunicações transacionais e marketing com controles separados e histórico de alterações.
         </p>
       </section>
 

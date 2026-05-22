@@ -1,0 +1,13 @@
+<svg width="1200" height="1500" viewBox="0 0 1200 1500" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Placeholder premium BelaPop</title>
+  <desc id="desc">Composicao minimalista para produto em revisao de imagem.</desc>
+  <rect width="1200" height="1500" fill="#F7F1EA"/>
+  <rect x="170" y="150" width="860" height="1200" rx="0" fill="#FBF8F4"/>
+  <rect x="420" y="380" width="360" height="620" rx="180" fill="#E9DED4"/>
+  <rect x="485" y="320" width="230" height="120" rx="36" fill="#D7C8BB"/>
+  <rect x="455" y="520" width="290" height="250" rx="0" fill="#F9F5EF" stroke="#CDBBAE" stroke-width="4"/>
+  <path d="M505 635H695" stroke="#26221F" stroke-width="8" stroke-linecap="round"/>
+  <path d="M535 690H665" stroke="#8B7B70" stroke-width="5" stroke-linecap="round"/>
+  <circle cx="600" cy="1140" r="55" fill="#26221F"/>
+  <path d="M575 1141L594 1160L628 1118" stroke="#FBF8F4" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

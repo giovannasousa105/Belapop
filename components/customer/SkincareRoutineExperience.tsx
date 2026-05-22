@@ -125,7 +125,7 @@ const baselineSourceLabels: Record<string, string> = {
 
 const heatmapStyles: Record<string, { color: string; glow: string; label: string }> = {
   acne: { color: "rgba(225, 29, 72, 0.44)", glow: "rgba(225, 29, 72, 0.18)", label: "Acne" },
-  hydration: { color: "rgba(251, 191, 36, 0.34)", glow: "rgba(251, 191, 36, 0.16)", label: "Hidratacao" },
+  hydration: { color: "rgba(251, 191, 36, 0.34)", glow: "rgba(251, 191, 36, 0.16)", label: "Hidratação" },
   pigmentation: { color: "rgba(249, 115, 22, 0.34)", glow: "rgba(249, 115, 22, 0.16)", label: "Pigmentacao" },
   pores: { color: "rgba(168, 85, 247, 0.28)", glow: "rgba(168, 85, 247, 0.14)", label: "Poros" },
   wrinkles: { color: "rgba(59, 130, 246, 0.3)", glow: "rgba(59, 130, 246, 0.14)", label: "Linhas" },
@@ -149,7 +149,7 @@ const skinTypeLabels: Record<string, string> = {
   oily: "Oleosa",
   dry: "Seca",
   combination: "Mista",
-  sensitive: "Sensivel",
+  sensitive: "Sensível",
   acne_prone: "Com tendencia a acne",
 };
 
@@ -186,7 +186,7 @@ const routineTimelineCopy: Record<
 > = {
   cleanser: {
     title: "Comece limpando a pele",
-    body: "Remove excesso de oleosidade, suor e residuos para preparar a pele para os proximos passos.",
+    body: "Remove excesso de oleosidade, suor e residuos para preparar a pele para os próximos passos.",
     moment: "Use de manha e a noite",
     moments: ["morning", "night"],
     icon: Droplets
@@ -199,7 +199,7 @@ const routineTimelineCopy: Record<
     icon: Sparkles
   },
   essence: {
-    title: "Entregue hidratacao leve",
+    title: "Entregue hidratação leve",
     body: "Adiciona conforto e uma primeira camada de luminosidade antes do tratamento principal.",
     moment: "Use antes do serum",
     moments: ["morning", "night"],
@@ -214,7 +214,7 @@ const routineTimelineCopy: Record<
   },
   moisturizer: {
     title: "Sele o conforto da pele",
-    body: "Ajuda a segurar a hidratacao e reforcar a barreira para evitar ressecamento e irritacao.",
+    body: "Ajuda a segurar a hidratação e reforcar a barreira para evitar ressecamento e irritacao.",
     moment: "Use para finalizar a rotina da noite ou antes do protetor",
     moments: ["morning", "night"],
     icon: Shield
@@ -233,7 +233,7 @@ const routineStepShortLabels: Record<string, string> = {
   toner: "Tonico",
   essence: "Essence",
   serum: "Serum",
-  moisturizer: "Hidratacao",
+  moisturizer: "Hidratação",
   sunscreen: "Protetor"
 };
 
@@ -247,20 +247,20 @@ const heatmapEvidenceReferences: Record<
 > = {
   acne: {
     title: "Base cientifica para acne e oleosidade",
-    lead: "A interpretacao de acne, inflamacao e oleosidade visual prioriza revisoes sistematicas, diretrizes e literatura dermatologica forte.",
+    lead: "A interpretacao de acne, inflamacao e oleosidade visual prioriza revisoes sistematicas, diretrizes e literatura dermatológica forte.",
     sources: [
       { source: "Cochrane", focus: "terapias topicas para acne", strength: "revisao sistematica" },
       { source: "AAD / JAAD", focus: "guidelines clinicas de acne", strength: "diretriz" },
-      { source: "JAMA Dermatology / PubMed", focus: "revisoes sobre acne e manejo clinico", strength: "alto nivel" }
+      { source: "JAMA Dermatology / PubMed", focus: "revisoes sobre acne e manejo clínico", strength: "alto nivel" }
     ]
   },
   hydration: {
-    title: "Base cientifica para hidratacao e barreira",
-    lead: "A leitura de ressecamento e barreira sensibilizada usa literatura sobre funcao de barreira, ceramidas e conforto cutaneo.",
+    title: "Base cientifica para hidratação e barreira",
+    lead: "A leitura de ressecamento e barreira sensibilizada usa literatura sobre função de barreira, ceramidas e conforto cutaneo.",
     sources: [
-      { source: "PubMed", focus: "ceramidas e funcao de barreira", strength: "revisao" },
-      { source: "DermNet", focus: "barreira cutanea e pele seca", strength: "referencia clinica" },
-      { source: "ABD / SciELO", focus: "cuidado de barreira e pele sensivel", strength: "contexto brasileiro" }
+      { source: "PubMed", focus: "ceramidas e função de barreira", strength: "revisao" },
+      { source: "DermNet", focus: "barreira cutanea e pele seca", strength: "referencia clínica" },
+      { source: "ABD / SciELO", focus: "cuidado de barreira e pele sensível", strength: "contexto brasileiro" }
     ]
   },
   pigmentation: {
@@ -269,7 +269,7 @@ const heatmapEvidenceReferences: Record<
     sources: [
       { source: "PubMed", focus: "tratamento topico da hiperpigmentacao", strength: "revisao sistematica" },
       { source: "JAMA Dermatology / JAAD", focus: "pigmentacao e pele com manchas", strength: "alto nivel" },
-      { source: "ABD / LILACS", focus: "abordagem clinica em contexto latino-americano", strength: "referencia regional" }
+      { source: "ABD / LILACS", focus: "abordagem clínica em contexto latino-americano", strength: "referencia regional" }
     ]
   },
   pores: {
@@ -278,7 +278,7 @@ const heatmapEvidenceReferences: Record<
     sources: [
       { source: "JAAD", focus: "textura, acne e regulacao de oleosidade", strength: "alto nivel" },
       { source: "PubMed", focus: "retinoides e melhora de textura", strength: "revisao" },
-      { source: "DermNet", focus: "poros aparentes e pele oleosa", strength: "referencia clinica" }
+      { source: "DermNet", focus: "poros aparentes e pele oleosa", strength: "referencia clínica" }
     ]
   },
   wrinkles: {
@@ -287,7 +287,7 @@ const heatmapEvidenceReferences: Record<
     sources: [
       { source: "JAMA Dermatology", focus: "fotoenvelhecimento e tratamento topico", strength: "alto nivel" },
       { source: "PubMed", focus: "tretinoina e melhora de linhas", strength: "revisao sistematica" },
-      { source: "DermNet", focus: "photoaging e protetor solar", strength: "referencia clinica" }
+      { source: "DermNet", focus: "photoaging e protetor solar", strength: "referencia clínica" }
     ]
   },
   redness: {
@@ -296,7 +296,7 @@ const heatmapEvidenceReferences: Record<
     sources: [
       { source: "PubMed", focus: "rosacea treatment review and evidence update", strength: "revisao sistematica" },
       { source: "JAMA Dermatology", focus: "condutas para rosacea e vermelhidao", strength: "alto nivel" },
-      { source: "DermNet", focus: "referencia clinica de rosacea", strength: "referencia clinica" }
+      { source: "DermNet", focus: "referencia clínica de rosacea", strength: "referencia clínica" }
     ]
   }
 };
@@ -314,7 +314,7 @@ function intensityLevel(value: number) {
 }
 
 function overallSeverityLabel(value: number) {
-  if (value >= 75) return "Atencao alta";
+  if (value >= 75) return "Atenção alta";
   if (value >= 55) return "Monitoramento ativo";
   if (value >= 35) return "Leitura moderada";
   return "Estavel";
@@ -323,7 +323,7 @@ function overallSeverityLabel(value: number) {
 function scanStatusLabel(status: CustomerBelaCodeScanItem["scan_status"]) {
   if (status === "validated") return "Validado";
   if (status === "rejected") return "Rejeitado";
-  return "Em analise";
+  return "Em análise";
 }
 
 function scanStatusClasses(status: CustomerBelaCodeScanItem["scan_status"]) {
@@ -346,7 +346,7 @@ function formatSkinTypeLabel(value: string | null | undefined) {
     .toLowerCase()
     .replace(/\s+/g, "_");
 
-  if (!normalized) return "Nao definido";
+  if (!normalized) return "Não definido";
 
   return (
     skinTypeLabels[normalized] ??
@@ -362,7 +362,7 @@ function formatSkinToneLabel(value: string | null | undefined) {
     .toLowerCase()
     .replace(/\s+/g, "_");
 
-  if (!normalized) return "Nao definido";
+  if (!normalized) return "Não definido";
 
   return (
     skinToneLabels[normalized] ??
@@ -379,7 +379,7 @@ function formatConcernLabel(value: string | null | undefined) {
     .replace(/\s+/g, "_")
     .replaceAll("-", "_");
 
-  if (!normalized) return "Nao definido";
+  if (!normalized) return "Não definido";
 
   return concernLabels[normalized] ?? normalized.replaceAll("_", " ").replace(/\b\w/g, (char) => char.toUpperCase());
 }
@@ -575,7 +575,7 @@ export default function SkincareRoutineExperience() {
 
     const partialErrors = [routineResult, twinResult, simulationsResult, faceScansResult]
       .filter((result): result is PromiseRejectedResult => result.status === "rejected")
-      .map((result) => (result.reason instanceof Error ? result.reason.message : "Falha parcial ao carregar skincare."));
+      .map(() => "Parte da sua experiência de skincare não carregou agora.");
 
     if (partialErrors.length > 0) {
       setMessage(partialErrors[0]);
@@ -594,7 +594,8 @@ export default function SkincareRoutineExperience() {
         await loadExperience();
       } catch (error) {
         if (!active) return;
-        setMessage(error instanceof Error ? error.message : "Nao foi possivel carregar sua experiencia de skincare.");
+        console.error("[SkincareRoutineExperience] load failed", error);
+        setMessage("Não foi possivel carregar sua experiência de skincare agora.");
       } finally {
         if (active) setLoading(false);
       }
@@ -834,7 +835,8 @@ export default function SkincareRoutineExperience() {
       await loadExperience();
       setMessage("Perfil de pele atualizado. Rotina e simulacoes recalculadas.");
     } catch (error) {
-      setMessage(error instanceof Error ? error.message : "Falha ao salvar perfil de pele.");
+      console.error("[SkincareRoutineExperience] save profile failed", error);
+      setMessage("Não foi possivel salvar o perfil de pele agora.");
     } finally {
       setSaving(false);
     }
@@ -850,7 +852,8 @@ export default function SkincareRoutineExperience() {
       await loadExperience();
       setMessage("Carrinho da rotina gerado com sucesso.");
     } catch (error) {
-      setMessage(error instanceof Error ? error.message : "Falha ao gerar carrinho da rotina.");
+      console.error("[SkincareRoutineExperience] generate cart failed", error);
+      setMessage("Não foi possivel gerar o carrinho da rotina agora.");
     } finally {
       setGeneratingCart(false);
     }
@@ -895,7 +898,8 @@ export default function SkincareRoutineExperience() {
           : response.message ?? "O scan foi rejeitado pelo quality gate do BelaCode."
       );
     } catch (error) {
-      setMessage(error instanceof Error ? error.message : "Falha ao registrar scan.");
+      console.error("[SkincareRoutineExperience] save scan failed", error);
+      setMessage("Não foi possivel registrar o scan agora.");
     } finally {
       setSavingScan(false);
     }
@@ -929,9 +933,10 @@ export default function SkincareRoutineExperience() {
           return response.items[0]?.id ?? null;
         });
         await loadExperience();
-        setMessage("Scan removido do seu historico.");
+        setMessage("Scan removido do seu histórico.");
       } catch (error) {
-        setMessage(error instanceof Error ? error.message : "Falha ao remover scan.");
+        console.error("[SkincareRoutineExperience] delete scan failed", error);
+        setMessage("Não foi possivel remover o scan agora.");
       } finally {
         setDeletingScanId(null);
       }
@@ -948,7 +953,8 @@ export default function SkincareRoutineExperience() {
       await loadExperience();
       setMessage("Acompanhamento iniciado. Agora a BelaPop consegue medir sua evolucao.");
     } catch (error) {
-      setMessage(error instanceof Error ? error.message : "Falha ao iniciar acompanhamento.");
+      console.error("[SkincareRoutineExperience] start usage failed", error);
+      setMessage("Não foi possivel iniciar o acompanhamento agora.");
     } finally {
       setStartingUsage(false);
     }
@@ -965,10 +971,11 @@ export default function SkincareRoutineExperience() {
       });
 
       setSavedSimulations(response.saved_simulations);
-      setMessage("Simulacao salva no historico do seu twin.");
+      setMessage("Simulacao salva no histórico do seu twin.");
       await loadExperience();
     } catch (error) {
-      setMessage(error instanceof Error ? error.message : "Falha ao salvar a simulacao.");
+      console.error("[SkincareRoutineExperience] save simulation failed", error);
+      setMessage("Não foi possivel salvar a simulacao agora.");
     } finally {
       setSavingSimulationSnapshot(false);
     }
@@ -988,7 +995,8 @@ export default function SkincareRoutineExperience() {
       const response = await postCustomerSkinGptQuestion({ question: assistantQuestion.trim() });
       setAssistantAnswer(response);
     } catch (error) {
-      setMessage(error instanceof Error ? error.message : "Falha ao consultar o SkinBela.");
+      console.error("[SkincareRoutineExperience] ask assistant failed", error);
+      setMessage("Não foi possivel consultar o SkinBela agora.");
     } finally {
       setAskingAssistant(false);
     }
@@ -1263,7 +1271,7 @@ export default function SkincareRoutineExperience() {
                     {
                       key: "morning" as const,
                       title: "Rotina da manha",
-                      description: "Leitura rapida para antes de sair ou comecar o dia.",
+                      description: "Leitura rapida para antes de sair ou começar o dia.",
                       icon: SunMedium,
                       steps: morningRoutineSteps
                     },
@@ -1554,7 +1562,7 @@ export default function SkincareRoutineExperience() {
                   disabled={startingUsage || (!routineCart && !routineSteps.length)}
                   className="rounded-full border border-black/15 bg-white px-6 py-3 text-xs uppercase tracking-[0.2em] text-bpBlack disabled:opacity-60"
                 >
-                  {startingUsage ? "Iniciando..." : activeUsage ? "Acompanhamento ativo" : "Comecar acompanhamento"}
+                  {startingUsage ? "Iniciando..." : activeUsage ? "Acompanhamento ativo" : "Começar acompanhamento"}
                 </button>
               </div>
             </div>
@@ -2173,7 +2181,7 @@ export default function SkincareRoutineExperience() {
                         ? `O scan validado mostrou maior concentracao em ${selectedFaceScanSummary?.topRegion ? formatHeatmapRegionLabel(selectedFaceScanSummary.topRegion.region_slug) : "areas distribuidas"}, com dominancia de ${selectedFaceScanSummary?.dominantCondition?.label?.toLowerCase() ?? "sensibilidade geral"}.`
                         : displayHeatmapUrl
                           ? "O mapa mais recente da pele foi recuperado para visualizacao. Os detalhes finos do scan aparecem assim que a leitura completa sincroniza."
-                          : "O scan ainda nao passou pelo threshold ideal de validacao. Use iluminacao frontal, rosto centralizado e piscada real para uma leitura mais confiavel."}
+                          : "O scan ainda não passou pelo threshold ideal de validação. Use iluminacao frontal, rosto centralizado e piscada real para uma leitura mais confiável."}
                     </p>
                   </div>
                   {flaggedFindings.length ? (
@@ -2299,8 +2307,8 @@ export default function SkincareRoutineExperience() {
                       ) : (
                         <div className="mt-4 rounded-2xl border border-black/10 bg-bpOffWhite/60 p-4 text-sm text-bpGraphite/82">
                           {displayHeatmapUrl
-                            ? "O mapa recente foi recuperado, mas os agrupamentos por condicao ainda nao chegaram completos."
-                            : "Nenhuma area sensivel destacada no ultimo scan validado."}
+                            ? "O mapa recente foi recuperado, mas os agrupamentos por condicao ainda não chegaram completos."
+                            : "Nenhuma area sensível destacada no ultimo scan validado."}
                         </div>
                       )
                     ) : (
@@ -2760,14 +2768,14 @@ export default function SkincareRoutineExperience() {
           <textarea
             value={assistantQuestion}
             onChange={(event) => setAssistantQuestion(event.target.value)}
-            placeholder="Ex.: Minha pele esta mais sensivel e com manchas. O que devo priorizar agora?"
+            placeholder="Ex.: Minha pele esta mais sensível e com manchas. O que devo priorizar agora?"
             className="min-h-28 w-full rounded-3xl border border-black/10 bg-white px-5 py-4 text-sm text-bpBlack outline-none transition focus:border-bpPinkCta/40"
           />
           <div className="flex flex-wrap gap-2">
             {[
-              "O que devo priorizar para hidratacao e barreira?",
+              "O que devo priorizar para hidratação e barreira?",
               "Quais ingredientes fazem mais sentido para manchas?",
-              "Minha pele esta sensivel. O que evitar?"
+              "Minha pele esta sensível. O que evitar?"
             ].map((prompt) => (
               <button
                 key={prompt}

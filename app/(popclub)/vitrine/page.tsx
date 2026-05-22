@@ -21,7 +21,7 @@ const rewards: RewardItem[] = [
   {
     title: "Mascara de Seda",
     description:
-      "Pura seda mulberry para uma noite de descanso absoluto e protecao para sua pele.",
+      "Pura seda mulberry para uma noite de descanso absoluto e proteção para sua pele.",
     points: "5.000 pontos",
     cta: "Resgatar",
     image:
@@ -41,7 +41,7 @@ const rewards: RewardItem[] = [
   {
     title: "Kit Atelier",
     description:
-      "Experiencia completa de cuidado artesanal com acessorios exclusivos de edicao limitada.",
+      "Experiência completa de cuidado artesanal com acessorios exclusivos de edição limitada.",
     points: "12.000 pontos",
     cta: "Solicitar acesso",
     image:

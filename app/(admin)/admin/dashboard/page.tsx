@@ -96,7 +96,7 @@ const buildDegradedViewModel = (): AdminDashboardViewModel => ({
                     : "GMV",
     value: "--",
     delta: "Carga indisponivel",
-    hint: "Nao foi possivel carregar o consolidado executivo.",
+    hint: "Não foi possivel carregar o consolidado executivo.",
     trend: "neutral" as const,
     sparkline: emptySparkline
   })),
@@ -105,7 +105,7 @@ const buildDegradedViewModel = (): AdminDashboardViewModel => ({
     {
       id: "degraded-dashboard",
       title: "Dashboard executivo em estado degradado",
-      meta: "A camada de metricas falhou. Revise logs e a origem dos dados antes de tomar decisao operacional.",
+      meta: "A camada de metricas falhou. Revise logs e a origem dos dados antes de tomar decisão operacional.",
       severity: "high",
       primaryActionLabel: "Abrir financeiro",
       primaryActionHref: "/admin/finance",
@@ -390,7 +390,7 @@ const buildViewModel = (live?: ExecutiveDashboardData | null): AdminDashboardVie
           value: live.paymentMonitor.refundedOrChargeback.toLocaleString("pt-BR")
         },
         {
-          label: "Taxa de aprovacao",
+          label: "Taxa de aprovação",
           value: asPercent(paymentApprovalPct, 1)
         }
       ],

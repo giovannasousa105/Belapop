@@ -74,9 +74,9 @@ export function RecommendedProductsRail({ fallbackProducts }: RecommendedProduct
   }, [fallbackProducts, ready, user]);
 
   const subtitle = useMemo(() => {
-    if (personalized) return "Baseado no que voce viu, favoritou e pesquisou recentemente.";
-    if (user) return "Seu bloco personalizado entra assim que os sinais de descoberta comecarem a chegar.";
-    return "Entre na sua conta para transformar este trilho em recomendacao personalizada.";
+    if (personalized) return "Baseado no que você viu, favoritou e pesquisou recentemente.";
+    if (user) return "Seu bloco personalizado entra assim que os sinais de descoberta começarem a chegar.";
+    return "Entre na sua conta para transformar este trilho em recomendação personalizada.";
   }, [personalized, user]);
 
   if (!products.length) return null;
@@ -86,7 +86,7 @@ export function RecommendedProductsRail({ fallbackProducts }: RecommendedProduct
       <div className="mb-8 flex items-end justify-between gap-4">
         <div>
           <p className="text-[11px] uppercase tracking-[0.28em] text-bpPink">Discovery engine</p>
-          <h2 className="mt-2 font-display text-3xl text-bpBlack md:text-4xl">Recomendado para voce</h2>
+          <h2 className="mt-2 font-display text-3xl text-bpBlack md:text-4xl">Recomendado para você</h2>
           <p className="mt-3 max-w-2xl text-[0.92rem] leading-6 text-bpGraphite/86 sm:text-sm sm:leading-relaxed">{subtitle}</p>
           <p className="mt-2 text-xs uppercase tracking-[0.22em] text-bpGraphite/55 md:hidden">
             Deslize para ver mais

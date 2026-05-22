@@ -13,6 +13,7 @@ import {
   markWebhookProcessed,
   registerWebhookEvent
 } from "@/lib/webhooks/idempotency";
+import { fulfillPopClubSampleReservation } from "@/lib/popclub/operations";
 import { verifyWebhookSignature } from "@/lib/webhooks/signature";
 import { getSupabaseAdminClient } from "@/lib/supabase/admin";
 import { resolveSellerIdForShipment } from "@/lib/tracking/shipmentLookup";
@@ -81,7 +82,7 @@ const customerNotificationCopy = (status: string, location?: string | null) => {
     return {
       title: "Pedido em transito",
       body: location
-        ? `Seu pedido esta em transito. Ultima localizacao: ${location}.`
+        ? `Seu pedido esta em transito. Ultima localização: ${location}.`
         : "Seu pedido esta em transito."
     };
   }
@@ -182,6 +183,15 @@ const processCarrierUpdate = async (payload: CarrierWebhookPayload) => {
     shipmentStatus: normalizedStatus,
     hasTrackingCode: Boolean(data?.tracking_code ?? shipment?.tracking_code)
   });
+
+  if (normalizedStatus === "in_transit" || normalizedStatus === "delivered") {
+    await fulfillPopClubSampleReservation({
+      admin,
+      orderId,
+      sourceEventAt: occurredAt?.toISOString() ?? new Date().toISOString(),
+      source: "carrier_webhook"
+    });
+  }
 
   if (normalizedStatus === "cancelled") {
     const provider = "carrier_webhook";

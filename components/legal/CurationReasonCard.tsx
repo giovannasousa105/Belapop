@@ -4,9 +4,9 @@ export function CurationReasonCard({
   className?: string;
 }) {
   const points = [
-    "A curadoria considera composicao, contexto de uso e coerencia com jornadas de cuidado apresentadas no site.",
+    "A curadoria considera composição, contexto de uso e coerencia com jornadas de cuidado apresentadas no site.",
     "O item pode aparecer em fluxos personalizados quando houver compatibilidade com preferencias, rotina ou categoria explorada.",
-    "A selecao editorial nao substitui orientacao medica e nao representa promessa de resultado individual."
+    "A seleção editorial não substitui orientacao médica e não representa promessa de resultado individual."
   ];
 
   return (

@@ -32,7 +32,7 @@ const accentItems = [
   {
     icon: Gift,
     title: "Mimos Exclusivos",
-    description: "Sua avaliacao desbloqueia beneficios em seu proximo pedido."
+    description: "Sua avaliação desbloqueia beneficios em seu proximo pedido."
   }
 ] as const;
 
@@ -89,12 +89,12 @@ export function FeedbackPreviewScreen({ mode = "preview" }: FeedbackPreviewScree
 
     const normalizedComment = comment.trim();
     if (!normalizedComment) {
-      setMessage("Descreva sua experiencia antes de enviar o feedback.");
+      setMessage("Descreva sua experiência antes de enviar o feedback.");
       return;
     }
 
     if (!productId) {
-      setMessage("Nao foi possivel vincular um produto para a avaliacao agora.");
+      setMessage("Não foi possivel vincular um produto para a avaliação agora.");
       return;
     }
 
@@ -110,32 +110,32 @@ export function FeedbackPreviewScreen({ mode = "preview" }: FeedbackPreviewScree
         body: JSON.stringify({
           productId,
           rating: productRating,
-          comment: `Experiencia BelaPop: ${brandRating}/5\n\n${normalizedComment}`
+          comment: `Experiência BelaPop: ${brandRating}/5\n\n${normalizedComment}`
         })
       });
 
       const payload = (await response.json().catch(() => null)) as { error?: string } | null;
       if (!response.ok) {
         if (payload?.error === "unauthorized") {
-          setMessage("Faca login para enviar sua avaliacao.");
+          setMessage("Faça login para enviar sua avaliação.");
           return;
         }
         if (payload?.error === "purchase_required") {
-          setMessage("A avaliacao so fica disponivel para clientes com compra elegivel do produto.");
+          setMessage("A avaliação so fica disponivel para clientes com compra elegivel do produto.");
           return;
         }
         if (payload?.error === "invalid_payload" || payload?.error === "invalid_rating") {
           setMessage("Os dados do feedback estao incompletos.");
           return;
         }
-        setMessage("Nao foi possivel enviar o feedback agora.");
+        setMessage("Não foi possivel enviar o feedback agora.");
         return;
       }
 
       setMessage("Feedback enviado com sucesso para o produto vinculado.");
       setComment("");
     } catch {
-      setMessage("Nao foi possivel enviar o feedback agora.");
+      setMessage("Não foi possivel enviar o feedback agora.");
     } finally {
       setSubmitting(false);
     }
@@ -177,7 +177,7 @@ export function FeedbackPreviewScreen({ mode = "preview" }: FeedbackPreviewScree
                 Compartilhe seu Ritual
               </h1>
               <h2 className="mt-6 max-w-xl text-lg font-light leading-8 text-[#444748] sm:text-xl lg:text-2xl">
-                Leticia, como foi sua experiencia com o{" "}
+                Leticia, como foi sua experiência com o{" "}
                 <span className="font-semibold text-[#1c1b1b]">
                   Soro Regenerador Orquidea Imperial?
                 </span>
@@ -286,7 +286,7 @@ export function FeedbackPreviewScreen({ mode = "preview" }: FeedbackPreviewScree
                 {message ? (
                   <div className="mt-4 space-y-3">
                     <p className="text-sm leading-7 text-[#444748]">{message}</p>
-                    {message.includes("Faca login") ? (
+                    {message.includes("Faça login") ? (
                       <Link
                         href={getBelapopHref(mode, "login")}
                         className="inline-flex border-b border-black pb-1 text-[11px] font-bold uppercase tracking-[0.22em]"

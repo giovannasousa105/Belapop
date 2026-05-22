@@ -259,7 +259,7 @@ function ProductPreviewModal({
             </div>
 
             <Link
-              href="/vitrine"
+              href="/catalogo"
               className={`${inter.className} mt-7 inline-flex text-[16px] text-[#6B5148] transition hover:text-[#5B232C]`}
             >
               Ver produto completo
@@ -328,7 +328,7 @@ function CtaCard() {
       </div>
 
       <Link
-        href="/vitrine"
+        href="/catalogo"
         className={`${inter.className} mt-6 inline-flex items-center justify-center rounded-full border border-[rgba(111,61,56,0.3)] bg-[rgba(110,47,42,0.86)] px-6 py-3 text-[13px] uppercase tracking-[0.24em] text-white transition hover:translate-y-[-1px] hover:bg-[#5b232c]`}
       >
         Ver kits exclusivos

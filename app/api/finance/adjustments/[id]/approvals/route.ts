@@ -53,12 +53,12 @@ export async function POST(
   }
 
   if (!lookup.data) {
-    return NextResponse.json({ error: "Ajuste nao encontrado." }, { status: 404 });
+    return NextResponse.json({ error: "Ajuste não encontrado." }, { status: 404 });
   }
 
   if (lookup.data.created_by && lookup.data.created_by === user.id) {
     return NextResponse.json(
-      { error: "Criador do ajuste nao pode aprovar/rejeitar o proprio ajuste." },
+      { error: "Criador do ajuste não pode aprovar/rejeitar o próprio ajuste." },
       { status: 403 }
     );
   }
@@ -88,7 +88,7 @@ export async function POST(
   if (insertDecision.error) {
     if (insertDecision.error.code === "23505") {
       return NextResponse.json(
-        { error: "Usuario ja registrou decisao para este ajuste." },
+        { error: "Usuario ja registrou decisão para este ajuste." },
         { status: 409 }
       );
     }

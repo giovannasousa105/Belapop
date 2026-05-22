@@ -56,7 +56,7 @@ const mapStatus = (status?: string | null): StepKey | null => {
   if (
     value.includes("processing") ||
     value.includes("separando") ||
-    value.includes("separacao") ||
+    value.includes("separação") ||
     value.includes("ready_to_ship")
   ) {
     return "separating";

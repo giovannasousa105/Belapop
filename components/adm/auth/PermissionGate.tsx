@@ -67,7 +67,7 @@ export async function RequirePermission({
   return (
     <AccessDenied
       title="Permissao insuficiente"
-      description="Seu perfil interno nao possui acesso para esta acao neste ambiente."
+      description="Seu perfil interno não possui acesso para esta acao neste ambiente."
     />
   );
 }

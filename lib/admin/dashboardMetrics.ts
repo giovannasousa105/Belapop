@@ -316,6 +316,29 @@ const ORDER_STATUS_LABELS: Record<string, string> = {
   refunded: "Reembolsado"
 };
 
+type SupabaseErrorLike = {
+  code?: string | null;
+  message?: string | null;
+};
+
+const MISSING_SCHEMA_ERROR_CODES = new Set(["42P01", "42703", "PGRST204", "PGRST205"]);
+
+const isMissingSchemaError = (error: SupabaseErrorLike | null | undefined) => {
+  if (!error) return false;
+
+  if (error.code && MISSING_SCHEMA_ERROR_CODES.has(error.code)) {
+    return true;
+  }
+
+  const message = String(error.message ?? "").toLowerCase();
+  return (
+    message.includes("could not find the table") ||
+    message.includes("schema cache") ||
+    message.includes("relation") ||
+    message.includes("does not exist")
+  );
+};
+
 const toNumber = (value: unknown) => {
   const parsed = Number(value);
   return Number.isFinite(parsed) ? parsed : 0;
@@ -358,7 +381,9 @@ const ratioPct = (numerator: number, denominator: number) => {
 const safeSelect = async (label: string, query: any) => {
   const { data, error } = await query;
   if (error) {
-    console.error(`[dashboard] ${label} failed`, error.message ?? error);
+    if (!isMissingSchemaError(error)) {
+      console.error(`[dashboard] ${label} failed`, error.message ?? error);
+    }
     return [] as AnyRow[];
   }
   return (data ?? []) as AnyRow[];
@@ -1159,7 +1184,7 @@ export async function fetchExecutiveDashboardData(
           : pendingSellers.length > 0
             ? "attention"
             : "healthy",
-      detail: `${pendingSellers.length} aguardando aprovacao`,
+      detail: `${pendingSellers.length} aguardando aprovação`,
       href: "/admin/parceiros"
     },
     {
@@ -1234,7 +1259,7 @@ export async function fetchExecutiveDashboardData(
       title: "Pedidos com atraso logistico",
       detail: `${delayed} pedidos excederam janela de frete.`,
       href: "/admin/orders",
-      cta: "Priorizar expedicao"
+      cta: "Priorizar expedição"
     });
   }
 
@@ -1276,7 +1301,7 @@ export async function fetchExecutiveDashboardData(
       id: "pending-sellers",
       severity: "info",
       title: "Fila de parceiros pendente",
-      detail: `${pendingSellers.length} parceiros aguardam aprovacao.`,
+      detail: `${pendingSellers.length} parceiros aguardam aprovação.`,
       href: "/admin/parceiros",
       cta: "Revisar parceiros"
     });
@@ -1298,7 +1323,7 @@ export async function fetchExecutiveDashboardData(
       id: "ledger-integrity-mismatch",
       severity: "critical",
       title: "Ledger com mismatch de integridade",
-      detail: `${financeDrilldown.integrityMismatches} transacoes recentes nao fecham debito x credito.`,
+      detail: `${financeDrilldown.integrityMismatches} transacoes recentes não fecham debito x credito.`,
       href: "/admin/finance",
       cta: "Auditar ledger"
     });

@@ -25,7 +25,7 @@ const rewards = [
   {
     eyebrow: "Viagem",
     title: "Kit Atelier de Viagem",
-    description: "Selecao de miniaturas premium para voos longos e rotinas compactas.",
+    description: "Seleção de miniaturas premium para voos longos e rotinas compactas.",
     price: "3.500 pts",
     image:
       "https://lh3.googleusercontent.com/aida-public/AB6AXuBv9hkSlo9Vz4CfLFcuUaDbfQ3piRpSY1xXy9bmNmWue7B778Cq-h4_Ikr1r8AZYdOrX8Rj1iiumP0ajig-fTyPdbc4ioOmwVxwjVo_Pk8nLo9olS3HL_gzMfP_0L9EgXZkF7ThEoVkWffpP9YDAvLbrWxo8hY22Urjw5G9DJE_SnbEJNa-WeOSIFZQWH1OpGwFseelal8WDy1gyeIgqMK6LE_ua0I5_S6YP62AXdgfwjUPLCEkSVTAlLsjqTgIz0Jg8Jc-r8_8Dp0Y"

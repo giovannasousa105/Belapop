@@ -30,7 +30,7 @@ export async function GET(
   }
 
   if (!attachment) {
-    return NextResponse.json({ error: "Anexo nao encontrado." }, { status: 404 });
+    return NextResponse.json({ error: "Anexo não encontrado." }, { status: 404 });
   }
   if (attachment.status === "deleted") {
     return NextResponse.json({ error: "Anexo indisponivel." }, { status: 404 });
@@ -42,7 +42,7 @@ export async function GET(
 
   if (signed.error || !signed.data?.signedUrl) {
     return NextResponse.json(
-      { error: signed.error?.message ?? "Nao foi possivel gerar URL do arquivo." },
+      { error: signed.error?.message ?? "Não foi possivel gerar URL do arquivo." },
       { status: 500 }
     );
   }

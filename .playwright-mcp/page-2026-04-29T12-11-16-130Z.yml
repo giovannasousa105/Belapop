@@ -1,0 +1,157 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e4]:
+    - banner [ref=e5]:
+      - generic [ref=e6]:
+        - button "Voltar" [ref=e7] [cursor=pointer]:
+          - img [ref=e8]
+        - heading "BelaPop" [level=1] [ref=e11]
+        - generic [ref=e12]:
+          - link "Abrir sacola" [ref=e13] [cursor=pointer]:
+            - /url: /carrinho
+            - img [ref=e14]
+          - button "Abrir menu" [ref=e17] [cursor=pointer]:
+            - img [ref=e18]
+    - main [ref=e19]:
+      - generic [ref=e27]:
+        - heading "Sua Leitura de Pele" [level=2] [ref=e28]
+        - paragraph [ref=e29]: Com base na imagem capturada, identificamos sinais visuais aparentes da sua pele.
+        - generic [ref=e30]:
+          - generic [ref=e31]: Qualidade boa
+          - generic [ref=e32]:
+            - img [ref=e33]
+            - text: 29 de abril de 2026
+      - generic [ref=e36]:
+        - text: Leitura Visual
+        - heading "Seu Momento de Pele" [level=3] [ref=e37]
+        - paragraph [ref=e38]: "\"Sua pele apresenta uma vitalidade notavel, com leve desidratacao nas zonas perifericas. A textura esta refinada, sugerindo um ciclo de renovacao equilibrado.\""
+      - generic [ref=e39]:
+        - heading "Indicadores de Saúde" [level=4] [ref=e40]
+        - generic [ref=e41]:
+          - generic [ref=e42]:
+            - text: Hidratação
+            - paragraph [ref=e45]: 68% — Moderada
+          - generic [ref=e46]:
+            - text: Textura
+            - paragraph [ref=e49]: 85% — Lisa
+          - generic [ref=e50]:
+            - text: Uniformidade
+            - paragraph [ref=e53]: 70% — Regular
+          - generic [ref=e54]:
+            - text: Oleosidade
+            - paragraph [ref=e57]: 74% — Equilibrada
+      - generic [ref=e59]:
+        - heading "Mapeamento Facial" [level=4] [ref=e60]
+        - generic [ref=e61]:
+          - generic [ref=e66]: "Testa: Uniformidade"
+          - generic [ref=e68]: "Bochecha esquerda: Hidratação"
+          - generic [ref=e70]: "Bochecha direita: Hidratação"
+          - generic [ref=e72]: "Nariz: Oleosidade"
+          - generic [ref=e74]: "Queixo: Equilíbrio"
+        - generic [ref=e75]:
+          - article [ref=e76]:
+            - heading "Testa" [level=5] [ref=e77]
+            - paragraph [ref=e78]: "Textura aparente: Lisa."
+            - paragraph [ref=e79]: Aposte em luminosidade, antioxidantes e proteção solar diária.
+          - article [ref=e80]:
+            - heading "Nariz" [level=5] [ref=e81]
+            - paragraph [ref=e82]: "Maior aparência de brilho: equilibrada."
+            - paragraph [ref=e83]: Prefira limpeza suave, textura leve e proteção com acabamento confortável.
+          - article [ref=e84]:
+            - heading "Bochecha esquerda" [level=5] [ref=e85]
+            - paragraph [ref=e86]: "Sinais visuais de ressecamento: leve."
+            - paragraph [ref=e87]: Priorize hidratação de suporte e reforço da barreira da pele.
+          - article [ref=e88]:
+            - heading "Bochecha direita" [level=5] [ref=e89]
+            - paragraph [ref=e90]: "Sinais visuais de ressecamento: leve."
+            - paragraph [ref=e91]: Priorize hidratação de suporte e reforço da barreira da pele.
+          - article [ref=e92]:
+            - heading "Queixo" [level=5] [ref=e93]
+            - paragraph [ref=e94]: Sem sinais visuais fortes nesta zona.
+            - paragraph [ref=e95]: Mantenha uma rotina leve, consistente e com proteção diária.
+          - article [ref=e96]:
+            - heading "Área dos olhos" [level=5] [ref=e97]
+            - paragraph [ref=e98]: Sem sinais visuais fortes nesta zona.
+            - paragraph [ref=e99]: Mantenha uma rotina leve, consistente e com proteção diária.
+      - generic [ref=e100]:
+        - generic [ref=e101]:
+          - heading "Sua Rotina BelaPop" [level=4] [ref=e102]
+          - paragraph [ref=e103]: Protocolo exclusivo baseado na sua análise.
+        - generic [ref=e104]:
+          - generic [ref=e105]:
+            - generic [ref=e106]:
+              - generic [ref=e107]:
+                - img [ref=e108]
+                - generic [ref=e114]: Manhã
+              - generic [ref=e115]: 03 Passos
+            - generic [ref=e116]:
+              - generic [ref=e117]:
+                - generic [ref=e118]: "01"
+                - generic [ref=e119]: Limpeza Suave Micelar
+              - generic [ref=e120]:
+                - generic [ref=e121]: "02"
+                - generic [ref=e122]: Serum Vitamina C + E
+              - generic [ref=e123]:
+                - generic [ref=e124]: "03"
+                - generic [ref=e125]: Protetor Fluido Invisivel
+          - generic [ref=e126]:
+            - generic [ref=e127]:
+              - generic [ref=e128]:
+                - img [ref=e129]
+                - generic [ref=e131]: Noite
+              - generic [ref=e132]: 02 Passos
+            - generic [ref=e133]:
+              - generic [ref=e134]:
+                - generic [ref=e135]: "01"
+                - generic [ref=e136]: Balsamo Demaquilante Nutritivo
+              - generic [ref=e137]:
+                - generic [ref=e138]: "02"
+                - generic [ref=e139]: Creme Regenerador Noturno
+      - generic [ref=e140]:
+        - generic [ref=e141]:
+          - heading "Escolhidos para sua pele" [level=4] [ref=e142]
+          - generic [ref=e144]: Uniformidade
+        - generic [ref=e145]:
+          - article [ref=e146]:
+            - img "Creme de la Mer" [ref=e148]
+            - heading "La Mer" [level=5] [ref=e149]
+            - paragraph [ref=e150]: Creme de la Mer
+            - paragraph [ref=e151]: Rotina sugerida
+            - paragraph [ref=e152]: Ajuda a reforcar hidratacao, conforto e equilibrio da barreira da pele.
+            - paragraph [ref=e153]: R$ 1.450,00
+            - generic [ref=e154]:
+              - button "Comprar" [ref=e155] [cursor=pointer]
+              - link "Ver detalhes" [ref=e156] [cursor=pointer]:
+                - /url: /produto/creme-de-la-mer
+          - article [ref=e157]:
+            - img "Sublimage L'Extrait" [ref=e159]
+            - heading "Chanel" [level=5] [ref=e160]
+            - paragraph [ref=e161]: Sublimage L'Extrait
+            - paragraph [ref=e162]: Uniformidade
+            - paragraph [ref=e163]: Ajuda a apoiar luminosidade e protecao diaria quando o foco e uniformidade visual.
+            - paragraph [ref=e164]: R$ 2.200,00
+            - generic [ref=e165]:
+              - button "Comprar" [ref=e166] [cursor=pointer]
+              - link "Ver detalhes" [ref=e167] [cursor=pointer]:
+                - /url: /produto/sublimage-lextrait
+      - generic [ref=e169]:
+        - link "Montar minha rotina" [ref=e170] [cursor=pointer]:
+          - /url: "#rotina"
+        - link "Ver produtos recomendados" [ref=e171] [cursor=pointer]:
+          - /url: "#produtos"
+        - link "Refazer scan facial" [ref=e172] [cursor=pointer]:
+          - /url: /skin-scan/captura
+          - img [ref=e173]
+          - text: Refazer scan facial
+      - paragraph [ref=e179]:
+        - text: Leitura cosmetica visual - nao substitui avaliacao dermatologica.
+        - text: BelaPop Atelier Digital © 2024
+    - navigation [ref=e180]:
+      - link "Início" [ref=e181] [cursor=pointer]:
+        - /url: /skin-scan
+      - link "Análise" [ref=e182] [cursor=pointer]:
+        - /url: "#topo"
+      - link "Rotina" [ref=e183] [cursor=pointer]:
+        - /url: "#rotina"
+      - link "Loja" [ref=e184] [cursor=pointer]:
+        - /url: "#produtos"
+  - alert [ref=e185]

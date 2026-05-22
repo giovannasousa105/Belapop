@@ -202,7 +202,7 @@ export async function GET(request: NextRequest) {
   if (permissionClaims.length > 0 && !hasPermissionAll && hasPermissionStore) {
     const scopedStoreId = resolveScopedStore(user);
     if (!scopedStoreId) {
-      return NextResponse.json({ error: "Escopo de loja nao definido para leitura de metricas." }, { status: 403 });
+      return NextResponse.json({ error: "Escopo de loja não definido para leitura de metricas." }, { status: 403 });
     }
     if (requestedStoreId && requestedStoreId !== scopedStoreId) {
       return NextResponse.json({ error: "Sem permissao para loja solicitada." }, { status: 403 });

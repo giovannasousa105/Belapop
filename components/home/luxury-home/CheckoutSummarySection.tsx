@@ -2,12 +2,14 @@
 
 import { checkoutProduct } from "@/components/home/luxury-home/data";
 import { headlineClassName, IconGlyph } from "@/components/home/luxury-home/shared";
+import { brandCtas } from "@/lib/brand/ctas";
+import { brandSectionNames } from "@/lib/brand/sections";
 
 export function CheckoutSummarySection() {
   return (
     <aside className="lg:col-span-5">
       <div className="space-y-10 bg-[#f6f3f2] p-6 sm:p-8 lg:sticky lg:top-32 lg:p-12">
-        <h3 className={`${headlineClassName} text-2xl text-[#1c1b1b]`}>Resumo da Curadoria</h3>
+        <h3 className={`${headlineClassName} text-2xl text-[#1c1b1b]`}>{brandSectionNames.cart.orderSummary}</h3>
 
         <div className="flex items-start gap-4 border-b border-black/10 pb-8 sm:gap-6">
           <div className="h-28 w-20 shrink-0 bg-white sm:h-32 sm:w-24">
@@ -42,7 +44,7 @@ export function CheckoutSummarySection() {
             <span className="text-[#1c1b1b]">R$ 2.450,00</span>
           </div>
           <div className="flex justify-between text-xs uppercase tracking-widest">
-            <span className="text-[#444748]">Entrega Especial</span>
+            <span className="text-[#444748]">Entrega</span>
             <span className="text-[#1c1b1b]">Gratis</span>
           </div>
           <div
@@ -58,14 +60,14 @@ export function CheckoutSummarySection() {
             type="button"
             className="group flex min-h-[60px] w-full items-center justify-center gap-2 bg-black px-6 py-5 text-xs font-bold uppercase tracking-[0.2em] text-white transition-all duration-500 hover:bg-[#ed93d5]"
           >
-            <span>Concluir Curadoria</span>
+            <span>{brandCtas.primary.checkout}</span>
             <IconGlyph
               name="arrow_forward"
               className="h-4 w-4 transition-transform group-hover:translate-x-1"
             />
           </button>
           <p className="px-4 text-center text-[10px] leading-relaxed text-[#444748]">
-            Ao finalizar, voce concorda com nossos termos de servico e politica de
+            Ao finalizar, você concorda com nossos termos de serviço e política de
             privacidade de luxo.
           </p>
         </div>

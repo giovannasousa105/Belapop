@@ -41,11 +41,11 @@ export function BelaCodeOrbShowcase({
             <div className="mt-4 grid gap-8 lg:grid-cols-[0.95fr_1.05fr] lg:items-end">
               <div>
                 <h2 className="max-w-3xl text-balance font-display text-[1.46rem] leading-[1.1] tracking-[-0.02em] text-[#1E1E1E] sm:text-[2.15rem] sm:leading-[1.04] md:text-6xl">
-                  Sua pele, lida com precisao silenciosa.
+                  Sua pele, lida com precisão silenciosa.
                 </h2>
                 <p className="mt-4 max-w-2xl text-[0.93rem] leading-6 text-[#6E5F61] md:mt-5 md:text-lg md:leading-7">
                   Uma leitura visual sofisticada que traduz sinais da pele em curadoria de rotina,
-                  orientacao de autocuidado e inteligencia cosmetica.
+                  orientação de autocuidado e inteligência cosmética.
                 </p>
               </div>
 
@@ -187,8 +187,8 @@ export function BelaCodeOrbShowcase({
                 </div>
 
                 <p className="mt-5 text-xs leading-6 text-[#6E5F61]/88">
-                  BelaCode e SkinBela apoiam triagem cosmetica, leitura de rotina e orientacao de
-                  autocuidado com base em literatura clinica. Nao substituem avaliacao dermatologica
+                  BelaCode e SkinBela apoiam triagem cosmética, leitura de rotina e orientação de
+                  autocuidado com base em literatura clínica. Não substituem avaliação dermatológica
                   presencial.
                 </p>
               </div>

@@ -28,7 +28,7 @@ const toNumber = (value: unknown) => {
 
 export async function POST(request: NextRequest) {
   if (!isInternalJobAuthorized(request)) {
-    return NextResponse.json({ error: "Nao autorizado para job interno." }, { status: 401 });
+    return NextResponse.json({ error: "Não autorizado para job interno." }, { status: 401 });
   }
 
   const admin = getSupabaseAdminClient();
@@ -92,7 +92,7 @@ export async function POST(request: NextRequest) {
       {
         error: refreshOncall.error.message,
         detail:
-          "Funcao refresh_sre_oncall_shifts nao encontrada. Rode a migration 20260307_0200_sre_maturity_oncall_error_budget_dr_calendar.sql."
+          "Funcao refresh_sre_oncall_shifts não encontrada. Rode a migration 20260307_0200_sre_maturity_oncall_error_budget_dr_calendar.sql."
       },
       { status: 500 }
     );
@@ -104,7 +104,7 @@ export async function POST(request: NextRequest) {
       {
         error: refreshShiftStates.error.message,
         detail:
-          "Funcao refresh_sre_oncall_shift_states nao encontrada. Rode a migration 20260307_0300_sre_oncall_24x7_dr_gameday_recurring.sql."
+          "Funcao refresh_sre_oncall_shift_states não encontrada. Rode a migration 20260307_0300_sre_oncall_24x7_dr_gameday_recurring.sql."
       },
       { status: 500 }
     );
@@ -118,7 +118,7 @@ export async function POST(request: NextRequest) {
       {
         error: assignIncidents.error.message,
         detail:
-          "Funcao assign_sre_incidents_to_current_oncall nao encontrada. Rode a migration 20260307_0200_sre_maturity_oncall_error_budget_dr_calendar.sql."
+          "Funcao assign_sre_incidents_to_current_oncall não encontrada. Rode a migration 20260307_0200_sre_maturity_oncall_error_budget_dr_calendar.sql."
       },
       { status: 500 }
     );
@@ -133,7 +133,7 @@ export async function POST(request: NextRequest) {
       {
         error: escalateIncidents.error.message,
         detail:
-          "Funcao escalate_unacknowledged_sre_incidents nao encontrada. Rode a migration 20260307_0300_sre_oncall_24x7_dr_gameday_recurring.sql."
+          "Funcao escalate_unacknowledged_sre_incidents não encontrada. Rode a migration 20260307_0300_sre_oncall_24x7_dr_gameday_recurring.sql."
       },
       { status: 500 }
     );
@@ -148,7 +148,7 @@ export async function POST(request: NextRequest) {
       {
         error: alertOncallCoverage.error.message,
         detail:
-          "Funcao create_finance_ops_alerts_from_oncall_coverage nao encontrada. Rode a migration 20260307_0300_sre_oncall_24x7_dr_gameday_recurring.sql."
+          "Funcao create_finance_ops_alerts_from_oncall_coverage não encontrada. Rode a migration 20260307_0300_sre_oncall_24x7_dr_gameday_recurring.sql."
       },
       { status: 500 }
     );
@@ -162,7 +162,7 @@ export async function POST(request: NextRequest) {
       {
         error: refreshBudget.error.message,
         detail:
-          "Funcao refresh_sre_error_budget_rollups nao encontrada. Rode a migration 20260307_0200_sre_maturity_oncall_error_budget_dr_calendar.sql."
+          "Funcao refresh_sre_error_budget_rollups não encontrada. Rode a migration 20260307_0200_sre_maturity_oncall_error_budget_dr_calendar.sql."
       },
       { status: 500 }
     );
@@ -176,7 +176,7 @@ export async function POST(request: NextRequest) {
       {
         error: alertBudget.error.message,
         detail:
-          "Funcao create_finance_ops_alerts_from_error_budget nao encontrada. Rode a migration 20260307_0200_sre_maturity_oncall_error_budget_dr_calendar.sql."
+          "Funcao create_finance_ops_alerts_from_error_budget não encontrada. Rode a migration 20260307_0200_sre_maturity_oncall_error_budget_dr_calendar.sql."
       },
       { status: 500 }
     );
@@ -192,7 +192,7 @@ export async function POST(request: NextRequest) {
       {
         error: ensureDr.error.message,
         detail:
-          "Funcao ensure_dr_drill_calendar nao encontrada. Rode a migration 20260307_0200_sre_maturity_oncall_error_budget_dr_calendar.sql."
+          "Funcao ensure_dr_drill_calendar não encontrada. Rode a migration 20260307_0200_sre_maturity_oncall_error_budget_dr_calendar.sql."
       },
       { status: 500 }
     );
@@ -206,7 +206,7 @@ export async function POST(request: NextRequest) {
       {
         error: ensureDrGameDay.error.message,
         detail:
-          "Funcao ensure_dr_game_day_calendar nao encontrada. Rode a migration 20260307_0300_sre_oncall_24x7_dr_gameday_recurring.sql."
+          "Funcao ensure_dr_game_day_calendar não encontrada. Rode a migration 20260307_0300_sre_oncall_24x7_dr_gameday_recurring.sql."
       },
       { status: 500 }
     );
@@ -220,7 +220,7 @@ export async function POST(request: NextRequest) {
       {
         error: syncDr.error.message,
         detail:
-          "Funcao sync_dr_calendar_from_runs nao encontrada. Rode a migration 20260307_0200_sre_maturity_oncall_error_budget_dr_calendar.sql."
+          "Funcao sync_dr_calendar_from_runs não encontrada. Rode a migration 20260307_0200_sre_maturity_oncall_error_budget_dr_calendar.sql."
       },
       { status: 500 }
     );
@@ -235,7 +235,7 @@ export async function POST(request: NextRequest) {
       {
         error: alertDr.error.message,
         detail:
-          "Funcao create_finance_ops_alerts_from_dr_calendar nao encontrada. Rode a migration 20260307_0200_sre_maturity_oncall_error_budget_dr_calendar.sql."
+          "Funcao create_finance_ops_alerts_from_dr_calendar não encontrada. Rode a migration 20260307_0200_sre_maturity_oncall_error_budget_dr_calendar.sql."
       },
       { status: 500 }
     );
@@ -250,7 +250,7 @@ export async function POST(request: NextRequest) {
       {
         error: alertDrUpcoming.error.message,
         detail:
-          "Funcao create_finance_ops_alerts_from_dr_upcoming nao encontrada. Rode a migration 20260307_0300_sre_oncall_24x7_dr_gameday_recurring.sql."
+          "Funcao create_finance_ops_alerts_from_dr_upcoming não encontrada. Rode a migration 20260307_0300_sre_oncall_24x7_dr_gameday_recurring.sql."
       },
       { status: 500 }
     );
@@ -265,7 +265,7 @@ export async function POST(request: NextRequest) {
       {
         error: alertDrFailed.error.message,
         detail:
-          "Funcao create_finance_ops_alerts_from_dr_failures nao encontrada. Rode a migration 20260307_0300_sre_oncall_24x7_dr_gameday_recurring.sql."
+          "Funcao create_finance_ops_alerts_from_dr_failures não encontrada. Rode a migration 20260307_0300_sre_oncall_24x7_dr_gameday_recurring.sql."
       },
       { status: 500 }
     );

@@ -41,7 +41,7 @@ export default function ContaEnderecosPage() {
         if (active) setRows(data.items);
       } catch (error) {
         if (active) {
-          setMessage(error instanceof Error ? error.message : "Nao foi possivel carregar enderecos.");
+          setMessage(error instanceof Error ? error.message : "Não foi possivel carregar enderecos.");
         }
       } finally {
         if (active) setLoading(false);
@@ -79,7 +79,7 @@ export default function ContaEnderecosPage() {
       setForm(initialForm);
       setMessage("Endereco salvo com sucesso.");
     } catch (error) {
-      setMessage(error instanceof Error ? error.message : "Nao foi possivel salvar o endereco.");
+      setMessage(error instanceof Error ? error.message : "Não foi possivel salvar o endereco.");
     } finally {
       setSaving(false);
     }

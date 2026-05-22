@@ -84,8 +84,8 @@ export const qualityRepository = {
             : "Seller com score abaixo do esperado.",
         severity: worstSeller?.status ?? "alerta",
         href: worstSeller
-          ? `/adm/operacao/parceiros?seller=${worstSeller.id}`
-          : "/adm/operacao/parceiros?priority=alta"
+          ? `/adm/operação/parceiros?seller=${worstSeller.id}`
+          : "/adm/operação/parceiros?priority=alta"
       },
       {
         id: "issue-logistica",
@@ -94,14 +94,14 @@ export const qualityRepository = {
           criticalIncident?.summary ?? "Atraso critico com possibilidade de chargeback ou review negativa.",
         severity: criticalIncident?.status ?? "critico",
         href: criticalIncident
-          ? `/adm/operacao/logistica/incidentes?shipment=${criticalIncident.shipmentId}&priority=${criticalIncident.priority}`
-          : "/adm/operacao/logistica/incidentes?priority=critica"
+          ? `/adm/operação/logistica/incidentes?shipment=${criticalIncident.shipmentId}&priority=${criticalIncident.priority}`
+          : "/adm/operação/logistica/incidentes?priority=critica"
       },
       {
         id: "issue-financeiro",
         title: "Divergencia financeira em repasse",
         detail:
-          criticalAlert?.summary ?? "Repasse bloqueado ou alerta financeiro em aberto para seller sensivel.",
+          criticalAlert?.summary ?? "Repasse bloqueado ou alerta financeiro em aberto para seller sensível.",
         severity: criticalAlert?.status ?? "alerta",
         href: criticalAlert
           ? `/adm/financeiro/auditoria?alert=${criticalAlert.id}`
@@ -121,7 +121,7 @@ export const qualityRepository = {
       },
       {
         id: "issue-reviews",
-        title: "Reputacao em queda em SKU sensivel",
+        title: "Reputacao em queda em SKU sensível",
         detail:
           criticalReview?.excerpt ?? "Reviews negativas acima da media em produto de alto valor editorial.",
         severity: criticalReview?.status ?? "alerta",

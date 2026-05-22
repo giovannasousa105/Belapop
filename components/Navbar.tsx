@@ -7,6 +7,7 @@ import { usePathname } from "next/navigation";
 import { PromoBar } from "@/components/PromoBar";
 import { SearchBar } from "@/components/SearchBar";
 import { useAuth } from "@/lib/AuthContext";
+import { buildLoginHref } from "@/lib/auth/redirects";
 import { useCart } from "@/lib/CartContext";
 import { getPublicAsset } from "@/lib/publicEnv";
 
@@ -84,16 +85,16 @@ export const Navbar = () => {
                 authReady && user
                   ? user.role === "seller"
                     ? "/parceiro"
-                    : "/minha-conta"
-                  : "/login"
+                    : "/conta"
+                  : buildLoginHref("/conta")
               }
               className={`flex items-center gap-2 ${actionTone} ${actionHover}`}
             >
               <User size={16} />
-              {authReady && user ? "Minha conta" : "Entrar"}
+              {authReady && user ? "Conta" : "Entrar"}
             </Link>
             <Link
-              href="/conta/favoritos"
+              href={authReady && user ? "/conta/favoritos" : buildLoginHref("/conta/favoritos")}
               className={`flex items-center gap-2 ${actionTone} ${actionHover}`}
             >
               <Heart size={16} />

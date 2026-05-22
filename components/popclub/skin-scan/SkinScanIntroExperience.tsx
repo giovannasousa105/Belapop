@@ -1,9 +1,8 @@
-"use client";
+﻿"use client";
 
 /* eslint-disable @next/next/no-img-element */
 
 import Link from "next/link";
-import { useState } from "react";
 import type { LucideIcon } from "lucide-react";
 import {
   AlertTriangle,
@@ -12,52 +11,37 @@ import {
   CircleDot,
   Droplets,
   Eye,
-  Menu,
   Minus,
   Plus,
   ScanLine,
-  ShoppingBag,
   Sparkles,
-  User,
-  Waves,
-  X
+  Waves
 } from "lucide-react";
+import { useState } from "react";
 
-const desktopNavLinks = [
-  { label: "Collections", href: "/catalogo" },
-  { label: "Skin Scan", href: "/skin-scan" },
-  { label: "Rituals", href: "/rituais" },
-  { label: "Concierge", href: "/belacode" }
-] as const;
-
-const mobileMenuLinks = [
-  { label: "Skincare", href: "/skincare" },
-  { label: "Maquiagem", href: "/maquiagem" },
-  { label: "Cabelos", href: "/cabelos" },
-  { label: "Perfumes", href: "/perfumes" },
-  { label: "PopClub", href: "/popclub" }
-] as const;
+import { BelaPopValidatedHeader } from "@/components/luxury/BelaPopValidatedHeader";
+import { BelaPopValidatedFooter } from "@/components/luxury/BelaPopValidatedFooter";
 
 const processSteps = [
   {
     number: "01.",
     title: "Defina prioridades",
-    description: "Voce escolhe os focos de cuidado que fazem sentido para o seu momento."
+    description: "Você escolhe os focos de cuidado que fazem sentido para o seu momento."
   },
   {
     number: "02.",
     title: "Envie sua imagem",
-    description: "Uma foto nitida em luz natural ajuda a leitura visual da pele."
+    description: "Uma foto nítida em luz natural ajuda a leitura visual da pele."
   },
   {
     number: "03.",
     title: "Leitura visual",
-    description: "A experiencia organiza sinais aparentes para orientar proximos passos."
+    description: "A experiência organiza sinais aparentes para orientar próximos passos."
   },
   {
     number: "04.",
     title: "Rotina sugerida",
-    description: "Voce recebe sugestoes cosmeticas para continuar a rotina com mais clareza."
+    description: "Você recebe sugestões cosméticas para continuar a rotina com mais clareza."
   }
 ] as const;
 
@@ -81,12 +65,12 @@ const signalCards: SignalCard[] = [
   {
     icon: AlertTriangle,
     title: "Sensibilidade aparente",
-    description: "Identificacao de sinais visuais de reatividade em areas especificas."
+    description: "Identificação de sinais visuais de reatividade em áreas específicas."
   },
   {
     icon: Blend,
     title: "Uniformidade",
-    description: "Comparacao visual de variacoes de tom na pele ao longo do rosto."
+    description: "Comparação visual de variações de tom na pele ao longo do rosto."
   },
   {
     icon: Waves,
@@ -101,33 +85,33 @@ const summaryItems = [
     description: "Principais pontos observados na imagem com linguagem direta."
   },
   {
-    title: "Sugestao de rotina",
+    title: "Sugestão de rotina",
     description: "Etapas e produtos organizados de acordo com as prioridades escolhidas."
   }
 ] as const;
 
 const doesItems = [
-  "Ajuda a organizar sua rotina de skincare diaria.",
+  "Ajuda a organizar sua rotina de skincare diária.",
   "Contribui para reduzir tentativa e erro na escolha de produtos.",
-  "Orienta decisoes com base em sinais visiveis da pele."
+  "Orienta decisões com base em sinais visíveis da pele."
 ] as const;
 
 const doesNotItems = [
-  "Nao realiza diagnostico clinico ou tratamento medico.",
-  "Nao substitui consulta com dermatologista.",
-  "Nao avalia condicoes medicas fora do escopo cosmetico."
+  "Não realiza avaliação clínica ou tratamento médico.",
+  "Não substitui consulta com dermatologista.",
+  "Não avalia condições médicas fora do escopo cosmético."
 ] as const;
 
 const faqItems = [
   {
-    question: "A analise substitui o dermatologista?",
+    question: "A análise substitui o dermatologista?",
     answer:
-      "Nao. O Skin Scan e uma experiencia de orientacao cosmetica para apoiar a rotina."
+      "Não. O Skin Scan é uma experiência de orientação cosmética para apoiar a rotina."
   },
   {
-    question: "Como minhas fotos sao tratadas?",
+    question: "Como minhas fotos são tratadas?",
     answer:
-      "A imagem e usada apenas para leitura visual no fluxo e segue regras de privacidade da plataforma."
+      "A imagem é usada apenas para leitura visual no fluxo e segue regras de privacidade da plataforma."
   },
   {
     question: "Preciso estar sem maquiagem?",
@@ -137,15 +121,14 @@ const faqItems = [
 ] as const;
 
 const bottomNavItems = [
-  { label: "Skincare", href: "/skincare", icon: Sparkles, active: true },
-  { label: "Makeup", href: "/maquiagem", icon: CircleDot, active: false },
-  { label: "Hair", href: "/cabelos", icon: Waves, active: false },
-  { label: "Perfume", href: "/perfumes", icon: Droplets, active: false },
+  { label: "Loja", href: "/catalogo", icon: Sparkles, active: false },
+  { label: "Maquiagem", href: "/maquiagem", icon: CircleDot, active: false },
+  { label: "Cabelos", href: "/cabelos", icon: Waves, active: false },
+  { label: "Perfumes", href: "/perfumes", icon: Droplets, active: false },
   { label: "PopClub", href: "/popclub", icon: BookOpen, active: false }
 ] as const;
 
 export default function SkinScanIntroExperience() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(0);
 
   const toggleFaq = (index: number) => {
@@ -154,93 +137,9 @@ export default function SkinScanIntroExperience() {
 
   return (
     <div className="min-h-screen overflow-x-hidden bg-[#fcf9f8] pb-24 text-[#1c1b1b] md:pb-0">
-      <header className="fixed inset-x-0 top-0 z-50 bg-black text-white">
-        <div className="mx-auto flex h-16 max-w-[1440px] items-center justify-between px-6 md:h-[88px] md:px-10">
-          <button
-            type="button"
-            aria-label="Abrir menu"
-            onClick={() => setIsMenuOpen(true)}
-            className="inline-flex h-10 w-10 items-center justify-center md:hidden"
-          >
-            <Menu className="h-5 w-5" />
-          </button>
+      <BelaPopValidatedHeader activeSection="skin-scan" />
 
-          <div className="[font-family:var(--font-playfair)] text-2xl font-bold tracking-[-0.05em] uppercase">
-            BelaPop
-          </div>
-
-          <nav className="hidden items-center gap-10 md:flex">
-            {desktopNavLinks.map((link) => (
-              <Link
-                key={link.label}
-                href={link.href}
-                className={`text-xs uppercase tracking-[0.2em] transition-colors ${
-                  link.label === "Skin Scan"
-                    ? "border-b border-[#6c5e06] pb-1 text-[#6c5e06]"
-                    : "text-white/75 hover:text-white"
-                }`}
-              >
-                {link.label}
-              </Link>
-            ))}
-          </nav>
-
-          <div className="flex items-center gap-2 md:gap-6">
-            <Link
-              href="/carrinho"
-              aria-label="Sacola"
-              className="inline-flex h-10 w-10 items-center justify-center"
-            >
-              <ShoppingBag className="h-5 w-5" />
-            </Link>
-            <Link
-              href="/conta"
-              aria-label="Conta"
-              className="hidden h-10 w-10 items-center justify-center md:inline-flex"
-            >
-              <User className="h-5 w-5" />
-            </Link>
-          </div>
-        </div>
-      </header>
-
-      {isMenuOpen ? (
-        <div className="fixed inset-0 z-[70] bg-black/40 backdrop-blur-sm md:hidden">
-          <aside className="h-full w-[84%] max-w-[340px] bg-[#fcf9f8] px-6 pb-8 pt-6">
-            <div className="mb-8 flex items-center justify-between">
-              <p className="[font-family:var(--font-playfair)] text-xl">Menu</p>
-              <button
-                type="button"
-                aria-label="Fechar menu"
-                onClick={() => setIsMenuOpen(false)}
-                className="inline-flex h-10 w-10 items-center justify-center border border-black/10"
-              >
-                <X className="h-4 w-4" />
-              </button>
-            </div>
-            <nav className="space-y-2">
-              {mobileMenuLinks.map((link) => (
-                <Link
-                  key={link.label}
-                  href={link.href}
-                  onClick={() => setIsMenuOpen(false)}
-                  className="flex min-h-14 items-center border border-black/10 bg-white px-4 text-xs uppercase tracking-[0.2em]"
-                >
-                  {link.label}
-                </Link>
-              ))}
-            </nav>
-          </aside>
-          <button
-            type="button"
-            className="absolute inset-0 -z-10"
-            aria-label="Fechar menu"
-            onClick={() => setIsMenuOpen(false)}
-          />
-        </div>
-      ) : null}
-
-      <main className="pt-16 md:pt-[88px]">
+      <main className="pt-[78px] lg:pt-[86px]">
         <section className="min-h-screen md:flex md:min-h-[calc(100vh-88px)]">
           <div className="w-full px-6 py-12 md:w-1/2 md:px-10 md:py-20">
             <div className="max-w-xl">
@@ -286,7 +185,7 @@ export default function SkinScanIntroExperience() {
                   <div className="mb-4 h-[2px] w-full overflow-hidden bg-white/30">
                     <div className="h-full w-2/3 bg-white" />
                   </div>
-                  <p className="text-[10px] uppercase tracking-[0.2em]">Analise em curso</p>
+                  <p className="text-[10px] uppercase tracking-[0.2em]">Leitura em andamento</p>
                   <p className="[font-family:var(--font-playfair)] mt-2 text-lg italic">
                     Textura detectada
                   </p>
@@ -369,7 +268,7 @@ export default function SkinScanIntroExperience() {
             <div className="w-full bg-[#f0eded] p-4 md:p-10 lg:w-1/2">
               <div className="bg-white p-8 shadow-[0_40px_80px_rgba(0,0,0,0.04)]">
                 <div className="mb-8 flex items-center justify-between text-[10px] uppercase tracking-[0.2em]">
-                  <p>Resultado da analise</p>
+                  <p>Resultado da leitura</p>
                   <p className="text-[#444748]/60">ID: BP-2941</p>
                 </div>
                 <div className="grid grid-cols-2 gap-6">
@@ -429,7 +328,7 @@ export default function SkinScanIntroExperience() {
               do Skin Scan. O processamento segue regras de privacidade e controle de consentimento.
             </p>
             <Link
-              href="/privacidade"
+              href="/aviso-de-privacidade"
               className="mt-8 inline-flex min-h-14 items-center justify-center border border-black px-10 text-xs uppercase tracking-[0.24em] transition-colors hover:bg-black hover:text-white"
             >
               Ver politica de privacidade
@@ -466,48 +365,7 @@ export default function SkinScanIntroExperience() {
         </section>
       </main>
 
-      <footer className="hidden bg-black px-10 py-20 text-white md:block">
-        <div className="mx-auto flex max-w-7xl flex-col items-center gap-10">
-          <div className="[font-family:var(--font-playfair)] text-xl uppercase tracking-[-0.04em]">
-            BelaPop
-          </div>
-          <div className="flex flex-wrap justify-center gap-x-10 gap-y-4">
-            <Link
-              className="text-[10px] uppercase tracking-[0.2em] text-white/55 transition-colors hover:text-white"
-              href="/privacidade"
-            >
-              Privacy policy
-            </Link>
-            <Link
-              className="text-[10px] uppercase tracking-[0.2em] text-white/55 transition-colors hover:text-white"
-              href="/termos-e-condicoes"
-            >
-              Terms of service
-            </Link>
-            <Link
-              className="text-[10px] uppercase tracking-[0.2em] text-white/55 transition-colors hover:text-white"
-              href="/seguranca"
-            >
-              Ingredient transparency
-            </Link>
-            <Link
-              className="text-[10px] uppercase tracking-[0.2em] text-white/55 transition-colors hover:text-white"
-              href="/sobre"
-            >
-              Sustainability
-            </Link>
-            <Link
-              className="text-[10px] uppercase tracking-[0.2em] text-white/55 transition-colors hover:text-white"
-              href="/contato"
-            >
-              Contact us
-            </Link>
-          </div>
-          <p className="text-[10px] uppercase tracking-[0.2em] text-white/40">
-            © 2026 BelaPop. All rights reserved.
-          </p>
-        </div>
-      </footer>
+      <BelaPopValidatedFooter />
 
       <nav className="fixed inset-x-0 bottom-0 z-50 flex h-20 items-center justify-around border-t border-black/10 bg-[#fcf9f8]/95 px-4 pb-3 pt-2 backdrop-blur-xl md:hidden">
         {bottomNavItems.map((item) => {

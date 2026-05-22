@@ -1,0 +1,132 @@
+name: Admin · Invariantes
+
+on:
+  push:
+    paths:
+      - "app/(admin)/**"
+      - "app/api/admin/**"
+      - "lib/admin/**"
+      - "components/admin/**"
+      - "supabase/migrations/20260516_0800*"
+  pull_request:
+    paths:
+      - "app/api/admin/**"
+      - "lib/admin/**"
+
+jobs:
+  invariants:
+    name: Verificar invariantes do Admin
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - name: Instalar dependências
+        run: npm ci
+
+      # ── Testes de invariantes ─────────────────────────────────────────────────
+      - name: "Testes de invariantes (zero banco)"
+        run: |
+          npx jest lib/admin/invariants/ --no-coverage
+          echo "✅ Testes das invariantes do Admin: todos passaram."
+
+      # ── TypeScript ────────────────────────────────────────────────────────────
+      - name: "TypeScript — compilar sem erros"
+        run: |
+          npx tsc --noEmit
+          echo "✅ TypeScript: compilação sem erros."
+
+      # ── Invariante 1: requireAdmin em todas as rotas /api/admin/* ─────────────
+      - name: "Invariante 1 — requireAdmin em todas as rotas admin"
+        run: |
+          VIOLATIONS=""
+          while IFS= read -r rota; do
+            if ! grep -q "requireAdmin\|autenticarAdmin\|ensureAdminRequest" "$rota"; then
+              VIOLATIONS="$VIOLATIONS\n  $rota"
+            fi
+          done < <(find app/api/admin -name "route.ts" 2>/dev/null)
+
+          if [ -n "$VIOLATIONS" ]; then
+            echo "❌ ERRO: rotas sem autenticação admin:"
+            printf "%b\n" "$VIOLATIONS"
+            echo "   Toda rota /api/admin/* DEVE chamar requireAdmin() ou equivalente."
+            exit 1
+          fi
+          echo "✅ Invariante 1: todas as rotas admin autenticadas."
+
+      # ── Invariante 2: audit em ações críticas ─────────────────────────────────
+      - name: "Invariante 2 — comAudit nas ações críticas"
+        run: |
+          # Verificar que arquivos com ações críticas importam o audit
+          ACOES=("APROVAR_SELLER" "REPROVAR_SELLER" "CRIAR_LOTE" "MUDAR_STATUS_LOTE")
+          VIOLATIONS=""
+
+          for acao in "${ACOES[@]}"; do
+            FILES=$(grep -rln "$acao" app/api/admin/ --include="*.ts" 2>/dev/null || true)
+            for f in $FILES; do
+              if ! grep -q "comAudit\|registrarAudit" "$f"; then
+                VIOLATIONS="$VIOLATIONS\n  $f (ação: $acao)"
+              fi
+            done
+          done
+
+          if [ -n "$VIOLATIONS" ]; then
+            echo "❌ ERRO: ações críticas sem audit detectadas:"
+            printf "%b\n" "$VIOLATIONS"
+            echo "   Usar comAudit() para ações que modificam dados."
+            exit 1
+          fi
+          echo "✅ Invariante 2: ações críticas auditadas."
+
+      # ── Invariante 3: FINANCEIRO só VER_FINANCEIRO ────────────────────────────
+      - name: "Invariante 3 — rotas financeiro protegidas por VER_FINANCEIRO"
+        run: |
+          FINANCE_ROUTES=$(find app/api/admin/finance -name "route.ts" 2>/dev/null || true)
+          if [ -z "$FINANCE_ROUTES" ]; then
+            echo "✅ Invariante 3: nenhuma rota financeiro encontrada (OK por ora)."
+            exit 0
+          fi
+
+          for rota in $FINANCE_ROUTES; do
+            if ! grep -q "VER_FINANCEIRO" "$rota"; then
+              echo "❌ ERRO: $rota não verifica role VER_FINANCEIRO."
+              echo "   Role FINANCEIRO só deve acessar endpoints com VER_FINANCEIRO."
+              exit 1
+            fi
+          done
+          echo "✅ Invariante 3: rotas financeiro verificam VER_FINANCEIRO."
+
+      # ── Invariante 4: importação via index.ts ─────────────────────────────────
+      - name: "Invariante 4 — invariants importados via lib/admin/invariants"
+        run: |
+          VIOLATIONS=$(grep -rn \
+            "from.*admin/invariants/adminAuth\|from.*admin/invariants/audit" \
+            --include="*.ts" --include="*.tsx" \
+            lib/ app/ 2>/dev/null \
+            | grep -v "lib/admin/invariants/index.ts" \
+            | grep -v "__tests__" || true)
+
+          if [ -n "$VIOLATIONS" ]; then
+            echo "❌ ERRO: importações diretas de invariants individuais:"
+            echo "$VIOLATIONS"
+            echo "   Importar SEMPRE de '@/lib/admin/invariants'"
+            exit 1
+          fi
+          echo "✅ Invariante 4: importações via index.ts."
+
+      # ── Relatório ─────────────────────────────────────────────────────────────
+      - name: "Relatório final — invariantes do Admin"
+        run: |
+          echo "✓ Testes: todos passaram"
+          echo "✓ requireAdmin: presente em todas as rotas"
+          echo "✓ comAudit: ações críticas auditadas"
+          echo "✓ VER_FINANCEIRO: rotas financeiro protegidas"
+          echo "✓ Importações: via index.ts"
+          echo ""
+          echo "Admin Panel · todos os invariantes validados ✓"

@@ -33,12 +33,11 @@ export function OrderConfirmationExperience() {
             <div className="absolute bottom-0 left-0 z-10 w-full px-4 sm:px-6 lg:px-10">
               <div className="-mb-16 max-w-2xl bg-[#fcf9f8] p-6 shadow-sm sm:-mb-20 sm:p-8 lg:-mb-24 lg:ml-8 lg:p-12">
                 <h1 className="font-editorial text-4xl font-bold leading-none tracking-[-0.06em] sm:text-5xl lg:text-7xl">
-                  Sua Curadoria esta a Caminho
+                  Pedido confirmado
                 </h1>
                 <p className="mt-5 text-base leading-7 text-[#444748] sm:text-lg lg:text-xl">
-                  Prepare o seu espaco. A sua nova jornada de autocuidado e o ritual BelaPop
-                  comecam em breve. Estamos finalizando cada detalhe com a precisao que sua pele
-                  merece.
+                  O pagamento foi recebido e o pedido entrou no fluxo operacional da BelaPop.
+                  Acompanhe o historico, os subpedidos por lojista e o rastreio sem depender de atalhos soltos.
                 </p>
               </div>
             </div>
@@ -95,25 +94,24 @@ export function OrderConfirmationExperience() {
 
               <section className="space-y-8">
                 <h2 className="text-xs font-extrabold uppercase tracking-[0.3em] text-[#1c1b1b]">
-                  Acompanhe seu Ritual
+                  Acompanhe seu pedido
                 </h2>
                 <div className="space-y-6 bg-black p-6 text-white sm:p-8 lg:p-12">
                   <p className="text-lg leading-8 text-white/80">
-                    Seu pacote esta sendo preparado em nosso atelie com luvas de seda e fragrancias
-                    exclusivas.
+                    O proximo passo e acompanhar os subpedidos, os eventos de expedicao e o rastreio conforme cada envio for liberado.
                   </p>
                   <div className="flex flex-col gap-4 sm:flex-row">
                     <Link
-                      href="/rastreio"
+                      href="/pedido"
                       className="inline-flex min-h-14 items-center justify-center bg-[#ed93d5] px-8 text-center text-[11px] font-semibold uppercase tracking-[0.24em] text-white transition-opacity hover:opacity-90 sm:min-h-16"
                     >
-                      Rastrear Entrega
+                      Ver meus pedidos
                     </Link>
                     <Link
-                      href="/rastreio"
+                      href="/conta/rastreio"
                       className="inline-flex min-h-14 items-center justify-center border border-white/20 px-8 text-center text-[11px] font-semibold uppercase tracking-[0.24em] text-white transition-colors hover:bg-white/10 sm:min-h-16"
                     >
-                      Detalhes do Envio
+                      Acompanhar rastreio
                     </Link>
                   </div>
                 </div>
@@ -171,20 +169,19 @@ export function OrderConfirmationExperience() {
                   Precisa de assistencia especializada?
                 </h5>
                 <p className="px-2 text-sm leading-7 text-[#444748]">
-                  Nossos curadores de beleza estao disponiveis para orientar seu ritual de
-                  aplicacao e responder qualquer duvida.
+                  O time de atendimento pode ajudar com pedido, entrega, troca e pos-venda quando voce precisar.
                 </p>
                 <Link
                   className="inline-block border-b border-black pb-1 text-[11px] font-bold uppercase tracking-[0.22em]"
-                  href="/skinbela/concierge"
+                  href="/conta/reclamacoes-suporte"
                 >
-                  Fale com um Especialista
+                  Falar com atendimento
                 </Link>
               </section>
 
               <Link href="/skincare" className="group relative block overflow-hidden">
                 <img
-                  alt="Colecao complementar"
+                  alt="Coleção complementar"
                   className="w-full grayscale transition-all duration-700 group-hover:grayscale-0"
                   src={collectionImage}
                 />

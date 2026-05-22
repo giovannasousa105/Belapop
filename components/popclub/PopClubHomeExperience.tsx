@@ -4,16 +4,27 @@
 
 import Link from "next/link";
 import { Flame, Menu, Sparkles, Star } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { ImmersiveBottomNav } from "@/components/popclub/shared/ImmersiveBottomNav";
 import { ImmersiveMenuDrawer } from "@/components/popclub/shared/ImmersiveMenuDrawer";
+import { useAuth } from "@/lib/AuthContext";
+import {
+  createEmptyPopClubAccountSnapshot,
+  formatPopClubCredits,
+  formatPopClubPoints,
+  getPopClubAccountSnapshot,
+  getPopClubMomentCopy,
+  getPopClubProgressLabel,
+  getPopClubSampleMessage
+} from "@/lib/popclub/accountSnapshot";
 import { homeBottomNavItems, homeMenuLinks } from "@/lib/popclub/navigation";
+import { popClubTierMap } from "@/lib/popclub/tiers";
 
 const selectedProducts = [
   {
     brand: "La Mer",
-    title: "Hidratacao essencial",
+    title: "Hidratação essencial",
     price: "R$ 2.450",
     image:
       "https://lh3.googleusercontent.com/aida-public/AB6AXuAmpN9Gfj2ITQJWIWXrozL_yowY95e-rAoCxzbx8ciS9q0Nv5ItztCO7Tqh006SIzdHS5l6-8fSI2TFVI46KreL1TZhvhZBDcR2idp13ShAmK1LZ6AJ_NMTPzudYxXGJJcvDykWpc1ie-Krith-2Raj2e54wqioorFCJjGAaJX48UFSELAcItoHbPwE4mO2W6k0d23aMOYDjZ0l_KUD6gy7KYNWkY-TrrB3Sufc6ZXsPR7sXkmtk9Dy4koWYnb1WjJeoMlBtmVcrNUi"
@@ -27,12 +38,6 @@ const selectedProducts = [
   }
 ] as const;
 
-const activeBenefits = [
-  "Acesso antecipado",
-  "Beneficios do programa",
-  "Acesso a acoes e ativacoes selecionadas, quando disponiveis"
-] as const;
-
 const explorationCards = [
   { icon: Sparkles, title: "Explorar novidades", href: "/skincare" },
   { icon: Flame, title: "Radar de drops", href: "/popclub/radar" },
@@ -40,7 +45,37 @@ const explorationCards = [
 ] as const;
 
 export default function PopClubHomeExperience() {
+  const { ready, user } = useAuth();
   const [menuOpen, setMenuOpen] = useState(false);
+  const [snapshot, setSnapshot] = useState(createEmptyPopClubAccountSnapshot);
+
+  useEffect(() => {
+    if (!ready) return;
+
+    if (!user?.id) {
+      setSnapshot(createEmptyPopClubAccountSnapshot());
+      return;
+    }
+
+    let active = true;
+
+    const loadSnapshot = async () => {
+      const nextSnapshot = await getPopClubAccountSnapshot(user.id);
+      if (active) {
+        setSnapshot(nextSnapshot);
+      }
+    };
+
+    void loadSnapshot();
+
+    return () => {
+      active = false;
+    };
+  }, [ready, user?.id]);
+
+  const currentTier = popClubTierMap[snapshot.currentTier];
+  const firstName = (user?.name ?? "Cliente").trim().split(" ")[0] || "Cliente";
+  const progressWidth = `${Math.max(0, Math.min(snapshot.progressBps, 10000)) / 100}%`;
 
   return (
     <div className="min-h-screen bg-[#fcf9f8] pb-24 text-[#1c1b1b]">
@@ -72,7 +107,7 @@ export default function PopClubHomeExperience() {
         onClose={() => setMenuOpen(false)}
         title="PopClub"
         links={homeMenuLinks}
-        searchPlaceholder="Buscar beneficios"
+        searchPlaceholder="Buscar no clube"
       />
 
       <main className="mx-auto max-w-7xl px-6 pb-10 pt-24 lg:px-10 lg:pt-28">
@@ -80,13 +115,13 @@ export default function PopClubHomeExperience() {
           <div className="space-y-8">
             <div className="max-w-2xl">
               <p className="mb-4 text-[10px] font-bold uppercase tracking-[0.28em] text-[#444748]/65">
-                Dashboard membership
+                Painel do clube
               </p>
               <h1 className="font-[var(--font-playfair)] text-4xl font-bold tracking-tight lg:text-6xl">
-                Bem-vinda de volta, Giovanna
+                Bem-vinda de volta, {firstName}
               </h1>
               <p className="mt-4 text-lg tracking-tight text-[#444748]/80">
-                Seu PopClub esta ativo e pronto para acompanhar sua rotina com mais continuidade.
+                Seu PopClub esta ativo no nivel {currentTier.label} e pronto para acompanhar sua rotina com saldo, creditos e prioridade real de atendimento.
               </p>
             </div>
 
@@ -109,8 +144,7 @@ export default function PopClubHomeExperience() {
                     Faca seu Skin Scan
                   </h2>
                   <p className="max-w-md text-sm leading-relaxed text-white/80 lg:text-base">
-                    Descubra sua rotina ideal com base no seu perfil unico e receba
-                    indicacoes editoriais mais precisas.
+                    Atualize a leitura da pele, organize a ordem de uso da rotina e ative a recompra assistida com base no seu perfil.
                   </p>
                 </div>
                 <div className="inline-flex h-12 min-w-[220px] items-center justify-center bg-white px-8 text-[11px] font-bold uppercase tracking-[0.22em] text-black transition-colors group-hover:bg-[#ed93d5] group-hover:text-white">
@@ -124,17 +158,25 @@ export default function PopClubHomeExperience() {
             <section className="bg-[#f6f3f2] p-6 lg:p-7">
               <div className="flex items-center justify-between">
                 <span className="text-[10px] font-extrabold uppercase tracking-[0.15em] text-[#444748]">
-                  Membro desde 2023
+                  Nivel atual
                 </span>
-                <span className="rounded-full bg-[#f6f3ec] px-3 py-1 text-[10px] font-bold uppercase tracking-[0.18em] text-[#b89c6a]">
-                  Ouro
+                <span className="rounded-full bg-[#f2e7ef] px-3 py-1 text-[10px] font-bold uppercase tracking-[0.18em] text-[#a14a82]">
+                  {currentTier.label}
                 </span>
+              </div>
+              <div className="mt-4 flex items-end justify-between gap-4">
+                <p className="text-3xl font-[var(--font-playfair)] font-semibold tracking-tight">
+                  {formatPopClubPoints(snapshot.pointsBalance)} pontos
+                </p>
+                <p className="text-right text-[11px] uppercase tracking-[0.18em] text-[#444748]/70">
+                  {formatPopClubCredits(snapshot.creditBalanceCents)} em creditos
+                </p>
               </div>
               <div className="mt-4 h-[2px] w-full bg-[#e5e2e1]">
-                <div className="h-full w-[75%] bg-[#ed93d5]" />
+                <div className="h-full bg-[#ed93d5]" style={{ width: progressWidth }} />
               </div>
               <p className="mt-4 text-[10px] uppercase tracking-[0.22em] text-[#444748]">
-                Faltam 250 pontos para o nivel Diamante
+                {getPopClubProgressLabel(snapshot)}
               </p>
             </section>
 
@@ -145,15 +187,14 @@ export default function PopClubHomeExperience() {
               <div className="space-y-4">
                 <div className="rounded-[18px] bg-[#f6f3f2] p-4">
                   <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-[#444748]/60">
-                    Insight
+                    Recomenda-se
                   </p>
                   <p className="mt-2 font-[var(--font-playfair)] text-xl leading-tight">
-                    Sua proxima vantagem esta no fluxo Skin Scan.
+                    {getPopClubMomentCopy(snapshot)}
                   </p>
                 </div>
                 <div className="rounded-[18px] bg-[#f6f3f2] p-4 text-sm leading-relaxed text-[#444748]">
-                  Complete a analise para transformar beneficios e sugestoes organizadas com base
-                  no seu perfil em uma rotina mais clara.
+                  {getPopClubSampleMessage(snapshot)} Seu saldo atual do clube esta em {formatPopClubCredits(snapshot.creditBalanceCents)}.
                 </div>
               </div>
             </section>
@@ -200,10 +241,10 @@ export default function PopClubHomeExperience() {
           <aside className="space-y-10">
             <section>
               <h3 className="mb-8 font-[var(--font-playfair)] text-xl font-bold tracking-tight lg:text-3xl">
-                Seus beneficios ativos
+                Seus beneficios {currentTier.label}
               </h3>
               <div className="space-y-5">
-                {activeBenefits.map((item) => (
+                {currentTier.benefits.map((item) => (
                   <div key={item} className="flex items-center gap-6 border-b border-black/[0.05] pb-4">
                     <Star className="h-6 w-6 text-black/60" />
                     <div className="flex-1">
@@ -230,7 +271,6 @@ export default function PopClubHomeExperience() {
                       href={card.href}
                       className="relative flex min-h-[220px] flex-col justify-between overflow-hidden bg-[#e5e2e1]/40 p-8"
                     >
-                      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.18),transparent_70%)] opacity-60" />
                       <Icon className="relative z-10 h-8 w-8 opacity-50" />
                       <h5 className="relative z-10 font-[var(--font-playfair)] text-[18px] font-medium leading-tight">
                         {card.title}

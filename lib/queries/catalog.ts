@@ -21,7 +21,15 @@ type CatalogProduct = {
   is_featured: boolean | null;
   created_at: string | null;
   in_stock: boolean;
+  sellerId: string | null;
+  sellerName: string;
+  sellerStatus: string | null;
+  saleOrigin: "própria" | "marketplace";
 };
+
+const PUBLIC_PRODUCT_STATUSES = ["published"] as const;
+const SELLABLE_SELLER_STATUSES = new Set(["active", "approved"]);
+const BELAPOP_BRAND_KEY = "BelaPop".toLowerCase();
 
 type CatalogFacets = {
   brands: string[];
@@ -60,6 +68,17 @@ function intersectIdSets(current: string[] | null, next: string[]) {
 }
 
 function toCatalogProduct(row: Record<string, unknown>): CatalogProduct {
+  const sellerRecord =
+    row.sellers && typeof row.sellers === "object"
+      ? (row.sellers as Record<string, unknown>)
+      : null;
+  const sellerName =
+    (sellerRecord && typeof sellerRecord.store_name === "string" && sellerRecord.store_name) ||
+    "BelaPop";
+  const sellerStatus =
+    (sellerRecord && typeof sellerRecord.status === "string" && sellerRecord.status) || null;
+  const sellerId =
+    (typeof row.seller_id === "string" && row.seller_id) || null;
   const stockQuantity =
     typeof row.stock_quantity === "number"
       ? row.stock_quantity
@@ -88,8 +107,43 @@ function toCatalogProduct(row: Record<string, unknown>): CatalogProduct {
       : null,
     is_featured: typeof row.is_featured === "boolean" ? row.is_featured : null,
     created_at: typeof row.created_at === "string" ? row.created_at : null,
-    in_stock: stockQuantity > 0
+    in_stock: stockQuantity > 0,
+    sellerId,
+    sellerName,
+    sellerStatus,
+    saleOrigin: sellerName.toLowerCase() === BELAPOP_BRAND_KEY ? "própria" : "marketplace"
   };
+}
+
+function isSellableCatalogProduct(product: CatalogProduct) {
+  return (
+    SELLABLE_SELLER_STATUSES.has(String(product.sellerStatus ?? "")) &&
+    product.price_cents > 0 &&
+    product.in_stock
+  );
+}
+
+function isSellableFacetRow(row: Record<string, unknown>) {
+  const sellerRecord =
+    row.sellers && typeof row.sellers === "object"
+      ? (row.sellers as Record<string, unknown>)
+      : null;
+  const sellerStatus =
+    (sellerRecord && typeof sellerRecord.status === "string" && sellerRecord.status) || null;
+  const priceCents =
+    typeof row.price_cents === "number" ? row.price_cents : Number(row.price_cents ?? 0);
+  const stockQuantity =
+    typeof row.stock_quantity === "number"
+      ? row.stock_quantity
+      : Number(row.stock_quantity ?? 0);
+
+  return (
+    SELLABLE_SELLER_STATUSES.has(String(sellerStatus ?? "")) &&
+    Number.isFinite(priceCents) &&
+    priceCents > 0 &&
+    Number.isFinite(stockQuantity) &&
+    stockQuantity > 0
+  );
 }
 
 export async function getCatalogData(searchParams: SearchParams) {
@@ -221,9 +275,11 @@ export async function getCatalogData(searchParams: SearchParams) {
   let query = supabase
     .from("products")
     .select(
-      "id,slug,title,name,category,brand,price_cents,currency,hero_image_url,badges,ritual,texture,tags,is_featured,created_at,stock_quantity,status"
+      "id,slug,title,name,category,brand,price_cents,currency,hero_image_url,badges,ritual,texture,tags,is_featured,created_at,stock_quantity,status,seller_id,sellers!products_seller_id_fkey(id,store_name,status)"
     )
-    .in("status", ["active", "published"]);
+    .in("status", [...PUBLIC_PRODUCT_STATUSES])
+    .gt("price_cents", 0)
+    .gt("stock_quantity", 0);
 
   // search (simples e rapido)
   if (q) {
@@ -290,9 +346,9 @@ export async function getCatalogData(searchParams: SearchParams) {
   const { data: productsRaw, error } = await query;
   if (error) throw error;
 
-  const products = (productsRaw ?? []).map((row) =>
-    toCatalogProduct(row as Record<string, unknown>)
-  );
+  const products = (productsRaw ?? [])
+    .map((row) => toCatalogProduct(row as Record<string, unknown>))
+    .filter(isSellableCatalogProduct);
   const priorityIds =
     sort === "featured" ? await fetchEditorialPriorityIds("featured") : [];
   const sortedProducts =
@@ -301,14 +357,17 @@ export async function getCatalogData(searchParams: SearchParams) {
   // facets (marcas + tags + range de preco)
   const { data: facetRows } = await supabase
     .from("products")
-    .select("brand,tags,price_cents")
-    .in("status", ["active", "published"]);
+    .select("brand,tags,price_cents,stock_quantity,sellers!products_seller_id_fkey(status)")
+    .in("status", [...PUBLIC_PRODUCT_STATUSES])
+    .gt("price_cents", 0)
+    .gt("stock_quantity", 0);
 
   const brandCounts: FacetCountMap = {};
   const tagCounts: FacetCountMap = {};
   const pricesCents: number[] = [];
 
   for (const row of facetRows ?? []) {
+    if (!isSellableFacetRow(row as Record<string, unknown>)) continue;
     if (typeof row.brand === "string" && row.brand.trim()) {
       brandCounts[row.brand] = (brandCounts[row.brand] ?? 0) + 1;
     }

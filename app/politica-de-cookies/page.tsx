@@ -6,16 +6,16 @@ import { OperationalPendingNotice } from "@/components/legal/OperationalPendingN
 import { cookieCategories, cookiesPolicy } from "@/lib/legal/content";
 
 export const metadata: Metadata = {
-  title: "Politica de Cookies | BelaPop",
+  title: "Política de Cookies | BelaPop",
   description:
-    "Categorias de cookies, banner de consentimento, preferencias e pontos de validacao operacional da BelaPop."
+    "Categorias de cookies, banner de consentimento e preferências digitais da BelaPop."
 };
 
 export default function CookiesPolicyPage() {
   return (
     <LegalPageLayout
-      eyebrow="Institucional e preferencias"
-      title="Politica de Cookies"
+      eyebrow="Institucional e preferências"
+      title="Política de Cookies"
       intro={cookiesPolicy.intro}
       updatedAt={cookiesPolicy.updatedAt}
       tableOfContents={cookiesPolicy.tableOfContents}
@@ -26,11 +26,11 @@ export default function CookiesPolicyPage() {
         </>
       }
     >
-      <LegalSection id="o-que-sao" title="O que sao cookies">
+      <LegalSection id="o-que-sao" title="O que são cookies">
         <p>
-          Cookies e tecnologias semelhantes sao usados para manter o funcionamento seguro da
-          plataforma, reconhecer sessao, prevenir fraude, medir desempenho e, quando permitido,
-          personalizar conteudo ou publicidade.
+          Cookies e tecnologias semelhantes são usados para manter o funcionamento seguro da
+          plataforma, reconhecer sessão, prevenir fraude, medir desempenho e, quando permitido,
+          personalizar conteúdo ou publicidade.
         </p>
       </LegalSection>
 
@@ -55,28 +55,27 @@ export default function CookiesPolicyPage() {
 
       <LegalSection id="consentimento" title="Como o consentimento funciona">
         <p>
-          O banner de cookies da BelaPop oferece tres caminhos: aceitar todos, recusar os cookies
-          nao essenciais ou personalizar as categorias opcionais.
+          O banner de cookies da BelaPop oferece três caminhos: aceitar todos, recusar os cookies
+          não essenciais ou personalizar as categorias opcionais.
         </p>
         <p>
-          As escolhas ficam armazenadas localmente para reaproveitamento da preferencia e para
-          futura integracao com gerenciadores de tags ou rotinas de analytics.
+          As escolhas ficam armazenadas localmente para reaproveitamento da preferência e para
+          controle das categorias opcionais de cookies e tecnologias semelhantes.
         </p>
       </LegalSection>
 
       <LegalSection id="gestao" title="Como personalizar ou retirar o consentimento">
         <p>
-          O cliente pode reabrir o painel de preferencias pelo link “Personalizar cookies” no
-          rodape. Tambem e possivel ajustar configuracoes diretamente no navegador, observadas as
-          limitacoes tecnicas de cada ambiente.
+          O cliente pode reabrir o painel de preferências pelo link &quot;Personalizar cookies&quot; no
+          rodapé. Também é possível ajustar configurações diretamente no navegador, observadas as
+          limitações técnicas de cada ambiente.
         </p>
       </LegalSection>
 
-      <LegalSection id="mapa-operacional" title="Mapa operacional e validacoes pendentes">
+      <LegalSection id="mapa-operacional" title="Mapa de cookies e preferências">
         <p>
-          O front-end ja separa as categorias de consentimento e esta pronto para futuras
-          integracoes com tag manager. O inventario definitivo de cookies, pixels, scripts de
-          analytics e personalizacao ainda precisa de mapeamento operacional real.
+          A BelaPop organiza cookies por categorias de consentimento e revisa o inventário quando
+          novas tecnologias de mensuração, personalização ou segurança são incorporadas.
         </p>
       </LegalSection>
     </LegalPageLayout>

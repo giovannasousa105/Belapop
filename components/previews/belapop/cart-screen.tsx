@@ -190,7 +190,7 @@ export function CartPreviewScreen({ mode = "preview" }: CartPreviewScreenProps) 
             <h1
               className={`${previewHeadlineFont.className} text-4xl font-bold tracking-[-0.05em] sm:text-5xl lg:text-7xl`}
             >
-              Sua Sacola
+              Seu Carrinho
             </h1>
             <p className="mt-4 text-base italic leading-7 text-[#444748] sm:text-lg">
               &ldquo;Sua curadoria de luxo esta pronta para ser enviada.&rdquo;
@@ -300,7 +300,7 @@ export function CartPreviewScreen({ mode = "preview" }: CartPreviewScreenProps) 
                     </div>
                     <div>
                       <h2 className={`${previewHeadlineFont.className} text-3xl font-bold`}>
-                        Sacola vazia
+                        Carrinho vazio
                       </h2>
                       <p className="mt-3 max-w-xl text-sm leading-7 text-[#444748]">
                         Sua selecao foi removida. Continue explorando para montar uma nova

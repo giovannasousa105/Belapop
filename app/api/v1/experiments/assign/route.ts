@@ -38,7 +38,7 @@ export async function POST(request: NextRequest) {
       {
         error: assign.error.message,
         detail:
-          "Funcao assign_ab_experiment_variant nao encontrada. Rode a migration 20260306_1500_ops_reverse_sre_ranking_ab.sql."
+          "Funcao assign_ab_experiment_variant não encontrada. Rode a migration 20260306_1500_ops_reverse_sre_ranking_ab.sql."
       },
       { status: 500 }
     );

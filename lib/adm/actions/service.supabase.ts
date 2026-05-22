@@ -39,10 +39,10 @@ const ACTION_ENTITY_TYPES: Record<AdmActionRequest["type"], AdmActionEntityType>
 };
 
 const ACTION_LABELS: Record<AdmActionRequest["type"], string> = {
-  "product.approve": "Aprovou produto para publicacao",
+  "product.approve": "Aprovou produto para publicação",
   "product.reject": "Reprovou produto em curadoria",
   "product.request-adjustment": "Solicitou ajuste de produto",
-  "seller.activate": "Ativou seller na operacao",
+  "seller.activate": "Ativou seller na operação",
   "seller.deactivate": "Inativou seller temporariamente",
   "seller.block": "Bloqueou seller por governanca",
   "payout.approve": "Aprovou repasse para processamento",
@@ -192,7 +192,7 @@ const ensureSuccess = async <T>(
     throw new AdmActionError(
       "PERSISTENCE_ERROR",
       500,
-      `Nao foi possivel persistir a acao do ADM em ${label}: ${error.message ?? "erro desconhecido"}.`
+      `Não foi possivel persistir a acao do ADM em ${label}: ${error.message ?? "erro desconhecido"}.`
     );
   }
 
@@ -263,7 +263,7 @@ async function upsertAdmEntityState(params: {
     throw new AdmActionError(
       "ADM_SCHEMA_MIGRATION_REQUIRED",
       503,
-      "A persistencia de estados do ADM ainda nao foi aplicada no banco. Rode a migration 20260410_0100_adm_entity_states.sql."
+      "A persistencia de estados do ADM ainda não foi aplicada no banco. Rode a migration 20260410_0100_adm_entity_states.sql."
     );
   }
 
@@ -319,7 +319,7 @@ async function upsertComplianceDocument(params: {
     throw new AdmActionError(
       "ADM_SCHEMA_MIGRATION_REQUIRED",
       503,
-      "A persistencia de documentos do ADM ainda nao foi aplicada no banco. Rode a migration 20260410_0200_compliance_documents.sql."
+      "A persistencia de documentos do ADM ainda não foi aplicada no banco. Rode a migration 20260410_0200_compliance_documents.sql."
     );
   }
 
@@ -367,7 +367,7 @@ async function updateProductReviewModeration(params: {
     throw new AdmActionError(
       "ADM_SCHEMA_MIGRATION_REQUIRED",
       503,
-      "A moderacao persistente de reviews ainda nao foi aplicada no banco. Rode a migration 20260411_0100_product_reviews_moderation.sql."
+      "A moderacao persistente de reviews ainda não foi aplicada no banco. Rode a migration 20260411_0100_product_reviews_moderation.sql."
     );
   }
 
@@ -412,7 +412,7 @@ async function updateShipmentOperationalStatus(params: {
     throw new AdmActionError(
       "ADM_SCHEMA_MIGRATION_REQUIRED",
       503,
-      "A persistencia operacional de envios ainda nao foi aplicada no banco. Rode a migration 20260411_0200_shipments_operational_status.sql."
+      "A persistencia operacional de envios ainda não foi aplicada no banco. Rode a migration 20260411_0200_shipments_operational_status.sql."
     );
   }
 
@@ -504,7 +504,7 @@ export async function executePersistentAdmAction(
     case "product.reject":
     case "product.request-adjustment": {
       const product = data.products.find((row) => row.id === request.entityId);
-      if (!product) throw new AdmActionError("NOT_FOUND", 404, "Produto nao encontrado.");
+      if (!product) throw new AdmActionError("NOT_FOUND", 404, "Produto não encontrado.");
 
       const before = buildAuditSnapshot(product, PRODUCT_AUDIT_FIELDS);
       const visualStatus: AdminVisualStatus =
@@ -564,17 +564,17 @@ export async function executePersistentAdmAction(
         after: buildAuditSnapshot(after, PRODUCT_AUDIT_FIELDS),
         summary:
           request.type === "product.approve"
-            ? "Produto liberado para publicacao no catalogo premium."
+            ? "Produto liberado para publicação no catalogo premium."
             : request.type === "product.reject"
               ? "Produto removido do fluxo editorial ate nova submissao do seller."
-              : "Produto retornou para revisao com solicitacao de ajuste editorial."
+              : "Produto retornou para revisao com solicitação de ajuste editorial."
       });
 
       return buildBaseResult(
         request,
         product.id,
         request.type === "product.approve"
-          ? "Produto aprovado para publicacao."
+          ? "Produto aprovado para publicação."
           : request.type === "product.reject"
             ? "Produto reprovado e devolvido ao seller."
             : "Ajuste solicitado ao seller.",
@@ -587,7 +587,7 @@ export async function executePersistentAdmAction(
     case "seller.deactivate":
     case "seller.block": {
       const seller = data.sellers.find((row) => row.id === request.entityId);
-      if (!seller) throw new AdmActionError("NOT_FOUND", 404, "Seller nao encontrado.");
+      if (!seller) throw new AdmActionError("NOT_FOUND", 404, "Seller não encontrado.");
 
       const before = buildAuditSnapshot(seller, SELLER_AUDIT_FIELDS);
       const visualStatus =
@@ -659,14 +659,14 @@ export async function executePersistentAdmAction(
             ? "Seller reabilitado para operar no backoffice premium."
             : request.type === "seller.block"
               ? "Seller bloqueado por governanca operacional e risco elevado."
-              : "Seller mantido fora da operacao ate nova validacao operacional."
+              : "Seller mantido fora da operação ate nova validação operacional."
       });
 
       return buildBaseResult(
         request,
         seller.id,
         request.type === "seller.activate"
-          ? "Seller ativado na operacao."
+          ? "Seller ativado na operação."
           : request.type === "seller.block"
             ? "Seller bloqueado por governanca operacional."
             : "Seller inativado temporariamente.",
@@ -678,7 +678,7 @@ export async function executePersistentAdmAction(
     case "payout.approve":
     case "payout.hold": {
       const payout = data.payouts.find((row) => row.id === request.entityId);
-      if (!payout) throw new AdmActionError("NOT_FOUND", 404, "Repasse nao encontrado.");
+      if (!payout) throw new AdmActionError("NOT_FOUND", 404, "Repasse não encontrado.");
 
       const before = buildAuditSnapshot(payout, PAYOUT_AUDIT_FIELDS);
       const visualStatus: AdminVisualStatus = request.type === "payout.approve" ? "aprovado" : "bloqueado";
@@ -717,7 +717,7 @@ export async function executePersistentAdmAction(
         after: buildAuditSnapshot(after, PAYOUT_AUDIT_FIELDS),
         summary:
           request.type === "payout.approve"
-            ? "Repasse liberado apos validacao financeira do ciclo."
+            ? "Repasse liberado apos validação financeira do ciclo."
             : "Repasse colocado em espera por risco financeiro ou operacional."
       });
 
@@ -735,7 +735,7 @@ export async function executePersistentAdmAction(
     case "refund.approve":
     case "refund.reject": {
       const refund = data.refunds.find((row) => row.id === request.entityId);
-      if (!refund) throw new AdmActionError("NOT_FOUND", 404, "Reembolso nao encontrado.");
+      if (!refund) throw new AdmActionError("NOT_FOUND", 404, "Reembolso não encontrado.");
 
       const before = buildAuditSnapshot(refund, REFUND_AUDIT_FIELDS);
       const visualStatus: AdminVisualStatus = request.type === "refund.approve" ? "aprovado" : "reprovado";
@@ -772,7 +772,7 @@ export async function executePersistentAdmAction(
         summary:
           request.type === "refund.approve"
             ? "Reembolso aprovado pelo backoffice com fechamento do caso financeiro."
-            : "Solicitacao de reembolso recusada apos revisao do caso."
+            : "Solicitação de reembolso recusada apos revisao do caso."
       });
 
       return buildBaseResult(
@@ -786,7 +786,7 @@ export async function executePersistentAdmAction(
 
     case "shipment.update-status": {
       const shipment = data.shipments.find((row) => row.id === request.entityId);
-      if (!shipment) throw new AdmActionError("NOT_FOUND", 404, "Envio nao encontrado.");
+      if (!shipment) throw new AdmActionError("NOT_FOUND", 404, "Envio não encontrado.");
 
       const before = buildAuditSnapshot(shipment, SHIPMENT_AUDIT_FIELDS);
       const nextStatus = request.payload.status;
@@ -839,7 +839,7 @@ export async function executePersistentAdmAction(
 
     case "incident.register": {
       const shipment = data.shipments.find((row) => row.id === request.entityId);
-      if (!shipment) throw new AdmActionError("NOT_FOUND", 404, "Envio nao encontrado.");
+      if (!shipment) throw new AdmActionError("NOT_FOUND", 404, "Envio não encontrado.");
 
       const sellerOrder = await ensureSuccess(
         `seller_orders:${shipment.orderId}`,
@@ -854,7 +854,7 @@ export async function executePersistentAdmAction(
         throw new AdmActionError(
           "NOT_FOUND",
           404,
-          "Seller order nao encontrado para registrar o incidente logistico."
+          "Seller order não encontrado para registrar o incidente logistico."
         );
       }
 
@@ -961,7 +961,7 @@ export async function executePersistentAdmAction(
     case "document.validate":
     case "document.request-update": {
       const document = data.documents.find((row) => row.id === request.entityId);
-      if (!document) throw new AdmActionError("NOT_FOUND", 404, "Documento nao encontrado.");
+      if (!document) throw new AdmActionError("NOT_FOUND", 404, "Documento não encontrado.");
 
       const before = buildAuditSnapshot(document, DOCUMENT_AUDIT_FIELDS);
       const visualStatus: AdminVisualStatus =
@@ -1002,7 +1002,7 @@ export async function executePersistentAdmAction(
         document.id,
         request.type === "document.validate"
           ? "Documento validado."
-          : "Nova solicitacao enviada para o documento.",
+          : "Nova solicitação enviada para o documento.",
         visualStatus,
         revalidatedPaths
       );
@@ -1011,7 +1011,7 @@ export async function executePersistentAdmAction(
     case "review.approve":
     case "review.hide": {
       const review = data.reviews.find((row) => row.id === request.entityId);
-      if (!review) throw new AdmActionError("NOT_FOUND", 404, "Review nao encontrada.");
+      if (!review) throw new AdmActionError("NOT_FOUND", 404, "Review não encontrada.");
 
       const before = buildAuditSnapshot(review, REVIEW_AUDIT_FIELDS);
       const visualStatus: AdminVisualStatus =
@@ -1043,7 +1043,7 @@ export async function executePersistentAdmAction(
         after: buildAuditSnapshot(after, REVIEW_AUDIT_FIELDS),
         summary:
           request.type === "review.approve"
-            ? "Review liberada para exibicao publica na experiencia BelaPop."
+            ? "Review liberada para exibicao publica na experiência BelaPop."
             : "Review retirada da vitrine publica por moderacao editorial."
       });
 

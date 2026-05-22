@@ -131,7 +131,13 @@ const hairProducts: HairProduct[] = [
   }
 ];
 
-const filterChips = ["TODOS", "QUEDA", "HIDRATACAO", "BRILHO", "POS-QUIMICA"] as const;
+const filterChips = [
+  { label: "Todos", href: "/catalogo?categoria=cabelos" },
+  { label: "Queda", href: "/catalogo?categoria=cabelos&tags=queda" },
+  { label: "Hidratação", href: "/catalogo?categoria=cabelos&tags=hidratação" },
+  { label: "Brilho", href: "/catalogo?categoria=cabelos&tags=brilho" },
+  { label: "Pos-quimica", href: "/catalogo?categoria=cabelos&tags=pos-quimica" }
+] as const;
 
 const ritualSteps = [
   {
@@ -148,7 +154,7 @@ const ritualSteps = [
   },
   {
     description:
-      "Feche as cuticulas para reter a hidratacao e garantir o brilho espelhado caracteristico.",
+      "Feche as cuticulas para reter a hidratação e garantir o brilho espelhado caracteristico.",
     step: "03",
     title: "Selamento"
   },
@@ -156,7 +162,7 @@ const ritualSteps = [
     description:
       "Crie uma barreira invisivel contra agressores termicos e raios UV para um acabamento duradouro.",
     step: "04",
-    title: "Protecao"
+    title: "Proteção"
   }
 ] as const;
 
@@ -188,7 +194,7 @@ export function HairAtelierExperience() {
     <div className="bg-[#fcf9f8] text-[#1c1b1b]" data-belapop-page="hair-public">
       <BelaPopValidatedHeader activeSection="cabelos" />
 
-      <main className="pb-24 pt-16 lg:pb-0">
+      <main className="pb-24 pt-[78px] lg:pb-0 lg:pt-[86px]">
         <section className="relative flex h-[38.5rem] flex-col justify-end overflow-hidden bg-black p-8 lg:h-[44rem]">
           <img
             alt="Hair science editorial"
@@ -245,7 +251,7 @@ export function HairAtelierExperience() {
                 </button>
                 <button
                   type="button"
-                  aria-label="Proximos produtos"
+                  aria-label="Próximos produtos"
                   className="text-black"
                   onClick={() => scrollCarousel("right")}
                 >
@@ -291,17 +297,17 @@ export function HairAtelierExperience() {
             </div>
             <div className="flex gap-3 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
               {filterChips.map((chip, index) => (
-                <button
-                  key={chip}
-                  type="button"
+                <Link
+                  key={chip.label}
+                  href={chip.href}
                   className={`whitespace-nowrap px-6 py-2 text-[10px] font-bold uppercase tracking-[0.24em] ${
                     index === 0
                       ? "bg-black text-white"
                       : "border border-black/10 bg-white text-black transition hover:bg-[#e5e2e1]"
                   }`}
                 >
-                  {chip}
-                </button>
+                  {chip.label}
+                </Link>
               ))}
             </div>
           </div>
@@ -345,6 +351,17 @@ export function HairAtelierExperience() {
                 </article>
               ))}
             </div>
+          </div>
+        </section>
+
+        <section className="bg-[#fcf9f8] px-6 pb-16">
+          <div className="mx-auto flex max-w-7xl justify-center">
+            <Link
+              href="/catalogo?categoria=cabelos"
+              className="inline-flex min-h-12 items-center justify-center border border-black px-8 text-xs font-bold uppercase tracking-[0.24em] transition hover:bg-black hover:text-white"
+            >
+              Ver linha completa
+            </Link>
           </div>
         </section>
       </main>

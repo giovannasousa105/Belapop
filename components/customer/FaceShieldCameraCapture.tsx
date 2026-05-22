@@ -117,7 +117,7 @@ export default function BelaCodeCameraCapture({ disabled, onComplete, onMessage 
 
     try {
       if (!navigator.mediaDevices?.getUserMedia) {
-        throw new Error("Seu navegador nao liberou a camera. Abra a BelaPop em HTTPS e permita acesso a camera.");
+        throw new Error("Seu navegador não liberou a camera. Abra a BelaPop em HTTPS e permita acesso a camera.");
       }
 
       const attemptConstraints: MediaStreamConstraints[] = [
@@ -158,7 +158,7 @@ export default function BelaCodeCameraCapture({ disabled, onComplete, onMessage 
       }
 
       if (!stream) {
-        throw lastError instanceof Error ? lastError : new Error("Nao foi possivel abrir a camera.");
+        throw lastError instanceof Error ? lastError : new Error("Não foi possivel abrir a camera.");
       }
 
       streamRef.current = stream;
@@ -176,7 +176,7 @@ export default function BelaCodeCameraCapture({ disabled, onComplete, onMessage 
 
         const timeout = window.setTimeout(() => {
           cleanup();
-          reject(new Error("A camera abriu, mas o video nao carregou a tempo."));
+          reject(new Error("A camera abriu, mas o video não carregou a tempo."));
         }, 4500);
 
         const cleanup = () => {
@@ -203,7 +203,7 @@ export default function BelaCodeCameraCapture({ disabled, onComplete, onMessage 
       setCameraReady(true);
       setVideoReady(true);
     } catch (error) {
-      setCameraError(error instanceof Error ? error.message : "Nao foi possivel abrir a camera.");
+      setCameraError(error instanceof Error ? error.message : "Não foi possivel abrir a camera.");
       stopCamera();
     } finally {
       setStarting(false);
@@ -230,12 +230,12 @@ export default function BelaCodeCameraCapture({ disabled, onComplete, onMessage 
       const video = videoRef.current;
       const canvas = canvasRef.current;
       if (!video || !canvas) {
-        setCameraError("Camera ainda nao inicializada.");
+        setCameraError("Camera ainda não inicializada.");
         return;
       }
 
       if (!cameraReady || !videoReady || video.readyState < HTMLMediaElement.HAVE_CURRENT_DATA) {
-        setCameraError("A imagem da camera ainda nao estabilizou. Aguarde um instante e tente novamente.");
+        setCameraError("A imagem da camera ainda não estabilizou. Aguarde um instante e tente novamente.");
         return;
       }
 
@@ -316,7 +316,8 @@ export default function BelaCodeCameraCapture({ disabled, onComplete, onMessage 
       );
       if (response.ok) stopCamera();
     } catch (error) {
-      const message = error instanceof Error ? error.message : "Falha ao processar o BelaCode.";
+      console.error("[FaceShieldCameraCapture] analyze failed", error);
+      const message = "Nao foi possivel processar o BelaCode agora. Tente novamente.";
       setCameraError(message);
       onMessage(message);
     } finally {
@@ -539,7 +540,7 @@ export default function BelaCodeCameraCapture({ disabled, onComplete, onMessage 
                     ? "border-white/12 bg-white/6 text-white hover:bg-white/12"
                     : "border-black/10 bg-white text-bpBlack hover:border-bpPink/35 hover:bg-bpPinkLux/45"
                 }`}
-                aria-label="Ver proximas etapas"
+                aria-label="Ver próximas etapas"
               >
                 <ChevronRight className="h-4 w-4" aria-hidden="true" />
               </button>

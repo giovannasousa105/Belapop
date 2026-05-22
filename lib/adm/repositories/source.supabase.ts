@@ -28,6 +28,11 @@ type QueryResult<T> = {
   rows: T[];
 };
 
+type SupabaseErrorLike = {
+  code?: string | null;
+  message?: string | null;
+};
+
 type AnyRow = Record<string, unknown>;
 
 const DAY_IN_MS = 24 * 60 * 60 * 1000;
@@ -196,6 +201,28 @@ const normalizePeriod = (start: unknown, end: unknown): TimePeriod => {
   return "30d";
 };
 
+const OPTIONAL_ADM_TABLES = new Set(["compliance_documents", "adm_entity_states"]);
+const MISSING_SCHEMA_ERROR_CODES = new Set(["42P01", "42703", "PGRST204", "PGRST205"]);
+
+const isMissingSchemaError = (error: SupabaseErrorLike | null | undefined) => {
+  if (!error) return false;
+
+  if (error.code && MISSING_SCHEMA_ERROR_CODES.has(error.code)) {
+    return true;
+  }
+
+  const message = String(error.message ?? "").toLowerCase();
+  return (
+    message.includes("could not find the table") ||
+    message.includes("schema cache") ||
+    message.includes("relation") ||
+    message.includes("does not exist")
+  );
+};
+
+const shouldSuppressMissingTableWarning = (label: string, error: SupabaseErrorLike | null | undefined) =>
+  OPTIONAL_ADM_TABLES.has(label) && isMissingSchemaError(error);
+
 const deriveOrderPriority = ({
   orderStatus,
   shipmentStatus,
@@ -243,7 +270,7 @@ const inferIncidentFromShipment = (
       status: "critico",
       priority: "critica",
       type: "Falha de entrega",
-      summary: "Envio com excecao critica e risco imediato de escalacao.",
+      summary: "Envio com exceção critica e risco imediato de escalacao.",
       openedAt: shipment.lastUpdateAt,
       refundId: refund?.id
     };
@@ -272,7 +299,7 @@ const inferIncidentFromShipment = (
       sellerId: shipment.sellerId,
       status: "em-revisao",
       priority: "media",
-      type: "Etiqueta sem expedicao",
+      type: "Etiqueta sem expedição",
       summary: "Envio criado sem movimentacao operacional recente.",
       openedAt: shipment.lastUpdateAt,
       refundId: refund?.id
@@ -288,7 +315,7 @@ const inferIncidentFromShipment = (
       status: "critico",
       priority: "critica",
       type: "Pedido cancelado em transito",
-      summary: "Cancelamento financeiro com operacao logistica ainda aberta.",
+      summary: "Cancelamento financeiro com operação logistica ainda aberta.",
       openedAt: shipment.lastUpdateAt,
       refundId: refund?.id
     };
@@ -299,11 +326,14 @@ const inferIncidentFromShipment = (
 
 const safeSelect = async <T>(
   label: string,
-  promise: PromiseLike<{ data: T[] | null; error: { message?: string } | null }>
+  promise: PromiseLike<{ data: T[] | null; error: SupabaseErrorLike | null }>
 ): Promise<QueryResult<T>> => {
   try {
     const { data, error } = await promise;
     if (error) {
+      if (shouldSuppressMissingTableWarning(label, error)) {
+        return { ok: false, rows: [] };
+      }
       console.warn(`[adm][supabase] ${label} indisponivel: ${error.message ?? "erro desconhecido"}`);
       return { ok: false, rows: [] };
     }
@@ -442,10 +472,10 @@ export async function loadSupabaseAdmDataSource(base: AdmDataSource): Promise<Ad
     const source = `${email ?? ""} ${actorRole ?? ""}`.toLowerCase();
     if (source.includes("curadoria")) return "Curadoria";
     if (source.includes("finan")) return "Financeiro";
-    if (source.includes("logist")) return "Operacao";
+    if (source.includes("logist")) return "Operação";
     if (source.includes("compl")) return "Compliance";
     if (source.includes("catalog")) return "Catalogo e Marca";
-    if (source.includes("operac")) return "Operacao";
+    if (source.includes("operac")) return "Operação";
     return "Backoffice";
   };
 

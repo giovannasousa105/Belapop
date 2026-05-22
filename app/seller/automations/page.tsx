@@ -16,9 +16,9 @@ const initialAutomations: Automation[] = [
   {
     id: "stock-guard",
     name: "Estoque: cobertura < 7 dias",
-    description: "Dispara recomendacao de reposicao e alerta de risco de ruptura.",
+    description: "Dispara recomendação de reposicao e alerta de risco de ruptura.",
     enabled: true,
-    guardrail: "Nao aplica alteracao de preco automatica"
+    guardrail: "Não aplica alteracao de preco automatica"
   },
   {
     id: "pause-ads-stockout",
@@ -39,7 +39,7 @@ const initialAutomations: Automation[] = [
     name: "ROAS baixo por 3 dias",
     description: "Sugere pausar campanha e realocar verba.",
     enabled: false,
-    guardrail: "Nao desliga campanha manual bloqueada"
+    guardrail: "Não desliga campanha manual bloqueada"
   },
   {
     id: "price-recommendation",

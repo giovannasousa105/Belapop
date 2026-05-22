@@ -37,7 +37,7 @@ export async function GET(
   }
 
   if (!order || order.customer_id !== userId) {
-    return NextResponse.json({ error: "Pedido nao encontrado." }, { status: 404 });
+    return NextResponse.json({ error: "Pedido não encontrado." }, { status: 404 });
   }
 
   const { data, error } = await admin

@@ -2,621 +2,734 @@
 
 /* eslint-disable @next/next/no-img-element */
 
+import { motion, useReducedMotion } from "framer-motion";
+import { ArrowUpRight, BadgeCheck, Check, CreditCard, PackageCheck, ShieldCheck, Sparkles, Truck } from "lucide-react";
 import Link from "next/link";
-import {
-  ArrowUpRight,
-  Flame,
-  Heart,
-  Menu,
-  Search,
-  ShoppingBag,
-  Sparkles,
-  Star,
-  User,
-  X
-} from "lucide-react";
 import { useEffect, useState } from "react";
 
+import { BelaPopValidatedHeader } from "@/components/luxury/BelaPopValidatedHeader";
+import { BelaPopValidatedFooter } from "@/components/luxury/BelaPopValidatedFooter";
+import { HomeUniversesSection } from "@/components/home/HomeUniversesSection";
+import { SkincareBundleSection } from "@/components/skincare/SkincareBundleSection";
+import { NewsletterForm } from "@/components/NewsletterForm";
+
 import { TrustSignals } from "@/components/legal/TrustSignals";
-import { popClubPaths, skinScanJourneyLinks } from "@/lib/popclub/navigation";
+import { brandCtas } from "@/lib/brand/ctas";
+import { brandSectionNames } from "@/lib/brand/sections";
+import { getProductDisplayImage } from "@/lib/product/productCovers";
+import { formatPrice } from "@/lib/utils";
 
-const desktopNavItems = [
-  { label: "Skincare", href: "/skincare", active: true },
-  { label: "Maquiagem", href: "/maquiagem" },
-  { label: "Cabelos", href: "/cabelos" },
-  { label: "Perfumes", href: "/perfumes" },
-  { label: "Entender minha pele", href: "/skin-scan", accent: true }
-] as const;
+type HomeProduct = {
+  brand?: string | null;
+  category?: string | null;
+  coverImage?: string | null;
+  hero_image_url?: string | null;
+  id: string;
+  price_cents: number;
+  slug: string;
+  title: string;
+};
 
-const mobileMenuItems = [
-  { label: "Skincare", href: "/skincare" },
-  { label: "Maquiagem", href: "/maquiagem" },
-  { label: "Cabelos", href: "/cabelos" },
-  { label: "Perfumes", href: "/perfumes" },
-  { label: "Entender minha pele", href: "/skin-scan" },
-  { label: "Conteudo de apoio", href: "/diario" },
-  { label: "Rotinas e produtos", href: "/vitrine" },
-  { label: "Minha Conta", href: "/conta" },
-  { label: "Favoritos", href: "/conta/favoritos" }
-] as const;
-
-const popClubMenuItems = [
-  {
-    eyebrow: "Como funciona",
-    label: "Entender o clube",
-    href: popClubPaths.landing,
-    description: "Veja o que muda no cuidado recorrente e como o clube organiza a jornada."
-  },
-  {
-    eyebrow: "Cuidado recorrente",
-    label: "Ativar assinatura",
-    href: popClubPaths.membership,
-    description: "Ative o clube para acompanhar rotina, beneficios e consistencia no uso."
-  },
-  {
-    eyebrow: "Acesso antecipado",
-    label: "Radar de selecoes",
-    href: popClubPaths.radar,
-    description: "Acompanhe selecoes com antecedencia e contexto de curadoria."
-  },
-  {
-    eyebrow: "Rotina guiada",
-    label: "Rotina personalizada",
-    href: popClubPaths.routine,
-    description: "Conecte a analise a uma rotina personalizada com acompanhamento."
-  }
-] as const;
-
-const skinScanMenuItems = skinScanJourneyLinks.map((item) => {
-  if (item.id === "focus") {
-    return {
-      eyebrow: "PASSO 01",
-      label: "Definir foco",
-      href: item.href,
-      description: "Escolha o que voce quer entender primeiro."
-    };
-  }
-
-  if (item.id === "capture") {
-    return {
-      eyebrow: "PASSO 02",
-      label: "Enviar imagem",
-      href: item.href,
-      description: "Envie uma imagem com clareza para iniciar a leitura visual."
-    };
-  }
-
-  if (item.id === "diagnosis") {
-    return {
-      eyebrow: "PASSO 03",
-      label: "Analise da pele",
-      href: item.href,
-      description: "Veja oleosidade, textura e sensibilidade com mais contexto."
-    };
-  }
-
+function toHomeProductCard(product: HomeProduct) {
   return {
-    eyebrow: "ROTINA",
-    label: "Acompanhar cuidado",
-    href: item.href,
-    description: "Conecte a analise a uma rotina personalizada com acompanhamento."
+    brand: product.brand?.trim() || "BelaPop",
+    href: `/produto/${product.slug || product.id}`,
+    image: getProductDisplayImage({
+      category: product.category,
+      coverImage: product.coverImage,
+      heroImageUrl: product.hero_image_url
+    }),
+    price: formatPrice(product.price_cents / 100),
+    title: product.title
   };
-});
-
-const curationProducts = [
-  {
-    brand: "LA MER",
-    title: "Crème de la Mer - Hidratação Profunda",
-    price: "R$ 2.450,00",
-    image:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuD96gotqBFx_yo0h4yJZ5OK6V4VeYWFrzWhPSQBfV2BmWW88MGLxeRzWJ4-4hBGcPLPwH3KncNxDrLNNSGVNbdeXHFAW1sVkEuRpErhYuKF-e3_uwR8j91L2KgbzEVu6WjoOP5g_4_zTRvUusAnAkv2YdhXzG-n9eroC94OF9U9o8YK8eIog4YjigOK4N1h8m48LVM6HGXl0CfHpOfyQ1-UXkSwKZS472oCRp5-WUm4mlIpCGcRwvi43fSZ-ljn2l-f0qTe_t1yGH01"
-  },
-  {
-    brand: "CHANEL",
-    title: "N°5 L'Eau - Eau de Toilette Spray",
-    price: "R$ 980,00",
-    image:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuBxHbyk1nlVWNidBesO86qyn0Cu3Zkzj5foUBBTCSuWx2i_0aPwJV6DKItJSQUDPdC5r9UsEDzcmKgwKWPlW8FHqH5rFmDcHHmDBFrQhnP_SY51VNjCUJ-Q-tUAIScbcefzpRCVfF0GsiRQm1582lh261F0iXJmOEpyodMkabAuDGrIEK4yrAiOQ4S9rNkfLvQ8k9C4KL7bF4Q-adUtrx90F3YMz_mQQilSxudld-vdI50dsar9eXpRpJVX21-cr3zr4TRL1ykkl8Qq"
-  },
-  {
-    brand: "DIOR",
-    title: "Capture Totale - Sérum Firmador",
-    price: "R$ 840,00",
-    image:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuBib2IdKz-Lk2zywsIty000iUBgxRJVPxjhEN0jW84llYhI8SicphsP71hbbnTPq4DuaXyy0n323hO4xEwDUgNtfWJ3VkFaXgN9c5Y1LcDSTwhYPtgQZI2EzqVUBwbvayinZW2cMOUTlbEeeMbTDeOXIdh2u9hQu6uii1tPozTTXKl5kLHewtST0AG-6J2RaZH9PIevbqFnyoeISbhf0HMVku5QlfFWNhv7d-LKlMp5ui7ttJj2BLKtcqIHCrcZtXVsEaXQwKTskbXS"
-  }
-] as const;
-
-const footerColumns = [
-  {
-    title: "Atendimento ao Cliente",
-    links: [
-      { label: "Fale Conosco", href: "/contato" },
-      { label: "Perguntas Frequentes", href: "/contato" },
-      { label: "Meus Pedidos", href: "/pedido" },
-      { label: "Minha Conta", href: "/conta" },
-      { label: "Devoluções e Reembolsos", href: "/conta/trocas-e-devolucoes" }
-    ]
-  },
-  {
-    title: "Institucional",
-    links: [
-      { label: "Sobre a BelaPop", href: "/sobre" },
-      { label: "Segurança", href: "/seguranca" },
-      { label: "Trabalhe Conosco", href: "/carreiras" }
-    ]
-  },
-  {
-    title: "Legal",
-    links: [
-      { label: "Aviso de Privacidade", href: "/aviso-de-privacidade" },
-      { label: "Termos e Condições Gerais", href: "/termos-e-condicoes" },
-      { label: "Cookies", href: "/politica-de-cookies" },
-      { label: "Personalizar cookies", href: "/politica-de-cookies" }
-    ]
-  }
-] as const;
-
-function NavItem({
-  href,
-  label,
-  active = false,
-  accent = false
-}: {
-  href: string;
-  label: string;
-  active?: boolean;
-  accent?: boolean;
-}) {
-  const className = active
-    ? "border-b border-white pb-1 text-white"
-    : accent
-      ? "text-[#dac769] hover:text-white"
-      : "text-gray-400 hover:text-white";
-
-  return (
-    <Link
-      href={href}
-      className={`text-[11px] font-semibold uppercase tracking-[0.2em] transition-colors duration-300 ${className}`}
-    >
-      {label}
-    </Link>
-  );
 }
+
 
 function LuxuryProductCard({
   brand,
+  href,
   title,
   price,
   image
 }: {
   brand: string;
+  href: string;
   title: string;
   price: string;
   image: string;
 }) {
   return (
-    <article className="group">
-      <div className="mb-6 aspect-[3/4] overflow-hidden bg-[#f6f3f2]">
+    <article className="group transition duration-300 hover:-translate-y-1">
+      <Link
+        href={href}
+        className="mb-6 block aspect-[3/4] overflow-hidden bg-[#f6f3f2] shadow-[0_18px_70px_rgba(28,27,27,0.06)] transition duration-300 group-hover:shadow-[0_28px_90px_rgba(28,27,27,0.12)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#1c1b1b]"
+      >
         <img
           src={image}
           alt={title}
+          loading="lazy"
+          decoding="async"
           className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
         />
-      </div>
-      <h4 className="mb-2 font-body text-xs font-bold uppercase tracking-[0.2em] text-black">
+      </Link>
+      <h4 className="mb-2 font-body text-xs font-semibold uppercase tracking-[0.08em] text-black">
         {brand}
       </h4>
       <p className="mb-4 text-sm leading-relaxed text-[#444748]">{title}</p>
+      <p className="mb-3 text-xs font-semibold uppercase tracking-[0.06em] text-[#6c5e06]">
+        Selecionado pela BelaPop
+      </p>
       <span className="font-body font-bold text-black">{price}</span>
     </article>
   );
 }
 
-function FooterColumn({
-  title,
-  links
-}: {
-  title: string;
-  links: ReadonlyArray<{ label: string; href: string }>;
-}) {
+const heroTrustSignals = [
+  "Faça seu diagnóstico BelaPop",
+  "Descubra a rotina certa para sua pele",
+  "Curadoria baseada nas necessidades reais da sua pele"
+] as const;
+
+const seasonalHeroVideos = [
+  {
+    id: "skin-scan-editorial-2026",
+    label: "Skin Scan Editorial",
+    poster: "/editorial/belapop-skin-scan-hero-poster.jpg",
+    mobilePoster: "/editorial/belapop-skin-scan-hero-mobile-poster.jpg",
+    mobile: {
+      webm: "/editorial/belapop-skin-scan-hero-mobile.webm",
+      mp4: "/editorial/belapop-skin-scan-hero-mobile.mp4"
+    },
+    desktop: {
+      webm: "/editorial/belapop-skin-scan-hero-desktop.webm",
+      mp4: "/editorial/belapop-skin-scan-hero-desktop.mp4"
+    }
+  }
+] as const;
+
+const heroSocialProof = "\u2605\u2605\u2605\u2605\u2605 4.9/5 \u2022 +12 mil rotinas montadas \u2022 Produtos coreanos originais";
+
+const trustMetrics = [
+  { label: "Rating médio", value: "4.9/5" },
+  { label: "Rotinas montadas", value: "+12 mil" },
+  { label: "Importação oficial", value: "Produtos originais" },
+  { label: "Compra segura", value: "Suporte humano" }
+] as const;
+
+const realRoutineCards = [
+  {
+    quote: "Minha pele ficou mais uniforme em 14 dias",
+    detail: "Rotina curta, com ordem clara e sem excesso de passos.",
+    skin: "Mista e opaca",
+    routine: "Kit Glow + rotina noturna",
+    time: "14 dias",
+    before: "Textura irregular",
+    after: "Glow mais uniforme"
+  },
+  {
+    quote: "Finalmente entendi o que comprar",
+    detail: "A curadoria reduziu a indecisão entre produto solto e kit.",
+    skin: "Oleosa e acneica",
+    routine: "Acne Care essencial",
+    time: "21 dias",
+    before: "Brilho intenso",
+    after: "Rotina mais equilibrada"
+  },
+  {
+    quote: "A rotina veio pronta, sem confusão",
+    detail: "Manhã, noite e objetivo de uso ficaram visíveis antes da compra.",
+    skin: "Sensível",
+    routine: "Barrier Repair",
+    time: "10 dias",
+    before: "Pele repuxando",
+    after: "Conforto contínuo"
+  }
+] as const;
+
+const skinScanMetrics = [
+  { label: "Textura", value: 86, detail: "leitura visual" },
+  { label: "Hidratação", value: 72, detail: "sinal de conforto" },
+  { label: "Brilho", value: 64, detail: "equilibrio do dia" }
+] as const;
+
+const completeRoutineSteps = [
+  {
+    step: "01",
+    title: "Limpeza",
+    detail: "Prepara sem remover conforto.",
+    cue: "Funciona melhor com toner calmante",
+    href: "/catalogo?categoria=limpeza"
+  },
+  {
+    step: "02",
+    title: "Toner",
+    detail: "Deixa a pele receptiva ao tratamento.",
+    cue: "Passo seguinte da rotina",
+    href: "/catalogo?tag=toner"
+  },
+  {
+    step: "03",
+    title: "Serum",
+    detail: "Concentra o objetivo principal.",
+    cue: "Mais usado junto com hidratante",
+    href: "/catalogo?tag=serum"
+  },
+  {
+    step: "04",
+    title: "Creme",
+    detail: "Sela barreira e reduz abandono.",
+    cue: "Combine com SPF pela manhã",
+    href: "/catalogo?tag=hidratante"
+  },
+  {
+    step: "05",
+    title: "SPF",
+    detail: "Finaliza a rotina inteligente.",
+    cue: "Compra protegida para uso diário",
+    href: "/catalogo?tag=spf"
+  }
+] as const;
+
+const confidenceItems = [
+  { label: "Compra protegida", detail: "camadas de segurança no pagamento", icon: ShieldCheck },
+  { label: "Entrega rastreada", detail: "pedido acompanhado do envio à chegada", icon: Truck },
+  { label: "Pagamento seguro", detail: "fluxo claro e baixa fricção", icon: CreditCard },
+  { label: "Produtos originais", detail: "curadoria e procedência verificadas", icon: BadgeCheck },
+  { label: "Importação oficial", detail: "sellers e marcas aprovadas", icon: PackageCheck }
+] as const;
+
+function ConversionBar() {
   return (
-    <div className="space-y-6">
-      <h5 className="font-body text-[10px] font-bold uppercase tracking-[0.2em] text-white">
-        {title}
-      </h5>
-      <ul className="space-y-4">
-        {links.map((link) => (
-          <li key={link.label}>
-            <Link
-              href={link.href}
-              className="font-body text-[10px] uppercase tracking-[0.16em] text-gray-400 transition-colors hover:text-white hover:underline underline-offset-4"
-            >
-              {link.label}
-            </Link>
-          </li>
+    <aside className="border-y border-[#e1d8d0] bg-[#f6f3f2] px-4 py-3 text-center text-xs font-medium uppercase tracking-[0.06em] text-[#5f584f] sm:px-6 lg:px-8">
+      {"Frete gr\u00e1tis acima de R$299 hoje \u2022 Kits selecionados com estoque limitado \u2022 Curadorias atualizadas semanalmente"}
+    </aside>
+  );
+}
+
+function TrustMetricsStrip() {
+  return (
+    <section className="bg-[#fcf9f8] px-4 py-7 sm:px-6 lg:px-8">
+      <div className="mx-auto grid max-w-7xl gap-3 sm:grid-cols-2 lg:grid-cols-4">
+        {trustMetrics.map((metric) => (
+          <div
+            key={metric.label}
+            className="border border-[#e1d8d0] bg-white/88 px-4 py-4 shadow-[0_18px_60px_rgba(28,27,27,0.04)] backdrop-blur transition duration-300 hover:-translate-y-0.5 hover:border-[#c9baa9]"
+          >
+            <p className="text-xs font-semibold uppercase tracking-[0.06em] text-[#8a8179]">
+              {metric.label}
+            </p>
+            <p className="mt-2 font-headline text-xl leading-tight text-[#1c1b1b]">{metric.value}</p>
+          </div>
         ))}
-      </ul>
+      </div>
+    </section>
+  );
+}
+
+function SkinScanTechnologySection() {
+  const reduceMotion = useReducedMotion();
+
+  return (
+    <section id="como-funciona" className="overflow-hidden bg-[#0c0b0a] px-4 py-16 text-white sm:px-6 lg:px-8 lg:py-28">
+      <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[minmax(0,0.92fr)_minmax(360px,0.72fr)] lg:items-center">
+        <div className="space-y-8">
+          <div className="space-y-5">
+            <p className="text-xs font-semibold uppercase tracking-[0.08em] text-[#dac769]">
+              Skin Scan BelaPop
+            </p>
+            <h2 className="max-w-3xl font-headline text-3xl leading-[1.12] tracking-normal sm:text-4xl">
+              Seu diagnóstico começa aqui.
+            </h2>
+            <div className="max-w-2xl space-y-3 text-sm leading-7 text-white/72 sm:text-base">
+              <p>Entenda sua pele em segundos.</p>
+              <p>Uma nova geracao de curadoria personalizada.</p>
+              <p>Curadoria baseada nas necessidades reais da sua pele, sem excesso e sem tentativa cega.</p>
+            </div>
+          </div>
+
+          <div className="grid gap-3 sm:grid-cols-3">
+            {["Leitura facial elegante", "Rotina mais precisa", "Produtos originais"].map((item) => (
+              <div key={item} className="border border-white/12 bg-white/[0.05] px-4 py-4 backdrop-blur-xl">
+                <p className="text-xs font-semibold uppercase tracking-[0.06em] text-white/68">{item}</p>
+              </div>
+            ))}
+          </div>
+
+          <Link
+            href="/skin-scan"
+            className="group inline-flex min-h-14 items-center justify-center gap-3 bg-white px-7 text-xs font-semibold uppercase tracking-[0.08em] text-black shadow-[0_20px_70px_rgba(255,255,255,0.08)] transition duration-300 hover:-translate-y-0.5 hover:bg-[#dac769] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"
+          >
+            Fazer diagnóstico BelaPop
+            <Sparkles className="h-4 w-4 transition duration-300 group-hover:translate-x-1" aria-hidden="true" />
+          </Link>
+        </div>
+
+        <div className="relative mx-auto w-full max-w-xl">
+          <div className="absolute -inset-8 bg-[radial-gradient(circle_at_center,rgba(218,199,105,0.16),transparent_64%)] blur-2xl" aria-hidden="true" />
+          <div className="relative overflow-hidden border border-white/14 bg-white/[0.05] p-3 shadow-[0_36px_120px_rgba(0,0,0,0.36)] backdrop-blur-2xl">
+            <div className="relative aspect-[4/5] overflow-hidden bg-[#151312]">
+              <img
+                src="/editorial/home-ai-card.jpg"
+                alt="Interface elegante de diagnóstico visual de pele BelaPop"
+                loading="lazy"
+                decoding="async"
+                className="h-full w-full object-cover opacity-76"
+              />
+              <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(10,9,8,0.06),rgba(10,9,8,0.72))]" />
+              <motion.div
+                aria-hidden="true"
+                initial={reduceMotion ? false : { opacity: 0.5, y: -16 }}
+                animate={reduceMotion ? undefined : { opacity: [0.42, 0.72, 0.42], y: [0, 16, 0] }}
+                transition={{ duration: 4.8, repeat: Infinity, ease: "easeInOut" }}
+                className="absolute inset-x-8 top-12 h-px bg-[#dac769]/70 shadow-[0_0_36px_rgba(218,199,105,0.55)]"
+              />
+              <div className="absolute inset-x-5 bottom-5 border border-white/16 bg-black/34 p-4 backdrop-blur-2xl">
+                <div className="mb-4 flex items-center justify-between text-[10px] font-semibold uppercase tracking-[0.08em] text-white/62">
+                  <span>Skin intelligence</span>
+                  <span>Live</span>
+                </div>
+                <div className="space-y-4">
+                  {skinScanMetrics.map((metric) => (
+                    <div key={metric.label}>
+                      <div className="mb-1.5 flex items-center justify-between text-xs uppercase tracking-[0.06em] text-white/76">
+                        <span>{metric.label}</span>
+                        <span>{metric.value}%</span>
+                      </div>
+                      <div className="h-px bg-white/16">
+                        <motion.div
+                          className="h-px bg-[#dac769]"
+                          initial={{ width: reduceMotion ? `${metric.value}%` : "18%" }}
+                          whileInView={{ width: `${metric.value}%` }}
+                          viewport={{ once: true, margin: "-20%" }}
+                          transition={{ duration: 0.9, ease: "easeOut" }}
+                        />
+                      </div>
+                      <p className="mt-1 text-[10px] uppercase tracking-[0.06em] text-white/42">{metric.detail}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function CompleteRoutineSection() {
+  return (
+    <section className="bg-[#f6f3f2] px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
+      <div className="mx-auto max-w-7xl">
+        <div className="grid gap-8 lg:grid-cols-[minmax(0,0.82fr)_minmax(360px,0.5fr)] lg:items-end">
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-[0.08em] text-[#6c5e06]">
+              Rotina completa BelaPop
+            </p>
+            <h2 className="mt-4 max-w-3xl font-headline text-3xl leading-[1.12] tracking-normal text-[#1c1b1b] sm:text-4xl">
+              Compra inteligente: cada passo aumenta o valor da rotina.
+            </h2>
+          </div>
+          <p className="text-sm leading-7 text-[#5f5a55] sm:text-base">
+            Em vez de empurrar produtos soltos, a BelaPop mostra o que funciona melhor junto, qual é o próximo passo e quando o kit economiza.
+          </p>
+        </div>
+
+        <div className="mt-10 grid gap-3 lg:grid-cols-5">
+          {completeRoutineSteps.map((item) => (
+            <Link
+              key={item.step}
+              href={item.href}
+              className="group min-h-[230px] border border-[#ded6ce] bg-white/82 p-5 shadow-[0_18px_70px_rgba(28,27,27,0.05)] backdrop-blur transition duration-300 hover:-translate-y-1 hover:border-[#c4b39f] hover:shadow-[0_26px_90px_rgba(28,27,27,0.10)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#1c1b1b]"
+            >
+              <div className="flex items-center justify-between gap-4">
+                <span className="font-headline text-3xl text-[#1c1b1b]/18">{item.step}</span>
+                <ArrowUpRight className="h-4 w-4 text-[#6c5e06] transition duration-300 group-hover:translate-x-1 group-hover:-translate-y-1" aria-hidden="true" />
+              </div>
+              <h3 className="mt-8 font-headline text-2xl leading-tight text-[#1c1b1b]">{item.title}</h3>
+              <p className="mt-4 text-sm leading-6 text-[#5f5a55]">{item.detail}</p>
+              <p className="mt-5 border-t border-[#e9e0d8] pt-4 text-xs font-semibold uppercase tracking-[0.06em] text-[#6c5e06]">
+                {item.cue}
+              </p>
+            </Link>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function RealRoutinesSection() {
+  return (
+    <section className="bg-[#111111] px-4 py-16 text-white sm:px-6 lg:px-8 lg:py-24">
+      <div className="mx-auto max-w-7xl">
+        <div className="mb-9 max-w-3xl">
+          <p className="text-xs font-semibold uppercase tracking-[0.08em] text-[#dac769]">
+            Resultados reais
+          </p>
+          <h2 className="mt-4 font-headline text-3xl leading-[1.12] tracking-normal sm:text-4xl">
+            Antes e depois editorial, com contexto de pele e rotina.
+          </h2>
+        </div>
+        <div className="grid gap-4 md:grid-cols-3">
+          {realRoutineCards.map((card) => (
+            <article
+              key={card.quote}
+              className="group overflow-hidden border border-white/12 bg-white/[0.04] shadow-[0_28px_100px_rgba(0,0,0,0.22)] backdrop-blur transition duration-500 hover:-translate-y-1 hover:border-white/24"
+            >
+              <div className="grid grid-cols-2 border-b border-white/10">
+                <div className="relative min-h-[190px] overflow-hidden bg-[#1b1816]">
+                  <img
+                    src="/hero-bela.jpg"
+                    alt={`Antes da rotina: ${card.before}`}
+                    loading="lazy"
+                    decoding="async"
+                    className="h-full w-full object-cover opacity-56 grayscale transition duration-700 group-hover:scale-105"
+                  />
+                  <span className="absolute left-3 top-3 bg-black/42 px-3 py-2 text-[10px] font-semibold uppercase tracking-[0.08em] text-white/78 backdrop-blur">
+                    Antes
+                  </span>
+                  <p className="absolute bottom-3 left-3 right-3 text-xs leading-5 text-white/76">{card.before}</p>
+                </div>
+                <div className="relative min-h-[190px] overflow-hidden bg-[#201b13]">
+                  <img
+                    src="/hero-bela-pop-editorial.jpg"
+                    alt={`Depois da rotina: ${card.after}`}
+                    loading="lazy"
+                    decoding="async"
+                    className="h-full w-full object-cover opacity-82 transition duration-700 group-hover:scale-105"
+                  />
+                  <span className="absolute left-3 top-3 bg-[#dac769] px-3 py-2 text-[10px] font-semibold uppercase tracking-[0.08em] text-[#211b00]">
+                    Depois
+                  </span>
+                  <p className="absolute bottom-3 left-3 right-3 text-xs leading-5 text-white">{card.after}</p>
+                </div>
+              </div>
+              <div className="p-5">
+                <p className="text-xs font-semibold uppercase tracking-[0.06em] text-[#dac769]">
+                  {"\u2605\u2605\u2605\u2605\u2605"}
+                </p>
+                <h3 className="mt-4 font-headline text-2xl leading-tight text-white">{card.quote}</h3>
+                <p className="mt-4 text-sm leading-6 text-white/70">{card.detail}</p>
+                <div className="mt-5 grid gap-2 border-t border-white/12 pt-4 text-xs leading-5 text-white/64">
+                  <p><span className="text-white/92">Tipo de pele:</span> {card.skin}</p>
+                  <p><span className="text-white/92">Rotina utilizada:</span> {card.routine}</p>
+                  <p><span className="text-white/92">Tempo:</span> {card.time}</p>
+                </div>
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function CheckoutConfidenceRail() {
+  return (
+    <section className="bg-[#fcf9f8] px-4 py-14 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-7xl border border-[#ded8d2] bg-white/78 p-5 shadow-[0_24px_90px_rgba(28,27,27,0.05)] backdrop-blur lg:p-7">
+        <div className="grid gap-3 md:grid-cols-5">
+          {confidenceItems.map((item) => {
+            const Icon = item.icon;
+            return (
+              <div key={item.label} className="flex gap-3 border-[#ece6e0] py-2 md:border-r md:pr-4 md:last:border-r-0">
+                <Icon className="mt-0.5 h-4 w-4 shrink-0 text-[#6c5e06]" aria-hidden="true" />
+                <div>
+                  <p className="text-xs font-semibold uppercase tracking-[0.06em] text-[#1c1b1b]">{item.label}</p>
+                  <p className="mt-1 text-xs leading-5 text-[#6f6862]">{item.detail}</p>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function MobileStickyCta() {
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    const updateVisibility = () => setVisible(window.scrollY > 640);
+    updateVisibility();
+    window.addEventListener("scroll", updateVisibility, { passive: true });
+    return () => window.removeEventListener("scroll", updateVisibility);
+  }, []);
+
+  return (
+    <div
+      aria-hidden={!visible}
+      className={`fixed inset-x-3 bottom-[calc(0.75rem+env(safe-area-inset-bottom))] z-40 rounded-[8px] border border-white/18 bg-[#111111]/86 p-2 shadow-[0_18px_70px_rgba(0,0,0,0.34)] backdrop-blur-2xl transition duration-300 md:hidden ${
+        visible ? "translate-y-0 opacity-100" : "pointer-events-none translate-y-4 opacity-0"
+      }`}
+    >
+      <div className="grid grid-cols-[1fr_auto] gap-2">
+        <Link
+          href="/skin-scan"
+          tabIndex={visible ? 0 : -1}
+          className="inline-flex min-h-12 items-center justify-center rounded-[6px] bg-white px-4 text-xs font-semibold uppercase tracking-[0.06em] text-black"
+        >
+          Diagnóstico
+        </Link>
+        <Link
+          href="/kits"
+          aria-label="Ver kits recomendados"
+          tabIndex={visible ? 0 : -1}
+          className="inline-flex min-h-12 w-12 items-center justify-center rounded-[6px] border border-white/18 text-white"
+        >
+          <Sparkles className="h-4 w-4" aria-hidden="true" />
+        </Link>
+      </div>
     </div>
   );
 }
 
-export default function BelaPopLuxuryHomepage() {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+function NewsletterSection() {
+  return (
+    <section className="bg-[#fcf9f8] px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
+      <div className="mx-auto max-w-7xl">
+        <NewsletterForm />
+      </div>
+    </section>
+  );
+}
+
+function LuxuryVideoHero() {
+  const [prefersStaticHero, setPrefersStaticHero] = useState(false);
+  const reduceMotion = useReducedMotion();
+  const heroVideo = seasonalHeroVideos[0];
+  const entrance = reduceMotion
+    ? { opacity: 1, y: 0 }
+    : { opacity: 1, y: 0, transition: { duration: 0.72, ease: [0.22, 1, 0.36, 1] } };
+  const entranceStart = reduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 12 };
 
   useEffect(() => {
-    const previousOverflow = document.body.style.overflow;
-
-    if (mobileMenuOpen) {
-      document.body.style.overflow = "hidden";
-    }
-
-    const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
-        setMobileMenuOpen(false);
+    const connection = (
+      navigator as Navigator & {
+        connection?: {
+          effectiveType?: string;
+          saveData?: boolean;
+        };
       }
-    };
+    ).connection;
 
-    window.addEventListener("keydown", onKeyDown);
+    if (connection?.saveData || connection?.effectiveType === "slow-2g" || connection?.effectiveType === "2g") {
+      setPrefersStaticHero(true);
+    }
+  }, []);
 
-    return () => {
-      document.body.style.overflow = previousOverflow;
-      window.removeEventListener("keydown", onKeyDown);
-    };
-  }, [mobileMenuOpen]);
+  return (
+    <section className="hero flex flex-col overflow-hidden bg-[#090807] text-white lg:block">
+      <div className="mx-auto flex w-full max-w-[1580px] flex-col lg:grid lg:min-h-[clamp(520px,66vh,720px)] lg:grid-cols-[minmax(0,0.95fr)_minmax(390px,0.82fr)] lg:items-center lg:gap-7 lg:px-[clamp(40px,5vw,76px)] lg:py-[clamp(34px,4.6vw,64px)]">
+        <div className="hero-media relative order-1 flex h-[42svh] min-h-[300px] max-h-[380px] w-full items-center justify-center overflow-hidden bg-[radial-gradient(circle_at_center,#0a0a0a_0%,#000_100%)] lg:order-2 lg:block lg:h-[clamp(360px,50vh,560px)] lg:min-h-0 lg:max-h-none lg:translate-x-2 lg:scale-[0.88] lg:bg-[#111] lg:opacity-90">
+          {prefersStaticHero ? (
+            <picture className="block h-full w-full">
+              <source srcSet={heroVideo.mobilePoster} media="(max-width: 767px)" />
+              <img
+                src={heroVideo.poster}
+                alt="Mulher usando o Skin Scan BelaPop em uma cena editorial de skincare"
+                decoding="async"
+                fetchPriority="high"
+                className="h-full w-full object-cover object-center opacity-90"
+              />
+            </picture>
+          ) : (
+            <>
+              <video
+                aria-label="Mulher usando o Skin Scan BelaPop em uma cena editorial de skincare"
+                autoPlay
+                className="block h-full w-full object-cover object-center opacity-90 lg:hidden"
+                loop
+                muted
+                playsInline
+                poster={heroVideo.mobilePoster}
+                preload="metadata"
+              >
+                <source src={heroVideo.mobile.webm} type="video/webm" />
+                <source src={heroVideo.mobile.mp4} type="video/mp4" />
+                <img
+                  src={heroVideo.mobilePoster}
+                  alt="Preview editorial BelaPop Skin Scan"
+                  className="h-auto w-full object-contain"
+                />
+              </video>
+              <video
+                aria-label="Mulher usando o Skin Scan BelaPop em uma cena editorial de skincare"
+                autoPlay
+                className="hidden h-full w-full object-cover object-center opacity-90 lg:block"
+                loop
+                muted
+                playsInline
+                poster={heroVideo.poster}
+                preload="metadata"
+              >
+                <source src={heroVideo.desktop.webm} type="video/webm" />
+                <source src={heroVideo.desktop.mp4} type="video/mp4" />
+                <img
+                  src={heroVideo.poster}
+                  alt="Preview editorial BelaPop Skin Scan"
+                  className="h-full w-full object-cover object-center"
+                />
+              </video>
+            </>
+          )}
+          <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.04),rgba(0,0,0,0.18))] lg:bg-[linear-gradient(90deg,rgba(0,0,0,0.30),rgba(0,0,0,0.07)_45%,rgba(0,0,0,0.36))]" />
+          <motion.div
+            aria-hidden="true"
+            initial={reduceMotion ? false : { opacity: 0, y: 10 }}
+            animate={reduceMotion ? undefined : { opacity: 1, y: 0 }}
+            transition={{ delay: 0.44, duration: 0.65, ease: "easeOut" }}
+            className="pointer-events-none absolute bottom-5 right-5 hidden w-36 border border-white/18 bg-black/28 p-2.5 shadow-2xl backdrop-blur-xl md:block lg:bottom-auto lg:right-5 lg:top-1/2 lg:-translate-y-1/2 xl:w-40"
+          >
+            <div className="mb-2.5 flex items-center justify-between text-[8px] uppercase tracking-[0.08em] text-white/68">
+              <span>Skin AI</span>
+              <span>Live</span>
+            </div>
+            <div className="space-y-2">
+              {[
+                ["Textura", "86%"],
+                ["Hidratação", "72%"],
+                ["Brilho", "64%"]
+              ].map(([label, value]) => (
+                <div key={label}>
+                  <div className="mb-1.5 flex items-center justify-between text-[9px] uppercase tracking-[0.06em] text-white/74">
+                    <span>{label}</span>
+                    <span>{value}</span>
+                  </div>
+                  <div className="h-px bg-white/18">
+                    <div className="h-px bg-[#dac769]" style={{ width: value }} />
+                  </div>
+                </div>
+              ))}
+            </div>
+          </motion.div>
+        </div>
+
+        <div className="hero-content relative z-10 order-2 flex flex-col px-6 py-6 lg:order-1 lg:block lg:h-auto lg:px-0 lg:py-0">
+          <motion.div initial={entranceStart} animate={entrance} className="max-w-[680px]">
+            <motion.p
+              initial={entranceStart}
+              animate={entrance}
+              transition={{ delay: 0.12, duration: 0.8, ease: "easeOut" }}
+              className="mb-3 text-xs font-semibold uppercase tracking-[0.08em] text-[#dac769] lg:mb-4"
+            >
+              Beauty tech curada
+            </motion.p>
+            <motion.h1
+              initial={entranceStart}
+              animate={entrance}
+              transition={{ delay: 0.2, duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+              className="hero-title max-w-[13em] font-headline text-[27px] font-bold leading-[1.16] tracking-normal text-white min-[390px]:text-[29px] lg:max-w-[620px] lg:text-[clamp(2.6rem,3.6vw,4.25rem)] lg:leading-[1]"
+            >
+              Seu skincare começa por um diagnóstico.
+            </motion.h1>
+            <motion.p
+              initial={entranceStart}
+              animate={entrance}
+              transition={{ delay: 0.32, duration: 0.8, ease: "easeOut" }}
+              className="mt-3 max-w-[21rem] text-sm leading-6 text-white/84 lg:mt-4 lg:max-w-md lg:text-lg lg:leading-7"
+            >
+              Faça seu diagnóstico BelaPop e descubra a rotina certa para sua pele.
+            </motion.p>
+            <motion.div
+              initial={entranceStart}
+              animate={entrance}
+              transition={{ delay: 0.44, duration: 0.8, ease: "easeOut" }}
+              className="hero-buttons mt-5 flex flex-col gap-3 lg:mt-5 lg:flex-row"
+            >
+              <Link
+                href="/skin-scan"
+                className="hero-cta group inline-flex h-[52px] w-full items-center justify-center rounded bg-white px-6 text-xs font-semibold uppercase tracking-[0.08em] text-black shadow-[0_18px_42px_rgba(255,255,255,0.14)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#dac769] hover:shadow-[0_22px_52px_rgba(218,199,105,0.18)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white lg:min-h-14 lg:w-auto lg:min-w-64 lg:rounded-none"
+              >
+                Descobrir minha rotina
+                <Sparkles className="ml-3 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+              </Link>
+              <Link
+                href="/kits"
+                className="inline-flex h-[52px] w-full items-center justify-center rounded border border-white/28 bg-white/[0.07] px-6 text-xs font-semibold uppercase tracking-[0.08em] text-white backdrop-blur-md transition-all duration-300 hover:-translate-y-0.5 hover:border-white hover:bg-white/14 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white lg:min-h-14 lg:w-auto lg:min-w-64 lg:rounded-none"
+              >
+                Ver kits recomendados
+              </Link>
+            </motion.div>
+            <motion.p
+              initial={entranceStart}
+              animate={entrance}
+              transition={{ delay: 0.5, duration: 0.8, ease: "easeOut" }}
+              className="mt-3 rounded border border-white/16 bg-white/[0.08] px-3 py-3 text-xs font-medium uppercase tracking-[0.04em] text-white/86 backdrop-blur-md lg:mt-4 lg:inline-flex lg:max-w-none lg:px-4"
+            >
+              {heroSocialProof}
+            </motion.p>
+            <motion.ul
+              initial={entranceStart}
+              animate={entrance}
+              transition={{ delay: 0.56, duration: 0.8, ease: "easeOut" }}
+              className="mt-4 grid gap-2 text-xs font-medium uppercase tracking-[0.04em] text-white/76 lg:mt-5 lg:grid-cols-3 lg:gap-4"
+            >
+              {heroTrustSignals.map((signal) => (
+                <li key={signal} className="flex items-center gap-2">
+                  <Check className="h-4 w-4 text-[#dac769]" />
+                  <span>{signal}</span>
+                </li>
+              ))}
+            </motion.ul>
+          </motion.div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+export default function BelaPopLuxuryHomepage({
+  featuredProducts = []
+}: {
+  featuredProducts?: HomeProduct[];
+}) {
+  const productCards = featuredProducts.slice(0, 3).map(toHomeProductCard);
+  const primaryProduct = featuredProducts[0] ? toHomeProductCard(featuredProducts[0]) : null;
+  const secondaryProduct = featuredProducts[1] ? toHomeProductCard(featuredProducts[1]) : null;
 
   return (
     <div className="bg-[#fcf9f8] text-[#1c1b1b]" data-belapop-page="home-public">
-      <header className="fixed inset-x-0 top-0 z-50 border-b border-white/10 bg-black/95 backdrop-blur-md">
-        <div className="mx-auto flex h-16 max-w-[1680px] items-center justify-between px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center gap-3 lg:gap-8">
-            <button
-              type="button"
-              aria-label="Abrir menu"
-              onClick={() => setMobileMenuOpen(true)}
-              className="inline-flex h-11 w-11 items-center justify-center text-white transition-colors hover:text-[#dac769] lg:hidden"
-            >
-              <Menu className="h-5 w-5" />
-            </button>
+      <BelaPopValidatedHeader activeSection="loja" />
+      <MobileStickyCta />
 
-            <Link href="/" className="shrink-0">
-              <img src="/logo-dark.svg" alt="BelaPop" className="h-9 w-auto invert" />
-            </Link>
+      <div>
+        <LuxuryVideoHero />
 
-            <nav className="hidden items-center gap-8 lg:flex xl:gap-10">
-              {desktopNavItems.map((item) => (
-                <NavItem key={item.label} {...item} />
-              ))}
-            </nav>
-          </div>
+        <ConversionBar />
 
-          <div className="hidden xl:flex xl:w-full xl:max-w-md xl:flex-1 xl:px-8">
-            <label className="relative block w-full">
-              <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
-              <input
-                type="text"
-                placeholder="BUSCAR PRODUTOS..."
-                className="w-full border-none bg-white/5 py-2 pl-10 pr-4 text-[11px] uppercase tracking-[0.2em] text-white placeholder:text-gray-500 focus:ring-1 focus:ring-white/20"
-              />
-            </label>
-          </div>
+        <TrustMetricsStrip />
 
-          <div className="flex items-center gap-1 sm:gap-3 lg:gap-6">
-            <Link
-              href={popClubPaths.landing}
-              className="hidden items-center gap-2 text-[10px] font-bold uppercase tracking-[0.2em] text-white transition-colors hover:text-[#6c5e06] sm:flex"
-            >
-              <Star className="h-4 w-4" />
-              <span>POPCLUB</span>
-            </Link>
-            <button
-              type="button"
-              className="hidden items-center gap-2 text-[10px] font-medium uppercase tracking-[0.2em] text-white transition-colors hover:text-gray-300 sm:flex"
-            >
-              <Heart className="h-4 w-4" />
-              <span className="hidden md:inline">FAVORITOS</span>
-            </button>
-            <button
-              type="button"
-              aria-label="Buscar"
-              className="inline-flex h-11 w-11 items-center justify-center text-white transition-colors hover:text-gray-300 xl:hidden"
-            >
-              <Search className="h-5 w-5" />
-            </button>
-            <button
-              type="button"
-              aria-label="Conta"
-              className="hidden h-11 w-11 items-center justify-center text-white transition-colors hover:text-gray-300 sm:inline-flex"
-            >
-              <User className="h-5 w-5" />
-            </button>
-            <button
-              type="button"
-              aria-label="Sacola"
-              className="inline-flex h-11 w-11 items-center justify-center text-white transition-colors hover:text-gray-300"
-            >
-              <ShoppingBag className="h-5 w-5" />
-            </button>
-          </div>
-        </div>
-      </header>
+        <SkinScanTechnologySection />
 
-      {mobileMenuOpen ? (
-        <div className="fixed inset-0 z-[60] bg-black/60 backdrop-blur-sm lg:hidden">
-          <div className="absolute inset-y-0 left-0 flex w-[90vw] max-w-[390px] flex-col overflow-y-auto bg-[linear-gradient(180deg,#050505,#111111_42%,#171313)] px-5 pb-[max(2rem,env(safe-area-inset-bottom))] pt-5 text-white shadow-2xl">
-            <div className="mb-6 flex items-center justify-between">
-              <img src="/logo-dark.svg" alt="BelaPop" className="h-8 w-auto invert" />
-              <button
-                type="button"
-                aria-label="Fechar menu"
-                onClick={() => setMobileMenuOpen(false)}
-                className="inline-flex h-11 w-11 items-center justify-center text-white transition-colors hover:text-[#dac769]"
-              >
-                <X className="h-5 w-5" />
-              </button>
-            </div>
+        <HomeUniversesSection />
 
-            <Link
-              href={popClubPaths.landing}
-              onClick={() => setMobileMenuOpen(false)}
-              className="group mb-5 block rounded-[30px] border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.1),rgba(255,255,255,0.04))] p-5 shadow-[0_24px_70px_rgba(0,0,0,0.22)]"
-            >
-              <div className="flex items-start justify-between gap-4">
-                <div>
-                  <p className="text-[10px] font-semibold uppercase tracking-[0.28em] text-white/72">
-                    Cuidado recorrente
-                  </p>
-                  <h3 className="mt-3 font-headline text-[2rem] leading-[0.92] text-white">
-                    PopClub
-                  </h3>
-                  <p className="mt-3 max-w-[22ch] text-sm leading-relaxed text-white/85">
-                    Acesso a rotina, acompanhamento e beneficios para quem quer manter consistencia.
-                  </p>
-                </div>
-                <span className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-white/14 bg-white/8 text-white transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1">
-                  <ArrowUpRight className="h-4 w-4" />
-                </span>
-              </div>
-              <div className="mt-5 flex flex-wrap gap-2">
-                <span className="rounded-full border border-white/12 bg-white/6 px-3 py-1 text-[10px] uppercase tracking-[0.18em] text-white/82">
-                  Assinatura
-                </span>
-                <span className="rounded-full border border-[#ed93d5]/30 bg-[#ed93d5]/10 px-3 py-1 text-[10px] uppercase tracking-[0.18em] text-[#f2bedf]">
-                  Radar
-                </span>
-                <span className="rounded-full border border-white/12 bg-white/6 px-3 py-1 text-[10px] uppercase tracking-[0.18em] text-white/82">
-                  Rotina
-                </span>
-              </div>
-            </Link>
+        <CompleteRoutineSection />
 
-            <label className="relative mb-8 block">
-              <Search className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
-              <input
-                type="text"
-                placeholder="BUSCAR PRODUTOS..."
-                className="w-full border border-white/10 bg-white/5 py-3 pl-11 pr-4 text-[11px] uppercase tracking-[0.2em] text-white placeholder:text-gray-500 focus:ring-1 focus:ring-white/20"
-              />
-            </label>
+        <SkincareBundleSection mode="home" />
 
-            <div className="mb-8">
-              <p className="mb-4 text-[10px] font-semibold uppercase tracking-[0.3em] text-white/60">
-                Navegacao principal
-              </p>
-              <nav className="flex flex-col gap-3">
-                {mobileMenuItems.map((item) => (
-                  <Link
-                    key={item.label}
-                    href={item.href}
-                    onClick={() => setMobileMenuOpen(false)}
-                    className="rounded-[22px] border border-white/10 bg-white/[0.03] px-4 py-4 font-headline text-[1.6rem] leading-[0.92] text-white transition hover:border-white/20 hover:bg-white/[0.05]"
-                  >
-                    {item.label}
-                  </Link>
-                ))}
-              </nav>
-            </div>
+        <RealRoutinesSection />
 
-            <div>
-              <div className="mb-4 flex items-center justify-between gap-3">
-                <p className="text-[10px] font-semibold uppercase tracking-[0.3em] text-white/60">
-                  Fluxos do clube
-                </p>
-                <span className="inline-flex items-center gap-2 text-[10px] uppercase tracking-[0.22em] text-[#ed93d5]">
-                  <Flame className="h-3.5 w-3.5" />
-                  Cuidado
-                </span>
-              </div>
-              <div className="space-y-3">
-                {popClubMenuItems.map((item) => (
-                  <Link
-                    key={item.label}
-                    href={item.href}
-                    onClick={() => setMobileMenuOpen(false)}
-                    className="block rounded-[24px] border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.07),rgba(255,255,255,0.03))] p-4 transition hover:border-[#ed93d5]/35 hover:bg-[linear-gradient(180deg,rgba(255,255,255,0.1),rgba(255,255,255,0.04))]"
-                  >
-                    <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-white/60">
-                      {item.eyebrow}
-                    </p>
-                    <div className="mt-2 flex items-start justify-between gap-4">
-                      <div>
-                        <h4 className="font-headline text-[1.45rem] leading-[0.96] text-white">
-                          {item.label}
-                        </h4>
-                        <p className="mt-2 text-sm leading-relaxed text-white/82">
-                          {item.description}
-                        </p>
-                      </div>
-                      <ArrowUpRight className="mt-1 h-4 w-4 shrink-0 text-white/70" />
-                    </div>
-                  </Link>
-                ))}
-              </div>
-            </div>
-
-            <div className="mt-8">
-              <div className="mb-4 flex items-center justify-between gap-3">
-                <p className="text-[10px] font-semibold uppercase tracking-[0.3em] text-white/60">
-                  Como funciona o scan
-                </p>
-                <span className="inline-flex items-center gap-2 text-[10px] uppercase tracking-[0.22em] text-[#ef75ce]">
-                  <Search className="h-3.5 w-3.5" />
-                  Analise
-                </span>
-              </div>
-              <div className="space-y-3">
-                {skinScanMenuItems.map((item) => (
-                  <Link
-                    key={item.label}
-                    href={item.href}
-                    onClick={() => setMobileMenuOpen(false)}
-                    className="block rounded-[24px] border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.07),rgba(255,255,255,0.03))] p-4 transition hover:border-[#ef75ce]/35 hover:bg-[linear-gradient(180deg,rgba(255,255,255,0.1),rgba(255,255,255,0.04))]"
-                  >
-                    <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-white/60">
-                      {item.eyebrow}
-                    </p>
-                    <div className="mt-2 flex items-start justify-between gap-4">
-                      <div>
-                        <h4 className="font-headline text-[1.45rem] leading-[0.96] text-white">
-                          {item.label}
-                        </h4>
-                        <p className="mt-2 text-sm leading-relaxed text-white/82">
-                          {item.description}
-                        </p>
-                      </div>
-                      <ArrowUpRight className="mt-1 h-4 w-4 shrink-0 text-white/70" />
-                    </div>
-                  </Link>
-                ))}
-              </div>
-            </div>
-
-            <div className="mt-auto space-y-4 pt-8">
-              <Link
-                href={popClubPaths.membership}
-                onClick={() => setMobileMenuOpen(false)}
-                className="flex min-h-14 items-center justify-center rounded-full bg-white px-6 text-[11px] font-semibold uppercase tracking-[0.24em] text-black"
-              >
-                Entender o clube
-              </Link>
-              <Link
-                href={popClubPaths.skinScan}
-                onClick={() => setMobileMenuOpen(false)}
-                className="flex min-h-14 items-center justify-center rounded-full border border-white/20 bg-white/[0.02] px-6 text-[11px] font-semibold uppercase tracking-[0.24em] text-white"
-              >
-                Entender minha pele
-              </Link>
-            </div>
-          </div>
-          <button
-            type="button"
-            aria-label="Fechar menu"
-            className="absolute inset-0 -z-10"
-            onClick={() => setMobileMenuOpen(false)}
-          />
-        </div>
-      ) : null}
-
-      <div className="pt-16">
-        <section className="relative flex min-h-[calc(100svh-4rem)] items-end overflow-hidden bg-[#f6f3f2] md:items-center">
-          <div className="absolute inset-0">
-            <video
-              autoPlay
-              className="h-full w-full object-cover"
-              loop
-              muted
-              playsInline
-              poster="/editorial/home-hero-loop.gif"
-              preload="auto"
-            >
-              <source src="/editorial/home-hero-loop-4k.webm" type="video/webm" />
-              <source src="/editorial/home-hero-loop-4k.mp4" type="video/mp4" />
-              <img
-                src="/editorial/home-hero-loop.gif"
-                alt="Close de pele em luz suave"
-                className="h-full w-full object-cover"
-              />
-            </video>
-            <div className="absolute inset-0 bg-black/35" />
-          </div>
-
-          <div className="relative z-10 mx-auto w-full max-w-7xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8 lg:py-24">
-            <div className="max-w-4xl">
-              <span className="mb-4 block text-[10px] font-semibold uppercase tracking-[0.3em] text-white/90 sm:text-xs">
-                BelaPop
-              </span>
-              <h1 className="font-headline text-5xl font-bold leading-[0.92] tracking-[-0.05em] text-white sm:text-6xl md:text-7xl lg:text-[7.5rem]">
-                Skincare guiado
-                <br />
-                pela sua pele
-              </h1>
-              <p className="mt-6 max-w-lg text-base leading-7 text-white/95 sm:text-lg">
-                <span className="block">Entenda o que sua pele precisa.</span>
-                <span className="block">Siga uma rotina personalizada.</span>
-                <span className="block">Acompanhe a evolucao com clareza.</span>
-              </p>
-              <p className="mt-4 max-w-xl text-sm leading-7 text-white/82 sm:text-base">
-                Uma nova forma de cuidar da pele, baseada em analise, curadoria e consistencia.
-              </p>
-              <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-                <Link
-                  href="/skin-scan"
-                  className="inline-flex min-h-14 items-center justify-center bg-white px-8 text-[11px] font-semibold uppercase tracking-[0.24em] text-black transition-colors hover:bg-black hover:text-white"
-                >
-                  Entender minha pele
-                </Link>
-                <Link
-                  href="/skincare"
-                  className="inline-flex min-h-14 items-center justify-center border border-white/20 bg-black/20 px-8 text-[11px] font-semibold uppercase tracking-[0.24em] text-white transition-colors hover:bg-white/10"
-                >
-                  Continuar cuidado
-                </Link>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section className="bg-[#fcf9f8] px-4 py-20 sm:px-6 lg:px-8 lg:py-32">
+        <section className="bg-[#111111] px-4 py-14 sm:px-6 lg:px-8 lg:py-20">
           <div className="mx-auto max-w-4xl text-center">
-            <div className="space-y-6">
-              <h2 className="font-headline text-4xl leading-[1.08] tracking-tight text-[#1c1b1b] sm:text-5xl lg:text-7xl">
-                Como funciona
-              </h2>
-              <div className="mx-auto max-w-2xl space-y-4">
-                <p className="text-lg leading-relaxed text-[#444748] opacity-80">
-                  <span className="block">Voce envia uma imagem da sua pele.</span>
-                  <span className="block">
-                    Identificamos padroes visiveis como oleosidade, textura e sensibilidade.
-                  </span>
-                  <span className="block">
-                    A partir disso, estruturamos uma rotina personalizada.
-                  </span>
-                </p>
-                <p className="text-sm font-medium uppercase tracking-[0.24em] text-[#6c5e06]">
-                  Sem excesso. Sem tentativa e erro.
-                </p>
-              </div>
-            </div>
-
-            <div className="relative mx-auto mt-14 max-w-2xl">
-              <div className="aspect-[3/4] overflow-hidden bg-[#f6f3f2]">
-                <img
-                  src="https://lh3.googleusercontent.com/aida/ADBb0ujiUJOxH_St5myLUZkVT49UP9zk421DMnkTit6oqKkx3hZ_lr3ilxIPQdktZMiH2oO3xeu482jXC_muvec8wQNjMT5vFaOFiGoVbDK7fMPzfKiJ2A1HlrSsjkp9LmGaMDdRd04mBnC09KlC4ehSa3b-_Yh7xCyG7d0f6_RyGPPI15CDbHd97_fJJPxjHxM8Dliqxx8Z6OGKPpb2LbRbGMWzWMwyUiIhCOqL8lJUMAC8ghrw7k-LpvCxm243R10ZmsT2E_x8qIfks4k"
-                  alt="Imagem de apoio para leitura visual da pele"
-                  className="h-full w-full object-contain transition-transform duration-1000 hover:scale-105"
-                />
-              </div>
-            </div>
-
-            <div className="mt-12 flex justify-center">
-              <Link
-                href="/skin-scan"
-                className="group inline-flex min-h-16 items-center justify-center gap-4 bg-black px-8 text-[11px] font-semibold uppercase tracking-[0.28em] text-white transition-colors hover:bg-[#6c5e06] sm:px-14"
-              >
-                Ver rotina sugerida
-                <Sparkles className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
-              </Link>
-            </div>
+            <p className="text-xs font-semibold uppercase tracking-[0.08em] text-[#dac769]">
+              Skin Scan BelaPop
+            </p>
+            <h2 className="mt-4 font-headline text-3xl leading-tight tracking-normal text-white sm:text-4xl">
+              Descubra sua rotina em 45 segundos
+            </h2>
+            <p className="mt-4 text-sm leading-7 text-white/70 sm:text-base">
+              Três perguntas. Uma direção clara. Sem criar conta.
+            </p>
+            <Link
+              href="/skin-scan/foco"
+              className="mt-8 inline-flex min-h-14 items-center justify-center gap-3 bg-white px-8 text-xs font-semibold uppercase tracking-[0.08em] text-black shadow-[0_20px_70px_rgba(255,255,255,0.08)] transition duration-300 hover:-translate-y-0.5 hover:bg-[#dac769] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"
+            >
+              Começar agora
+              <Sparkles className="h-4 w-4" aria-hidden="true" />
+            </Link>
           </div>
         </section>
 
@@ -624,60 +737,74 @@ export default function BelaPopLuxuryHomepage() {
           <div className="mx-auto grid max-w-screen-2xl grid-cols-1 gap-10 lg:grid-cols-12 lg:items-center lg:gap-12">
             <div className="order-2 flex flex-col justify-center space-y-8 lg:order-1 lg:col-span-5 lg:space-y-12">
               <div className="space-y-5">
-                <span className="block text-[10px] font-bold uppercase tracking-[0.5em] text-[#6c5e06]">
+                <span className="block text-xs font-semibold uppercase tracking-[0.08em] text-[#6c5e06]">
                   Produto em destaque
                 </span>
-                <h2 className="font-headline text-4xl leading-none tracking-[-0.05em] text-[#1c1b1b] sm:text-5xl xl:text-7xl">
-                  Curadoria com criterio
+                <h2 className="font-headline text-3xl leading-tight tracking-normal text-[#1c1b1b] sm:text-4xl">
+                  {brandSectionNames.home.newCuratorship}
                 </h2>
                 <div className="h-px w-24 bg-[#6c5e06]" />
               </div>
 
               <div className="max-w-md space-y-7">
-                <p className="text-[10px] font-semibold uppercase tracking-[0.3em] text-[#444748]">
-                  Soro Regenerador Orquidea Imperial
+                <p className="text-xs font-semibold uppercase tracking-[0.08em] text-[#444748]">
+                  {primaryProduct?.title ?? "Catálogo em atualização"}
                 </p>
-                <p className="font-headline text-2xl italic leading-relaxed text-[#444748]">
-                  &ldquo;Cada produto disponivel na BelaPop passa por avaliacao de procedencia e
-                  formulacao.&rdquo;
+                <p className="font-headline text-xl italic leading-relaxed text-[#444748] sm:text-2xl">
+                  &ldquo;Cada produto disponível na BelaPop passa por avaliação de procedência e
+                  formulação.&rdquo;
                 </p>
                 <p className="text-base leading-relaxed text-[#444748]/90">
-                  Trabalhamos com sellers verificados e marcas com distribuicao oficial,
-                  garantindo autenticidade e consistencia.
+                  Trabalhamos com sellers verificados e marcas com distribuição oficial,
+                  com validação de procedência e consistência.
                 </p>
                 <div className="flex flex-col gap-5 pt-2 sm:flex-row sm:items-center sm:gap-8">
                   <Link
-                    href="/skincare"
-                    className="inline-flex min-h-16 items-center justify-center bg-black px-8 text-[11px] font-semibold uppercase tracking-[0.24em] text-white transition-colors hover:bg-[#6c5e06]"
+                    href={primaryProduct?.href ?? "/catalogo"}
+                    className="inline-flex min-h-14 items-center justify-center bg-black px-8 text-xs font-semibold uppercase tracking-[0.08em] text-white transition-colors hover:bg-[#6c5e06]"
                   >
-                    Continuar cuidado
+                    {brandCtas.editorial.seeBelaPopSelection}
                   </Link>
-                  <span className="font-headline text-2xl text-black">R$ 1.280,00</span>
+                  {primaryProduct ? (
+                    <span className="font-headline text-2xl text-black">{primaryProduct.price}</span>
+                  ) : null}
                 </div>
               </div>
             </div>
 
             <div className="order-1 relative flex justify-end lg:order-2 lg:col-span-7">
               <div className="relative w-full max-w-2xl overflow-hidden bg-white shadow-2xl">
-                <img
-                  src="https://lh3.googleusercontent.com/aida-public/AB6AXuAELPiY0PPK7707M_jedsr37glSJgndoUJEjAqypBaCkcCar-rSm0Mx8CfUxyi2fYbExegdp39FFzNvXH0m61k70z_CCTElcKxSheZAe9oYjidxFzNWN_TnIqmovi0SWbk9kAjQOgm6HAdETOxBWMgPeHPp_2hUjtpitE0P16oMZR9uicTcERU1dsBUp4S6IR5X7vc6YDj4tr7mFpt2k1hO0l57KILXQPF9XvO-EFqad0nUWyHACIV-I_XrhyX5QTfyvJdo2D8ajHA8"
-                  alt="Frasco de serum em composicao minimalista"
-                  className="aspect-[3/4] h-full w-full object-cover transition-transform duration-1000 hover:scale-105"
-                />
+                {primaryProduct ? (
+                  <img
+                    src={primaryProduct.image}
+                    alt={primaryProduct.title}
+                    loading="lazy"
+                    decoding="async"
+                    className="aspect-[3/4] h-full w-full object-cover transition-transform duration-1000 hover:scale-105"
+                  />
+                ) : (
+                  <div className="flex aspect-[3/4] h-full w-full items-center justify-center bg-[#f6f3f2] p-10 text-center font-headline text-3xl text-[#1c1b1b]/60">
+                    BelaPop
+                  </div>
+                )}
                 <div className="pointer-events-none absolute right-[-30px] top-10 hidden rotate-90 xl:block">
-                  <span className="whitespace-nowrap text-[80px] font-black uppercase tracking-[-0.05em] text-black/5">
+                    <span className="whitespace-nowrap text-[64px] font-black uppercase tracking-normal text-black/5">
                     CURADORIA
                   </span>
                 </div>
               </div>
 
-              <div className="absolute -bottom-10 -left-6 hidden h-72 w-56 overflow-hidden border-[18px] border-white bg-[#fcf9f8] shadow-xl xl:block">
-                <img
-                  src="https://lh3.googleusercontent.com/aida-public/AB6AXuCHOa6DQuTJ48Vw1brdsuAtc3U5aBvojd4nYOIM1ahClkCfScXI6UlmTjEwMKAww_vcn3yxhBnt7wCe7FphWhmISVUabHI9bkomZx_MU35HnwWV0RYy3Q0IGuBwomJP1dC69iD3O9PT8279mzkjfIKkh0qFiwymOg1A5QbzuxmNtlLiQLkJPbQRXzyvPSTEblzC4Zq1G-P7xyXl-AF2BFONR3ORsvDQ7X7m8sik6k_dTmen4NR2-Mf-1XmYoig8koP5aUQjM9O8ogyW"
-                  alt="Close da formulacao do serum"
-                  className="h-full w-full object-cover"
-                />
-              </div>
+              {secondaryProduct ? (
+                <div className="absolute -bottom-10 -left-6 hidden h-72 w-56 overflow-hidden border-[18px] border-white bg-[#fcf9f8] shadow-xl xl:block">
+                  <img
+                    src={secondaryProduct.image}
+                    alt={secondaryProduct.title}
+                    loading="lazy"
+                    decoding="async"
+                    className="h-full w-full object-cover"
+                  />
+                </div>
+              ) : null}
             </div>
           </div>
         </section>
@@ -688,54 +815,63 @@ export default function BelaPopLuxuryHomepage() {
               <div className="space-y-4">
                 <div className="mb-2 flex items-center gap-3">
                   <img src="/logo-dark.svg" alt="BelaPop selo" className="h-8 w-auto rounded-full shadow-sm" />
-                  <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#6c5e06]">
-                    Transparencia na compra
+                  <span className="text-xs font-semibold uppercase tracking-[0.08em] text-[#6c5e06]">
+                    {brandSectionNames.home.careWithSafety}
                   </span>
                 </div>
-                <span className="text-xs uppercase tracking-widest text-[#444748]">
-                  Decisao guiada
+                <span className="text-xs uppercase tracking-[0.06em] text-[#444748]">
+                  Decisão guiada
                 </span>
-                <h3 className="font-headline text-4xl text-black">Como funciona a BelaPop</h3>
+                <h3 className="font-headline text-3xl leading-tight text-black sm:text-4xl">{brandSectionNames.home.selectedBrands}</h3>
                 <p className="max-w-2xl text-sm leading-relaxed text-[#444748] sm:text-base">
-                  Selecionamos produtos com base em criterios tecnicos. A venda e realizada por
-                  parceiros aprovados dentro da plataforma. Voce compra com transparencia e
+                  Selecionamos produtos com base em critérios técnicos. A venda é realizada por
+                  parceiros aprovados dentro da plataforma. Você compra com transparência e
                   acompanhamento.
                 </p>
               </div>
               <Link
                 href="/skincare"
-                className="w-fit border-b border-black pb-1 text-[11px] font-semibold uppercase tracking-[0.24em] text-black"
+                className="w-fit border-b border-black pb-1 text-xs font-semibold uppercase tracking-[0.08em] text-black"
               >
-                Continuar cuidado
+                {brandCtas.editorial.seeBelaPopSelection}
               </Link>
             </div>
 
-            <div className="grid grid-cols-1 gap-12 md:grid-cols-3">
-              {curationProducts.map((product) => (
-                <LuxuryProductCard key={product.title} {...product} />
-              ))}
-            </div>
+            {productCards.length > 0 ? (
+              <div className="grid grid-cols-1 gap-12 md:grid-cols-3">
+                {productCards.map((product) => (
+                  <LuxuryProductCard key={product.href} {...product} />
+                ))}
+              </div>
+            ) : (
+              <div className="bg-[#f6f3f2] px-6 py-10 text-center">
+                <p className="font-headline text-2xl text-black">Catálogo em atualização</p>
+                <p className="mt-3 text-sm leading-6 text-[#444748]">
+                  Produtos publicados, com estoque e seller ativo aparecerão aqui automaticamente.
+                </p>
+              </div>
+            )}
           </div>
         </section>
 
         <section className="bg-[#f6f3f2] px-4 py-20 sm:px-6 lg:px-8 lg:py-32">
           <div className="mx-auto max-w-7xl">
-            <h3 className="mb-14 text-center font-headline text-4xl text-black sm:text-5xl">
-              Menos excesso. Mais precisao.
+            <h3 className="mb-14 text-center font-headline text-3xl leading-tight text-black sm:text-4xl">
+              Menos excesso. Mais precisão.
             </h3>
             <div className="grid grid-cols-1 gap-8 md:grid-cols-12">
               <article className="bg-white p-6 sm:p-8 lg:col-span-7 lg:p-12">
                 <div className="flex h-full flex-col justify-between gap-8">
                   <div>
-                    <span className="mb-6 block text-[10px] font-bold uppercase tracking-[0.24em] text-[#6c5e06]">
+                    <span className="mb-6 block text-xs font-semibold uppercase tracking-[0.08em] text-[#6c5e06]">
                       Posicionamento
                     </span>
-                    <h4 className="font-headline text-3xl leading-tight text-black sm:text-4xl">
-                      Skincare nao deve depender de tentativa.
+                    <h4 className="font-headline text-2xl leading-tight text-black sm:text-3xl">
+                      Skincare não deve depender de tentativa.
                     </h4>
                     <p className="mt-8 text-base leading-relaxed text-[#444748]">
                       <span className="block">
-                        Acreditamos que skincare nao deve ser confuso, nem baseado em tentativa.
+                        Acreditamos que skincare não deve ser confuso, nem baseado em tentativa.
                       </span>
                       <span className="mt-4 block">
                         Cuidar da pele e entender, ajustar e manter.
@@ -744,8 +880,10 @@ export default function BelaPopLuxuryHomepage() {
                   </div>
 
                   <img
-                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuDfKssavQgXWVJGMuXtF2tsXOA1QNybmSpcx2YgImEOWaI5EPCyUZopTblVaoKFEtwOTivIGkJFX5OE1FWqhgU94MwErattaSx7PvwQn2js7qAtTgPpsNNIYoi_dU45_fVE65KowqtFqLRColX_l1Q35s_f0CTrynv-L2-Z1NwzXgnqRjXmebr1qp3fyGpO0aMnbC0sAkYVu3-v_Dyd9q6PqvGVrmgrwiJOhMKB6UZ-J-pEE9Yi07adsLPSmxGUT5wQ8b24FSvAl0rg"
-                    alt="Close de formulacao em detalhe"
+                    src="/editorial/essencia-sensorial.svg"
+                    alt="Close de formulação em detalhe"
+                    loading="lazy"
+                    decoding="async"
                     className="h-72 w-full object-cover grayscale sm:h-80"
                   />
                 </div>
@@ -758,7 +896,7 @@ export default function BelaPopLuxuryHomepage() {
                   </h4>
                   <Link
                     href="/skin-scan"
-                    className="mt-8 inline-flex border-b border-white pb-1 text-[10px] font-semibold uppercase tracking-[0.22em]"
+                    className="mt-8 inline-flex border-b border-white pb-1 text-xs font-semibold uppercase tracking-[0.08em]"
                   >
                     Entender minha pele
                   </Link>
@@ -766,14 +904,16 @@ export default function BelaPopLuxuryHomepage() {
 
                 <Link href="/skin-scan" className="group relative block min-h-[320px] overflow-hidden">
                   <img
-                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuBnCaCxumv66cNiXxJeCDTmLxTjP9TSghRJD0i8pBRrHlUA_08tn990xVShgXuEdGFz_Vh0PrcBLus6QGTOLVr6WSmzNtAINZ994aVcPQjHbv52XNHsmlyRPXbkXeBNv5vEQRVQB45JeW43D_Litgx7M6AXTv8_GXLe7NRpjwuhXz6WdpPTvaUSKeeU6PmRi7E_xWqjthIf7UYKTCINyOGzJEfLmkGOBpBT5IdCjXu-Xdy45Vp4zK7KfosvLGfuNJIDVEk2E93HoPQ8"
+                    src="/editorial/presenca-diurna.svg"
                     alt="Pele em close com luz suave"
+                    loading="lazy"
+                    decoding="async"
                     className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
                   />
                   <div className="absolute inset-0 bg-black/40" />
                   <div className="absolute inset-0 flex items-center justify-center p-8">
                     <h4 className="text-center font-headline text-2xl text-white">
-                      Uma interface de decisao em skincare.
+                      Uma interface de decisão em skincare.
                     </h4>
                   </div>
                 </Link>
@@ -787,63 +927,13 @@ export default function BelaPopLuxuryHomepage() {
             <TrustSignals />
           </div>
         </section>
+
+        <CheckoutConfidenceRail />
+
+        <NewsletterSection />
       </div>
 
-      <footer className="bg-black px-4 py-16 text-white sm:px-6 lg:px-8 lg:py-20">
-        <div className="mx-auto grid max-w-7xl grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-4">
-          <div className="space-y-6">
-            <div className="font-headline text-lg font-bold">BelaPop</div>
-            <p className="max-w-xs font-body text-[10px] uppercase tracking-[0.18em] leading-relaxed text-gray-400">
-              Analise, procedencia e acompanhamento para uma rotina de skincare com mais clareza.
-            </p>
-            <div className="max-w-sm space-y-2 text-xs leading-6 text-gray-400">
-              <p>63.945.608 GIOVANNA DE SOUSA FERREIRA SANTOS</p>
-              <p>CNPJ 63.945.608/0001-09</p>
-              <p>Rua Coromandel, 189, Bairro Amorim, Araguari/MG, CEP 38446-093</p>
-            </div>
-            <p className="max-w-sm text-[10px] uppercase tracking-[0.18em] text-gray-500">
-              E-mail institucional, canal de privacidade e responsavel por dados: pendente de
-              validacao operacional.
-            </p>
-            <div className="flex flex-wrap gap-4 pt-4">
-              <Link
-                href="/contato"
-                className="font-body text-[10px] uppercase tracking-[0.16em] text-gray-400 transition-colors hover:text-white"
-              >
-                Instagram
-              </Link>
-              <Link
-                href="/contato"
-                className="font-body text-[10px] uppercase tracking-[0.16em] text-gray-400 transition-colors hover:text-white"
-              >
-                TikTok
-              </Link>
-              <Link
-                href="/contato"
-                className="font-body text-[10px] uppercase tracking-[0.16em] text-gray-400 transition-colors hover:text-white"
-              >
-                Facebook
-              </Link>
-              <Link
-                href="/contato"
-                className="font-body text-[10px] uppercase tracking-[0.16em] text-gray-400 transition-colors hover:text-white"
-              >
-                WhatsApp
-              </Link>
-            </div>
-          </div>
-
-          {footerColumns.map((column) => (
-            <FooterColumn key={column.title} title={column.title} links={column.links} />
-          ))}
-        </div>
-
-        <div className="mx-auto mt-16 max-w-7xl border-t border-white/5 pt-10">
-          <p className="text-center font-body text-[10px] uppercase tracking-[0.18em] text-gray-400">
-            &copy; 2026 BelaPop. Todos os direitos reservados.
-          </p>
-        </div>
-      </footer>
+      <BelaPopValidatedFooter />
     </div>
   );
 }

@@ -75,7 +75,7 @@ export async function GET(
 
   const { error, ticket, messages } = await loadTicketWithThread(admin, ticketId, userId);
   if (error) return NextResponse.json({ error }, { status: 500 });
-  if (!ticket) return NextResponse.json({ error: "Protocolo nao encontrado." }, { status: 404 });
+  if (!ticket) return NextResponse.json({ error: "Protocolo não encontrado." }, { status: 404 });
 
   const bootstrap = parseBootstrapMessage(messages[0]?.message ?? "", ticket.id);
   let attachments = bootstrap.attachments;
@@ -124,7 +124,7 @@ export async function PATCH(
 
   const { error, ticket, messages } = await loadTicketWithThread(admin, ticketId, userId);
   if (error) return NextResponse.json({ error }, { status: 500 });
-  if (!ticket) return NextResponse.json({ error: "Protocolo nao encontrado." }, { status: 404 });
+  if (!ticket) return NextResponse.json({ error: "Protocolo não encontrado." }, { status: 404 });
 
   const current = normalizeTicketStatus(ticket.status);
   const next = normalizeTicketStatus(body.status);
@@ -154,7 +154,7 @@ export async function PATCH(
     .maybeSingle();
 
   if (updateError) return NextResponse.json({ error: updateError.message }, { status: 500 });
-  if (!updated) return NextResponse.json({ error: "Protocolo nao encontrado." }, { status: 404 });
+  if (!updated) return NextResponse.json({ error: "Protocolo não encontrado." }, { status: 404 });
 
   const eventId = await emitPlatformEvent({
     eventName: "ticket.status_changed",

@@ -294,7 +294,7 @@ export default function SellerShell({ children }: { children: React.ReactNode })
       <div className="mx-auto w-full max-w-[1440px] px-4 py-6 md:px-6">
         {!isApprovedStatus(user.sellerProfile?.status) ? (
           <div className="mb-6 rounded-2xl border border-bpPinkSoft bg-bpPinkSoft/20 px-5 py-4 text-sm text-bpPink/90">
-            Sua loja ainda nao esta aprovada. Acompanhe em{" "}
+            Sua loja ainda não esta aprovada. Acompanhe em{" "}
             <Link href="/seller/activation" className="text-bpBlackSoft underline">
               /seller/activation
             </Link>

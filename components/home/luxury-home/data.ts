@@ -45,9 +45,9 @@ export const footerGroups: FooterLinkGroup[] = [
     links: [
       { href: "/contato", label: "Fale Conosco" },
       { href: "/contato", label: "Perguntas Frequentes" },
-      { href: "/minha-conta", label: "Meus Pedidos" },
-      { href: "/minha-conta", label: "Minha Conta" },
-      { href: "/contato", label: "Devolucoes e Reembolsos" }
+      { href: "/conta/pedidos", label: "Meus Pedidos" },
+      { href: "/conta", label: "Minha Conta" },
+      { href: "/conta/devoluções", label: "Devoluções e Reembolsos" }
     ]
   },
   {
@@ -62,9 +62,9 @@ export const footerGroups: FooterLinkGroup[] = [
     title: "Legal",
     links: [
       { href: "/aviso-de-privacidade", label: "Aviso de Privacidade" },
-      { href: "/termos-e-condicoes", label: "Termos e Condicoes Gerais" },
-      { href: "/politica-de-cookies", label: "Cookies" },
-      { href: "/politica-de-cookies", label: "Personalizar cookies" }
+      { href: "/termos-e-condições", label: "Termos e Condições Gerais" },
+      { href: "/política-de-cookies", label: "Cookies" },
+      { href: "/política-de-cookies", label: "Personalizar cookies" }
     ]
   }
 ];

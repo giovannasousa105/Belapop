@@ -18,7 +18,7 @@ const parseDays = (value: string | null) => {
 
 export async function POST(request: NextRequest) {
   if (!isInternalJobAuthorized(request)) {
-    return NextResponse.json({ error: "Nao autorizado para job interno." }, { status: 401 });
+    return NextResponse.json({ error: "Não autorizado para job interno." }, { status: 401 });
   }
 
   const admin = getSupabaseAdminClient();
@@ -33,7 +33,7 @@ export async function POST(request: NextRequest) {
       {
         error: processQueue.error.message,
         detail:
-          "Funcao process_ranking_realtime_queue nao encontrada. Rode a migration 20260306_1500_ops_reverse_sre_ranking_ab.sql."
+          "Funcao process_ranking_realtime_queue não encontrada. Rode a migration 20260306_1500_ops_reverse_sre_ranking_ab.sql."
       },
       { status: 500 }
     );
@@ -47,7 +47,7 @@ export async function POST(request: NextRequest) {
       {
         error: refreshAttribution.error.message,
         detail:
-          "Funcao refresh_ab_experiment_attribution_daily nao encontrada. Rode a migration 20260306_1500_ops_reverse_sre_ranking_ab.sql."
+          "Funcao refresh_ab_experiment_attribution_daily não encontrada. Rode a migration 20260306_1500_ops_reverse_sre_ranking_ab.sql."
       },
       { status: 500 }
     );
@@ -61,7 +61,7 @@ export async function POST(request: NextRequest) {
       {
         error: refreshTrending.error.message,
         detail:
-          "Funcao refresh_product_trending nao encontrada. Rode a migration 20260310_1400_discovery_engine_trending.sql."
+          "Funcao refresh_product_trending não encontrada. Rode a migration 20260310_1400_discovery_engine_trending.sql."
       },
       { status: 500 }
     );

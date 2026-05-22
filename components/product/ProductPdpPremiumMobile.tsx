@@ -3,25 +3,46 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useEffect, useMemo, useRef, useState, type UIEvent } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState, type UIEvent } from "react";
 import {
   Check,
   ChevronDown,
-  CreditCard,
   Droplets,
+  Heart,
   Layers3,
-  RotateCcw,
-  ShieldCheck,
   Sparkles,
   Star,
   SunMedium,
-  Truck
+  X
 } from "lucide-react";
 
+import { CommerceTrustMarkers } from "@/components/commerce/CommerceTrustMarkers";
+import { SaleOriginSummary } from "@/components/commerce/SaleOriginSummary";
+import {
+  AuthenticityBadge,
+  PackagingStandardCard,
+  ReturnPolicyCard,
+  ShippingInfoCard,
+  VerifiedProductBadge
+} from "@/components/catalog-standards";
+import { ConsultoraInlineEntry } from "@/components/assistant/ConsultoraBelaPop";
 import { BelaPopValidatedFooter } from "@/components/luxury/BelaPopValidatedFooter";
 import { BelaPopValidatedHeader } from "@/components/luxury/BelaPopValidatedHeader";
+import { BuyButton } from "@/components/checkout/BuyButton";
+import { LoteStatus } from "@/components/lote/LoteStatus";
+import { brandCtas } from "@/lib/brand/ctas";
+import { brandSectionNames } from "@/lib/brand/sections";
 import { useCart } from "@/lib/CartContext";
+import { useLoteStatus } from "@/lib/hooks/useLoteStatus";
+import { liberarReserva } from "@/lib/stripe/reservarLote";
+import {
+  resolveProductStandardForProduct,
+  resolveSellerStandard,
+  type ProductSkuStandard,
+  type SellerStandardRecord
+} from "@/lib/catalog-standards";
 import { formatPrice } from "@/lib/utils";
+import { useWishlist } from "@/hooks/useWishlist";
 
 type HeaderSection = "skincare" | "maquiagem" | "cabelos" | "perfumes";
 
@@ -41,7 +62,14 @@ type ProductPdpPremiumMobileProduct = {
   id: string;
   price?: number | null;
   price_cents?: number | null;
+  stockQuantity?: number | null;
+  stock_quantity?: number | null;
+  inStock?: boolean | null;
   sellerId?: string | null;
+  sellerName?: string | null;
+  sellerStatus?: string | null;
+  saleOrigin?: "própria" | "marketplace" | null;
+  slug?: string | null;
   title: string;
 };
 
@@ -56,7 +84,7 @@ const GALLERY_FALLBACK: ProductGalleryItem[] = [
   },
   {
     url: "https://lh3.googleusercontent.com/aida-public/AB6AXuDx4QqBs-OI7R_d-TTai2nIqjhpE66x7FT4NKmm5cqnQ-S9GICzlkfoZ7FmRHCVEkdenmcssFNuy76JrSg1uG1OgkV6B4z3qrJAp27ibnmEphm4J8PxvtNFbwIu4UiBBvdfANDcnHoc08uIDCOAiczFb2C6i-ZpDvp_BXH5KlImfx7tI9VEO8JQUOOixBP9jC2p6Zcwt0FDFx_v3W2TNsHTtj02oc025UnncevKG7giyoRj0nYLie9rMjq5OaaIM4rL7cbWq3y1hiLK",
-    alt: "Detalhe de composicao."
+    alt: "Detalhe de composição."
   },
   {
     url: "https://lh3.googleusercontent.com/aida-public/AB6AXuB79WAf8yVglJIsXN0Oip8fyOZLgtyQlSELikq51_DOqKQsYc60qfd5Dr8ljQktwA6iGdWfpfQB9oLtj42x0SYnpZLA2d0fRuoek0XdOc_Nw9GC9RNozLB5_i4X_08-pO-FQJuFN_hAz-SBK23MTBfIv0dJwcoErnz4EtcAHEooN8-RKu7qeZ1SRyiYt15AjkyryF1bhXMlvZHSq1_s3ZkKeeL8eTsZOazXdxZER5iBnuWg4B9N6DJMtUcCqrns21Rfdx1lvpcRpW0s",
@@ -65,7 +93,7 @@ const GALLERY_FALLBACK: ProductGalleryItem[] = [
 ];
 
 const LOVE_POINTS = [
-  "Hidratacao imediata com conforto durante o dia.",
+  "Hidratação imediata com conforto durante o dia.",
   "Textura leve que encaixa facil na rotina.",
   "Acabamento luminoso sem pesar na pele."
 ] as const;
@@ -86,7 +114,7 @@ const RECOMMENDATION_POINTS = [
 ] as const;
 
 const BENEFITS = [
-  { icon: Droplets, label: "Hidratacao" },
+  { icon: Droplets, label: "Hidratação" },
   { icon: SunMedium, label: "Luminosidade" },
   { icon: Layers3, label: "Textura" },
   { icon: Sparkles, label: "Conforto" }
@@ -116,7 +144,7 @@ const REVIEWS = [
 const FAQ_ITEMS = [
   {
     question: "O produto e original?",
-    answer: "Sim. Item vendido por parceiro verificado com procedencia validada."
+    answer: "Sim. Item vendido por parceiro verificado com procedência validada."
   },
   {
     question: "Qual o prazo de entrega?",
@@ -128,7 +156,7 @@ const FAQ_ITEMS = [
   },
   {
     question: "Como funciona devolucao?",
-    answer: "Voce pode solicitar devolucao pelo fluxo de pedidos dentro da conta."
+    answer: "Você pode solicitar devolucao pelo fluxo de pedidos dentro da conta."
   }
 ] as const;
 
@@ -170,6 +198,22 @@ function resolvePrice(product: ProductPdpPremiumMobileProduct) {
   return 0;
 }
 
+function resolveStockQuantity(product: ProductPdpPremiumMobileProduct) {
+  const raw =
+    typeof product.stockQuantity === "number"
+      ? product.stockQuantity
+      : typeof product.stock_quantity === "number"
+        ? product.stock_quantity
+        : product.inStock
+          ? 1
+          : 0;
+  return Number.isFinite(raw) ? Math.max(0, Math.floor(raw)) : 0;
+}
+
+function isSellerAvailable(status: string | null | undefined) {
+  return status === "active" || status === "approved";
+}
+
 function resolveGallery(product: ProductPdpPremiumMobileProduct) {
   const fromProduct: ProductGalleryItem[] = [];
 
@@ -205,6 +249,148 @@ function resolveGallery(product: ProductPdpPremiumMobileProduct) {
   return result.slice(0, 4);
 }
 
+// ─── ReviewsBottomSheet ───────────────────────────────────────────────────────
+
+function ReviewsBottomSheet({
+  open,
+  onClose,
+  reviews,
+}: {
+  open: boolean;
+  onClose: () => void;
+  reviews: ReadonlyArray<{ author: string; text: string }>;
+}) {
+  const sheetRef = useRef<HTMLDivElement>(null);
+  const touchStartY = useRef(0);
+  const touchCurrentY = useRef(0);
+
+  // Fecha com swipe down > 80px
+  const onTouchStart = useCallback((e: React.TouchEvent) => {
+    touchStartY.current   = e.touches[0].clientY;
+    touchCurrentY.current = e.touches[0].clientY;
+  }, []);
+
+  const onTouchMove = useCallback((e: React.TouchEvent) => {
+    touchCurrentY.current = e.touches[0].clientY;
+    const delta = touchCurrentY.current - touchStartY.current;
+    if (delta > 0 && sheetRef.current) {
+      sheetRef.current.style.transform = `translateY(${delta}px)`;
+    }
+  }, []);
+
+  const onTouchEnd = useCallback(() => {
+    const delta = touchCurrentY.current - touchStartY.current;
+    if (sheetRef.current) {
+      sheetRef.current.style.transform = "";
+    }
+    if (delta > 80) onClose();
+  }, [onClose]);
+
+  // Fecha com Escape
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => { if (e.key === "Escape") onClose(); };
+    if (open) document.addEventListener("keydown", handler);
+    return () => document.removeEventListener("keydown", handler);
+  }, [open, onClose]);
+
+  // Bloqueia scroll do body quando aberto
+  useEffect(() => {
+    document.body.style.overflow = open ? "hidden" : "";
+    return () => { document.body.style.overflow = ""; };
+  }, [open]);
+
+  if (!open) return null;
+
+  return (
+    <div className="fixed inset-0 z-[200] md:hidden" role="dialog" aria-modal="true" aria-label="Avaliações">
+      {/* Backdrop */}
+      <div
+        className="absolute inset-0 bg-black/40"
+        onClick={onClose}
+        aria-hidden="true"
+      />
+
+      {/* Sheet */}
+      <div
+        ref={sheetRef}
+        onTouchStart={onTouchStart}
+        onTouchMove={onTouchMove}
+        onTouchEnd={onTouchEnd}
+        className="absolute bottom-0 left-0 right-0 flex flex-col overflow-hidden rounded-t-[20px] bg-white transition-transform duration-300"
+        style={{ maxHeight: "85dvh" }}
+      >
+        {/* Handle */}
+        <div className="flex shrink-0 flex-col items-center pb-2 pt-3">
+          <div className="h-1 w-10 rounded-full bg-black/20" />
+        </div>
+
+        {/* Header */}
+        <div className="flex shrink-0 items-center justify-between border-b border-black/8 px-5 pb-4">
+          <h2 className="[font-family:var(--font-playfair)] text-xl font-medium text-black">
+            Avaliações
+          </h2>
+          <button
+            type="button"
+            onClick={onClose}
+            className="flex h-11 w-11 items-center justify-center rounded-full text-black/50 hover:bg-black/5"
+            aria-label="Fechar avaliações"
+          >
+            <X className="h-5 w-5" />
+          </button>
+        </div>
+
+        {/* Lista com scroll */}
+        <div className="flex-1 overflow-y-auto px-5 py-4">
+          <div className="space-y-4">
+            {reviews.map((review) => (
+              <article key={review.author} className="rounded-2xl border border-black/10 px-5 py-5">
+                <div className="mb-2 flex items-center gap-1">
+                  {Array.from({ length: 5 }).map((_, i) => (
+                    <Star key={i} className="h-3 w-3 fill-black text-black" />
+                  ))}
+                </div>
+                <p className="text-[0.94rem] leading-[1.66] text-black/70">
+                  &ldquo;{review.text}&rdquo;
+                </p>
+                <p className="mt-3 text-xs font-semibold uppercase tracking-[0.16em] text-black/55">
+                  {review.author}
+                </p>
+              </article>
+            ))}
+          </div>
+          {/* Espaço para home indicator */}
+          <div style={{ height: "env(safe-area-inset-bottom, 16px)" }} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ─── GalleryWishlistButton ────────────────────────────────────────────────────
+
+function GalleryWishlistButton({ productId }: { productId: string }) {
+  const { estaNaLista, toggle } = useWishlist();
+  const ativa = estaNaLista(productId);
+
+  return (
+    <button
+      type="button"
+      aria-label={ativa ? "Remover dos favoritos" : "Adicionar aos favoritos"}
+      aria-pressed={ativa}
+      onClick={() => void toggle(productId)}
+      className="flex h-11 w-11 items-center justify-center rounded-full"
+      style={{ background: "rgba(255,255,255,0.9)" }}
+    >
+      <Heart
+        className="h-[22px] w-[22px]"
+        fill={ativa ? "#e11d48" : "none"}
+        stroke={ativa ? "#e11d48" : "currentColor"}
+        strokeWidth={1.5}
+      />
+    </button>
+  );
+}
+
 function RatingRow() {
   return (
     <div className="flex items-center gap-2">
@@ -220,35 +406,60 @@ function RatingRow() {
   );
 }
 
-function ProofGrid() {
-  const items = [
-    { icon: ShieldCheck, label: "Autenticidade garantida" },
-    { icon: Truck, label: "Envio rapido" },
-    { icon: RotateCcw, label: "Devolucao facil" },
-    { icon: CreditCard, label: "Pagamento seguro" }
-  ] as const;
+function StandardsTrustBlock({
+  compact = false,
+  productStandard,
+  sellerStandard
+}: {
+  compact?: boolean;
+  productStandard: ProductSkuStandard;
+  sellerStandard: SellerStandardRecord;
+}) {
+  const isAuthenticProduct =
+    productStandard.authenticity.status === "verified" ||
+    productStandard.authenticityStatus === "authentic-belapop";
+  const isSellerVerified =
+    sellerStandard.status === "approved" ||
+    sellerStandard.verificationStatus === "approved" ||
+    sellerStandard.verificationStatus === "verified-belapop";
 
   return (
-    <div className="grid grid-cols-2 gap-3">
-      {items.map((item) => (
-        <div
-          key={item.label}
-          className="flex items-center gap-2 rounded-2xl border border-black/10 bg-white px-3 py-3"
-        >
-          <item.icon className="h-4 w-4 text-black/65" />
-          <span className="text-[10px] font-medium uppercase tracking-[0.16em] text-black/70">
-            {item.label}
-          </span>
-        </div>
-      ))}
+    <div className="space-y-3">
+      <div className="flex flex-wrap gap-2">
+        {isAuthenticProduct ? (
+          <VerifiedProductBadge type="authentic-product" compact={compact} />
+        ) : null}
+        {isSellerVerified ? (
+          <VerifiedProductBadge type="seller-verified" compact={compact} />
+        ) : null}
+        {sellerStandard.shippingPolicy.premiumShipping ? (
+          <VerifiedProductBadge type="premium-shipping" compact={compact} />
+        ) : null}
+        {productStandard.authenticity.invoiceAvailable || sellerStandard.invoiceIssuanceConfirmed ? (
+          <VerifiedProductBadge type="invoice-guaranteed" compact={compact} />
+        ) : null}
+        <VerifiedProductBadge type="belapop-curation" compact={compact} />
+      </div>
+
+      <AuthenticityBadge authenticity={productStandard.authenticity} compact={compact} />
+
+      <div className="grid gap-3 xl:grid-cols-3">
+        <ShippingInfoCard policy={sellerStandard.shippingPolicy} compact={compact} />
+        <ReturnPolicyCard policy={sellerStandard.returnPolicy} compact={compact} />
+        <PackagingStandardCard packaging={productStandard.packaging} compact={compact} />
+      </div>
     </div>
   );
 }
 
 export function ProductPdpPremiumMobile({
-  product
+  product,
+  productStandard: providedProductStandard,
+  sellerStandard: providedSellerStandard
 }: {
   product: ProductPdpPremiumMobileProduct;
+  productStandard?: ProductSkuStandard;
+  sellerStandard?: SellerStandardRecord;
 }) {
   const router = useRouter();
   const { addItem } = useCart();
@@ -257,12 +468,45 @@ export function ProductPdpPremiumMobile({
   const price = resolvePrice(product);
   const installment = price > 0 ? formatPrice(price / 6) : "R$ 0,00";
   const sellerId = product.sellerId || "unknown";
+  const stockQuantity = resolveStockQuantity(product);
+  const sellerCanSell = isSellerAvailable(product.sellerStatus);
+  const isPurchasable = price > 0 && stockQuantity > 0 && sellerCanSell;
+  const availabilityCopy = isPurchasable
+    ? stockQuantity > 5
+      ? "Em estoque"
+      : `Ultimas ${stockQuantity} unidades`
+    : "Indisponivel no momento";
   const activeSection = resolveActiveSection(product.category);
   const howToUse = product.howToUse?.length ? product.howToUse.slice(0, 3) : HOW_TO_USE_FALLBACK;
+  const productStandard = useMemo(
+    () => providedProductStandard ?? resolveProductStandardForProduct(product),
+    [product, providedProductStandard]
+  );
+  const sellerStandard = useMemo(
+    () => providedSellerStandard ?? resolveSellerStandard(productStandard.sellerId),
+    [productStandard.sellerId, providedSellerStandard]
+  );
+
+  const { config: loteConfig } = useLoteStatus(product.id);
+  const [loteEncerrado, setLoteEncerrado] = useState(false);
 
   const [activeImageIndex, setActiveImageIndex] = useState(0);
   const [pendingAction, setPendingAction] = useState<"cart" | "checkout" | null>(null);
+  const [descExpanded, setDescExpanded] = useState(false);
+  const [reviewsSheetOpen, setReviewsSheetOpen] = useState(false);
+  const [fixedCtaVisible, setFixedCtaVisible] = useState(false);
   const mobileTrackRef = useRef<HTMLDivElement | null>(null);
+  const mainCtaRef = useRef<HTMLDivElement | null>(null);
+  const addToCartLabel = !isPurchasable
+    ? "Indisponivel"
+    : pendingAction === "cart"
+      ? "Adicionando..."
+      : brandCtas.primary.addToCart;
+  const buyNowLabel = !isPurchasable
+    ? "Indisponivel"
+    : pendingAction === "checkout"
+      ? "Redirecionando..."
+      : brandCtas.primary.buyNow;
 
   useEffect(() => {
     if (activeImageIndex > gallery.length - 1) {
@@ -277,6 +521,34 @@ export function ProductPdpPremiumMobile({
       preload.src = item.url;
     });
   }, [gallery]);
+
+  // Release reservation immediately when Stripe redirects back after cancellation
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const params = new URLSearchParams(window.location.search);
+    const reservaId = params.get("reserva_id");
+    const loteId = params.get("lote_id");
+    if (params.get("checkout") === "cancelado" && reservaId && loteId) {
+      liberarReserva(loteId, reservaId);
+      params.delete("reserva_id");
+      params.delete("lote_id");
+      params.delete("checkout");
+      const qs = params.toString();
+      window.history.replaceState({}, "", window.location.pathname + (qs ? `?${qs}` : ""));
+    }
+  }, []);
+
+  // CTA fixo: visível apenas quando o CTA principal sai do viewport
+  useEffect(() => {
+    const target = mainCtaRef.current;
+    if (!target) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => setFixedCtaVisible(!entry.isIntersecting),
+      { threshold: 0, rootMargin: "0px" },
+    );
+    observer.observe(target);
+    return () => observer.disconnect();
+  }, []);
 
   const onTrackScroll = (event: UIEvent<HTMLDivElement>) => {
     const width = event.currentTarget.clientWidth;
@@ -297,7 +569,7 @@ export function ProductPdpPremiumMobile({
   };
 
   const handleBuyAction = (target: "cart" | "checkout") => {
-    if (pendingAction) return;
+    if (pendingAction || !isPurchasable) return;
     setPendingAction(target);
     addItem(product.id, 1, sellerId);
     router.push(target === "cart" ? "/carrinho" : "/checkout");
@@ -310,10 +582,13 @@ export function ProductPdpPremiumMobile({
     >
       <BelaPopValidatedHeader activeSection={activeSection} />
 
-      <main className="pb-24 pt-16 md:pb-0">
+      <main
+        className="pt-[78px] md:pb-0 lg:pt-[86px]"
+        style={{ paddingBottom: "calc(96px + env(safe-area-inset-bottom, 0px))" }}
+      >
         <section className="bg-[#f8f3ee]">
           <div className="md:hidden">
-            <div className="relative h-[70svh] min-h-[460px] w-full overflow-hidden">
+            <div className="relative h-[42svh] min-h-[340px] max-h-[430px] w-full overflow-hidden">
               <div
                 ref={mobileTrackRef}
                 onScroll={onTrackScroll}
@@ -334,17 +609,29 @@ export function ProductPdpPremiumMobile({
                 ))}
               </div>
 
-              <div className="absolute bottom-5 left-0 right-0 flex justify-center gap-2">
+              {/* WishlistButton: canto superior direito — touch target 44×44px */}
+              <div className="absolute right-3 top-3 z-10">
+                <GalleryWishlistButton productId={product.id} />
+              </div>
+
+              {/* Dots: área clicável 44×44px, indicador visual menor */}
+              <div className="absolute bottom-3 left-0 right-0 flex justify-center gap-0.5">
                 {gallery.map((item, index) => (
                   <button
                     key={`${item.url}-dot`}
                     type="button"
                     onClick={() => scrollToImage(index)}
-                    className={`h-1.5 rounded-full transition-all ${
-                      activeImageIndex === index ? "w-7 bg-black" : "w-2 bg-black/25"
-                    }`}
                     aria-label={`Ir para imagem ${index + 1}`}
-                  />
+                    className="flex h-11 w-11 items-center justify-center"
+                  >
+                    <span
+                      className={`block rounded-full transition-all duration-200 ${
+                        activeImageIndex === index
+                          ? "h-2 w-7 bg-black"
+                          : "h-1.5 w-1.5 bg-black/30"
+                      }`}
+                    />
+                  </button>
                 ))}
               </div>
             </div>
@@ -369,36 +656,95 @@ export function ProductPdpPremiumMobile({
                   <p className="text-[11px] font-medium uppercase tracking-[0.13em] text-black/54">
                     Em ate 6x de {installment} sem juros
                   </p>
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.13em] text-black/58">
+                    {availabilityCopy}
+                  </p>
                 </div>
 
-                <div className="space-y-3">
+                {/* ref para IntersectionObserver — CTA fixo some quando este está visível */}
+                <div ref={mainCtaRef} className="space-y-3">
                   <button
                     type="button"
                     onClick={() => handleBuyAction("cart")}
-                    disabled={pendingAction !== null}
+                    disabled={pendingAction !== null || !isPurchasable}
                     className="min-h-14 w-full bg-black px-6 text-[11px] font-semibold uppercase tracking-[0.22em] text-white transition hover:bg-black/90 disabled:opacity-60"
                   >
-                    {pendingAction === "cart" ? "Adicionando..." : "Adicionar a sacola"}
+                    {addToCartLabel}
                   </button>
-                  <button
-                    type="button"
-                    onClick={() => handleBuyAction("checkout")}
-                    disabled={pendingAction !== null}
-                    className="min-h-14 w-full border border-black bg-transparent px-6 text-[11px] font-semibold uppercase tracking-[0.22em] text-black transition hover:bg-black hover:text-white disabled:opacity-60"
-                  >
-                    {pendingAction === "checkout" ? "Redirecionando..." : "Comprar agora"}
-                  </button>
+                  {loteConfig ? (
+                    <>
+                      <LoteStatus
+                        produto_id={product.id}
+                        variante="pdp"
+                        onLoteEncerrado={() => setLoteEncerrado(true)}
+                      />
+                      <BuyButton
+                        lote_id={loteConfig.lote_id}
+                        produto_id={product.id}
+                        quantidade={1}
+                        disabled={loteEncerrado || !isPurchasable}
+                        className="min-h-14 w-full border border-black bg-transparent px-6 text-[11px] font-semibold uppercase tracking-[0.22em] text-black transition hover:bg-black hover:text-white disabled:opacity-60"
+                      />
+                    </>
+                  ) : (
+                    <button
+                      type="button"
+                      onClick={() => handleBuyAction("checkout")}
+                      disabled={pendingAction !== null || !isPurchasable}
+                      className="min-h-14 w-full border border-black bg-transparent px-6 text-[11px] font-semibold uppercase tracking-[0.22em] text-black transition hover:bg-black hover:text-white disabled:opacity-60"
+                    >
+                      {buyNowLabel}
+                    </button>
+                  )}
                 </div>
 
-                <p className="text-[11px] leading-[1.65] text-black/58">
-                  Vendido por parceiro verificado. Condicoes variam conforme seller.
-                </p>
+                <SaleOriginSummary
+                  compact
+                  sellerName={product.sellerName}
+                  sellerStatus={product.sellerStatus}
+                  saleOrigin={product.saleOrigin}
+                />
 
-                <ProofGrid />
+                <StandardsTrustBlock
+                  compact
+                  productStandard={productStandard}
+                  sellerStandard={sellerStandard}
+                />
+
+                <CommerceTrustMarkers compact />
+
+                <ConsultoraInlineEntry
+                  flow="routine"
+                  origin="pdp_inline"
+                  currentProductSlug={product.slug}
+                  title="Escolha com mais segurança"
+                  description="Se quiser, eu encaixo este produto em uma rotina simples ou completa e ainda sugiro um complemento coerente."
+                  ctaLabel="Receber orientação"
+                />
+
+                {/* Descrição expansível — máx 3 linhas por padrão */}
+                {product.description ? (
+                  <div className="space-y-2 border-t border-black/10 pt-5">
+                    <p
+                      className={`text-[0.94rem] leading-[1.66] text-black/70 ${
+                        descExpanded ? "" : "line-clamp-3"
+                      }`}
+                    >
+                      {product.description}
+                    </p>
+                    <button
+                      type="button"
+                      onClick={() => setDescExpanded((v) => !v)}
+                      className="min-h-[44px] text-[11px] font-semibold uppercase tracking-[0.14em] text-black underline-offset-2 hover:underline"
+                    >
+                      {descExpanded ? "Ler menos" : "Ler mais"}
+                    </button>
+                  </div>
+                ) : null}
 
                 <div className="space-y-3.5 border-t border-black/10 pt-6">
                   <p className="text-[11px] font-semibold uppercase tracking-[0.17em] text-black/70">
-                    Por que voce vai amar
+                    {brandSectionNames.product.whySelected}
                   </p>
                   <ul className="space-y-2">
                     {LOVE_POINTS.map((point) => (
@@ -472,36 +818,73 @@ export function ProductPdpPremiumMobile({
                   <p className="text-[11px] font-medium uppercase tracking-[0.13em] text-black/54">
                     Em ate 6x de {installment} sem juros
                   </p>
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.13em] text-black/58">
+                    {availabilityCopy}
+                  </p>
                 </div>
 
                 <div className="space-y-3">
                   <button
                     type="button"
                     onClick={() => handleBuyAction("cart")}
-                    disabled={pendingAction !== null}
+                    disabled={pendingAction !== null || !isPurchasable}
                     className="min-h-14 w-full bg-black px-6 text-[11px] font-semibold uppercase tracking-[0.22em] text-white transition hover:bg-black/90 disabled:opacity-60"
                   >
-                    {pendingAction === "cart" ? "Adicionando..." : "Adicionar a sacola"}
+                    {addToCartLabel}
                   </button>
-                  <button
-                    type="button"
-                    onClick={() => handleBuyAction("checkout")}
-                    disabled={pendingAction !== null}
-                    className="min-h-14 w-full border border-black bg-transparent px-6 text-[11px] font-semibold uppercase tracking-[0.22em] text-black transition hover:bg-black hover:text-white disabled:opacity-60"
-                  >
-                    {pendingAction === "checkout" ? "Redirecionando..." : "Comprar agora"}
-                  </button>
+                  {loteConfig ? (
+                    <>
+                      <LoteStatus
+                        produto_id={product.id}
+                        variante="pdp"
+                        onLoteEncerrado={() => setLoteEncerrado(true)}
+                      />
+                      <BuyButton
+                        lote_id={loteConfig.lote_id}
+                        produto_id={product.id}
+                        quantidade={1}
+                        disabled={loteEncerrado || !isPurchasable}
+                        className="min-h-14 w-full border border-black bg-transparent px-6 text-[11px] font-semibold uppercase tracking-[0.22em] text-black transition hover:bg-black hover:text-white disabled:opacity-60"
+                      />
+                    </>
+                  ) : (
+                    <button
+                      type="button"
+                      onClick={() => handleBuyAction("checkout")}
+                      disabled={pendingAction !== null || !isPurchasable}
+                      className="min-h-14 w-full border border-black bg-transparent px-6 text-[11px] font-semibold uppercase tracking-[0.22em] text-black transition hover:bg-black hover:text-white disabled:opacity-60"
+                    >
+                      {buyNowLabel}
+                    </button>
+                  )}
                 </div>
 
-                <p className="text-[11px] leading-[1.65] text-black/58">
-                  Vendido por parceiro verificado. Condicoes variam conforme seller.
-                </p>
+                <SaleOriginSummary
+                  compact
+                  sellerName={product.sellerName}
+                  sellerStatus={product.sellerStatus}
+                  saleOrigin={product.saleOrigin}
+                />
 
-                <ProofGrid />
+                <StandardsTrustBlock
+                  productStandard={productStandard}
+                  sellerStandard={sellerStandard}
+                />
+
+                <CommerceTrustMarkers compact />
+
+                <ConsultoraInlineEntry
+                  flow="routine"
+                  origin="pdp_inline"
+                  currentProductSlug={product.slug}
+                  title="Complete a rotina com inteligência"
+                  description="Eu uso este item como ponto de partida para sugerir os próximos passos com mais coerência e menos excesso."
+                  ctaLabel="Receber orientação"
+                />
 
                 <div className="space-y-3.5 border-t border-black/10 pt-6">
                   <p className="text-[11px] font-semibold uppercase tracking-[0.17em] text-black/70">
-                    Por que voce vai amar
+                    {brandSectionNames.product.whySelected}
                   </p>
                   <ul className="space-y-2">
                     {LOVE_POINTS.map((point) => (
@@ -525,7 +908,7 @@ export function ProductPdpPremiumMobile({
                   Recomendacao
                 </p>
                 <h2 className="mt-2 [font-family:var(--font-playfair)] text-[2.05rem] font-medium leading-[1.07] tracking-[-0.015em] text-black sm:text-[2.45rem]">
-                  Por que recomendamos para voce
+                  {brandSectionNames.product.forWho}
                 </h2>
                 <p className="mt-3 text-[0.95rem] leading-[1.62] text-black/64">
                   Analise de contexto para uma rotina com aplicacao simples e consistente.
@@ -575,7 +958,7 @@ export function ProductPdpPremiumMobile({
         <section className="bg-[#fcf9f8] px-5 py-14 md:px-8 md:py-20">
           <div className="mx-auto max-w-[980px]">
             <h2 className="text-center [font-family:var(--font-playfair)] text-[2rem] font-medium leading-[1.1] tracking-[-0.014em] text-black sm:text-[2.35rem]">
-              Como usar
+              {brandSectionNames.product.howToUse}
             </h2>
             <div className="mt-10 grid grid-cols-1 gap-8 md:grid-cols-3">
               {howToUse.map((step, index) => (
@@ -606,9 +989,19 @@ export function ProductPdpPremiumMobile({
               </div>
             </div>
 
+            {/* Mobile: 2 avaliações + botão bottom sheet; desktop: todas */}
             <div className="mt-8 grid grid-cols-1 gap-4 md:grid-cols-3">
-              {REVIEWS.map((review) => (
-                <article key={review.author} className="rounded-2xl border border-black/10 px-5 py-6">
+              {REVIEWS.slice(0, 2).map((review) => (
+                <article key={review.author} className="rounded-2xl border border-black/10 px-5 py-6 md:block">
+                  <p className="text-[0.94rem] leading-[1.66] text-black/70">&ldquo;{review.text}&rdquo;</p>
+                  <p className="mt-4 text-xs font-semibold uppercase tracking-[0.16em] text-black/65">
+                    {review.author}
+                  </p>
+                </article>
+              ))}
+              {/* Avaliação extra: oculta no mobile, visível no desktop */}
+              {REVIEWS.slice(2).map((review) => (
+                <article key={review.author} className="hidden rounded-2xl border border-black/10 px-5 py-6 md:block">
                   <p className="text-[0.94rem] leading-[1.66] text-black/70">&ldquo;{review.text}&rdquo;</p>
                   <p className="mt-4 text-xs font-semibold uppercase tracking-[0.16em] text-black/65">
                     {review.author}
@@ -616,6 +1009,16 @@ export function ProductPdpPremiumMobile({
                 </article>
               ))}
             </div>
+
+            {REVIEWS.length > 2 && (
+              <button
+                type="button"
+                onClick={() => setReviewsSheetOpen(true)}
+                className="mt-6 min-h-[44px] w-full border border-black/12 px-4 text-[11px] font-semibold uppercase tracking-[0.16em] text-black/70 transition hover:border-black/30 md:hidden"
+              >
+                {`Ver todas as ${REVIEWS.length} avaliações`}
+              </button>
+            )}
           </div>
         </section>
 
@@ -654,7 +1057,25 @@ export function ProductPdpPremiumMobile({
 
       <BelaPopValidatedFooter />
 
-      <div className="fixed inset-x-0 bottom-0 z-50 border-t border-black/10 bg-[#fcf9f8]/95 px-4 py-3 backdrop-blur md:hidden">
+      <ReviewsBottomSheet
+        open={reviewsSheetOpen}
+        onClose={() => setReviewsSheetOpen(false)}
+        reviews={REVIEWS}
+      />
+
+      {/* CTA fixo: visível apenas quando CTA principal sair do viewport */}
+      <div
+        aria-hidden={!fixedCtaVisible}
+        className={`fixed inset-x-0 bottom-0 z-50 border-t border-black/10 bg-[#fcf9f8]/95 px-4 backdrop-blur transition-[opacity,transform] duration-200 md:hidden ${
+          fixedCtaVisible
+            ? "translate-y-0 opacity-100"
+            : "pointer-events-none translate-y-2 opacity-0"
+        }`}
+        style={{
+          paddingTop: "12px",
+          paddingBottom: "calc(12px + env(safe-area-inset-bottom, 0px))",
+        }}
+      >
         <div className="flex items-center gap-3">
           <div className="min-w-[96px]">
             <p className="text-[10px] uppercase tracking-[0.18em] text-black/55">Total</p>
@@ -664,11 +1085,12 @@ export function ProductPdpPremiumMobile({
           </div>
           <button
             type="button"
+            tabIndex={fixedCtaVisible ? 0 : -1}
             onClick={() => handleBuyAction("cart")}
-            disabled={pendingAction !== null}
-            className="min-h-12 flex-1 bg-black px-4 text-[10px] font-semibold uppercase tracking-[0.2em] text-white transition hover:bg-black/90 disabled:opacity-60"
+            disabled={pendingAction !== null || !isPurchasable}
+            className="min-h-[52px] flex-1 bg-black px-4 text-[10px] font-semibold uppercase tracking-[0.2em] text-white transition hover:bg-black/90 disabled:opacity-60"
           >
-            {pendingAction === "cart" ? "Adicionando..." : "Adicionar a sacola"}
+            {addToCartLabel}
           </button>
         </div>
       </div>

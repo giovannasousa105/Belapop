@@ -72,7 +72,7 @@ const TREND_FALLBACK: DiscoveryEditorialCard[] = [
     href: "/catalogo?collection=skincare-coreano&sort=featured",
     eyebrow: "Tendencias globais",
     productCount: 4,
-    supportingLabel: "Inovacao cosmetica"
+    supportingLabel: "Inovacao cosmética"
   },
   {
     id: "trend-clean-beauty",
@@ -100,7 +100,7 @@ const TREND_FALLBACK: DiscoveryEditorialCard[] = [
     id: "trend-ritual-noturno",
     slug: "ritual-noturno-global",
     title: "Ritual noturno",
-    description: "O fim do dia como experiencia: textura, aroma e recuperacao em camadas.",
+    description: "O fim do dia como experiência: textura, aroma e recuperacao em camadas.",
     coverImage: "/editorial/ritual-noturno.svg",
     href: "/catalogo?collection=ritual-noturno-global&sort=featured",
     eyebrow: "Tendencias globais",
@@ -114,12 +114,12 @@ const CURATION_FALLBACK: DiscoveryEditorialCard[] = [
     id: "curation-bela-pop",
     slug: "curadoria-bela-pop",
     title: "Curadoria BelaPop",
-    description: "Selecao da editora com produtos que sustentam assinatura, textura e performance.",
+    description: "Seleção da editora com produtos que sustentam assinatura, textura e performance.",
     coverImage: "/editorial/brasilidades.svg",
     href: "/catalogo?collection=curadoria-bela-pop&sort=featured",
     eyebrow: "Curadoria BelaPop",
     productCount: 4,
-    supportingLabel: "Selecao da editora"
+    supportingLabel: "Seleção da editora"
   },
   {
     id: "curation-rituais-beleza-noturna",
@@ -136,12 +136,12 @@ const CURATION_FALLBACK: DiscoveryEditorialCard[] = [
     id: "curation-brasilidades",
     slug: "brasilidades-que-importam",
     title: "Brasilidades que importam",
-    description: "Selecao pensada para diversidade real: pele negra, cabelo crespo e alta pigmentacao.",
+    description: "Seleção pensada para diversidade real: pele negra, cabelo crespo e alta pigmentacao.",
     coverImage: "/editorial/brasilidades.svg",
     href: "/catalogo?tags=skin_tone_deep&tags=hair_crespo&tags=high_pigment&sort=featured",
     eyebrow: "Curadoria BelaPop",
     productCount: 4,
-    supportingLabel: "Selecao inclusiva"
+    supportingLabel: "Seleção inclusiva"
   }
 ];
 
@@ -172,12 +172,12 @@ const ORIGIN_FALLBACK: DiscoveryEditorialCard[] = [
     id: "origin-coreia",
     slug: "coreia",
     title: "Coreia",
-    description: "Inovacao cosmetica, camadas leves e rotina guiada por resultados.",
+    description: "Inovacao cosmética, camadas leves e rotina guiada por resultados.",
     coverImage: "/editorial/essencia-sensorial.svg",
     href: "/catalogo?origin=coreia&sort=featured",
     eyebrow: "Beleza pelo mundo",
     productCount: 3,
-    supportingLabel: "Inovacao cosmetica"
+    supportingLabel: "Inovacao cosmética"
   },
   {
     id: "origin-italia",
@@ -208,7 +208,7 @@ const INGREDIENT_FALLBACK: DiscoveryEditorialCard[] = [
     id: "ingredient-ceramidas",
     slug: "ceramidas",
     title: "Ceramidas",
-    description: "Reforco de barreira, hidratacao profunda e conforto para peles sensibilizadas.",
+    description: "Reforco de barreira, hidratação profunda e conforto para peles sensibilizadas.",
     coverImage: "/editorial/product-hero-skincare.svg",
     href: "/catalogo?ingredient=ceramidas&sort=featured",
     eyebrow: "Ingredientes raros",
@@ -224,13 +224,13 @@ const INGREDIENT_FALLBACK: DiscoveryEditorialCard[] = [
     href: "/catalogo?ingredient=acido-hialuronico&sort=featured",
     eyebrow: "Ingredientes raros",
     productCount: 1,
-    supportingLabel: "Hidratacao"
+    supportingLabel: "Hidratação"
   },
   {
     id: "ingredient-centella-asiatica",
     slug: "centella-asiatica",
     title: "Centella asiatica",
-    description: "Acalma, reduz sensibilizacao visual e melhora a experiencia de rotina.",
+    description: "Acalma, reduz sensibilizacao visual e melhora a experiência de rotina.",
     coverImage: "/editorial/product-hero-skincare.svg",
     href: "/catalogo?ingredient=centella-asiatica&sort=featured",
     eyebrow: "Ingredientes raros",
@@ -275,7 +275,7 @@ async function fetchCollectionCards(kind: "trend", limit: number): Promise<Disco
     id: item.id,
     slug: item.slug,
     title: item.title,
-    description: item.description ?? "Selecao editorial com leitura de tendencia e produtos ligados ao tema.",
+    description: item.description ?? "Seleção editorial com leitura de tendencia e produtos ligados ao tema.",
     coverImage: item.cover_image ?? "/editorial/presenca-diurna.svg",
     href: `/catalogo?collection=${encodeURIComponent(item.slug)}&sort=featured`,
     eyebrow: "Tendencias globais",
@@ -322,12 +322,12 @@ async function fetchCurationCards(limit: number): Promise<DiscoveryEditorialCard
     title: item.title,
     description:
       item.description ??
-      "Selecao da editora com produtos ligados por textura, performance e assinatura editorial.",
+      "Seleção da editora com produtos ligados por textura, performance e assinatura editorial.",
     coverImage: item.cover_image ?? "/editorial/brasilidades.svg",
     href: `/catalogo?collection=${encodeURIComponent(item.slug)}&sort=featured`,
     eyebrow: "Curadoria BelaPop",
     productCount: counts.get(item.id) ?? 0,
-    supportingLabel: "Selecao da editora"
+    supportingLabel: "Seleção da editora"
   }));
 }
 
@@ -364,7 +364,7 @@ async function fetchOriginCards(limit: number): Promise<DiscoveryEditorialCard[]
     id: item.id,
     slug: item.slug,
     title: item.name,
-    description: item.description ?? "Selecao editorial por escola cosmetica e origem cultural da formula.",
+    description: item.description ?? "Seleção editorial por escola cosmética e origem cultural da formula.",
     coverImage: item.cover_image ?? "/editorial/presenca-diurna.svg",
     href: `/catalogo?origin=${encodeURIComponent(item.slug)}&sort=featured`,
     eyebrow: "Beleza pelo mundo",

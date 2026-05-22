@@ -3,7 +3,7 @@ export type AdmRole =
   | "curadoria"
   | "financeiro"
   | "logistica"
-  | "operacao"
+  | "operação"
   | "catalogo_marca"
   | "suporte"
   | "leitura";

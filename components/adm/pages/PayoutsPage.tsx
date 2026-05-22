@@ -151,11 +151,11 @@ const sidebarLinks = [
   { label: "Dashboard", href: "/adm/dashboard-executivo", icon: LayoutDashboard },
   { label: "Curadoria", href: "/adm/curadoria/produtos", icon: Sparkles },
   { label: "Sellers", href: "/adm/parceiros", icon: Store },
-  { label: "Pedidos", href: "/adm/operacao/pedidos-criticos", icon: ShoppingBag },
-  { label: "Logística", href: "/adm/operacao/logistica", icon: Truck },
+  { label: "Pedidos", href: "/adm/operação/pedidos-criticos", icon: ShoppingBag },
+  { label: "Logística", href: "/adm/operação/logistica", icon: Truck },
   { label: "Risco", href: "/adm/financeiro/risco", icon: ShieldAlert },
   { label: "Financeiro", href: "/adm/financeiro/repasses", icon: Wallet, active: true },
-  { label: "Configurações", href: "/adm/gestao/configuracoes", icon: Settings }
+  { label: "Configurações", href: "/adm/gestao/configurações", icon: Settings }
 ];
 
 function resolveSelectedPayout(rows: PayoutRow[], filters: AdmFilters) {

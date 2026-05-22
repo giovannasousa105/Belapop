@@ -24,6 +24,6 @@ export async function resolveBelaCodeLandingCta(): Promise<BelaCodeLandingCta> {
 
   return {
     scanHref: "/login?tab=customer",
-    scanCtaLabel: "Ver experiencia"
+    scanCtaLabel: "Ver experiência"
   };
 }

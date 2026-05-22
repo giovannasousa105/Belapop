@@ -57,15 +57,15 @@ export default function ContaTrocasPage() {
   return (
     <div className="space-y-6 pb-8">
       <section className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
-        <p className="text-xs uppercase tracking-[0.3em] text-bpGraphite/60">Trocas e devolucoes</p>
-        <h1 className="mt-3 font-display text-4xl text-bpBlack">Self-service com transparencia</h1>
+        <p className="text-xs uppercase tracking-[0.3em] text-bpGraphite/60">Trocas e devoluções</p>
+        <h1 className="mt-3 font-display text-4xl text-bpBlack">Self-service com transparência</h1>
         <p className="mt-3 text-sm text-bpGraphite/75">
-          Escolha troca, estorno ou vale. O processo gera protocolo e segue com historico no painel.
+          Escolha troca, estorno ou vale. O processo gera protocolo e segue com histórico no painel.
         </p>
       </section>
 
       <section className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
-        <p className="text-sm font-semibold text-bpBlack">O que voce deseja resolver?</p>
+        <p className="text-sm font-semibold text-bpBlack">O que você deseja resolver?</p>
         <div className="mt-3 flex flex-wrap gap-2">
           {REASON_OPTIONS.map((item) => (
             <button

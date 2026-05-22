@@ -10,7 +10,7 @@ export const statusLabel = (status: string | null | undefined) => {
   const value = normalize(status);
   if (value.includes("paid") || value.includes("pag")) return "Pago";
   if (value.includes("separ") || value.includes("picking") || value.includes("awaiting_shipment")) {
-    return "Em separacao";
+    return "Em separação";
   }
   if (value.includes("ship") || value.includes("enviado") || value.includes("transit")) return "Enviado";
   if (value.includes("entreg") || value.includes("deliver") || value.includes("fulfilled")) return "Entregue";
@@ -22,7 +22,7 @@ export const statusLabel = (status: string | null | undefined) => {
 const statusIndex = (status: string | null | undefined) => {
   const label = statusLabel(status);
   if (label === "Pago") return 0;
-  if (label === "Em separacao") return 1;
+  if (label === "Em separação") return 1;
   if (label === "Enviado") return 3;
   if (label === "Entregue") return 4;
   if (label === "Cancelado" || label === "Reembolsado") return -1;

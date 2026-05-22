@@ -30,7 +30,7 @@ export async function GET(req: Request) {
         deprecated: true,
         source: "executive_dashboard_metrics",
         message:
-          "Este endpoint foi mantido apenas por compatibilidade. Use a camada executiva atual e nao dependa do payload legado simplificado.",
+          "Este endpoint foi mantido apenas por compatibilidade. Use a camada executiva atual e não dependa do payload legado simplificado.",
         range,
         data
       },

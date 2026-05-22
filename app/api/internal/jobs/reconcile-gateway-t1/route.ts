@@ -40,7 +40,7 @@ const parseCriticalDelta = (value: string | null) => {
 
 export async function POST(request: NextRequest) {
   if (!isInternalJobAuthorized(request)) {
-    return NextResponse.json({ error: "Nao autorizado para job interno." }, { status: 401 });
+    return NextResponse.json({ error: "Não autorizado para job interno." }, { status: 401 });
   }
 
   const admin = getSupabaseAdminClient();
@@ -64,7 +64,7 @@ export async function POST(request: NextRequest) {
       {
         error: runRecon.error.message,
         detail:
-          "Funcao run_gateway_reconciliation_t1 nao encontrada. Rode a migration 20260306_1400_risk_reconciliation_t1.sql."
+          "Funcao run_gateway_reconciliation_t1 não encontrada. Rode a migration 20260306_1400_risk_reconciliation_t1.sql."
       },
       { status: 500 }
     );
@@ -78,7 +78,7 @@ export async function POST(request: NextRequest) {
       {
         error: createAlerts.error.message,
         detail:
-          "Funcao create_finance_ops_alerts_from_reconciliation nao encontrada. Rode a migration 20260306_1400_risk_reconciliation_t1.sql."
+          "Funcao create_finance_ops_alerts_from_reconciliation não encontrada. Rode a migration 20260306_1400_risk_reconciliation_t1.sql."
       },
       { status: 500 }
     );
@@ -96,7 +96,7 @@ export async function POST(request: NextRequest) {
       {
         error: createCriticalProviderAlerts.error.message,
         detail:
-          "Funcao create_finance_ops_alerts_critical_provider_delta nao encontrada. Rode a migration 20260308_1500_risk_device_velocity_payout_release_recon_alerts.sql."
+          "Funcao create_finance_ops_alerts_critical_provider_delta não encontrada. Rode a migration 20260308_1500_risk_device_velocity_payout_release_recon_alerts.sql."
       },
       { status: 500 }
     );

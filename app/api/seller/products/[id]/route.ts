@@ -34,7 +34,7 @@ const buildUpdatePayload = (
   const priceValue = Number(payload.price ?? 0);
   const status: ProductStatus = validated.status;
   return {
-    name: (payload.name ?? "").toString().trim(),
+    name: validated.normalizedName,
     description: (payload.description ?? "").toString().trim(),
     category: payload.category ?? null,
     price_cents: Math.round(priceValue * 100),

@@ -146,7 +146,7 @@ const riskToneClass: Record<RiskLevel, string> = {
 
 const riskLabel: Record<RiskLevel, string> = {
   critical: "Critico",
-  warning: "Atencao",
+  warning: "Atenção",
   healthy: "Estavel"
 };
 
@@ -206,10 +206,10 @@ const buildNextAction = (
   riskScore: number
 ) => {
   if (normalizedStatus === "cancelled") return "Auditar motivo do cancelamento";
-  if (normalizedStatus === "delivered") return "Disparar pedido de avaliacao do cliente";
+  if (normalizedStatus === "delivered") return "Disparar pedido de avaliação do cliente";
   if (normalizedStatus === "shipped" && ageHours >= 120) return "Abrir tratativa com transportadora";
   if (normalizedStatus === "awaiting_shipment" || normalizedStatus === "processing") {
-    return riskScore >= 70 ? "Priorizar separacao e expedicao imediata" : "Confirmar janela de postagem";
+    return riskScore >= 70 ? "Priorizar separação e expedição imediata" : "Confirmar janela de postagem";
   }
   if (normalizedStatus === "created" || normalizedStatus === "paid") {
     return riskScore >= 70 ? "Validar pagamento/fraude com urgencia" : "Acompanhar confirmacao de pagamento";
@@ -268,7 +268,7 @@ const buildAiInsights = (orders: EnrichedOrder[]): AiInsight[] => {
         id: "empty",
         tone: "info",
         title: "Sem pedidos no recorte atual",
-        detail: "Assim que novos pedidos entrarem, o copiloto gera prioridades, riscos e proximas acoes."
+        detail: "Assim que novos pedidos entrarem, o copiloto gera prioridades, riscos e próximas acoes."
       }
     ];
   }
@@ -301,7 +301,7 @@ const buildAiInsights = (orders: EnrichedOrder[]): AiInsight[] => {
       id: "bottleneck",
       tone: bottleneck.count >= 6 ? "warning" : "info",
       title: `Gargalo principal: ${statusMeta[bottleneck.stage].label}`,
-      detail: `${bottleneck.count} pedidos nesta etapa. A recomendacao e concentrar equipe nessa fila nas proximas 2h.`
+      detail: `${bottleneck.count} pedidos nesta etapa. A recomendação e concentrar equipe nessa fila nas próximas 2h.`
     });
   }
 
@@ -310,7 +310,7 @@ const buildAiInsights = (orders: EnrichedOrder[]): AiInsight[] => {
       id: "critical-risk",
       tone: "critical",
       title: "Pedidos com risco critico detectados",
-      detail: `${criticalOrders} pedidos com score >= 70. Priorize verificacao de pagamento, separacao e transporte.`
+      detail: `${criticalOrders} pedidos com score >= 70. Priorize verificação de pagamento, separação e transporte.`
     });
   } else {
     insights.push({
@@ -334,7 +334,7 @@ const buildAiInsights = (orders: EnrichedOrder[]): AiInsight[] => {
     insights.push({
       id: "cancel-rate",
       tone: "warning",
-      title: "Taxa de cancelamento em atencao",
+      title: "Taxa de cancelamento em atenção",
       detail: `Cancelamento em ${cancelRate.toFixed(1)}% no recorte. Revisar causa-raiz em pagamento e fulfillment.`
     });
   }

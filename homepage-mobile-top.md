@@ -1,0 +1,291 @@
+- generic [active] [ref=e1] [box=0,0,384,16029]:
+  - generic [ref=e3] [box=0,0,384,16029]:
+    - banner [ref=e4] [box=0,0,384,78]:
+      - generic [ref=e793] [box=24,17,336,44]:
+        - button "Abrir menu" [ref=e795] [cursor=pointer] [box=24,17,44,44]:
+          - img [ref=e796] [box=36,29,20,20]
+        - link "BelaPop" [ref=e797] [cursor=pointer] [box=118,23,149,32]:
+          - /url: /
+        - generic [ref=e798] [box=256,17,104,44]:
+          - link "Favoritos" [ref=e799] [cursor=pointer] [box=256,17,44,44]:
+            - /url: /login?tab=customer&returnTo=%2Fconta%2Ffavoritos
+            - img [ref=e800] [box=269,30,19,19]
+          - link "Carrinho" [ref=e802] [cursor=pointer] [box=316,17,44,44]:
+            - /url: /carrinho
+            - img [ref=e803] [box=329,30,18,18]
+    - generic [box=0,0,384,844]:
+      - button [box=0,0,384,844]
+      - dialog [box=-384,0,384,844]:
+        - generic [box=-384,0,377,1121]:
+          - generic [box=-360,48,329,135]:
+            - generic [box=-360,48,329,64]
+            - generic [box=-300,144,210,39]
+          - navigation [box=-360,215,329,874]:
+            - generic [box=-360,215,329,214]
+            - generic [box=-360,449,329,266]
+            - generic [box=-360,735,329,214]
+            - generic [box=-360,969,329,120]
+        - contentinfo [box=-384,1121,377,116]:
+          - generic [box=-352,1153,313,15]:
+            - link [box=-352,1153,60,15]:
+              - /url: /contato
+            - link [box=-157,1153,118,15]:
+              - /url: /sobre
+          - generic [box=-352,1184,313,20]:
+            - generic [box=-352,1184,17,20]: PT
+            - generic [box=-319,1187,78,15]: Portugues (BR)
+    - generic [ref=e34] [box=0,0,384,14265]:
+      - generic [ref=e36] [box=0,0,384,1187]:
+        - generic "Mulher usando o Skin Scan BelaPop em uma cena editorial de skincare" [ref=e806] [box=0,0,384,683]
+        - generic [ref=e40] [box=24,707,336,456]:
+          - paragraph [ref=e41] [box=24,707,336,15]: Beauty tech curada
+          - heading "Seu skincare comeca por um diagnostico." [level=1] [ref=e42] [box=24,734,336,72]
+          - paragraph [ref=e43] [box=24,818,336,48]: Faca seu diagnostico BelaPop e descubra a rotina certa para sua pele.
+          - generic [ref=e44] [box=24,886,336,116]:
+            - link "Descobrir minha rotina" [ref=e45] [cursor=pointer] [box=24,886,336,52]:
+              - /url: /skin-scan
+            - link "Ver kits recomendados" [ref=e48] [cursor=pointer] [box=24,950,336,52]:
+              - /url: /kits
+          - paragraph [ref=e49] [box=24,1014,336,55]: ★★★★★ 4.9/5 • +12 mil rotinas montadas • Produtos coreanos originais
+          - list [ref=e50] [box=24,1085,336,78]:
+            - listitem [ref=e51] [box=24,1085,336,16]
+            - listitem [ref=e55] [box=24,1109,336,16]
+            - listitem [ref=e59] [box=24,1133,336,30]
+      - complementary [ref=e63] [box=0,1187,384,70]: Frete gratis acima de R$299 hoje • Kits selecionados com estoque limitado • Curadorias atualizadas semanalmente
+      - generic [ref=e65] [box=16,1285,352,357]:
+        - generic [ref=e66] [box=16,1285,352,80]:
+          - paragraph [ref=e67] [box=33,1302,319,15]: Rating medio
+          - paragraph [ref=e68] [box=33,1325,319,24]: 4.9/5
+        - generic [ref=e69] [box=16,1378,352,80]:
+          - paragraph [ref=e70] [box=33,1394,319,15]: Rotinas montadas
+          - paragraph [ref=e71] [box=33,1417,319,24]: +12 mil
+        - generic [ref=e72] [box=16,1470,352,80]:
+          - paragraph [ref=e73] [box=33,1487,319,15]: Produtos originais
+          - paragraph [ref=e74] [box=33,1510,319,24]: Coreia verificada
+        - generic [ref=e75] [box=16,1562,352,80]:
+          - paragraph [ref=e76] [box=33,1579,319,15]: Compra segura
+          - paragraph [ref=e77] [box=33,1602,319,24]: Rastreio ativo
+      - generic [ref=e79] [box=16,1751,352,902]:
+        - generic [ref=e80] [box=16,1751,352,265]:
+          - heading "Como funciona" [level=2] [ref=e81] [box=16,1751,352,39]
+          - generic [ref=e82] [box=16,1814,352,202]:
+            - paragraph [ref=e83] [box=16,1814,352,146]
+            - paragraph [ref=e87] [box=16,1976,352,40]: Sem excesso. Sem tentativa e erro.
+        - img "Imagem de apoio para leitura visual da pele" [ref=e90] [box=16,2072,352,469]
+        - link "Fazer SkinScan" [ref=e92] [cursor=pointer] [box=77,2589,229,64]:
+          - /url: /skin-scan
+          - text: Fazer SkinScan
+          - img [ref=e93] [box=259,2613,16,16]
+      - generic [ref=e96] [box=0,2797,384,824]:
+        - generic [ref=e98] [box=20,2797,344,338]:
+          - generic [ref=e99] [box=20,2797,344,166]:
+            - paragraph [ref=e100] [box=20,2797,344,15]: Explore por Universo
+            - heading "Descubra a BelaPop como uma curadoria viva." [level=2] [ref=e101] [box=20,2828,344,135]
+          - generic [ref=e102] [box=20,2983,344,152]:
+            - paragraph [ref=e103] [box=20,2983,344,84]: Entre por desejo, momento de pele ou intencao de presente. Cada universo conecta produtos, kits, rotinas e guias.
+            - link "Ver todos os universos" [ref=e104] [cursor=pointer] [box=20,3087,248,48]:
+              - /url: /universos
+        - generic [ref=e108] [box=0,3171,384,450]:
+          - link "Explorar universo Icones da Curadoria" [ref=e109] [cursor=pointer] [box=20,3171,328,430]:
+            - /url: /universos/icones-da-curadoria
+            - img "Composicao editorial de skincare premium BelaPop." [ref=e110] [box=21,3172,326,429]
+            - generic [ref=e112] [box=21,3257,326,344]
+          - link "Explorar universo Novos no Atelier" [ref=e124] [cursor=pointer] [box=364,3171,304,430]:
+            - /url: /universos/novos-no-atelier
+            - img "Vitrine premium com lancamentos e textura editorial." [ref=e125] [box=364,3172,303,429]
+            - generic [ref=e127] [box=364,3281,303,320]
+          - link "Explorar universo Clinical Luxury" [ref=e139] [cursor=pointer] [box=684,3171,304,430]:
+            - /url: /universos/clinical-luxury
+            - img "Pele em close com interface editorial de analise BelaPop." [ref=e140] [box=684,3172,303,429]
+            - generic [ref=e142] [box=684,3255,303,345]
+          - link "Explorar universo Presentes" [ref=e154] [cursor=pointer] [box=1004,3171,304,430]:
+            - /url: /universos/presentes
+            - img "Imagem editorial premium com luz quente para presentes." [ref=e155] [box=1005,3172,303,429]
+            - generic [ref=e157] [box=1005,3317,303,284]
+          - link "Explorar universo Pele Sensivel" [ref=e169] [cursor=pointer] [box=1324,3171,304,430]:
+            - /url: /universos/pele-sensivel
+            - img "Pele em close com luz suave e sensacao de acolhimento." [ref=e170] [box=1325,3172,303,429]
+            - generic [ref=e172] [box=1325,3293,303,308]
+          - link "Explorar universo Brasilidades Premium" [ref=e184] [cursor=pointer] [box=1644,3171,304,430]:
+            - /url: /universos/brasilidades-premium
+            - img "Vitrine editorial BelaPop com produtos premium." [ref=e185] [box=1645,3172,303,429]
+            - generic [ref=e187] [box=1645,3219,303,381]
+      - generic [ref=e200] [box=16,3749,352,1807]:
+        - generic [ref=e201] [box=16,3749,352,327]:
+          - generic [ref=e202] [box=16,3749,352,211]:
+            - paragraph [ref=e203] [box=16,3749,352,15]: Kits BelaPop
+            - heading "Kits pensados como rituais, nao como produtos soltos." [level=2] [ref=e204] [box=16,3780,352,104]
+            - paragraph [ref=e205] [box=16,3904,352,56]: Escolha por momento, necessidade ou intencao de cuidado. A BelaPop organiza a rotina para voce.
+          - generic [ref=e206] [box=16,3992,352,84]: Cada kit combina produtos que fazem sentido juntos, na ordem certa e com uma proposta clara para a sua pele.
+        - generic [ref=e207] [box=16,4108,352,1328]:
+          - article [ref=e208] [box=16,4108,320,1226]:
+            - generic [ref=e209] [box=17,4108,318,398]
+            - generic [ref=e220] [box=17,4507,318,827]
+          - article [ref=e269] [box=356,4108,320,1310]:
+            - generic [ref=e270] [box=356,4108,318,398]
+            - generic [ref=e281] [box=356,4507,318,911]
+          - article [ref=e335] [box=696,4108,320,1294]:
+            - generic [ref=e336] [box=696,4108,318,398]
+            - generic [ref=e346] [box=696,4507,318,895]
+        - generic [ref=e400] [box=16,5468,352,88]:
+          - link "Ver todos os kits" [ref=e401] [cursor=pointer] [box=16,5468,352,52]:
+            - /url: /kits
+            - text: Ver todos os kits
+            - img [ref=e402] [box=258,5486,16,16]
+          - generic [ref=e404] [box=16,5532,352,24]: Use filtros por objetivo e tipo de pele na pagina completa.
+      - generic [ref=e406] [box=16,5684,352,913]:
+        - generic [ref=e407] [box=16,5684,352,211]:
+          - paragraph [ref=e408] [box=16,5684,352,15]: Rotinas reais BelaPop
+          - heading "Clientes que trocaram busca infinita por uma rotina com contexto." [level=2] [ref=e409] [box=16,5715,352,180]
+        - generic [ref=e410] [box=16,5931,352,666]:
+          - article [ref=e411] [box=16,5931,352,211]:
+            - paragraph [ref=e412] [box=37,5952,311,15]: ★★★★★
+            - heading "Minha pele ficou mais uniforme em 14 dias" [level=3] [ref=e413] [box=37,5983,311,75]
+            - paragraph [ref=e414] [box=37,6074,311,48]: Rotina curta, com ordem clara e sem excesso de passos.
+          - article [ref=e415] [box=16,6158,352,211]:
+            - paragraph [ref=e416] [box=37,6179,311,15]: ★★★★★
+            - heading "Finalmente entendi o que comprar" [level=3] [ref=e417] [box=37,6210,311,75]
+            - paragraph [ref=e418] [box=37,6301,311,48]: A curadoria reduziu a indecisao entre produto solto e kit.
+          - article [ref=e419] [box=16,6386,352,211]:
+            - paragraph [ref=e420] [box=37,6406,311,15]: ★★★★★
+            - heading "A rotina veio pronta, sem confusao" [level=3] [ref=e421] [box=37,6437,311,75]
+            - paragraph [ref=e422] [box=37,6528,311,48]: Manha, noite e objetivo de uso ficaram visiveis antes da compra.
+      - generic [ref=e426] [box=37,6714,311,238]:
+        - generic [ref=e427] [box=37,6714,311,174]:
+          - paragraph [ref=e428] [box=37,6714,311,15]: Consultora BelaPop
+          - heading "Quer uma rotina guiada em 3 respostas?" [level=3] [ref=e429] [box=37,6737,311,67]
+          - paragraph [ref=e430] [box=37,6815,311,72]: A Consultora BelaPop conecta sua pele de hoje, seu objetivo e seu tempo de cuidado para sugerir um universo e uma rotina coerente.
+        - button "Descobrir minha rotina" [ref=e431] [cursor=pointer] [box=37,6903,311,48]
+      - generic [ref=e433] [box=16,7084,352,1051]:
+        - generic [ref=e434] [box=16,7593,352,542]:
+          - generic [ref=e435] [box=16,7593,352,92]:
+            - generic [ref=e436] [box=16,7593,352,15]: Produto em destaque
+            - heading "Novidades da curadoria" [level=2] [ref=e437] [box=16,7628,352,36]
+          - generic [ref=e439] [box=16,7717,352,418]:
+            - paragraph [ref=e440] [box=16,7717,352,15]: Serum Radiance 01
+            - paragraph [ref=e441] [box=16,7760,352,117]: “Cada produto disponivel na BelaPop passa por avaliacao de procedencia e formulacao.”
+            - paragraph [ref=e442] [box=16,7905,352,78]: Trabalhamos com sellers verificados e marcas com distribuicao oficial, com validacao de procedencia e consistencia.
+            - generic [ref=e443] [box=16,8011,352,124]
+        - img "Serum Radiance 01" [ref=e448] [box=16,7084,352,469]
+      - generic [ref=e452] [box=16,8295,352,2160]:
+        - generic [ref=e453] [box=16,8295,352,268]:
+          - generic [ref=e454] [box=16,8295,352,227]:
+            - generic [ref=e455] [box=16,8295,352,32]
+            - text: Decisao guiada
+            - heading "Marcas selecionadas" [level=3] [ref=e458] [box=16,8375,352,40]
+            - paragraph [ref=e459] [box=16,8431,352,91]: Selecionamos produtos com base em criterios tecnicos. A venda e realizada por parceiros aprovados dentro da plataforma. Voce compra com transparencia e acompanhamento.
+          - link "Ver seleção da BelaPop" [ref=e460] [cursor=pointer] [box=16,8542,196,21]:
+            - /url: /skincare
+        - generic [ref=e461] [box=16,8619,352,1836]:
+          - article [ref=e462] [box=16,8619,352,580]:
+            - link "Serum Radiance 01" [ref=e463] [cursor=pointer] [box=16,8619,352,469]:
+              - /url: /produto/serum-radiance-01
+            - heading "BelaPop" [level=4] [ref=e465] [box=16,9113,352,16]
+            - paragraph [ref=e466] [box=16,9137,352,23]: Serum Radiance 01
+            - text: R$ 289,00
+          - article [ref=e467] [box=16,9247,352,580]:
+            - link "Gel Limpeza Veludo" [ref=e468] [cursor=pointer] [box=16,9247,352,469]:
+              - /url: /produto/gel-limpeza-veludo
+            - heading "BelaPop" [level=4] [ref=e470] [box=16,9741,352,16]
+            - paragraph [ref=e471] [box=16,9765,352,23]: Gel Limpeza Veludo
+            - text: R$ 219,00
+          - article [ref=e472] [box=16,9875,352,580]:
+            - link "Protetor Solar Luz de Vela FPS 50" [ref=e473] [cursor=pointer] [box=16,9875,352,469]:
+              - /url: /produto/protetor-solar-luz-de-vela-fps50
+            - heading "BelaPop" [level=4] [ref=e475] [box=16,10369,352,16]
+            - paragraph [ref=e476] [box=16,10393,352,23]: Protetor Solar Luz de Vela FPS 50
+            - text: R$ 279,00
+      - generic [ref=e478] [box=16,10615,352,1429]:
+        - heading "Menos excesso. Mais precisao." [level=3] [ref=e479] [box=16,10615,352,80]
+        - generic [ref=e480] [box=16,10751,352,1293]:
+          - article [ref=e481] [box=16,10751,352,672]:
+            - generic [ref=e482] [box=40,10775,304,624]
+          - generic [ref=e490] [box=16,11455,352,590]:
+            - article [ref=e491] [box=16,11455,352,206]
+            - link "Pele em close com luz suave Uma interface de decisao em skincare." [ref=e494] [cursor=pointer] [box=16,11693,352,352]:
+              - /url: /skin-scan
+      - region "Sinais de confianca" [ref=e501] [box=16,12205,352,1571]:
+        - generic [ref=e502] [box=41,12229,303,202]:
+          - paragraph [ref=e503] [box=41,12229,303,15]: Sinais de confianca
+          - heading "Informacoes objetivas antes da compra" [level=2] [ref=e504] [box=41,12256,303,75]
+          - paragraph [ref=e505] [box=41,12347,303,84]: A BelaPop deixa visivel o que sustenta pagamento, envio, autenticidade, suporte e pos-venda.
+        - generic [ref=e506] [box=41,12463,303,1288]:
+          - article [ref=e507] [box=41,12463,303,201]:
+            - img [ref=e509] [box=73,12496,16,16]
+            - heading "Autenticidade visivel" [level=3] [ref=e512] [box=61,12540,261,24]
+            - paragraph [ref=e513] [box=61,12572,261,72]: Seller identificado, procedencia declarada e item original com controle de origem antes da compra.
+          - article [ref=e514] [box=41,12681,303,201]:
+            - img [ref=e516] [box=73,12713,16,16]
+            - heading "Curadoria BelaPop" [level=3] [ref=e518] [box=61,12757,261,24]
+            - paragraph [ref=e519] [box=61,12789,261,72]: A selecao editorial deixa claro por que o item entrou na vitrine e em qual contexto ele faz sentido.
+          - article [ref=e520] [box=41,12898,303,201]:
+            - img [ref=e522] [box=73,12931,16,16]
+            - heading "Envio com rastreio" [level=3] [ref=e527] [box=61,12975,261,24]
+            - paragraph [ref=e528] [box=61,13007,261,72]: Prazo consolidado no pedido e acompanhamento de rastreio assim que a expedicao e liberada.
+          - article [ref=e529] [box=41,13115,303,201]:
+            - img [ref=e531] [box=73,13148,16,16]
+            - heading "Troca facilitada" [level=3] [ref=e534] [box=61,13192,261,24]
+            - paragraph [ref=e535] [box=61,13224,261,72]: Fluxo de troca, devolucao ou estorno com protocolo, historico e acompanhamento no pos-venda.
+          - article [ref=e536] [box=41,13333,303,201]:
+            - img [ref=e538] [box=73,13365,16,16]
+            - heading "Atendimento concierge" [level=3] [ref=e541] [box=61,13409,261,24]
+            - paragraph [ref=e542] [box=61,13441,261,72]: Suporte humano e contextual para compra, pedido, entrega e pos-venda sem perder o historico.
+          - article [ref=e543] [box=41,13550,303,201]:
+            - img [ref=e545] [box=73,13583,16,16]
+            - heading "Pagamento seguro" [level=3] [ref=e547] [box=61,13627,261,24]
+            - paragraph [ref=e548] [box=61,13659,261,72]: Cobranca condicionada a validacao do backend, antifraude e meios realmente disponiveis para o pedido.
+      - generic [ref=e551] [box=16,13920,352,281]:
+        - generic [ref=e552] [box=41,13945,303,86]:
+          - heading "Entre para o circulo BelaPop" [level=4] [ref=e553] [box=41,13945,303,30]
+          - paragraph [ref=e554] [box=41,13983,303,48]: Receba drops exclusivos, acessos antecipados e rotinas privadas antes de viralizarem.
+        - generic [ref=e555] [box=41,14051,303,105]:
+          - generic [ref=e556] [box=40,14050,1,1]: E-mail
+          - textbox "E-mail" [ref=e557] [box=41,14051,303,48]:
+            - /placeholder: seu@email.com
+          - button "Entrar no circulo" [ref=e558] [cursor=pointer] [box=41,14111,303,45]
+    - contentinfo [ref=e559] [box=0,14265,384,1764]:
+      - generic [ref=e560] [box=16,14329,352,1486]:
+        - generic [ref=e561] [box=16,14329,352,772]:
+          - generic [ref=e562] [box=16,14329,352,28]: BelaPop
+          - paragraph [ref=e563] [box=16,14381,320,49]: Curadoria premium, seller identificado, pagamento sujeito a validacao e pos-venda com informacao clara.
+          - generic [ref=e564] [box=16,14453,352,648]:
+            - paragraph [ref=e565] [box=37,14474,311,15]: Identificacao da BelaPop
+            - generic [ref=e566] [box=37,14505,311,402]
+            - generic [ref=e589] [box=37,14927,311,153]: A BelaPop atua como plataforma de curadoria e venda. Quando um seller parceiro participar do pedido, a identificacao fica visivel antes da conclusao da compra.
+        - generic [ref=e590] [box=16,15141,352,143]:
+          - heading "Institucional" [level=5] [ref=e591] [box=16,15141,352,15]
+          - list [ref=e592] [box=16,15180,352,104]:
+            - listitem [ref=e593] [box=16,15180,352,24]
+            - listitem [ref=e595] [box=16,15220,352,24]
+            - listitem [ref=e597] [box=16,15260,352,24]
+        - generic [ref=e599] [box=16,15324,352,263]:
+          - heading "Legal" [level=5] [ref=e600] [box=16,15324,352,15]
+          - list [ref=e601] [box=16,15363,352,224]:
+            - listitem [ref=e602] [box=16,15363,352,24]
+            - listitem [ref=e604] [box=16,15403,352,24]
+            - listitem [ref=e606] [box=16,15443,352,24]
+            - listitem [ref=e608] [box=16,15483,352,24]
+            - listitem [ref=e610] [box=16,15523,352,24]
+            - listitem [ref=e612] [box=16,15563,352,24]
+        - generic [ref=e614] [box=16,15627,352,188]:
+          - heading "Presenca digital" [level=5] [ref=e615] [box=16,15627,352,15]
+          - generic [ref=e616] [box=16,15666,352,77]:
+            - link "Instagram" [ref=e617] [cursor=pointer] [box=16,15666,352,15]:
+              - /url: https://instagram.com/belapop.oficial
+            - link "TikTok" [ref=e618] [cursor=pointer] [box=16,15697,352,15]:
+              - /url: https://tiktok.com/@belapop.oficial
+            - link "Facebook" [ref=e619] [cursor=pointer] [box=16,15728,352,15]:
+              - /url: https://facebook.com/belapopoficial
+          - paragraph [ref=e620] [box=16,15767,352,48]: A BelaPop informa o seller responsavel antes da compra. Marcas exibidas nao se tornam vendedoras automaticamente.
+      - paragraph [ref=e622] [box=16,15920,352,45]: © 2026 BelaPop. Dados operacionais e politicas podem ser atualizados conforme validacao juridica e operacional.
+  - button "Abrir Consultora BelaPop" [box=16,780,352,48]:
+    - generic [box=33,786,194,36]:
+      - generic [box=33,786,36,36]:
+        - img [box=43,796,16,16]
+      - generic [box=81,788,146,32]:
+        - generic [box=81,788,146,17]: Precisa de ajuda?
+        - generic [box=81,805,146,15]: Rotina, presente ou recompra
+    - img [box=335,796,16,16]
+  - button "Open Next.js Dev Tools" [ref=e628] [cursor=pointer] [box=22,790,32,32]:
+    - img [ref=e629] [box=22,786,40,40]
+  - alert [ref=e632] [box=-1,16028,1,1]

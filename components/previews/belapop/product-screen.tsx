@@ -42,7 +42,7 @@ export function ProductPreviewScreen({
   const gallery = product?.gallery?.map((item) => item.url).filter(Boolean) ?? [];
   const heroImages = [...gallery, ...sampleGallery].slice(0, 3);
   const cartHref = getBelapopHref(mode, "cart");
-  const diagnosticHref = getBelapopHref(mode, "diagnostico");
+  const diagnosticHref = getBelapopHref(mode, "diagnóstico");
   const productTitle = product?.title ?? "Soro Regenerador Orquidea Imperial";
   const productBrand = product?.brand ?? "Orquidea Imperial";
   const priceLabel = product ? formatCurrency.format(product.price) : "R$ 1.280,00";
@@ -55,7 +55,7 @@ export function ProductPreviewScreen({
   const sensationList =
     product?.sensation?.slice(0, 3) ?? ["Sensorial elegante", "Toque uniforme", "Camada confortavel"];
   const resultList =
-    product?.result?.slice(0, 3) ?? ["Suporte para rotina de hidratacao", "Uso continuo", "Acabamento luminoso"];
+    product?.result?.slice(0, 3) ?? ["Suporte para rotina de hidratação", "Uso continuo", "Acabamento luminoso"];
   const howToUse =
     product?.howToUse?.slice(0, 3) ?? [
       "Aplique sobre pele limpa e seca.",
@@ -66,8 +66,8 @@ export function ProductPreviewScreen({
   const purchaseFacts = [
     "Vendido por BelaPop.",
     "Prazo estimado informado apos confirmacao do pagamento.",
-    "Pedido sujeito a validacao antifraude e disponibilidade operacional.",
-    "Politica de reembolso e devolucao acessivel antes da compra."
+    "Pedido sujeito a validação antifraude e disponibilidade operacional.",
+    "Política de reembolso e devolucao acessivel antes da compra."
   ];
 
   return (
@@ -289,13 +289,13 @@ export function ProductPreviewScreen({
           <div className="mx-auto max-w-screen-2xl">
             <CommerceAssuranceStrip
               title="O que a BelaPop deixa claro nesta pagina"
-              description="Seller, pagamento, prazo, pos-venda e suporte aparecem de forma concreta antes da decisao de compra."
+              description="Seller, pagamento, prazo, pos-venda e suporte aparecem de forma concreta antes da decisão de compra."
             />
 
             <TrustSignals
               className="mt-6"
               title="Confianca operacional para a compra"
-              description="Os sinais abaixo reforcam o que o cliente encontra nesta jornada: seller identificado, politica visivel, suporte e pos-venda rastreavel."
+              description="Os sinais abaixo reforcam o que o cliente encontra nesta jornada: seller identificado, política visivel, suporte e pos-venda rastreavel."
             />
           </div>
         </section>

@@ -8,6 +8,7 @@ import { useRef } from "react";
 import { AtelierCategoryBottomNav } from "@/components/atelier/AtelierCategoryBottomNav";
 import { BelaPopValidatedFooter } from "@/components/luxury/BelaPopValidatedFooter";
 import { BelaPopValidatedHeader } from "@/components/luxury/BelaPopValidatedHeader";
+import { brandCtas } from "@/lib/brand/ctas";
 
 type MakeupProduct = {
   aiBadge?: boolean;
@@ -22,7 +23,7 @@ const heroImage =
 
 const hotProducts = [
   {
-    badge: "Edicao Limitada",
+    badge: "Edição Limitada",
     image:
       "https://lh3.googleusercontent.com/aida-public/AB6AXuCL1FedBM7-ANqBOvlQZtLUC8pb4EmG4iVvnkFfKOgi2FE67SJLXNyjX-brn2HnWxXymxhL3Q5qXOI7CmAwDNi8GMcaWmhq0OjknhrnnYfQ8JhZ9gw_Y2jE74LmPCPu3vsS5WbhBDMZ0FROomTcrJDmzPxC8UGmqC_d1phWp5zBsLLBO3cVzQEo37yHD7ZPlJje4pMdIgiJml6Cotbs_wi42gcNgJtFgQIch9F7YC-McbSFM6O8IUcQfR2hLBiJsz32-NCphE6Dynr1",
     name: "Velvet Noir Lipstick",
@@ -130,7 +131,12 @@ const makeupProducts: MakeupProduct[] = [
   }
 ];
 
-const filterChips = ["Tudo", "Labios", "Pele", "Olhos"] as const;
+const filterChips = [
+  { label: "Tudo", href: "/catalogo?categoria=maquiagem" },
+  { label: "Labios", href: "/catalogo?categoria=maquiagem&tags=labios" },
+  { label: "Pele", href: "/catalogo?categoria=maquiagem&tags=pele" },
+  { label: "Olhos", href: "/catalogo?categoria=maquiagem&tags=olhos" }
+] as const;
 
 const MAKEUP_PRODUCT_SLUGS = [
   "mascara-lumiere",
@@ -160,7 +166,7 @@ export function MakeupAtelierExperience() {
     <div className="bg-[#fcf9f8] text-[#1c1b1b]" data-belapop-page="makeup-public">
       <BelaPopValidatedHeader activeSection="maquiagem" />
 
-      <main className="pb-24 pt-16 lg:pb-0">
+      <main className="pb-24 pt-[78px] lg:pb-0 lg:pt-[86px]">
         <section className="relative flex h-[44rem] w-full flex-col justify-end overflow-hidden bg-[#f6f3f2] lg:h-[52rem]">
           <img
             alt="Editorial de maquiagem"
@@ -216,7 +222,7 @@ export function MakeupAtelierExperience() {
                 </button>
                 <button
                   type="button"
-                  aria-label="Proximos produtos"
+                  aria-label="Próximos produtos"
                   className="flex h-10 w-10 items-center justify-center bg-black text-white"
                   onClick={() => scrollHotProducts("right")}
                 >
@@ -243,7 +249,7 @@ export function MakeupAtelierExperience() {
                     href={resolveMakeupProductHref(index)}
                     className="mt-5 inline-flex min-h-12 w-full items-center justify-center bg-black px-5 text-xs font-semibold uppercase tracking-[0.22em] text-white transition hover:bg-[#ed93d5]"
                   >
-                    Adicionar a sacola
+                    {brandCtas.secondary.seeDetails}
                   </Link>
                 </article>
               ))}
@@ -260,7 +266,7 @@ export function MakeupAtelierExperience() {
               </button>
               <button
                 type="button"
-                aria-label="Proximos produtos"
+                aria-label="Próximos produtos"
                 className="flex h-10 w-10 items-center justify-center bg-black text-white"
                 onClick={() => scrollHotProducts("right")}
               >
@@ -274,22 +280,22 @@ export function MakeupAtelierExperience() {
           <div className="mx-auto flex max-w-7xl items-center justify-between gap-4">
             <div className="flex gap-2 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
               {filterChips.map((chip, index) => (
-                <button
-                  key={chip}
-                  type="button"
+                <Link
+                  key={chip.label}
+                  href={chip.href}
                   className={`whitespace-nowrap px-4 py-2 text-xs font-bold uppercase tracking-[0.18em] ${
                     index === 0
                       ? "bg-black text-white"
                       : "border border-black/15 bg-white text-black"
                   }`}
                 >
-                  {chip}
-                </button>
+                  {chip.label}
+                </Link>
               ))}
             </div>
-            <button type="button" aria-label="Filtros" className="shrink-0">
+            <Link href="/catalogo?categoria=maquiagem" aria-label="Filtros" className="shrink-0">
               <SlidersHorizontal className="h-4 w-4" />
-            </button>
+            </Link>
           </div>
         </section>
 
@@ -324,7 +330,7 @@ export function MakeupAtelierExperience() {
                 href="/catalogo?categoria=maquiagem"
                 className="inline-flex min-h-12 items-center justify-center border border-black px-8 text-xs font-bold uppercase tracking-[0.24em] transition hover:bg-black hover:text-white"
               >
-                Carregar Mais
+                Ver linha completa
               </Link>
             </div>
           </div>

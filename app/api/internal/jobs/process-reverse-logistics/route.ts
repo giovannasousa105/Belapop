@@ -18,7 +18,7 @@ const toNumber = (value: unknown) => {
 
 export async function POST(request: NextRequest) {
   if (!isInternalJobAuthorized(request)) {
-    return NextResponse.json({ error: "Nao autorizado para job interno." }, { status: 401 });
+    return NextResponse.json({ error: "Não autorizado para job interno." }, { status: 401 });
   }
 
   const admin = getSupabaseAdminClient();
@@ -30,7 +30,7 @@ export async function POST(request: NextRequest) {
       {
         error: refresh.error.message,
         detail:
-          "Funcao refresh_logistics_exceptions nao encontrada. Rode a migration 20260306_1500_ops_reverse_sre_ranking_ab.sql."
+          "Funcao refresh_logistics_exceptions não encontrada. Rode a migration 20260306_1500_ops_reverse_sre_ranking_ab.sql."
       },
       { status: 500 }
     );
@@ -42,7 +42,7 @@ export async function POST(request: NextRequest) {
       {
         error: escalate.error.message,
         detail:
-          "Funcao escalate_logistics_exceptions nao encontrada. Rode a migration 20260306_1500_ops_reverse_sre_ranking_ab.sql."
+          "Funcao escalate_logistics_exceptions não encontrada. Rode a migration 20260306_1500_ops_reverse_sre_ranking_ab.sql."
       },
       { status: 500 }
     );
@@ -56,7 +56,7 @@ export async function POST(request: NextRequest) {
       {
         error: upsertAlerts.error.message,
         detail:
-          "Funcao create_finance_ops_alerts_from_logistics_exceptions nao encontrada. Rode a migration 20260306_1500_ops_reverse_sre_ranking_ab.sql."
+          "Funcao create_finance_ops_alerts_from_logistics_exceptions não encontrada. Rode a migration 20260306_1500_ops_reverse_sre_ranking_ab.sql."
       },
       { status: 500 }
     );

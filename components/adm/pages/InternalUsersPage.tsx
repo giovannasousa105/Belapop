@@ -34,7 +34,7 @@ export async function InternalUsersPage({ filters }: InternalUsersPageProps) {
     return (
       <ErrorState
         title="Falha ao carregar usuarios internos"
-        description={listResult.error?.message ?? "Nao foi possivel carregar usuarios internos."}
+        description={listResult.error?.message ?? "Não foi possivel carregar usuarios internos."}
       />
     );
   }
@@ -64,7 +64,7 @@ export async function InternalUsersPage({ filters }: InternalUsersPageProps) {
       ) : rows.length === 0 ? (
         <EmptyState
           title="Nenhum usuario interno encontrado"
-          description="Nao ha usuarios internos cadastrados neste recorte."
+          description="Não ha usuarios internos cadastrados neste recorte."
         />
       ) : (
         <AdminTable

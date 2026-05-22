@@ -4,8 +4,8 @@ export default function AdmNotFoundPage() {
   return (
     <AccessDenied
       eyebrow="Rota interna"
-      title="Pagina do ADM nao encontrada"
-      description="A rota solicitada nao existe nesta estrutura administrativa ou ainda nao foi disponibilizada para este fluxo."
+      title="Pagina do ADM não encontrada"
+      description="A rota solicitada não existe nesta estrutura administrativa ou ainda não foi disponibilizada para este fluxo."
       actionHref="/adm"
       actionLabel="Voltar ao hub"
     />

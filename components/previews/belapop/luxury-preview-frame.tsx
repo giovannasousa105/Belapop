@@ -69,7 +69,7 @@ export function LuxuryPreviewFrame({
             <Link
               href={getBelapopHref(mode, "cart")}
               className="inline-flex h-12 w-12 items-center justify-center rounded-full border border-white/15 text-white transition-colors hover:text-gray-300"
-              aria-label="Abrir sacola"
+              aria-label="Abrir carrinho"
             >
               <ShoppingBag className="h-5 w-5" />
             </Link>
@@ -146,7 +146,7 @@ export function LuxuryPreviewFrame({
             <Link
               href={getBelapopHref(mode, "cart")}
               className="inline-flex h-11 w-11 items-center justify-center transition-colors hover:text-gray-300"
-              aria-label="Sacola"
+              aria-label="Carrinho"
             >
               <ShoppingBag className="h-5 w-5" />
             </Link>
@@ -223,7 +223,7 @@ export function LuxuryPreviewFrame({
                 className={`${previewSecondaryButtonClass} px-4`}
               >
                 <ShoppingBag className="h-4 w-4" />
-                Sacola
+                Carrinho
               </Link>
             </div>
 

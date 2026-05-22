@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 /* eslint-disable @next/next/no-img-element */
 
@@ -8,6 +8,7 @@ import { CheckCircle2, Lock, Minus, Plus, ShieldCheck, Truck, X } from "lucide-r
 import { useMemo, useState } from "react";
 
 import { CurationFlowHeader, type CurationHeaderItem } from "@/components/curation-flow/CurationFlowHeader";
+import { BelaPopValidatedFooter } from "@/components/luxury/BelaPopValidatedFooter";
 import { PurchaseTrustSummary } from "@/components/legal/PurchaseTrustSummary";
 import { useCart } from "@/lib/CartContext";
 import { useStoredProducts } from "@/lib/hooks/useStoredProducts";
@@ -171,14 +172,14 @@ export function CurationCartExperience() {
         logoPosition="left"
         primaryItems={primaryItems}
         secondaryItems={secondaryItems}
-        mobileCtaHref="/skin-scan/diagnostico"
+        mobileCtaHref="/skin-scan/diagnóstico"
         mobileCtaLabel="Voltar ao Skin Scan"
       />
 
       <main className="mx-auto min-h-screen max-w-screen-2xl px-4 pb-16 pt-24 sm:px-6 lg:px-8 lg:pb-24 lg:pt-32">
         <div className="mb-12 max-w-3xl lg:mb-16">
           <h1 className="font-editorial text-4xl font-bold tracking-[-0.06em] sm:text-5xl lg:text-7xl">
-            Sua Sacola
+            Seu Carrinho
           </h1>
           <p className="mt-4 text-base italic leading-7 text-[#444748] sm:text-lg">
             &ldquo;Sua curadoria de luxo esta pronta para ser enviada.&rdquo;
@@ -276,7 +277,7 @@ export function CurationCartExperience() {
                     <ShoppingBagIcon />
                   </div>
                   <div>
-                    <h2 className="font-editorial text-3xl font-bold">Sacola vazia</h2>
+                    <h2 className="font-editorial text-3xl font-bold">Carrinho vazio</h2>
                     <p className="mt-3 max-w-xl text-sm leading-7 text-[#444748]">
                       Sua selecao foi removida. Continue explorando para montar uma nova curadoria
                       premium com foco em textura, ritual e performance.
@@ -355,67 +356,7 @@ export function CurationCartExperience() {
         </div>
       </main>
 
-      <footer className="mt-24 bg-black px-6 py-16 text-white sm:px-8 lg:px-12 lg:py-20">
-        <div className="mx-auto flex max-w-screen-2xl flex-col items-start gap-12 md:flex-row md:justify-between">
-          <div className="max-w-xs space-y-6">
-            <span className="font-editorial text-xl">BelaPop</span>
-            <p className="text-xs tracking-wider text-white/60">
-              Elevando a beleza ao estado de arte digital. Curadoria seleta para o olhar
-              contemporaneo.
-            </p>
-          </div>
-
-          <div className="max-w-sm space-y-2 text-xs leading-6 text-white/60">
-            <p>63.945.608 GIOVANNA DE SOUSA FERREIRA SANTOS</p>
-            <p>CNPJ 63.945.608/0001-09</p>
-            <p>Rua Coromandel, 189, Bairro Amorim, Araguari/MG, CEP 38446-093</p>
-            <p className="uppercase tracking-[0.16em] text-white/45">
-              E-mail institucional e canal de privacidade pendentes de validacao operacional.
-            </p>
-          </div>
-
-          <div className="flex flex-col gap-12 md:flex-row md:gap-24">
-            <div className="space-y-4">
-              <h5 className="text-xs font-bold uppercase tracking-[0.22em] text-[#ed93d5]">
-                Explorar
-              </h5>
-              <div className="space-y-2 text-xs uppercase tracking-[0.18em] text-white/60">
-                <Link className="block transition-colors hover:text-[#ed93d5]" href="/aviso-de-privacidade">
-                  Privacidade
-                </Link>
-                <Link className="block transition-colors hover:text-[#ed93d5]" href="/termos-e-condicoes">
-                  Termos de Uso
-                </Link>
-              </div>
-            </div>
-
-            <div className="space-y-4">
-              <h5 className="text-xs font-bold uppercase tracking-[0.22em] text-[#ed93d5]">
-                Atendimento
-              </h5>
-              <div className="space-y-2 text-xs uppercase tracking-[0.18em] text-white/60">
-                <Link className="block transition-colors hover:text-[#ed93d5]" href="/seguranca">
-                  Sustentabilidade
-                </Link>
-                <Link className="block transition-colors hover:text-[#ed93d5]" href="/rastreio">
-                  Rastreio
-                </Link>
-                <Link className="block transition-colors hover:text-[#ed93d5]" href="/contato">
-                  Contato
-                </Link>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="mx-auto mt-12 flex max-w-screen-2xl flex-col items-start justify-between gap-6 border-t border-white/10 pt-8 text-xs uppercase tracking-[0.18em] text-white/60 md:flex-row md:items-center">
-          <p>© 2024 BelaPop Atelie Digital. Todos os direitos reservados.</p>
-          <div className="flex gap-6">
-            <span className="transition-colors hover:text-white">Public</span>
-            <span className="transition-colors hover:text-white">Hub</span>
-          </div>
-        </div>
-      </footer>
+      <BelaPopValidatedFooter />
     </div>
   );
 }

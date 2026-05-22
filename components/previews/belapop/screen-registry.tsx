@@ -1,3 +1,5 @@
+import { Suspense } from "react";
+
 import { AtelierPreviewScreen } from "./atelier-screen";
 import { CartPreviewScreen } from "./cart-screen";
 import { CheckoutPreviewScreen } from "./checkout-screen";
@@ -40,7 +42,7 @@ export function PreviewScreenRenderer({ slug }: { slug: PreviewScreenSlug }) {
     return <ScanScreenTwo />;
   }
 
-  if (slug === "diagnostico") {
+  if (slug === "diagnóstico") {
     return <DiagnosticPreviewScreen />;
   }
 
@@ -53,7 +55,11 @@ export function PreviewScreenRenderer({ slug }: { slug: PreviewScreenSlug }) {
   }
 
   if (slug === "login") {
-    return <LoginPreviewScreen />;
+    return (
+      <Suspense fallback={null}>
+        <LoginPreviewScreen />
+      </Suspense>
+    );
   }
 
   if (slug === "pedido") {

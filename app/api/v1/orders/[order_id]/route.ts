@@ -27,7 +27,7 @@ export async function GET(
   ]);
 
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });
-  if (!data) return NextResponse.json({ error: "Pedido nao encontrado." }, { status: 404 });
+  if (!data) return NextResponse.json({ error: "Pedido não encontrado." }, { status: 404 });
 
   const order = data as OrderRow;
   const { subOrders, sellers } = await loadSubOrdersWithSellers(admin, [order.id]);

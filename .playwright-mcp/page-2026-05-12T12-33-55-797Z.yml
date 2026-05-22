@@ -1,0 +1,128 @@
+- generic [ref=e1]:
+  - generic [ref=e287]:
+    - banner [ref=e288]:
+      - generic [ref=e289]:
+        - generic [ref=e290]:
+          - link "BelaPop" [ref=e291] [cursor=pointer]:
+            - /url: /
+            - img "BelaPop" [ref=e292]
+          - navigation [ref=e293]:
+            - link "Skincare" [ref=e294] [cursor=pointer]:
+              - /url: /skincare
+            - link "Maquiagem" [ref=e295] [cursor=pointer]:
+              - /url: /maquiagem
+            - link "Cabelos" [ref=e296] [cursor=pointer]:
+              - /url: /cabelos
+            - link "Perfumes" [ref=e297] [cursor=pointer]:
+              - /url: /perfumes
+            - link "Skin Scan Bela" [ref=e298] [cursor=pointer]:
+              - /url: /skin-scan
+        - generic [ref=e299]:
+          - link "POPCLUB" [ref=e300] [cursor=pointer]:
+            - /url: /popclub
+            - img [ref=e301]
+            - generic [ref=e303]: POPCLUB
+          - button "FAVORITOS" [ref=e304] [cursor=pointer]:
+            - img [ref=e305]
+            - generic [ref=e307]: FAVORITOS
+          - button "Buscar" [ref=e308] [cursor=pointer]:
+            - img [ref=e309]
+          - button "Conta" [ref=e312] [cursor=pointer]:
+            - img [ref=e313]
+          - button "Sacola" [ref=e316] [cursor=pointer]:
+            - img [ref=e317]
+    - main [ref=e320]:
+      - generic [ref=e321]:
+        - generic [ref=e322]: Sacola
+        - generic [ref=e323]: •
+        - generic [ref=e324]: Identificacao
+        - generic [ref=e325]: •
+        - generic [ref=e326]: Pagamento
+      - generic [ref=e327]:
+        - generic [ref=e328]:
+          - generic [ref=e329]:
+            - heading "Sua Curadoria" [level=1] [ref=e330]
+            - paragraph [ref=e331]: Itens selecionados para a sua rotina de cuidado.
+          - article [ref=e333]:
+            - generic [ref=e334]:
+              - img "Serum Radiance 01" [ref=e336]
+              - generic [ref=e337]:
+                - generic [ref=e338]:
+                  - generic [ref=e339]:
+                    - heading "Serum Radiance 01" [level=2] [ref=e340]
+                    - button "Remover item" [ref=e341] [cursor=pointer]:
+                      - img [ref=e342]
+                  - paragraph [ref=e345]: Skincare • 300g
+                - generic [ref=e346]:
+                  - generic [ref=e347]:
+                    - button "Diminuir quantidade" [ref=e348] [cursor=pointer]:
+                      - img [ref=e349]
+                    - generic [ref=e350]: "3"
+                    - button "Aumentar quantidade" [active] [ref=e351] [cursor=pointer]:
+                      - img [ref=e352]
+                  - paragraph [ref=e353]: R$ 867,00
+          - generic [ref=e354]:
+            - heading "PopClub Rewards" [level=3] [ref=e355]
+            - paragraph [ref=e356]: Faca login para acumular pontos na compra e liberar beneficios exclusivos.
+            - button "Acessar conta" [ref=e357] [cursor=pointer]
+          - generic [ref=e358]:
+            - generic [ref=e359]:
+              - img [ref=e360]
+              - generic [ref=e363]: Ambiente seguro
+            - generic [ref=e364]:
+              - img [ref=e365]
+              - generic [ref=e370]: Logistica premium
+            - generic [ref=e371]:
+              - img [ref=e372]
+              - generic [ref=e375]: Pagamento seguro
+        - complementary [ref=e376]:
+          - generic [ref=e377]:
+            - heading "Resumo do pedido" [level=2] [ref=e378]
+            - generic [ref=e379]:
+              - generic [ref=e380]:
+                - generic [ref=e381]: Subtotal
+                - generic [ref=e382]: R$ 867,00
+              - generic [ref=e383]:
+                - generic [ref=e384]: Frete
+                - generic [ref=e385]: Gratis
+            - generic [ref=e387]:
+              - generic [ref=e388]: Total
+              - generic [ref=e389]: R$ 867,00
+            - button "Finalizar curadoria com seguranca" [ref=e390] [cursor=pointer]
+            - paragraph [ref=e391]: Ao continuar, voce confirma os termos da plataforma e condicoes do seller.
+    - contentinfo [ref=e392]:
+      - generic [ref=e393]:
+        - generic [ref=e394]:
+          - generic [ref=e395]:
+            - generic [ref=e396]: BelaPop
+            - paragraph [ref=e397]: Curadoria de beleza com seleção precisa, parceiros verificados e experiência de compra transparente.
+          - generic [ref=e398]:
+            - heading "Shop" [level=4] [ref=e399]
+            - generic [ref=e400]:
+              - link "Skincare" [ref=e401] [cursor=pointer]:
+                - /url: /skincare
+              - link "Maquiagem" [ref=e402] [cursor=pointer]:
+                - /url: /maquiagem
+              - link "Cabelos" [ref=e403] [cursor=pointer]:
+                - /url: /cabelos
+              - link "Perfumes" [ref=e404] [cursor=pointer]:
+                - /url: /perfumes
+          - generic [ref=e405]:
+            - heading "Atendimento" [level=4] [ref=e406]
+            - generic [ref=e407]:
+              - link "Contato" [ref=e408] [cursor=pointer]:
+                - /url: /contato
+              - link "Rastrear pedido" [ref=e409] [cursor=pointer]:
+                - /url: /rastreio
+              - link "Termos de uso" [ref=e410] [cursor=pointer]:
+                - /url: /termos-e-condicoes
+              - link "Privacidade" [ref=e411] [cursor=pointer]:
+                - /url: /aviso-de-privacidade
+          - generic [ref=e412]:
+            - heading "Institucional" [level=4] [ref=e413]
+            - generic [ref=e414]:
+              - paragraph [ref=e415]: 63.945.608 GIOVANNA DE SOUSA FERREIRA SANTOS
+              - paragraph [ref=e416]: CNPJ 63.945.608/0001-09
+              - paragraph [ref=e417]: Rua Coromandel, 189, Bairro Amorim, Araguari/MG, CEP 38446-093
+        - paragraph [ref=e419]: © 2026 BelaPop Cosméticos Ltda. Todos os direitos reservados.
+  - alert [ref=e286]: Carrinho | BelaPop

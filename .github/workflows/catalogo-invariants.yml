@@ -1,0 +1,143 @@
+name: Catálogo · Invariantes
+
+on:
+  push:
+    paths:
+      - "lib/catalogo/**"
+      - "app/api/catalogo/**"
+      - "components/catalogo/**"
+      - "hooks/useBusca.ts"
+      - "hooks/useWishlist.ts"
+      - "supabase/migrations/20260516_0900*"
+  pull_request:
+    paths:
+      - "lib/catalogo/**"
+      - "app/api/catalogo/**"
+
+jobs:
+  invariants:
+    name: Verificar invariantes do Catálogo
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - name: Instalar dependências
+        run: npm ci
+
+      # ── Testes de invariantes ──────────────────────────────────────────────
+      - name: "Testes de invariantes (zero banco)"
+        run: |
+          npx jest lib/catalogo/invariants/ --no-coverage
+          echo "✅ Invariantes do Catálogo: todos passaram."
+
+      # ── TypeScript ─────────────────────────────────────────────────────────
+      - name: "TypeScript — compilar sem erros"
+        run: |
+          npx tsc --noEmit
+          echo "✅ TypeScript: compilação sem erros."
+
+      # ── Invariante 1: toCompatScore antes de deveExibirBadge ──────────────
+      - name: "Invariante 1 — toCompatScore usado antes de deveExibirBadge"
+        run: |
+          # Badge só pode receber CompatScore (branded) — nenhum número raw
+          VIOLATIONS=$(grep -rn "deveExibirBadge(" \
+            --include="*.ts" --include="*.tsx" \
+            lib/ app/ components/ 2>/dev/null \
+            | grep -v "invariants\|__tests__" \
+            | grep -v "toCompatScore" || true)
+
+          if [ -n "$VIOLATIONS" ]; then
+            echo "❌ ERRO: deveExibirBadge chamado sem toCompatScore:"
+            echo "$VIOLATIONS"
+            echo "   Sempre converter via toCompatScore() antes de chamar deveExibirBadge()."
+            exit 1
+          fi
+          echo "✅ Invariante 1: toCompatScore presente antes de deveExibirBadge."
+
+      # ── Invariante 2: assertRankingCoerente antes de calcularPersonalizado ─
+      - name: "Invariante 2 — calcularPersonalizado chama assertRankingCoerente"
+        run: |
+          if ! grep -q "assertRankingCoerente" lib/catalogo/invariants/rankingInvariant.ts; then
+            echo "❌ ERRO: rankingInvariant.ts deve chamar assertRankingCoerente."
+            exit 1
+          fi
+
+          # calcularPersonalizado deve ter assertRankingCoerente no corpo
+          BODY=$(awk '/^export function calcularPersonalizado/,/^\}/' \
+            lib/catalogo/invariants/rankingInvariant.ts)
+          if ! echo "$BODY" | grep -q "assertRankingCoerente"; then
+            echo "❌ ERRO: calcularPersonalizado não chama assertRankingCoerente."
+            exit 1
+          fi
+          echo "✅ Invariante 2: assertRankingCoerente chamado dentro de calcularPersonalizado."
+
+      # ── Invariante 3: rotas catalogo retornam erros 400/401/404 corretos ──
+      - name: "Invariante 3 — rotas catálogo têm tratamento de erro"
+        run: |
+          VIOLATIONS=""
+          while IFS= read -r rota; do
+            if ! grep -q "status.*400\|status.*401\|status.*404\|status.*500" "$rota"; then
+              VIOLATIONS="$VIOLATIONS\n  $rota"
+            fi
+          done < <(find app/api/catalogo -name "route.ts" 2>/dev/null)
+
+          if [ -n "$VIOLATIONS" ]; then
+            echo "❌ ERRO: rotas sem tratamento de erro adequado:"
+            printf "%b\n" "$VIOLATIONS"
+            echo "   Toda rota deve retornar status explícito em casos de erro."
+            exit 1
+          fi
+          echo "✅ Invariante 3: tratamento de erro presente em todas as rotas."
+
+      # ── Invariante 4: wishlist exige autenticação ──────────────────────────
+      - name: "Invariante 4 — rotas wishlist verificam autenticação"
+        run: |
+          for rota in app/api/catalogo/wishlist/route.ts \
+                      "app/api/catalogo/wishlist/[produto_id]/route.ts"; do
+            if [ ! -f "$rota" ]; then
+              echo "❌ ERRO: $rota não encontrada."
+              exit 1
+            fi
+            if ! grep -q "getUser\|auth.uid\|401" "$rota"; then
+              echo "❌ ERRO: $rota não verifica autenticação."
+              exit 1
+            fi
+          done
+          echo "✅ Invariante 4: rotas wishlist verificam autenticação."
+
+      # ── Invariante 5: CompatScore importado via index.ts ──────────────────
+      - name: "Invariante 5 — importações de invariants via lib/catalogo/invariants"
+        run: |
+          VIOLATIONS=$(grep -rn \
+            "from.*catalogo/invariants/compatibilidadeInvariant\|from.*catalogo/invariants/rankingInvariant" \
+            --include="*.ts" --include="*.tsx" \
+            lib/ app/ components/ 2>/dev/null \
+            | grep -v "lib/catalogo/invariants/index.ts" \
+            | grep -v "__tests__" || true)
+
+          if [ -n "$VIOLATIONS" ]; then
+            echo "❌ ERRO: importações diretas de invariants:"
+            echo "$VIOLATIONS"
+            echo "   Importar sempre de '@/lib/catalogo/invariants'"
+            exit 1
+          fi
+          echo "✅ Invariante 5: importações via index.ts."
+
+      # ── Relatório ──────────────────────────────────────────────────────────
+      - name: "Relatório final — invariantes do Catálogo"
+        run: |
+          echo "✓ Testes: todos passaram"
+          echo "✓ CompatScore: toCompatScore sempre antes de deveExibirBadge"
+          echo "✓ Ranking: assertRankingCoerente dentro de calcularPersonalizado"
+          echo "✓ Rotas: tratamento de erro adequado"
+          echo "✓ Wishlist: autenticação verificada"
+          echo "✓ Importações: via index.ts"
+          echo ""
+          echo "Catálogo · todos os invariantes validados ✓"

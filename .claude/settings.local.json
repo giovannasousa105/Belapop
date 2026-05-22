@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npx tsc *)",
+      "PowerShell(cd \"c:\\\\Users\\\\Gleiser\\\\Desktop\\\\BELAPOPSITE\"; npx tsc --noEmit; echo \"Exit: $LASTEXITCODE\")",
+      "mcp__claude_ai_Vercel__deploy_to_vercel",
+      "Bash(Get-ChildItem -Path \"C:\\\\Users\\\\Gleiser\\\\Desktop\\\\BELAPOPSITE\" -Force)",
+      "Read(//c/Users/Gleiser/.claude/plans/**)"
+    ],
+    "additionalDirectories": [
+      "c:\\Users\\Gleiser\\.claude\\projects\\c--Users-Gleiser-Desktop-BELAPOPSITE\\memory",
+      "c:\\Users\\Gleiser\\.claude\\plans"
+    ]
+  }
+}

@@ -27,7 +27,7 @@ export async function GET(
     .maybeSingle();
 
   if (orderError) return NextResponse.json({ error: orderError.message }, { status: 500 });
-  if (!order) return NextResponse.json({ error: "Pedido nao encontrado." }, { status: 404 });
+  if (!order) return NextResponse.json({ error: "Pedido não encontrado." }, { status: 404 });
 
   const { subOrders, sellers } = await loadSubOrdersWithSellers(admin, [orderId]);
   const productMap = await loadProductsMap(admin, extractProductIdsFromSubOrders(subOrders));

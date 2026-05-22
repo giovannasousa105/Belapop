@@ -23,11 +23,23 @@ export type EditorialProduct = PublicProduct & {
   editorialReason: string;
   howToUse: string[];
   sellerId: string;
+  sellerName: string;
+  sellerStatus: string | null;
+  saleOrigin: "própria" | "marketplace";
   coverImage: string;
   gallery: { url: string; alt: string }[];
 };
 
 const FALLBACK_BADGE = "Selecao BelaPop";
+const CATALOG_SEED_FALLBACK_ENABLED = process.env.NODE_ENV !== "production";
+const PUBLIC_PRODUCT_STATUSES = ["published"] as const;
+const SELLABLE_SELLER_STATUSES = new Set(["active", "approved"]);
+
+const isExpectedNextDynamicUsageError = (error: unknown) =>
+  typeof error === "object" &&
+  error !== null &&
+  "digest" in error &&
+  String((error as { digest?: unknown }).digest).includes("DYNAMIC_SERVER_USAGE");
 const PDP_FALLBACK_GALLERY = [
   "https://lh3.googleusercontent.com/aida-public/AB6AXuAU2BbAbeAwR5Vu09mQLjv0INQ3dKGhvUBcc4k7j91FBWyYf2Nh_x7eKFzKwzEIeHMhRGItg2_LrBVpLY5p5Wmpu72xuexID-FBVP9zl9y-CMTQhkGxyOgGaMcYPMeRYA8uqeIlLlmBTUZNy0BJGadN2Y3rx9ERHNwR8MHZiwkO_0yTkHqvh8fIgzJEGrlQUORnbsGhg-kq9Xo1u2cMDOMH250uY6mwOXRi2IyI044h_7bIyqWL5teoU-2_lDCCvSf2l9fu8VBu14OJ",
   "https://lh3.googleusercontent.com/aida-public/AB6AXuDUsV-42Fm_NmyAAmgNIXMTnYW-9Gp3NRScNNj0iD-tS-7WvHwTXN2SGRq9jp_xqGq4V3sheVMrqUccCXn9iAla4WBQT4DAnANg3O5kd-TRIV-AbQT63ZndWmKF1oxfzQHQ6NT1w9TRK2EjGBbfG7cnM_JBDLg-hyr0TCxKPqqV9uJ7t6kN2cnUFqDJ543kFkFsu2t9rSRO3kdMsc-G-gdw5XPrEfX1HdoVM62Zof5M9ExDWXGyOzhjMQMN6jn3e5vz3576T2QTmeOl",
@@ -51,15 +63,15 @@ const resolveCategoryKind = (value: string | null | undefined): ProductCategoryK
 const normalizeCopy = (value: string) =>
   value
     .replace(/\b\d{1,3}%\b/g, "")
-    .replace(/beauty intelligence/gi, "selecao por criterios de uso e formulacao")
+    .replace(/beauty intelligence/gi, "seleção por critérios de uso e formulacao")
     .replace(/marketplace premium/gi, "plataforma com parceiros verificados")
     .replace(/curadoria inteligente/gi, "sugestoes organizadas com mais clareza")
     .replace(/elevar a descoberta/gi, "facilitar a escolha")
     .replace(/obra-prima/gi, "produto")
     .replace(/ritual premium/gi, "rotina de uso")
-    .replace(/experiencia premium/gi, "experiencia de cuidado")
+    .replace(/experiência premium/gi, "experiência de cuidado")
     .replace(/regeneracao cutanea/gi, "cuidado da pele")
-    .replace(/biometric[ao]s?/gi, "analise de pele")
+    .replace(/biometric[ao]s?/gi, "análise de pele")
     .replace(/ia\b/gi, "curadoria")
     .replace(/\s+/g, " ")
     .trim();
@@ -89,10 +101,10 @@ const defaultSensationByCategory = (categoryKind: ProductCategoryKind) => {
 };
 
 const defaultResultByCategory = (categoryKind: ProductCategoryKind) => {
-  if (categoryKind === "maquiagem") return ["acabamento uniforme", "duracao estavel"];
+  if (categoryKind === "maquiagem") return ["acabamento uniforme", "duração estavel"];
   if (categoryKind === "cabelos") return ["controle de frizz", "brilho suave"];
   if (categoryKind === "perfumes") return ["presenca olfativa", "aplicacao controlada"];
-  return ["hidratacao", "uso consistente"];
+  return ["hidratação", "uso consistente"];
 };
 
 const defaultHowToUseByCategory = (categoryKind: ProductCategoryKind) => {
@@ -196,6 +208,47 @@ const getNumber = (value: unknown, fallback = 0) => {
   return fallback;
 };
 
+const getStockQuantity = (row: Record<string, unknown>) =>
+  Math.max(0, Math.floor(getNumber(row.stock_quantity)));
+
+const resolveSellerMetadata = (row: Record<string, unknown>) => {
+  const sellerRecord =
+    row.sellers && typeof row.sellers === "object"
+      ? (row.sellers as Record<string, unknown>)
+      : null;
+  const sellerName =
+    (sellerRecord && typeof sellerRecord.store_name === "string" && sellerRecord.store_name) ||
+    (sellerRecord && typeof sellerRecord.name === "string" && sellerRecord.name) ||
+    (typeof row.seller_name === "string" && row.seller_name) ||
+    "BelaPop";
+  const sellerStatus =
+    (sellerRecord && typeof sellerRecord.status === "string" && sellerRecord.status) ||
+    null;
+  const sellerId =
+    (typeof row.seller_id === "string" && row.seller_id) ||
+    (typeof row.sellerId === "string" && row.sellerId) ||
+    "unknown";
+
+  return {
+    sellerId,
+    sellerName,
+    sellerStatus,
+    saleOrigin:
+      sellerName.localeCompare("BelaPop", "pt-BR", { sensitivity: "accent" }) === 0
+        ? ("própria" as const)
+        : ("marketplace" as const)
+  };
+};
+
+const isSellableProductRow = (row: Record<string, unknown>) => {
+  const seller = resolveSellerMetadata(row);
+  return (
+    SELLABLE_SELLER_STATUSES.has(String(seller.sellerStatus ?? "")) &&
+    getNumber(row.price_cents) > 0 &&
+    getStockQuantity(row) > 0
+  );
+};
+
 const buildFallbackProducts = (): EditorialProduct[] =>
   seedProducts
     .filter((product) => product.status === "published")
@@ -213,6 +266,9 @@ const buildFallbackProducts = (): EditorialProduct[] =>
         price: product.price,
         currency: "BRL",
         hero_image_url: PDP_FALLBACK_GALLERY[0],
+        stock_quantity: Math.max(1, product.stockQuantity ?? 1),
+        stockQuantity: Math.max(1, product.stockQuantity ?? 1),
+        inStock: true,
         category: product.category,
         badge: FALLBACK_BADGE,
         badges: [FALLBACK_BADGE],
@@ -231,6 +287,9 @@ const buildFallbackProducts = (): EditorialProduct[] =>
           sanitizedDescription || defaultEditorialReasonByCategory(categoryKind),
         howToUse: defaultHowToUseByCategory(categoryKind),
         sellerId: product.sellerId,
+        sellerName: "BelaPop",
+        sellerStatus: "active",
+        saleOrigin: "própria",
         coverImage: PDP_FALLBACK_GALLERY[0],
         gallery: PDP_FALLBACK_GALLERY.map((url, index) => ({
           url,
@@ -265,7 +324,7 @@ const mapSupabaseProduct = (row: Record<string, unknown>): EditorialProduct => {
   const rawTitle =
     (typeof row.title === "string" && row.title) ||
     (typeof row.name === "string" && row.name) ||
-    "Selecao BelaPop";
+    "Seleção BelaPop";
   const slug =
     (typeof row.slug === "string" && row.slug) ||
     slugify(rawTitle) ||
@@ -297,6 +356,8 @@ const mapSupabaseProduct = (row: Record<string, unknown>): EditorialProduct => {
   const result = sanitizeList(parseStringArray(row.result));
   const howToUse = sanitizeList(howToUseJson);
   const badges = sanitizeList(parseStringArray(row.badges));
+  const seller = resolveSellerMetadata(row);
+  const stockQuantity = getStockQuantity(row);
 
   return {
     id: String(row.id ?? slug),
@@ -307,10 +368,12 @@ const mapSupabaseProduct = (row: Record<string, unknown>): EditorialProduct => {
       getNumber(row.price_cents) || Math.round(getNumber(row.price) * 100) || 0,
     price:
       getNumber(row.price) ||
-      Math.round(getNumber(row.price_cents) / 100) ||
-      0,
+      (getNumber(row.price_cents) > 0 ? getNumber(row.price_cents) / 100 : 0),
     currency: (typeof row.currency === "string" && row.currency) || "BRL",
     hero_image_url: heroImage,
+    stock_quantity: stockQuantity,
+    stockQuantity,
+    inStock: stockQuantity > 0,
     category,
     badge: badges[0] || FALLBACK_BADGE,
     badges,
@@ -333,10 +396,10 @@ const mapSupabaseProduct = (row: Record<string, unknown>): EditorialProduct => {
       howToUse.length > 0
         ? howToUse
         : defaultHowToUseByCategory(categoryKind),
-    sellerId:
-      (typeof row.seller_id === "string" && row.seller_id) ||
-      (typeof row.sellerId === "string" && row.sellerId) ||
-      "unknown",
+    sellerId: seller.sellerId,
+    sellerName: seller.sellerName,
+    sellerStatus: seller.sellerStatus,
+    saleOrigin: seller.saleOrigin,
     coverImage,
     gallery: galleryForPdp.map((url, index) => ({
       url,
@@ -349,8 +412,10 @@ const fetchSupabaseProducts = async (limit: number): Promise<EditorialProduct[]>
   const supabase = await createSupabaseServerClient();
   const { data, error } = await supabase
     .from("products")
-    .select("*")
-    .in("status", ["active", "published"])
+    .select("*, sellers!products_seller_id_fkey(id, store_name, status)")
+    .in("status", [...PUBLIC_PRODUCT_STATUSES])
+    .gt("price_cents", 0)
+    .gt("stock_quantity", 0)
     .order("created_at", { ascending: false })
     .limit(limit);
 
@@ -358,22 +423,50 @@ const fetchSupabaseProducts = async (limit: number): Promise<EditorialProduct[]>
     throw new Error(error?.message ?? "No products found");
   }
 
-  return (data as Record<string, unknown>[]).map(mapSupabaseProduct);
+  return (data as Record<string, unknown>[])
+    .filter(isSellableProductRow)
+    .map(mapSupabaseProduct);
 };
 
 const fetchSupabaseProductsByIds = async (ids: string[]): Promise<EditorialProduct[]> => {
   const supabase = await createSupabaseServerClient();
   const { data, error } = await supabase
     .from("products")
-    .select("*")
+    .select("*, sellers!products_seller_id_fkey(id, store_name, status)")
     .in("id", ids)
-    .in("status", ["active", "published"]);
+    .in("status", [...PUBLIC_PRODUCT_STATUSES])
+    .gt("price_cents", 0)
+    .gt("stock_quantity", 0);
 
   if (error || !data?.length) {
     throw new Error(error?.message ?? "No products found");
   }
 
-  return (data as Record<string, unknown>[]).map(mapSupabaseProduct);
+  return (data as Record<string, unknown>[])
+    .filter(isSellableProductRow)
+    .map(mapSupabaseProduct);
+};
+
+const fetchSupabaseProductBySlug = async (slug: string): Promise<EditorialProduct | null> => {
+  const supabase = await createSupabaseServerClient();
+  const { data, error } = await supabase
+    .from("products")
+    .select("*, sellers!products_seller_id_fkey(id, store_name, status)")
+    .eq("slug", slug)
+    .in("status", [...PUBLIC_PRODUCT_STATUSES])
+    .gt("price_cents", 0)
+    .gt("stock_quantity", 0)
+    .maybeSingle();
+
+  if (error) {
+    throw new Error(error.message);
+  }
+
+  if (!data || !isSellableProductRow(data as Record<string, unknown>)) {
+    return null;
+  }
+
+  return mapSupabaseProduct(data as Record<string, unknown>);
 };
 
 export const getPublicProducts = cache(async (limit = 8): Promise<EditorialProduct[]> => {
@@ -382,9 +475,15 @@ export const getPublicProducts = cache(async (limit = 8): Promise<EditorialProdu
       fetchEditorialPriorityIds("featured"),
       fetchSupabaseProducts(limit)
     ]);
+    if (!CATALOG_SEED_FALLBACK_ENABLED) {
+      return sortByEditorialCuration(liveProducts, { priorityIds }).slice(0, limit);
+    }
     return mergeWithFallbackProducts(liveProducts, limit, priorityIds);
-  } catch {
-    return buildFallbackProducts().slice(0, limit);
+  } catch (error) {
+    if (!isExpectedNextDynamicUsageError(error)) {
+      console.warn("[catalog] public product fetch failed", error);
+    }
+    return CATALOG_SEED_FALLBACK_ENABLED ? buildFallbackProducts().slice(0, limit) : [];
   }
 });
 
@@ -398,7 +497,11 @@ export async function getPublicProductsByIds(ids: string[]): Promise<EditorialPr
     return uniqueIds
       .map((productId) => productMap.get(productId) ?? null)
       .filter((product): product is EditorialProduct => Boolean(product));
-  } catch {
+  } catch (error) {
+    if (!isExpectedNextDynamicUsageError(error)) {
+      console.warn("[catalog] public products by ids fetch failed", error);
+    }
+    if (!CATALOG_SEED_FALLBACK_ENABLED) return [];
     const fallbackMap = new Map(buildFallbackProducts().map((product) => [product.id, product]));
     return uniqueIds
       .map((productId) => fallbackMap.get(productId) ?? null)
@@ -408,7 +511,19 @@ export async function getPublicProductsByIds(ids: string[]): Promise<EditorialPr
 
 export const getPublicProductBySlug = cache(
   async (slug: string): Promise<EditorialProduct | null> => {
-    const products = await getPublicProducts(60);
-    return products.find((item) => item.slug === slug) ?? null;
+    try {
+      return await fetchSupabaseProductBySlug(slug);
+    } catch (error) {
+      if (!isExpectedNextDynamicUsageError(error)) {
+        console.warn("[catalog] public product by slug fetch failed", error);
+      }
+      if (!CATALOG_SEED_FALLBACK_ENABLED) return null;
+      return buildFallbackProducts().find((item) => item.slug === slug) ?? null;
+    }
   }
 );
+
+export async function getPublicProductById(id: string): Promise<EditorialProduct | null> {
+  const [product] = await getPublicProductsByIds([id]);
+  return product ?? null;
+}

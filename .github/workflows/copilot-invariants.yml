@@ -1,0 +1,124 @@
+name: Copilot Invariants
+
+on:
+  push:
+    paths:
+      - "lib/copilot/**"
+      - "components/copilot/**"
+      - "app/api/copilot/**"
+      - "hooks/useCopilotFeed.ts"
+  pull_request:
+    paths:
+      - "lib/copilot/**"
+      - "components/copilot/**"
+      - "app/api/copilot/**"
+      - "hooks/useCopilotFeed.ts"
+
+jobs:
+  invariants:
+    name: Verificar invariantes do Copilot
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - name: Instalar dependências
+        run: npm ci
+
+      # ── Invariante 1: cooldown nunca toca banco ───────────────────────────
+      - name: "Invariante 1 — CooldownGuard sem SQL"
+        run: |
+          if grep -E "supabase|prisma|pg\b|@supabase|createClient|query\(" \
+              lib/copilot/guards/cooldownGuard.ts 2>/dev/null; then
+            echo "❌ ERRO: cooldownGuard.ts está acessando banco de dados."
+            echo "   Cooldown deve usar APENAS Redis. Ver invariante 1."
+            exit 1
+          fi
+          echo "✅ Invariante 1: cooldownGuard não acessa banco."
+
+      # ── Invariante 2: feed limit enforçado no servidor ────────────────────
+      - name: "Invariante 2 — FeedLimitGuard exporta FEED_MAX_CARDS === 3"
+        run: |
+          if ! grep -q "FEED_MAX_CARDS = 3" lib/copilot/guards/feedLimitGuard.ts; then
+            echo "❌ ERRO: FEED_MAX_CARDS não encontrado ou alterado em feedLimitGuard.ts."
+            echo "   O limite de 3 cards é uma invariante contratual."
+            exit 1
+          fi
+          echo "✅ Invariante 2: FEED_MAX_CARDS = 3 confirmado."
+
+      - name: "Invariante 2 — aplicarFeedLimit usado no endpoint de feed"
+        run: |
+          if ! grep -q "aplicarFeedLimit\|assertFeedValido" \
+              app/api/copilot/feed/route.ts 2>/dev/null; then
+            echo "⚠️  AVISO: endpoint de feed não usa aplicarFeedLimit()."
+            echo "   Adicionar: const feed = aplicarFeedLimit(interacoes)"
+          fi
+          echo "✅ Invariante 2: verificação concluída."
+
+      # ── Invariante 3: responder() nunca é awaited ─────────────────────────
+      - name: "Invariante 3 — Optimistic UI: responder() não é awaited"
+        run: |
+          if grep -rn "await responder(" components/copilot/ 2>/dev/null; then
+            echo ""
+            echo "❌ ERRO: responder() foi awaited nos componentes do Copilot."
+            echo "   Viola a invariante de optimistic UI."
+            echo "   responder() é SÍNCRONO e deve ser chamado sem await:"
+            echo "     responder({ interacao_id, tipo_resposta, valor })"
+            echo "   Não:"
+            echo "     await responder(...)"
+            exit 1
+          fi
+          echo "✅ Invariante 3: nenhum 'await responder()' encontrado."
+
+      - name: "Invariante 3 — useOptimisticResposta exporta função síncrona"
+        run: |
+          # Garantir que responder não tem tipo Promise no retorno
+          if grep -E "responder.*Promise|responder.*async" \
+              lib/copilot/guards/optimisticResponse.ts 2>/dev/null; then
+            echo "❌ ERRO: responder() está tipado como async/Promise."
+            echo "   A função deve ser síncrona (retorno: void)."
+            exit 1
+          fi
+          echo "✅ Invariante 3: responder() tipado como síncrono."
+
+      # ── Exportação central — nunca importar módulos individuais fora de guards/ ──
+      - name: "Exportação central — guards importados via index"
+        run: |
+          # Verificar que nenhum arquivo fora de guards/ importa os módulos individuais
+          VIOLATIONS=$(grep -rn \
+            "from.*guards/cooldownGuard\|from.*guards/feedLimitGuard\|from.*guards/optimisticResponse" \
+            --include="*.ts" --include="*.tsx" \
+            --exclude-dir=__tests__ \
+            . 2>/dev/null | grep -v "lib/copilot/guards/index.ts" || true)
+          if [ -n "$VIOLATIONS" ]; then
+            echo "❌ ERRO: importações diretas de módulos individuais do guard:"
+            echo "$VIOLATIONS"
+            echo "   Importar APENAS de '@/lib/copilot/guards'"
+            exit 1
+          fi
+          echo "✅ Exportação central: todos imports passam pelo index."
+
+      # ── Tom proibido nos prompts ──────────────────────────────────────────
+      - name: "Tom proibido — ausente em todos os prompts"
+        run: |
+          # Palavras de varejo nunca devem aparecer como instrução aos prompts.
+          # "última chance", "corra", "urgente", "não perca" → linguagem de pressão.
+          if grep -rniE "última chance|corra urgente|não perca|URGENTE" \
+               lib/copilot/prompts/ 2>/dev/null; then
+            echo "❌ ERRO: tom de varejo detectado nos prompts do Copilot."
+            echo "   Tom BelaPop: consultora de skincare, não vendedora."
+            exit 1
+          fi
+          echo "✅ Tom: sem linguagem de urgência nos prompts."
+
+      # ── TypeScript: verificar compilação dos guards ───────────────────────
+      - name: "TypeScript — compilar guards sem erros"
+        run: |
+          npx tsc --noEmit --project tsconfig.json
+          echo "✅ TypeScript: guards compilam sem erros."

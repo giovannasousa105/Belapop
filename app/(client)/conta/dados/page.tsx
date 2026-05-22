@@ -83,7 +83,7 @@ export default function ContaDadosPage() {
         setEmailVerified(Boolean(profile.email_verified));
       } catch (error) {
         if (active) {
-          setMessage(error instanceof Error ? error.message : "Nao foi possivel carregar seus dados.");
+          setMessage(error instanceof Error ? error.message : "Não foi possivel carregar seus dados.");
         }
       } finally {
         if (active) setLoading(false);
@@ -154,7 +154,7 @@ export default function ContaDadosPage() {
       ]);
       setMessage("Dados atualizados com sucesso.");
     } catch (error) {
-      setMessage(error instanceof Error ? error.message : "Nao foi possivel salvar.");
+      setMessage(error instanceof Error ? error.message : "Não foi possivel salvar.");
     } finally {
       setSaving(false);
     }
@@ -164,9 +164,9 @@ export default function ContaDadosPage() {
     <div className="space-y-6 pb-8">
       <section className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
         <p className="text-xs uppercase tracking-[0.3em] text-bpGraphite/60">Meus dados</p>
-        <h1 className="mt-3 font-display text-4xl text-bpBlack">Perfil e verificacoes</h1>
+        <h1 className="mt-3 font-display text-4xl text-bpBlack">Perfil e verificações</h1>
         <p className="mt-3 text-sm text-bpGraphite/75">
-          Nome, CPF e telefone sao usados para checkout, fiscal e comunicacao transacional.
+          Nome, CPF e telefone são usados para checkout, fiscal e comunicação transacional.
         </p>
 
         {!profileComplete ? (

@@ -42,7 +42,7 @@ export async function GET() {
     .limit(1);
 
   if (error) {
-    return NextResponse.json({ error: "Nao foi possivel carregar seu status." }, { status: 500 });
+    return NextResponse.json({ error: "Não foi possivel carregar seu status." }, { status: 500 });
   }
 
   return NextResponse.json({ application: data?.[0] ?? null });
@@ -91,7 +91,7 @@ export async function POST(request: Request) {
     .limit(1);
 
   if (pendingError) {
-    return NextResponse.json({ error: "Nao foi possivel enviar sua solicitacao." }, { status: 500 });
+    return NextResponse.json({ error: "Não foi possivel enviar sua solicitação." }, { status: 500 });
   }
 
   const pendingId = pendingRows?.[0]?.id;
@@ -107,7 +107,7 @@ export async function POST(request: Request) {
       .eq("user_id", user.id);
 
     if (updateError) {
-      return NextResponse.json({ error: "Nao foi possivel atualizar sua solicitacao." }, { status: 500 });
+      return NextResponse.json({ error: "Não foi possivel atualizar sua solicitação." }, { status: 500 });
     }
 
     return NextResponse.json({ ok: true, status: "pending", id: pendingId });
@@ -124,7 +124,7 @@ export async function POST(request: Request) {
     .maybeSingle();
 
   if (insertError) {
-    return NextResponse.json({ error: "Nao foi possivel enviar sua solicitacao." }, { status: 500 });
+    return NextResponse.json({ error: "Não foi possivel enviar sua solicitação." }, { status: 500 });
   }
 
   return NextResponse.json({ ok: true, status: inserted?.status ?? "pending", id: inserted?.id ?? null });

@@ -53,7 +53,7 @@ export async function POST(req: Request) {
   } = await supabase.auth.getUser();
 
   if (!user) {
-    return NextResponse.json({ error: "Nao autenticado." }, { status: 401 });
+    return NextResponse.json({ error: "Não autenticado." }, { status: 401 });
   }
 
   let body: { role?: LegacyRole };
@@ -74,7 +74,7 @@ export async function POST(req: Request) {
   });
 
   if (!roleState.assignedRoles.includes(body.role)) {
-    return NextResponse.json({ error: "Role nao atribuido para este usuario." }, { status: 403 });
+    return NextResponse.json({ error: "Role não atribuido para este usuario." }, { status: 403 });
   }
 
   await setActiveLegacyRole({

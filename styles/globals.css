@@ -1,9 +1,24 @@
-﻿@tailwind base;
+﻿@import "./tokens.css";
+
+@tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
   color-scheme: light;
+
+  /* ── Tipografia responsiva — nunca < 12px ──────────────────────────────── */
+  --text-hero:    clamp(24px, 6vw, 48px);
+  --text-h1:      clamp(20px, 5vw, 36px);
+  --text-h2:      clamp(18px, 4vw, 28px);
+  --text-body:    16px;    /* mínimo — evita zoom automático iOS em inputs */
+  --text-small:   14px;
+  --text-caption: 12px;   /* mínimo absoluto */
+
+  /* ── Espaçamento de seções ──────────────────────────────────────────────── */
+  --section-gap:  clamp(48px, 8vw, 96px);
+  --content-pad:  clamp(16px, 4vw, 40px);
+
   --bp-black: #1e1e1e;
   --bp-black-soft: #5b3138;
   --bp-pink: #d8a0ac;
@@ -77,6 +92,9 @@ a {
 input,
 select,
 textarea {
+  /* font-size mínimo 16px — evita zoom automático iOS em campos focados */
+  font-size: max(16px, 1rem);
+  -webkit-appearance: none;  /* remove estilo nativo iOS */
   @apply border border-black/10 bg-white text-bpGraphite placeholder:text-bpGraphite/60;
 }
 
@@ -133,11 +151,39 @@ textarea {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
   .bp-fade-rise,
   .bp-fade-rise-delayed,
   .bp-evidence-marquee {
     animation: none !important;
   }
+}
+
+/* ── Touch targets ─────────────────────────────────────────────────────────── */
+/* Garante área mínima de 44×44px sem alterar tamanho visual do elemento       */
+.touch-target {
+  min-height: 44px;
+  min-width: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ── Scroll horizontal invisível ───────────────────────────────────────────── */
+.scroll-x {
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.scroll-x::-webkit-scrollbar {
+  display: none;
 }
 
 .glass-panel {

@@ -1,0 +1,136 @@
+name: Homepage · Invariantes
+
+on:
+  push:
+    paths:
+      - "components/homepage/**"
+      - "lib/homepage/**"
+      - "app/api/homepage/**"
+      - "app/(main)/page.tsx"
+  pull_request:
+    paths:
+      - "lib/homepage/**"
+      - "components/homepage/**"
+
+jobs:
+  invariantes:
+    name: Verificar invariantes da Homepage
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - name: Instalar dependências
+        run: npm ci
+
+      # ── Testes de invariantes ──────────────────────────────────────────────
+      - name: "Testes de invariantes (zero banco)"
+        run: |
+          npx jest lib/homepage/invariants/ --no-coverage
+          echo "✅ Invariantes da Homepage: todos passaram."
+
+      # ── TypeScript ─────────────────────────────────────────────────────────
+      - name: "TypeScript strict — compilar sem erros"
+        run: |
+          npx tsc --noEmit
+          echo "✅ TypeScript: compilação sem erros."
+
+      # ── Invariante 1: tom proibido ausente nos componentes de urgência ─────
+      - name: "Invariante 1 — tom de varejo ausente em componentes de urgência"
+        run: |
+          PROIBIDOS="urgente|última chance|corra|não perca|imperdível|URGENTE|oferta relâmpago"
+          VIOLATION=0
+
+          for arquivo in \
+            components/homepage/UrgenciaBanner.tsx \
+            app/api/homepage/urgencia/route.ts; do
+            if [ -f "$arquivo" ]; then
+              if grep -ni "$PROIBIDOS" "$arquivo"; then
+                echo "❌ ERRO: tom de varejo detectado em $arquivo"
+                VIOLATION=1
+              fi
+            fi
+          done
+
+          if [ "$VIOLATION" -eq "1" ]; then
+            echo "Tom BelaPop: editorial e atelier — nunca liquidação."
+            exit 1
+          fi
+          echo "✅ Invariante 1: tom de varejo ausente."
+
+      # ── Invariante 2: quiz sempre tem CTA para Skin Scan ──────────────────
+      - name: "Invariante 2 — quiz sempre leva ao Skin Scan"
+        run: |
+          ARQUIVO="components/homepage/QuizResultado.tsx"
+          if [ -f "$ARQUIVO" ]; then
+            if ! grep -q "skin-scan/foco\|skin_scan_cta" "$ARQUIVO"; then
+              echo "❌ ERRO: $ARQUIVO sem CTA para /skin-scan/foco."
+              echo "O quiz é porta de entrada — o Skin Scan é o destino."
+              exit 1
+            fi
+          fi
+          echo "✅ Invariante 2: quiz direciona ao Skin Scan (ou componente ainda não existe)."
+
+      # ── Invariante 3: Consultora passiva removida ─────────────────────────
+      - name: "Invariante 3 — Consultora BelaPop substituída pelo QuizInline"
+        run: |
+          VIOLATIONS=$(grep -rn "Consultora BelaPop" \
+            components/homepage/ \
+            app/\(main\)/page.tsx 2>/dev/null || true)
+
+          if [ -n "$VIOLATIONS" ]; then
+            echo "❌ ERRO: 'Consultora BelaPop' ainda presente na homepage:"
+            echo "$VIOLATIONS"
+            echo "Substituir pelo QuizInline — a consultora passiva remove agência do usuário."
+            exit 1
+          fi
+          echo "✅ Invariante 3: Consultora BelaPop não detectada."
+
+      # ── Invariante 4: ProvasSocial presente no hero ───────────────────────
+      - name: "Invariante 4 — ProvasSocial no hero"
+        run: |
+          ARQUIVO="components/homepage/HeroRedesenhado.tsx"
+          if [ -f "$ARQUIVO" ]; then
+            if ! grep -q "ProvasSocial\|prova.social\|rotinas montadas" "$ARQUIVO"; then
+              echo "❌ ERRO: ProvasSocial não encontrado em $ARQUIVO."
+              echo "O hero precisa de prova social para converter."
+              exit 1
+            fi
+          fi
+          echo "✅ Invariante 4: ProvasSocial presente (ou componente ainda não existe)."
+
+      # ── Invariante 5: importações via index.ts ─────────────────────────────
+      - name: "Invariante 5 — importações de invariants via lib/homepage/invariants"
+        run: |
+          VIOLATIONS=$(grep -rn \
+            "from.*homepage/invariants/urgenciaInvariant\|from.*homepage/invariants/quizInvariant" \
+            --include="*.ts" --include="*.tsx" \
+            lib/ app/ components/ 2>/dev/null \
+            | grep -v "lib/homepage/invariants/index.ts" \
+            | grep -v "__tests__" || true)
+
+          if [ -n "$VIOLATIONS" ]; then
+            echo "❌ ERRO: importações diretas de invariants individuais:"
+            echo "$VIOLATIONS"
+            echo "Importar sempre de '@/lib/homepage/invariants'"
+            exit 1
+          fi
+          echo "✅ Invariante 5: importações via index.ts."
+
+      # ── Relatório ──────────────────────────────────────────────────────────
+      - name: "Relatório final — invariantes da Homepage"
+        run: |
+          echo "✓ Testes: todos passaram"
+          echo "✓ Tom de varejo: ausente em componentes de urgência"
+          echo "✓ Quiz → Skin Scan: funil preservado"
+          echo "✓ Consultora passiva: removida"
+          echo "✓ ProvasSocial: presente no hero"
+          echo "✓ Importações: via index.ts"
+          echo ""
+          echo "Homepage · todos os invariantes validados ✓"

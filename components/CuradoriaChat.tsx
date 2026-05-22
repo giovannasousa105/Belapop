@@ -7,6 +7,7 @@ import { usePathname } from "next/navigation";
 import { getSupabaseClient } from "@/lib/supabase/client";
 import { useCart } from "@/lib/CartContext";
 import { usePublishedDiaryPosts } from "@/lib/hooks/useDiaryPosts";
+import { belapopContact, buildBelapopMailto } from "@/lib/brand/contact";
 
 type FlowVariant = "customer" | "seller";
 
@@ -353,7 +354,10 @@ export const CuradoriaChat = ({ variant }: { variant: FlowVariant }) => {
     setActiveFlowId(null);
   };
 
-  const contactHref = "mailto:atendimento@belapop.com?subject=Curadoria%20BelaPop";
+  const contactHref = buildBelapopMailto(
+    belapopContact.supportEmail,
+    "Curadoria BelaPop"
+  );
   const handleHuman = () => {
     if (typeof window !== "undefined") {
       window.location.href = contactHref;

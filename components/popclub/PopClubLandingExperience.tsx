@@ -3,111 +3,63 @@
 /* eslint-disable @next/next/no-img-element */
 
 import Link from "next/link";
-import { Camera, Gift, Menu, ShoppingBag, Sparkles, Star, Trophy, User, X } from "lucide-react";
-import { useState } from "react";
+import { Camera, Sparkles, Trophy, X } from "lucide-react";
 
-import { ImmersiveMenuDrawer } from "@/components/popclub/shared/ImmersiveMenuDrawer";
-import { landingMenuLinks } from "@/lib/popclub/navigation";
+import { BelaPopValidatedHeader } from "@/components/luxury/BelaPopValidatedHeader";
+import { popClubBenefitThemes, popClubTiers } from "@/lib/popclub/tiers";
 
 const valueCards = [
   {
-    icon: Camera,
-    title: "Skin Scan com beneficios do programa",
+    icon: Trophy,
+    title: "Tres niveis faceis de entender",
     description:
-      "Leitura visual para mapear necessidades e orientar sua rotina com mais clareza."
+      "O clube parte do Essencial e evolui para Premium e Luxo conforme seus pontos acumulados."
   },
   {
     icon: Sparkles,
-    title: "Beneficios e sugestoes organizados com base no seu perfil, quando disponiveis",
+    title: "Beneficios concretos no dia a dia",
     description:
-      "Sugestoes organizadas com mais clareza com base nos seus resultados e preferencias."
+      "Acesso antecipado, pontos, creditos, amostras premium e prioridade real no concierge."
   },
   {
-    icon: Trophy,
-    title: "Acesso antecipado a novidades",
+    icon: Camera,
+    title: "Skin Scan e recompra conectados",
     description:
-      "Acesso a acoes e ativacoes selecionadas, quando disponiveis."
+      "O clube conversa com sua rotina para indicar reposicao, upgrade e próximos passos com clareza."
   }
 ] as const;
 
 const manifestoItems = [
-  "Curadoria real",
-  "Beneficios do programa",
+  "Niveis simples",
   "Acesso antecipado",
-  "Jornada mais organizada"
+  "Pontos e creditos",
+  "Recompra assistida"
 ] as const;
 
 const faqItems = [
   {
-    question: "Como funciona o cancelamento?",
+    question: "Como funcionam os niveis do clube?",
     answer:
-      "O cancelamento pode ser feito a qualquer momento pelo seu painel, sem multa nem fidelidade."
+      "Você entra no nível Essencial e evolui para Premium e Luxo conforme os pontos acumulados nas compras elegíveis."
   },
   {
-    question: "O Skin Scan e obrigatorio?",
+    question: "O que muda quando subo de nivel?",
     answer:
-      "Nao, mas ele libera beneficios e sugestoes organizados com base no seu perfil, quando disponiveis."
+      "A janela de acesso antecipado aumenta, o acumulo de pontos melhora, entram creditos e amostras premium, e o concierge ganha prioridade."
   },
   {
-    question: "Quais as formas de pagamento?",
-    answer: "Aceitamos cartoes de credito, Pix recorrente e carteiras digitais compativeis."
+    question: "Preciso fazer Skin Scan para aproveitar o clube?",
+    answer:
+      "Não. O Skin Scan ajuda a personalizar sua rotina, mas os níveis, pontos e benefícios do clube funcionam mesmo sem a análise."
   }
 ] as const;
 
 export default function PopClubLandingExperience() {
-  const [menuOpen, setMenuOpen] = useState(false);
-
   return (
     <div className="bg-[#fcf9f8] text-[#1c1b1b]">
-      <header className="fixed inset-x-0 top-0 z-50 border-b border-white/10 bg-black/82 backdrop-blur-xl">
-        <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-5 md:h-20 md:px-8">
-          <div className="flex items-center gap-4">
-            <button
-              type="button"
-              onClick={() => setMenuOpen(true)}
-              className="inline-flex h-11 w-11 items-center justify-center text-white md:hidden"
-              aria-label="Abrir menu"
-            >
-              <Menu className="h-5 w-5" />
-            </button>
-            <span className="font-[var(--font-playfair)] text-xl font-bold uppercase tracking-[0.18em] text-white md:text-2xl">
-              The Canvas
-            </span>
-          </div>
+      <BelaPopValidatedHeader activeSection="popclub" />
 
-          <nav className="hidden items-center gap-8 md:flex">
-            {["Membership", "Collections", "Editorial", "Atelier"].map((item) => (
-              <Link
-                key={item}
-                href={item === "Membership" ? "/popclub/membership" : "/popclub"}
-                className="text-[11px] uppercase tracking-[0.22em] text-white/70 transition-colors hover:text-white"
-              >
-                {item}
-              </Link>
-            ))}
-          </nav>
-
-          <div className="flex items-center gap-3 text-white">
-            <Link href="/carrinho" className="inline-flex h-11 w-11 items-center justify-center">
-              <ShoppingBag className="h-5 w-5" />
-            </Link>
-            <Link href="/login" className="inline-flex h-11 w-11 items-center justify-center">
-              <User className="h-5 w-5" />
-            </Link>
-          </div>
-        </div>
-      </header>
-
-      <ImmersiveMenuDrawer
-        open={menuOpen}
-        onClose={() => setMenuOpen(false)}
-        title="PopClub"
-        theme="dark"
-        links={landingMenuLinks}
-        searchPlaceholder="Buscar no clube"
-      />
-
-      <main className="overflow-x-hidden pt-16 md:pt-20">
+      <main className="overflow-x-hidden pt-[78px] lg:pt-[86px]">
         <section className="relative flex min-h-screen items-center justify-center overflow-hidden">
           <div className="absolute inset-0">
             <img
@@ -128,7 +80,7 @@ export default function PopClubLandingExperience() {
               PopClub
             </h1>
             <p className="mt-5 max-w-2xl text-base leading-8 text-white/90 sm:text-lg md:text-2xl">
-              Seu acesso a um programa para acompanhar sua rotina com mais continuidade.
+              Um clube premium com niveis claros, vantagens reais e apoio continuo para comprar melhor.
             </p>
             <div className="mt-10 flex w-full max-w-md flex-col gap-4 sm:max-w-none sm:flex-row sm:justify-center">
               <Link
@@ -138,10 +90,10 @@ export default function PopClubLandingExperience() {
                 Quero fazer parte
               </Link>
               <a
-                href="#beneficios"
+                href="#niveis"
                 className="inline-flex min-h-14 items-center justify-center border border-white/30 bg-white/5 px-8 text-[11px] font-bold uppercase tracking-[0.26em] text-white transition-colors hover:bg-white/10"
               >
-                Explorar beneficios
+                Ver niveis do clube
               </a>
             </div>
           </div>
@@ -183,7 +135,7 @@ export default function PopClubLandingExperience() {
                     <div>
                       <h3 className="font-[var(--font-playfair)] text-xl font-bold">{item}</h3>
                       <p className="mt-2 text-sm leading-7 text-[#444748]">
-                        Cada beneficio foi desenhado para organizar escolhas e explicar com clareza como usar melhor cada etapa da rotina.
+                        O clube explica o que voce desbloqueia agora, o que vem no proximo nivel e como isso volta para a rotina e a recompra.
                       </p>
                     </div>
                   </article>
@@ -206,21 +158,66 @@ export default function PopClubLandingExperience() {
           </div>
         </section>
 
+        <section id="niveis" className="bg-white px-5 py-18 md:px-8 md:py-28">
+          <div className="mx-auto max-w-7xl">
+            <div className="max-w-3xl">
+              <span className="text-[10px] uppercase tracking-[0.34em] text-[#ed93d5]">
+                Niveis do clube
+              </span>
+              <h2 className="mt-4 font-[var(--font-playfair)] text-4xl font-bold tracking-[-0.05em] md:text-6xl">
+                Um clube simples de acompanhar.
+              </h2>
+              <p className="mt-4 text-sm leading-7 text-[#444748] md:text-base">
+                Voce entra no Essencial e progride com pontos acumulados em compras elegiveis. Cada nivel adiciona vantagens concretas para compra, atendimento e recompra.
+              </p>
+            </div>
+
+            <div className="mt-12 grid gap-4 lg:grid-cols-3">
+              {popClubTiers.map((tier) => (
+                <article key={tier.id} className="border border-black/10 bg-[#f6f3f2] p-8">
+                  <div className="flex items-start justify-between gap-4">
+                    <div>
+                      <p className="text-[10px] font-bold uppercase tracking-[0.24em] text-[#444748]/65">
+                        {tier.unlockRule}
+                      </p>
+                      <h3 className="mt-3 font-[var(--font-playfair)] text-3xl font-bold tracking-tight">
+                        {tier.label}
+                      </h3>
+                    </div>
+                    <span className="border border-black/10 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.2em] text-[#444748]">
+                      Nivel
+                    </span>
+                  </div>
+
+                  <p className="mt-5 text-sm leading-7 text-[#444748]">{tier.summary}</p>
+
+                  <ul className="mt-6 space-y-3">
+                    {tier.benefits.map((benefit) => (
+                      <li key={benefit} className="border-t border-black/8 pt-3 text-sm leading-7 text-[#1c1b1b]">
+                        {benefit}
+                      </li>
+                    ))}
+                  </ul>
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
+
         <section id="beneficios" className="bg-black px-5 py-18 text-white md:px-8 md:py-28">
           <div className="mx-auto max-w-7xl">
             <h2 className="text-center font-[var(--font-playfair)] text-4xl font-black tracking-[-0.05em] md:text-6xl">
-              O que voce desbloqueia
+              O que muda na pratica
             </h2>
             <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-              {[
-                "Lancamentos antecipados",
-                "Kits exclusivos",
-                "Campanhas especiais",
-                "Acesso a acoes e ativacoes selecionadas, quando disponiveis"
-              ].map((item) => (
-                <article key={item} className="flex aspect-square flex-col justify-end border border-white/5 bg-[#1c1b1b] p-8">
+              {popClubBenefitThemes.map((item) => (
+                <article
+                  key={item.title}
+                  className="flex aspect-square flex-col justify-end border border-white/5 bg-[#1c1b1b] p-8"
+                >
                   <Sparkles className="mb-4 h-8 w-8 text-[#ed93d5]" />
-                  <h3 className="text-sm font-bold uppercase tracking-[0.22em]">{item}</h3>
+                  <h3 className="text-sm font-bold uppercase tracking-[0.22em]">{item.title}</h3>
+                  <p className="mt-3 text-sm leading-6 text-white/70">{item.description}</p>
                 </article>
               ))}
             </div>
@@ -251,22 +248,27 @@ export default function PopClubLandingExperience() {
         <div className="mx-auto grid max-w-7xl gap-10 md:grid-cols-2 md:items-end">
           <div>
             <div className="font-[var(--font-playfair)] text-3xl font-bold tracking-[-0.04em]">
-              The Curated Canvas
+              BelaPop
             </div>
             <div className="mt-8 flex flex-wrap gap-6">
-              {["Privacy Policy", "Terms of Service", "Shipping & Returns", "Contact Us"].map((item) => (
+              {[
+                { label: "Privacidade", href: "/aviso-de-privacidade" },
+                { label: "Termos", href: "/termos-e-condições" },
+                { label: "Entrega e devoluções", href: "/contato" },
+                { label: "Fale conosco", href: "/contato" }
+              ].map((item) => (
                 <Link
-                  key={item}
-                  href="/contato"
+                  key={item.label}
+                  href={item.href}
                   className="text-[10px] uppercase tracking-[0.22em] text-[#444748] transition-colors hover:text-black"
                 >
-                  {item}
+                  {item.label}
                 </Link>
               ))}
             </div>
           </div>
           <p className="text-[10px] uppercase tracking-[0.22em] text-[#444748] md:text-right">
-            © 2026 The Curated Canvas. All rights reserved.
+            (c) 2026 BelaPop. Todos os direitos reservados.
           </p>
         </div>
       </footer>

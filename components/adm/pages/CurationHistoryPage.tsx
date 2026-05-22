@@ -77,14 +77,14 @@ type AvatarConfig = {
 const sidebarItems: SidebarItem[] = [
   { label: "Dashboard", href: "/adm/dashboard-executivo", icon: LayoutDashboard },
   { label: "Curadoria", href: "/adm/curadoria/produtos", icon: Sparkles, active: true },
-  { label: "Sellers", href: "/adm/operacao/parceiros", icon: Store },
-  { label: "Pedidos", href: "/adm/operacao/pedidos-criticos", icon: ShoppingBag },
-  { label: "Logistica", href: "/adm/operacao/logistica", icon: Truck },
+  { label: "Sellers", href: "/adm/operação/parceiros", icon: Store },
+  { label: "Pedidos", href: "/adm/operação/pedidos-criticos", icon: ShoppingBag },
+  { label: "Logistica", href: "/adm/operação/logistica", icon: Truck },
   { label: "Risco", href: "/adm/financeiro/risco", icon: ShieldAlert },
   { label: "Financeiro", href: "/adm/financeiro", icon: Wallet },
   { label: "Clientes", href: "/adm/relacionamento/clientes", icon: Users },
   { label: "Relatorios", href: "/adm/gestao/relatorios", icon: ChartColumn },
-  { label: "Configuracoes", href: "/adm/gestao/configuracoes", icon: Settings }
+  { label: "Configuracoes", href: "/adm/gestao/configurações", icon: Settings }
 ];
 
 const avatarByUserName: Record<string, AvatarConfig> = {
@@ -281,7 +281,7 @@ export async function CurationHistoryPage({
         style={historyTheme}
       >
         <div className="max-w-lg rounded-[1.5rem] border border-[var(--history-border)] bg-white p-10 shadow-[var(--history-shadow)]">
-          <h1 className={`${notoSerif.className} text-3xl`}>Historico de Versoes</h1>
+          <h1 className={`${notoSerif.className} text-3xl`}>Histórico de Versoes</h1>
           <p className="mt-4 text-sm text-[var(--history-text-soft)]">
             Nao foi possivel carregar os eventos desta trilha no momento.
           </p>
@@ -375,7 +375,7 @@ export async function CurationHistoryPage({
                   type="search"
                   name="q"
                   defaultValue={filters.q}
-                  placeholder="Buscar no historico..."
+                  placeholder="Buscar no histórico..."
                   className="w-full rounded-xl border-none bg-stone-100 py-2 pl-10 pr-4 text-sm text-stone-700 placeholder:text-stone-400 focus:outline-none focus:ring-1 focus:ring-stone-300"
                 />
               </form>
@@ -604,7 +604,7 @@ export async function CurationHistoryPage({
 
                     <div className="flex items-center gap-2">
                       <Link
-                        href={buildHref("/adm/curadoria/historico-versoes", searchParamsSource, {
+                        href={buildHref("/adm/curadoria/histórico-versoes", searchParamsSource, {
                           page: currentPage > 1 ? String(currentPage - 1) : undefined
                         })}
                         aria-disabled={currentPage === 1}
@@ -621,7 +621,7 @@ export async function CurationHistoryPage({
                         {totalPages > 1 ? <span className="text-stone-300">de {totalPages}</span> : null}
                       </div>
                       <Link
-                        href={buildHref("/adm/curadoria/historico-versoes", searchParamsSource, {
+                        href={buildHref("/adm/curadoria/histórico-versoes", searchParamsSource, {
                           page: currentPage < totalPages ? String(currentPage + 1) : undefined
                         })}
                         aria-disabled={currentPage >= totalPages}

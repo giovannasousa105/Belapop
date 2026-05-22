@@ -14,6 +14,8 @@ import {
 } from "lucide-react";
 import { useEffect, useMemo, useRef, useState } from "react";
 
+import { brandCtas } from "@/lib/brand/ctas";
+
 type SkincareProduct = {
   id: string;
   slug: string;
@@ -31,8 +33,8 @@ const primaryFilters = [
   "Todos",
   "Limpeza",
   "Seruns",
-  "Hidratacao",
-  "Protecao",
+  "Hidratação",
+  "Proteção",
   "Olhos",
   "Mascaras"
 ] as const;
@@ -44,7 +46,7 @@ const refinementFilters = [
   "Ativos",
   "Marca",
   "Preco",
-  "Avaliacao"
+  "Avaliação"
 ] as const;
 
 const sortOptions = [
@@ -66,7 +68,7 @@ const ritualSteps = [
     icon: Sparkles,
     title: "2. Tratar",
     description:
-      "Seruns concentrados e formulas de alta performance para uniformizar, regenerar e iluminar."
+      "Seruns e formulas de cuidado para apoiar uniformidade, conforto e luminosidade na rotina."
   },
   {
     icon: Flower2,
@@ -103,10 +105,10 @@ function resolveCategory(product: SkincareProduct) {
   if (/(cleanser|sabonete|limpeza|gel de limpeza|espuma)/.test(normalized)) return "Limpeza";
   if (/(serum|seruns|essence|tonico|booster|ampola)/.test(normalized)) return "Seruns";
   if (/(olhos|eye|eye lift)/.test(normalized)) return "Olhos";
-  if (/(fps|solar|protecao|uv)/.test(normalized)) return "Protecao";
+  if (/(fps|solar|proteção|uv)/.test(normalized)) return "Proteção";
   if (/(mascara|mask|esfoliante|detox)/.test(normalized)) return "Mascaras";
 
-  return "Hidratacao";
+  return "Hidratação";
 }
 
 function previewRating(product: SkincareProduct) {
@@ -257,7 +259,7 @@ export function SkincareCatalogExperience({ products }: Props) {
                   type="text"
                   value={query}
                   onChange={(event) => setQuery(event.target.value)}
-                  placeholder="Serum, limpeza, hidratacao..."
+                  placeholder="Serum, limpeza, hidratação..."
                   className="h-11 w-full border-0 bg-transparent px-0 py-0 text-sm text-[#1c1b1b] placeholder:text-[#747878]/70 focus:outline-none focus:ring-0"
                 />
               </div>
@@ -388,7 +390,7 @@ export function SkincareCatalogExperience({ products }: Props) {
                     href={`/produto/${product.slug}`}
                     className="inline-flex min-h-12 w-full items-center justify-center bg-black px-3 text-[11px] font-semibold uppercase tracking-[0.2em] text-white transition-colors hover:bg-black/90 lg:min-h-[56px]"
                   >
-                    Adicionar a sacola
+                    {brandCtas.secondary.seeDetails}
                   </Link>
                 </div>
               </article>
@@ -573,7 +575,7 @@ export function SkincareCatalogExperience({ products }: Props) {
             <div className="mt-20 text-center">
               <div className="mx-auto mb-2 h-px w-24 bg-black/10" />
               <span className="text-[8px] uppercase tracking-[0.3em] text-[#6b6467]/70">
-                Dermatologicamente testado
+                Padrao BelaPop em revisao continua
               </span>
             </div>
           </div>

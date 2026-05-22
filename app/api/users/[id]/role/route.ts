@@ -42,7 +42,7 @@ export async function POST(
     scope.ownerUserId
   );
   if (!targetBelongs) {
-    return NextResponse.json({ error: "Membro nao pertence a esta loja." }, { status: 404 });
+    return NextResponse.json({ error: "Membro não pertence a esta loja." }, { status: 404 });
   }
 
   const admin = getSupabaseAdminClient();

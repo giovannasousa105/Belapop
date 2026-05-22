@@ -114,7 +114,7 @@ export default function TicketDetailPage() {
       setText("");
       setNotice("Mensagem enviada.");
     } catch (error) {
-      setNotice(error instanceof Error ? error.message : "Nao foi possivel enviar.");
+      setNotice(error instanceof Error ? error.message : "Não foi possivel enviar.");
     } finally {
       setSending(false);
     }
@@ -131,7 +131,7 @@ export default function TicketDetailPage() {
   if (!ticket) {
     return (
       <div className="rounded-2xl border border-black/10 bg-white p-6 text-sm text-bpGraphite/70">
-        Protocolo nao encontrado.
+        Protocolo não encontrado.
       </div>
     );
   }

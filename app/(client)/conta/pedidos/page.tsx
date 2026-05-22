@@ -5,6 +5,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 
 import { useAuth } from "@/lib/AuthContext";
+import { buildLoginHref } from "@/lib/auth/redirects";
 import {
   type OrderRow,
   type SubOrderRow,
@@ -67,7 +68,7 @@ export default function ContaPedidosPage() {
   useEffect(() => {
     if (!ready) return;
     if (!user) {
-      router.replace("/login?tab=customer");
+      router.replace(buildLoginHref("/conta/pedidos"));
       return;
     }
 

@@ -1,0 +1,131 @@
+name: Seller · Invariantes
+
+on:
+  push:
+    paths:
+      - "lib/seller/**"
+      - "app/api/seller/**"
+      - "app/(partner)/**"
+      - "supabase/migrations/*seller*"
+      - "supabase/migrations/20260516_0700*"
+  pull_request:
+    paths:
+      - "lib/seller/**"
+      - "app/api/seller/**"
+
+jobs:
+  invariants:
+    name: Verificar invariantes do Seller
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - name: Instalar dependências
+        run: npm ci
+
+      # ── Testes de invariantes (zero banco) ───────────────────────────────────
+      - name: "Testes de invariantes (zero banco, zero API)"
+        run: |
+          npx jest lib/seller/ --no-coverage
+          echo "✅ Testes das invariantes do Seller: todos passaram."
+
+      # ── TypeScript strict ─────────────────────────────────────────────────────
+      - name: "TypeScript — compilar sem erros"
+        run: |
+          npx tsc --noEmit
+          echo "✅ TypeScript: compilação sem erros."
+
+      # ── Invariante 1: status nunca pula etapas ────────────────────────────────
+      - name: "Invariante 1 — assertPodeAprovar chamado antes de aprovar seller"
+        run: |
+          # Toda aprovação de seller deve passar por assertPodeAprovar
+          if grep -rn "status.*=.*'ATIVO'\|status.*=.*\"ATIVO\"" \
+               lib/seller/ app/api/admin/sellers/ 2>/dev/null \
+             | grep -v "assertPodeAprovar\|validarTransicao\|__tests__" \
+             | grep "UPDATE\|update\|SET status"; then
+            echo "❌ ERRO: UPDATE para ATIVO sem assertPodeAprovar detectado."
+            echo "   Chamar assertPodeAprovar(seller) antes de qualquer aprovação."
+            exit 1
+          fi
+          echo "✅ Invariante 1: aprovações passam por assertPodeAprovar."
+
+      # ── Invariante 2: Stripe Connect antes de publicar lote ──────────────────
+      - name: "Invariante 2 — assertStripeCompleto antes de INSERT em lotes"
+        run: |
+          # Verificar que arquivos que inserem lotes importam a guarda
+          LOTE_FILES=$(grep -rln "from.*lotes\|\.from.*lotes\|INSERT.*lotes" \
+            --include="*.ts" lib/seller/ app/api/seller/ 2>/dev/null || true)
+
+          if [ -z "$LOTE_FILES" ]; then
+            echo "✅ Invariante 2: sem inserções de lote detectadas (OK por ora)."
+            exit 0
+          fi
+
+          for f in $LOTE_FILES; do
+            if ! grep -q "assertStripeCompleto\|isStripeCompleto" "$f"; then
+              echo "❌ ERRO: $f insere lotes sem verificar assertStripeCompleto."
+              echo "   Importar e chamar assertStripeCompleto(seller) antes de INSERT."
+              exit 1
+            fi
+          done
+          echo "✅ Invariante 2: todos os lotes verificam Stripe Connect."
+
+      # ── Invariante 3: calcularSLA é pura (sem await) ──────────────────────────
+      - name: "Invariante 3 — calcularSLA é função pura (sem async/await)"
+        run: |
+          if grep -n "async function calcularSLA\|await.*calcularSLA" \
+               lib/seller/invariants/slaInvariant.ts 2>/dev/null; then
+            echo "❌ ERRO: calcularSLA contém async/await."
+            echo "   SLA deve ser calculado de forma síncrona e pura."
+            echo "   Motivo: evitar stale data — calcular sempre na hora."
+            exit 1
+          fi
+          echo "✅ Invariante 3: calcularSLA é pura e síncrona."
+
+      # ── Invariante 4: validarCNPJ não acessa banco ────────────────────────────
+      - name: "Invariante 4 — validarCNPJ não acessa banco nem APIs"
+        run: |
+          if grep -n "supabase\|fetch\|axios\|prisma\|await\|async" \
+               lib/seller/validarCNPJ.ts 2>/dev/null; then
+            echo "❌ ERRO: validarCNPJ acessa recursos externos."
+            echo "   CNPJ deve ser validado localmente (algoritmo dos dígitos verificadores)."
+            exit 1
+          fi
+          echo "✅ Invariante 4: validarCNPJ é pura (sem I/O)."
+
+      # ── Invariante 5: importação via index.ts ─────────────────────────────────
+      - name: "Invariante 5 — invariants importados via lib/seller/invariants"
+        run: |
+          VIOLATIONS=$(grep -rn \
+            "from.*seller/invariants/sellerStatus\|from.*seller/invariants/stripeConnect\|from.*seller/invariants/sla" \
+            --include="*.ts" --include="*.tsx" \
+            lib/ app/ 2>/dev/null \
+            | grep -v "lib/seller/invariants/index.ts" \
+            | grep -v "__tests__" || true)
+
+          if [ -n "$VIOLATIONS" ]; then
+            echo "❌ ERRO: importações diretas de invariants individuais:"
+            echo "$VIOLATIONS"
+            echo "   Importar SEMPRE de '@/lib/seller/invariants'"
+            exit 1
+          fi
+          echo "✅ Invariante 5: importações via index.ts."
+
+      # ── Relatório final ───────────────────────────────────────────────────────
+      - name: "Relatório — todos os invariantes do Seller"
+        run: |
+          echo "✓ Testes: todos passaram (zero banco)"
+          echo "✓ assertPodeAprovar: presente nas aprovações"
+          echo "✓ assertStripeCompleto: presente nos lotes"
+          echo "✓ calcularSLA: pura e síncrona"
+          echo "✓ validarCNPJ: pura (sem I/O)"
+          echo "✓ Importações: via index.ts"
+          echo ""
+          echo "Seller · todos os invariantes validados ✓"

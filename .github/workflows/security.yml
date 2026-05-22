@@ -1,0 +1,72 @@
+name: Security and Observability
+
+on:
+  push:
+    paths:
+      - "app/api/**"
+      - "components/analytics/**"
+      - "lib/analytics/**"
+      - "lib/logger.ts"
+      - "sentry.*.config.ts"
+      - "instrumentation*.ts"
+      - "next.config.mjs"
+      - ".github/workflows/security.yml"
+  pull_request:
+    paths:
+      - "app/api/**"
+      - "components/analytics/**"
+      - "lib/analytics/**"
+      - "lib/logger.ts"
+      - "sentry.*.config.ts"
+      - "instrumentation*.ts"
+      - "next.config.mjs"
+
+jobs:
+  observability:
+    name: Verificar observabilidade critica
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Verificar Sentry configurado
+        run: |
+          if ! grep -q "NEXT_PUBLIC_SENTRY_DSN" sentry.client.config.ts 2>/dev/null; then
+            echo "ERRO: Sentry nao configurado no client"
+            exit 1
+          fi
+
+      - name: Verificar eventos criticos rastreados
+        run: |
+          EVENTOS_CRITICOS=(
+            "pedido_confirmado"
+            "reserva_criada"
+            "scan_concluido"
+            "checkout_aberto"
+          )
+          for evento in "${EVENTOS_CRITICOS[@]}"; do
+            if ! grep -rq "$evento" lib/analytics/events.ts app/api jobs; then
+              echo "ERRO: evento critico '$evento' nao encontrado"
+              exit 1
+            fi
+          done
+
+      - name: Verificar scrubbing de PII no Sentry
+        run: |
+          if ! grep -q "beforeSend" sentry.client.config.ts; then
+            echo "ERRO: beforeSend ausente no Sentry client"
+            exit 1
+          fi
+          if ! grep -q "\[filtered\]" sentry.client.config.ts; then
+            echo "ERRO: filtro de email ausente no Sentry client"
+            exit 1
+          fi
+
+      - name: Verificar redacao de logs sensiveis
+        run: |
+          for campo in email token authorization payment_intent_id; do
+            if ! grep -q "$campo" lib/logger.ts; then
+              echo "ERRO: logger nao redige '$campo'"
+              exit 1
+            fi
+          done

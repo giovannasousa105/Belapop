@@ -3,21 +3,29 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Lock, Minus, Plus, ShieldCheck, Truck, X } from "lucide-react";
-import { useMemo, useState } from "react";
+import { Minus, Plus, X } from "lucide-react";
+import { useMemo } from "react";
 
+import { CommerceTrustMarkers } from "@/components/commerce/CommerceTrustMarkers";
 import { CommerceLightFooter } from "@/components/commerce/CommerceLightFooter";
+import { ConsultoraInlineEntry } from "@/components/assistant/ConsultoraBelaPop";
+import { ShippingCalculator } from "@/components/ShippingCalculator";
+import { PurchaseTrustSummary } from "@/components/legal/PurchaseTrustSummary";
 import { BelaPopValidatedHeader } from "@/components/luxury/BelaPopValidatedHeader";
+import { useAuth } from "@/lib/AuthContext";
+import { brandCtas } from "@/lib/brand/ctas";
+import { brandSectionNames } from "@/lib/brand/sections";
 import { useCart } from "@/lib/CartContext";
-import { useStoredProducts } from "@/lib/hooks/useStoredProducts";
+import { usePublishedProducts } from "@/lib/hooks/useStoredProducts";
+import { buildShippingItems } from "@/lib/shipping/prepareItems";
 import type { Product } from "@/lib/types";
 
 type CartEntry = {
   id: string;
   image: string;
-  isSample: boolean;
   name: string;
   quantity: number;
+  stockQuantity?: number;
   subtitle: string;
   unitPrice: number;
 };
@@ -29,29 +37,6 @@ const formatCurrency = new Intl.NumberFormat("pt-BR", {
 
 const fallbackProductImage =
   "https://lh3.googleusercontent.com/aida-public/AB6AXuDJXqXTITm_Xfyh7Aup7xRF7cw3ZCJAPF-g7Z1m9vfxONcW7F0Kz0GpiRZoGzo5aDKM0SyWs2s2idW361OESpfNyRkN3vctpYBMbfzu0EYz8-ZFpzJ-6Wxy5TpkCC3pKGvt6FVT46b_-YSlPgOKtoriRYya1cUW3FGTxaR2HDEPrIKR9WgwrLeABkHsG7fZ3dJGwbvzfR3TIYpSLLR4OdCUgCoA5azYw5LVgEx4HCm2ljzlnK0Exv5V1VuPy8WtdeKf8xj5Z4Jm_GI5";
-
-const sampleCartEntries: CartEntry[] = [
-  {
-    id: "sample-serum-vitamina-c",
-    image:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuDJXqXTITm_Xfyh7Aup7xRF7cw3ZCJAPF-g7Z1m9vfxONcW7F0Kz0GpiRZoGzo5aDKM0SyWs2s2idW361OESpfNyRkN3vctpYBMbfzu0EYz8-ZFpzJ-6Wxy5TpkCC3pKGvt6FVT46b_-YSlPgOKtoriRYya1cUW3FGTxaR2HDEPrIKR9WgwrLeABkHsG7fZ3dJGwbvzfR3TIYpSLLR4OdCUgCoA5azYw5LVgEx4HCm2ljzlnK0Exv5V1VuPy8WtdeKf8xj5Z4Jm_GI5",
-    isSample: true,
-    name: "Serum Iluminador Vitamina C+",
-    quantity: 1,
-    subtitle: "Skincare • 30ml",
-    unitPrice: 189
-  },
-  {
-    id: "sample-hidratante-noturno",
-    image:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuAECpaxnOIZxdlmWaehm5yo126HIkZLFm9GGrwxqc1gyMj2gUFi06s1QGSvWftIj5Vd7OsndSy0Rr2YFMN0mO2K9XRS3slrXezGsr65J7waw80q4rtPP6J7KZsLHO8HdQnYzluIq9dA-Ww2QkKOrq9VJbCAU5JIq1lW_tQG54e7a8u40J8ppAL29S4YAAKwv38kQLbtPRr8zCsI1s44VyfPACdT6MjiC6cCGDXupDQgcob4HfUvlc8K9O7wvbfjSaARPLzQE9YrPE99",
-    isSample: true,
-    name: "Hidratante Facial de Noite",
-    quantity: 1,
-    subtitle: "Skincare • 50g",
-    unitPrice: 145
-  }
-];
 
 function isRenderableProductImage(value?: string | null) {
   if (!value) return false;
@@ -78,14 +63,16 @@ function resolveProductSubtitle(product: Product) {
 function mapCartEntries(items: { productId: string; quantity: number }[], products: Product[]) {
   return items.reduce<CartEntry[]>((entries, item) => {
     const product = products.find((candidate) => candidate.id === item.productId);
-    if (!product) return entries;
+    if (!product) {
+      return entries;
+    }
 
     entries.push({
       id: item.productId,
       image: resolveProductImage(product),
-      isSample: false,
       name: product.name,
       quantity: item.quantity,
+      stockQuantity: product.stockQuantity,
       subtitle: resolveProductSubtitle(product),
       unitPrice: product.price
     });
@@ -94,76 +81,62 @@ function mapCartEntries(items: { productId: string; quantity: number }[], produc
   }, []);
 }
 
-function TrustRow() {
-  return (
-    <section className="grid grid-cols-3 gap-3 rounded-2xl bg-[#f6f3f2] p-5">
-      <div className="flex flex-col items-center gap-2 text-center">
-        <ShieldCheck className="h-5 w-5 text-black/65" />
-        <span className="text-[10px] font-semibold uppercase tracking-[0.14em] text-black/70">
-          Ambiente seguro
-        </span>
-      </div>
-      <div className="flex flex-col items-center gap-2 text-center">
-        <Truck className="h-5 w-5 text-black/65" />
-        <span className="text-[10px] font-semibold uppercase tracking-[0.14em] text-black/70">
-          Logistica premium
-        </span>
-      </div>
-      <div className="flex flex-col items-center gap-2 text-center">
-        <Lock className="h-5 w-5 text-black/65" />
-        <span className="text-[10px] font-semibold uppercase tracking-[0.14em] text-black/70">
-          Pagamento seguro
-        </span>
-      </div>
-    </section>
-  );
-}
-
 export function LuxuryCartExperience() {
   const router = useRouter();
-  const { items, removeItem, updateQuantity } = useCart();
-  const { products } = useStoredProducts();
-  const [sampleEntriesState, setSampleEntriesState] = useState<CartEntry[]>(sampleCartEntries);
+  const { user } = useAuth();
+  const { items, ready, removeItem, updateQuantity, totalShipping } = useCart();
+  const { products, loading: productsLoading } = usePublishedProducts();
 
   const cartEntries = useMemo(() => mapCartEntries(items, products), [items, products]);
-  const showingSamples = cartEntries.length === 0;
-  const displayedEntries = showingSamples ? sampleEntriesState : cartEntries;
+  const liveShippingItems = useMemo(
+    () =>
+      buildShippingItems(
+        items
+          .map((item) => {
+            const product = products.find((candidate) => candidate.id === item.productId);
+            if (!product) return null;
+            return { product, quantity: item.quantity };
+          })
+          .filter((entry): entry is { product: Product; quantity: number } => Boolean(entry))
+      ),
+    [items, products]
+  );
+  const displayedEntries = cartEntries;
   const isEmpty = displayedEntries.length === 0;
+  const isCartLoading = !ready || (items.length > 0 && productsLoading);
+  const hasUnresolvedItems = ready && !productsLoading && items.length > 0 && cartEntries.length !== items.length;
+  const hasStockIssue = displayedEntries.some(
+    (entry) =>
+      typeof entry.stockQuantity === "number" &&
+      Number.isFinite(entry.stockQuantity) &&
+      entry.quantity > entry.stockQuantity
+  );
 
   const subtotal = useMemo(
     () => displayedEntries.reduce((total, entry) => total + entry.unitPrice * entry.quantity, 0),
     [displayedEntries]
   );
-  const total = subtotal;
+  const total = subtotal + totalShipping;
 
   const decreaseQuantity = (entry: CartEntry) => {
-    if (!entry.isSample) {
-      updateQuantity(entry.id, entry.quantity - 1);
-      return;
-    }
-    setSampleEntriesState((current) =>
-      current.map((item) =>
-        item.id === entry.id ? { ...item, quantity: Math.max(1, item.quantity - 1) } : item
-      )
-    );
+    updateQuantity(entry.id, entry.quantity - 1);
   };
 
   const increaseQuantity = (entry: CartEntry) => {
-    if (!entry.isSample) {
-      updateQuantity(entry.id, entry.quantity + 1);
-      return;
-    }
-    setSampleEntriesState((current) =>
-      current.map((item) => (item.id === entry.id ? { ...item, quantity: item.quantity + 1 } : item))
-    );
+    updateQuantity(entry.id, entry.quantity + 1);
   };
 
   const removeEntry = (entry: CartEntry) => {
-    if (!entry.isSample) {
-      removeItem(entry.id);
+    removeItem(entry.id);
+  };
+
+  const goToCheckout = () => {
+    if (isEmpty || hasUnresolvedItems || isCartLoading || hasStockIssue) return;
+    if (!user) {
+      router.push("/login?tab=customer&returnTo=%2Fcheckout");
       return;
     }
-    setSampleEntriesState((current) => current.filter((item) => item.id !== entry.id));
+    router.push("/checkout");
   };
 
   return (
@@ -172,7 +145,7 @@ export function LuxuryCartExperience() {
 
       <main className="mx-auto max-w-[1440px] px-5 pb-28 pt-24 sm:px-8 lg:px-10 lg:pb-20 lg:pt-32">
         <div className="mb-8 flex items-center gap-3 text-[10px] uppercase tracking-[0.18em] text-black/55 sm:text-xs">
-          <span className="font-semibold text-black/80">Sacola</span>
+          <span className="font-semibold text-black/80">Carrinho</span>
           <span>•</span>
           <span>Identificacao</span>
           <span>•</span>
@@ -183,16 +156,40 @@ export function LuxuryCartExperience() {
           <section className="space-y-8 lg:col-span-7">
             <header className="space-y-2">
               <h1 className="[font-family:var(--font-playfair)] text-4xl font-semibold tracking-[-0.02em] sm:text-5xl">
-                Sua Curadoria
+                {brandSectionNames.cart.selection}
               </h1>
               <p className="text-sm leading-relaxed text-black/60">
                 Itens selecionados para a sua rotina de cuidado.
               </p>
             </header>
 
-            {isEmpty ? (
+            {isCartLoading ? (
               <article className="rounded-2xl border border-black/10 bg-white p-8">
-                <h2 className="[font-family:var(--font-playfair)] text-2xl font-medium">Sacola vazia</h2>
+                <h2 className="[font-family:var(--font-playfair)] text-2xl font-medium">
+                  Carregando seu carrinho
+                </h2>
+                <p className="mt-3 max-w-xl text-sm leading-relaxed text-black/62">
+                  Estamos recuperando os itens adicionados para manter valores e disponibilidade corretos.
+                </p>
+              </article>
+            ) : hasUnresolvedItems ? (
+              <article className="rounded-2xl border border-black/10 bg-white p-8">
+                <h2 className="[font-family:var(--font-playfair)] text-2xl font-medium">
+                  Nao conseguimos carregar estes itens
+                </h2>
+                <p className="mt-3 max-w-xl text-sm leading-relaxed text-black/62">
+                  Revise a selecao no catalogo antes de finalizar a compra.
+                </p>
+                <Link
+                  href="/catalogo"
+                  className="mt-6 inline-flex min-h-12 items-center justify-center border border-black px-6 text-[11px] font-semibold uppercase tracking-[0.2em] transition hover:bg-black hover:text-white"
+                >
+                  Voltar ao catalogo
+                </Link>
+              </article>
+            ) : isEmpty ? (
+              <article className="rounded-2xl border border-black/10 bg-white p-8">
+                <h2 className="[font-family:var(--font-playfair)] text-2xl font-medium">Carrinho vazio</h2>
                 <p className="mt-3 max-w-xl text-sm leading-relaxed text-black/62">
                   Adicione produtos para continuar com checkout seguro e acompanhamento do pedido.
                 </p>
@@ -200,7 +197,7 @@ export function LuxuryCartExperience() {
                   href="/skincare"
                   className="mt-6 inline-flex min-h-12 items-center justify-center border border-black px-6 text-[11px] font-semibold uppercase tracking-[0.2em] transition hover:bg-black hover:text-white"
                 >
-                  Explorar produtos
+                  {brandCtas.secondary.seeProducts}
                 </Link>
               </article>
             ) : (
@@ -260,6 +257,10 @@ export function LuxuryCartExperience() {
                               <button
                                 type="button"
                                 onClick={() => increaseQuantity(entry)}
+                                disabled={
+                                  typeof entry.stockQuantity === "number" &&
+                                  entry.quantity >= entry.stockQuantity
+                                }
                                 className="inline-flex h-8 w-8 items-center justify-center text-black/70 transition hover:text-black"
                                 aria-label="Aumentar quantidade"
                               >
@@ -270,6 +271,11 @@ export function LuxuryCartExperience() {
                               {formatCurrency.format(lineTotal)}
                             </p>
                           </div>
+                          {typeof entry.stockQuantity === "number" && entry.quantity > entry.stockQuantity ? (
+                            <p className="mt-3 text-xs font-semibold text-red-700">
+                              Estoque disponivel: {entry.stockQuantity}. Ajuste a quantidade para continuar.
+                            </p>
+                          ) : null}
                         </div>
                       </div>
                     </article>
@@ -285,18 +291,34 @@ export function LuxuryCartExperience() {
               <p className="mt-2 text-sm leading-relaxed text-black/62">
                 Faca login para acumular pontos na compra e liberar beneficios exclusivos.
               </p>
-              <button className="mt-4 text-[11px] font-semibold uppercase tracking-[0.18em] underline underline-offset-4">
+              <button
+                type="button"
+                onClick={() => router.push(user ? "/conta" : "/login?tab=customer&returnTo=%2Fcarrinho")}
+                className="mt-4 text-[11px] font-semibold uppercase tracking-[0.18em] underline underline-offset-4"
+              >
                 Acessar conta
               </button>
             </section>
 
-            <TrustRow />
+            <ConsultoraInlineEntry
+              flow="cart_assist"
+              origin="cart_inline"
+              title="Quer revisar este carrinho com mais clareza?"
+              description="Eu analiso os itens adicionados e sugiro um complemento por vez, com foco em encaixe de rotina e decisão rápida."
+              ctaLabel="Analisar meu carrinho"
+            />
+
+            {liveShippingItems.length > 0 ? (
+              <ShippingCalculator cartItems={liveShippingItems} tone="light" />
+            ) : null}
+
+            <CommerceTrustMarkers compact />
           </section>
 
           <aside className="lg:col-span-5">
             <div className="rounded-2xl border border-black/10 bg-white p-6 sm:p-8 lg:sticky lg:top-28">
               <h2 className="[font-family:var(--font-playfair)] text-3xl font-medium tracking-[-0.01em]">
-                Resumo do pedido
+                {brandSectionNames.cart.orderSummary}
               </h2>
 
               <div className="mt-7 space-y-4 text-sm">
@@ -306,7 +328,9 @@ export function LuxuryCartExperience() {
                 </div>
                 <div className="flex justify-between">
                   <span className="text-black/60">Frete</span>
-                  <span className="font-medium text-[#6c5e06]">Gratis</span>
+                  <span className="font-medium text-[#6c5e06]">
+                    {totalShipping > 0 ? formatCurrency.format(totalShipping) : "A calcular"}
+                  </span>
                 </div>
               </div>
 
@@ -321,16 +345,18 @@ export function LuxuryCartExperience() {
 
               <button
                 type="button"
-                onClick={() => router.push("/checkout")}
-                disabled={isEmpty}
+                onClick={goToCheckout}
+                disabled={isEmpty || hasUnresolvedItems || isCartLoading || hasStockIssue}
                 className="mt-8 min-h-14 w-full bg-black px-6 text-xs font-semibold uppercase tracking-[0.2em] text-white transition hover:bg-black/90 disabled:cursor-not-allowed disabled:opacity-45"
               >
-                Finalizar curadoria com seguranca
+                {brandCtas.primary.checkout}
               </button>
 
               <p className="mt-4 text-center text-[11px] leading-relaxed text-black/55">
                 Ao continuar, voce confirma os termos da plataforma e condicoes do seller.
               </p>
+
+              <PurchaseTrustSummary context="cart" className="mt-6" />
             </div>
           </aside>
         </div>

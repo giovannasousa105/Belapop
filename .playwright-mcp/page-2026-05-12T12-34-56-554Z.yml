@@ -1,0 +1,168 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e462]:
+    - banner [ref=e463]:
+      - generic [ref=e464]:
+        - generic [ref=e465]:
+          - link "BelaPop" [ref=e466] [cursor=pointer]:
+            - /url: /
+            - img "BelaPop" [ref=e467]
+          - navigation [ref=e468]:
+            - link "Skincare" [ref=e469] [cursor=pointer]:
+              - /url: /skincare
+            - link "Maquiagem" [ref=e470] [cursor=pointer]:
+              - /url: /maquiagem
+            - link "Cabelos" [ref=e471] [cursor=pointer]:
+              - /url: /cabelos
+            - link "Perfumes" [ref=e472] [cursor=pointer]:
+              - /url: /perfumes
+            - link "Skin Scan Bela" [ref=e473] [cursor=pointer]:
+              - /url: /skin-scan
+        - generic [ref=e474]:
+          - link "POPCLUB" [ref=e475] [cursor=pointer]:
+            - /url: /popclub
+            - img [ref=e476]
+            - generic [ref=e478]: POPCLUB
+          - button "FAVORITOS" [ref=e479] [cursor=pointer]:
+            - img [ref=e480]
+            - generic [ref=e482]: FAVORITOS
+          - button "Buscar" [ref=e483] [cursor=pointer]:
+            - img [ref=e484]
+          - button "Conta" [ref=e487] [cursor=pointer]:
+            - img [ref=e488]
+          - button "Sacola" [ref=e491] [cursor=pointer]:
+            - img [ref=e492]
+    - main [ref=e495]:
+      - generic [ref=e496]:
+        - generic [ref=e497]: Sacola
+        - generic [ref=e498]: •
+        - generic [ref=e499]: Identificacao
+        - generic [ref=e500]: •
+        - generic [ref=e501]: Pagamento
+      - generic [ref=e502]:
+        - generic [ref=e503]:
+          - generic [ref=e504]:
+            - heading "Checkout" [level=1] [ref=e505]
+            - paragraph [ref=e506]: Finalize com entrega segura e pagamento validado.
+          - generic [ref=e507]:
+            - heading "Dados de entrega" [level=2] [ref=e508]
+            - generic [ref=e509]:
+              - generic [ref=e510]:
+                - generic [ref=e511]: Nome completo
+                - textbox "Nome completo" [ref=e512]:
+                  - /placeholder: Como no documento
+              - generic [ref=e513]:
+                - generic [ref=e514]: E-mail
+                - textbox "E-mail" [ref=e515]:
+                  - /placeholder: voce@email.com
+              - generic [ref=e516]:
+                - generic [ref=e517]: Endereco
+                - textbox "Endereco" [ref=e518]:
+                  - /placeholder: Rua, numero e complemento
+              - generic [ref=e519]:
+                - generic [ref=e520]: Cidade
+                - textbox "Cidade" [ref=e521]:
+                  - /placeholder: "Ex: Sao Paulo"
+              - generic [ref=e522]:
+                - generic [ref=e523]: CEP
+                - textbox "CEP" [ref=e524]:
+                  - /placeholder: 00000-000
+          - generic [ref=e525]:
+            - heading "Pagamento" [level=2] [ref=e526]
+            - generic [ref=e527]:
+              - generic [ref=e528] [cursor=pointer]:
+                - radio "Cartao de credito Ate 10x sem juros" [checked] [ref=e529]
+                - generic [ref=e530]:
+                  - paragraph [ref=e531]: Cartao de credito
+                  - paragraph [ref=e532]: Ate 10x sem juros
+              - generic [ref=e533] [cursor=pointer]:
+                - radio "Pix Confirmacao imediata" [ref=e534]
+                - generic [ref=e535]:
+                  - paragraph [ref=e536]: Pix
+                  - paragraph [ref=e537]: Confirmacao imediata
+            - generic [ref=e538]:
+              - generic [ref=e539]:
+                - generic [ref=e540]: Numero do cartao
+                - textbox "Numero do cartao" [ref=e541]:
+                  - /placeholder: 0000 0000 0000 0000
+              - generic [ref=e542]:
+                - generic [ref=e543]:
+                  - generic [ref=e544]: Validade
+                  - textbox "Validade" [ref=e545]:
+                    - /placeholder: MM/AA
+                - generic [ref=e546]:
+                  - generic [ref=e547]: CVV
+                  - textbox "CVV" [ref=e548]:
+                    - /placeholder: "123"
+              - generic [ref=e549]:
+                - checkbox "Salvar cartao para proximas compras" [checked] [ref=e550]
+                - generic [ref=e551]: Salvar cartao para proximas compras
+        - complementary [ref=e552]:
+          - generic [ref=e554]:
+            - heading "Resumo da curadoria" [level=3] [ref=e555]
+            - paragraph [ref=e556]: Pre-visualizacao com selecao inicial
+            - generic [ref=e557]:
+              - img "Curadoria BelaPop (2 itens)" [ref=e559]
+              - generic [ref=e560]:
+                - paragraph [ref=e561]: Item selecionado
+                - heading "Curadoria BelaPop (2 itens)" [level=4] [ref=e562]
+                - paragraph [ref=e563]: "Quantidade: 2"
+                - paragraph [ref=e564]: R$ 334,00
+            - generic [ref=e565]:
+              - generic [ref=e566]:
+                - generic [ref=e567]: Subtotal
+                - generic [ref=e568]: R$ 334,00
+              - generic [ref=e569]:
+                - generic [ref=e570]: Entrega
+                - generic [ref=e571]: Gratis
+            - generic [ref=e573]:
+              - generic [ref=e574]: Total
+              - generic [ref=e575]: R$ 334,00
+            - button "Finalizar curadoria com seguranca" [ref=e576] [cursor=pointer]:
+              - text: Finalizar curadoria com seguranca
+              - img [ref=e577]
+            - generic [ref=e579]:
+              - generic [ref=e580]:
+                - img [ref=e581]
+                - paragraph [ref=e584]: Seguro
+              - generic [ref=e585]:
+                - img [ref=e586]
+                - paragraph [ref=e589]: Criptografado
+              - generic [ref=e590]:
+                - img [ref=e591]
+                - paragraph [ref=e596]: Rastreio
+    - contentinfo [ref=e597]:
+      - generic [ref=e598]:
+        - generic [ref=e599]:
+          - generic [ref=e600]:
+            - generic [ref=e601]: BelaPop
+            - paragraph [ref=e602]: Curadoria de beleza com seleção precisa, parceiros verificados e experiência de compra transparente.
+          - generic [ref=e603]:
+            - heading "Shop" [level=4] [ref=e604]
+            - generic [ref=e605]:
+              - link "Skincare" [ref=e606] [cursor=pointer]:
+                - /url: /skincare
+              - link "Maquiagem" [ref=e607] [cursor=pointer]:
+                - /url: /maquiagem
+              - link "Cabelos" [ref=e608] [cursor=pointer]:
+                - /url: /cabelos
+              - link "Perfumes" [ref=e609] [cursor=pointer]:
+                - /url: /perfumes
+          - generic [ref=e610]:
+            - heading "Atendimento" [level=4] [ref=e611]
+            - generic [ref=e612]:
+              - link "Contato" [ref=e613] [cursor=pointer]:
+                - /url: /contato
+              - link "Rastrear pedido" [ref=e614] [cursor=pointer]:
+                - /url: /rastreio
+              - link "Termos de uso" [ref=e615] [cursor=pointer]:
+                - /url: /termos-e-condicoes
+              - link "Privacidade" [ref=e616] [cursor=pointer]:
+                - /url: /aviso-de-privacidade
+          - generic [ref=e617]:
+            - heading "Institucional" [level=4] [ref=e618]
+            - generic [ref=e619]:
+              - paragraph [ref=e620]: 63.945.608 GIOVANNA DE SOUSA FERREIRA SANTOS
+              - paragraph [ref=e621]: CNPJ 63.945.608/0001-09
+              - paragraph [ref=e622]: Rua Coromandel, 189, Bairro Amorim, Araguari/MG, CEP 38446-093
+        - paragraph [ref=e624]: © 2026 BelaPop Cosméticos Ltda. Todos os direitos reservados.
+  - alert [ref=e286]: Checkout | BelaPop

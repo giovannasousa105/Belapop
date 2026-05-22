@@ -15,7 +15,7 @@ type ActiveSellerSwitcherProps = {
 const formatMemberRole = (value: string | null | undefined) => {
   if (!value) return "Membro";
   if (value === "ADMIN") return "Admin";
-  if (value === "OPERACAO") return "Operacao";
+  if (value === "OPERACAO") return "Operação";
   if (value === "FINANCEIRO") return "Financeiro";
   return value;
 };
@@ -59,7 +59,7 @@ export default function ActiveSellerSwitcher({
     setError(null);
     const result = await switchSeller(nextSellerId);
     if (!result.ok) {
-      setError(result.message ?? "Nao foi possivel trocar a loja ativa.");
+      setError("Não foi possivel trocar a loja ativa agora.");
       return;
     }
 

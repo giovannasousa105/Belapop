@@ -1,3 +1,5 @@
+import { withSentryConfig } from "@sentry/nextjs";
+
 const parseHostname = (value) => {
   if (!value) return null;
   try {
@@ -33,7 +35,13 @@ const buildContentSecurityPolicy = () => {
     ["style-src", ["'self'", "'unsafe-inline'", "https:"]],
     [
       "script-src",
-      ["'self'", "'unsafe-inline'", ...(isDev ? ["'unsafe-eval'"] : []), "https:"]
+      [
+        "'self'",
+        "'unsafe-inline'",
+        "'wasm-unsafe-eval'",
+        ...(isDev ? ["'unsafe-eval'"] : ["'unsafe-eval'"]),
+        "https:"
+      ]
     ],
     [
       "connect-src",
@@ -75,7 +83,7 @@ const securityHeaders = [
   },
   {
     key: "Permissions-Policy",
-    value: "camera=(), microphone=(), geolocation=(), browsing-topics=()"
+    value: "camera=(self), microphone=(), geolocation=(), browsing-topics=()"
   },
   {
     key: "X-DNS-Prefetch-Control",
@@ -87,6 +95,10 @@ const securityHeaders = [
 const nextConfig = {
   reactStrictMode: true,
   images: {
+    formats:          ["image/webp"],
+    deviceSizes:      [360, 480, 640, 828, 1080, 1200, 1920],
+    imageSizes:       [120, 256, 384, 600],
+    minimumCacheTTL:  31536000,
     remotePatterns: uniqueHosts.map((hostname) => ({
       protocol: hostname === "localhost" || hostname === "127.0.0.1" ? "http" : "https",
       hostname
@@ -102,4 +114,19 @@ const nextConfig = {
   }
 };
 
-export default nextConfig;
+export default withSentryConfig(nextConfig, {
+  org: process.env.SENTRY_ORG,
+  project: process.env.SENTRY_PROJECT,
+  authToken: process.env.SENTRY_AUTH_TOKEN,
+  silent: !process.env.CI,
+  widenClientFileUpload: true,
+  sourcemaps: {
+    disable: !process.env.SENTRY_AUTH_TOKEN
+  },
+  webpack: {
+    automaticVercelMonitors: true,
+    treeshake: {
+      removeDebugLogging: true
+    }
+  }
+});

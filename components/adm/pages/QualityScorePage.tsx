@@ -32,7 +32,7 @@ export async function QualityScorePage({ filters }: QualityScorePageProps) {
     return (
       <ErrorState
         title="Falha ao carregar scores de qualidade"
-        description={listResult.error?.message ?? "Nao foi possivel carregar os indicadores."}
+        description={listResult.error?.message ?? "Não foi possivel carregar os indicadores."}
       />
     );
   }
@@ -66,7 +66,7 @@ export async function QualityScorePage({ filters }: QualityScorePageProps) {
       ) : rows.length === 0 ? (
         <EmptyState
           title="Sem scores para este recorte"
-          description="Nao encontramos indicadores de qualidade para este modulo."
+          description="Não encontramos indicadores de qualidade para este modulo."
         />
       ) : (
         <AdminTable
@@ -104,7 +104,7 @@ export async function QualityScorePage({ filters }: QualityScorePageProps) {
               render: (row) => (
                 <div className="flex justify-end gap-3 text-xs font-semibold uppercase tracking-[0.14em]">
                   <Link
-                    href={`/adm/operacao/parceiros?seller=${row.sellerId}`}
+                    href={`/adm/operação/parceiros?seller=${row.sellerId}`}
                     className="underline underline-offset-4"
                   >
                     Seller

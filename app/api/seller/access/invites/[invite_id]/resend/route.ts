@@ -47,7 +47,7 @@ export async function POST(
       return NextResponse.json(
         {
           error:
-            "Tabela seller_team_invites nao encontrada. Rode a migration de equipe e acessos."
+            "Tabela seller_team_invites não encontrada. Rode a migration de equipe e acessos."
         },
         { status: 400 }
       );
@@ -55,7 +55,7 @@ export async function POST(
     return NextResponse.json({ error: update.error.message }, { status: 500 });
   }
   if (!update.data) {
-    return NextResponse.json({ error: "Convite nao encontrado." }, { status: 404 });
+    return NextResponse.json({ error: "Convite não encontrado." }, { status: 404 });
   }
 
   await logSellerAuditEvent({

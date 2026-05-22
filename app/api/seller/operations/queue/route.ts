@@ -97,7 +97,7 @@ export async function GET(request: NextRequest) {
     orderIds.length > 0
       ? await admin
           .from("support_tickets")
-          .select("id,status,created_at,sla_deadline,order_id")
+          .select("id,status,created_at,sla_deadline,order_id,queue_priority_score")
           .in("order_id", orderIds.slice(0, 1000))
           .limit(2000)
       : { data: [], error: null };
@@ -110,7 +110,8 @@ export async function GET(request: NextRequest) {
     id: String(row.id ?? ""),
     status: row.status ? String(row.status) : null,
     created_at: row.created_at ? String(row.created_at) : null,
-    sla_deadline: row.sla_deadline ? String(row.sla_deadline) : null
+    sla_deadline: row.sla_deadline ? String(row.sla_deadline) : null,
+    queue_priority_score: toNumber(row.queue_priority_score)
   })) satisfies SellerSupportTicketMetricRow[];
 
   const items = buildOperationalQueue({

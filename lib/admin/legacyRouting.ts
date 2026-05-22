@@ -5,7 +5,7 @@ const EXACT_ROUTE_MAP: Record<string, string> = {
   "/admin/produtos": "/admin/products",
   "/admin/produtos/pendentes": "/admin/products/pending",
   "/admin/catalogo": "/admin/curadoria",
-  "/admin/configuracoes": "/admin/settings",
+  "/admin/configurações": "/admin/settings",
   "/admin/config": "/admin/settings"
 };
 

@@ -47,7 +47,7 @@ export async function GET(
     .maybeSingle();
 
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });
-  if (!subOrder) return NextResponse.json({ error: "Subpedido nao encontrado." }, { status: 404 });
+  if (!subOrder) return NextResponse.json({ error: "Subpedido não encontrado." }, { status: 404 });
 
   const { data: order } = await admin
     .from("orders")
@@ -56,7 +56,7 @@ export async function GET(
     .maybeSingle();
 
   if (!order || order.customer_id !== userId) {
-    return NextResponse.json({ error: "Subpedido nao encontrado." }, { status: 404 });
+    return NextResponse.json({ error: "Subpedido não encontrado." }, { status: 404 });
   }
 
   const { shipmentsBySubOrderId } = await loadLatestShipmentsForSubOrders(admin, [

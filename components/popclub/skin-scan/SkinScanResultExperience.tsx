@@ -1,153 +1,212 @@
 "use client";
 
-/* eslint-disable @next/next/no-img-element */
-
 import Link from "next/link";
-import { Droplets, Waves, X } from "lucide-react";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { ArrowLeft, ShoppingBag } from "lucide-react";
 
-import { ImmersiveBottomNav } from "@/components/popclub/shared/ImmersiveBottomNav";
-import { skinScanBottomNavItems } from "@/lib/popclub/navigation";
+import SkinAnalysisResult from "@/components/popclub/skin-scan/SkinAnalysisResult";
+import { popClubPaths } from "@/lib/popclub/navigation";
+import {
+  SKIN_ANALYSIS_SESSION_STORAGE_KEY,
+  skinAnalysisSessionSchema,
+  type SkinAnalysisSession
+} from "@/lib/skincare/skinAnalysis";
 
-const routineProducts = [
-  {
-    brand: "La Mer",
-    title: "The Treatment Lotion",
-    image:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuDe2FbRhkfcnTB8Accu_TIwzstrigTnKfDwpM3isGE2wAuYxWXjiKNbsPpI3Qsc86gm38v-29IDS8XF_ER7hVBDEWo9Ze6HEgQ5v7D_N23f3lXl6NrlsXraKR982qIX85_SlxRsM2D9IszGmPedDyrYDKRJcz_Eki8AuTZuw79z8u95OwgpYzIT8f7OanPF6chnYiLdXEyx1dyVMzosEVA2HjG_YSlwjExCYj0ut5N3bvsYKiDZXbGQdVdxhVDe8uTyiurcvs8t1m4E"
-  },
-  {
-    brand: "Chanel",
-    title: "Hydra Beauty Camellia Glow",
-    image:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuDiaTMoz2C-OcRtY5z8WMqjOXEBmDpzl2LS8brdXZ40G-Nr6eeaR4P1M5yl3hR3V_9U7PGCeSdzEXBml21DQs1wpSG5_9E7U88qm0b57NjWLyUwoecigHSMPyQvWDXJkzz6pQuZAdUs3z5NX3DH3zGqa8PjhpotbV6DYBVz1qmquO7WpfltLZhGFduKI0wBjVjGvWpSbyEWM32t0gMtMnIvXeXd2i63mpUCf3A59ATMkfZQNUx5tuYiFterAAeBRxwesLwhU9GwMkky"
+type LoadState = "loading" | "ready" | "missing";
+
+const previewSession: SkinAnalysisSession = {
+  generatedAt: new Date().toISOString(),
+  imagePreviewDataUrl: null,
+  recommendedProducts: [
+    {
+      id: "preview-creme-de-la-mer",
+      slug: "creme-de-la-mer",
+      name: "Creme de la Mer",
+      brand: "La Mer",
+      category: "Skincare",
+      heroImageUrl:
+        "https://lh3.googleusercontent.com/aida-public/AB6AXuAoZSDZRQ2KBIrSlpJk8sT9llWwZgL75yM2_Tw_VMoogGAGKrYxJvbODbv8VtRoeAO1YIbq2NZJE6W4oXzqPcPwTF9ilF37mlXx5B3Yzxi8pbyo1adI7nTTUnncJr9Sniz4_zEsJGeqAFS5iUL0ux4NKuTZZlot-8yLtwp9OrZG0MG7-mxhOUXpeRZ7PXUNPSlHgSE2XNs6rYt0n24t4BduPhZUAr7VVqKuGWLmSbMemX_D1quQa-Tv2yOYyYTSAtgjl1FXQzH7FODO",
+      priceCents: 145000,
+      sellerId: null,
+      reason: "Ajuda a reforcar hidratação, conforto e equilibrio da barreira da pele.",
+      matchedConcern: "hydration"
+    },
+    {
+      id: "preview-sublimage",
+      slug: "sublimage-lextrait",
+      name: "Sublimage L'Extrait",
+      brand: "Chanel",
+      category: "Skincare",
+      heroImageUrl:
+        "https://lh3.googleusercontent.com/aida-public/AB6AXuC1IUq5RCeJAS8NOcsTuwaJEz0qME4Dhl0yo4gSjf7uEblw9ZgZGPTJd0A2_YirD_jRPVYT1r1-F9Af1dX0rTtk36fWQ4hST7knQjstIWpv78LOdWucNKNBiUleK6I2iuhrWo1_kYFqvSjb351szDY9qq-R4qQIeMUko1SUXyLwULtvDsbiKaUZ5vCbEU5L6AvEENzaPXVMUTYvekwZS9M29RR-Tu3VFGZhvpoGbiJW7woZ6z1gtHOG3x66ACZCOOeQHJTaRiiwWVei",
+      priceCents: 220000,
+      sellerId: null,
+      reason: "Ajuda a apoiar luminosidade e proteção diaria quando o foco e uniformidade visual.",
+      matchedConcern: "uniformity"
+    }
+  ],
+  analysis: {
+    imageQuality: {
+      status: "good",
+      issues: [],
+      canAnalyze: true
+    },
+    skinTexture: {
+      label: "Lisa",
+      score: 85,
+      confidence: 0.9
+    },
+    visiblePores: {
+      label: "baixos",
+      score: 78,
+      confidence: 0.86
+    },
+    oilinessAppearance: {
+      label: "equilibrada",
+      zones: ["nariz"],
+      confidence: 0.82
+    },
+    drynessAppearance: {
+      label: "leve",
+      zones: ["bochechas"],
+      confidence: 0.84
+    },
+    rednessAppearance: {
+      label: "baixa",
+      zones: [],
+      confidence: 0.8
+    },
+    toneUniformity: {
+      label: "Regular",
+      score: 70,
+      confidence: 0.83
+    },
+    fineLinesAppearance: {
+      label: "não aparentes",
+      zones: [],
+      confidence: 0.8
+    },
+    topConcerns: ["hydration", "uniformity"],
+    summary:
+      "Sua pele apresenta uma vitalidade notavel, com leve desidratacao nas zonas perifericas. A textura esta refinada, sugerindo um ciclo de renovacao equilibrado.",
+    routineRecommendation: {
+      morning: [
+        "Limpeza Suave Micelar",
+        "Serum Vitamina C + E",
+        "Protetor Fluido Invisivel"
+      ],
+      night: ["Balsamo Demaquilante Nutritivo", "Creme Regenerador Noturno"]
+    },
+    disclaimer:
+      "Leitura cosmética visual — não substitui avaliação dermatológica."
   }
-] as const;
+};
 
-export default function SkinScanResultExperience() {
+function ResultFallback({ loadState }: { loadState: LoadState }) {
   return (
-    <div className="min-h-screen bg-[#fcf9f8] pb-24 text-[#1c1b1b]">
-      <header className="fixed inset-x-0 top-0 z-50 bg-[#fcf9f8]/82 backdrop-blur-xl">
-        <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6 lg:px-10">
-          <Link
-            href="/skin-scan/analisando"
-            className="inline-flex h-10 w-10 items-center justify-center text-[#1c1b1b]"
-          >
-            <X className="h-5 w-5" />
-          </Link>
-          <h1 className="text-sm uppercase tracking-[0.2em]">Skin Analysis</h1>
-          <div className="w-6" />
-        </div>
+    <div className="min-h-screen overflow-x-hidden bg-[#fcf9f8] text-[#1c1b1b]">
+      <header className="fixed inset-x-0 top-0 z-50 flex h-16 items-center justify-between bg-[#fcf9f8]/84 px-6 backdrop-blur-xl shadow-[0_10px_40px_rgba(0,0,0,0.05)]">
+        <Link href={popClubPaths.skinScanCapture} aria-label="Voltar para o Skin Scan">
+          <ArrowLeft className="h-5 w-5 text-[#1A1A1A]" aria-hidden="true" />
+        </Link>
+        <h1 className="font-[var(--font-playfair)] text-xl font-bold uppercase tracking-[-0.04em] text-[#1A1A1A]">
+          BelaPop
+        </h1>
+        <Link href="/carrinho" aria-label="Abrir carrinho">
+          <ShoppingBag className="h-5 w-5 text-[#1A1A1A]" aria-hidden="true" />
+        </Link>
       </header>
 
-      <main className="mx-auto max-w-7xl px-6 pb-10 pt-24 lg:px-10 lg:pb-16">
-        <div className="grid gap-14 lg:grid-cols-[minmax(0,0.92fr)_minmax(440px,1.08fr)] lg:gap-16">
-          <section className="lg:sticky lg:top-28 lg:self-start">
-            <p className="mb-2 text-[10px] font-bold uppercase tracking-[0.22em] text-[#444748]">
-              Relatorio personalizado
-            </p>
-            <h2 className="font-[var(--font-playfair)] text-5xl font-bold tracking-[-0.05em] lg:text-7xl">
-              Seu diagnostico.
-            </h2>
+      <main className="flex min-h-screen items-center justify-center px-6 pb-28 pt-24">
+        <div className="w-full max-w-2xl bg-white px-8 py-10 text-center shadow-[0_10px_40px_rgba(0,0,0,0.05)]">
+          <p className="text-[10px] uppercase tracking-[0.22em] text-[#6c5e06]">
+            Skin Scan BelaPop
+          </p>
 
-            <div className="relative mb-8 mt-8 overflow-hidden rounded-[30px]">
-              <div className="aspect-[4/5] lg:aspect-[4/4.7]">
-                <img
-                  src="https://lh3.googleusercontent.com/aida-public/AB6AXuDUj5r6MS9y0tE7du-wm613z6UgQeXbkaT7-tTsb645W0HfKIkc3bXk3XgYCUluTnj5fS4ptOZFdE3FhtE748lHkmKkAXtMVXMFDqGcRkwuVr3Jr2DPkjgBzDKQuaoNR7YVWLYRYFZKXvuCDZxv4El3VEgVSad0FQEtfJfLpTDu09QpTntIxG4-HiXkomnWZiDGXtOj3WOSTcGj22A5LfzqwnBdsXZosW-S5Ey-8K9HaZLL9Lz1RWtsESU8nC5ygvaZesba5ziOu-bl"
-                  alt="Diagnostico editorial"
-                  className="h-full w-full object-cover"
-                />
-              </div>
-              <div className="absolute inset-0 bg-black/10" />
-              <div className="absolute bottom-0 right-0 max-w-[80%] bg-[#fcf9f8] p-6 lg:p-8">
-                <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-[#444748]">
-                  Status geral
-                </p>
-                <p className="font-[var(--font-playfair)] text-3xl font-bold uppercase lg:text-4xl">
-                  Excelente.
-                </p>
-              </div>
-            </div>
-
-            <p className="max-w-xl font-[var(--font-playfair)] text-lg italic leading-relaxed text-[#444748] lg:text-2xl">
-              Sua pele esta equilibrada, com leve necessidade de hidratacao.
-            </p>
-          </section>
-
-          <div className="space-y-14">
-            <section className="grid grid-cols-2 gap-px bg-black/10">
-              <div className="flex aspect-square flex-col justify-between bg-[#f6f3f2] p-6 lg:p-8">
-                <Droplets className="h-6 w-6 text-black" />
-                <div>
-                  <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-[#444748]">
-                    Hidratacao
-                  </p>
-                  <p className="text-3xl font-bold lg:text-4xl">72%</p>
-                  <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#6c5e06]">
-                    High
-                  </p>
-                </div>
-              </div>
-              <div className="flex aspect-square flex-col justify-between bg-[#f6f3f2] p-6 lg:p-8">
-                <Droplets className="h-6 w-6 text-black" />
-                <div>
-                  <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-[#444748]">
-                    Oleosidade
-                  </p>
-                  <p className="text-2xl font-bold lg:text-3xl">Media</p>
-                </div>
-              </div>
-              <div className="col-span-2 flex aspect-square flex-col justify-between bg-[#f6f3f2] p-6 lg:aspect-auto lg:min-h-[240px] lg:p-8">
-                <div className="flex items-start justify-between">
-                  <Waves className="h-6 w-6 text-black" />
-                  <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-[#444748]">
-                    Textura
-                  </p>
-                </div>
-                <p className="font-[var(--font-playfair)] text-4xl font-bold lg:text-5xl">Suave.</p>
-              </div>
-            </section>
-
-            <section>
-              <div className="mb-8 flex items-end justify-between">
-                <h3 className="font-[var(--font-playfair)] text-2xl font-bold lg:text-4xl">
-                  Rotina sugerida
-                </h3>
-                <span className="text-[10px] font-bold uppercase tracking-[0.22em] text-[#444748] underline underline-offset-4">
-                  Ver tudo
-                </span>
-              </div>
-
-              <div className="grid gap-10 lg:grid-cols-2">
-                {routineProducts.map((product, index) => (
-                  <article key={product.title}>
-                    <div className="relative mb-6 aspect-[3/4] overflow-hidden bg-[#f6f3f2]">
-                      <img src={product.image} alt={product.title} className="h-full w-full object-cover" />
-                      <div className="absolute left-4 top-4 bg-black px-3 py-1 text-[10px] font-bold uppercase tracking-[0.22em] text-white">
-                        Etapa {String(index + 1).padStart(2, "0")}
-                      </div>
-                    </div>
-                    <p className="text-xs font-bold uppercase tracking-[0.22em] text-[#444748]">
-                      {product.brand}
-                    </p>
-                    <h4 className="mt-1 font-[var(--font-playfair)] text-xl font-bold lg:text-2xl">
-                      {product.title}
-                    </h4>
-                  </article>
-                ))}
-              </div>
-            </section>
-
-            <Link
-              href="/skin-scan/diagnostico"
-              className="inline-flex min-h-14 w-full items-center justify-center bg-[#e5e2e1] px-8 text-sm font-black uppercase tracking-[0.2em] text-[#1c1b1b] transition-colors hover:bg-black hover:text-white lg:w-auto lg:min-w-[320px]"
-            >
-              Ver analise detalhada
-            </Link>
-          </div>
+          {loadState === "loading" ? (
+            <>
+              <h1 className="mt-4 font-[var(--font-playfair)] text-3xl tracking-[-0.04em] text-[#111111]">
+                Carregando sua leitura
+              </h1>
+              <p className="mt-4 text-sm leading-7 text-[#5b5551]">
+                Estamos organizando sua leitura visual para mostrar tudo com clareza.
+              </p>
+            </>
+          ) : (
+            <>
+              <h1 className="mt-4 font-[var(--font-playfair)] text-3xl tracking-[-0.04em] text-[#111111]">
+                Não encontramos uma análise válida para exibir.
+              </h1>
+              <p className="mt-4 text-sm leading-7 text-[#5b5551]">
+                Você pode fazer um novo Skin Scan agora. Se esta página foi aberta
+                sem uma captura válida, vamos te levar de volta para o início da leitura.
+              </p>
+              <Link
+                href={popClubPaths.skinScanCapture}
+                className="mt-8 inline-flex min-h-14 items-center justify-center bg-[#111111] px-6 text-[11px] font-semibold uppercase tracking-[0.24em] text-white"
+              >
+                Fazer novo Skin Scan
+              </Link>
+            </>
+          )}
         </div>
       </main>
-
-      <ImmersiveBottomNav items={skinScanBottomNavItems} />
     </div>
   );
+}
+
+export default function SkinScanResultExperience() {
+  const router = useRouter();
+  const [loadState, setLoadState] = useState<LoadState>("loading");
+  const [sessionData, setSessionData] = useState<SkinAnalysisSession | null>(null);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    try {
+      if (new URLSearchParams(window.location.search).get("preview") === "1") {
+        setSessionData(previewSession);
+        setLoadState("ready");
+        return;
+      }
+
+      const raw = window.sessionStorage.getItem(SKIN_ANALYSIS_SESSION_STORAGE_KEY);
+
+      if (!raw) {
+        setLoadState("missing");
+        return;
+      }
+
+      const parsed = skinAnalysisSessionSchema.parse(JSON.parse(raw));
+      setSessionData(parsed);
+      setLoadState("ready");
+    } catch {
+      window.sessionStorage.removeItem(SKIN_ANALYSIS_SESSION_STORAGE_KEY);
+      setLoadState("missing");
+    }
+  }, []);
+
+  useEffect(() => {
+    if (loadState !== "missing") return;
+
+    const timeoutId = window.setTimeout(() => {
+      router.replace(popClubPaths.skinScanCapture);
+    }, 1600);
+
+    return () => window.clearTimeout(timeoutId);
+  }, [loadState, router]);
+
+  if (loadState === "ready" && sessionData) {
+    return (
+      <SkinAnalysisResult
+        analysis={sessionData.analysis}
+        generatedAt={sessionData.generatedAt}
+        imageUrl={sessionData.imagePreviewDataUrl ?? null}
+        recommendedProducts={sessionData.recommendedProducts}
+      />
+    );
+  }
+
+  return <ResultFallback loadState={loadState} />;
 }

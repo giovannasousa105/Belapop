@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import { ReorderButton } from "@/components/customer/ReorderButton";
 import CustomerPaymentMethodsPanel from "@/components/customer/CustomerPaymentMethodsPanel";
 import { useAuth } from "@/lib/AuthContext";
+import { buildLoginHref } from "@/lib/auth/redirects";
 import {
   type OrderRow,
   type SubOrderRow,
@@ -30,6 +31,15 @@ import {
 } from "@/lib/customer/api";
 import type { CustomerTrackingByOrderDto } from "@/lib/customer/dto";
 import { buildSubOrderTrackingSummary } from "@/lib/customer/trackingSummary";
+import {
+  createEmptyPopClubAccountSnapshot,
+  formatPopClubCredits,
+  formatPopClubPoints,
+  getPopClubAccountSnapshot,
+  getPopClubProgressLabel,
+  getPopClubSampleMessage
+} from "@/lib/popclub/accountSnapshot";
+import { popClubTierMap } from "@/lib/popclub/tiers";
 
 type ProductRecommendation = {
   id: string;
@@ -65,6 +75,7 @@ export default function ContaPage() {
   const [addressCount, setAddressCount] = useState(0);
   const [recommendations, setRecommendations] = useState<ProductRecommendation[]>([]);
   const [notifications, setNotifications] = useState<NotificationRow[]>([]);
+  const [popClubSummary, setPopClubSummary] = useState(createEmptyPopClubAccountSnapshot);
   const [trackingBySubOrder, setTrackingBySubOrder] = useState<
     Record<string, CustomerTrackingByOrderDto["sub_orders"][number]>
   >({});
@@ -74,7 +85,7 @@ export default function ContaPage() {
     if (!ready) return;
 
     if (!user) {
-      router.replace("/login?tab=customer");
+      router.replace(buildLoginHref("/conta"));
       return;
     }
 
@@ -83,14 +94,15 @@ export default function ContaPage() {
 
     const load = async () => {
       try {
-        const [ordersList, favorites, tickets, addresses, recommendationsList, notificationsList] =
+        const [ordersList, favorites, tickets, addresses, recommendationsList, notificationsList, loyaltySnapshot] =
           await Promise.all([
             getCustomerOrders({ page: 1, page_size: 30 }),
             getCustomerFavoritesSummary(1, 1),
             getCustomerSupportTickets({ page: 1, page_size: 1 }),
             getCustomerAddresses(),
             getCustomerRecommendations(4),
-            getCustomerNotifications(5)
+            getCustomerNotifications(5),
+            getPopClubAccountSnapshot(user.id)
           ]);
 
         const mapped = mapOrdersListToLegacy(ordersList);
@@ -132,6 +144,7 @@ export default function ContaPage() {
             price_cents: row.price_cents
           }))
         );
+        setPopClubSummary(loyaltySnapshot);
         setTrackingBySubOrder(trackingMap);
         setNotifications(
           notificationsList.items.map((row) => ({
@@ -152,6 +165,7 @@ export default function ContaPage() {
           setAddressCount(0);
           setRecommendations([]);
           setNotifications([]);
+          setPopClubSummary(createEmptyPopClubAccountSnapshot());
           setTrackingBySubOrder({});
         }
       } finally {
@@ -202,6 +216,7 @@ export default function ContaPage() {
   }, [activeOrders, sellerMap, subOrders, trackingBySubOrder]);
 
   const profileIncomplete = addressCount === 0 || !(user?.name ?? "").trim();
+  const currentPopClubTier = popClubTierMap[popClubSummary.currentTier];
 
   return (
     <div className="space-y-8 pb-8">
@@ -283,6 +298,60 @@ export default function ContaPage() {
         </article>
       </section>
 
+      <section className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
+        <div className="flex flex-wrap items-start justify-between gap-4">
+          <div>
+            <p className="text-xs uppercase tracking-[0.3em] text-bpGraphite/60">PopClub</p>
+            <h2 className="mt-2 text-2xl font-semibold text-bpBlack">
+              Nivel {currentPopClubTier.label}
+            </h2>
+            <p className="mt-2 max-w-2xl text-sm text-bpGraphite/75">
+              Leitura transacional de pontos, créditos e amostras elegíveis, ligada aos pedidos pagos do seu histórico.
+            </p>
+          </div>
+          <Link
+            href="/popclub/inicio"
+            className="rounded-full border border-bpPink/30 bg-bpPink/10 px-5 py-3 text-xs uppercase tracking-[0.2em] text-bpBlack transition hover:border-bpPink/60 hover:bg-bpPink/20"
+          >
+            Abrir painel do clube
+          </Link>
+        </div>
+
+        <div className="mt-6 grid gap-4 lg:grid-cols-3">
+          <article className="rounded-2xl border border-black/10 bg-bpOffWhite/70 p-5">
+            <p className="text-xs uppercase tracking-[0.26em] text-bpGraphite/60">Pontos ativos</p>
+            <p className="mt-3 text-3xl font-semibold text-bpBlack">
+              {formatPopClubPoints(popClubSummary.pointsBalance)}
+            </p>
+            <div className="mt-4 h-1.5 w-full overflow-hidden rounded-full bg-black/5">
+              <div
+                className="h-full rounded-full bg-bpPink"
+                style={{ width: `${Math.max(0, Math.min(popClubSummary.progressBps, 10000)) / 100}%` }}
+              />
+            </div>
+            <p className="mt-3 text-sm text-bpGraphite/75">{getPopClubProgressLabel(popClubSummary)}</p>
+          </article>
+
+          <article className="rounded-2xl border border-black/10 bg-bpOffWhite/70 p-5">
+            <p className="text-xs uppercase tracking-[0.26em] text-bpGraphite/60">Creditos disponiveis</p>
+            <p className="mt-3 text-3xl font-semibold text-bpBlack">
+              {formatPopClubCredits(popClubSummary.creditBalanceCents)}
+            </p>
+            <p className="mt-3 text-sm text-bpGraphite/75">
+              Saldo derivado do ledger de creditos do clube, sem campo manual solto.
+            </p>
+          </article>
+
+          <article className="rounded-2xl border border-black/10 bg-bpOffWhite/70 p-5">
+            <p className="text-xs uppercase tracking-[0.26em] text-bpGraphite/60">Amostras premium</p>
+            <p className="mt-3 text-3xl font-semibold text-bpBlack">{popClubSummary.latestSampleSlots}</p>
+            <p className="mt-3 text-sm text-bpGraphite/75">
+              {getPopClubSampleMessage(popClubSummary)}
+            </p>
+          </article>
+        </div>
+      </section>
+
       <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
         <Link
           href="/conta/rastreio"
@@ -354,7 +423,7 @@ export default function ContaPage() {
           {loading ? (
             <p className="mt-6 text-sm text-bpGraphite/70">Carregando pedidos...</p>
           ) : orders.length === 0 ? (
-            <p className="mt-6 text-sm text-bpGraphite/70">Voce ainda nao tem pedidos.</p>
+            <p className="mt-6 text-sm text-bpGraphite/70">Você ainda não tem pedidos.</p>
           ) : (
             <div className="mt-5 space-y-3">
               {orders.slice(0, 5).map((order) => {
@@ -433,7 +502,7 @@ export default function ContaPage() {
             )}
           </div>
 
-          <p className="mt-5 text-xs uppercase tracking-[0.3em] text-bpGraphite/60">Sugestoes para voce</p>
+          <p className="mt-5 text-xs uppercase tracking-[0.3em] text-bpGraphite/60">Sugestões para você</p>
           <p className="mt-2 text-xl font-semibold text-bpBlack">Curadoria editorial</p>
           <div className="mt-4 space-y-3">
             {recommendations.length ? (

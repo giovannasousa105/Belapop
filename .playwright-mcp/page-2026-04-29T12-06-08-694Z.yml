@@ -1,0 +1,14 @@
+- generic [ref=e4]:
+  - banner [ref=e5]:
+    - link "Voltar para o Skin Scan" [ref=e6] [cursor=pointer]:
+      - /url: /skin-scan/captura
+      - img [ref=e7]
+    - heading "BelaPop" [level=1] [ref=e9]
+    - link "Abrir sacola" [ref=e10] [cursor=pointer]:
+      - /url: /carrinho
+      - img [ref=e11]
+  - main [ref=e14]:
+    - generic [ref=e15]:
+      - paragraph [ref=e16]: Skin Scan BelaPop
+      - heading "Carregando sua leitura" [level=1] [ref=e17]
+      - paragraph [ref=e18]: Estamos organizando sua leitura visual para mostrar tudo com clareza.

@@ -17,8 +17,8 @@ export const ADM_DEFAULT_HOME_BY_ROLE: Record<AdmRole, string> = {
   admin_master: "/adm",
   curadoria: "/adm/curadoria/produtos",
   financeiro: "/adm/financeiro",
-  logistica: "/adm/operacao/logistica",
-  operacao: "/adm/operacao/pedidos-criticos",
+  logistica: "/adm/operação/logistica",
+  operação: "/adm/operação/pedidos-criticos",
   catalogo_marca: "/adm/catalogo-marca/conteudo-vitrines",
   suporte: "/adm/relacionamento/clientes",
   leitura: "/adm/dashboard-executivo"

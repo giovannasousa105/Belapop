@@ -151,13 +151,13 @@ export const UI_STATUS_MAP: Record<UiStatusKey, UiStatus> = {
   ORDER_CREATED: {
     label: "Pedido criado",
     icon: FilePlus,
-    message: "Seu pedido foi criado. Finalize o pagamento para a loja comecar a preparar.",
+    message: "Seu pedido foi criado. Finalize o pagamento para a loja começar a preparar.",
     priority: 10
   },
   ORDER_PAYMENT_PENDING: {
     label: "Aguardando pagamento",
     icon: Clock3,
-    message: "Assim que o pagamento confirmar, a preparacao comeca.",
+    message: "Assim que o pagamento confirmar, a preparacao começa.",
     priority: 20
   },
   ORDER_PAID: {
@@ -253,7 +253,7 @@ export const UI_STATUS_MAP: Record<UiStatusKey, UiStatus> = {
   SUB_OUT_FOR_DELIVERY: {
     label: "Saiu para entrega",
     icon: MapPin,
-    message: "Hoje e dia! O entregador esta indo ate voce.",
+    message: "Hoje e dia! O entregador esta indo ate você.",
     priority: 80
   },
   SUB_DELIVERED: {
@@ -271,19 +271,19 @@ export const UI_STATUS_MAP: Record<UiStatusKey, UiStatus> = {
   SUB_CANCELLED: {
     label: "Cancelado",
     icon: XCircle,
-    message: "Esse envio foi cancelado. Voce vera a atualizacao do estorno.",
+    message: "Esse envio foi cancelado. Você vera a atualizacao do estorno.",
     priority: 5
   },
   SUB_RETURN_REQUESTED: {
     label: "Troca/Devolucao solicitada",
     icon: Repeat,
-    message: "Recebemos sua solicitacao. Vamos te orientar nos proximos passos.",
+    message: "Recebemos sua solicitação. Vamos te orientar nos próximos passos.",
     priority: 82
   },
   SUB_RETURN_APPROVED: {
     label: "Troca/Devolucao aprovada",
     icon: Check,
-    message: "Tudo certo! Voce pode enviar o item conforme instrucoes.",
+    message: "Tudo certo! Você pode enviar o item conforme instrucoes.",
     priority: 83
   },
   SUB_RETURN_IN_TRANSIT: {
@@ -319,7 +319,7 @@ export const UI_STATUS_MAP: Record<UiStatusKey, UiStatus> = {
   TRK_POSTED: {
     label: "Enviado",
     icon: Truck,
-    message: "Postado. Voce ja pode acompanhar o trajeto.",
+    message: "Postado. Você ja pode acompanhar o trajeto.",
     priority: 70
   },
   TRK_IN_TRANSIT: {
@@ -349,7 +349,7 @@ export const UI_STATUS_MAP: Record<UiStatusKey, UiStatus> = {
   TRK_RETURNED: {
     label: "Devolvido",
     icon: CornerUpLeft,
-    message: "O envio retornou. Acompanhe os proximos passos no atendimento.",
+    message: "O envio retornou. Acompanhe os próximos passos no atendimento.",
     priority: 82
   },
   TRK_EXCEPTION: {
@@ -371,13 +371,13 @@ export const UI_STATUS_MAP: Record<UiStatusKey, UiStatus> = {
     priority: 40
   },
   TICKET_WAITING_CUSTOMER: {
-    label: "Aguardando voce",
+    label: "Aguardando você",
     icon: UserRound,
-    message: "Precisamos de uma informacao sua para concluir.",
+    message: "Precisamos de uma informação sua para concluir.",
     priority: 45
   },
   TICKET_IN_REVIEW: {
-    label: "Em analise (BelaPop)",
+    label: "Em análise (BelaPop)",
     icon: Shield,
     message: "Estamos analisando e vamos te atualizar.",
     priority: 50
@@ -391,13 +391,13 @@ export const UI_STATUS_MAP: Record<UiStatusKey, UiStatus> = {
   TICKET_RESOLVED: {
     label: "Resolvido",
     icon: CircleCheck,
-    message: "Resolvido. Voce pode encerrar quando quiser.",
+    message: "Resolvido. Você pode encerrar quando quiser.",
     priority: 70
   },
   TICKET_CLOSED: {
     label: "Encerrado",
     icon: Lock,
-    message: "Protocolo encerrado. O historico fica salvo.",
+    message: "Protocolo encerrado. O histórico fica salvo.",
     priority: 90
   },
   TICKET_CANCELLED: {
@@ -409,7 +409,7 @@ export const UI_STATUS_MAP: Record<UiStatusKey, UiStatus> = {
   TICKET_ESCALATED: {
     label: "Escalado",
     icon: AlertOctagon,
-    message: "Caso sensivel. Time BelaPop esta priorizando.",
+    message: "Caso sensível. Time BelaPop esta priorizando.",
     priority: 80
   }
 };
@@ -496,7 +496,7 @@ export function safeGet(map: UiStatusMap, key: string): UiStatus {
     map[key] ?? {
       label: "Atualizando",
       icon: Loader2,
-      message: "Estamos atualizando as informacoes.",
+      message: "Estamos atualizando as informações.",
       priority: 0
     }
   );

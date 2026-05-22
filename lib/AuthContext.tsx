@@ -70,12 +70,12 @@ const browserSupportsPasskey = () =>
 
 const mapPasskeyError = (message: string | undefined) => {
   const value = (message ?? "").toLowerCase();
-  if (!value) return "Nao foi possivel concluir com Passkey.";
-  if (value.includes("not allowed")) return "Operacao cancelada. Tente novamente e confirme no dispositivo.";
+  if (!value) return "Não foi possível concluir com Passkey.";
+  if (value.includes("not allowed")) return "Operação cancelada. Tente novamente e confirme no dispositivo.";
   if (value.includes("timed out")) return "Tempo esgotado para confirmar Passkey.";
-  if (value.includes("does not support webauthn")) return "Este dispositivo nao suporta Passkey.";
+  if (value.includes("does not support webauthn")) return "Este dispositivo não suporta Passkey.";
   if (value.includes("no verified webauthn")) return "Nenhuma Passkey verificada encontrada para esta conta.";
-  return "Nao foi possivel concluir com Passkey.";
+  return "Não foi possível concluir com Passkey.";
 };
 
 const isColumnMissingError = (message: string | undefined) => {
@@ -272,7 +272,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     if (!response.ok || !payload?.ok) {
       return {
         ok: false,
-        message: payload?.message ?? "Nao foi possivel criar sua conta agora."
+        message: payload?.message ?? "Não foi possível criar sua conta agora."
       };
     }
 
@@ -294,7 +294,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     if (error || !data.user) {
       return {
         ok: false,
-        message: error?.message ?? "Nao foi possivel sincronizar sua sessao."
+        message: error?.message ?? "Não foi possível sincronizar sua sessão."
       };
     }
 
@@ -520,7 +520,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     redirectTo?: string
   ) => {
     if (typeof window === "undefined") {
-      return { ok: false, message: "Login social indisponivel neste ambiente." };
+      return { ok: false, message: "Login social indisponível neste ambiente." };
     }
 
     const resolved = resolveRedirect(redirectTo);
@@ -592,7 +592,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   const registerPasskey = async (friendlyName?: string) => {
     if (!browserSupportsPasskey()) {
-      return { ok: false, message: "Este dispositivo nao suporta Passkey." };
+      return { ok: false, message: "Este dispositivo não suporta Passkey." };
     }
 
     const label =
@@ -617,7 +617,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   const authenticateWithPasskey = async () => {
     if (!browserSupportsPasskey()) {
-      return { ok: false, message: "Este dispositivo nao suporta Passkey." };
+      return { ok: false, message: "Este dispositivo não suporta Passkey." };
     }
 
     const { factors, error: factorError } = await getPasskeyFactors();
@@ -754,7 +754,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     if (!response.ok || !payload?.ok) {
       return {
         ok: false,
-        message: payload?.error ?? "Nao foi possivel trocar a loja ativa."
+        message: payload?.error ?? "Não foi possível trocar a loja ativa."
       };
     }
 

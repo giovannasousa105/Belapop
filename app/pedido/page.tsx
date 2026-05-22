@@ -1,5 +1,12 @@
 import { redirect } from "next/navigation";
 
-export default function PedidoPage() {
-  redirect("/pedido/sucesso");
+import { buildLoginHref } from "@/lib/auth/redirects";
+import { getPortalSession } from "@/lib/auth/getRole";
+
+export default async function PedidoPage() {
+  await getPortalSession({
+    loginRedirectTo: buildLoginHref("/pedido")
+  });
+
+  redirect("/conta/pedidos");
 }

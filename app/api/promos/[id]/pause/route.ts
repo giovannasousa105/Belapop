@@ -32,7 +32,7 @@ export async function POST(
     return NextResponse.json({ error: before.error.message }, { status: 500 });
   }
   if (!before.data) {
-    return NextResponse.json({ error: "Promocao nao encontrada." }, { status: 404 });
+    return NextResponse.json({ error: "Promocao não encontrada." }, { status: 404 });
   }
   const promoSellerId = String((before.data as Record<string, unknown>).seller_id ?? "").trim();
   const promoStoreId = String((before.data as Record<string, unknown>).store_id ?? "").trim();

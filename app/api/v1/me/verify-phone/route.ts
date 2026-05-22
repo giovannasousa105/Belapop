@@ -9,7 +9,7 @@ export async function POST() {
   return NextResponse.json(
     {
       ok: false,
-      error: "Verificacao de telefone por OTP ainda nao configurada no backend."
+      error: "Verificacao de telefone por OTP ainda não configurada no backend."
     },
     { status: 501 }
   );

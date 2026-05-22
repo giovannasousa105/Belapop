@@ -2,6 +2,7 @@ import {
   belapopCompany,
   belapopOperationalContacts
 } from "@/lib/legal/content";
+import { buildBelapopMailto } from "@/lib/brand/contact";
 
 type InstitutionalIdentityCardProps = {
   tone?: "light" | "dark";
@@ -9,14 +10,6 @@ type InstitutionalIdentityCardProps = {
   className?: string;
   showSellerNotice?: boolean;
 };
-
-function PlaceholderValue() {
-  return (
-    <span className="inline-flex rounded-full border border-[#d7c3c6] bg-[#fff6f7] px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-[#8c5d66]">
-      Pendente de validacao operacional
-    </span>
-  );
-}
 
 export function InstitutionalIdentityCard({
   tone = "light",
@@ -34,6 +27,14 @@ export function InstitutionalIdentityCard({
   const containerClass = isDark
     ? "border-white/10 bg-white/[0.04]"
     : "border-black/10 bg-white";
+  const institutionalHref = buildBelapopMailto(
+    belapopOperationalContacts.institutionalEmail,
+    "Atendimento BelaPop"
+  );
+  const privacyHref = buildBelapopMailto(
+    belapopOperationalContacts.privacyChannel,
+    "Solicitação LGPD - BelaPop"
+  );
 
   return (
     <section className={`rounded-[28px] border p-5 sm:p-6 ${containerClass} ${className}`}>
@@ -57,25 +58,17 @@ export function InstitutionalIdentityCard({
           <div>
             <p className={`text-[10px] uppercase tracking-[0.22em] ${labelClass}`}>E-mail institucional</p>
             <div className="mt-2">
-              {belapopOperationalContacts.institutionalEmail ? (
-                <p className={`text-sm ${valueClass}`}>
-                  {belapopOperationalContacts.institutionalEmail}
-                </p>
-              ) : (
-                <PlaceholderValue />
-              )}
+              <a className={`text-sm underline-offset-4 hover:underline ${valueClass}`} href={institutionalHref}>
+                {belapopOperationalContacts.institutionalEmail}
+              </a>
             </div>
           </div>
           <div>
             <p className={`text-[10px] uppercase tracking-[0.22em] ${labelClass}`}>Canal de privacidade</p>
             <div className="mt-2">
-              {belapopOperationalContacts.privacyChannel ? (
-                <p className={`text-sm ${valueClass}`}>
-                  {belapopOperationalContacts.privacyChannel}
-                </p>
-              ) : (
-                <PlaceholderValue />
-              )}
+              <a className={`text-sm underline-offset-4 hover:underline ${valueClass}`} href={privacyHref}>
+                {belapopOperationalContacts.privacyChannel}
+              </a>
             </div>
           </div>
           <div className="sm:col-span-2">
@@ -83,15 +76,9 @@ export function InstitutionalIdentityCard({
               Encarregado(a) / responsavel por dados
             </p>
             <div className="mt-2">
-              {belapopOperationalContacts.dpoName || belapopOperationalContacts.dpoChannel ? (
-                <p className={`text-sm ${valueClass}`}>
-                  {[belapopOperationalContacts.dpoName, belapopOperationalContacts.dpoChannel]
-                    .filter(Boolean)
-                    .join(" • ")}
-                </p>
-              ) : (
-                <PlaceholderValue />
-              )}
+              <p className={`text-sm ${valueClass}`}>
+                {belapopOperationalContacts.dpoName} - {belapopOperationalContacts.dpoChannel}
+              </p>
             </div>
           </div>
         </div>
@@ -105,8 +92,8 @@ export function InstitutionalIdentityCard({
               : "border-[#ece3e4] bg-[#fcf7f7] text-[#3e3637]"
           }`}
         >
-          A BelaPop e a vendedora direta por padrao. Seller parceiro so existe quando essa
-          informacao estiver destacada de forma clara antes da conclusao da compra.
+          A BelaPop atua como plataforma de curadoria e venda. Quando um seller parceiro
+          participar do pedido, a identificacao fica visivel antes da conclusao da compra.
         </div>
       ) : null}
     </section>

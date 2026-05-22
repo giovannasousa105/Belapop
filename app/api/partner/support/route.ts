@@ -11,6 +11,9 @@ type TicketRow = {
   order_id: string | null;
   status: string;
   priority: string;
+  queue_priority_score: number;
+  popclub_current_tier: string | null;
+  priority_band: string | null;
   sla_deadline: string | null;
   created_at: string | null;
   assigned_to: string | null;
@@ -46,6 +49,9 @@ const mapTicket = (row: Record<string, unknown>): TicketRow => ({
   order_id: toText(row.order_id),
   status: String(row.status ?? "open"),
   priority: String(row.priority ?? "normal"),
+  queue_priority_score: Number(row.queue_priority_score ?? 0) || 0,
+  popclub_current_tier: toText(row.popclub_current_tier),
+  priority_band: toText(row.priority_band),
   sla_deadline: toText(row.sla_deadline),
   created_at: toText(row.created_at),
   assigned_to: toText(row.assigned_to)
@@ -150,6 +156,9 @@ export async function GET(request: NextRequest) {
     }
 
     const dedup = Array.from(new Map(loaded.map((row) => [row.id, row])).values()).sort((a, b) => {
+      if (b.queue_priority_score !== a.queue_priority_score) {
+        return b.queue_priority_score - a.queue_priority_score;
+      }
       const ta = new Date(a.created_at ?? "").getTime();
       const tb = new Date(b.created_at ?? "").getTime();
       return (Number.isFinite(tb) ? tb : 0) - (Number.isFinite(ta) ? ta : 0);

@@ -12,6 +12,7 @@ import {
   loadSupportSlaPolicy,
   normalizeTicketReasonForPolicy
 } from "@/lib/support/sla";
+import { applyPopClubPriorityToSupportPolicy } from "@/lib/popclub/operations";
 
 export const runtime = "nodejs";
 
@@ -23,9 +24,11 @@ type TicketRow = {
   status: string;
   reason: string | null;
   created_at: string;
+  sla_deadline: string | null;
   first_response_due_at: string | null;
   resolution_due_at: string | null;
   escalated_at: string | null;
+  popclub_priority_score?: number | null;
 };
 
 const normalize = (value: string | null | undefined) => (value ?? "").trim().toUpperCase();
@@ -46,7 +49,7 @@ const sellerUserIdBySeller = async (sellerId: string | null) => {
 
 export async function POST(request: NextRequest) {
   if (!isInternalJobAuthorized(request)) {
-    return NextResponse.json({ error: "Nao autorizado para job interno." }, { status: 401 });
+    return NextResponse.json({ error: "Não autorizado para job interno." }, { status: 401 });
   }
 
   const limit = parseJobLimit(request.nextUrl.searchParams.get("limit"), 250, 1000);
@@ -57,7 +60,7 @@ export async function POST(request: NextRequest) {
   const primaryLookup = await admin
     .from("support_tickets")
     .select(
-      "id,user_id,customer_id,store_id,status,reason,created_at,first_response_due_at,resolution_due_at,escalated_at"
+      "id,user_id,customer_id,store_id,status,reason,created_at,sla_deadline,first_response_due_at,resolution_due_at,escalated_at,popclub_priority_score"
     )
     .in("status", ["OPEN", "WAITING_STORE", "WAITING_CUSTOMER", "IN_REVIEW"])
     .is("closed_at", null)
@@ -71,7 +74,7 @@ export async function POST(request: NextRequest) {
     const fallbackLookup = await admin
       .from("support_tickets")
       .select(
-        "id,customer_id,store_id,status,reason,created_at,first_response_due_at,resolution_due_at,escalated_at"
+        "id,customer_id,store_id,status,reason,created_at,sla_deadline,first_response_due_at,resolution_due_at,escalated_at"
       )
       .in("status", ["OPEN", "WAITING_STORE", "WAITING_CUSTOMER", "IN_REVIEW"])
       .is("closed_at", null)
@@ -100,7 +103,10 @@ export async function POST(request: NextRequest) {
   for (const ticket of tickets) {
     scanned += 1;
 
-    const policy = await loadSupportSlaPolicy(admin, normalizeTicketReasonForPolicy(ticket.reason));
+    const policy = applyPopClubPriorityToSupportPolicy(
+      await loadSupportSlaPolicy(admin, normalizeTicketReasonForPolicy(ticket.reason)),
+      Number(ticket.popclub_priority_score ?? 0)
+    );
     const deadlines = computeSupportSlaDeadlines(ticket.created_at, policy);
 
     const firstDueAt = ticket.first_response_due_at ?? deadlines.firstResponseDueAt;
@@ -113,7 +119,8 @@ export async function POST(request: NextRequest) {
         .from("support_tickets")
         .update({
           first_response_due_at: firstDueAt,
-          resolution_due_at: resolutionDueAt
+          resolution_due_at: resolutionDueAt,
+          sla_deadline: ticket.sla_deadline ?? firstDueAt
         })
         .eq("id", ticket.id);
     }
@@ -140,7 +147,8 @@ export async function POST(request: NextRequest) {
         status: "IN_REVIEW",
         escalated_at: nowIso,
         first_response_due_at: firstDueAt,
-        resolution_due_at: resolutionDueAt
+        resolution_due_at: resolutionDueAt,
+        sla_deadline: ticket.sla_deadline ?? firstDueAt
       })
       .eq("id", ticket.id)
       .is("escalated_at", null)
@@ -183,7 +191,7 @@ export async function POST(request: NextRequest) {
         channels: ["in_app", "email", "whatsapp"],
         templateKey: "support.ticket.escalated",
         title: "Seu protocolo foi priorizado",
-        body: "Escalamos seu caso para analise interna. Seguiremos com atualizacoes no painel.",
+        body: "Escalamos seu caso para análise interna. Seguiremos com atualizacoes no painel.",
         ctaHref: `/conta/reclamacoes-suporte/${ticket.id}`,
         ctaLabel: "Acompanhar protocolo",
         metadata: {
@@ -201,7 +209,7 @@ export async function POST(request: NextRequest) {
         channels: ["in_app"],
         templateKey: "support.ticket.escalated.store",
         title: "Ticket escalado pela BelaPop",
-        body: "Este protocolo entrou em analise interna por SLA. Responda com prioridade.",
+        body: "Este protocolo entrou em análise interna por SLA. Responda com prioridade.",
         ctaHref: "/seller/support",
         ctaLabel: "Abrir suporte",
         metadata: {

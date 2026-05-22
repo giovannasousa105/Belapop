@@ -83,7 +83,7 @@ export default function CampaignsManager({ initialCampaigns }: CampaignsManagerP
 
     if (!response.ok) {
       setLoading(false);
-      setMessage(json?.error ?? "Nao foi possivel criar a campanha.");
+      setMessage(json?.error ?? "Não foi possivel criar a campanha.");
       return;
     }
 
@@ -110,7 +110,7 @@ export default function CampaignsManager({ initialCampaigns }: CampaignsManagerP
 
     if (!response.ok) {
       setLoading(false);
-      setMessage(json?.error ?? "Nao foi possivel atualizar a campanha.");
+      setMessage(json?.error ?? "Não foi possivel atualizar a campanha.");
       return;
     }
 

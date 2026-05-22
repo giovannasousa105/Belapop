@@ -290,7 +290,7 @@ export default function AccountOrderDetailPage() {
                   </div>
                   {canReview && item.productId ? (
                     <Link
-                      href={`/produto/${item.productId}#avaliacoes`}
+                      href={`/produto/${item.productId}#avaliações`}
                       className="rounded-full border border-black/10 px-4 py-2 text-[10px] uppercase tracking-[0.3em] text-bpGraphite hover:border-bpPink/40"
                     >
                       Avaliar

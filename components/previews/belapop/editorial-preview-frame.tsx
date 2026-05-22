@@ -21,7 +21,7 @@ const leftNavigation = [
 
 const footerLinks = [
   { label: "Privacidade", href: "/aviso-de-privacidade" },
-  { label: "Termos de Uso", href: "/termos-e-condicoes" },
+  { label: "Termos de Uso", href: "/termos-e-condições" },
   { label: "Rastreamento", href: "/rastreio" },
   { label: "Contato", href: "/contato" }
 ] as const;
@@ -56,7 +56,7 @@ export function EditorialPreviewFrame({
       if (navigator.share) {
         await navigator.share({
           title: "BelaPop",
-          text: "Veja esta experiencia BelaPop.",
+          text: "Veja esta experiência BelaPop.",
           url: window.location.href
         });
         return;
@@ -141,7 +141,7 @@ export function EditorialPreviewFrame({
               <Link
                 href={getBelapopHref(mode, "cart")}
                 className="relative inline-flex h-11 w-11 items-center justify-center p-1 transition-colors hover:text-black/60"
-                aria-label="Sacola"
+                aria-label="Carrinho"
               >
                 <ShoppingBag className="h-[22px] w-[22px]" />
                 <span className="absolute right-0 top-0 h-1.5 w-1.5 rounded-full bg-black" />
@@ -229,7 +229,7 @@ export function EditorialPreviewFrame({
               onClick={() => setMenuOpen(false)}
             >
               <ShoppingBag className="h-4 w-4" />
-              Ver Sacola
+              Ver Carrinho
             </Link>
           </div>
         </div>

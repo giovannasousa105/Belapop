@@ -93,7 +93,7 @@ const concernUserCopy: Record<string, string> = {
 const concernAvoidanceCopy: Record<string, string> = {
   acne: "Evite misturar muitos secativos, esfoliar demais ou aumentar a limpeza porque isso pode inflamar mais.",
   oiliness: "Evite limpar demais, usar alcool forte ou secativos agressivos porque isso pode piorar o rebote.",
-  "visible-pores": "Evite excesso de esfoliacao e combinacoes irritantes no mesmo dia se a pele estiver sensivel.",
+  "visible-pores": "Evite excesso de esfoliacao e combinacoes irritantes no mesmo dia se a pele estiver sensível.",
   "dark-spots": "Evite calor excessivo, friccao e ativos fortes em sequencia se sua pele estiver irritada.",
   rosacea: "Evite acidos frequentes, fragrancia intensa, agua muito quente e rotina longa.",
   dehydration: "Evite limpeza agressiva, sabonete forte e trocar de produto toda semana.",
@@ -105,15 +105,15 @@ const concernAvoidanceCopy: Record<string, string> = {
 
 const concernEscalationCopy: Record<string, string> = {
   acne: "Se houver nodulos dolorosos, cicatriz, piora rapida ou falha apos algumas semanas, vale procurar dermatologista.",
-  oiliness: "Se a oleosidade vier com acne moderada, inflamacao persistente ou piora progressiva, vale avaliacao dermatologica.",
-  "visible-pores": "Se a textura piorar rapido, houver inflamacoes ou irritacao persistente, vale avaliacao medica.",
-  "dark-spots": "Se a mancha crescer rapido, mudar de formato ou vier com irritacao persistente, vale avaliacao medica.",
-  rosacea: "Se houver ardor forte, olhos irritados, vermelhidao persistente ou piora importante, vale avaliacao dermatologica.",
-  dehydration: "Se houver ardor intenso, fissuras ou piora apesar de rotina simples, vale avaliacao dermatologica.",
-  aging: "Se houver irritacao que nao cede ou duvida sobre uso de retinoides, vale discutir com dermatologista.",
+  oiliness: "Se a oleosidade vier com acne moderada, inflamacao persistente ou piora progressiva, vale avaliação dermatológica.",
+  "visible-pores": "Se a textura piorar rapido, houver inflamacoes ou irritacao persistente, vale avaliação médica.",
+  "dark-spots": "Se a mancha crescer rapido, mudar de formato ou vier com irritacao persistente, vale avaliação médica.",
+  rosacea: "Se houver ardor forte, olhos irritados, vermelhidao persistente ou piora importante, vale avaliação dermatológica.",
+  dehydration: "Se houver ardor intenso, fissuras ou piora apesar de rotina simples, vale avaliação dermatológica.",
+  aging: "Se houver irritacao que não cede ou duvida sobre uso de retinoides, vale discutir com dermatologista.",
   "barrier-damage": "Se houver queima, piora progressiva ou eczema importante, procure dermatologista.",
-  "uneven-texture": "Se a pele ficar muito sensivel, inflamada ou descamando de forma persistente, procure avaliacao dermatologica.",
-  "under-eye": "Se houver irritacao persistente, edema ou mudanca importante ao redor dos olhos, vale avaliacao medica."
+  "uneven-texture": "Se a pele ficar muito sensível, inflamada ou descamando de forma persistente, procure avaliação dermatológica.",
+  "under-eye": "Se houver irritacao persistente, edema ou mudanca importante ao redor dos olhos, vale avaliação médica."
 };
 
 const skinTypeFriendlyCopy: Record<string, string> = {
@@ -121,7 +121,7 @@ const skinTypeFriendlyCopy: Record<string, string> = {
   oily: "pele oleosa",
   dry: "pele seca",
   combination: "pele mista",
-  sensitive: "pele sensivel",
+  sensitive: "pele sensível",
   acne_prone: "pele com tendencia a acne",
 };
 
@@ -154,10 +154,10 @@ function formatSkinToneCopy(profile: CustomerSkinProfile | null) {
 function summarizeEvidence(documents: EvidenceDocument[], concernSlug: string, ingredientNames: string[]) {
   if (documents.length === 0) {
     return {
-      lead: "Hoje eu nao tenho uma fonte forte suficientemente especifica para esta pergunta.",
+      lead: "Hoje eu não tenho uma fonte forte suficientemente especifica para esta pergunta.",
       action: ingredientNames.length
         ? `Mesmo assim, a orientacao conservadora e priorizar ${ingredientNames.join(", ")} com progressao lenta e observacao da resposta da pele.`
-        : "Mesmo assim, a orientacao conservadora e priorizar limpeza suave, hidratacao e constancia."
+        : "Mesmo assim, a orientacao conservadora e priorizar limpeza suave, hidratação e constancia."
     };
   }
 
@@ -171,7 +171,7 @@ function summarizeEvidence(documents: EvidenceDocument[], concernSlug: string, i
     : "O foco maior continua sendo tolerancia da pele e regularidade de uso.";
 
   return {
-    lead: `Pelo que a melhor evidencia sugere hoje, o mais importante para voce agora e ${priority}.`,
+    lead: `Pelo que a melhor evidencia sugere hoje, o mais importante para você agora e ${priority}.`,
     action: `${ingredientLine} Entre as fontes mais fortes deste recorte, eu estou apoiando a resposta principalmente em ${sourceLine}.`
   };
 }
@@ -236,7 +236,7 @@ function buildFallbackAnswer(context: SkinGptContext): SkinGptAnswer {
     evidenceSummary.action,
     routineFocus.length
       ? `Em linguagem simples: eu comecaria por ${routineFocus.join(" | ")}.`
-      : "Em linguagem simples: eu comecaria por uma rotina curta, com hidratacao e ativos de boa tolerancia."
+      : "Em linguagem simples: eu comecaria por uma rotina curta, com hidratação e ativos de boa tolerancia."
   ]
     .filter(Boolean)
     .join(" ");
@@ -253,7 +253,7 @@ function buildFallbackAnswer(context: SkinGptContext): SkinGptAnswer {
     suggested_routine_focus: routineFocus,
     citations: knowledgeDocs.map((item) => formatEvidenceCitation(item)),
     disclaimers: [
-      "SkinBela organiza evidencia e contexto da sua pele, mas nao faz diagnostico medico.",
+      "SkinBela organiza evidencia e contexto da sua pele, mas não faz diagnóstico médico.",
       concernEscalationCopy[concernSlug] ?? "Se houver dor, piora importante ou irritacao persistente, procure dermatologista.",
       condition?.contraindications ? `Cautela pratica: ${condition.contraindications}.` : "Suba ativos fortes devagar e observe a tolerancia da sua pele."
     ],

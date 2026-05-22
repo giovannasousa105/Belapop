@@ -235,7 +235,7 @@ export default function ContaPedidoDetalhePage() {
   if (!order) {
     return (
       <div className="rounded-2xl border border-black/10 bg-white p-6 text-sm text-bpGraphite/70">
-        Pedido nao encontrado.
+        Pedido não encontrado.
       </div>
     );
   }
@@ -306,11 +306,11 @@ export default function ContaPedidoDetalhePage() {
 
               <div className="mt-2 space-y-1 text-sm text-bpGraphite/75">
                 <p>Rastreamento: {trackingSummary.detailLine}</p>
-                <p>Previsao: {trackingSummary.etaLabel}</p>
+                <p>Previsão: {trackingSummary.etaLabel}</p>
                 <p>
                   Envio: {formatMoneyFromCents(subOrder.shipping_total_cents)} - {trackingSummary.carrierLine}
                 </p>
-                <p className="text-xs text-bpGraphite/65">Ultima atualizacao: {trackingSummary.lastUpdatedLabel}</p>
+                <p className="text-xs text-bpGraphite/65">Última atualização: {trackingSummary.lastUpdatedLabel}</p>
               </div>
 
               <div className="mt-3 flex flex-wrap gap-2">
@@ -372,7 +372,7 @@ export default function ContaPedidoDetalhePage() {
                 {order.address.state || ""} - CEP {order.address.zip || ""}
               </p>
             ) : (
-              <p className="mt-2 text-sm text-bpGraphite/70">Endereco em atualizacao.</p>
+              <p className="mt-2 text-sm text-bpGraphite/70">Endereço em atualização.</p>
             )}
           </div>
         </div>
@@ -413,7 +413,7 @@ export default function ContaPedidoDetalhePage() {
               </article>
             ))
           ) : (
-            <p className="text-sm text-bpGraphite/70">Itens em atualizacao.</p>
+            <p className="text-sm text-bpGraphite/70">Itens em atualização.</p>
           )}
         </div>
       </section>

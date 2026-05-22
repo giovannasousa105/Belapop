@@ -17,7 +17,7 @@ type BelaCodeLandingContentProps = {
 const evidenceGroups = [
   {
     title: "Nivel 1 priorizado",
-    body: "Meta-analises, revisoes sistematicas, ensaios controlados randomizados e diretrizes entram primeiro na hierarquia clinica da experiencia."
+    body: "Meta-analises, revisoes sistematicas, ensaios controlados randomizados e diretrizes entram primeiro na hierarquia clínica da experiência."
   },
   {
     title: "Dermatologia aplicada",
@@ -31,7 +31,7 @@ const evidenceGroups = [
 
 const captureFlow = [
   "Expressao neutra e rosto centralizado",
-  "Piscada para validacao de liveness",
+  "Piscada para validação de liveness",
   "Sorriso para linhas dinamicas",
   "Testa franzida para rugas de expressao",
   "Giro leve da cabeca para consistencia do scan"
@@ -54,8 +54,8 @@ const resultPanels = [
 
 const trustPoints = [
   "Tecnologia proprietaria para leitura de pele com linguagem estetica.",
-  "Curadoria premium orientada por literatura clinica e contexto cosmetico.",
-  "Experiencia pensada para parecer luxo editorial, nao teste generico."
+  "Curadoria premium orientada por literatura clínica e contexto cosmético.",
+  "Experiência pensada para parecer luxo editorial, não teste genérico."
 ];
 
 const socialProof = [
@@ -67,13 +67,13 @@ const socialProof = [
   },
   {
     quote:
-      "O grande diferencial e unir desejo, repertorio cosmetico e criterio clinico sem parecer consultorio frio.",
+      "O grande diferencial e unir desejo, repertorio cosmético e critério clínico sem parecer consultorio frio.",
     author: "Curadoria BelaPop",
     role: "Editorial commerce"
   },
   {
     quote:
-      "A experiencia passa confianca porque mostra leitura, processo e curadoria no mesmo fluxo, com linguagem simples.",
+      "A experiência passa confianca porque mostra leitura, processo e curadoria no mesmo fluxo, com linguagem simples.",
     author: "Rotina personalizada",
     role: "Beauty intelligence"
   }
@@ -101,7 +101,7 @@ const evidenceByConcern = [
   {
     key: "barreira",
     label: "Barreira",
-    body: "Leituras de desconforto, ressecamento e perda de equilibrio pedem literatura de barreira cutanea, ceramidas e pele sensivel.",
+    body: "Leituras de desconforto, ressecamento e perda de equilibrio pedem literatura de barreira cutanea, ceramidas e pele sensível.",
     sources: ["PubMed", "DermNet", "ABD / LILACS / SciELO"]
   },
   {
@@ -357,10 +357,10 @@ export function BelaCodeLandingContent({
         <div className="rounded-[22px] border border-[#ddcbcd] bg-white px-4 py-5 shadow-bpMicro md:rounded-[30px] md:px-8 md:py-8">
           <p className="text-[11px] uppercase tracking-[0.26em] text-bpPink">Aviso importante</p>
           <p className="mt-4 max-w-4xl text-[0.92rem] leading-6 text-bpGraphite/92 md:text-base md:leading-7">
-            BelaCode e SkinBela apoiam triagem cosmetica, educacao da rotina e leitura de progresso
-            com base em literatura clinica. Eles nao substituem consulta, exame fisico, dermatoscopia,
-            biopsia ou decisao medica dermatologica quando houver lesoes novas, mudancas suspeitas,
-            sangramento, dor, crescimento rapido ou outros sinais de alerta.
+            BelaCode e SkinBela apoiam triagem cosmética, educação da rotina e leitura de progresso
+            com base em literatura clínica. Eles não substituem consulta, exame físico, dermatoscopia,
+            biópsia ou decisão médica dermatológica quando houver lesões novas, mudanças suspeitas,
+            sangramento, dor, crescimento rápido ou outros sinais de alerta.
           </p>
         </div>
       </Section>

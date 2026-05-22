@@ -46,7 +46,8 @@ export function ReorderButton({
       );
       router.push(redirectTo);
     } catch (error) {
-      const message = error instanceof Error ? error.message : "Falha ao preparar a recompra.";
+      console.error("[ReorderButton] reorder failed", error);
+      const message = "Nao foi possivel preparar a recompra agora.";
       if (typeof window !== "undefined") window.alert(message);
     } finally {
       setLoading(false);

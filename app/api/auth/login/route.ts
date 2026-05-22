@@ -39,7 +39,7 @@ function mapPasswordLoginMessage(message: string | undefined) {
   ) {
     return "E-mail ou senha incorretos. Confira os dados e tente novamente.";
   }
-  return "Nao foi possivel acessar sua conta agora. Tente novamente em instantes.";
+  return "Não foi possivel acessar sua conta agora. Tente novamente em instantes.";
 }
 
 export async function POST(request: NextRequest) {

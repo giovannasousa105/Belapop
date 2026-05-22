@@ -171,7 +171,7 @@ export function PerfumesAtelierExperience() {
     <div className="bg-[#fcf9f8] text-[#1c1b1b]" data-belapop-page="perfumes-public">
       <BelaPopValidatedHeader activeSection="perfumes" />
 
-      <main className="pb-24 pt-16 lg:pb-0">
+      <main className="pb-24 pt-[78px] lg:pb-0 lg:pt-[86px]">
         <section className="relative flex h-[44rem] w-full flex-col justify-end overflow-hidden lg:h-[48rem]">
           <img alt="Luxury perfume" className="absolute inset-0 h-full w-full object-cover" src={heroImage} />
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/15 to-transparent" />
@@ -224,7 +224,7 @@ export function PerfumesAtelierExperience() {
                 </button>
                 <button
                   type="button"
-                  aria-label="Proximos destaques"
+                  aria-label="Próximos destaques"
                   className="flex h-10 w-10 items-center justify-center border border-black bg-black text-white"
                   onClick={() => scrollHighlights("right")}
                 >
@@ -266,7 +266,7 @@ export function PerfumesAtelierExperience() {
               </button>
               <button
                 type="button"
-                aria-label="Proximos destaques"
+                aria-label="Próximos destaques"
                 className="flex h-10 w-10 items-center justify-center border border-black bg-black text-white"
                 onClick={() => scrollHighlights("right")}
               >
@@ -304,7 +304,7 @@ export function PerfumesAtelierExperience() {
                 href="/catalogo?categoria=perfumes"
                 className="inline-flex min-h-12 items-center justify-center border-b border-black px-1 text-xs uppercase tracking-[0.2em]"
               >
-                Ver todos os designers
+                Ver linha completa
               </Link>
             </div>
           </div>
@@ -336,19 +336,19 @@ export function PerfumesAtelierExperience() {
       <nav className="fixed inset-x-0 bottom-0 z-50 flex items-center justify-around bg-white/85 px-4 pb-6 pt-2 shadow-[0_-10px_40px_rgba(0,0,0,0.05)] backdrop-blur-xl lg:hidden">
         <Link href="/perfumes" className="flex flex-col items-center justify-center border-t-2 border-pink-500 pt-2 text-stone-900">
           <ShoppingBag className="h-5 w-5" />
-          <span className="mt-1 text-[10px] uppercase tracking-[0.18em]">Shop</span>
+          <span className="mt-1 text-[10px] uppercase tracking-[0.18em]">Loja</span>
         </Link>
         <Link href="/diario" className="flex flex-col items-center justify-center pt-2 text-stone-400 transition hover:text-pink-400">
           <Mail className="h-5 w-5" />
-          <span className="mt-1 text-[10px] uppercase tracking-[0.18em]">Journal</span>
+          <span className="mt-1 text-[10px] uppercase tracking-[0.18em]">Diario</span>
         </Link>
         <Link href="/skin-scan" className="flex flex-col items-center justify-center pt-2 text-stone-400 transition hover:text-pink-400">
           <Wind className="h-5 w-5" />
-          <span className="mt-1 text-[10px] uppercase tracking-[0.18em]">AI Scan</span>
+          <span className="mt-1 text-[10px] uppercase tracking-[0.18em]">Skin Scan</span>
         </Link>
         <Link href="/conta" className="flex flex-col items-center justify-center pt-2 text-stone-400 transition hover:text-pink-400">
           <Heart className="h-5 w-5" />
-          <span className="mt-1 text-[10px] uppercase tracking-[0.18em]">Profile</span>
+          <span className="mt-1 text-[10px] uppercase tracking-[0.18em]">Conta</span>
         </Link>
       </nav>
     </div>

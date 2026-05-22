@@ -1,0 +1,769 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e4]:
+      - button "Abrir menu" [ref=e6] [cursor=pointer]:
+        - img [ref=e7]
+      - link "BelaPop" [ref=e8] [cursor=pointer]:
+        - /url: /
+      - generic [ref=e9]:
+        - link "Favoritos" [ref=e10] [cursor=pointer]:
+          - /url: /login?tab=customer&returnTo=%2Fconta%2Ffavoritos
+          - img [ref=e11]
+        - link "Sacola" [ref=e13] [cursor=pointer]:
+          - /url: /carrinho
+          - img [ref=e14]
+  - generic:
+    - button
+    - dialog:
+      - generic:
+        - generic:
+          - generic:
+            - generic:
+              - paragraph: BelaPop
+              - paragraph: Skincare que entende voce
+            - button:
+              - img
+          - generic:
+            - link:
+              - /url: /login?tab=customer&returnTo=%2Fconta
+              - img
+              - generic: Perfil
+            - link:
+              - /url: /login?tab=customer&returnTo=%2Fconta%2Ffavoritos
+              - img
+              - generic: Desejos
+            - button:
+              - img
+              - generic: Busca
+        - generic:
+          - generic:
+            - heading [level=3]: Comecar sua rotina
+            - generic:
+              - link:
+                - /url: /skin-scan
+                - generic: Descobrir minha pele
+                - img
+              - link:
+                - /url: /universos
+                - generic: Explorar por universos
+                - img
+              - link:
+                - /url: /rituais
+                - generic: Rotina personalizada
+                - img
+              - link:
+                - /url: /guias#rotinas
+                - generic: Kits personalizados
+                - img
+              - link:
+                - /url: /catalogo
+                - generic: Comecar do zero
+                - img
+              - link:
+                - /url: /kits
+                - generic: Kits recomendados
+                - img
+        - generic:
+          - heading [level=3]: Universos
+          - generic:
+            - link:
+              - /url: /universos/icones-da-belapop
+              - text: Icones da BelaPop
+            - link:
+              - /url: /universos/recem-chegados
+              - text: Recem-chegados
+            - link:
+              - /url: /universos/clinical-luxury
+              - text: Clinical Luxury
+            - link:
+              - /url: /universos/para-presentear
+              - text: Para Presentear
+            - link:
+              - /url: /universos/pele-sensivel
+              - text: Pele Sensivel
+            - link:
+              - /url: /universos/brasilidades-premium
+              - text: Brasilidades Premium
+        - generic:
+          - heading [level=3]: Por necessidade
+          - list:
+            - listitem:
+              - link:
+                - /url: /skincare?need=acne
+                - text: Acne
+            - listitem:
+              - link:
+                - /url: /skincare?need=manchas
+                - text: Manchas
+            - listitem:
+              - link:
+                - /url: /skincare?need=antissinais
+                - text: Envelhecimento
+            - listitem:
+              - link:
+                - /url: /skincare?need=sensibilidade
+                - text: Sensibilidade
+            - listitem:
+              - link:
+                - /url: /skincare?need=oleosidade
+                - text: Oleosidade
+        - generic:
+          - heading [level=3]: Edit BelaPop
+          - list:
+            - listitem:
+              - link:
+                - /url: /catalogo
+                - text: Mais vendidos
+            - listitem:
+              - link:
+                - /url: /skincare
+                - text: Skincare
+            - listitem:
+              - link:
+                - /url: /maquiagem
+                - text: Maquiagem
+            - listitem:
+              - link:
+                - /url: /perfumes
+                - text: Perfumes
+            - listitem:
+              - link:
+                - /url: /cabelos
+                - text: Cabelos
+        - generic:
+          - heading [level=3]: Marcas
+          - generic:
+            - link:
+              - /url: /catalogo?edit=coreanas
+              - text: Coreanas
+            - link:
+              - /url: /catalogo?edit=europeias
+              - text: Europeias
+            - link:
+              - /url: /catalogo?edit=clinicas
+              - text: Clinicas
+            - link:
+              - /url: /catalogo?edit=naturais
+              - text: Naturais
+        - generic:
+          - heading [level=3]: Conteudo e Guia
+          - generic:
+            - link:
+              - /url: /guias/rotinas/rotina-minimalista
+              - paragraph: Passo a passo
+              - paragraph: Como montar sua rotina
+            - link:
+              - /url: /guias/ativos/niacinamida
+              - paragraph: Dicionario
+              - paragraph: Ingredientes explicados
+            - link:
+              - /url: /guias/curadoria-da-semana
+              - paragraph: Curadoria
+              - paragraph: Escolhas da semana
+            - link:
+              - /url: /guias/vale-o-investimento/serum-radiance-01
+              - paragraph: Decisao
+              - paragraph: Vale o investimento?
+        - generic:
+          - generic:
+            - link:
+              - /url: /catalogo
+              - text: Ofertas da Semana
+            - generic:
+              - link:
+                - /url: /kits
+                - text: Kits
+              - link:
+                - /url: /catalogo?occasion=presente
+                - text: Presentes
+              - link:
+                - /url: /popclub
+                - text: POPCLUB
+        - generic:
+          - generic:
+            - heading [level=3]: Experiencia BelaPop
+            - list:
+              - listitem:
+                - img
+                - generic: Teste de pele
+              - listitem:
+                - img
+                - generic: Recomendacoes inteligentes
+              - listitem:
+                - img
+                - generic: Rotina guiada
+      - contentinfo:
+        - generic:
+          - link:
+            - /url: /contato
+            - text: Suporte
+          - link:
+            - /url: /sobre
+            - text: Sobre a BelaPop
+        - generic:
+          - generic: PT
+          - generic: Portugues (BR)
+  - generic [ref=e18]:
+    - banner [ref=e19]:
+      - generic [ref=e21]:
+        - button "Abrir menu" [ref=e23] [cursor=pointer]:
+          - img [ref=e24]
+        - link "BelaPop" [ref=e25] [cursor=pointer]:
+          - /url: /
+        - generic [ref=e26]:
+          - link "Favoritos" [ref=e27] [cursor=pointer]:
+            - /url: /login?tab=customer&returnTo=%2Fconta%2Ffavoritos
+            - img [ref=e28]
+          - link "Sacola" [ref=e30] [cursor=pointer]:
+            - /url: /carrinho
+            - img [ref=e31]
+    - generic:
+      - button
+      - dialog:
+        - generic:
+          - generic:
+            - generic:
+              - generic:
+                - paragraph: BelaPop
+                - paragraph: Skincare que entende voce
+              - button:
+                - img
+            - generic:
+              - link:
+                - /url: /login?tab=customer&returnTo=%2Fconta
+                - img
+                - generic: Perfil
+              - link:
+                - /url: /login?tab=customer&returnTo=%2Fconta%2Ffavoritos
+                - img
+                - generic: Desejos
+              - button:
+                - img
+                - generic: Busca
+          - generic:
+            - generic:
+              - heading [level=3]: Comecar sua rotina
+              - generic:
+                - link:
+                  - /url: /skin-scan
+                  - generic: Descobrir minha pele
+                  - img
+                - link:
+                  - /url: /universos
+                  - generic: Explorar por universos
+                  - img
+                - link:
+                  - /url: /rituais
+                  - generic: Rotina personalizada
+                  - img
+                - link:
+                  - /url: /guias#rotinas
+                  - generic: Kits personalizados
+                  - img
+                - link:
+                  - /url: /catalogo
+                  - generic: Comecar do zero
+                  - img
+                - link:
+                  - /url: /kits
+                  - generic: Kits recomendados
+                  - img
+          - generic:
+            - heading [level=3]: Universos
+            - generic:
+              - link:
+                - /url: /universos/icones-da-belapop
+                - text: Icones da BelaPop
+              - link:
+                - /url: /universos/recem-chegados
+                - text: Recem-chegados
+              - link:
+                - /url: /universos/clinical-luxury
+                - text: Clinical Luxury
+              - link:
+                - /url: /universos/para-presentear
+                - text: Para Presentear
+              - link:
+                - /url: /universos/pele-sensivel
+                - text: Pele Sensivel
+              - link:
+                - /url: /universos/brasilidades-premium
+                - text: Brasilidades Premium
+          - generic:
+            - heading [level=3]: Por necessidade
+            - list:
+              - listitem:
+                - link:
+                  - /url: /skincare?need=acne
+                  - text: Acne
+              - listitem:
+                - link:
+                  - /url: /skincare?need=manchas
+                  - text: Manchas
+              - listitem:
+                - link:
+                  - /url: /skincare?need=antissinais
+                  - text: Envelhecimento
+              - listitem:
+                - link:
+                  - /url: /skincare?need=sensibilidade
+                  - text: Sensibilidade
+              - listitem:
+                - link:
+                  - /url: /skincare?need=oleosidade
+                  - text: Oleosidade
+          - generic:
+            - heading [level=3]: Edit BelaPop
+            - list:
+              - listitem:
+                - link:
+                  - /url: /catalogo
+                  - text: Mais vendidos
+              - listitem:
+                - link:
+                  - /url: /skincare
+                  - text: Skincare
+              - listitem:
+                - link:
+                  - /url: /maquiagem
+                  - text: Maquiagem
+              - listitem:
+                - link:
+                  - /url: /perfumes
+                  - text: Perfumes
+              - listitem:
+                - link:
+                  - /url: /cabelos
+                  - text: Cabelos
+          - generic:
+            - heading [level=3]: Marcas
+            - generic:
+              - link:
+                - /url: /catalogo?edit=coreanas
+                - text: Coreanas
+              - link:
+                - /url: /catalogo?edit=europeias
+                - text: Europeias
+              - link:
+                - /url: /catalogo?edit=clinicas
+                - text: Clinicas
+              - link:
+                - /url: /catalogo?edit=naturais
+                - text: Naturais
+          - generic:
+            - heading [level=3]: Conteudo e Guia
+            - generic:
+              - link:
+                - /url: /guias/rotinas/rotina-minimalista
+                - paragraph: Passo a passo
+                - paragraph: Como montar sua rotina
+              - link:
+                - /url: /guias/ativos/niacinamida
+                - paragraph: Dicionario
+                - paragraph: Ingredientes explicados
+              - link:
+                - /url: /guias/curadoria-da-semana
+                - paragraph: Curadoria
+                - paragraph: Escolhas da semana
+              - link:
+                - /url: /guias/vale-o-investimento/serum-radiance-01
+                - paragraph: Decisao
+                - paragraph: Vale o investimento?
+          - generic:
+            - generic:
+              - link:
+                - /url: /catalogo
+                - text: Ofertas da Semana
+              - generic:
+                - link:
+                  - /url: /kits
+                  - text: Kits
+                - link:
+                  - /url: /catalogo?occasion=presente
+                  - text: Presentes
+                - link:
+                  - /url: /popclub
+                  - text: POPCLUB
+          - generic:
+            - generic:
+              - heading [level=3]: Experiencia BelaPop
+              - list:
+                - listitem:
+                  - img
+                  - generic: Teste de pele
+                - listitem:
+                  - img
+                  - generic: Recomendacoes inteligentes
+                - listitem:
+                  - img
+                  - generic: Rotina guiada
+        - contentinfo:
+          - generic:
+            - link:
+              - /url: /contato
+              - text: Suporte
+            - link:
+              - /url: /sobre
+              - text: Sobre a BelaPop
+          - generic:
+            - generic: PT
+            - generic: Portugues (BR)
+    - main [ref=e34]:
+      - generic [ref=e36]:
+        - generic [ref=e37]:
+          - img "Rotina de skincare editorial com pele luminosa e frascos premium." [ref=e38]
+          - link "Kits" [ref=e41] [cursor=pointer]:
+            - /url: /kits
+            - img [ref=e42]
+            - text: Kits
+          - generic [ref=e44]:
+            - paragraph [ref=e45]: Curadoria BelaPop
+            - heading "Ritual da Manha" [level=1] [ref=e46]
+            - paragraph [ref=e47]: Preparar, hidratar e proteger.
+        - complementary [ref=e48]:
+          - paragraph [ref=e49]: Curadoria compravel
+          - heading "Hidratacao, protecao e vico para o dia." [level=2] [ref=e50]
+          - paragraph [ref=e51]: Uma rotina inteligente para comecar o dia com pele limpa, luminosa e protegida.
+          - generic [ref=e52]:
+            - generic [ref=e53]:
+              - paragraph [ref=e54]: Separado
+              - paragraph [ref=e55]: R$ 989,00
+            - generic [ref=e56]:
+              - paragraph [ref=e57]: Kit
+              - paragraph [ref=e58]: R$ 849,00
+            - generic [ref=e59]: Economia de R$ 140,00
+          - generic [ref=e60]:
+            - 'button "Adicionar kit ao carrinho: Ritual da Manha" [ref=e61] [cursor=pointer]':
+              - img [ref=e62]
+              - text: Adicionar kit ao carrinho
+            - link "Ver se combina com minha pele" [ref=e65] [cursor=pointer]:
+              - /url: /skin-scan
+      - generic [ref=e67]:
+        - generic [ref=e68]:
+          - paragraph [ref=e69]: Ordem de uso
+          - heading "O que vem no kit, na ordem certa." [level=2] [ref=e70]
+          - paragraph [ref=e71]: "A BelaPop organiza a compra como rotina: menos indecisao, mais clareza de uso."
+        - list [ref=e72]:
+          - listitem [ref=e73]:
+            - generic [ref=e74]: "01"
+            - generic [ref=e75]:
+              - heading "Gel Limpeza Veludo" [level=3] [ref=e76]
+              - paragraph [ref=e77]: Use pela manha com o rosto umido.
+              - paragraph [ref=e78]: Remove impurezas sem ressecar.
+            - paragraph [ref=e79]: R$ 182,00
+          - listitem [ref=e80]:
+            - generic [ref=e81]: "02"
+            - generic [ref=e82]:
+              - heading "Serum Radiance 01" [level=3] [ref=e83]
+              - paragraph [ref=e84]: Aplique antes do hidratante.
+              - paragraph [ref=e85]: Ajuda na luminosidade e uniformidade.
+            - paragraph [ref=e86]: R$ 289,00
+          - listitem [ref=e87]:
+            - generic [ref=e88]: "03"
+            - generic [ref=e89]:
+              - heading "Creme Barrier Celeste" [level=3] [ref=e90]
+              - paragraph [ref=e91]: Use uma camada fina antes da protecao.
+              - paragraph [ref=e92]: Mantem a pele confortavel ao longo do dia.
+            - paragraph [ref=e93]: R$ 320,00
+          - listitem [ref=e94]:
+            - generic [ref=e95]: "04"
+            - generic [ref=e96]:
+              - heading "Patch Olhos Aurora" [level=3] [ref=e97]
+              - paragraph [ref=e98]: Use quando quiser reforcar frescor no olhar.
+              - paragraph [ref=e99]: Apoia hidratacao e efeito descansado.
+            - paragraph [ref=e100]: R$ 198,00
+      - generic [ref=e102]:
+        - article [ref=e103]:
+          - paragraph [ref=e104]: Para quem
+          - list [ref=e105]:
+            - listitem [ref=e106]:
+              - img [ref=e107]
+              - generic [ref=e109]: Quem quer uma rotina objetiva
+            - listitem [ref=e110]:
+              - img [ref=e111]
+              - generic [ref=e113]: Peles que pedem protecao diaria
+        - article [ref=e114]:
+          - paragraph [ref=e115]: Resultado esperado
+          - paragraph [ref=e116]: Pele com acabamento mais fresco, hidratado e pronta para o dia.
+        - article [ref=e117]:
+          - paragraph [ref=e118]: Compra assistida
+          - paragraph [ref=e119]: Produtos autenticos, sellers verificados e repasse transparente no marketplace.
+          - generic [ref=e120]:
+            - generic [ref=e121]:
+              - img [ref=e122]
+              - text: Autenticidade
+            - generic [ref=e125]:
+              - img [ref=e126]
+              - text: Entrega com rastreio
+            - generic [ref=e131]:
+              - img [ref=e132]
+              - text: Concierge BelaPop
+      - generic [ref=e135]:
+        - generic [ref=e136]:
+          - generic [ref=e137]:
+            - paragraph [ref=e138]: Curadoria compravel
+            - heading "Voce tambem pode gostar" [level=2] [ref=e139]
+            - paragraph [ref=e140]: Outros rituais prontos para comprar por necessidade, momento ou intencao de cuidado.
+          - link "Ver todos os kits" [ref=e141] [cursor=pointer]:
+            - /url: /kits
+        - generic [ref=e142]:
+          - article [ref=e143]:
+            - generic [ref=e144]:
+              - img "Rotina de skincare editorial com pele luminosa e frascos premium." [ref=e145]
+              - generic [ref=e147]:
+                - generic [ref=e148]: Curadoria BelaPop
+                - generic [ref=e149]: Mais recomendado
+              - generic [ref=e150]:
+                - paragraph [ref=e151]: Manha
+                - heading "Ritual da Manha" [level=3] [ref=e152]
+                - paragraph [ref=e153]: Preparar, hidratar e proteger.
+            - generic [ref=e154]:
+              - paragraph [ref=e155]: Uma rotina inteligente para comecar o dia com pele limpa, luminosa e protegida.
+              - paragraph [ref=e156]: Pele preparada, confortavel e protegida sem excesso de passos.
+              - generic [ref=e157]:
+                - generic [ref=e158]:
+                  - paragraph [ref=e159]: 4 itens
+                  - paragraph [ref=e160]: R$ 989,00
+                - generic [ref=e161]:
+                  - paragraph [ref=e162]: Kit
+                  - paragraph [ref=e163]: R$ 849,00
+                - generic [ref=e164]:
+                  - img [ref=e165]
+                  - text: Economia de R$ 140,00
+              - generic [ref=e167]:
+                - generic [ref=e168]: normal
+                - generic [ref=e169]: mista
+                - generic [ref=e170]: manha
+                - generic [ref=e171]: premium
+              - generic [ref=e172]:
+                - 'button "Adicionar kit ao carrinho: Ritual da Manha" [ref=e173] [cursor=pointer]':
+                  - img [ref=e174]
+                  - text: Adicionar kit ao carrinho
+                - link "Ver rotina" [ref=e177] [cursor=pointer]:
+                  - /url: /kits/ritual-da-manha
+                  - text: Ver rotina
+                  - img [ref=e178]
+          - article [ref=e181]:
+            - generic [ref=e182]:
+              - img "Cena editorial noturna de beleza premium." [ref=e183]
+              - generic [ref=e186]: Rotina completa
+              - generic [ref=e187]:
+                - paragraph [ref=e188]: Noite
+                - heading "Ritual da Noite" [level=3] [ref=e189]
+                - paragraph [ref=e190]: Reparar enquanto a pele descansa.
+            - generic [ref=e191]:
+              - paragraph [ref=e192]: Tratamento noturno para renovar, reparar e acordar com sensacao de pele descansada.
+              - paragraph [ref=e193]: Rotina de alto conforto para tratar sem deixar a pele sobrecarregada.
+              - generic [ref=e194]:
+                - generic [ref=e195]:
+                  - paragraph [ref=e196]: 4 itens
+                  - paragraph [ref=e197]: R$ 1.029,00
+                - generic [ref=e198]:
+                  - paragraph [ref=e199]: Kit
+                  - paragraph [ref=e200]: R$ 899,00
+                - generic [ref=e201]:
+                  - img [ref=e202]
+                  - text: Economia de R$ 130,00
+              - generic [ref=e204]:
+                - generic [ref=e205]: normal
+                - generic [ref=e206]: mista
+                - generic [ref=e207]: noite
+                - generic [ref=e208]: premium
+              - generic [ref=e209]:
+                - 'button "Adicionar kit ao carrinho: Ritual da Noite" [ref=e210] [cursor=pointer]':
+                  - img [ref=e211]
+                  - text: Adicionar kit ao carrinho
+                - link "Ver rotina" [ref=e214] [cursor=pointer]:
+                  - /url: /kits/ritual-da-noite
+                  - text: Ver rotina
+                  - img [ref=e215]
+          - article [ref=e218]:
+            - generic [ref=e219]:
+              - img "Close editorial de pele e tecnologia BelaPop." [ref=e220]
+              - generic [ref=e223]: Mais vendido
+              - generic [ref=e224]:
+                - paragraph [ref=e225]: Barreira
+                - heading "Kit Barreira" [level=3] [ref=e226]
+                - paragraph [ref=e227]: Conforto e barreira fortalecida.
+            - generic [ref=e228]:
+              - paragraph [ref=e229]: Cuidado de conforto para pele seca, sensibilizada ou com barreira fragilizada.
+              - paragraph [ref=e230]: Conforto imediato com rotina de baixo atrito.
+              - generic [ref=e231]:
+                - generic [ref=e232]:
+                  - paragraph [ref=e233]: 4 itens
+                  - paragraph [ref=e234]: R$ 882,00
+                - generic [ref=e235]:
+                  - paragraph [ref=e236]: Kit
+                  - paragraph [ref=e237]: R$ 769,00
+                - generic [ref=e238]:
+                  - img [ref=e239]
+                  - text: Economia de R$ 113,00
+              - generic [ref=e241]:
+                - generic [ref=e242]: seca
+                - generic [ref=e243]: sensivel
+                - generic [ref=e244]: manha
+                - generic [ref=e245]: medio
+              - generic [ref=e246]:
+                - 'button "Adicionar kit ao carrinho: Kit Barreira" [ref=e247] [cursor=pointer]':
+                  - img [ref=e248]
+                  - text: Adicionar kit ao carrinho
+                - link "Ver rotina" [ref=e251] [cursor=pointer]:
+                  - /url: /kits/kit-barreira
+                  - text: Ver rotina
+                  - img [ref=e252]
+    - 'button "Adicionar kit ao carrinho: Ritual da Manha" [ref=e256] [cursor=pointer]':
+      - img [ref=e257]
+      - text: Adicionar kit ao carrinho
+    - contentinfo [ref=e260]:
+      - generic [ref=e261]:
+        - generic [ref=e262]:
+          - heading "BelaPop" [level=2] [ref=e263]
+          - paragraph [ref=e264]: Skincare guided by your skin.
+        - generic [ref=e265]:
+          - heading "Compre com confianca" [level=3] [ref=e266]
+          - generic [ref=e267]:
+            - generic [ref=e268]:
+              - img [ref=e270]
+              - generic [ref=e273]: Produtos autenticos
+            - generic [ref=e274]:
+              - img [ref=e276]
+              - generic [ref=e279]: Pagamentos seguros
+            - generic [ref=e280]:
+              - img [ref=e282]
+              - generic [ref=e287]: Envio com rastreio
+            - generic [ref=e288]:
+              - img [ref=e290]
+              - generic [ref=e295]: Devolucao facil
+            - generic [ref=e296]:
+              - img [ref=e298]
+              - generic [ref=e300]: Selecao curada
+            - generic [ref=e301]:
+              - img [ref=e303]
+              - generic [ref=e306]: Suporte concierge
+        - generic [ref=e307]:
+          - generic [ref=e308]:
+            - button "Institucional" [expanded] [ref=e309] [cursor=pointer]:
+              - generic [ref=e310]: Institucional
+              - img [ref=e311]
+            - generic [ref=e314]:
+              - link "Sobre a BelaPop" [ref=e315] [cursor=pointer]:
+                - /url: /sobre
+              - link "Seguranca" [ref=e316] [cursor=pointer]:
+                - /url: /seguranca
+              - link "Fale conosco" [ref=e317] [cursor=pointer]:
+                - /url: /contato
+          - generic [ref=e318]:
+            - button "Legal" [ref=e319] [cursor=pointer]:
+              - generic [ref=e320]: Legal
+              - img [ref=e321]
+            - generic:
+              - generic:
+                - link "Aviso de Privacidade" [ref=e323] [cursor=pointer]:
+                  - /url: /aviso-de-privacidade
+                - link "Termos e Condicoes" [ref=e324] [cursor=pointer]:
+                  - /url: /termos-e-condicoes
+                - link "Politica de Cookies" [ref=e325] [cursor=pointer]:
+                  - /url: /politica-de-cookies
+                - button "Personalizar cookies" [ref=e326] [cursor=pointer]
+        - generic [ref=e327]:
+          - generic [ref=e328]:
+            - heading "63.945.608 GIOVANNA DE SOUSA FERREIRA SANTOS" [level=5] [ref=e329]
+            - generic [ref=e330]:
+              - generic [ref=e331]: CNPJ 63.945.608/0001-09
+              - generic [ref=e332]: Rua Coromandel, 189 - Araguari - Minas Gerais - Brasil
+          - 'link "Canal de Privacidade / Solicitacao de Dados: privacidade@belapopoficial.com.br" [ref=e333] [cursor=pointer]':
+            - /url: mailto:privacidade@belapopoficial.com.br
+        - generic [ref=e334]:
+          - link "Instagram" [ref=e335] [cursor=pointer]:
+            - /url: https://instagram.com/belapop.oficial
+            - img [ref=e336]
+          - link "TikTok" [ref=e338] [cursor=pointer]:
+            - /url: https://tiktok.com/@belapop.oficial
+            - img [ref=e339]
+          - link "Facebook" [ref=e341] [cursor=pointer]:
+            - /url: https://facebook.com/belapopoficial
+            - img [ref=e342]
+          - link "WhatsApp" [ref=e344] [cursor=pointer]:
+            - /url: https://wa.me/5534999999999
+            - img [ref=e345]
+        - generic [ref=e347]:
+          - paragraph [ref=e348]: © BelaPop 2026 - Todos os direitos reservados
+          - generic [ref=e349]: Brasil
+  - contentinfo [ref=e350]:
+    - generic [ref=e351]:
+      - generic [ref=e352]:
+        - heading "BelaPop" [level=2] [ref=e353]
+        - paragraph [ref=e354]: Skincare guided by your skin.
+      - generic [ref=e355]:
+        - heading "Compre com confianca" [level=3] [ref=e356]
+        - generic [ref=e357]:
+          - generic [ref=e358]:
+            - img [ref=e360]
+            - generic [ref=e363]: Produtos autenticos
+          - generic [ref=e364]:
+            - img [ref=e366]
+            - generic [ref=e369]: Pagamentos seguros
+          - generic [ref=e370]:
+            - img [ref=e372]
+            - generic [ref=e377]: Envio com rastreio
+          - generic [ref=e378]:
+            - img [ref=e380]
+            - generic [ref=e385]: Devolucao facil
+          - generic [ref=e386]:
+            - img [ref=e388]
+            - generic [ref=e390]: Selecao curada
+          - generic [ref=e391]:
+            - img [ref=e393]
+            - generic [ref=e396]: Suporte concierge
+      - generic [ref=e397]:
+        - generic [ref=e398]:
+          - button "Institucional" [expanded] [ref=e399] [cursor=pointer]:
+            - generic [ref=e400]: Institucional
+            - img [ref=e401]
+          - generic [ref=e404]:
+            - link "Sobre a BelaPop" [ref=e405] [cursor=pointer]:
+              - /url: /sobre
+            - link "Seguranca" [ref=e406] [cursor=pointer]:
+              - /url: /seguranca
+            - link "Fale conosco" [ref=e407] [cursor=pointer]:
+              - /url: /contato
+        - generic [ref=e408]:
+          - button "Legal" [ref=e409] [cursor=pointer]:
+            - generic [ref=e410]: Legal
+            - img [ref=e411]
+          - generic:
+            - generic:
+              - link "Aviso de Privacidade" [ref=e413] [cursor=pointer]:
+                - /url: /aviso-de-privacidade
+              - link "Termos e Condicoes" [ref=e414] [cursor=pointer]:
+                - /url: /termos-e-condicoes
+              - link "Politica de Cookies" [ref=e415] [cursor=pointer]:
+                - /url: /politica-de-cookies
+              - button "Personalizar cookies" [ref=e416] [cursor=pointer]
+      - generic [ref=e417]:
+        - generic [ref=e418]:
+          - heading "63.945.608 GIOVANNA DE SOUSA FERREIRA SANTOS" [level=5] [ref=e419]
+          - generic [ref=e420]:
+            - generic [ref=e421]: CNPJ 63.945.608/0001-09
+            - generic [ref=e422]: Rua Coromandel, 189 - Araguari - Minas Gerais - Brasil
+        - 'link "Canal de Privacidade / Solicitacao de Dados: privacidade@belapopoficial.com.br" [ref=e423] [cursor=pointer]':
+          - /url: mailto:privacidade@belapopoficial.com.br
+      - generic [ref=e424]:
+        - link "Instagram" [ref=e425] [cursor=pointer]:
+          - /url: https://instagram.com/belapop.oficial
+          - img [ref=e426]
+        - link "TikTok" [ref=e428] [cursor=pointer]:
+          - /url: https://tiktok.com/@belapop.oficial
+          - img [ref=e429]
+        - link "Facebook" [ref=e431] [cursor=pointer]:
+          - /url: https://facebook.com/belapopoficial
+          - img [ref=e432]
+        - link "WhatsApp" [ref=e434] [cursor=pointer]:
+          - /url: https://wa.me/5534999999999
+          - img [ref=e435]
+      - generic [ref=e437]:
+        - paragraph [ref=e438]: © BelaPop 2026 - Todos os direitos reservados
+        - generic [ref=e439]: Brasil
+  - link "Falar com concierge no WhatsApp" [ref=e440] [cursor=pointer]:
+    - /url: https://wa.me/553498047036?text=Ol%C3%A1%2C%20quero%20falar%20com%20o%20concierge%20BelaPop
+    - img [ref=e441]

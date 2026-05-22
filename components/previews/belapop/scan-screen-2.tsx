@@ -23,7 +23,7 @@ type RealtimeMetric = {
 
 const realtimeMetrics: RealtimeMetric[] = [
   { label: "Poros", value: "Minimos" },
-  { label: "Hidratacao", value: "84%", supporting: "Alta" },
+  { label: "Hidratação", value: "84%", supporting: "Alta" },
   { label: "Sensibilidade", value: "Baixa" }
 ] as const;
 
@@ -34,7 +34,7 @@ const scanStats = [
 
 const captureSignals = [
   {
-    title: "Analise molecular",
+    title: "Análise molecular",
     description: "Mapeamento de textura, micro relevo e sinais de sensibilidade em tempo real.",
     icon: ScanFace
   },
@@ -92,7 +92,7 @@ export function ScanScreenTwo({ mode = "preview", embedInPage = false }: ScanScr
 
                 <div className="flex flex-col gap-3 pt-2 sm:flex-row lg:flex-col xl:flex-row">
                   <Link
-                    href={getBelapopHref(mode, "diagnostico")}
+                    href={getBelapopHref(mode, "diagnóstico")}
                     className={`${previewPrimaryButtonClass} w-full active:scale-[0.99] sm:w-auto lg:w-full xl:w-auto`}
                   >
                     CAPTURAR

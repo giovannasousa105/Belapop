@@ -84,8 +84,8 @@ export function StripeCheckoutDemo(props: Props) {
 
   if (!stripePromise) {
     return (
-      <p className="text-sm text-red-600">
-        Defina NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY para usar o checkout Stripe.
+      <p className="rounded-2xl border border-red-100 bg-red-50 px-4 py-3 text-sm text-red-700">
+        Pagamento temporariamente indisponível. Tente novamente em instantes ou fale com o concierge.
       </p>
     );
   }
@@ -128,7 +128,7 @@ function PaymentForm({
     const { error } = await stripe.confirmPayment({
       elements,
       confirmParams: {
-        return_url: returnUrl ?? window.location.href,
+        return_url: returnUrl ?? `${window.location.origin}/pedido/sucesso`,
       },
       redirect: "if_required",
     });
@@ -164,7 +164,7 @@ function PaymentForm({
       <button
         onClick={handlePay}
         disabled={loading || !stripe || !elements}
-        className="w-full rounded-full bg-bpPink px-4 py-3 text-sm font-semibold uppercase tracking-[0.2em] text-white shadow-[0_10px_24px_rgba(194,24,91,0.22)] transition hover:bg-bpPink/90 disabled:opacity-60"
+        className="w-full bg-black px-4 py-3 text-sm font-semibold uppercase tracking-[0.2em] text-white transition hover:bg-black/90 disabled:opacity-60"
       >
         {loading ? "Processando..." : ctaLabel ?? "Pagar agora"}
       </button>

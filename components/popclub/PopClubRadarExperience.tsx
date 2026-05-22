@@ -21,7 +21,7 @@ const radarItems = [
     status: "Disponivel agora",
     meta: "Limited Batch",
     title: "Serum Eclat Infini",
-    description: "A alquimia perfeita entre luminosidade e protecao molecular.",
+    description: "A alquimia perfeita entre luminosidade e proteção molecular.",
     image:
       "https://lh3.googleusercontent.com/aida-public/AB6AXuDmrJKg1XDJtfQqKtGWgd5tp55mW3oo0SBnQFT6ubnAsZQ9jSxqNTnQIUN9mxcCFe5es71iqoadMYn94cdO8wQoxuPeY6VSvx4BaVUsASPAikw6Dbp4bo8KO9a3RMl0HWOTQt9ZC6N3zxi36XJDO-SDUdDToqcuE6v2g-8P13IS-wWK1pf4qZis-1zqGBIH2iEulmDryCApIhxycYIZiquvKd1b9eh_CVLCpkiV63dJZBAiKW6dCQFGHKCI6SFqLBSg92XFn8P04Hxb",
     cta: "Garantir acesso",
@@ -31,7 +31,7 @@ const radarItems = [
     status: "Chegando em breve",
     meta: "Drops em 4 dias",
     title: "Vetiver Absolu Noir",
-    description: "Notas de fumaca e couro italiano. Uma experiencia olfativa radical.",
+    description: "Notas de fumaca e couro italiano. Uma experiência olfativa radical.",
     image:
       "https://lh3.googleusercontent.com/aida-public/AB6AXuB9TIm9--5NfsI8m_XEcZVlw45wqeaH0gHaHRp8ji5KbbDnkpWvu5UQk5SC8CwUwm87eUXWM4t6mKWR1OwWxoxozwcCfejK6Ikwax4487_yNTHlR-MtZFNswJGG2pZ0K1_dhPm4K7kZ1enT79lG8gI7i9xVkEWKO8lSCivNIX0FXBIIDUp0aK8mnfToWl-V5BCY6idrd9hExIXb3u8KvIp8eZIfSxsRpE1F4f6b3ic0f32k1eBh9-sgaMnXiNFZeDK20BnPFCxteK29",
     cta: "Notificar drop",
@@ -41,7 +41,7 @@ const radarItems = [
     status: "Observando",
     meta: "842 watching",
     title: "Creme Regard Solaire",
-    description: "Monitorando disponibilidade nos Ateliers de Paris.",
+    description: "Monitorando disponibilidade entre sellers e parceiros verificados da curadoria.",
     image:
       "https://lh3.googleusercontent.com/aida-public/AB6AXuDmwMEymSL9OMVhsjnH4b0dVH7ZDyeIAQl4DZ-trxYHH5_00vnYZk_byFZaYKKJ9pUl5G9EO3GYHRFYQoWmuv3uNy4xu-TJRElbofyutinj3BULHsEEIBeJQoA6TMgaIvp0P8WlR2P7Bv3XqMQITNCNnyC5BCHQBSfCTY4JtiqQKMkHnAJs8iVo58Y2421LRF6pD6oWnl_Z8jJ198phOkDX9LcbIcg2A4iJUVCGMnQgUkGMWxu3emSFYOWpgdnh84p0kkewt2tQ7O-c",
     cta: "Entrar no radar",
@@ -77,7 +77,7 @@ export default function PopClubRadarExperience() {
           <Link
             href="/carrinho"
             className="inline-flex h-10 w-10 items-center justify-center text-[#1a1a1a] transition-opacity hover:opacity-70"
-            aria-label="Abrir sacola"
+            aria-label="Abrir carrinho"
           >
             <ShoppingBag className="h-5 w-5" />
           </Link>
@@ -97,7 +97,7 @@ export default function PopClubRadarExperience() {
           <div className="lg:pt-4">
             <header className="mb-14">
               <p className="mb-3 text-[10px] uppercase tracking-[0.2em] text-[#444748]">
-                Curated by Alexandria
+                Curadoria BelaPop
               </p>
               <h1 className="font-[var(--font-playfair)] text-4xl font-black leading-tight tracking-tighter lg:text-6xl">
                 Radar PopClub
@@ -134,7 +134,7 @@ export default function PopClubRadarExperience() {
 
               <div className="aspect-square overflow-hidden">
                 <img
-                  src="https://lh3.googleusercontent.com/aida/ADBb0ujIXB-CXZ5LwC-GYKRN5M0LIcuDLRjGjyvflgBf2AnbCzpo23eMIb5INobpk5ROGl41chLvxev5ImFhWKImi8Tm2vYC_srPNq63ZDQB4-1Ft8jZTy4iKwG4j-RScsayKXumdr6Aga481fxDB75hsAdTTtNuP0zUT9aPZI2UyA8iXd_sniG2ETsCAoxb3j4OkByUoaLZXKoRYCZskpv0XlGLs9fw4Wys-3HQ4loghtQSubcO59jmw_7sOJ9d-tt6GwlGTj-8vL1fESk"
+                  src="/editorial/login-hero-original.jpg"
                   alt="Drop recomendado"
                   className="h-full w-full object-cover"
                 />

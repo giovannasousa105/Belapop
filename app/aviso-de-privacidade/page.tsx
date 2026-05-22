@@ -3,12 +3,12 @@ import type { Metadata } from "next";
 import { InstitutionalIdentityCard } from "@/components/legal/InstitutionalIdentityCard";
 import { LegalPageLayout, LegalSection } from "@/components/legal/LegalPageLayout";
 import { OperationalPendingNotice } from "@/components/legal/OperationalPendingNotice";
-import { privacyNotice } from "@/lib/legal/content";
+import { belapopOperationalContacts, privacyNotice } from "@/lib/legal/content";
 
 export const metadata: Metadata = {
   title: "Aviso de Privacidade | BelaPop",
   description:
-    "Identificacao da controladora, dados tratados, finalidades, bases legais, compartilhamento, retencao e direitos do titular na BelaPop."
+    "Identificação da controladora, dados tratados, finalidades, bases legais, compartilhamento, retenção e direitos do titular na BelaPop."
 };
 
 export default function PrivacyNoticePage() {
@@ -26,14 +26,15 @@ export default function PrivacyNoticePage() {
         </>
       }
     >
-      <LegalSection id="controladora" title="Controladora e identificacao">
+      <LegalSection id="controladora" title="Controladora e identificação">
         <p>
           A BelaPop atua como controladora dos dados pessoais tratados em seu ambiente digital,
           observados os limites da LGPD e a estrutura operacional efetivamente implantada.
         </p>
         <p>
-          Este aviso foi organizado para deixar claro quem responde pela relacao com o titular,
-          quais pontos ja estao definidos e quais dados ainda dependem de validacao operacional.
+          Este aviso foi organizado para deixar claro quem responde pela relação com o titular,
+          quais dados podem ser tratados e quais canais oficiais devem ser usados para atendimento
+          e exercício de direitos.
         </p>
       </LegalSection>
 
@@ -68,7 +69,7 @@ export default function PrivacyNoticePage() {
       <LegalSection id="compartilhamento" title="Compartilhamento">
         <p>
           O compartilhamento ocorre apenas quando houver necessidade operacional, base legal
-          adequada ou exigencia valida de autoridade competente.
+          adequada ou exigência válida de autoridade competente.
         </p>
         <ul className="space-y-3">
           {privacyNotice.sharing.map((item) => (
@@ -80,15 +81,21 @@ export default function PrivacyNoticePage() {
         </ul>
       </LegalSection>
 
-      <LegalSection id="retencao" title="Retencao">
+      <LegalSection id="retencao" title="Retenção">
         <p>{privacyNotice.retention}</p>
       </LegalSection>
 
       <LegalSection id="direitos" title="Direitos do titular">
         <p>
-          O titular pode exercer os direitos previstos na LGPD por canal que venha a ser
-          formalizado pela BelaPop. Enquanto o canal definitivo nao for validado, o front exibe a
-          pendencia de forma expressa.
+          O titular pode exercer os direitos previstos na LGPD pelo canal de privacidade da
+          BelaPop:{" "}
+          <a
+            className="font-semibold text-[#1c1b1b] underline-offset-4 hover:underline"
+            href={`mailto:${belapopOperationalContacts.privacyChannel}`}
+          >
+            {belapopOperationalContacts.privacyChannel}
+          </a>
+          .
         </p>
         <ul className="space-y-3">
           {privacyNotice.rights.map((item) => (
@@ -100,19 +107,25 @@ export default function PrivacyNoticePage() {
         </ul>
       </LegalSection>
 
-      <LegalSection id="seguranca" title="Seguranca e antifraude">
+      <LegalSection id="seguranca" title="Segurança e antifraude">
         <p>{privacyNotice.security}</p>
       </LegalSection>
 
-      <LegalSection id="contato" title="Contato e atualizacoes">
+      <LegalSection id="contato" title="Contato e atualizações">
         <p>
-          A BelaPop pode revisar este aviso para refletir mudancas juridicas, operacionais ou
-          tecnicas. A versao em vigor fica identificada pela data de atualizacao indicada nesta
-          pagina.
+          A BelaPop pode revisar este aviso para refletir mudanças jurídicas, operacionais ou
+          técnicas. A versão em vigor fica identificada pela data de atualização indicada nesta
+          página.
         </p>
         <p>
-          Os contatos formais de e-mail institucional, privacidade e encarregado(a) ainda precisam
-          de validacao operacional antes da publicacao definitiva.
+          Dúvidas sobre pedidos, conta ou atendimento podem ser enviadas para{" "}
+          <a
+            className="font-semibold text-[#1c1b1b] underline-offset-4 hover:underline"
+            href={`mailto:${belapopOperationalContacts.institutionalEmail}`}
+          >
+            {belapopOperationalContacts.institutionalEmail}
+          </a>
+          .
         </p>
       </LegalSection>
     </LegalPageLayout>

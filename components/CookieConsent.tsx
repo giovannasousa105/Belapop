@@ -173,7 +173,7 @@ export const CookieConsent = () => {
   }, []);
 
   useEffect(() => {
-    if (!bannerOpen && !preferencesOpen) return;
+    if (!preferencesOpen) return;
 
     const originalOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
@@ -235,6 +235,52 @@ export const CookieConsent = () => {
   };
 
   if (!hasOpenLayer) return null;
+
+  if (bannerOpen && !preferencesOpen) {
+    return (
+      <div className="pointer-events-none fixed inset-x-0 bottom-0 z-[70] px-3 pb-3 sm:px-4 sm:pb-4">
+        <div className="pointer-events-auto mx-auto w-full max-w-5xl rounded-[24px] border border-[#eadedf] bg-white/95 p-3 shadow-[0_18px_70px_rgba(17,12,13,0.14)] backdrop-blur md:p-4">
+          <div className="grid gap-3 md:grid-cols-[minmax(0,1fr)_auto] md:items-center">
+            <div>
+              <p className="text-[9px] font-semibold uppercase tracking-[0.24em] text-[#8c5d66]">
+                Cookies e privacidade
+              </p>
+              <p className="mt-1 text-sm leading-5 text-[#51494a] md:text-[15px]">
+                Usamos cookies para segurança, sessão e melhoria da experiência. Você controla as
+                categorias opcionais.
+              </p>
+            </div>
+            <div className="grid grid-cols-1 gap-2 sm:grid-cols-3 md:min-w-[32rem]">
+              <button
+                type="button"
+                onClick={acceptAll}
+                className="min-h-11 rounded-full bg-black px-4 text-[10px] font-semibold uppercase tracking-[0.18em] text-white"
+              >
+                Aceitar
+              </button>
+              <button
+                type="button"
+                onClick={rejectNonEssential}
+                className="min-h-11 rounded-full border border-black/10 bg-white px-4 text-[10px] font-semibold uppercase tracking-[0.18em] text-[#1c1b1b]"
+              >
+                Recusar
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  setBannerOpen(false);
+                  setPreferencesOpen(true);
+                }}
+                className="min-h-11 rounded-full border border-[#d7c3c6] bg-[#fff6f7] px-4 text-[10px] font-semibold uppercase tracking-[0.18em] text-[#8c5d66]"
+              >
+                Personalizar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="fixed inset-0 z-[70] bg-black/45 backdrop-blur-sm">

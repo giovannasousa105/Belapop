@@ -380,7 +380,7 @@ export async function GET(request: NextRequest) {
       null;
 
     if (!scopedStoreId) {
-      return NextResponse.json({ error: "Escopo de loja nao definido para leitura de metricas." }, { status: 403 });
+      return NextResponse.json({ error: "Escopo de loja não definido para leitura de metricas." }, { status: 403 });
     }
 
     if (requestedStoreId && requestedStoreId !== scopedStoreId) {

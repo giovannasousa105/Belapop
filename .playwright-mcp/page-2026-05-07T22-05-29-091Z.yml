@@ -1,0 +1,372 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e3]:
+      - generic [ref=e4]:
+        - navigation [ref=e5]:
+          - link "Loja" [ref=e6] [cursor=pointer]:
+            - /url: /catalogo
+            - text: Loja
+          - link "Universos" [ref=e7] [cursor=pointer]:
+            - /url: /universos
+            - text: Universos
+          - link "Skin Scan" [ref=e9] [cursor=pointer]:
+            - /url: /skin-scan
+            - text: Skin Scan
+          - link "PopClub" [ref=e10] [cursor=pointer]:
+            - /url: /popclub
+            - text: PopClub
+          - link "Guias" [ref=e11] [cursor=pointer]:
+            - /url: /guias
+            - text: Guias
+        - link "BelaPop" [ref=e12] [cursor=pointer]:
+          - /url: /
+        - generic [ref=e13]:
+          - button "Buscar produtos" [ref=e14] [cursor=pointer]:
+            - img [ref=e15]
+          - link "Entrar" [ref=e18] [cursor=pointer]:
+            - /url: /login?tab=customer&returnTo=%2Fconta
+            - img [ref=e19]
+          - link "Sacola" [ref=e22] [cursor=pointer]:
+            - /url: /carrinho
+            - img [ref=e23]
+      - generic:
+        - generic:
+          - link "Skincare":
+            - /url: /skincare
+            - text: Skincare
+          - link "Maquiagem":
+            - /url: /maquiagem
+            - text: Maquiagem
+          - link "Cabelos":
+            - /url: /cabelos
+            - text: Cabelos
+          - link "Perfumes":
+            - /url: /perfumes
+            - text: Perfumes
+  - generic [ref=e27]:
+    - banner [ref=e28]:
+      - generic [ref=e29]:
+        - generic [ref=e30]:
+          - navigation [ref=e31]:
+            - link "Loja" [ref=e32] [cursor=pointer]:
+              - /url: /catalogo
+              - text: Loja
+            - link "Universos" [ref=e33] [cursor=pointer]:
+              - /url: /universos
+              - text: Universos
+            - link "Skin Scan" [ref=e35] [cursor=pointer]:
+              - /url: /skin-scan
+              - text: Skin Scan
+            - link "PopClub" [ref=e36] [cursor=pointer]:
+              - /url: /popclub
+              - text: PopClub
+            - link "Guias" [ref=e37] [cursor=pointer]:
+              - /url: /guias
+              - text: Guias
+          - link "BelaPop" [ref=e38] [cursor=pointer]:
+            - /url: /
+          - generic [ref=e39]:
+            - button "Buscar produtos" [ref=e40] [cursor=pointer]:
+              - img [ref=e41]
+            - link "Entrar" [ref=e44] [cursor=pointer]:
+              - /url: /login?tab=customer&returnTo=%2Fconta
+              - img [ref=e45]
+            - link "Sacola" [ref=e48] [cursor=pointer]:
+              - /url: /carrinho
+              - img [ref=e49]
+        - generic:
+          - generic:
+            - link "Skincare":
+              - /url: /skincare
+              - text: Skincare
+            - link "Maquiagem":
+              - /url: /maquiagem
+              - text: Maquiagem
+            - link "Cabelos":
+              - /url: /cabelos
+              - text: Cabelos
+            - link "Perfumes":
+              - /url: /perfumes
+              - text: Perfumes
+    - main [ref=e52]:
+      - generic [ref=e53]:
+        - img "Cena editorial BelaPop com curadoria premium de beleza." [ref=e54]
+        - generic [ref=e57]:
+          - paragraph [ref=e58]: Universos BelaPop
+          - heading "Explore por universo." [level=1] [ref=e59]
+          - paragraph [ref=e60]: Uma arquitetura editorial e compravel para entrar na BelaPop por desejo, pele, presente, ciencia ou descoberta.
+          - generic [ref=e61]:
+            - link "Escolher universo" [ref=e62] [cursor=pointer]:
+              - /url: "#universos"
+              - text: Escolher universo
+              - img [ref=e63]
+            - link "Fazer Skin Scan" [ref=e66] [cursor=pointer]:
+              - /url: /skin-scan
+              - text: Fazer Skin Scan
+              - img [ref=e67]
+      - generic [ref=e74]:
+        - generic [ref=e75]:
+          - paragraph [ref=e76]: Escolha seu universo de beleza
+          - heading "Menos busca fria, mais descoberta guiada por curadoria." [level=2] [ref=e77]
+        - generic [ref=e78]: Cada universo conecta SKUs individuais, colecoes, kits, rotinas, guias de ativos e conteudos de decisao como vale o investimento.
+      - generic [ref=e80]:
+        - generic [ref=e82]:
+          - generic [ref=e83]:
+            - paragraph [ref=e84]: Explore por Universo
+            - heading "Seis portas editoriais para comprar melhor." [level=2] [ref=e85]
+          - paragraph [ref=e86]: Cards grandes, imagens com respiro e CTAs claros para navegar sem sentir excesso de marketplace.
+        - generic [ref=e88]:
+          - link "Explorar universo Icones da Curadoria" [ref=e89] [cursor=pointer]:
+            - /url: /universos/icones-da-curadoria
+            - img "Composicao editorial de skincare premium BelaPop." [ref=e90]
+            - generic [ref=e92]:
+              - generic [ref=e93]:
+                - generic [ref=e94]: Mais desejados
+                - generic [ref=e95]: Universo BelaPop
+              - heading "Icones da Curadoria" [level=3] [ref=e96]
+              - paragraph [ref=e97]: Produtos mais desejados, recomendados e validados pela BelaPop.
+              - generic [ref=e98]:
+                - generic [ref=e99]: Ver icones
+                - img [ref=e101]
+          - link "Explorar universo Novos no Atelier" [ref=e104] [cursor=pointer]:
+            - /url: /universos/novos-no-atelier
+            - img "Vitrine premium com lancamentos e textura editorial." [ref=e105]
+            - generic [ref=e107]:
+              - generic [ref=e108]:
+                - generic [ref=e109]: New in
+                - generic [ref=e110]: Universo BelaPop
+              - heading "Novos no Atelier" [level=3] [ref=e111]
+              - paragraph [ref=e112]: Lancamentos, descobertas recentes e novidades adicionadas a curadoria.
+              - generic [ref=e113]:
+                - generic [ref=e114]: Descobrir novidades
+                - img [ref=e116]
+          - link "Explorar universo Clinical Luxury" [ref=e119] [cursor=pointer]:
+            - /url: /universos/clinical-luxury
+            - img "Pele em close com interface editorial de analise BelaPop." [ref=e120]
+            - generic [ref=e122]:
+              - generic [ref=e123]:
+                - generic [ref=e124]: Performance discreta
+                - generic [ref=e125]: Universo BelaPop
+              - heading "Clinical Luxury" [level=3] [ref=e126]
+              - paragraph [ref=e127]: Dermocosmeticos com apelo clinico, performance, tecnologia e sofisticacao.
+              - generic [ref=e128]:
+                - generic [ref=e129]: Explorar clinical luxury
+                - img [ref=e131]
+          - link "Explorar universo Presentes" [ref=e134] [cursor=pointer]:
+            - /url: /universos/presentes
+            - img "Imagem editorial premium com luz quente para presentes." [ref=e135]
+            - generic [ref=e137]:
+              - generic [ref=e138]:
+                - generic [ref=e139]: Gift edit
+                - generic [ref=e140]: Universo BelaPop
+              - heading "Presentes" [level=3] [ref=e141]
+              - paragraph [ref=e142]: Produtos e kits para presentear por intencao e faixa de preco.
+              - generic [ref=e143]:
+                - generic [ref=e144]: Encontrar presente
+                - img [ref=e146]
+          - link "Explorar universo Pele Sensivel" [ref=e149] [cursor=pointer]:
+            - /url: /universos/pele-sensivel
+            - img "Pele em close com luz suave e sensacao de acolhimento." [ref=e150]
+            - generic [ref=e152]:
+              - generic [ref=e153]:
+                - generic [ref=e154]: Baixo atrito
+                - generic [ref=e155]: Universo BelaPop
+              - heading "Pele Sensivel" [level=3] [ref=e156]
+              - paragraph [ref=e157]: Produtos, rotinas e kits para conforto, barreira cutanea e baixa irritabilidade.
+              - generic [ref=e158]:
+                - generic [ref=e159]: Montar rotina sensivel
+                - img [ref=e161]
+          - link "Explorar universo Brasilidades Premium" [ref=e164] [cursor=pointer]:
+            - /url: /universos/brasilidades-premium
+            - img "Vitrine editorial BelaPop com produtos premium." [ref=e165]
+            - generic [ref=e167]:
+              - generic [ref=e168]:
+                - generic [ref=e169]: Made in Brazil edit
+                - generic [ref=e170]: Universo BelaPop
+              - heading "Brasilidades Premium" [level=3] [ref=e171]
+              - paragraph [ref=e172]: Marcas brasileiras sofisticadas, ativos nacionais e sensorialidade tropical elegante.
+              - generic [ref=e173]:
+                - generic [ref=e174]: Conhecer brasilidades
+                - img [ref=e176]
+      - generic [ref=e180]:
+        - generic [ref=e181]:
+          - paragraph [ref=e182]: Skin Scan quando fizer sentido
+          - heading "Quando a pele entra na decisao, o universo vira rotina." [level=2] [ref=e183]
+          - paragraph [ref=e184]: Pele Sensivel e Clinical Luxury ganham mais precisao com diagnostico. Presentes e Novos no Atelier podem seguir por concierge quando a resposta nao depende so de tipo de pele.
+          - generic [ref=e185]:
+            - link "Fazer Skin Scan" [ref=e186] [cursor=pointer]:
+              - /url: /skin-scan
+              - text: Fazer Skin Scan
+              - img [ref=e187]
+            - link "Montar minha rotina" [ref=e193] [cursor=pointer]:
+              - /url: /rituais
+        - generic [ref=e194]:
+          - link "Mais desejados Icones da Curadoria O achado que resume a curadoria desta semana. Explorar universo" [ref=e195] [cursor=pointer]:
+            - /url: /universos/icones-da-curadoria
+            - paragraph [ref=e196]: Mais desejados
+            - heading "Icones da Curadoria" [level=3] [ref=e197]
+            - paragraph [ref=e198]: O achado que resume a curadoria desta semana.
+            - generic [ref=e199]:
+              - text: Explorar universo
+              - img [ref=e200]
+          - link "New in Novos no Atelier O novo que entrou porque tem papel real na rotina. Explorar universo" [ref=e202] [cursor=pointer]:
+            - /url: /universos/novos-no-atelier
+            - paragraph [ref=e203]: New in
+            - heading "Novos no Atelier" [level=3] [ref=e204]
+            - paragraph [ref=e205]: O novo que entrou porque tem papel real na rotina.
+            - generic [ref=e206]:
+              - text: Explorar universo
+              - img [ref=e207]
+          - link "Performance discreta Clinical Luxury O produto que entrega performance sem teatralizar a rotina. Explorar universo" [ref=e209] [cursor=pointer]:
+            - /url: /universos/clinical-luxury
+            - paragraph [ref=e210]: Performance discreta
+            - heading "Clinical Luxury" [level=3] [ref=e211]
+            - paragraph [ref=e212]: O produto que entrega performance sem teatralizar a rotina.
+            - generic [ref=e213]:
+              - text: Explorar universo
+              - img [ref=e214]
+    - contentinfo [ref=e216]:
+      - generic [ref=e217]:
+        - generic [ref=e218]:
+          - heading "BelaPop" [level=2] [ref=e219]
+          - paragraph [ref=e220]: Skincare guided by your skin.
+        - generic [ref=e221]:
+          - heading "Compre com confianca" [level=3] [ref=e222]
+          - generic [ref=e223]:
+            - generic [ref=e224]:
+              - img [ref=e226]
+              - generic [ref=e229]: Produtos autenticos
+            - generic [ref=e230]:
+              - img [ref=e232]
+              - generic [ref=e235]: Pagamentos seguros
+            - generic [ref=e236]:
+              - img [ref=e238]
+              - generic [ref=e243]: Envio com rastreio
+            - generic [ref=e244]:
+              - img [ref=e246]
+              - generic [ref=e251]: Devolucao facil
+            - generic [ref=e252]:
+              - img [ref=e254]
+              - generic [ref=e256]: Selecao curada
+            - generic [ref=e257]:
+              - img [ref=e259]
+              - generic [ref=e262]: Suporte concierge
+        - generic [ref=e263]:
+          - generic [ref=e264]:
+            - heading "Institucional" [level=4] [ref=e265]
+            - generic [ref=e266]:
+              - link "Sobre a BelaPop" [ref=e267] [cursor=pointer]:
+                - /url: /sobre
+              - link "Seguranca" [ref=e268] [cursor=pointer]:
+                - /url: /seguranca
+              - link "Fale conosco" [ref=e269] [cursor=pointer]:
+                - /url: /contato
+          - generic [ref=e270]:
+            - heading "Legal" [level=4] [ref=e271]
+            - generic [ref=e272]:
+              - link "Aviso de Privacidade" [ref=e273] [cursor=pointer]:
+                - /url: /aviso-de-privacidade
+              - link "Termos e Condicoes" [ref=e274] [cursor=pointer]:
+                - /url: /termos-e-condicoes
+              - link "Politica de Cookies" [ref=e275] [cursor=pointer]:
+                - /url: /politica-de-cookies
+              - button "Personalizar cookies" [ref=e276] [cursor=pointer]
+        - generic [ref=e277]:
+          - generic [ref=e278]:
+            - heading "63.945.608 GIOVANNA DE SOUSA FERREIRA SANTOS" [level=5] [ref=e279]
+            - generic [ref=e280]:
+              - generic [ref=e281]: CNPJ 63.945.608/0001-09
+              - generic [ref=e282]: Rua Coromandel, 189 - Araguari - Minas Gerais - Brasil
+          - 'link "Canal de Privacidade / Solicitacao de Dados: privacidade@belapopoficial.com.br" [ref=e283] [cursor=pointer]':
+            - /url: mailto:privacidade@belapopoficial.com.br
+        - generic [ref=e284]:
+          - link "Instagram" [ref=e285] [cursor=pointer]:
+            - /url: https://instagram.com/belapop.oficial
+            - img [ref=e286]
+          - link "TikTok" [ref=e288] [cursor=pointer]:
+            - /url: https://tiktok.com/@belapop.oficial
+            - img [ref=e289]
+          - link "Facebook" [ref=e291] [cursor=pointer]:
+            - /url: https://facebook.com/belapopoficial
+            - img [ref=e292]
+          - link "WhatsApp" [ref=e294] [cursor=pointer]:
+            - /url: https://wa.me/5534999999999
+            - img [ref=e295]
+        - generic [ref=e297]:
+          - paragraph [ref=e298]: © BelaPop 2026 - Todos os direitos reservados
+          - generic [ref=e299]: Brasil
+  - contentinfo [ref=e300]:
+    - generic [ref=e301]:
+      - generic [ref=e302]:
+        - heading "BelaPop" [level=2] [ref=e303]
+        - paragraph [ref=e304]: Skincare guided by your skin.
+      - generic [ref=e305]:
+        - heading "Compre com confianca" [level=3] [ref=e306]
+        - generic [ref=e307]:
+          - generic [ref=e308]:
+            - img [ref=e310]
+            - generic [ref=e313]: Produtos autenticos
+          - generic [ref=e314]:
+            - img [ref=e316]
+            - generic [ref=e319]: Pagamentos seguros
+          - generic [ref=e320]:
+            - img [ref=e322]
+            - generic [ref=e327]: Envio com rastreio
+          - generic [ref=e328]:
+            - img [ref=e330]
+            - generic [ref=e335]: Devolucao facil
+          - generic [ref=e336]:
+            - img [ref=e338]
+            - generic [ref=e340]: Selecao curada
+          - generic [ref=e341]:
+            - img [ref=e343]
+            - generic [ref=e346]: Suporte concierge
+      - generic [ref=e347]:
+        - generic [ref=e348]:
+          - heading "Institucional" [level=4] [ref=e349]
+          - generic [ref=e350]:
+            - link "Sobre a BelaPop" [ref=e351] [cursor=pointer]:
+              - /url: /sobre
+            - link "Seguranca" [ref=e352] [cursor=pointer]:
+              - /url: /seguranca
+            - link "Fale conosco" [ref=e353] [cursor=pointer]:
+              - /url: /contato
+        - generic [ref=e354]:
+          - heading "Legal" [level=4] [ref=e355]
+          - generic [ref=e356]:
+            - link "Aviso de Privacidade" [ref=e357] [cursor=pointer]:
+              - /url: /aviso-de-privacidade
+            - link "Termos e Condicoes" [ref=e358] [cursor=pointer]:
+              - /url: /termos-e-condicoes
+            - link "Politica de Cookies" [ref=e359] [cursor=pointer]:
+              - /url: /politica-de-cookies
+            - button "Personalizar cookies" [ref=e360] [cursor=pointer]
+      - generic [ref=e361]:
+        - generic [ref=e362]:
+          - heading "63.945.608 GIOVANNA DE SOUSA FERREIRA SANTOS" [level=5] [ref=e363]
+          - generic [ref=e364]:
+            - generic [ref=e365]: CNPJ 63.945.608/0001-09
+            - generic [ref=e366]: Rua Coromandel, 189 - Araguari - Minas Gerais - Brasil
+        - 'link "Canal de Privacidade / Solicitacao de Dados: privacidade@belapopoficial.com.br" [ref=e367] [cursor=pointer]':
+          - /url: mailto:privacidade@belapopoficial.com.br
+      - generic [ref=e368]:
+        - link "Instagram" [ref=e369] [cursor=pointer]:
+          - /url: https://instagram.com/belapop.oficial
+          - img [ref=e370]
+        - link "TikTok" [ref=e372] [cursor=pointer]:
+          - /url: https://tiktok.com/@belapop.oficial
+          - img [ref=e373]
+        - link "Facebook" [ref=e375] [cursor=pointer]:
+          - /url: https://facebook.com/belapopoficial
+          - img [ref=e376]
+        - link "WhatsApp" [ref=e378] [cursor=pointer]:
+          - /url: https://wa.me/5534999999999
+          - img [ref=e379]
+      - generic [ref=e381]:
+        - paragraph [ref=e382]: © BelaPop 2026 - Todos os direitos reservados
+        - generic [ref=e383]: Brasil
+  - button "Abrir Consultora BelaPop" [ref=e384] [cursor=pointer]:
+    - img [ref=e386]
+    - generic [ref=e388]:
+      - generic [ref=e389]: Precisa de ajuda?
+      - generic [ref=e390]: Rotina, presente ou recompra

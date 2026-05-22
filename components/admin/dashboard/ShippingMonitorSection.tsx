@@ -47,7 +47,7 @@ const STATUS_TONE: Record<string, string> = {
 };
 
 const formatCarrier = (carrier: string | null) =>
-  carrier && carrier.trim() ? carrier.trim() : "Nao informado";
+  carrier && carrier.trim() ? carrier.trim() : "Não informado";
 
 const escapeCsv = (value: string) => `"${value.replace(/"/g, '""')}"`;
 

@@ -41,16 +41,16 @@ export function AtelierCategoryBottomNav({
 }: AtelierCategoryBottomNavProps) {
   return (
     <nav className="fixed inset-x-0 bottom-0 z-50 flex h-20 items-center justify-around border-t border-stone-200 bg-white/85 px-4 pb-6 pt-2 shadow-[0_-10px_40px_rgba(0,0,0,0.05)] backdrop-blur-md lg:hidden">
-      <BottomNavLink active href={shopHref} label="Shop">
+      <BottomNavLink active href={shopHref} label="Loja">
         <Store className="h-5 w-5" />
       </BottomNavLink>
-      <BottomNavLink href="/diario" label="Journal">
+      <BottomNavLink href="/diario" label="Diario">
         <BookOpen className="h-5 w-5" />
       </BottomNavLink>
-      <BottomNavLink href="/skin-scan" label="AI Scan">
+      <BottomNavLink href="/skin-scan" label="Skin Scan">
         <ScanFace className="h-5 w-5" />
       </BottomNavLink>
-      <BottomNavLink href="/conta" label="Profile">
+      <BottomNavLink href="/conta" label="Conta">
         <User className="h-5 w-5" />
       </BottomNavLink>
     </nav>

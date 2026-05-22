@@ -54,7 +54,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(
       {
         error:
-          "Anexo nao encontrado. Rode a migration 20260305_0300_customer_events_outbox_support_sla.sql se necessario."
+          "Anexo não encontrado. Rode a migration 20260305_0300_customer_events_outbox_support_sla.sql se necessario."
       },
       { status: 404 }
     );
@@ -76,7 +76,7 @@ export async function POST(request: NextRequest) {
       .eq("user_id", userId);
 
     return NextResponse.json(
-      { error: "Upload nao encontrado no storage. Reenvie o arquivo." },
+      { error: "Upload não encontrado no storage. Reenvie o arquivo." },
       { status: 409 }
     );
   }

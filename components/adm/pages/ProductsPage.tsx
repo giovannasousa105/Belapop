@@ -71,7 +71,7 @@ export async function ProductsPage({ filters, searchParamsSource }: ProductsPage
     return (
       <ErrorState
         title="Falha ao carregar curadoria"
-        description={listResult.error?.message ?? "Nao foi possivel carregar os produtos."}
+        description={listResult.error?.message ?? "Não foi possivel carregar os produtos."}
       />
     );
   }
@@ -108,7 +108,7 @@ export async function ProductsPage({ filters, searchParamsSource }: ProductsPage
       ) : rows.length === 0 ? (
         <EmptyState
           title="Nenhum produto para este recorte"
-          description="A base ainda nao possui produtos disponiveis neste modulo."
+          description="A base ainda não possui produtos disponiveis neste modulo."
         />
       ) : (
         <AdminTable
@@ -129,9 +129,9 @@ export async function ProductsPage({ filters, searchParamsSource }: ProductsPage
               id: "seller",
               label: "Seller",
               render: (product) => (
-                canVisit("/adm/operacao/parceiros") ? (
+                canVisit("/adm/operação/parceiros") ? (
                   <Link
-                    href={buildHref("/adm/operacao/parceiros", searchParamsSource, {
+                    href={buildHref("/adm/operação/parceiros", searchParamsSource, {
                       seller: product.sellerId,
                       status: undefined,
                       product: undefined
@@ -207,9 +207,9 @@ export async function ProductsPage({ filters, searchParamsSource }: ProductsPage
             <p className="mt-1 text-sm font-semibold text-[#27231f]">
               {selectedProduct.seller?.name ?? "Seller removido"}
             </p>
-            <PermissionGate route="/adm/operacao/parceiros">
+            <PermissionGate route="/adm/operação/parceiros">
               <Link
-                href={`/adm/operacao/parceiros?seller=${selectedProduct.product.sellerId}`}
+                href={`/adm/operação/parceiros?seller=${selectedProduct.product.sellerId}`}
                 className="mt-2 inline-flex text-xs font-semibold uppercase tracking-[0.15em] underline underline-offset-4"
               >
                 Abrir gestao de parceiros
@@ -230,9 +230,9 @@ export async function ProductsPage({ filters, searchParamsSource }: ProductsPage
                       Status logistico: {order.logisticsStatus}
                     </p>
                     <div className="mt-2 flex gap-3">
-                      <PermissionGate route={`/adm/operacao/logistica/envios/${order.shipmentId}`}>
+                      <PermissionGate route={`/adm/operação/logistica/envios/${order.shipmentId}`}>
                         <Link
-                          href={`/adm/operacao/logistica/envios/${order.shipmentId}?order=${order.id}`}
+                          href={`/adm/operação/logistica/envios/${order.shipmentId}?order=${order.id}`}
                           className="text-xs font-semibold uppercase tracking-[0.13em] underline underline-offset-4"
                         >
                           Detalhe de envio

@@ -14,7 +14,7 @@ export const previewScreens = [
   {
     slug: "scan",
     title: "Scan etapa 1",
-    description: "Selecao de focos de cuidado para iniciar a analise facial.",
+    description: "Seleção de focos de cuidado para iniciar a análise facial.",
     finalPath: "/skin-scan"
   },
   {
@@ -24,20 +24,20 @@ export const previewScreens = [
     finalPath: "/conta/skincare"
   },
   {
-    slug: "diagnostico",
-    title: "Diagnostico exclusivo",
+    slug: "diagnóstico",
+    title: "Diagnóstico exclusivo",
     description: "Relatorio biometrico com metricas, vitrine e concierge.",
     finalPath: "/conta/skincare"
   },
   {
     slug: "concierge",
-    title: "Concierge de diagnostico",
-    description: "Chat de recomendacao ligado ao perfil biometrico.",
+    title: "Concierge de diagnóstico",
+    description: "Chat de recomendação ligado ao perfil biometrico.",
     finalPath: "/conta/skincare"
   },
   {
     slug: "carrinho",
-    title: "Sacola",
+    title: "Carrinho",
     description: "Carrinho editorial com resumo premium e CTA de compra.",
     finalPath: "/carrinho"
   },
@@ -62,7 +62,7 @@ export const previewScreens = [
   {
     slug: "feedback",
     title: "Feedback do ritual",
-    description: "Tela de avaliacao de produto e experiencia BelaPop.",
+    description: "Tela de avaliação de produto e experiência BelaPop.",
     finalPath: "/account/reviews"
   },
   {
@@ -74,7 +74,7 @@ export const previewScreens = [
   {
     slug: "recompensas",
     title: "Vitrine de recompensas",
-    description: "Galeria premium de resgates, pontos e colecoes para membros.",
+    description: "Galeria premium de resgates, pontos e coleções para membros.",
     finalPath: "/conta/recompensas"
   },
   {
@@ -86,13 +86,13 @@ export const previewScreens = [
   {
     slug: "checkout",
     title: "Checkout editorial",
-    description: "Entrega, pagamento e resumo em composicao premium.",
+    description: "Entrega, pagamento e resumo em composição premium.",
     finalPath: "/checkout"
   },
   {
     slug: "produto",
     title: "Produto editorial",
-    description: "Pagina de produto premium com ciencia, ritual e avaliacoes.",
+    description: "Pagina de produto premium com ciencia, ritual e avaliações.",
     finalPath: "/produto/orquidea-imperial"
   }
 ] as const;
@@ -105,7 +105,7 @@ export function getPreviewScreen(slug: string) {
 
 export const homeCollections = [
   {
-    id: "colecao-noir",
+    id: "coleção-noir",
     title: "Noir Reset",
     description:
       "Texturas noturnas, formulas de barreira e acabamento silencioso para uma pele descansada.",
@@ -117,10 +117,10 @@ export const homeCollections = [
     supportingLabel: "Ritual noturno"
   },
   {
-    id: "colecao-glow",
+    id: "coleção-glow",
     title: "Glass Veil",
     description:
-      "Curadoria de luminosidade com hidratacao refinada e acabamento editorial.",
+      "Curadoria de luminosidade com hidratação refinada e acabamento editorial.",
     coverImage:
       "https://lh3.googleusercontent.com/aida-public/AB6AXuAs4ENUUEpry-Q0eVRqe2OtjDFxasfzRMrbyUjsMYde3nEsa57ojPsAwMMQbLoVtB0r_olMJ-tj1WGn7vJRIbOoGVptBncqD07egKWxFEuLCeJSPyi8IKyK1vKC4dgpQBWCdi8GVn3NGGJmmle_go9oE-HczbnHvaqiVGDxZIxhuJEen8unlNKa9VRqjl9ZZE4XQDdf5zbXxIz_Pt6cPOyy3LtdAu72K4KXM2EPfN37QzcKNgjHevRxxV4OINflp9Ye37Xq6JV-YERT",
     href: "/preview/home",
@@ -129,7 +129,7 @@ export const homeCollections = [
     supportingLabel: "Acabamento espelhado"
   },
   {
-    id: "colecao-atelier",
+    id: "coleção-atelier",
     title: "Atelier Repair",
     description:
       "Ceramidas, antioxidantes e conforto sensorial para pele sensibilizada.",
@@ -155,7 +155,7 @@ export const homeBestSellers = [
     slug: "creme-de-la-mer",
     title: "Creme de la Mer",
     brand: "La Mer",
-    category: "hidratacao premium",
+    category: "hidratação premium",
     price: 2450,
     badge: "Escolha BelaPop",
     tags: ["no_white_cast"],

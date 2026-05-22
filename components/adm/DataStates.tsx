@@ -56,7 +56,7 @@ export function NoResultsState({ title, description, actionHref, actionLabel }: 
 
 export function PartialDataState({
   title = "Dados parciais detectados",
-  description = "Algumas relacoes ainda nao foram carregadas. A visualizacao segue disponivel para analise."
+  description = "Algumas relacoes ainda não foram carregadas. A visualizacao segue disponivel para análise."
 }: {
   title?: string;
   description?: string;

@@ -4,6 +4,10 @@ import { randomUUID } from "node:crypto";
 
 import { buildShippingItems } from "@/lib/shipping/prepareItems";
 import { calculateShippingForSeller } from "@/lib/shipping/calculateShippingForSeller";
+import {
+  applyPopClubCreditRedemption,
+  reversePopClubCreditRedemption
+} from "@/lib/popclub/redemption";
 import { getSupabaseAdminClient } from "@/lib/supabase/admin";
 import { Address, Product } from "@/lib/types";
 
@@ -19,6 +23,9 @@ type CheckoutCreateInput = {
   paymentMethod: "cartao" | "pix" | "boleto";
   currency?: string;
   allowUnconnectedSellers?: boolean;
+  requestedPopClubCreditsCents?: number | null;
+  checkoutSessionId?: string | null;
+  checkoutIdempotencyKey?: string | null;
 };
 
 type DraftSplit = {
@@ -46,6 +53,9 @@ type DraftOrder = {
   destinationCep: string;
   productTotalCents: number;
   shippingTotalCents: number;
+  grossAmountCents: number;
+  requestedCreditCents: number;
+  creditAppliedCents: number;
   totalAmountCents: number;
   splits: DraftSplit[];
   pricingSnapshot: Record<string, unknown>;
@@ -53,9 +63,13 @@ type DraftOrder = {
 };
 
 type PersistedSplit = {
+  subOrderId: string;
   sellerId: string;
   sellerName: string;
   stripeAccountId: string;
+  grossAmountCents: number;
+  platformFeeCents: number;
+  shippingTotalCents: number;
   sellerNetCents: number;
 };
 
@@ -74,6 +88,11 @@ const normalizeRate = (rate?: number | null) => {
 };
 
 const sanitizeCep = (value: string) => value.replace(/\D/g, "");
+const normalizeCreditCents = (value: number | null | undefined) => {
+  const parsed = Number(value ?? 0);
+  if (!Number.isFinite(parsed)) return 0;
+  return Math.max(0, Math.round(parsed));
+};
 
 const mapProductRow = (row: Record<string, unknown>): Product => ({
   id: String(row.id ?? ""),
@@ -154,7 +173,8 @@ const loadProducts = async (productIds: string[]) => {
     .in("id", productIds);
 
   if (error) {
-    throw new Error(`Falha ao carregar produtos: ${error.message}`);
+    console.error("[checkout] product lookup failed", error.message);
+    throw new Error("Não foi possivel validar os produtos do carrinho.");
   }
 
   return new Map(
@@ -173,7 +193,8 @@ const loadSellers = async (sellerIds: string[]) => {
     .in("id", sellerIds);
 
   if (error) {
-    throw new Error(`Falha ao carregar sellers: ${error.message}`);
+    console.error("[checkout] seller lookup failed", error.message);
+    throw new Error("Não foi possivel validar as lojas do pedido.");
   }
 
   return new Map(
@@ -290,10 +311,13 @@ export const createCheckoutDraft = async (
   const productPayload = productIds.map((productId) => {
     const product = productMap.get(productId);
     if (!product) {
-      throw new Error("Um ou mais produtos nao foram encontrados.");
+      throw new Error("Um ou mais produtos não foram encontrados.");
     }
     if (product.status !== "published") {
-      throw new Error(`O produto ${product.name} nao esta disponivel para venda.`);
+      throw new Error(`O produto ${product.name} não esta disponivel para venda.`);
+    }
+    if (toCentsFromAmount(product.price) <= 0) {
+      throw new Error(`O produto ${product.name} esta sem preco valido para venda.`);
     }
     if (
       typeof product.stockQuantity === "number" &&
@@ -330,7 +354,7 @@ export const createCheckoutDraft = async (
       throw new Error(`Seller ausente para ${entry.product.name}.`);
     }
     if (!["active", "approved"].includes(seller.status)) {
-      throw new Error(`A loja ${seller.storeName} nao esta apta para vender.`);
+      throw new Error(`A loja ${seller.storeName} não esta apta para vender.`);
     }
     if (!input.allowUnconnectedSellers && !seller.stripeAccountId) {
       const error = new Error("SELLER_NOT_CONNECTED") as Error & {
@@ -371,7 +395,7 @@ export const createCheckoutDraft = async (
 
     if (!shippingResult.shipment) {
       const error = new Error(
-        shippingResult.error ?? `Nao foi possivel calcular frete para ${sellerId}.`
+        shippingResult.error ?? `Não foi possivel calcular frete para ${sellerId}.`
       ) as Error & {
         code?: string;
         sellerId?: string;
@@ -412,30 +436,11 @@ export const createCheckoutDraft = async (
 
   const productTotalCents = splits.reduce((total, split) => total + split.productTotalCents, 0);
   const shippingTotalCents = splits.reduce((total, split) => total + split.shippingTotalCents, 0);
-  const totalAmountCents = productTotalCents + shippingTotalCents;
+  const grossAmountCents = productTotalCents + shippingTotalCents;
+  const requestedCreditCents = normalizeCreditCents(input.requestedPopClubCreditsCents);
   const orderId = randomUUID();
   const createdAt = new Date().toISOString();
   const currency = (input.currency ?? "brl").toLowerCase();
-
-  const pricingSnapshot = {
-    version: 1,
-    currency: currency.toUpperCase(),
-    order: {
-      product_total_cents: productTotalCents,
-      shipping_total_cents: shippingTotalCents,
-      total_amount_cents: totalAmountCents
-    },
-    sellers: splits.map((split) => ({
-      sub_order_id: split.subOrderId,
-      seller_id: split.sellerId,
-      seller_name: split.sellerName,
-      commission_rate: split.commissionRate,
-      product_total_cents: split.productTotalCents,
-      shipping_total_cents: split.shippingTotalCents,
-      platform_fee_cents: split.platformFeeCents,
-      seller_net_cents: split.sellerNetCents
-    }))
-  } satisfies Record<string, unknown>;
 
   const shippingSnapshot = {
     version: 1,
@@ -464,7 +469,7 @@ export const createCheckoutDraft = async (
     customerId: input.customerId,
     productTotalCents,
     shippingTotalCents,
-    totalAmountCents,
+    totalAmountCents: grossAmountCents,
     createdAt,
     address: input.address,
     destinationCep
@@ -482,6 +487,51 @@ export const createCheckoutDraft = async (
     throw error;
   }
 
+  let creditAppliedCents = 0;
+  try {
+    if (requestedCreditCents > 0) {
+      const redemption = await applyPopClubCreditRedemption({
+        userId: input.customerId,
+        orderId,
+        checkoutSessionId: input.checkoutSessionId ?? null,
+        requestedAmountCents: requestedCreditCents,
+        sourceIdempotencyKey: input.checkoutIdempotencyKey
+          ? `popclub:credit_redeemed:${input.checkoutIdempotencyKey}`
+          : `popclub:credit_redeemed:${orderId}`,
+        source: "server_checkout"
+      });
+      creditAppliedCents = redemption.appliedAmountCents;
+    }
+  } catch (error) {
+    await deleteCheckoutDraft(orderId);
+    throw error;
+  }
+
+  const totalAmountCents = Math.max(grossAmountCents - creditAppliedCents, 0);
+  const pricingSnapshot = {
+    version: 1,
+    currency: currency.toUpperCase(),
+    order: {
+      product_total_cents: productTotalCents,
+      shipping_total_cents: shippingTotalCents,
+      gross_total_cents: grossAmountCents,
+      requested_credit_cents: requestedCreditCents,
+      credit_applied_cents: creditAppliedCents,
+      payable_total_cents: totalAmountCents,
+      total_amount_cents: totalAmountCents
+    },
+    sellers: splits.map((split) => ({
+      sub_order_id: split.subOrderId,
+      seller_id: split.sellerId,
+      seller_name: split.sellerName,
+      commission_rate: split.commissionRate,
+      product_total_cents: split.productTotalCents,
+      shipping_total_cents: split.shippingTotalCents,
+      platform_fee_cents: split.platformFeeCents,
+      seller_net_cents: split.sellerNetCents
+    }))
+  } satisfies Record<string, unknown>;
+
   return {
     orderId,
     currency,
@@ -489,6 +539,9 @@ export const createCheckoutDraft = async (
     destinationCep,
     productTotalCents,
     shippingTotalCents,
+    grossAmountCents,
+    requestedCreditCents,
+    creditAppliedCents,
     totalAmountCents,
     splits,
     pricingSnapshot,
@@ -514,6 +567,13 @@ export const attachPaymentIntentToOrder = async (
 export const deleteCheckoutDraft = async (orderId: string) => {
   const admin = getSupabaseAdminClient();
 
+  await reversePopClubCreditRedemption({
+    orderId,
+    eventName: "order_canceled",
+    sourceIdempotencyKey: `popclub:draft_cancel:${orderId}`,
+    source: "delete_checkout_draft"
+  });
+
   const subOrdersDelete = await admin.from("sub_orders").delete().eq("order_id", orderId);
   if (subOrdersDelete.error) {
     throw new Error(`Falha ao remover subpedidos pendentes: ${subOrdersDelete.error.message}`);
@@ -531,14 +591,21 @@ export const loadPersistedSplitsForOrder = async (
   const admin = getSupabaseAdminClient();
   const { data, error } = await admin
     .from("sub_orders")
-    .select("seller_id,seller_net_cents")
+    .select("id,seller_id,product_total_cents,shipping_total_cents,platform_fee_cents,seller_net_cents")
     .eq("order_id", orderId);
 
   if (error) {
     throw new Error(`Falha ao carregar subpedidos para transfer: ${error.message}`);
   }
 
-  const rows = (data ?? []) as Array<{ seller_id: string; seller_net_cents: number | null }>;
+  const rows = (data ?? []) as Array<{
+    id: string;
+    seller_id: string;
+    product_total_cents: number | null;
+    shipping_total_cents: number | null;
+    platform_fee_cents: number | null;
+    seller_net_cents: number | null;
+  }>;
   const sellerIds = Array.from(new Set(rows.map((row) => row.seller_id)));
   if (sellerIds.length === 0) return [];
 
@@ -566,9 +633,13 @@ export const loadPersistedSplitsForOrder = async (
     .map((row) => {
       const seller = sellerMap.get(row.seller_id);
       return {
+        subOrderId: row.id,
         sellerId: row.seller_id,
         sellerName: seller?.storeName ?? row.seller_id,
         stripeAccountId: seller?.stripeAccountId ?? "",
+        grossAmountCents: Number(row.product_total_cents ?? 0),
+        platformFeeCents: Number(row.platform_fee_cents ?? 0),
+        shippingTotalCents: Number(row.shipping_total_cents ?? 0),
         sellerNetCents: Number(row.seller_net_cents ?? 0)
       };
     })
@@ -578,6 +649,9 @@ export const loadPersistedSplitsForOrder = async (
 export const loadPersistedCheckoutBreakdown = async (
   orderId: string
 ): Promise<{
+  grossAmountCents: number;
+  requestedCreditCents: number;
+  creditAppliedCents: number;
   totalAmountCents: number;
   currency: string;
   splits: DraftSplit[];
@@ -585,7 +659,7 @@ export const loadPersistedCheckoutBreakdown = async (
   const admin = getSupabaseAdminClient();
   const orderLookup = await admin
     .from("orders")
-    .select("total_order_cents,destination_cep")
+    .select("total_order_cents,total_products_cents,total_shipping_cents,credits_applied_cents,destination_cep")
     .eq("id", orderId)
     .maybeSingle();
 
@@ -638,8 +712,15 @@ export const loadPersistedCheckoutBreakdown = async (
   );
 
   const destinationCep = sanitizeCep(String(orderLookup.data?.destination_cep ?? ""));
+  const grossAmountCents =
+    Number(orderLookup.data?.total_products_cents ?? 0) +
+    Number(orderLookup.data?.total_shipping_cents ?? 0);
+  const creditAppliedCents = Number(orderLookup.data?.credits_applied_cents ?? 0);
 
   return {
+    grossAmountCents,
+    requestedCreditCents: creditAppliedCents,
+    creditAppliedCents,
     totalAmountCents: Number(orderLookup.data?.total_order_cents ?? 0),
     currency: "brl",
     splits: subOrderRows.map((row) => {

@@ -1,0 +1,270 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e3]:
+    - banner [ref=e4]:
+      - generic [ref=e5]:
+        - generic [ref=e6]:
+          - link "BelaPop" [ref=e7] [cursor=pointer]:
+            - /url: /
+            - img "BelaPop" [ref=e8]
+          - navigation [ref=e9]:
+            - link "Skincare" [ref=e10] [cursor=pointer]:
+              - /url: /skincare
+            - link "Maquiagem" [ref=e11] [cursor=pointer]:
+              - /url: /maquiagem
+            - link "Cabelos" [ref=e12] [cursor=pointer]:
+              - /url: /cabelos
+            - link "Perfumes" [ref=e13] [cursor=pointer]:
+              - /url: /perfumes
+            - link "Skin Scan Bela" [ref=e14] [cursor=pointer]:
+              - /url: /skin-scan
+        - generic [ref=e15]:
+          - link "POPCLUB" [ref=e16] [cursor=pointer]:
+            - /url: /popclub
+            - img [ref=e17]
+            - generic [ref=e19]: POPCLUB
+          - button "FAVORITOS" [ref=e20] [cursor=pointer]:
+            - img [ref=e21]
+            - generic [ref=e23]: FAVORITOS
+          - button "Buscar" [ref=e24] [cursor=pointer]:
+            - img [ref=e25]
+          - button "Conta" [ref=e28] [cursor=pointer]:
+            - img [ref=e29]
+          - button "Sacola" [ref=e32] [cursor=pointer]:
+            - img [ref=e33]
+    - main [ref=e36]:
+      - link "Skin Scan Bela Skincare BelaPop Entenda sua pele com mais clareza Selecao baseada em criterios de uso e formulacao para ajustar sua rotina. Entender minha pele" [ref=e38] [cursor=pointer]:
+        - /url: /skin-scan
+        - img "Skin Scan Bela" [ref=e41]
+        - generic [ref=e42]:
+          - generic [ref=e43]: Skincare BelaPop
+          - heading "Entenda sua pele com mais clareza" [level=1] [ref=e44]
+          - paragraph [ref=e45]: Selecao baseada em criterios de uso e formulacao para ajustar sua rotina.
+          - generic [ref=e46]:
+            - text: Entender minha pele
+            - img [ref=e47]
+      - generic [ref=e50]:
+        - generic [ref=e51]:
+          - generic [ref=e52]:
+            - generic [ref=e53]: Selecao da categoria
+            - heading "Produtos organizados para facilitar sua escolha" [level=2] [ref=e54]
+            - paragraph [ref=e55]: Produtos vendidos por parceiros verificados. Prazo e envio definidos por cada seller.
+            - paragraph [ref=e56]: Cada produto pode ter condicoes de envio e prazo diferentes.
+            - paragraph [ref=e57]: Selecao inicial. Novos produtos estao sendo adicionados continuamente.
+          - generic [ref=e58]:
+            - generic [ref=e59]:
+              - button "Produtos anteriores" [ref=e60] [cursor=pointer]:
+                - img [ref=e61]
+              - button "Próximos produtos" [ref=e63] [cursor=pointer]:
+                - img [ref=e64]
+            - link "Ver selecao" [ref=e66] [cursor=pointer]:
+              - /url: "#colecao"
+        - generic [ref=e67]:
+          - article [ref=e68]:
+            - img "Serum Radiance" [ref=e70]
+            - generic [ref=e71]:
+              - text: Limited Edition
+              - heading "Serum Radiance" [level=3] [ref=e72]
+              - paragraph [ref=e73]: Glow Instantâneo 30ml
+              - paragraph [ref=e74]: R$ 245
+              - link "Adicionar à sacola" [ref=e75] [cursor=pointer]:
+                - /url: /produto/serum-radiance-01
+          - article [ref=e76]:
+            - img "Velvet Hydra" [ref=e78]
+            - generic [ref=e79]:
+              - text: Mais Vendido
+              - heading "Velvet Hydra" [level=3] [ref=e80]
+              - paragraph [ref=e81]: Creme Hidratante Profundo
+              - paragraph [ref=e82]: R$ 210
+              - link "Adicionar à sacola" [ref=e83] [cursor=pointer]:
+                - /url: /produto/creme-barrier-celeste
+      - generic [ref=e85]:
+        - heading "Selecao completa" [level=2] [ref=e86]
+        - generic [ref=e87]:
+          - article [ref=e88]:
+            - link "Óleo Nutritivo BELA ATELIER Óleo Nutritivo R$ 189" [ref=e89] [cursor=pointer]:
+              - /url: /produto/creme-barrier-celeste
+              - img "Óleo Nutritivo" [ref=e91]
+              - paragraph [ref=e92]: BELA ATELIER
+              - heading "Óleo Nutritivo" [level=3] [ref=e93]
+              - paragraph [ref=e94]: R$ 189
+          - article [ref=e95]:
+            - link "Cleanser Suave BELA ATELIER Cleanser Suave R$ 124" [ref=e96] [cursor=pointer]:
+              - /url: /produto/gel-limpeza-veludo
+              - img "Cleanser Suave" [ref=e98]
+              - paragraph [ref=e99]: BELA ATELIER
+              - heading "Cleanser Suave" [level=3] [ref=e100]
+              - paragraph [ref=e101]: R$ 124
+          - article [ref=e102]:
+            - link "Tônico Botânico BELA ATELIER Tônico Botânico R$ 142" [ref=e103] [cursor=pointer]:
+              - /url: /produto/patch-olhos-aurora
+              - img "Tônico Botânico" [ref=e105]
+              - paragraph [ref=e106]: BELA ATELIER
+              - heading "Tônico Botânico" [level=3] [ref=e107]
+              - paragraph [ref=e108]: R$ 142
+          - article [ref=e109]:
+            - link "Eye Lift Cream BELA ATELIER Eye Lift Cream R$ 210" [ref=e110] [cursor=pointer]:
+              - /url: /produto/serum-radiance-01
+              - img "Eye Lift Cream" [ref=e112]
+              - paragraph [ref=e113]: BELA ATELIER
+              - heading "Eye Lift Cream" [level=3] [ref=e114]
+              - paragraph [ref=e115]: R$ 210
+          - article [ref=e116]:
+            - link "Kit Viagem BELA ATELIER Kit Viagem R$ 299" [ref=e117] [cursor=pointer]:
+              - /url: /produto/creme-barrier-celeste
+              - img "Kit Viagem" [ref=e119]
+              - paragraph [ref=e120]: BELA ATELIER
+              - heading "Kit Viagem" [level=3] [ref=e121]
+              - paragraph [ref=e122]: R$ 299
+          - article [ref=e123]:
+            - link "Vitamin C Booster BELA ATELIER Vitamin C Booster R$ 245" [ref=e124] [cursor=pointer]:
+              - /url: /produto/gel-limpeza-veludo
+              - img "Vitamin C Booster" [ref=e126]
+              - paragraph [ref=e127]: BELA ATELIER
+              - heading "Vitamin C Booster" [level=3] [ref=e128]
+              - paragraph [ref=e129]: R$ 245
+          - article [ref=e130]:
+            - link "Balm Hidratante BELA ATELIER Balm Hidratante R$ 89" [ref=e131] [cursor=pointer]:
+              - /url: /produto/patch-olhos-aurora
+              - img "Balm Hidratante" [ref=e133]
+              - paragraph [ref=e134]: BELA ATELIER
+              - heading "Balm Hidratante" [level=3] [ref=e135]
+              - paragraph [ref=e136]: R$ 89
+          - article [ref=e137]:
+            - link "Detox Mask BELA ATELIER Detox Mask R$ 168" [ref=e138] [cursor=pointer]:
+              - /url: /produto/serum-radiance-01
+              - img "Detox Mask" [ref=e140]
+              - paragraph [ref=e141]: BELA ATELIER
+              - heading "Detox Mask" [level=3] [ref=e142]
+              - paragraph [ref=e143]: R$ 168
+          - article [ref=e144]:
+            - link "Mist Refrescante BELA ATELIER Mist Refrescante R$ 115" [ref=e145] [cursor=pointer]:
+              - /url: /produto/creme-barrier-celeste
+              - img "Mist Refrescante" [ref=e147]
+              - paragraph [ref=e148]: BELA ATELIER
+              - heading "Mist Refrescante" [level=3] [ref=e149]
+              - paragraph [ref=e150]: R$ 115
+          - article [ref=e151]:
+            - link "Esfoliante Seda BELA ATELIER Esfoliante Seda R$ 138" [ref=e152] [cursor=pointer]:
+              - /url: /produto/gel-limpeza-veludo
+              - img "Esfoliante Seda" [ref=e154]
+              - paragraph [ref=e155]: BELA ATELIER
+              - heading "Esfoliante Seda" [level=3] [ref=e156]
+              - paragraph [ref=e157]: R$ 138
+          - generic [ref=e158]:
+            - img "Editorial BelaPop" [ref=e159]
+            - paragraph [ref=e161]: "\"A beleza é um ritual de autocuidado diário.\""
+          - article [ref=e162]:
+            - link "Protetor Solar FPS 50 BELA ATELIER Protetor Solar FPS 50 R$ 156" [ref=e163] [cursor=pointer]:
+              - /url: /produto/gel-limpeza-veludo
+              - img "Protetor Solar FPS 50" [ref=e165]
+              - paragraph [ref=e166]: BELA ATELIER
+              - heading "Protetor Solar FPS 50" [level=3] [ref=e167]
+              - paragraph [ref=e168]: R$ 156
+          - article [ref=e169]:
+            - link "Recovery Hair Mask BELA ATELIER Recovery Hair Mask R$ 195" [ref=e170] [cursor=pointer]:
+              - /url: /produto/patch-olhos-aurora
+              - img "Recovery Hair Mask" [ref=e172]
+              - paragraph [ref=e173]: BELA ATELIER
+              - heading "Recovery Hair Mask" [level=3] [ref=e174]
+              - paragraph [ref=e175]: R$ 195
+          - article [ref=e176]:
+            - link "Essence N°1 BELA ATELIER Essence N°1 R$ 450" [ref=e177] [cursor=pointer]:
+              - /url: /produto/serum-radiance-01
+              - img "Essence N°1" [ref=e179]
+              - paragraph [ref=e180]: BELA ATELIER
+              - heading "Essence N°1" [level=3] [ref=e181]
+              - paragraph [ref=e182]: R$ 450
+          - article [ref=e183]:
+            - link "Sabonete Artesanal BELA ATELIER Sabonete Artesanal R$ 58" [ref=e184] [cursor=pointer]:
+              - /url: /produto/creme-barrier-celeste
+              - img "Sabonete Artesanal" [ref=e186]
+              - paragraph [ref=e187]: BELA ATELIER
+              - heading "Sabonete Artesanal" [level=3] [ref=e188]
+              - paragraph [ref=e189]: R$ 58
+          - article [ref=e190]:
+            - link "Base Matte Silk BELA ATELIER Base Matte Silk R$ 215" [ref=e191] [cursor=pointer]:
+              - /url: /produto/gel-limpeza-veludo
+              - img "Base Matte Silk" [ref=e193]
+              - paragraph [ref=e194]: BELA ATELIER
+              - heading "Base Matte Silk" [level=3] [ref=e195]
+              - paragraph [ref=e196]: R$ 215
+      - generic [ref=e197]:
+        - generic [ref=e198]:
+          - generic [ref=e199]: The Routine
+          - heading "O Seu Ritual BelaPop" [level=2] [ref=e200]
+        - generic [ref=e202]:
+          - article [ref=e203]:
+            - img [ref=e204]
+            - heading "1. Limpar" [level=3] [ref=e208]
+            - paragraph [ref=e209]: Remova impurezas preservando a barreira lipídica, ideal após incômodos ou depois do impacto.
+          - article [ref=e210]:
+            - img [ref=e211]
+            - heading "2. Tratar" [level=3] [ref=e213]
+            - paragraph [ref=e214]: Séruns concentrados com Vitaminas C e Retinol para renovação celular profunda.
+          - article [ref=e215]:
+            - img [ref=e216]
+            - heading "3. Hidratar" [level=3] [ref=e222]
+            - paragraph [ref=e223]: Sele a umidade com cremes luxuosos que restauram elasticidade e viço natural.
+          - article [ref=e224]:
+            - img [ref=e225]
+            - heading "4. Proteger" [level=3] [ref=e231]
+            - paragraph [ref=e232]: Escudo inabalável. Proteção UV de amplo espectro com acabamento invisível.
+        - generic [ref=e233]: Dermatologicamente testado
+    - contentinfo [ref=e235]:
+      - generic [ref=e236]:
+        - generic [ref=e237]:
+          - heading "BelaPop" [level=2] [ref=e238]
+          - paragraph [ref=e239]: Elevando o conceito de beleza através de curadoria seletiva e rituais digitais para a sua pele.
+        - generic [ref=e240]:
+          - heading "Institucional" [level=3] [ref=e241]
+          - navigation [ref=e242]:
+            - link "Sobre a Bela" [ref=e243] [cursor=pointer]:
+              - /url: /conta
+            - link "Nossa Curadoria" [ref=e244] [cursor=pointer]:
+              - /url: /conta
+            - link "Carreiras" [ref=e245] [cursor=pointer]:
+              - /url: /conta
+            - link "Sustentabilidade" [ref=e246] [cursor=pointer]:
+              - /url: /conta
+        - generic [ref=e247]:
+          - heading "Atendimento ao Cliente" [level=3] [ref=e248]
+          - navigation [ref=e249]:
+            - link "Minha Conta" [ref=e250] [cursor=pointer]:
+              - /url: /conta
+            - link "Rastrear Pedido" [ref=e251] [cursor=pointer]:
+              - /url: /conta
+            - link "Trocas e Devoluções" [ref=e252] [cursor=pointer]:
+              - /url: /conta
+            - link "Fale Conosco" [ref=e253] [cursor=pointer]:
+              - /url: /conta
+        - generic [ref=e254]:
+          - heading "Social" [level=3] [ref=e255]
+          - generic [ref=e256]:
+            - link "Instagram" [ref=e257] [cursor=pointer]:
+              - /url: "#"
+              - img [ref=e258]
+            - link "Vídeo" [ref=e261] [cursor=pointer]:
+              - /url: "#"
+              - img [ref=e262]
+            - link "Email" [ref=e265] [cursor=pointer]:
+              - /url: "#"
+              - img [ref=e266]
+          - generic [ref=e269]:
+            - heading "Formas de Pagamento" [level=3] [ref=e270]
+            - generic [ref=e271]:
+              - generic [ref=e272]: VISA
+              - generic [ref=e273]: MC
+              - generic [ref=e274]: PIX
+              - generic [ref=e275]: AMEX
+              - generic [ref=e276]: APPLE
+      - generic [ref=e277]:
+        - paragraph [ref=e278]: © 2026 BelaPop. TODOS OS DIREITOS RESERVADOS.
+        - generic [ref=e279]:
+          - link "Privacy Policy" [ref=e280] [cursor=pointer]:
+            - /url: "#"
+          - link "Terms of Service" [ref=e281] [cursor=pointer]:
+            - /url: "#"
+  - link "Falar com concierge no WhatsApp" [ref=e282] [cursor=pointer]:
+    - /url: https://wa.me/553498047036?text=Ol%C3%A1%2C%20quero%20falar%20com%20o%20concierge%20BelaPop
+    - img [ref=e283]
+  - alert [ref=e285]

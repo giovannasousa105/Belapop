@@ -188,7 +188,7 @@ export default function AccessManagementPanel() {
           <input value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Buscar nome ou email" className="w-72 rounded-xl border border-black/10 px-3 py-2 text-sm" />
           <input value={inviteEmail} onChange={(e) => setInviteEmail(e.target.value)} placeholder="convidar@email.com" className="w-60 rounded-xl border border-black/10 px-3 py-2 text-sm" />
           <select value={inviteRole} onChange={(e) => setInviteRole(e.target.value as Role)} className="rounded-xl border border-black/10 px-3 py-2 text-sm">
-            <option value="OPERACAO">Operacao</option>
+            <option value="OPERACAO">Operação</option>
             <option value="FINANCEIRO">Financeiro</option>
             <option value="ADMIN">Admin</option>
           </select>
@@ -260,7 +260,7 @@ export default function AccessManagementPanel() {
             <div className="mt-4 grid gap-3 sm:grid-cols-2">
               <select value={role} onChange={(e) => setRole(e.target.value as Role)} disabled={!canManage || selected.is_owner} className="rounded-xl border border-black/10 px-3 py-2 text-sm disabled:opacity-50">
                 <option value="ADMIN">Admin</option>
-                <option value="OPERACAO">Operacao</option>
+                <option value="OPERACAO">Operação</option>
                 <option value="FINANCEIRO">Financeiro</option>
               </select>
               <select value={status} onChange={(e) => setStatus(e.target.value as Status)} disabled={!canManage || selected.is_owner} className="rounded-xl border border-black/10 px-3 py-2 text-sm disabled:opacity-50">

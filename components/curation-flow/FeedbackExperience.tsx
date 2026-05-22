@@ -24,7 +24,7 @@ const accentItems = [
     title: "Qualidade Certificada"
   },
   {
-    description: "Sua avaliacao desbloqueia beneficios em seu proximo pedido.",
+    description: "Sua avaliação desbloqueia beneficios em seu proximo pedido.",
     icon: Gift,
     title: "Mimos Exclusivos"
   }
@@ -79,7 +79,7 @@ export function FeedbackExperience() {
                   Compartilhe seu Ritual
                 </h1>
                 <h2 className="mt-6 max-w-xl text-lg font-light leading-8 text-[#444748] sm:text-xl lg:text-2xl">
-                  Leticia, como foi sua experiencia com o{" "}
+                  Leticia, como foi sua experiência com o{" "}
                   <span className="font-semibold text-[#1c1b1b]">
                     Soro Regenerador Orquidea Imperial?
                   </span>

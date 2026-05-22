@@ -49,7 +49,7 @@ export async function POST(request: Request) {
 
     if (!seller) {
       return NextResponse.json(
-        { error: "Seller nao encontrado para o usuario autenticado." },
+        { error: "Seller não encontrado para o usuario autenticado." },
         { status: 403 }
       );
     }

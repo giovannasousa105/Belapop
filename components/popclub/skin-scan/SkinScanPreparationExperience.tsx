@@ -39,7 +39,7 @@ export default function SkinScanPreparationExperience() {
               <div className="aspect-[3/4] lg:aspect-[4/5]">
                 <img
                   src="https://lh3.googleusercontent.com/aida-public/AB6AXuAEePFd5civAVYsv0HWN0Gtn8EF2YHHOiZtxcusk4aA-4Y_JD2E7CB3u8pf9C1KzwxBVvwFscXIGSeyL2YbOKoRLhGlVGtLn_DWZr7uF0mmcv9Wyi-eVb-9TYdfmaTDpNYztT5FbFA-YvdYO2hoOjxm_2Z36XRj2di1wiPGNp2F9Bw5lyPS0xUw20Rvb2qaXlTZvVQoD1jHrhwYZk04VwrXQaWN0vVkptKBVGCTKC8V8T2H2esZmeR2yq5kHHPTMZk8KoTv8M3f6XAO"
-                  alt="Rosto para analise"
+                  alt="Rosto para análise"
                   className="h-full w-full object-cover grayscale opacity-80"
                 />
               </div>
@@ -103,7 +103,7 @@ export default function SkinScanPreparationExperience() {
 
             <div className="space-y-4">
               <Link
-                href="/faceshield"
+                href="/skin-scan/captura"
                 className="inline-flex min-h-14 w-full items-center justify-center bg-black px-8 text-xs font-bold uppercase tracking-[0.2em] text-white transition-opacity hover:opacity-90"
               >
                 Permitir e continuar

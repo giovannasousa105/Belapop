@@ -30,12 +30,12 @@ const HOME_ITEMS: PromiseItem[] = [
   },
   {
     title: "Suporte com SLA visivel",
-    body: "Atendimento com historico in-app, atualizacao por protocolo e escalonamento operacional.",
+    body: "Atendimento com histórico in-app, atualização por protocolo e escalonamento operacional.",
     icon: <Headset className="h-4 w-4" aria-hidden="true" />
   },
   {
     title: "Pagamentos mostrados conforme disponibilidade real",
-    body: "A oferta de pagamento segue os metodos ativos da conta conectada e a validacao do backend.",
+    body: "A oferta de pagamento segue os métodos ativos da conta conectada e a validação do backend.",
     icon: <CreditCard className="h-4 w-4" aria-hidden="true" />
   }
 ];
@@ -53,12 +53,12 @@ const PRODUCT_ITEMS: PromiseItem[] = [
   },
   {
     title: "Suporte acompanhado",
-    body: "Historico do atendimento e SLA ficam visiveis durante o pedido e no detalhe do protocolo.",
+    body: "Histórico do atendimento e SLA ficam visiveis durante o pedido e no detalhe do protocolo.",
     icon: <Headset className="h-4 w-4" aria-hidden="true" />
   },
   {
     title: "Pagamento protegido",
-    body: "Meios exibidos conforme disponibilidade da conta ativa e validacao do backend.",
+    body: "Meios exibidos conforme disponibilidade da conta ativa e validação do backend.",
     icon: <BadgeCheck className="h-4 w-4" aria-hidden="true" />
   }
 ];
@@ -123,17 +123,17 @@ export function OperationalPromiseBar({ variant = "home" }: OperationalPromiseBa
           }`}
         >
           {isProduct
-            ? "O que sustenta a experiencia depois da curadoria."
+            ? "O que sustenta a experiência depois da curadoria."
             : isCheckout
-              ? "O checkout deixa claro o que esta garantido antes de cobrar."
-              : "Promessas visiveis antes da compra. Execucao observavel depois do pedido."}
+              ? "O checkout deixa claro o que está garantido antes de cobrar."
+              : "Promessas visíveis antes da compra. Execução observável depois do pedido."}
         </h2>
         <p className="mt-3 max-w-2xl text-sm leading-6 text-bpGraphite/82 sm:text-base">
           {isProduct
-            ? "A pagina do produto deixa claro como frete, pos-venda, suporte e pagamentos funcionam antes da decisao de compra."
+            ? "A página do produto deixa claro como frete, pós-venda, suporte e pagamentos funcionam antes da decisão de compra."
             : isCheckout
-              ? "Antes de abrir a sessao do Stripe, a BelaPop consolida frete, cria o pedido pendente e expõe como pagamento e pos-venda funcionam na operacao real."
-              : "A BelaPop nao promete so curadoria. Ela deixa explicito como frete, troca, suporte e pagamentos se comportam na operacao real."}
+              ? "Antes de abrir a sessão do Stripe, a BelaPop consolida frete, cria o pedido pendente e expõe como pagamento e pós-venda funcionam na operação real."
+              : "A BelaPop não promete só curadoria. Ela deixa explícito como frete, troca, suporte e pagamentos se comportam na operação real."}
         </p>
       </div>
 

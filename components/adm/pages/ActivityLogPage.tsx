@@ -126,7 +126,7 @@ export async function ActivityLogPage({ filters, searchParamsSource }: ActivityL
     return (
       <ErrorState
         title="Falha ao carregar log de atividades"
-        description={listResult.error?.message ?? "Nao foi possivel carregar eventos de auditoria."}
+        description={listResult.error?.message ?? "Não foi possivel carregar eventos de auditoria."}
       />
     );
   }
@@ -162,7 +162,7 @@ export async function ActivityLogPage({ filters, searchParamsSource }: ActivityL
       ) : rows.length === 0 ? (
         <EmptyState
           title="Sem eventos de atividade"
-          description="Ainda nao ha eventos registrados para este modulo."
+          description="Ainda não ha eventos registrados para este modulo."
         />
       ) : (
         <AdminTable

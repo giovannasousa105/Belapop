@@ -114,11 +114,11 @@ export async function PUT(request: Request) {
     }
 
     if ((lookup.data ?? []).length !== collectionIds.length) {
-      return NextResponse.json({ error: "Algumas colecoes nao foram encontradas." }, { status: 400 });
+      return NextResponse.json({ error: "Algumas coleções não foram encontradas." }, { status: 400 });
     }
 
     if ((lookup.data ?? []).some((item) => item.kind !== kind)) {
-      return NextResponse.json({ error: "Todas as colecoes precisam pertencer ao mesmo kind." }, { status: 400 });
+      return NextResponse.json({ error: "Todas as coleções precisam pertencer ao mesmo kind." }, { status: 400 });
     }
 
     const total = collectionIds.length;
@@ -148,7 +148,7 @@ export async function PUT(request: Request) {
     const productIds = uniqueUuidList(body?.productIds);
 
     if (productIds.length > 96) {
-      return NextResponse.json({ error: "Limite maximo de 96 produtos por colecao." }, { status: 400 });
+      return NextResponse.json({ error: "Limite maximo de 96 produtos por coleção." }, { status: 400 });
     }
 
     const [collectionLookup, productsLookup, existingLinks] = await Promise.all([
@@ -163,7 +163,7 @@ export async function PUT(request: Request) {
       return NextResponse.json({ error: collectionLookup.error.message }, { status: 500 });
     }
     if (!collectionLookup.data) {
-      return NextResponse.json({ error: "Colecao nao encontrada." }, { status: 404 });
+      return NextResponse.json({ error: "Coleção não encontrada." }, { status: 404 });
     }
     if (productsLookup.error) {
       return NextResponse.json({ error: productsLookup.error.message }, { status: 500 });
@@ -173,7 +173,7 @@ export async function PUT(request: Request) {
     }
 
     if ((productsLookup.data ?? []).length !== productIds.length) {
-      return NextResponse.json({ error: "A colecao aceita apenas produtos ativos/publicados." }, { status: 400 });
+      return NextResponse.json({ error: "A coleção aceita apenas produtos ativos/publicados." }, { status: 400 });
     }
 
     const existingIds = new Set((existingLinks.data ?? []).map((item) => String(item.product_id)));

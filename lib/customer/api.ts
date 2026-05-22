@@ -37,7 +37,7 @@ const diffDaysFromDateOnly = (baseIso: string, targetDateOnly: string | null) =>
 
 const normalizeReasonLabel = (reason: string) => {
   const map: Record<string, string> = {
-    NOT_RECEIVED: "Nao chegou",
+    NOT_RECEIVED: "Não chegou",
     DAMAGED_ITEM: "Avaria",
     WRONG_ITEM: "Produto errado",
     QUALITY_ISSUE: "Qualidade",

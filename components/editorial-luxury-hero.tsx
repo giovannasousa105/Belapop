@@ -9,7 +9,7 @@ type EditorialLuxuryHeroProps = {
 
 export default function EditorialLuxuryHero({
   primaryHref = "/skin-scan",
-  secondaryHref = "/vitrine"
+  secondaryHref = "/catalogo"
 }: EditorialLuxuryHeroProps) {
   return (
     <section className="relative overflow-hidden bg-[#F7F2EE]">
@@ -37,7 +37,7 @@ export default function EditorialLuxuryHero({
               </Link>
 
               <Link href={secondaryHref} className="hidden">
-                Explorar vitrine
+                Explorar loja
               </Link>
             </div>
           </div>

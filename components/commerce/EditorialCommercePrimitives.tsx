@@ -2,7 +2,7 @@ import type { LucideIcon } from "lucide-react";
 import { ChevronRight, CreditCard, Headset, RotateCcw, ShieldCheck, Truck } from "lucide-react";
 
 const flowSteps = [
-  { id: "bag", eyebrow: "Passo 01", title: "Sacola" },
+  { id: "bag", eyebrow: "Passo 01", title: "Carrinho" },
   { id: "identification", eyebrow: "Passo 02", title: "Identificacao" },
   { id: "payment", eyebrow: "Passo 03", title: "Pagamento" }
 ] as const;
@@ -16,7 +16,7 @@ const assuranceItems = [
   {
     icon: Truck,
     title: "Envio com rastreio",
-    body: "Prazo estimado informado apos aprovacao do pedido."
+    body: "Prazo estimado informado apos aprovação do pedido."
   },
   {
     icon: RotateCcw,

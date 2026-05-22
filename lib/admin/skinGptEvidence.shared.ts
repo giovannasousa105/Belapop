@@ -39,11 +39,11 @@ export const SKINGPT_EVIDENCE_SOURCE_FAMILIES = [
 
 export const SKINGPT_EVIDENCE_STUDY_TYPES = [
   { key: "living_summary", label: "Sumario clinico" },
-  { key: "guideline", label: "Diretriz clinica" },
+  { key: "guideline", label: "Diretriz clínica" },
   { key: "meta_analysis", label: "Meta-analise" },
   { key: "systematic_review", label: "Revisao sistematica" },
   { key: "umbrella_review", label: "Umbrella review" },
-  { key: "network_meta_analysis", label: "Meta-analise em rede" },
+  { key: "network_meta_analysis", label: "Meta-análise em rede" },
   { key: "randomized_trial", label: "Ensaio randomizado" },
   { key: "pragmatic_randomized_trial", label: "Ensaio randomizado pragmatico" },
   { key: "clinical_trial", label: "Ensaio clinico" },

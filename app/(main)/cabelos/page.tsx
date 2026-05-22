@@ -5,12 +5,12 @@ import { HairAtelierExperience } from "@/components/cabelos/HairAtelierExperienc
 export const metadata: Metadata = {
   title: "Cabelos | BelaPop",
   description:
-    "Cabelos BelaPop com experiencia viva da categoria e jornada de cuidado capilar.",
+    "Cabelos BelaPop com experiência viva da categoria e jornada de cuidado capilar.",
   openGraph: {
     title: "Cabelos | BelaPop",
     description:
-      "Cabelos BelaPop com experiencia viva da categoria e jornada de cuidado capilar.",
-    images: [{ url: "/editorial/presenca-diurna.svg", alt: "Cabelos BelaPop" }],
+      "Cabelos BelaPop com experiência viva da categoria e jornada de cuidado capilar.",
+    images: [{ url: "/og-default.jpg", alt: "Cabelos BelaPop" }],
     type: "website"
   }
 };

@@ -86,12 +86,12 @@ const criticalTheme = {
 const sidebarItems: SidebarItem[] = [
   { label: "Dashboard", href: "/adm/dashboard-executivo", icon: LayoutDashboard },
   { label: "Curadoria", href: "/adm/curadoria/produtos", icon: Sparkles },
-  { label: "Sellers", href: "/adm/operacao/parceiros", icon: Store },
-  { label: "Pedidos", href: "/adm/operacao/pedidos-criticos", icon: ShoppingBag, active: true },
-  { label: "Logística", href: "/adm/operacao/logistica", icon: Truck },
+  { label: "Sellers", href: "/adm/operação/parceiros", icon: Store },
+  { label: "Pedidos", href: "/adm/operação/pedidos-criticos", icon: ShoppingBag, active: true },
+  { label: "Logística", href: "/adm/operação/logistica", icon: Truck },
   { label: "Risco", href: "/adm/financeiro/risco", icon: ShieldAlert },
   { label: "Financeiro", href: "/adm/financeiro", icon: Wallet },
-  { label: "Configurações", href: "/adm/gestao/configuracoes", icon: Settings }
+  { label: "Configurações", href: "/adm/gestao/configurações", icon: Settings }
 ];
 
 const tabs: Array<{ label: string; value: CriticalTab }> = [
@@ -387,7 +387,7 @@ export async function CriticalOrdersPage({
             return (
               <Link
                 key={tab.value}
-                href={buildHref("/adm/operacao/pedidos-criticos", searchParamsSource, {
+                href={buildHref("/adm/operação/pedidos-criticos", searchParamsSource, {
                   activity: tab.value === "todos" ? undefined : tab.value,
                   page: undefined
                 })}

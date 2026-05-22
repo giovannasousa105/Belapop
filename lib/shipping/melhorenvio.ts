@@ -76,7 +76,7 @@ export const quoteShipping = async (
     isPlaceholderPostalCode(sanitizeCep(fromPostalCode ?? ""))
   ) {
     throw new ShippingProviderConfigError(
-      "Melhor Envio nao esta configurado com credenciais validas."
+      "Melhor Envio não esta configurado com credenciais validas."
     );
   }
 

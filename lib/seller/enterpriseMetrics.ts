@@ -21,6 +21,7 @@ export type SellerSupportTicketMetricRow = {
   status: string | null;
   created_at: string | null;
   sla_deadline: string | null;
+  queue_priority_score?: number | null;
 };
 
 export type SellerReviewMetricRow = {
@@ -128,7 +129,7 @@ const isDelivered = (status: string) => includesAny(status, ["entreg", "delivere
 const isShipped = (status: string) =>
   includesAny(status, ["shipped", "enviado", "in_transit", "out_for_delivery", "em transito"]);
 const isOpenTicket = (status: string) =>
-  includesAny(status, ["open", "aberto", "waiting", "analise", "review", "escalated"]);
+  includesAny(status, ["open", "aberto", "waiting", "análise", "review", "escalated"]);
 
 const toGrade = (score: number): SellerScoreResult["grade"] => {
   if (score >= 90) return "A";
@@ -268,15 +269,15 @@ export const computeSellerScore = (args: {
     impacts.push({
       key: "rating",
       level: "low",
-      message: "Avaliacao media abaixo da categoria reduz taxa de conversao no PDP."
+      message: "Avaliação media abaixo da categoria reduz taxa de conversao no PDP."
     });
   }
 
   const recommendations: string[] = [];
-  if (lateOrders > 0) recommendations.push("Priorizar expedicao dos pedidos vencendo em ate 24h.");
+  if (lateOrders > 0) recommendations.push("Priorizar expedição dos pedidos vencendo em ate 24h.");
   if (stockoutSkus > 0) recommendations.push("Repor SKUs em ruptura e configurar alerta de estoque minimo.");
   if (supportTicketsLate > 0) recommendations.push("Ativar playbook de resposta em ate 24h para tickets abertos.");
-  if (returnRate > 2.5) recommendations.push("Revisar SKUs com maior devolucao e ajustar conteudo/qualidade.");
+  if (returnRate > 2.5) recommendations.push("Revisar SKUs com maior devolucao e ajustar conteúdo/qualidade.");
   if (cancelRate > 2) recommendations.push("Travar ofertas de baixo estoque e revisar promessa de prazo.");
 
   return {
@@ -386,6 +387,10 @@ export const buildOperationalQueue = (args: {
         : false;
     return lateByAge || lateBySla;
   });
+  const highestLateTicketPriority = lateTickets.reduce(
+    (max, ticket) => Math.max(max, Number(ticket.queue_priority_score ?? 0) || 0),
+    0
+  );
 
   const queue: SellerOperationalQueueItem[] = [
     {
@@ -428,7 +433,7 @@ export const buildOperationalQueue = (args: {
     },
     {
       id: "returns_backlog",
-      title: "Devolucoes pendentes",
+      title: "Devoluções pendentes",
       severity: returnsBacklog.length >= 4 ? "high" : returnsBacklog.length > 0 ? "medium" : "medium",
       priority_score: returnsBacklog.length > 0 ? 70 + returnsBacklog.length * 5 : 4,
       count: returnsBacklog.length,
@@ -441,12 +446,18 @@ export const buildOperationalQueue = (args: {
       id: "support_backlog",
       title: "Suporte sem resposta",
       severity: lateTickets.length >= 5 ? "high" : lateTickets.length > 0 ? "medium" : "medium",
-      priority_score: lateTickets.length > 0 ? 65 + lateTickets.length * 4 : 3,
+      priority_score:
+        lateTickets.length > 0
+          ? Math.max(65 + lateTickets.length * 4, highestLateTicketPriority + 10)
+          : 3,
       count: lateTickets.length,
       sla_hours: 24,
       estimated_impact_cents: lateTickets.length * 6_500,
       action_href: "/seller/support",
-      reason: "Tickets abertos sem resposta acima de 24h elevam escalonamento."
+      reason:
+        highestLateTicketPriority >= 90
+          ? "Tickets com prioridade VIP sem resposta elevam risco de escalonamento imediato."
+          : "Tickets abertos sem resposta acima de 24h elevam escalonamento."
     }
   ];
 

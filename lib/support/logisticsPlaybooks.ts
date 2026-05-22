@@ -9,14 +9,14 @@ export type LogisticsPlaybook = {
 
 const DEFAULT_PLAYBOOK: LogisticsPlaybook = {
   code: "generic_exception",
-  title: "Playbook de excecao logistica",
+  title: "Playbook de exceção logistica",
   owner: "support_ops",
   slaActionHours: 4,
   escalationChannel: "in_app+email",
   actions: [
     "Validar o ultimo evento de rastreio e atualizar o status do subpedido.",
     "Notificar seller e cliente com o proximo passo e prazo estimado.",
-    "Abrir analise interna se nao houver atualizacao em 4 horas."
+    "Abrir análise interna se não houver atualizacao em 4 horas."
   ]
 };
 
@@ -40,21 +40,21 @@ const PLAYBOOKS: Record<string, LogisticsPlaybook> = {
     slaActionHours: 4,
     escalationChannel: "in_app+email",
     actions: [
-      "Auditar integracao de tracking e provider do subpedido.",
+      "Auditar integração de tracking e provider do subpedido.",
       "Solicitar comprovante de postagem para o seller.",
-      "Escalar ticket tecnico se sem evento novo em 24h."
+      "Escalar ticket técnico se sem evento novo em 24h."
     ]
   },
   delivery_exception: {
     code: "delivery_exception",
-    title: "Playbook excecao critica de entrega",
+    title: "Playbook exceção critica de entrega",
     owner: "support_ops",
     slaActionHours: 1,
     escalationChannel: "whatsapp",
     actions: [
       "Contato prioritario com cliente para confirmar endereco e disponibilidade.",
-      "Acionar seller para reenvio/troca conforme politica.",
-      "Escalar para analise BelaPop imediata com protocolo tecnico."
+      "Acionar seller para reenvio/troca conforme política.",
+      "Escalar para análise BelaPop imediata com protocolo técnico."
     ]
   },
   return_stalled: {

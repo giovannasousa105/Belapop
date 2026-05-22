@@ -62,7 +62,7 @@ export async function PATCH(
     scope.ownerUserId
   );
   if (!targetBelongs) {
-    return NextResponse.json({ error: "Membro nao pertence a esta loja." }, { status: 404 });
+    return NextResponse.json({ error: "Membro não pertence a esta loja." }, { status: 404 });
   }
 
   const body = (await request.json()) as UpdateMemberBody;
@@ -91,7 +91,7 @@ export async function PATCH(
   const status = isStatus(body.status) ? body.status : undefined;
   if (targetUserId === scope.ownerUserId && status && status !== "active") {
     return NextResponse.json(
-      { error: "Nao e possivel desativar o dono da loja." },
+      { error: "Não e possivel desativar o dono da loja." },
       { status: 400 }
     );
   }
@@ -144,7 +144,7 @@ export async function PATCH(
         return NextResponse.json(
           {
             error:
-              "Tabela seller_team_members nao encontrada. Rode a migration de equipe e acessos."
+              "Tabela seller_team_members não encontrada. Rode a migration de equipe e acessos."
           },
           { status: 400 }
         );

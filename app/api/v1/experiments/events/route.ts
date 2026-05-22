@@ -52,7 +52,7 @@ export async function POST(request: NextRequest) {
       {
         error: event.error.message,
         detail:
-          "Funcao track_ab_experiment_event nao encontrada. Rode a migration 20260306_1500_ops_reverse_sre_ranking_ab.sql."
+          "Funcao track_ab_experiment_event não encontrada. Rode a migration 20260306_1500_ops_reverse_sre_ranking_ab.sql."
       },
       { status: 500 }
     );

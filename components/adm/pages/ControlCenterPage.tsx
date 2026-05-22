@@ -29,8 +29,8 @@ export async function ControlCenterPage() {
       label: "Pedidos Criticos",
       value: String(metrics.criticalOrders),
       delta: "Drill-down para fila de intervencao",
-      href: canVisit("/adm/operacao/pedidos-criticos")
-        ? "/adm/operacao/pedidos-criticos?priority=critica"
+      href: canVisit("/adm/operação/pedidos-criticos")
+        ? "/adm/operação/pedidos-criticos?priority=critica"
         : undefined
     },
     {
@@ -50,8 +50,8 @@ export async function ControlCenterPage() {
     {
       label: "Sellers em Risco",
       value: String(metrics.sellersAtRisk),
-      href: canVisit("/adm/operacao/parceiros")
-        ? "/adm/operacao/parceiros?priority=alta"
+      href: canVisit("/adm/operação/parceiros")
+        ? "/adm/operação/parceiros?priority=alta"
         : undefined
     },
     {
@@ -75,7 +75,7 @@ export async function ControlCenterPage() {
     <div className="space-y-6">
       <AlertBanner
         title="Fluxo conectado"
-        description="Este hub centraliza operacao, curadoria, qualidade, financeiro e relacionamento com navegacao contextual entre modulos."
+        description="Este hub centraliza operação, curadoria, qualidade, financeiro e relacionamento com navegação contextual entre modulos."
       />
 
       <section className="grid grid-cols-1 gap-4 lg:grid-cols-3 xl:grid-cols-6">
@@ -110,9 +110,9 @@ export async function ControlCenterPage() {
                 id: "seller",
                 label: "Seller",
                 render: (order) => (
-                  canVisit("/adm/operacao/parceiros") ? (
+                  canVisit("/adm/operação/parceiros") ? (
                     <Link
-                      href={`/adm/operacao/parceiros?seller=${order.sellerId}`}
+                      href={`/adm/operação/parceiros?seller=${order.sellerId}`}
                       className="text-[#2f2a25] underline underline-offset-4"
                     >
                       {order.sellerName}
@@ -132,9 +132,9 @@ export async function ControlCenterPage() {
                 label: "Acao",
                 className: "text-right",
                 render: (order) => (
-                  canVisit(`/adm/operacao/logistica/envios/${order.shipmentId}`) ? (
+                  canVisit(`/adm/operação/logistica/envios/${order.shipmentId}`) ? (
                     <Link
-                      href={`/adm/operacao/logistica/envios/${order.shipmentId}?order=${order.id}`}
+                      href={`/adm/operação/logistica/envios/${order.shipmentId}?order=${order.id}`}
                       className="text-xs font-semibold uppercase tracking-[0.16em] underline underline-offset-4"
                     >
                       Abrir envio
@@ -153,7 +153,7 @@ export async function ControlCenterPage() {
           <InsightBlock
             title="Atalho de reputacao"
             value="Reviews negativas concentradas em Perfumaria"
-            note="Acesse o modulo Reviews para abrir analise por seller e produto."
+            note="Acesse o modulo Reviews para abrir análise por seller e produto."
           />
           <div className="rounded-2xl border border-[#d5cfc3] bg-white p-4">
             <p className="text-[11px] uppercase tracking-[0.18em] text-[#6e675f]">Acoes rapidas</p>

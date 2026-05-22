@@ -1,330 +1,355 @@
 "use client";
 
-/* eslint-disable @next/next/no-img-element */
-
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { Heart, Menu, Search, ShoppingBag, Sparkles, Star, User, X } from "lucide-react";
-import { useEffect, useState } from "react";
+import {
+  ArrowRight,
+  Heart,
+  Menu,
+  Search,
+  ShoppingBag,
+  User,
+  X
+} from "lucide-react";
 
-import { popClubPaths, skinScanJourneyLinks } from "@/lib/popclub/navigation";
+import { GlobalProductSearchOverlay } from "@/components/layout/GlobalProductSearchOverlay";
+import { useAuth } from "@/lib/AuthContext";
+import { buildLoginHref } from "@/lib/auth/redirects";
+import { useCart } from "@/lib/CartContext";
 
-type HeaderSection = "skincare" | "maquiagem" | "cabelos" | "perfumes" | "skin-scan";
+export type HeaderSection =
+  | "loja"
+  | "universos"
+  | "skincare"
+  | "maquiagem"
+  | "cabelos"
+  | "autocuidado"
+  | "perfumes"
+  | "skin-scan"
+  | "popclub"
+  | "diario";
 
-type DesktopNavItem = {
-  accent?: boolean;
-  href: string;
-  label: string;
-  section: HeaderSection;
+type HeaderVariant = "dark" | "light";
+type HeaderFeatureSet = "default" | "skin-scan";
+
+type BelaPopValidatedHeaderProps = {
+  activeSection?: HeaderSection;
+  featureSet?: HeaderFeatureSet;
+  mobileSidebarEnabled?: boolean;
+  variant?: HeaderVariant;
 };
 
-const desktopNavItems: DesktopNavItem[] = [
-  { label: "Skincare", href: "/skincare", section: "skincare" },
-  { label: "Maquiagem", href: "/maquiagem", section: "maquiagem" },
-  { label: "Cabelos", href: "/cabelos", section: "cabelos" },
-  { label: "Perfumes", href: "/perfumes", section: "perfumes" },
-  { label: "Skin Scan Bela", href: popClubPaths.skinScan, accent: true, section: "skin-scan" }
-];
-
-const mobileMenuItems = [
-  { label: "Skincare", href: "/skincare" },
-  { label: "Maquiagem", href: "/maquiagem" },
-  { label: "Cabelos", href: "/cabelos" },
-  { label: "Perfumes", href: "/perfumes" },
-  { label: "Skin Scan Bela", href: popClubPaths.skinScan },
-  { label: "Diario BelaPop", href: "/diario" },
-  { label: "Vitrine", href: "/vitrine" },
-  { label: "Minha Conta", href: "/conta" },
-  { label: "Favoritos", href: "/conta/favoritos" }
-] as const;
-
-function NavItem({
-  href,
-  label,
-  active = false,
-  accent = false
-}: {
+type PrimaryNavLink = {
   href: string;
   label: string;
-  active?: boolean;
-  accent?: boolean;
-}) {
-  const className = active
-    ? "border-b border-white pb-1 text-white"
-    : accent
-      ? "text-[#dac769] hover:text-white"
-      : "text-gray-400 hover:text-white";
+  key: HeaderSection;
+};
 
-  return (
-    <Link
-      href={href}
-      className={`text-[11px] font-semibold uppercase tracking-[0.2em] transition-colors duration-300 ${className}`}
-    >
-      {label}
-    </Link>
-  );
-}
+type DrawerNavLink = {
+  href: string;
+  label: string;
+};
+
+const primaryNav: readonly PrimaryNavLink[] = [
+  { href: "/skin-scan", label: "Entender minha pele", key: "skin-scan" },
+  { href: "/skincare", label: "Skincare", key: "skincare" },
+  { href: "/cabelos", label: "Cabelos", key: "cabelos" },
+  { href: "/rituais", label: "Autocuidado", key: "autocuidado" },
+  { href: "/maquiagem", label: "Maquiagem", key: "maquiagem" }
+];
 
 export function BelaPopValidatedHeader({
-  activeSection = "skincare",
-  featureSet = "default"
-}: {
-  activeSection?: HeaderSection;
-  featureSet?: "default" | "skin-scan";
-}) {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const hasSkinScanFeatureSet = featureSet === "skin-scan";
+  activeSection = "loja",
+  featureSet = "default",
+  mobileSidebarEnabled,
+  variant = "dark"
+}: BelaPopValidatedHeaderProps) {
+  const { user, ready: authReady } = useAuth();
+  const { itemCount, ready: cartReady } = useCart();
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [isCondensed, setIsCondensed] = useState(false);
+  const closeButtonRef = useRef<HTMLButtonElement | null>(null);
+  const triggerButtonRef = useRef<HTMLButtonElement | null>(null);
+
+  const accountHref =
+    authReady && user
+      ? user.role === "seller"
+        ? "/parceiro"
+        : "/conta"
+      : buildLoginHref("/conta");
+  const favoritesHref =
+    authReady && user ? "/conta/favoritos" : buildLoginHref("/conta/favoritos");
+  const ordersHref =
+    authReady && user ? "/conta/pedidos" : buildLoginHref("/conta/pedidos");
+  const sidebarEnabled = mobileSidebarEnabled ?? true;
+  const cartCount = cartReady && itemCount > 0 ? itemCount : 0;
+  const sidebarLead =
+    featureSet === "skin-scan"
+      ? "Sua leitura de pele continua ligada a rotina e compra."
+      : "Sua rotina começa por um diagnóstico claro.";
+  const mobileSidebarLinks: readonly DrawerNavLink[] = [
+    { href: "/skin-scan", label: "Entender minha pele" },
+    { href: "/skincare", label: "Skincare" },
+    { href: "/cabelos", label: "Cabelos" },
+    { href: "/rituais", label: "Autocuidado" },
+    { href: "/maquiagem", label: "Maquiagem" },
+    { href: favoritesHref, label: "Favoritos" },
+    { href: accountHref, label: "Minha conta" },
+    { href: ordersHref, label: "Meus pedidos" },
+    { href: "/contato", label: "Atendimento" },
+    { href: "/termos-e-condições", label: "Políticas e Termos" }
+  ];
 
   useEffect(() => {
-    const previousOverflow = document.body.style.overflow;
+    const onScroll = () => setIsCondensed(window.scrollY > 24);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
-    if (mobileMenuOpen) {
-      document.body.style.overflow = "hidden";
-    }
+  useEffect(() => {
+    if (!menuOpen) return;
+
+    const previousOverflow = document.body.style.overflow;
+    const triggerButton = triggerButtonRef.current;
+    document.body.style.overflow = "hidden";
+    const timeout = window.setTimeout(() => closeButtonRef.current?.focus(), 40);
 
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
-        setMobileMenuOpen(false);
+        setMenuOpen(false);
       }
     };
 
-    window.addEventListener("keydown", onKeyDown);
+    document.addEventListener("keydown", onKeyDown);
 
     return () => {
       document.body.style.overflow = previousOverflow;
-      window.removeEventListener("keydown", onKeyDown);
+      document.removeEventListener("keydown", onKeyDown);
+      window.clearTimeout(timeout);
+      triggerButton?.focus();
     };
-  }, [mobileMenuOpen]);
+  }, [menuOpen]);
+
+  const dark = variant === "dark";
+  const shellClass = dark
+    ? "border-white/10 bg-[linear-gradient(180deg,rgba(10,8,9,0.98),rgba(14,11,12,0.9))] text-[#FCF7F1] shadow-[0_20px_48px_rgba(0,0,0,0.28)]"
+    : "border-black/8 bg-[linear-gradient(180deg,rgba(252,249,248,0.96),rgba(252,249,248,0.9))] text-[#151312] shadow-[0_14px_36px_rgba(28,24,24,0.08)]";
+  const dividerClass = dark ? "border-white/10" : "border-black/8";
+  const activeClass = dark ? "text-white" : "text-black";
+  const idleClass = dark ? "text-[#E5DBD3]/78 hover:text-white" : "text-black/58 hover:text-black";
+  const iconClass = dark ? "text-[#FCF7F1]" : "text-[#151312]";
+  const iconAccentClass = dark ? "text-[#7E4858]" : "text-[#8E5B68]";
+
+  const closeMenu = () => setMenuOpen(false);
 
   return (
     <>
-      <header className="fixed inset-x-0 top-0 z-50 border-b border-white/10 bg-black/95 backdrop-blur-md">
-        <div className="mx-auto flex h-16 max-w-[1680px] items-center justify-between px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center gap-3 lg:gap-8">
-            <button
-              type="button"
-              aria-label="Abrir menu"
-              onClick={() => setMobileMenuOpen(true)}
-              className="inline-flex h-11 w-11 items-center justify-center text-white transition-colors hover:text-[#dac769] lg:hidden"
-            >
-              <Menu className="h-5 w-5" />
-            </button>
-
-            <Link href="/" className="shrink-0">
-              <img src="/logo-dark.svg" alt="BelaPop" className="h-9 w-auto invert" />
-            </Link>
-
-            <nav className="hidden items-center gap-8 lg:flex xl:gap-10">
-              {desktopNavItems.map((item) => (
-                <NavItem
-                  key={item.label}
-                  href={item.href}
-                  label={item.label}
-                  accent={item.accent}
-                  active={item.section === activeSection}
-                />
-              ))}
-            </nav>
-          </div>
-
-          <div className="hidden xl:flex xl:w-full xl:max-w-md xl:flex-1 xl:px-8">
-            <label className="relative block w-full">
-              <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
-              <input
-                type="text"
-                placeholder="BUSCAR PRODUTOS..."
-                className="w-full border-none bg-white/5 py-2 pl-10 pr-4 text-[11px] uppercase tracking-[0.2em] text-white placeholder:text-gray-500 focus:ring-1 focus:ring-white/20"
-              />
-            </label>
-          </div>
-
-          <div className="flex items-center gap-1 sm:gap-3 lg:gap-6">
-            {hasSkinScanFeatureSet ? (
-              <Link
-                href={popClubPaths.belaCode}
-                className="hidden items-center gap-2 text-[10px] font-bold uppercase tracking-[0.2em] text-white transition-colors hover:text-[#ef75ce] md:flex"
-              >
-                <Sparkles className="h-4 w-4" />
-                <span>SKINBELA</span>
-              </Link>
-            ) : null}
+      <header
+        className={`fixed inset-x-0 top-0 z-[70] border-b backdrop-blur-xl transition-all duration-300 ${shellClass} ${
+          isCondensed ? "lg:h-[80px]" : "lg:h-[88px]"
+        } h-[72px]`}
+      >
+        <div className="mx-auto flex h-[72px] max-w-[1440px] items-center bg-[#fcf9f8]/96 px-5 text-[#1c1b1b] lg:hidden">
+          <div className="flex w-full items-center justify-between gap-4">
             <Link
-              href={popClubPaths.landing}
-              className="hidden items-center gap-2 text-[10px] font-bold uppercase tracking-[0.2em] text-white transition-colors hover:text-[#6c5e06] sm:flex"
+              href="/"
+              className="text-[1.08rem] font-semibold uppercase tracking-[0.26em] text-[#1c1b1b]"
             >
-              <Star className="h-4 w-4" />
-              <span>POPCLUB</span>
+              BelaPop
             </Link>
-            <button
-              type="button"
-              className="hidden items-center gap-2 text-[10px] font-medium uppercase tracking-[0.2em] text-white transition-colors hover:text-gray-300 sm:flex"
+
+            <div className="ml-auto flex items-center justify-end gap-1">
+              <button
+                type="button"
+                aria-label="Buscar produtos"
+                className="inline-flex h-11 w-11 items-center justify-center rounded-full text-[#1c1b1b] transition-colors hover:bg-black/5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#8E5B68]"
+                onClick={() => setSearchOpen(true)}
+              >
+                <Search size={19} />
+              </button>
+              <Link
+                href={accountHref}
+                aria-label={authReady && user ? "Minha conta" : "Entrar"}
+                className="inline-flex h-11 w-11 items-center justify-center rounded-full text-[#1c1b1b] transition-colors hover:bg-black/5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#8E5B68]"
+              >
+                <User size={19} />
+              </Link>
+              {sidebarEnabled ? (
+                <button
+                  ref={triggerButtonRef}
+                  type="button"
+                  aria-label="Abrir menu"
+                  aria-expanded={menuOpen}
+                  aria-controls="belapop-mobile-nav"
+                  className="inline-flex h-11 w-11 items-center justify-center rounded-full text-[#1c1b1b] transition-colors hover:bg-black/5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#8E5B68]"
+                  onClick={() => setMenuOpen(true)}
+                >
+                  <Menu size={20} />
+                </button>
+              ) : null}
+            </div>
+          </div>
+        </div>
+
+        <div className="mx-auto hidden h-full max-w-[1440px] items-center px-8 lg:flex">
+          <div
+            className={`grid w-full grid-cols-[1fr_auto_1fr] items-center transition-all duration-300 ${
+              isCondensed ? "h-[80px]" : "h-[88px]"
+            }`}
+          >
+            <nav className="flex items-center gap-5 xl:gap-7" aria-label="Menu principal">
+              {primaryNav.map((item) => {
+                const active = activeSection === item.key;
+
+                return (
+                  <Link
+                    key={item.key}
+                    href={item.href}
+                    className={`group relative pb-1 text-[12px] font-medium tracking-[0.08em] transition ${
+                      active ? activeClass : idleClass
+                    }`}
+                  >
+                    {item.label}
+                    <span
+                      className={`absolute inset-x-0 -bottom-px h-px origin-left bg-[#8E5B68] transition-transform duration-300 ${
+                        active ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"
+                      }`}
+                    />
+                  </Link>
+                );
+              })}
+            </nav>
+
+            <Link
+              href="/"
+              className={`justify-self-center text-center text-[1.08rem] font-semibold uppercase tracking-[0.34em] ${activeClass}`}
             >
-              <Heart className="h-4 w-4" />
-              <span className="hidden md:inline">FAVORITOS</span>
-            </button>
-            <button
-              type="button"
-              aria-label="Buscar"
-              className="inline-flex h-11 w-11 items-center justify-center text-white transition-colors hover:text-gray-300 xl:hidden"
-            >
-              <Search className="h-5 w-5" />
-            </button>
-            <button
-              type="button"
-              aria-label="Conta"
-              className="hidden h-11 w-11 items-center justify-center text-white transition-colors hover:text-gray-300 sm:inline-flex"
-            >
-              <User className="h-5 w-5" />
-            </button>
-            <button
-              type="button"
-              aria-label="Sacola"
-              className="inline-flex h-11 w-11 items-center justify-center text-white transition-colors hover:text-gray-300"
-            >
-              <ShoppingBag className="h-5 w-5" />
-            </button>
+              BelaPop
+            </Link>
+
+            <div className="flex items-center justify-end gap-2">
+              <button
+                type="button"
+                aria-label="Buscar produtos"
+                className={`inline-flex h-10 w-10 items-center justify-center rounded-full border transition ${dividerClass} ${iconClass}`}
+                onClick={() => setSearchOpen(true)}
+              >
+                <Search size={17} />
+              </button>
+              <Link
+                href={favoritesHref}
+                aria-label="Favoritos"
+                className={`inline-flex h-10 w-10 items-center justify-center rounded-full border transition ${dividerClass} ${iconAccentClass}`}
+              >
+                <Heart size={17} />
+              </Link>
+              <Link
+                href={accountHref}
+                aria-label={authReady && user ? "Minha conta" : "Entrar"}
+                className={`inline-flex h-10 w-10 items-center justify-center rounded-full border transition ${dividerClass} ${iconAccentClass}`}
+              >
+                <User size={17} />
+              </Link>
+              <Link
+                href="/carrinho"
+                aria-label="Carrinho"
+                className={`relative inline-flex h-10 w-10 items-center justify-center rounded-full border transition ${dividerClass} ${iconAccentClass}`}
+              >
+                <ShoppingBag size={17} />
+                {cartCount > 0 ? (
+                  <span className="absolute right-1 top-1 inline-flex min-h-[15px] min-w-[15px] items-center justify-center rounded-full bg-[#8E5B68] px-1 text-[9px] font-semibold text-white">
+                    {cartCount}
+                  </span>
+                ) : null}
+              </Link>
+            </div>
           </div>
         </div>
       </header>
 
-      {mobileMenuOpen ? (
-        <div className="fixed inset-0 z-[60] bg-black/60 backdrop-blur-sm lg:hidden">
-          <div className="absolute inset-y-0 left-0 flex w-[90vw] max-w-[390px] flex-col overflow-y-auto bg-[linear-gradient(180deg,#070707,#111111_42%,#171313)] px-5 pb-[max(2rem,env(safe-area-inset-bottom))] pt-5 text-white shadow-[0_30px_90px_rgba(0,0,0,0.42)]">
-            <div className="mb-6 flex items-center justify-between">
-              <img src="/logo-dark.svg" alt="BelaPop" className="h-8 w-auto invert" />
-              <button
-                type="button"
-                aria-label="Fechar menu"
-                onClick={() => setMobileMenuOpen(false)}
-                className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/12 bg-white/6 text-white transition-colors hover:border-white/20 hover:bg-white/10"
-              >
-                <X className="h-5 w-5" />
-              </button>
-            </div>
+      {sidebarEnabled ? (
+        <div
+          className={`fixed inset-0 z-[95] lg:hidden ${menuOpen ? "pointer-events-auto" : "pointer-events-none"}`}
+          aria-hidden={!menuOpen}
+        >
+          <button
+            type="button"
+            className={`absolute inset-0 bg-black/40 backdrop-blur-sm transition-opacity duration-300 ${
+              menuOpen ? "opacity-100" : "opacity-0"
+            }`}
+            aria-label="Fechar menu"
+            onClick={closeMenu}
+          />
 
-            {hasSkinScanFeatureSet ? (
-              <Link
-                href={popClubPaths.skinScan}
-                onClick={() => setMobileMenuOpen(false)}
-                className="group mb-5 block rounded-[30px] border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.1),rgba(255,255,255,0.04))] p-5 shadow-[0_24px_70px_rgba(0,0,0,0.22)]"
-              >
-                <div className="flex items-start justify-between gap-4">
-                  <div>
-                    <p className="text-[10px] font-semibold uppercase tracking-[0.28em] text-white/72">
-                      Jornada de precisao
-                    </p>
-                    <h3 className="mt-3 font-headline text-[2rem] leading-[0.92] text-white">
-                      Skin Scan
-                    </h3>
-                    <p className="mt-3 max-w-[22ch] text-sm leading-relaxed text-white/85">
-                      Foco de cuidado, leitura ao vivo, diagnostico detalhado e concierge SkinBela.
-                    </p>
-                  </div>
-                  <span className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-white/14 bg-white/8 text-white transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1">
-                    <Sparkles className="h-4 w-4" />
-                  </span>
-                </div>
-                <div className="mt-5 flex flex-wrap gap-2">
-                  <span className="rounded-full border border-white/12 bg-white/6 px-3 py-1 text-[10px] uppercase tracking-[0.18em] text-white/82">
-                    Foco
-                  </span>
-                  <span className="rounded-full border border-[#ef75ce]/30 bg-[#ef75ce]/10 px-3 py-1 text-[10px] uppercase tracking-[0.18em] text-[#f7bfeb]">
-                    Diagnostico
-                  </span>
-                  <span className="rounded-full border border-white/12 bg-white/6 px-3 py-1 text-[10px] uppercase tracking-[0.18em] text-white/82">
-                    BelaCode
-                  </span>
-                </div>
-              </Link>
-            ) : null}
-
-            <label className="relative mb-8 block">
-              <Search className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
-              <input
-                type="text"
-                placeholder="BUSCAR PRODUTOS..."
-                className="w-full border border-white/10 bg-white/5 py-3 pl-11 pr-4 text-[11px] uppercase tracking-[0.2em] text-white placeholder:text-gray-500 focus:ring-1 focus:ring-white/20"
-              />
-            </label>
-
-            <div>
-              <p className="mb-4 text-[10px] font-semibold uppercase tracking-[0.3em] text-white/60">
-                Navegacao principal
-              </p>
-              <nav className="flex flex-col gap-3">
-                {mobileMenuItems.map((item) => (
-                  <Link
-                    key={item.label}
-                    href={item.href}
-                    onClick={() => setMobileMenuOpen(false)}
-                    className="rounded-[22px] border border-white/10 bg-white/[0.03] px-4 py-4 font-headline text-2xl text-white transition hover:border-white/20 hover:bg-white/[0.05]"
-                  >
-                    {item.label}
-                  </Link>
-                ))}
-              </nav>
-            </div>
-
-            {hasSkinScanFeatureSet ? (
-              <div className="mt-8">
-                <div className="mb-4 flex items-center justify-between gap-3">
-                  <p className="text-[10px] font-semibold uppercase tracking-[0.3em] text-white/60">
-                    Jornadas Skin Scan
+          <aside
+            id="belapop-mobile-nav"
+            className={`relative flex h-full w-full max-w-[390px] flex-col overflow-y-auto border-r border-black/10 bg-[#fcf9f8] text-[#1c1b1b] shadow-2xl transition-transform duration-300 ${
+              menuOpen ? "translate-x-0" : "-translate-x-full"
+            }`}
+            role="dialog"
+            aria-modal="true"
+            aria-label="Menu BelaPop"
+          >
+            <div className="flex-1 px-6 pb-8 pt-8">
+              <div className="flex items-start justify-between gap-5">
+                <div>
+                  <p className="text-[1.15rem] font-semibold uppercase tracking-[0.24em] text-[#1c1b1b]">
+                    BelaPop
                   </p>
-                  <span className="inline-flex items-center gap-2 text-[10px] uppercase tracking-[0.22em] text-[#ef75ce]">
-                    <Sparkles className="h-3.5 w-3.5" />
-                    IA
-                  </span>
+                  <p className="mt-3 max-w-[230px] text-sm leading-6 text-[#5a5252]">{sidebarLead}</p>
                 </div>
-                <div className="space-y-3">
-                  {skinScanJourneyLinks.map((item) => (
+                <button
+                  ref={closeButtonRef}
+                  type="button"
+                  aria-label="Fechar menu"
+                  className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-black/10 text-[#1c1b1b] transition-colors hover:bg-black/5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#8E5B68]"
+                  onClick={closeMenu}
+                >
+                  <X size={20} />
+                </button>
+              </div>
+
+              <nav className="mt-8" aria-label="Navegacao mobile BelaPop">
+                <div className="divide-y divide-black/10 rounded-[26px] border border-black/10 bg-white/70 shadow-[0_20px_60px_rgba(28,20,20,0.08)]">
+                  {mobileSidebarLinks.map((item) => (
                     <Link
-                      key={item.href}
+                      key={item.label}
                       href={item.href}
-                      onClick={() => setMobileMenuOpen(false)}
-                      className="block rounded-[24px] border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.07),rgba(255,255,255,0.03))] p-4 transition hover:border-[#ef75ce]/35 hover:bg-[linear-gradient(180deg,rgba(255,255,255,0.1),rgba(255,255,255,0.04))]"
+                      className="group flex min-h-[52px] items-center justify-between px-5 text-[0.95rem] font-medium text-[#1c1b1b] transition-colors hover:bg-[#f1ecea] focus-visible:bg-[#f1ecea] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-[#8E5B68]"
+                      onClick={closeMenu}
                     >
-                      <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-white/60">
-                        {item.eyebrow}
-                      </p>
-                      <div className="mt-2">
-                        <h4 className="font-headline text-[1.45rem] leading-[0.96] text-white">
-                          {item.label}
-                        </h4>
-                        <p className="mt-2 text-sm leading-relaxed text-white/82">
-                          {item.description}
-                        </p>
-                      </div>
+                      <span>{item.label}</span>
+                      <ArrowRight className="h-4 w-4 text-[#8E5B68] opacity-45 transition-transform group-hover:translate-x-1 group-hover:opacity-100" />
                     </Link>
                   ))}
                 </div>
-              </div>
-            ) : null}
-
-            <div className="mt-auto space-y-4 pt-8">
-              <Link
-                href={popClubPaths.skinScan}
-                onClick={() => setMobileMenuOpen(false)}
-                className="flex min-h-14 items-center justify-center rounded-full bg-white px-6 text-[11px] font-semibold uppercase tracking-[0.24em] text-black"
-              >
-                Iniciar Skin Scan
-              </Link>
-              <Link
-                href={hasSkinScanFeatureSet ? popClubPaths.belaCode : "/diario"}
-                onClick={() => setMobileMenuOpen(false)}
-                className="flex min-h-14 items-center justify-center rounded-full border border-white/20 px-6 text-[11px] font-semibold uppercase tracking-[0.24em] text-white"
-              >
-                {hasSkinScanFeatureSet ? "Abrir SkinBela" : "Explorar Diario"}
-              </Link>
+              </nav>
             </div>
-          </div>
-          <button
-            type="button"
-            aria-label="Fechar menu"
-            className="absolute inset-0 -z-10"
-            onClick={() => setMobileMenuOpen(false)}
-          />
+
+            <footer className="mt-auto border-t border-black/10 px-6 py-6">
+              <Link
+                href="/carrinho"
+                className="flex min-h-12 items-center justify-between rounded-full bg-[#1c1b1b] px-5 text-sm font-semibold text-[#fcf9f8] transition-transform hover:-translate-y-0.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#8E5B68]"
+                onClick={closeMenu}
+              >
+                <span>Ver carrinho</span>
+                {cartCount > 0 ? (
+                  <span className="rounded-full bg-white/12 px-2.5 py-1 text-xs">
+                    {cartCount}
+                  </span>
+                ) : null}
+              </Link>
+              <p className="mt-4 text-xs leading-5 text-[#6c6262]">
+                Produtos originais, compra segura e atendimento humano no pós-compra.
+              </p>
+            </footer>
+          </aside>
         </div>
       ) : null}
+
+      <GlobalProductSearchOverlay open={searchOpen} onClose={() => setSearchOpen(false)} />
     </>
   );
 }

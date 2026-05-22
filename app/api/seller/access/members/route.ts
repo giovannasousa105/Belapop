@@ -297,7 +297,7 @@ export async function POST(request: NextRequest) {
           return NextResponse.json(
             {
               error:
-                "Tabela seller_team_members nao encontrada. Rode a migration de equipe e acessos."
+                "Tabela seller_team_members não encontrada. Rode a migration de equipe e acessos."
             },
             { status: 400 }
           );
@@ -379,7 +379,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json(
         {
           error:
-            "Tabela seller_team_invites nao encontrada. Rode a migration de equipe e acessos."
+            "Tabela seller_team_invites não encontrada. Rode a migration de equipe e acessos."
         },
         { status: 400 }
       );

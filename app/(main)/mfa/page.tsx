@@ -65,8 +65,9 @@ function MfaContent() {
     setPasskeyEnabled(enabled);
     setLoading(false);
     setMessage(
-      result.message ??
-        (result.ok ? "Passkey cadastrada. Agora valide para continuar." : "Falha ao cadastrar Passkey.")
+      result.ok
+        ? "Passkey cadastrada. Agora valide para continuar."
+        : "Não foi possivel cadastrar a Passkey agora. Tente novamente."
     );
   };
 
@@ -77,7 +78,7 @@ function MfaContent() {
     setLoading(false);
 
     if (!result.ok) {
-      setMessage(result.message ?? "Falha ao validar Passkey.");
+      setMessage("Não foi possivel validar a Passkey agora. Tente novamente.");
       return;
     }
 

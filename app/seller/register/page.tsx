@@ -157,7 +157,7 @@ export default function SellerRegisterPage() {
     }
 
     if (form.password !== form.confirmPassword) {
-      return "As senhas nao conferem.";
+      return "As senhas não conferem.";
     }
 
     return null;

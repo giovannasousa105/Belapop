@@ -1,0 +1,180 @@
+- generic [ref=e1]:
+  - generic [ref=e19]:
+    - banner [ref=e20]:
+      - generic [ref=e21]:
+        - button "Voltar" [ref=e22] [cursor=pointer]:
+          - img [ref=e23]
+        - heading "BelaPop" [level=1] [ref=e26]
+        - generic [ref=e27]:
+          - link "Abrir sacola" [ref=e28] [cursor=pointer]:
+            - /url: /carrinho
+            - img [ref=e29]
+          - button "Abrir menu" [expanded] [active] [ref=e32] [cursor=pointer]:
+            - img [ref=e33]
+    - generic [ref=e207]:
+      - generic [ref=e208]:
+        - generic [ref=e209]:
+          - paragraph [ref=e210]: Skin Scan
+          - paragraph [ref=e211]: BelaPop
+        - button "Fechar menu" [ref=e212] [cursor=pointer]:
+          - img [ref=e213]
+      - navigation [ref=e216]:
+        - link "Inicio" [ref=e217] [cursor=pointer]:
+          - /url: /skin-scan
+        - link "Analise" [ref=e218] [cursor=pointer]:
+          - /url: "#topo"
+        - link "Rotina" [ref=e219] [cursor=pointer]:
+          - /url: "#rotina"
+        - link "Loja" [ref=e220] [cursor=pointer]:
+          - /url: "#produtos"
+      - generic [ref=e221]:
+        - link "Ver rotina" [ref=e222] [cursor=pointer]:
+          - /url: "#rotina"
+          - img [ref=e223]
+          - text: Ver rotina
+        - link "Refazer scan" [ref=e225] [cursor=pointer]:
+          - /url: /skin-scan/captura
+    - main [ref=e34]:
+      - generic [ref=e42]:
+        - heading "Sua Leitura de Pele" [level=2] [ref=e43]
+        - paragraph [ref=e44]: Com base na imagem capturada, identificamos sinais visuais aparentes da sua pele.
+        - generic [ref=e45]:
+          - generic [ref=e46]: Qualidade boa
+          - generic [ref=e47]:
+            - img [ref=e48]
+            - text: 29 de abril de 2026
+      - generic [ref=e51]:
+        - text: Leitura Visual
+        - heading "Seu Momento de Pele" [level=3] [ref=e52]
+        - paragraph [ref=e53]: "\"Sua pele apresenta uma vitalidade notavel, com leve desidratacao nas zonas perifericas. A textura esta refinada, sugerindo um ciclo de renovacao equilibrado.\""
+      - generic [ref=e54]:
+        - heading "Indicadores de Saúde" [level=4] [ref=e55]
+        - generic [ref=e56]:
+          - generic [ref=e57]:
+            - text: Hidratação
+            - paragraph [ref=e60]: 68% — Moderada
+          - generic [ref=e61]:
+            - text: Textura
+            - paragraph [ref=e64]: 85% — Lisa
+          - generic [ref=e65]:
+            - text: Uniformidade
+            - paragraph [ref=e68]: 70% — Regular
+          - generic [ref=e69]:
+            - text: Oleosidade
+            - paragraph [ref=e72]: 74% — Equilibrada
+      - generic [ref=e74]:
+        - heading "Mapeamento Facial" [level=4] [ref=e75]
+        - generic [ref=e76]:
+          - generic [ref=e81]: "Testa: Uniformidade"
+          - generic [ref=e83]: "Bochecha esquerda: Hidratação"
+          - generic [ref=e85]: "Bochecha direita: Hidratação"
+          - generic [ref=e87]: "Nariz: Oleosidade"
+          - generic [ref=e89]: "Queixo: Equilíbrio"
+        - generic [ref=e90]:
+          - article [ref=e91]:
+            - heading "Testa" [level=5] [ref=e92]
+            - paragraph [ref=e93]: "Textura aparente: Lisa."
+            - paragraph [ref=e94]: Aposte em luminosidade, antioxidantes e proteção solar diária.
+          - article [ref=e95]:
+            - heading "Nariz" [level=5] [ref=e96]
+            - paragraph [ref=e97]: "Maior aparência de brilho: equilibrada."
+            - paragraph [ref=e98]: Prefira limpeza suave, textura leve e proteção com acabamento confortável.
+          - article [ref=e99]:
+            - heading "Bochecha esquerda" [level=5] [ref=e100]
+            - paragraph [ref=e101]: "Sinais visuais de ressecamento: leve."
+            - paragraph [ref=e102]: Priorize hidratação de suporte e reforço da barreira da pele.
+          - article [ref=e103]:
+            - heading "Bochecha direita" [level=5] [ref=e104]
+            - paragraph [ref=e105]: "Sinais visuais de ressecamento: leve."
+            - paragraph [ref=e106]: Priorize hidratação de suporte e reforço da barreira da pele.
+          - article [ref=e107]:
+            - heading "Queixo" [level=5] [ref=e108]
+            - paragraph [ref=e109]: Sem sinais visuais fortes nesta zona.
+            - paragraph [ref=e110]: Mantenha uma rotina leve, consistente e com proteção diária.
+          - article [ref=e111]:
+            - heading "Área dos olhos" [level=5] [ref=e112]
+            - paragraph [ref=e113]: Sem sinais visuais fortes nesta zona.
+            - paragraph [ref=e114]: Mantenha uma rotina leve, consistente e com proteção diária.
+      - generic [ref=e115]:
+        - generic [ref=e116]:
+          - heading "Sua Rotina BelaPop" [level=4] [ref=e117]
+          - paragraph [ref=e118]: Protocolo exclusivo baseado na sua análise.
+        - generic [ref=e119]:
+          - generic [ref=e120]:
+            - generic [ref=e121]:
+              - generic [ref=e122]:
+                - img [ref=e123]
+                - generic [ref=e129]: Manhã
+              - generic [ref=e130]: 03 Passos
+            - generic [ref=e131]:
+              - generic [ref=e132]:
+                - generic [ref=e133]: "01"
+                - generic [ref=e134]: Limpeza Suave Micelar
+              - generic [ref=e135]:
+                - generic [ref=e136]: "02"
+                - generic [ref=e137]: Serum Vitamina C + E
+              - generic [ref=e138]:
+                - generic [ref=e139]: "03"
+                - generic [ref=e140]: Protetor Fluido Invisivel
+          - generic [ref=e141]:
+            - generic [ref=e142]:
+              - generic [ref=e143]:
+                - img [ref=e144]
+                - generic [ref=e146]: Noite
+              - generic [ref=e147]: 02 Passos
+            - generic [ref=e148]:
+              - generic [ref=e149]:
+                - generic [ref=e150]: "01"
+                - generic [ref=e151]: Balsamo Demaquilante Nutritivo
+              - generic [ref=e152]:
+                - generic [ref=e153]: "02"
+                - generic [ref=e154]: Creme Regenerador Noturno
+      - generic [ref=e155]:
+        - generic [ref=e156]:
+          - heading "Escolhidos para sua pele" [level=4] [ref=e157]
+          - generic [ref=e159]: Uniformidade
+        - generic [ref=e160]:
+          - article [ref=e161]:
+            - img "Creme de la Mer" [ref=e163]
+            - heading "La Mer" [level=5] [ref=e164]
+            - paragraph [ref=e165]: Creme de la Mer
+            - paragraph [ref=e166]: Rotina sugerida
+            - paragraph [ref=e167]: Ajuda a reforcar hidratacao, conforto e equilibrio da barreira da pele.
+            - paragraph [ref=e168]: R$ 1.450,00
+            - generic [ref=e169]:
+              - button "Comprar" [ref=e170] [cursor=pointer]
+              - link "Ver detalhes" [ref=e171] [cursor=pointer]:
+                - /url: /produto/creme-de-la-mer
+          - article [ref=e172]:
+            - img "Sublimage L'Extrait" [ref=e174]
+            - heading "Chanel" [level=5] [ref=e175]
+            - paragraph [ref=e176]: Sublimage L'Extrait
+            - paragraph [ref=e177]: Uniformidade
+            - paragraph [ref=e178]: Ajuda a apoiar luminosidade e protecao diaria quando o foco e uniformidade visual.
+            - paragraph [ref=e179]: R$ 2.200,00
+            - generic [ref=e180]:
+              - button "Comprar" [ref=e181] [cursor=pointer]
+              - link "Ver detalhes" [ref=e182] [cursor=pointer]:
+                - /url: /produto/sublimage-lextrait
+      - generic [ref=e184]:
+        - link "Montar minha rotina" [ref=e185] [cursor=pointer]:
+          - /url: "#rotina"
+        - link "Ver produtos recomendados" [ref=e186] [cursor=pointer]:
+          - /url: "#produtos"
+        - link "Refazer scan facial" [ref=e187] [cursor=pointer]:
+          - /url: /skin-scan/captura
+          - img [ref=e188]
+          - text: Refazer scan facial
+      - paragraph [ref=e194]:
+        - text: Leitura cosmetica visual - nao substitui avaliacao dermatologica.
+        - text: BelaPop Atelier Digital © 2024
+    - navigation [ref=e195]:
+      - link "Início" [ref=e196] [cursor=pointer]:
+        - /url: /
+      - link "Análise" [ref=e197] [cursor=pointer]:
+        - /url: "#topo"
+      - link "Rotina" [ref=e198] [cursor=pointer]:
+        - /url: "#rotina"
+      - link "Loja" [ref=e199] [cursor=pointer]:
+        - /url: /catalogo
+  - alert [ref=e200]

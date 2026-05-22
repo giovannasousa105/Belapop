@@ -9,7 +9,7 @@ export async function POST() {
   const { user, supabase } = auth.ctx;
   const email = user.email;
   if (!email) {
-    return NextResponse.json({ error: "E-mail nao disponivel para verificacao." }, { status: 400 });
+    return NextResponse.json({ error: "E-mail não disponivel para verificação." }, { status: 400 });
   }
 
   if (user.email_confirmed_at) {
@@ -25,5 +25,5 @@ export async function POST() {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 
-  return NextResponse.json({ ok: true, message: "E-mail de verificacao enviado." });
+  return NextResponse.json({ ok: true, message: "E-mail de verificação enviado." });
 }

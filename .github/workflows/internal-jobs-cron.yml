@@ -2,7 +2,7 @@ name: Internal Jobs Cron
 
 on:
   schedule:
-    - cron: "*/5 * * * *"    # notification outbox processor
+    - cron: "*/5 * * * *"    # notification outbox processor + liberar reservas lote
     - cron: "*/15 * * * *"   # support SLA escalation
     - cron: "*/10 * * * *"   # reverse logistics + exception SLA
     - cron: "17 * * * *"     # SRE maturity foundations (on-call/error-budget/DR calendar)
@@ -116,7 +116,8 @@ on:
 
 env:
   BASE_URL: ${{ github.event.inputs.base_url || vars.BELAPOP_BASE_URL || 'https://belapopoficial.com.br' }}
-  JOB_SECRET: ${{ secrets.INTERNAL_JOB_SECRET || secrets.CRON_JOB_SECRET }}
+  JOB_SECRET: ${{ secrets.INTERNAL_JOBS_SECRET || secrets.INTERNAL_JOB_SECRET || secrets.CRON_SECRET || secrets.CRON_JOB_SECRET }}
+  REQUEST_TIMEOUT_SECONDS: "30"
   OUTBOX_LIMIT: ${{ github.event.inputs.outbox_limit || '200' }}
   SLA_LIMIT: ${{ github.event.inputs.sla_limit || '250' }}
   REVERSE_LIMIT: ${{ github.event.inputs.reverse_limit || '300' }}
@@ -145,12 +146,52 @@ jobs:
     steps:
       - name: Trigger process-notification-outbox
         run: |
+          set -euo pipefail
           if [ -z "$JOB_SECRET" ]; then
-            echo "JOB_SECRET ausente. Configure INTERNAL_JOB_SECRET ou CRON_JOB_SECRET."
+            echo "JOB_SECRET ausente. Configure INTERNAL_JOBS_SECRET, INTERNAL_JOB_SECRET, CRON_SECRET ou CRON_JOB_SECRET."
+            exit 1
+          fi
+          if [ -z "$BASE_URL" ]; then
+            echo "BASE_URL ausente. Configure BELAPOP_BASE_URL ou informe base_url no workflow_dispatch."
+            exit 1
+          fi
+
+          endpoint="${BASE_URL%/}/api/internal/jobs/process-notification-outbox?limit=$OUTBOX_LIMIT"
+          body_file="$(mktemp)"
+          trap 'rm -f "$body_file"' EXIT
+
+          status_code="$(curl --silent --show-error --location \
+            --connect-timeout 10 \
+            --max-time "$REQUEST_TIMEOUT_SECONDS" \
+            --request POST "$endpoint" \
+            --header "Authorization: Bearer $JOB_SECRET" \
+            --header "x-job-secret: $JOB_SECRET" \
+            --header "Content-Type: application/json" \
+            --output "$body_file" \
+            --write-out "%{http_code}")"
+
+          sanitized_body="$(head -c 4000 "$body_file" | sed -E 's/(Bearer )[A-Za-z0-9._~+\/=-]+/\1[redacted]/g; s/[A-Za-z0-9_=-]{32,}/[redacted]/g')"
+          echo "process-notification-outbox HTTP status: $status_code"
+          echo "process-notification-outbox response body:"
+          printf '%s\n' "$sanitized_body"
+
+          if [ "${status_code:0:1}" != "2" ]; then
+            echo "process-notification-outbox failed with non-2xx HTTP status."
+            exit 1
+          fi
+
+  process_customer_lifecycle:
+    if: github.event.schedule == '*/15 * * * *' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger process-customer-lifecycle
+        run: |
+          if [ -z "$JOB_SECRET" ]; then
+            echo "JOB_SECRET ausente. Configure INTERNAL_JOBS_SECRET, INTERNAL_JOB_SECRET, CRON_SECRET ou CRON_JOB_SECRET."
             exit 1
           fi
           curl --fail-with-body --show-error --silent \
-            -X POST "$BASE_URL/api/internal/jobs/process-notification-outbox?limit=$OUTBOX_LIMIT" \
+            -X POST "$BASE_URL/api/internal/jobs/process-customer-lifecycle" \
             -H "x-job-secret: $JOB_SECRET" \
             -H "Content-Type: application/json"
 
@@ -161,7 +202,7 @@ jobs:
       - name: Trigger support-sla-escalation
         run: |
           if [ -z "$JOB_SECRET" ]; then
-            echo "JOB_SECRET ausente. Configure INTERNAL_JOB_SECRET ou CRON_JOB_SECRET."
+            echo "JOB_SECRET ausente. Configure INTERNAL_JOBS_SECRET, INTERNAL_JOB_SECRET, CRON_SECRET ou CRON_JOB_SECRET."
             exit 1
           fi
           curl --fail-with-body --show-error --silent \
@@ -176,7 +217,7 @@ jobs:
       - name: Trigger process-reverse-logistics
         run: |
           if [ -z "$JOB_SECRET" ]; then
-            echo "JOB_SECRET ausente. Configure INTERNAL_JOB_SECRET ou CRON_JOB_SECRET."
+            echo "JOB_SECRET ausente. Configure INTERNAL_JOBS_SECRET, INTERNAL_JOB_SECRET, CRON_SECRET ou CRON_JOB_SECRET."
             exit 1
           fi
           curl --fail-with-body --show-error --silent \
@@ -191,7 +232,7 @@ jobs:
       - name: Trigger evaluate-sre
         run: |
           if [ -z "$JOB_SECRET" ]; then
-            echo "JOB_SECRET ausente. Configure INTERNAL_JOB_SECRET ou CRON_JOB_SECRET."
+            echo "JOB_SECRET ausente. Configure INTERNAL_JOBS_SECRET, INTERNAL_JOB_SECRET, CRON_SECRET ou CRON_JOB_SECRET."
             exit 1
           fi
           curl --fail-with-body --show-error --silent \
@@ -206,7 +247,7 @@ jobs:
       - name: Trigger process-ranking-realtime
         run: |
           if [ -z "$JOB_SECRET" ]; then
-            echo "JOB_SECRET ausente. Configure INTERNAL_JOB_SECRET ou CRON_JOB_SECRET."
+            echo "JOB_SECRET ausente. Configure INTERNAL_JOBS_SECRET, INTERNAL_JOB_SECRET, CRON_SECRET ou CRON_JOB_SECRET."
             exit 1
           fi
           curl --fail-with-body --show-error --silent \
@@ -221,7 +262,7 @@ jobs:
       - name: Trigger refresh-sre-foundations
         run: |
           if [ -z "$JOB_SECRET" ]; then
-            echo "JOB_SECRET ausente. Configure INTERNAL_JOB_SECRET ou CRON_JOB_SECRET."
+            echo "JOB_SECRET ausente. Configure INTERNAL_JOBS_SECRET, INTERNAL_JOB_SECRET, CRON_SECRET ou CRON_JOB_SECRET."
             exit 1
           fi
 
@@ -238,11 +279,26 @@ jobs:
       - name: Trigger refresh-risk-holdbacks
         run: |
           if [ -z "$JOB_SECRET" ]; then
-            echo "JOB_SECRET ausente. Configure INTERNAL_JOB_SECRET ou CRON_JOB_SECRET."
+            echo "JOB_SECRET ausente. Configure INTERNAL_JOBS_SECRET, INTERNAL_JOB_SECRET, CRON_SECRET ou CRON_JOB_SECRET."
             exit 1
           fi
           curl --fail-with-body --show-error --silent \
             -X POST "$BASE_URL/api/internal/jobs/refresh-risk-holdbacks?limit=$RISK_LIMIT&min_score=55" \
+            -H "x-job-secret: $JOB_SECRET" \
+            -H "Content-Type: application/json"
+
+  liberar_reservas_lote:
+    if: github.event.schedule == '*/5 * * * *' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger liberar-reservas-lote
+        run: |
+          if [ -z "$JOB_SECRET" ]; then
+            echo "JOB_SECRET ausente."
+            exit 1
+          fi
+          curl --fail-with-body --show-error --silent \
+            -X POST "$BASE_URL/api/internal/jobs/liberar-reservas-lote?limit=500" \
             -H "x-job-secret: $JOB_SECRET" \
             -H "Content-Type: application/json"
 
@@ -253,7 +309,7 @@ jobs:
       - name: Trigger refresh-risk-recon-t1
         run: |
           if [ -z "$JOB_SECRET" ]; then
-            echo "JOB_SECRET ausente. Configure INTERNAL_JOB_SECRET ou CRON_JOB_SECRET."
+            echo "JOB_SECRET ausente. Configure INTERNAL_JOBS_SECRET, INTERNAL_JOB_SECRET, CRON_SECRET ou CRON_JOB_SECRET."
             exit 1
           fi
 

@@ -1,13 +1,13 @@
 import type { Metadata } from "next";
 
-import PopClubLandingExperience from "@/components/popclub/PopClubLandingExperience";
+import { PopclubDashboard } from "@/components/popclub/PopclubDashboard";
 
 export const metadata: Metadata = {
   title: "PopClub | BelaPop",
   description:
-    "Landing editorial mobile first do PopClub BelaPop com beneficios, manifesto e entrada para membership."
+    "Seu painel de membership PopClub: tier, pontos, créditos e acesso antecipado a lotes curados.",
 };
 
-export default function PopClubLandingPage() {
-  return <PopClubLandingExperience />;
+export default function PopClubPage() {
+  return <PopclubDashboard />;
 }

@@ -1,0 +1,202 @@
+/*
+ * tokens.css — Fonte única de verdade do design system BelaPop.
+ * Nenhum componente define hex, border-radius ou shadow diretamente.
+ * Referência: Aesop, The Row, Le Labo — silent luxury.
+ */
+
+:root {
+
+  /* ──────────────────────────────────────────────────────────────────────────
+     NEUTROS — dominam 90% do site
+  ────────────────────────────────────────────────────────────────────────── */
+
+  /* Brancos e off-whites — fundos */
+  --nude-50:  #FDFCFB;
+  --nude-100: #FAF8F5;
+  --nude-150: #F5F2EE;
+  --nude-200: #EDE9E3;
+
+  /* Pretos e grafites — texto e ações primárias */
+  --ink-900:  #111110;
+  --ink-800:  #2A2A28;
+  --ink-700:  #4A4A47;
+  --ink-600:  #6B6B67;
+  --ink-400:  #9B9B96;
+  --ink-200:  #D4D3CE;
+  --ink-100:  #E8E8E4;
+
+  /* ──────────────────────────────────────────────────────────────────────────
+     ACENTO — apenas 1, usado com moderação
+  ────────────────────────────────────────────────────────────────────────── */
+
+  --accent-50:  #FDF4F1;
+  --accent-100: #F7E2D9;
+  --accent-200: #EFC4B0;
+  --accent-400: #D4845F;
+  --accent-600: #A85A38;
+  --accent-800: #7A3D22;
+
+  /* ──────────────────────────────────────────────────────────────────────────
+     SEMÂNTICOS — apenas para feedback de sistema, não decoração
+  ────────────────────────────────────────────────────────────────────────── */
+
+  --semantic-success-bg:     #F0F7EC;
+  --semantic-success-text:   #2D6A1F;
+  --semantic-success-border: #B8DCA8;
+
+  --semantic-warning-bg:     #FBF4E6;
+  --semantic-warning-text:   #7A5217;
+  --semantic-warning-border: #E8C97A;
+
+  --semantic-danger-bg:      #FBF0EF;
+  --semantic-danger-text:    #872020;
+  --semantic-danger-border:  #E8AAAA;
+
+  --semantic-info-bg:        #EFF4FB;
+  --semantic-info-text:      #1D4A7A;
+  --semantic-info-border:    #AFC8E8;
+
+  /* ──────────────────────────────────────────────────────────────────────────
+     MAPEAMENTO — design system semântico
+  ────────────────────────────────────────────────────────────────────────── */
+
+  /* Backgrounds */
+  --color-background-page:      var(--nude-50);
+  --color-background-primary:   var(--nude-100);
+  --color-background-secondary: var(--nude-150);
+  --color-background-tertiary:  var(--nude-200);
+
+  /* Texto */
+  --color-text-primary:         var(--ink-900);
+  --color-text-secondary:       var(--ink-700);
+  --color-text-tertiary:        var(--ink-600);
+  --color-text-hint:            var(--ink-400);
+
+  /* Bordas */
+  --color-border-primary:       var(--ink-200);
+  --color-border-secondary:     var(--ink-100);
+  --color-border-tertiary:      rgba(17, 17, 16, 0.08);
+
+  /* Ações */
+  --color-action-primary:       var(--ink-900);
+  --color-action-primary-text:  var(--nude-50);
+  --color-action-secondary:     transparent;
+  --color-action-secondary-border: var(--ink-200);
+
+  /* Acento */
+  --color-accent:               var(--accent-400);
+  --color-accent-subtle:        var(--accent-50);
+  --color-accent-text:          var(--accent-800);
+
+  /* Semânticos */
+  --color-background-success:   var(--semantic-success-bg);
+  --color-text-success:         var(--semantic-success-text);
+  --color-border-success:       var(--semantic-success-border);
+  --color-background-warning:   var(--semantic-warning-bg);
+  --color-text-warning:         var(--semantic-warning-text);
+  --color-border-warning:       var(--semantic-warning-border);
+  --color-background-danger:    var(--semantic-danger-bg);
+  --color-text-danger:          var(--semantic-danger-text);
+  --color-border-danger:        var(--semantic-danger-border);
+  --color-background-info:      var(--semantic-info-bg);
+  --color-text-info:            var(--semantic-info-text);
+  --color-border-info:          var(--semantic-info-border);
+
+  /* ──────────────────────────────────────────────────────────────────────────
+     TIPOGRAFIA — escala rígida (apenas 7 tamanhos, nunca ad-hoc)
+  ────────────────────────────────────────────────────────────────────────── */
+
+  --text-display: clamp(36px, 7vw, 64px);   /* hero headline, universo */
+  --text-h1:      clamp(28px, 5vw, 48px);   /* título de página */
+  --text-h2:      clamp(22px, 4vw, 36px);   /* título de seção */
+  --text-h3:      clamp(18px, 3vw, 24px);   /* título de card */
+  --text-body:    16px;                      /* corpo — mínimo iOS */
+  --text-sm:      14px;                      /* labels, captions */
+  --text-xs:      12px;                      /* badges, chips — mínimo absoluto */
+
+  /* Pesos — apenas 3 valores no site inteiro */
+  /* 300: display editorial grande */
+  /* 400: corpo, headings, preços */
+  /* 500: labels UI, botões, nomes em card */
+  /* NUNCA: 600, 700, 800 */
+
+  /* Letter-spacing */
+  --tracking-display: 0.06em;
+  --tracking-heading: 0.04em;
+  --tracking-subhead: 0.02em;
+  --tracking-label:   0.08em;    /* uppercase labels — SEMPRE com tracking */
+  --tracking-body:    0.01em;
+  --tracking-mono:    0.10em;
+
+  /* Line-height */
+  --leading-tight:   1.2;   /* apenas > 48px */
+  --leading-snug:    1.4;   /* h1, h2, h3 */
+  --leading-normal:  1.6;   /* corpo */
+  --leading-relaxed: 1.8;   /* editorial, descrições */
+  --leading-loose:   2.0;   /* citações */
+
+  /* ──────────────────────────────────────────────────────────────────────────
+     BORDER RADIUS — escala restrita (nunca > 12px em cards)
+  ────────────────────────────────────────────────────────────────────────── */
+
+  --radius-none: 0px;      /* editorial, full-bleed */
+  --radius-xs:   2px;      /* badges, chips */
+  --radius-sm:   4px;      /* botões, inputs, cards */
+  --radius-md:   6px;      /* cards de produto, modais */
+  --radius-lg:   8px;      /* sheets, popovers */
+  --radius-xl:   12px;     /* bottom sheets, dialogs */
+  --radius-full: 9999px;   /* APENAS: ScanButton mobile, avatars */
+
+  /* Mapeamento das variáveis legadas */
+  --border-radius-sm:  var(--radius-sm);
+  --border-radius-md:  var(--radius-sm);    /* era 16px → corrigido para 4px */
+  --border-radius-lg:  var(--radius-md);    /* era 22px → corrigido para 6px */
+  --border-radius-xl:  var(--radius-lg);    /* para sheets */
+
+  /* ──────────────────────────────────────────────────────────────────────────
+     SOMBRAS — mínimas, apenas funcionais
+  ────────────────────────────────────────────────────────────────────────── */
+
+  --shadow-none:    none;
+
+  /* Focus ring — acessibilidade */
+  --shadow-focus:   0 0 0 2px var(--nude-50), 0 0 0 4px var(--ink-900);
+
+  /* Dropdown/popover — elevação mínima */
+  --shadow-float:   0 2px 8px rgba(17, 17, 16, 0.08),
+                    0 0 0 0.5px rgba(17, 17, 16, 0.06);
+
+  /* Tooltip */
+  --shadow-tooltip: 0 1px 4px rgba(17, 17, 16, 0.10);
+
+  /* REMOVIDOS — legados pesados substituídos por borda 0.5px */
+  /* --shadow-sm, --shadow-md, --shadow-lg, --shadow-xl */
+}
+
+/* ── Dark mode ────────────────────────────────────────────────────────────── */
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --nude-50:  #161614;
+    --nude-100: #1C1C1A;
+    --nude-150: #222220;
+    --nude-200: #2A2A28;
+
+    --ink-900:  #F5F2EE;
+    --ink-800:  #DDD9D3;
+    --ink-700:  #B8B4AE;
+    --ink-600:  #8A8780;
+    --ink-400:  #5A5A56;
+    --ink-200:  #3A3A36;
+    --ink-100:  #2E2E2A;
+
+    --accent-50:  #1E1410;
+    --accent-100: #2E1E14;
+    --accent-200: #4A2E1E;
+    --accent-400: #C87A54;
+    --accent-600: #E09070;
+    --accent-800: #F0B090;
+
+    --shadow-focus: 0 0 0 2px var(--ink-900), 0 0 0 4px var(--nude-50);
+  }
+}

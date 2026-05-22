@@ -113,7 +113,7 @@ export function HomeLuxuryProductCarousel({
         </button>
         <button
           type="button"
-          aria-label="Proximos produtos"
+          aria-label="Próximos produtos"
           onClick={() => scrollRail("right")}
           disabled={!canScrollNext}
           className={`inline-flex h-11 w-11 items-center justify-center rounded-full border transition disabled:cursor-not-allowed disabled:opacity-35 ${palette.nav}`}

@@ -1,6 +1,10 @@
 import { buildDeterministicKey, emitPlatformEvent, queueNotificationChannels } from "@/lib/events/platformEventBus";
 import type { CustomerSkinProfile } from "@/lib/customer/api";
 import {
+  buildFaceShieldAnalysisStorageSnapshot,
+  type FaceShieldAnalysisResult
+} from "@/lib/skincare/faceshieldAnalysisEngine";
+import {
   buildHeatmapRegions,
   computeFaceLiveness,
   deriveSkinHealthScore,
@@ -135,6 +139,7 @@ type PersistBelaCodeScanArgs = {
     embedding_vector?: number[] | null;
     embedding_version?: string | null;
     embedding_metadata?: Record<string, unknown>;
+    analysis?: FaceShieldAnalysisResult;
     captured_frames?: Array<{
       kind: FaceFrameKind;
       image_url: string;
@@ -357,8 +362,8 @@ async function queueClinicalReviewAlert(args: {
     recipientUserId: args.userId,
     channels: ["email", "in_app"],
     templateKey: "faceshield.clinical_review_flagged",
-    title: "BelaCode encontrou um sinal novo que merece avaliacao dermatologica",
-    body: `Vimos uma mudanca nova ou suspeita (${findingTypes.join(", ")}) no seu ultimo scan. Isso e uma triagem visual, nao um diagnostico. Recomendamos avaliar com um dermatologista.`,
+    title: "BelaCode encontrou um sinal novo que merece avaliação dermatológica",
+    body: `Vimos uma mudanca nova ou suspeita (${findingTypes.join(", ")}) no seu ultimo scan. Isso e uma triagem visual e não substitui avaliação dermatológica. Recomendamos avaliar com um dermatologista.`,
     ctaLabel: "Ver scan",
     ctaHref: "/conta/skincare",
     metadata: {
@@ -633,11 +638,22 @@ function resolveLiveness(args: PersistBelaCodeScanArgs["scan"]) {
 
 export async function persistBelaCodeScan(args: PersistBelaCodeScanArgs) {
   const liveness = resolveLiveness(args.scan);
+  const analysisSnapshot = args.scan.analysis
+    ? buildFaceShieldAnalysisStorageSnapshot(args.scan.analysis)
+    : null;
+  const allowFallbackRecommendation = Boolean(args.scan.analysis);
+  const finalScanStatus =
+    args.scan.analysis?.analysisMode === "validated_visual"
+      ? "validated"
+      : liveness.scan_status === "validated"
+        ? "validated"
+        : "pending";
   const captureMetadata = {
     ...(args.scan.capture_metadata ?? {}),
-    quality_gate: liveness.scan_status,
+    quality_gate: finalScanStatus,
     source: args.scan.scan_source ?? "ai_scan",
-    requires_clinical_review: Boolean(args.scan.requires_clinical_review)
+    requires_clinical_review: Boolean(args.scan.requires_clinical_review),
+    ...(analysisSnapshot ? { faceshield_analysis: analysisSnapshot } : {})
   };
 
   const { data: faceScan, error: faceScanError } = await args.admin
@@ -646,7 +662,7 @@ export async function persistBelaCodeScan(args: PersistBelaCodeScanArgs) {
       user_id: args.userId,
       image_url: args.scan.image_url ?? null,
       liveness_score: liveness.liveness_score,
-      scan_status: liveness.scan_status,
+      scan_status: finalScanStatus,
       capture_metadata: captureMetadata
     })
     .select("id,user_id,skin_scan_id,image_url,liveness_score,scan_status,capture_metadata,created_at,updated_at")
@@ -681,7 +697,7 @@ export async function persistBelaCodeScan(args: PersistBelaCodeScanArgs) {
 
   if (livenessInsertError) throw livenessInsertError;
 
-  if (liveness.scan_status !== "validated") {
+  if (liveness.scan_status !== "validated" && !allowFallbackRecommendation) {
     const details = await loadFaceScanDetails(args.admin, args.userId, [faceScan]);
     return {
       ok: false,
@@ -726,7 +742,8 @@ export async function persistBelaCodeScan(args: PersistBelaCodeScanArgs) {
       capture_metadata: captureMetadata,
       liveness_input: args.scan.liveness ?? {},
       heatmap_url: args.scan.heatmap_url ?? null,
-      requires_clinical_review: Boolean(args.scan.requires_clinical_review)
+      requires_clinical_review: Boolean(args.scan.requires_clinical_review),
+      ...(analysisSnapshot ? { faceshield_analysis: analysisSnapshot } : {})
     }
   });
 
@@ -758,7 +775,12 @@ export async function persistBelaCodeScan(args: PersistBelaCodeScanArgs) {
   if (recordedScanError) throw recordedScanError;
 
   const scanRow = recordedScan as SkinScanRow;
-  const score = deriveSkinHealthScore(scanRow, args.profile);
+  const derivedScore = deriveSkinHealthScore(scanRow, args.profile);
+  const score = {
+    overall_score: derivedScore.overall_score,
+    skin_type: args.scan.analysis?.probableSkinProfile.skinType ?? derivedScore.skin_type,
+    main_concern: args.scan.analysis?.probableSkinProfile.primaryConcern ?? derivedScore.main_concern
+  };
   const heatmapRegions = args.scan.heatmap_regions?.length ? args.scan.heatmap_regions : buildHeatmapRegions(scanRow);
 
   const { error: faceScanUpdateError } = await args.admin
@@ -766,7 +788,7 @@ export async function persistBelaCodeScan(args: PersistBelaCodeScanArgs) {
     .update({
       skin_scan_id: skinScanId,
       image_url: args.scan.image_url ?? recordedScan.image_url ?? null,
-      scan_status: "validated"
+      scan_status: finalScanStatus
     })
     .eq("id", faceScan.id);
 
@@ -839,7 +861,10 @@ export async function persistBelaCodeScan(args: PersistBelaCodeScanArgs) {
 
   return {
     ok: true,
-    message: "BelaCode atualizado com sucesso.",
+    message:
+      args.scan.analysis?.analysisMode === "validated_visual"
+        ? "BelaCode atualizado com sucesso."
+        : "BelaCode atualizado com leitura assistida de fallback.",
     face_scan: payload
   };
 }

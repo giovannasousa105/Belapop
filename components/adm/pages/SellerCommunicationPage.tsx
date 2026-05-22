@@ -83,10 +83,10 @@ type ProfileEvent = {
 
 const sidebarItems: SidebarItem[] = [
   { label: "Dashboard", href: "/adm/dashboard-executivo", icon: LayoutDashboard },
-  { label: "Catalogo", href: "/adm/catalogo-marca/inteligencia", icon: Package2 },
-  { label: "Pedidos", href: "/adm/operacao/pedidos-criticos", icon: ShoppingBag },
-  { label: "Comunicacao", href: "/adm/operacao/comunicacao-sellers", icon: MessageSquare, active: true },
-  { label: "Configuracoes", href: "/adm/gestao/configuracoes", icon: Settings }
+  { label: "Catalogo", href: "/adm/catalogo-marca/inteligência", icon: Package2 },
+  { label: "Pedidos", href: "/adm/operação/pedidos-criticos", icon: ShoppingBag },
+  { label: "Comunicação", href: "/adm/operação/comunicação-sellers", icon: MessageSquare, active: true },
+  { label: "Configuracoes", href: "/adm/gestao/configurações", icon: Settings }
 ];
 
 const filters = [
@@ -100,7 +100,7 @@ const threads: ThreadItem[] = [
     seller: "Atelier Lumiere",
     code: "#C 88291",
     time: "14:20",
-    preview: "Revisao do status do pedido #2938 e ajuste necessario na integracao da nova colecao.",
+    preview: "Revisao do status do pedido #2938 e ajuste necessario na integração da nova coleção.",
     status: "pending",
     active: true
   },
@@ -108,14 +108,14 @@ const threads: ThreadItem[] = [
     seller: "Maison Homme",
     code: "#C 77210",
     time: "Ontem",
-    preview: "Conferencia de disponibilidade para a colecao de verao e lead time de producao.",
+    preview: "Conferencia de disponibilidade para a coleção de verao e lead time de producao.",
     status: "read"
   },
   {
     seller: "Joias Raras",
     code: "#C 90124",
     time: "12 Out",
-    preview: "Confirmacao de recebimento do material de onboarding e checklist final de aprovacao.",
+    preview: "Confirmacao de recebimento do material de onboarding e checklist final de aprovação.",
     status: "read"
   }
 ];
@@ -126,13 +126,13 @@ const messages: ConversationMessage[] = [
     author: "Maria (Manager)",
     role: "Atelier Lumiere",
     time: "10:15",
-    body: "Ola BelaPop Team, estamos com uma duvida tecnica sobre a integracao da nossa nova colecao. O campo de SKU esta retornando erro na API.",
+    body: "Ola BelaPop Team, estamos com uma duvida técnica sobre a integração da nossa nova coleção. O campo de SKU esta retornando erro na API.",
     tone: "surface"
   },
   {
     id: "support-1",
     author: "BelaPop System (Suporte)",
-    role: "Suporte tecnico",
+    role: "Suporte técnico",
     time: "10:32",
     body: "Ola Maria, verifiquei com nosso time de engenharia. Parece que o formato do JSON enviado esta com uma virgula excedente na linha 42. Poderia validar?",
     tone: "dark"
@@ -142,7 +142,7 @@ const messages: ConversationMessage[] = [
     author: "Maria (Manager)",
     role: "Atelier Lumiere",
     time: "10:48",
-    body: "Perfeito. Era exatamente isso. Ja removemos o campo duplicado e a publicacao voltou a responder normalmente. Obrigada pelo retorno rapido.",
+    body: "Perfeito. Era exatamente isso. Ja removemos o campo duplicado e a publicação voltou a responder normalmente. Obrigada pelo retorno rapido.",
     tone: "surface"
   }
 ];
@@ -150,7 +150,7 @@ const messages: ConversationMessage[] = [
 const profileEvents: ProfileEvent[] = [
   {
     title: "Ajuste de Imagem",
-    description: "Solicitacao concluida para novas imagens de campanha editorial.",
+    description: "Solicitação concluida para novas imagens de campanha editorial.",
     date: "02 OUT, 2023"
   },
   {

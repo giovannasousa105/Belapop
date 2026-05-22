@@ -87,7 +87,8 @@ type ProductEntry = {
 };
 
 const EMPTY_UUID = "00000000-0000-0000-0000-000000000000";
-const ACTIVE_STATUS = ["published", "active"];
+const ACTIVE_STATUS = ["published"];
+const SELLABLE_SELLER_STATUSES = new Set(["active", "approved"]);
 
 const MOMENT_RULES = [
   {
@@ -96,11 +97,11 @@ const MOMENT_RULES = [
   },
   {
     label: "Pos-banho",
-    keywords: ["banho", "pos banho", "body", "corpo", "hidratacao corporal"]
+    keywords: ["banho", "pos banho", "body", "corpo", "hidratação corporal"]
   },
   {
     label: "Plantao",
-    keywords: ["plantao", "longa duracao", "resistente", "fixacao", "duradouro"]
+    keywords: ["plantao", "longa duração", "resistente", "fixacao", "duradouro"]
   },
   {
     label: "Evento",
@@ -114,9 +115,9 @@ const MOMENT_RULES = [
 
 const SKIN_TYPE_RULES = [
   { label: "Pele oleosa", keywords: ["oleosa", "oleosidade", "controle de oleosidade"] },
-  { label: "Pele seca", keywords: ["seca", "ressecada", "hidratacao intensa"] },
+  { label: "Pele seca", keywords: ["seca", "ressecada", "hidratação intensa"] },
   { label: "Pele mista", keywords: ["mista"] },
-  { label: "Pele sensivel", keywords: ["sensivel", "calmante", "suave", "sem fragrancia"] },
+  { label: "Pele sensível", keywords: ["sensível", "calmante", "suave", "sem fragrancia"] },
   { label: "Cabelo liso", keywords: ["liso"] },
   { label: "Cabelo ondulado", keywords: ["ondulado"] },
   { label: "Cabelo cacheado", keywords: ["cacheado", "cachos"] },
@@ -127,14 +128,14 @@ const FINISH_RULES = [
   { label: "Glow elegante", keywords: ["glow", "ilumina", "luminoso", "radiante"] },
   { label: "Matte aveludado", keywords: ["matte", "aveludado", "blur"] },
   { label: "Natural", keywords: ["natural", "segunda pele"] },
-  { label: "Alta fixacao", keywords: ["fixacao", "longa duracao", "duradouro"] },
-  { label: "Calmante", keywords: ["calmante", "calma", "sensivel"] },
+  { label: "Alta fixacao", keywords: ["fixacao", "longa duração", "duradouro"] },
+  { label: "Calmante", keywords: ["calmante", "calma", "sensível"] },
   { label: "Refrescante", keywords: ["refrescante", "fresh", "gelado"] }
 ] as const;
 
 const TAG_RULES = [
   { label: "Vegano", keywords: ["vegano", "vegan"] },
-  { label: "Cruelty-free", keywords: ["cruelty free", "nao testado em animais"] },
+  { label: "Cruelty-free", keywords: ["cruelty free", "não testado em animais"] },
   { label: "Sem fragrancia", keywords: ["sem fragrancia", "fragrance free"] },
   { label: "Sem parabenos", keywords: ["sem parabenos", "paraben"] },
   { label: "Sem alcool", keywords: ["sem alcool", "alcohol free"] },
@@ -177,6 +178,20 @@ const getStoreName = (sellers: unknown): string | null => {
   }
   return (sellers as { store_name?: string | null }).store_name ?? null;
 };
+
+const getSellerStatus = (sellers: unknown): string | null => {
+  if (!sellers) return null;
+  if (Array.isArray(sellers)) {
+    const first = sellers[0] as { status?: string | null } | undefined;
+    return first?.status ?? null;
+  }
+  return (sellers as { status?: string | null }).status ?? null;
+};
+
+const isSellableProductRow = (row: ProductRow) =>
+  Number(row.price_cents ?? 0) > 0 &&
+  Number(row.stock_quantity ?? 0) > 0 &&
+  SELLABLE_SELLER_STATUSES.has(String(getSellerStatus(row.sellers) ?? ""));
 
 const getStringArrayFromJson = (value: unknown): string[] => {
   if (!Array.isArray(value)) return [];
@@ -312,29 +327,33 @@ const parseSort = (params: URLSearchParams) => {
 const fetchProductRows = async () => {
   const supabase = getSupabaseAdminClient();
   const primarySelect =
-    "id,name,title,brand,description,category,ritual,texture,sensation,result,badges,highlights,price_cents,images,created_at,curated,is_featured,stock_quantity,seller_id,sellers!products_seller_id_fkey(store_name)";
+    "id,name,title,brand,description,category,ritual,texture,sensation,result,badges,highlights,price_cents,images,created_at,curated,is_featured,stock_quantity,seller_id,sellers!products_seller_id_fkey(store_name,status)";
   const fallbackSelect =
-    "id,name,title,description,category,ritual,texture,sensation,result,highlights,price_cents,images,created_at,curated,is_featured,stock_quantity,seller_id,sellers!products_seller_id_fkey(store_name)";
+    "id,name,title,description,category,ritual,texture,sensation,result,highlights,price_cents,images,created_at,curated,is_featured,stock_quantity,seller_id,sellers!products_seller_id_fkey(store_name,status)";
 
   const primary = await supabase
     .from("products")
     .select(primarySelect)
-    .in("status", ACTIVE_STATUS);
+    .in("status", ACTIVE_STATUS)
+    .gt("price_cents", 0)
+    .gt("stock_quantity", 0);
 
   if (!primary.error) {
-    return (primary.data ?? []) as ProductRow[];
+    return ((primary.data ?? []) as ProductRow[]).filter(isSellableProductRow);
   }
 
   const fallback = await supabase
     .from("products")
     .select(fallbackSelect)
-    .in("status", ACTIVE_STATUS);
+    .in("status", ACTIVE_STATUS)
+    .gt("price_cents", 0)
+    .gt("stock_quantity", 0);
 
   if (fallback.error) {
     throw fallback.error;
   }
 
-  return (fallback.data ?? []) as ProductRow[];
+  return ((fallback.data ?? []) as ProductRow[]).filter(isSellableProductRow);
 };
 
 export async function GET(req: Request) {

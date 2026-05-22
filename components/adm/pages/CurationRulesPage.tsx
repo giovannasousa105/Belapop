@@ -128,7 +128,7 @@ const claimRules: ClaimRule[] = [
   {
     title: "Promessa de resultado imediato",
     detail: "Gatilho: Texto contendo mencao a resultados em menos de 24h.",
-    action: "Flag de atencao",
+    action: "Flag de atenção",
     icon: Flag,
     toneClassName: "text-[var(--rules-text-soft)]",
     surfaceClassName: "bg-[var(--rules-surface-low)]"
@@ -144,7 +144,7 @@ const imageRules: ImageRule[] = [
   },
   {
     label: "Contexto Visual",
-    title: "Fundo nao neutro detectado",
+    title: "Fundo não neutro detectado",
     detail: "Acao: Reduzir qualidade visual no algoritmo de busca.",
     icon: Wallpaper
   }

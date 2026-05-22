@@ -84,7 +84,7 @@ export function CheckoutPreviewScreen({ mode = "preview" }: CheckoutPreviewScree
   const handleConfirmPayment = () => {
     if (isSubmitting) return;
     if (isLive && liveEntries.length === 0) {
-      setMessage("Sua sacola esta vazia.");
+      setMessage("Seu carrinho esta vazio.");
       return;
     }
 

@@ -11,6 +11,7 @@ import {
 import { logSellerAuditEvent } from "@/lib/rbac/auditLog";
 import { resolveSellerScopeContext } from "@/lib/rbac/sellerAccessScope";
 import { isRoleAllowed } from "@/lib/rbac/sellerPolicy";
+import { fulfillPopClubSampleReservation } from "@/lib/popclub/operations";
 import { getSupabaseAdminClient } from "@/lib/supabase/admin";
 import { getSupabaseServerClient } from "@/lib/supabaseServer";
 import { resolveStoreIdForSeller } from "@/lib/tracking/shipmentLookup";
@@ -39,7 +40,7 @@ export async function POST(
 
   const scope = await resolveSellerScopeContext(user.id);
   if (!scope || !isRoleAllowed(scope.rbac, ["OPERACAO"])) {
-    return NextResponse.json({ error: "Escopo do seller nao encontrado." }, { status: 403 });
+    return NextResponse.json({ error: "Escopo do seller não encontrado." }, { status: 403 });
   }
 
   const { id: orderId } = await context.params;
@@ -69,7 +70,7 @@ export async function POST(
   }
   if (!subOrder) {
     return NextResponse.json(
-      { error: "Subpedido do seller nao encontrado para este pedido." },
+      { error: "Subpedido do seller não encontrado para este pedido." },
       { status: 404 }
     );
   }
@@ -128,6 +129,13 @@ export async function POST(
     shipmentStatus: "shipped",
     trackingStatus: "POSTED",
     hasTrackingCode: true
+  });
+
+  await fulfillPopClubSampleReservation({
+    admin,
+    orderId,
+    sourceEventAt: String(updateResult.data?.updated_at ?? patch.updated_at),
+    source: "seller_add_tracking"
   });
 
   await admin.from("order_events").insert({

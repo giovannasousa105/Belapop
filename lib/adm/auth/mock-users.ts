@@ -56,8 +56,8 @@ export const ADM_MOCK_USERS: AdmMockUserRecord[] = [
   {
     id: "adm-005",
     name: "Rafael Costa",
-    email: "rafael.operacao@belapop.internal",
-    role: "operacao",
+    email: "rafael.operação@belapop.internal",
+    role: "operação",
     status: "active",
     password: mockPassword,
     lastLoginAt: "2026-04-05T16:48:00.000Z"

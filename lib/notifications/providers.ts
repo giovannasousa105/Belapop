@@ -9,8 +9,9 @@ type DeliveryResult = {
 
 type EmailInput = {
   to: string;
-  title: string;
+  subject: string;
   body: string;
+  html?: string | null;
 };
 
 type WhatsAppInput = {
@@ -84,9 +85,12 @@ const sendEmailResend = async (input: EmailInput): Promise<DeliveryResult> => {
     body: JSON.stringify({
       from,
       to: [input.to],
-      subject: input.title,
+      subject: input.subject,
       text: input.body,
-      html: `<p>${htmlEscape(input.body).replaceAll("\n", "<br/>")}</p>`
+      html:
+        input.html && input.html.trim().length > 0
+          ? input.html
+          : `<p>${htmlEscape(input.body).replaceAll("\n", "<br/>")}</p>`
     })
   });
 
@@ -184,4 +188,3 @@ export const deliverWhatsAppNotification = async (
     error: `whatsapp_provider_not_supported:${provider}`
   };
 };
-

@@ -1,0 +1,174 @@
+name: Digital Twin Invariants
+
+on:
+  push:
+    paths:
+      - "lib/digitalTwin/**"
+      - "components/twin/**"
+      - "app/api/twin/**"
+      - "app/minha-pele/**"
+      - "hooks/useTwinData.ts"
+      - "jobs/skinScanWorker.ts"
+  pull_request:
+    paths:
+      - "lib/digitalTwin/**"
+      - "components/twin/**"
+      - "app/api/twin/**"
+      - "app/minha-pele/**"
+      - "hooks/useTwinData.ts"
+      - "jobs/skinScanWorker.ts"
+
+jobs:
+  invariants:
+    name: Verificar invariantes do Digital Twin
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - name: Instalar dependências
+        run: npm ci
+
+      # ── Invariante 1: YAxis reversed={true} em todos os gráficos ─────────────
+      - name: "Invariante 1 — YAxis reversed={true} obrigatório"
+        run: |
+          # Verificar que todo componente que usa YAxis tem reversed={true}
+          FILES=$(grep -rln "YAxis" components/twin/ app/minha-pele/ 2>/dev/null || true)
+          if [ -z "$FILES" ]; then
+            echo "✅ Invariante 1: nenhum componente com YAxis fora do twin."
+            exit 0
+          fi
+
+          VIOLATIONS=""
+          for f in $FILES; do
+            # Detectar YAxis sem reversed={true}
+            if grep -q "YAxis" "$f" && ! grep -q "reversed={true}" "$f"; then
+              VIOLATIONS="$VIOLATIONS\n  $f"
+            fi
+          done
+
+          if [ -n "$VIOLATIONS" ]; then
+            echo "❌ ERRO: YAxis sem reversed={true} encontrado:"
+            printf "%b\n" "$VIOLATIONS"
+            echo ""
+            echo "   INVARIANTE: score menor = pele melhor = deve aparecer MAIS ALTO."
+            echo "   Adicionar reversed={true} em <YAxis> (MARKER_CHART_CONFIG.yAxisInverted === true)."
+            exit 1
+          fi
+          echo "✅ Invariante 1: todos os gráficos com YAxis usam reversed={true}."
+
+      # ── Invariante 2: MARKER_CHART_CONFIG usado nos gráficos ────────────────
+      - name: "Invariante 2 — MARKER_CHART_CONFIG importado em MarkerEvolutionChart"
+        run: |
+          if ! grep -q "MARKER_CHART_CONFIG" components/twin/MarkerEvolutionChart.tsx 2>/dev/null; then
+            echo "❌ ERRO: MARKER_CHART_CONFIG não encontrado em MarkerEvolutionChart.tsx."
+            echo "   Todo gráfico de marcador deve usar a config central para garantir"
+            echo "   que yAxisInverted e yAxisLabel estejam presentes."
+            exit 1
+          fi
+          echo "✅ Invariante 2: MARKER_CHART_CONFIG importado em MarkerEvolutionChart."
+
+      # ── Invariante 3: gerarCopilotSeed é síncrono (sem await) ────────────────
+      - name: "Invariante 3 — gerarCopilotSeed nunca awaited"
+        run: |
+          if grep -rn "await gerarCopilotSeed" lib/ app/ jobs/ 2>/dev/null; then
+            echo ""
+            echo "❌ ERRO: gerarCopilotSeed() foi awaited."
+            echo "   A função é SÍNCRONA e PURA — sem await, sem dependência externa."
+            echo "   Se o Copilot cair, o seed ainda precisa funcionar."
+            exit 1
+          fi
+          echo "✅ Invariante 3: gerarCopilotSeed() nunca awaited."
+
+      # ── Invariante 4: delta_global negativo = melhora ────────────────────────
+      - name: "Invariante 4 — delta_global semântica: negativo = melhora"
+        run: |
+          # Verificar que nenhum código interpreta delta positivo como melhora
+          # (ex: if (delta_global > 0) → melhora)
+          VIOLATIONS=$(grep -rn "delta_global > 0.*melhora\|delta_global >= 0.*melhora\|delta.*positiv.*melhor" \
+            --include="*.ts" --include="*.tsx" \
+            lib/ app/ components/ 2>/dev/null || true)
+
+          if [ -n "$VIOLATIONS" ]; then
+            echo "❌ ERRO: interpretação invertida de delta_global detectada:"
+            echo "$VIOLATIONS"
+            echo ""
+            echo "   INVARIANTE: delta_global NEGATIVO = melhora (score menor = pele melhor)."
+            echo "   delta POSITIVO = piora."
+            exit 1
+          fi
+          echo "✅ Invariante 4: semântica de delta_global correta."
+
+      # ── Invariante 5: scores_baseline nunca atualizado fora de registrarSnapshot ──
+      - name: "Invariante 5 — scores_baseline IMUTÁVEL"
+        run: |
+          # Verificar que scores_baseline só é atribuído em snapshotService.ts
+          VIOLATIONS=$(grep -rn "scores_baseline" \
+            --include="*.ts" --include="*.tsx" \
+            lib/ app/ jobs/ components/ 2>/dev/null \
+            | grep -v "snapshotService" \
+            | grep -v "__tests__" \
+            | grep -v "twinTypes" \
+            | grep -v "route.ts" \
+            | grep -v "page.tsx" \
+            | grep -v "TwinDashboard" \
+            | grep "=" \
+            | grep -v "==" \
+            | grep -v "scores_baseline:" \
+            | grep -v "scores_baseline =" \
+            | grep "scores_baseline\s*=" || true)
+
+          # Verificar mais diretamente: updates a scores_baseline fora do snapshotService
+          UPDATE_VIOLATIONS=$(grep -rn "update.*scores_baseline\|scores_baseline.*update" \
+            --include="*.ts" --include="*.tsx" \
+            lib/ app/ jobs/ 2>/dev/null \
+            | grep -v "snapshotService" \
+            | grep -v "__tests__" || true)
+
+          if [ -n "$UPDATE_VIOLATIONS" ]; then
+            echo "❌ ERRO: scores_baseline sendo atualizado fora de snapshotService.ts:"
+            echo "$UPDATE_VIOLATIONS"
+            echo ""
+            echo "   INVARIANTE: scores_baseline é IMUTÁVEL após o primeiro scan."
+            echo "   Nunca fazer UPDATE neste campo fora de registrarSnapshot()."
+            exit 1
+          fi
+          echo "✅ Invariante 5: scores_baseline imutável fora de snapshotService."
+
+      # ── Exportação central — invariants importados via index ─────────────────
+      - name: "Exportação central — invariants importados via lib/digitalTwin/invariants"
+        run: |
+          VIOLATIONS=$(grep -rn \
+            "from.*invariants/skinScoreInvariant\|from.*invariants/trendWindowInvariant\|from.*invariants/copilotSeedInvariant" \
+            --include="*.ts" --include="*.tsx" \
+            lib/ app/ components/ jobs/ 2>/dev/null \
+            | grep -v "lib/digitalTwin/invariants/index.ts" \
+            | grep -v "lib/digitalTwin/deltaEngine.ts" \
+            | grep -v "lib/digitalTwin/snapshotService.ts" \
+            | grep -v "__tests__" || true)
+
+          if [ -n "$VIOLATIONS" ]; then
+            echo "❌ ERRO: importações diretas de invariants individuais:"
+            echo "$VIOLATIONS"
+            echo "   Importar APENAS de '@/lib/digitalTwin/invariants'"
+            exit 1
+          fi
+          echo "✅ Exportação central: todos imports externos passam pelo index."
+
+      # ── Testes unitários das invariantes ─────────────────────────────────────
+      - name: "Rodar testes das invariantes do Digital Twin"
+        run: |
+          npx jest lib/digitalTwin/__tests__/ --no-coverage
+          echo "✅ Testes das invariantes: todos passaram."
+
+      # ── TypeScript ────────────────────────────────────────────────────────────
+      - name: "TypeScript — compilar sem erros"
+        run: |
+          npx tsc --noEmit
+          echo "✅ TypeScript: compilação sem erros."

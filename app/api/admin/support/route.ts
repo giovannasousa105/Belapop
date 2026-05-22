@@ -9,7 +9,10 @@ export async function GET(req: Request) {
   try {
     const { data } = await supabase
       .from("support_tickets")
-      .select("id, status, priority, customer_id, order_id, sla_deadline, created_at")
+      .select(
+        "id, status, priority, customer_id, order_id, sla_deadline, created_at, popclub_current_tier, queue_priority_score, priority_band"
+      )
+      .order("queue_priority_score", { ascending: false })
       .order("created_at", { ascending: false })
       .limit(50);
     return NextResponse.json({ tickets: data ?? [] });

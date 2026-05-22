@@ -30,7 +30,7 @@ const toText = (value: unknown) => String(value ?? "").trim().toLowerCase();
 
 export async function POST(request: NextRequest) {
   if (!isInternalJobAuthorized(request)) {
-    return NextResponse.json({ error: "Nao autorizado para job interno." }, { status: 401 });
+    return NextResponse.json({ error: "Não autorizado para job interno." }, { status: 401 });
   }
 
   const admin = getSupabaseAdminClient();
@@ -47,7 +47,7 @@ export async function POST(request: NextRequest) {
       {
         error: refreshRisk.error.message,
         detail:
-          "Funcao refresh_seller_risk_profiles nao encontrada. Rode a migration 20260306_1400_risk_reconciliation_t1.sql."
+          "Funcao refresh_seller_risk_profiles não encontrada. Rode a migration 20260306_1400_risk_reconciliation_t1.sql."
       },
       { status: 500 }
     );
@@ -62,7 +62,7 @@ export async function POST(request: NextRequest) {
       {
         error: applyHoldback.error.message,
         detail:
-          "Funcao apply_seller_holdback_to_scheduled_payouts nao encontrada. Rode a migration 20260306_1400_risk_reconciliation_t1.sql."
+          "Funcao apply_seller_holdback_to_scheduled_payouts não encontrada. Rode a migration 20260306_1400_risk_reconciliation_t1.sql."
       },
       { status: 500 }
     );
@@ -76,7 +76,7 @@ export async function POST(request: NextRequest) {
       {
         error: createAlerts.error.message,
         detail:
-          "Funcao create_finance_ops_alerts_from_risk nao encontrada. Rode a migration 20260306_1400_risk_reconciliation_t1.sql."
+          "Funcao create_finance_ops_alerts_from_risk não encontrada. Rode a migration 20260306_1400_risk_reconciliation_t1.sql."
       },
       { status: 500 }
     );

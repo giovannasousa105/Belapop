@@ -96,7 +96,7 @@ export function UserMenu({
       if (!response.ok || !payload?.ok) {
         setSwitchState({
           busy: false,
-          error: payload?.error ?? "Nao foi possivel trocar o perfil."
+          error: payload?.error ?? "Não foi possivel trocar o perfil."
         });
         return;
       }
@@ -111,7 +111,7 @@ export function UserMenu({
     } catch {
       setSwitchState({
         busy: false,
-        error: "Nao foi possivel trocar o perfil."
+        error: "Não foi possivel trocar o perfil."
       });
     }
   };

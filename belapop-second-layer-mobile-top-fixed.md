@@ -1,0 +1,88 @@
+- generic [active] [ref=e1] [box=0,-1600,384,19533]:
+  - generic [ref=e3] [box=0,-1600,384,19533]:
+    - banner [ref=e4] [box=0,0,384,78]:
+      - generic [ref=e827] [box=24,17,336,44]:
+        - button "Abrir menu" [ref=e829] [cursor=pointer] [box=24,17,44,44]
+        - link "BelaPop" [ref=e831] [cursor=pointer] [box=118,23,149,32]:
+          - /url: /
+        - generic [ref=e832] [box=256,17,104,44]
+    - generic [box=0,0,384,844]:
+      - button [box=0,0,384,844]
+      - dialog [box=-384,0,384,844]:
+        - generic [box=-384,0,377,1121]
+        - contentinfo [box=-384,1121,377,116]
+    - generic [ref=e841] [box=21,775,343,48]:
+      - link "Diagnostico" [ref=e842] [cursor=pointer] [box=21,775,287,48]:
+        - /url: /skin-scan
+      - link "Ver kits recomendados" [ref=e843] [cursor=pointer] [box=315,775,48,48]:
+        - /url: /kits
+        - img [ref=e844] [box=331,791,16,16]
+    - generic [ref=e34] [box=0,-1600,384,17769]:
+      - generic [ref=e36] [box=0,-1600,384,859]:
+        - generic "Mulher usando o Skin Scan BelaPop em uma cena editorial de skincare" [ref=e846] [box=0,-1600,384,354]
+        - generic [ref=e40] [box=24,-1222,336,456]
+      - complementary [ref=e63] [box=0,-741,384,70]: Frete gratis acima de R$299 hoje • Kits selecionados com estoque limitado • Curadorias atualizadas semanalmente
+      - generic [ref=e65] [box=16,-643,352,357]:
+        - generic [ref=e66] [box=16,-643,352,80]
+        - generic [ref=e69] [box=16,-551,352,80]
+        - generic [ref=e72] [box=16,-458,352,80]
+        - generic [ref=e75] [box=16,-366,352,80]
+      - generic [ref=e79] [box=16,-194,352,1028]:
+        - generic [ref=e80] [box=16,-194,352,554]
+        - generic [ref=e101] [box=29,413,327,408]
+      - generic [ref=e132] [box=0,962,384,935]:
+        - generic [ref=e134] [box=20,962,344,338]
+        - generic [ref=e144] [box=0,1336,384,561]
+      - generic [ref=e215] [box=16,2025,352,1521]:
+        - generic [ref=e216] [box=16,2025,352,258]
+        - generic [ref=e221] [box=16,2324,352,1223]
+      - generic [ref=e268] [box=16,3675,352,2350]:
+        - generic [ref=e269] [box=16,3675,352,327]
+        - generic [ref=e275] [box=16,4033,352,352]
+        - generic [ref=e285] [box=16,4417,352,1488]
+        - generic [ref=e508] [box=16,5937,352,88]
+      - generic [ref=e514] [box=16,6153,352,1823]:
+        - generic [ref=e515] [box=16,6153,352,211]
+        - generic [ref=e518] [box=16,6400,352,1576]
+      - generic [ref=e576] [box=37,8093,311,238]:
+        - generic [ref=e577] [box=37,8093,311,174]
+        - button "Descobrir minha rotina" [ref=e581] [cursor=pointer] [box=37,8282,311,48]
+      - generic [ref=e583] [box=16,8463,352,1051]:
+        - generic [ref=e584] [box=16,8972,352,542]
+        - img "Serum Radiance 01" [ref=e598] [box=16,8463,352,469]
+      - generic [ref=e602] [box=16,9674,352,2241]:
+        - generic [ref=e603] [box=16,9674,352,268]
+        - generic [ref=e611] [box=16,9998,352,1917]
+      - generic [ref=e631] [box=16,12076,352,1397]:
+        - heading "Menos excesso. Mais precisao." [level=3] [ref=e632] [box=16,12076,352,80]
+        - generic [ref=e633] [box=16,12212,352,1261]
+      - region "Sinais de confianca" [ref=e654] [box=16,13633,352,1571]:
+        - generic [ref=e655] [box=41,13657,303,202]
+        - generic [ref=e659] [box=41,13891,303,1288]
+      - generic [ref=e704] [box=37,15361,311,323]:
+        - generic [ref=e705] [box=37,15361,311,55]
+        - generic [ref=e712] [box=37,15428,311,55]
+        - generic [ref=e721] [box=37,15495,311,55]
+        - generic [ref=e727] [box=37,15562,311,55]
+        - generic [ref=e734] [box=37,15629,311,55]
+      - generic [ref=e745] [box=16,15824,352,281]:
+        - generic [ref=e746] [box=41,15849,303,86]
+        - generic [ref=e749] [box=41,15955,303,105]
+    - contentinfo [ref=e753] [box=0,16169,384,1764]:
+      - generic [ref=e754] [box=16,16233,352,1486]:
+        - generic [ref=e755] [box=16,16233,352,772]
+        - generic [ref=e784] [box=16,17045,352,143]
+        - generic [ref=e793] [box=16,17228,352,263]
+        - generic [ref=e808] [box=16,17531,352,188]
+      - paragraph [ref=e816] [box=16,17824,352,45]: © 2026 BelaPop. Dados operacionais e politicas podem ser atualizados conforme validacao juridica e operacional.
+  - button "Abrir Consultora BelaPop" [box=16,780,352,48]:
+    - generic [box=33,786,194,36]:
+      - generic [box=33,786,36,36]:
+        - img [box=43,796,16,16]
+      - generic [box=81,788,146,32]:
+        - generic [box=81,788,146,17]: Precisa de ajuda?
+        - generic [box=81,805,146,15]: Rotina, presente ou recompra
+    - img [box=335,796,16,16]
+  - button "Open Next.js Dev Tools" [ref=e822] [cursor=pointer] [box=22,790,32,32]:
+    - img [ref=e823] [box=22,786,40,40]
+  - alert [ref=e847] [box=-1,17932,1,1]

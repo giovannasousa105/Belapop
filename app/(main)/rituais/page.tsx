@@ -1,7 +1,7 @@
 import Link from "next/link";
 
+import { ConsultoraInlineEntry } from "@/components/assistant/ConsultoraBelaPop";
 import { LuxuryStaticFooter } from "@/components/layout/LuxuryStaticFooter";
-import { LuxuryStaticHeader } from "@/components/layout/LuxuryStaticHeader";
 
 export default function RituaisPage() {
   const rituals = [
@@ -13,7 +13,6 @@ export default function RituaisPage() {
 
   return (
     <div className="min-h-screen bg-[#F6F1EB] text-[#1B1A18]">
-      <LuxuryStaticHeader />
       <main className="overflow-hidden">
         <section className="border-b border-[#DDD3CA] px-6 py-12 md:px-10 lg:px-14">
           <div className="mx-auto max-w-[1440px]">
@@ -25,6 +24,14 @@ export default function RituaisPage() {
               Menos excesso, mais precisão. Cada jornada parte da leitura da pele e de recomendações
               inspiradas em medicina baseada em evidências, traduzidas em linguagem sensorial.
             </p>
+            <ConsultoraInlineEntry
+              className="mt-8"
+              flow="gift"
+              origin="rituais_inline"
+              title="Quer um ritual pronto para você ou para presente?"
+              description="A BelaPop sugere kits, complementos e faixas de investimento com mais clareza de uso e valor."
+              ctaLabel="Montar seleção"
+            />
           </div>
         </section>
 
@@ -52,7 +59,7 @@ export default function RituaisPage() {
                   </span>
                 </div>
                 <Link
-                  href="/vitrine"
+                  href="/catalogo"
                   className="mt-5 inline-block rounded-full border border-[#DDD3CA] px-4 py-2 text-xs uppercase tracking-[0.22em] transition hover:border-[#C88FA3] hover:bg-[#C88FA3] hover:text-white"
                 >
                   Ver produtos do ritual

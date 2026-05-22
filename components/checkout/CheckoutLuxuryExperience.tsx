@@ -6,9 +6,12 @@ import { useRouter } from "next/navigation";
 import { ArrowRight, Lock, ShieldCheck, Truck } from "lucide-react";
 import { useMemo, useState } from "react";
 
+import { CommerceTrustMarkers } from "@/components/commerce/CommerceTrustMarkers";
 import { PurchaseTrustSummary } from "@/components/legal/PurchaseTrustSummary";
 import { BelaPopValidatedFooter } from "@/components/luxury/BelaPopValidatedFooter";
 import { BelaPopValidatedHeader } from "@/components/luxury/BelaPopValidatedHeader";
+import { brandCtas } from "@/lib/brand/ctas";
+import { brandSectionNames } from "@/lib/brand/sections";
 import { useCart } from "@/lib/CartContext";
 import { useStoredProducts } from "@/lib/hooks/useStoredProducts";
 import type { Product } from "@/lib/types";
@@ -177,7 +180,7 @@ export function CheckoutLuxuryExperience() {
                       className="h-4 w-4 rounded-none border-black/20 text-black focus:ring-0"
                     />
                     <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#444748]">
-                      Salvar este cartao para futuras curadorias
+                      Salvar este cartao para proximas compras
                     </span>
                   </label>
                 </div>
@@ -186,6 +189,8 @@ export function CheckoutLuxuryExperience() {
                   Gere o QR Code do Pix na etapa seguinte e conclua com confirmacao instantanea.
                 </div>
               )}
+
+              <CommerceTrustMarkers compact className="mt-10" />
             </section>
           </div>
 
@@ -196,12 +201,12 @@ export function CheckoutLuxuryExperience() {
                 onClick={() => setMobileSummaryOpen((current) => !current)}
                 className="flex min-h-14 w-full items-center justify-between bg-[#f6f3f2] px-5 text-left lg:hidden"
               >
-                <span className="font-headline text-2xl">Resumo da Curadoria</span>
+                <span className="font-headline text-2xl">{brandSectionNames.cart.orderSummary}</span>
                 <span className="text-[10px] font-bold uppercase tracking-[0.2em]">{mobileSummaryOpen ? "Fechar" : "Abrir"}</span>
               </button>
 
               <div className={`${mobileSummaryOpen ? "mt-4 block" : "hidden"} space-y-10 bg-[#f6f3f2] p-8 lg:mt-0 lg:block lg:p-12`}>
-                <h3 className="font-headline text-3xl">Resumo da Curadoria</h3>
+                <h3 className="font-headline text-3xl">{brandSectionNames.cart.orderSummary}</h3>
 
                 <div className="flex items-start gap-6 border-b border-black/10 pb-8">
                   <div className="h-32 w-24 shrink-0 overflow-hidden bg-white">
@@ -222,7 +227,7 @@ export function CheckoutLuxuryExperience() {
                     <span>{formatCurrency.format(subtotal)}</span>
                   </div>
                   <div className="flex justify-between text-xs uppercase tracking-[0.2em]">
-                    <span className="text-[#444748]">Entrega Especial</span>
+                    <span className="text-[#444748]">Entrega</span>
                     <span>Gratis</span>
                   </div>
                   <div className="flex justify-between border-t border-black/10 pt-4 font-headline text-2xl">
@@ -237,7 +242,7 @@ export function CheckoutLuxuryExperience() {
                     onClick={handleSubmit}
                     className="group flex min-h-14 w-full items-center justify-center gap-2 bg-black px-5 text-xs font-bold uppercase tracking-[0.2em] text-white transition-all duration-500 hover:bg-[#ed93d5]"
                   >
-                    Concluir Curadoria
+                    {brandCtas.primary.checkout}
                     <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                   </button>
                   <p className="px-4 text-center text-[10px] leading-relaxed text-[#444748]">

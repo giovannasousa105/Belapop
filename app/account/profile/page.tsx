@@ -102,7 +102,7 @@ export default function AccountProfilePage() {
     setMessage(null);
     const result = await loginWithOAuth(provider);
     if (!result.ok) {
-      setMessage(result.message ?? "Nao foi possivel conectar.");
+      setMessage(result.message ?? "Não foi possivel conectar.");
     }
   };
 
@@ -152,7 +152,7 @@ export default function AccountProfilePage() {
     <div className="space-y-6">
       <PageHeading
         title="Perfil"
-        subtitle="Informacoes simples ajudam a personalizar sua experiencia."
+        subtitle="Informacoes simples ajudam a personalizar sua experiência."
       />
 
       <div className="rounded-3xl border border-black/10 bg-white p-6 text-sm text-bpGraphite/80 shadow-sm">
@@ -177,7 +177,7 @@ export default function AccountProfilePage() {
                   {provider === "google" ? "Google" : "Facebook"}
                 </p>
                 <p className="text-xs text-bpGraphite/70">
-                  {status[provider] ? "Conectado" : "Nao conectado"}
+                  {status[provider] ? "Conectado" : "Não conectado"}
                 </p>
               </div>
               <div className="flex items-center gap-2">
@@ -208,10 +208,10 @@ export default function AccountProfilePage() {
           ) : (
             <p className="mt-1 text-xs text-bpGraphite/70">
               {!security.passkeySupported
-                ? "Este dispositivo nao suporta Passkey."
+                ? "Este dispositivo não suporta Passkey."
                 : security.passkeyEnabled
                   ? "Passkey ativa nesta conta."
-                  : "Passkey ainda nao cadastrada."}
+                  : "Passkey ainda não cadastrada."}
             </p>
           )}
 

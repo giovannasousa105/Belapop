@@ -1,0 +1,157 @@
+name: Design System · Invariantes
+
+on:
+  push:
+    paths:
+      - "styles/**"
+      - "components/ui/**"
+      - "tailwind.config.ts"
+      - "app/layout.tsx"
+  pull_request:
+    paths:
+      - "styles/**"
+      - "components/ui/**"
+      - "tailwind.config.ts"
+
+jobs:
+  invariantes:
+    name: Verificar invariantes do Design System
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - name: Instalar dependências
+        run: npm ci
+
+      # ── TypeScript ─────────────────────────────────────────────────────────
+      - name: "TypeScript — compilar sem erros"
+        run: |
+          npx tsc --noEmit
+          echo "✅ TypeScript: compilação sem erros."
+
+      # ── Invariante 1: zero box-shadow pesado nos cards ─────────────────────
+      - name: "Invariante 1 — zero box-shadow pesado em componentes de produto"
+        run: |
+          VIOLATIONS=$(grep -rn "box-shadow.*[1-9][0-9]px" \
+            components/catalogo/ \
+            components/lote/ \
+            components/home/ \
+            components/product/ \
+            2>/dev/null \
+            | grep -v "shadow-focus\|shadow-float\|ds-focus\|ds-float" || true)
+
+          if [ -n "$VIOLATIONS" ]; then
+            echo "❌ ERRO: box-shadow pesado em componente de produto:"
+            echo "$VIOLATIONS"
+            echo "   Cards usam borda 0.5px — zero box-shadow."
+            exit 1
+          fi
+          echo "✅ Invariante 1: zero box-shadow pesado nos cards."
+
+      # ── Invariante 2: border-radius máximo 12px nos cards ─────────────────
+      - name: "Invariante 2 — border-radius máximo 12px em componentes"
+        run: |
+          VIOLATIONS=$(grep -rn \
+            "border-radius.*1[3-9]px\|border-radius.*[2-9][0-9]px\|rounded-2xl\|rounded-3xl" \
+            components/ 2>/dev/null \
+            | grep -v "MobileNav\|ScanButton\|Avatar\|rounded-full" || true)
+
+          if [ -n "$VIOLATIONS" ]; then
+            echo "❌ ERRO: border-radius > 12px fora do mobile nav/avatar:"
+            echo "$VIOLATIONS"
+            echo "   Máximo permitido em cards: var(--radius-xl) = 12px."
+            exit 1
+          fi
+          echo "✅ Invariante 2: border-radius dentro do limite."
+
+      # ── Invariante 3: font-weight 600/700 proibido ─────────────────────────
+      - name: "Invariante 3 — zero font-weight 600 ou 700"
+        run: |
+          VIOLATIONS=$(grep -rn \
+            "font-weight.*[67]00\|fontWeight.*[67]00\|font-semibold\|font-bold\|fw-bold\|fw-semibold" \
+            components/ui/ \
+            styles/ \
+            2>/dev/null || true)
+
+          if [ -n "$VIOLATIONS" ]; then
+            echo "❌ ERRO: font-weight 600/700 em componentes UI:"
+            echo "$VIOLATIONS"
+            echo "   Máximo permitido: font-weight 500."
+            exit 1
+          fi
+          echo "✅ Invariante 3: zero font-weight 600/700 nos componentes UI."
+
+      # ── Invariante 4: hex hardcoded fora de tokens.css ────────────────────
+      - name: "Invariante 4 — zero hex hardcoded fora de tokens.css"
+        run: |
+          VIOLATIONS=$(grep -rn \
+            "color:.*#[0-9a-fA-F]\{6\}\|background.*:.*#[0-9a-fA-F]\{6\}" \
+            components/ui/ \
+            2>/dev/null \
+            | grep -v "FAFAF8\|F5F2EE\|tokens" || true)
+
+          if [ -n "$VIOLATIONS" ]; then
+            echo "❌ ERRO: hex hardcoded em componente UI (usar var(--*)):"
+            echo "$VIOLATIONS"
+            exit 1
+          fi
+          echo "✅ Invariante 4: zero hex hardcoded nos componentes UI."
+
+      # ── Invariante 5: drop-shadow em imagens proibido ─────────────────────
+      - name: "Invariante 5 — zero drop-shadow em imagens de produto"
+        run: |
+          VIOLATIONS=$(grep -rn \
+            "drop-shadow\|filter.*shadow" \
+            components/ui/ProductImage.tsx \
+            components/catalogo/ProdutoCard.tsx \
+            components/product/ \
+            2>/dev/null || true)
+
+          if [ -n "$VIOLATIONS" ]; then
+            echo "❌ ERRO: drop-shadow em imagem de produto:"
+            echo "$VIOLATIONS"
+            echo "   Fundo off-white já cria separação — sombra proibida."
+            exit 1
+          fi
+          echo "✅ Invariante 5: zero drop-shadow em imagens."
+
+      # ── Invariante 6: fonte primária DM Sans carregada ────────────────────
+      - name: "Invariante 6 — DM Sans carregado via next/font"
+        run: |
+          if ! grep -q "DM_Sans\|DM_Serif_Display" app/layout.tsx; then
+            echo "❌ ERRO: DM Sans ou DM Serif Display não encontrado em layout.tsx."
+            echo "   Fontes devem ser carregadas via next/font, não CDN."
+            exit 1
+          fi
+          echo "✅ Invariante 6: DM Sans + DM Serif carregados via next/font."
+
+      # ── Invariante 7: tokens.css é importado no globals.css ───────────────
+      - name: "Invariante 7 — tokens.css importado no globals.css"
+        run: |
+          if ! grep -q "@import.*tokens" styles/globals.css; then
+            echo "❌ ERRO: tokens.css não importado em globals.css."
+            echo "   globals.css deve ter: @import \"./tokens.css\""
+            exit 1
+          fi
+          echo "✅ Invariante 7: tokens.css importado."
+
+      # ── Relatório ──────────────────────────────────────────────────────────
+      - name: "Relatório final — invariantes do Design System"
+        run: |
+          echo "✓ TypeScript: limpo"
+          echo "✓ box-shadow: apenas border 0.5px nos cards"
+          echo "✓ border-radius: máximo 12px"
+          echo "✓ font-weight: máximo 500"
+          echo "✓ hex: apenas via var(--*)"
+          echo "✓ drop-shadow: zero em imagens"
+          echo "✓ DM Sans + DM Serif: carregados via next/font"
+          echo "✓ tokens.css: importado"
+          echo ""
+          echo "Design System BelaPop · todos os invariantes validados ✓"

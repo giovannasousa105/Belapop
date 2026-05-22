@@ -1,0 +1,219 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e3]:
+    - banner [ref=e4]:
+      - generic [ref=e5]:
+        - generic [ref=e6]:
+          - link "BelaPop" [ref=e7] [cursor=pointer]:
+            - /url: /
+            - img "BelaPop" [ref=e8]
+          - navigation [ref=e9]:
+            - link "Skincare" [ref=e10] [cursor=pointer]:
+              - /url: /skincare
+            - link "Maquiagem" [ref=e11] [cursor=pointer]:
+              - /url: /maquiagem
+            - link "Cabelos" [ref=e12] [cursor=pointer]:
+              - /url: /cabelos
+            - link "Perfumes" [ref=e13] [cursor=pointer]:
+              - /url: /perfumes
+            - link "Entender minha pele" [ref=e14] [cursor=pointer]:
+              - /url: /skin-scan
+        - generic [ref=e15]:
+          - link "POPCLUB" [ref=e16] [cursor=pointer]:
+            - /url: /popclub
+            - img [ref=e17]
+            - generic [ref=e19]: POPCLUB
+          - button "FAVORITOS" [ref=e20] [cursor=pointer]:
+            - img [ref=e21]
+            - generic [ref=e23]: FAVORITOS
+          - button "Buscar" [ref=e24] [cursor=pointer]:
+            - img [ref=e25]
+          - button "Conta" [ref=e28] [cursor=pointer]:
+            - img [ref=e29]
+          - button "Sacola" [ref=e32] [cursor=pointer]:
+            - img [ref=e33]
+    - generic [ref=e36]:
+      - generic [ref=e42]:
+        - generic [ref=e43]: BelaPop
+        - heading "Skincare guiado pela sua pele" [level=1] [ref=e44]:
+          - text: Skincare guiado
+          - text: pela sua pele
+        - paragraph [ref=e45]:
+          - generic [ref=e46]: Entenda o que sua pele precisa.
+          - generic [ref=e47]: Siga uma rotina personalizada.
+          - generic [ref=e48]: Acompanhe a evolucao com clareza.
+        - paragraph [ref=e49]: Uma nova forma de cuidar da pele, baseada em analise, curadoria e consistencia.
+        - generic [ref=e50]:
+          - link "Entender minha pele" [ref=e51] [cursor=pointer]:
+            - /url: /skin-scan
+          - link "Continuar cuidado" [ref=e52] [cursor=pointer]:
+            - /url: /skincare
+      - generic [ref=e54]:
+        - generic [ref=e55]:
+          - heading "Como funciona" [level=2] [ref=e56]
+          - generic [ref=e57]:
+            - paragraph [ref=e58]:
+              - generic [ref=e59]: Voce envia uma imagem da sua pele.
+              - generic [ref=e60]: Identificamos padroes visiveis como oleosidade, textura e sensibilidade.
+              - generic [ref=e61]: A partir disso, estruturamos uma rotina personalizada.
+            - paragraph [ref=e62]: Sem excesso. Sem tentativa e erro.
+        - img "Imagem de apoio para leitura visual da pele" [ref=e65]
+        - link "Ver rotina sugerida" [ref=e67] [cursor=pointer]:
+          - /url: /skin-scan
+          - text: Ver rotina sugerida
+          - img [ref=e68]
+      - generic [ref=e71]:
+        - generic [ref=e72]:
+          - generic [ref=e73]:
+            - generic [ref=e74]: Produto em destaque
+            - heading "Curadoria com criterio" [level=2] [ref=e75]
+          - generic [ref=e77]:
+            - paragraph [ref=e78]: Soro Regenerador Orquidea Imperial
+            - paragraph [ref=e79]: “Cada produto disponivel na BelaPop passa por avaliacao de procedencia e formulacao.”
+            - paragraph [ref=e80]: Trabalhamos com sellers verificados e marcas com distribuicao oficial, garantindo autenticidade e consistencia.
+            - generic [ref=e81]:
+              - link "Continuar cuidado" [ref=e82] [cursor=pointer]:
+                - /url: /skincare
+              - generic [ref=e83]: R$ 1.280,00
+        - img "Frasco de serum em composicao minimalista" [ref=e86]
+      - generic [ref=e88]:
+        - generic [ref=e89]:
+          - generic [ref=e90]:
+            - generic [ref=e91]:
+              - img "BelaPop selo" [ref=e92]
+              - generic [ref=e93]: Transparencia na compra
+            - text: Decisao guiada
+            - heading "Como funciona a BelaPop" [level=3] [ref=e94]
+            - paragraph [ref=e95]: Selecionamos produtos com base em criterios tecnicos. A venda e realizada por parceiros aprovados dentro da plataforma. Voce compra com transparencia e acompanhamento.
+          - link "Continuar cuidado" [ref=e96] [cursor=pointer]:
+            - /url: /skincare
+        - generic [ref=e97]:
+          - article [ref=e98]:
+            - img "Crème de la Mer - Hidratação Profunda" [ref=e100]
+            - heading "LA MER" [level=4] [ref=e101]
+            - paragraph [ref=e102]: Crème de la Mer - Hidratação Profunda
+            - text: R$ 2.450,00
+          - article [ref=e103]:
+            - img "N°5 L'Eau - Eau de Toilette Spray" [ref=e105]
+            - heading "CHANEL" [level=4] [ref=e106]
+            - paragraph [ref=e107]: N°5 L'Eau - Eau de Toilette Spray
+            - text: R$ 980,00
+          - article [ref=e108]:
+            - img "Capture Totale - Sérum Firmador" [ref=e110]
+            - heading "DIOR" [level=4] [ref=e111]
+            - paragraph [ref=e112]: Capture Totale - Sérum Firmador
+            - text: R$ 840,00
+      - generic [ref=e114]:
+        - heading "Menos excesso. Mais precisao." [level=3] [ref=e115]
+        - generic [ref=e116]:
+          - article [ref=e117]:
+            - generic [ref=e118]:
+              - generic [ref=e119]:
+                - generic [ref=e120]: Posicionamento
+                - heading "Skincare nao deve depender de tentativa." [level=4] [ref=e121]
+                - paragraph [ref=e122]:
+                  - generic [ref=e123]: Acreditamos que skincare nao deve ser confuso, nem baseado em tentativa.
+                  - generic [ref=e124]: Cuidar da pele e entender, ajustar e manter.
+              - img "Close de formulacao em detalhe" [ref=e125]
+          - generic [ref=e126]:
+            - article [ref=e127]:
+              - heading "Cuidar da pele e entender, ajustar e manter." [level=4] [ref=e128]
+              - link "Entender minha pele" [ref=e129] [cursor=pointer]:
+                - /url: /skin-scan
+            - link "Pele em close com luz suave Uma interface de decisao em skincare." [ref=e130] [cursor=pointer]:
+              - /url: /skin-scan
+              - img "Pele em close com luz suave" [ref=e131]
+              - heading "Uma interface de decisao em skincare." [level=4] [ref=e134]
+      - region "Sinais de confianca" [ref=e137]:
+        - generic [ref=e138]:
+          - paragraph [ref=e139]: Sinais de confianca
+          - heading "Informacoes objetivas antes da compra" [level=2] [ref=e140]
+          - paragraph [ref=e141]: A BelaPop deixa visivel o que sustenta pagamento, envio, autenticidade, suporte e pos-venda.
+        - generic [ref=e142]:
+          - article [ref=e143]:
+            - img [ref=e145]
+            - heading "Pagamento seguro" [level=3] [ref=e147]
+            - paragraph [ref=e148]: A confirmação do pedido depende do meio de pagamento escolhido e das validações de segurança aplicáveis.
+          - article [ref=e149]:
+            - img [ref=e151]
+            - heading "Envio com rastreio" [level=3] [ref=e156]
+            - paragraph [ref=e157]: O prazo estimado é informado após a aprovação do pagamento e a liberação operacional do pedido.
+          - article [ref=e158]:
+            - img [ref=e160]
+            - heading "Troca e reembolso" [level=3] [ref=e163]
+            - paragraph [ref=e164]: As regras de arrependimento, devolução e estorno ficam visíveis antes da compra e durante o pós-venda.
+          - article [ref=e165]:
+            - img [ref=e167]
+            - heading "Produtos originais" [level=3] [ref=e170]
+            - paragraph [ref=e171]: A BelaPop informa o seller responsavel antes da compra e nao trata a marca exibida como vendedora automatica.
+          - article [ref=e172]:
+            - img [ref=e174]
+            - heading "Suporte ao cliente" [level=3] [ref=e177]
+            - paragraph [ref=e178]: O atendimento existe para pedidos, logística, reembolso e temas de privacidade, com trilha documental.
+    - contentinfo [ref=e179]:
+      - generic [ref=e180]:
+        - generic [ref=e181]:
+          - generic [ref=e182]: BelaPop
+          - paragraph [ref=e183]: Analise, procedencia e acompanhamento para uma rotina de skincare com mais clareza.
+          - generic [ref=e184]:
+            - paragraph [ref=e185]: 63.945.608 GIOVANNA DE SOUSA FERREIRA SANTOS
+            - paragraph [ref=e186]: CNPJ 63.945.608/0001-09
+            - paragraph [ref=e187]: Rua Coromandel, 189, Bairro Amorim, Araguari/MG, CEP 38446-093
+          - paragraph [ref=e188]: "E-mail institucional, canal de privacidade e responsavel por dados: pendente de validacao operacional."
+          - generic [ref=e189]:
+            - link "Instagram" [ref=e190] [cursor=pointer]:
+              - /url: /contato
+            - link "TikTok" [ref=e191] [cursor=pointer]:
+              - /url: /contato
+            - link "Facebook" [ref=e192] [cursor=pointer]:
+              - /url: /contato
+            - link "WhatsApp" [ref=e193] [cursor=pointer]:
+              - /url: /contato
+        - generic [ref=e194]:
+          - heading "Atendimento ao Cliente" [level=5] [ref=e195]
+          - list [ref=e196]:
+            - listitem [ref=e197]:
+              - link "Fale Conosco" [ref=e198] [cursor=pointer]:
+                - /url: /contato
+            - listitem [ref=e199]:
+              - link "Perguntas Frequentes" [ref=e200] [cursor=pointer]:
+                - /url: /contato
+            - listitem [ref=e201]:
+              - link "Meus Pedidos" [ref=e202] [cursor=pointer]:
+                - /url: /pedido
+            - listitem [ref=e203]:
+              - link "Minha Conta" [ref=e204] [cursor=pointer]:
+                - /url: /conta
+            - listitem [ref=e205]:
+              - link "Devoluções e Reembolsos" [ref=e206] [cursor=pointer]:
+                - /url: /conta/trocas-e-devolucoes
+        - generic [ref=e207]:
+          - heading "Institucional" [level=5] [ref=e208]
+          - list [ref=e209]:
+            - listitem [ref=e210]:
+              - link "Sobre a BelaPop" [ref=e211] [cursor=pointer]:
+                - /url: /sobre
+            - listitem [ref=e212]:
+              - link "Segurança" [ref=e213] [cursor=pointer]:
+                - /url: /seguranca
+            - listitem [ref=e214]:
+              - link "Trabalhe Conosco" [ref=e215] [cursor=pointer]:
+                - /url: /carreiras
+        - generic [ref=e216]:
+          - heading "Legal" [level=5] [ref=e217]
+          - list [ref=e218]:
+            - listitem [ref=e219]:
+              - link "Aviso de Privacidade" [ref=e220] [cursor=pointer]:
+                - /url: /aviso-de-privacidade
+            - listitem [ref=e221]:
+              - link "Termos e Condições Gerais" [ref=e222] [cursor=pointer]:
+                - /url: /termos-e-condicoes
+            - listitem [ref=e223]:
+              - link "Cookies" [ref=e224] [cursor=pointer]:
+                - /url: /politica-de-cookies
+            - listitem [ref=e225]:
+              - link "Personalizar cookies" [ref=e226] [cursor=pointer]:
+                - /url: /politica-de-cookies
+      - paragraph [ref=e228]: © 2026 BelaPop. Todos os direitos reservados.
+  - link "Falar com concierge no WhatsApp" [ref=e229] [cursor=pointer]:
+    - /url: https://wa.me/553498047036?text=Ol%C3%A1%2C%20quero%20falar%20com%20o%20concierge%20BelaPop
+    - img [ref=e230]

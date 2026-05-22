@@ -73,11 +73,11 @@ export default function ParceiroOnboardingPage() {
       setStatus(resolvedStatus);
 
       if (resolvedStatus === "pending") {
-        setMessage("Seu acesso de parceiro esta em analise.");
+        setMessage("Seu acesso de parceiro esta em análise.");
       } else if (resolvedStatus === "rejected") {
-        setMessage("Sua ultima solicitacao precisa de ajustes.");
+        setMessage("Sua ultima solicitação precisa de ajustes.");
       } else if (resolvedStatus === "approved") {
-        setMessage("Solicitacao aprovada. Finalize seu acesso no portal.");
+        setMessage("Solicitação aprovada. Finalize seu acesso no portal.");
       }
 
       if (json.application?.brand_name || json.application?.contact_name) {
@@ -122,7 +122,7 @@ export default function ParceiroOnboardingPage() {
     }
 
     setStatus(json.status ?? "pending");
-    setMessage("Seu acesso de parceiro esta em analise.");
+    setMessage("Seu acesso de parceiro esta em análise.");
   };
 
   return (
@@ -156,7 +156,7 @@ export default function ParceiroOnboardingPage() {
           <input
             value={form.contactName}
             onChange={(event) => setField("contactName", event.target.value)}
-            placeholder="Contato responsavel *"
+            placeholder="Contato responsável *"
             className="rounded-2xl border border-black/10 px-4 py-3 text-sm outline-none focus:border-bpPink"
           />
           <input
@@ -183,7 +183,7 @@ export default function ParceiroOnboardingPage() {
             disabled={loading || submitting || status === "pending"}
             className="rounded-full bg-bpPink px-5 py-3 text-xs font-semibold uppercase tracking-[0.3em] text-white disabled:opacity-50"
           >
-            {submitting ? "Enviando..." : status === "pending" ? "Em analise" : "Enviar solicitacao"}
+            {submitting ? "Enviando..." : status === "pending" ? "Em análise" : "Enviar solicitação"}
           </button>
           <Link
             href="/seller/partner"

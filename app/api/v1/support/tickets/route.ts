@@ -25,6 +25,13 @@ import {
   computeSupportSlaDeadlines,
   loadSupportSlaPolicy
 } from "@/lib/support/sla";
+import {
+  applyPopClubPriorityToSupportPolicy,
+  isMissingPopClubOperationalContract,
+  loadPopClubOperationalPrioritySnapshot,
+  mapPopClubPriorityToLegacySupportPriority,
+  resolvePopClubPriorityBandFromScore
+} from "@/lib/popclub/operations";
 
 type CreateTicketBody = {
   order_id?: string;
@@ -114,6 +121,30 @@ const loadSellerUserId = async (
     .maybeSingle();
   if (lookup.error) return null;
   return (lookup.data?.user_id as string | null) ?? null;
+};
+
+const createSupportTicket = async (
+  admin: SupabaseClient,
+  payloads: Array<Record<string, unknown>>
+) => {
+  let lastError: { message?: string | null } | null = null;
+
+  for (const payload of payloads) {
+    const attempt = await admin.from("support_tickets").insert(payload).select("*").single();
+    if (!attempt.error && attempt.data) return attempt;
+
+    if (
+      attempt.error &&
+      !isMissingRelationOrColumn(attempt.error) &&
+      !isMissingPopClubOperationalContract(attempt.error)
+    ) {
+      return attempt;
+    }
+
+    lastError = attempt.error;
+  }
+
+  return { data: null, error: lastError };
 };
 
 export async function GET(request: NextRequest) {
@@ -268,14 +299,45 @@ export async function POST(request: NextRequest) {
   const desiredResolution = normalizeDesiredResolution(body.desired_resolution ?? null);
   const attachmentIds = uniqueAttachmentIdsFromBody(body);
   const nowIso = new Date().toISOString();
-  const policy = await loadSupportSlaPolicy(admin, reason);
+  const prioritySnapshot = await loadPopClubOperationalPrioritySnapshot(admin, userId);
+  const priorityBand = resolvePopClubPriorityBandFromScore(prioritySnapshot.supportPriorityScore);
+  const policy = applyPopClubPriorityToSupportPolicy(
+    await loadSupportSlaPolicy(admin, reason),
+    prioritySnapshot
+  );
   const deadlines = computeSupportSlaDeadlines(nowIso, policy);
+  const legacyPriority = mapPopClubPriorityToLegacySupportPriority(prioritySnapshot);
 
-  let ticketInsert = await admin
-    .from("support_tickets")
-    .insert({
+  const ticketInsert = await createSupportTicket(admin, [
+    {
       user_id: userId,
+      customer_id: userId,
+      order_id: body.order_id,
       status: "WAITING_STORE",
+      priority: legacyPriority,
+      sla_deadline: deadlines.firstResponseDueAt,
+      subject: `${reason} - Pedido ${body.order_id.slice(0, 8).toUpperCase()}`,
+      sub_order_id: body.sub_order_id ?? null,
+      store_id: resolvedStoreId,
+      reason,
+      desired_resolution: desiredResolution,
+      first_response_due_at: deadlines.firstResponseDueAt,
+      resolution_due_at: deadlines.resolutionDueAt,
+      last_customer_message_at: nowIso,
+      popclub_current_tier: prioritySnapshot.currentTier,
+      popclub_priority_score: prioritySnapshot.supportPriorityScore,
+      queue_priority_score: prioritySnapshot.supportPriorityScore,
+      priority_band: priorityBand,
+      first_response_target_hours: policy.firstResponseHours,
+      resolution_target_hours: policy.resolutionHours
+    },
+    {
+      user_id: userId,
+      customer_id: userId,
+      order_id: body.order_id,
+      status: "WAITING_STORE",
+      priority: legacyPriority,
+      sla_deadline: deadlines.firstResponseDueAt,
       subject: `${reason} - Pedido ${body.order_id.slice(0, 8).toUpperCase()}`,
       sub_order_id: body.sub_order_id ?? null,
       store_id: resolvedStoreId,
@@ -284,27 +346,28 @@ export async function POST(request: NextRequest) {
       first_response_due_at: deadlines.firstResponseDueAt,
       resolution_due_at: deadlines.resolutionDueAt,
       last_customer_message_at: nowIso
-    })
-    .select("*")
-    .single();
-
-  if (ticketInsert.error && isMissingRelationOrColumn(ticketInsert.error)) {
-    ticketInsert = await admin
-      .from("support_tickets")
-      .insert({
-        user_id: userId,
-        status: "WAITING_STORE",
-        subject: `${reason} - Pedido ${body.order_id.slice(0, 8).toUpperCase()}`
-      })
-      .select("*")
-      .single();
-  }
+    },
+    {
+      user_id: userId,
+      customer_id: userId,
+      order_id: body.order_id,
+      status: "WAITING_STORE",
+      priority: legacyPriority,
+      sla_deadline: deadlines.firstResponseDueAt,
+      subject: `${reason} - Pedido ${body.order_id.slice(0, 8).toUpperCase()}`
+    },
+    {
+      user_id: userId,
+      status: "WAITING_STORE",
+      subject: `${reason} - Pedido ${body.order_id.slice(0, 8).toUpperCase()}`
+    }
+  ]);
 
   const ticket = ticketInsert.data;
   const ticketError = ticketInsert.error;
   if (ticketError || !ticket) {
     return NextResponse.json(
-      { error: ticketError?.message ?? "Nao foi possivel criar ticket." },
+      { error: ticketError?.message ?? "Não foi possivel criar ticket." },
       { status: 500 }
     );
   }
@@ -358,7 +421,7 @@ export async function POST(request: NextRequest) {
 
   if (messageError || !createdMessage) {
     return NextResponse.json(
-      { error: messageError?.message ?? "Nao foi possivel registrar a mensagem inicial." },
+      { error: messageError?.message ?? "Não foi possivel registrar a mensagem inicial." },
       { status: 500 }
     );
   }
@@ -379,7 +442,10 @@ export async function POST(request: NextRequest) {
       reason,
       desired_resolution: desiredResolution,
       store_id: resolvedStoreId,
-      sub_order_id: body.sub_order_id ?? null
+      sub_order_id: body.sub_order_id ?? null,
+      current_tier: prioritySnapshot.currentTier,
+      priority_score: prioritySnapshot.supportPriorityScore,
+      priority_band: priorityBand
     },
     idempotencyKey: buildDeterministicKey([
       "ticket.created",
@@ -395,7 +461,7 @@ export async function POST(request: NextRequest) {
     channels: ["in_app", "email", "whatsapp"],
     templateKey: "support.ticket.created",
     title: "Protocolo criado com sucesso",
-    body: "Recebemos sua solicitacao e ja encaminhamos para a loja.",
+    body: "Recebemos sua solicitação e ja encaminhamos para a loja.",
     ctaLabel: "Acompanhar protocolo",
     ctaHref: `/conta/reclamacoes-suporte/${ticket.id}`,
     metadata: {

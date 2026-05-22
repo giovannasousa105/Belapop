@@ -40,22 +40,22 @@ export const SELLER_ACCESS_PRESETS: SellerAccessPreset[] = [
   },
   {
     key: "operacao_default",
-    label: "Operacao (Default)",
-    description: "Operacao diaria com limites de margem e sem financeiro sensivel.",
+    label: "Operação (Default)",
+    description: "Operação diaria com limites de margem e sem financeiro sensível.",
     role: "OPERACAO",
     permissions: withOverrides("OPERACAO", {})
   },
   {
     key: "financeiro_default",
     label: "Financeiro (Default)",
-    description: "Controle de repasse e conciliacao sem operacao logistica.",
+    description: "Controle de repasse e conciliacao sem operação logistica.",
     role: "FINANCEIRO",
     permissions: withOverrides("FINANCEIRO", {})
   },
   {
     key: "operacao_lider",
-    label: "Operacao Lider",
-    description: "Operacao com mais autonomia de desconto e leitura de auditoria.",
+    label: "Operação Lider",
+    description: "Operação com mais autonomia de desconto e leitura de auditoria.",
     role: "OPERACAO",
     permissions: withOverrides("OPERACAO", {
       "audit.view": true,
@@ -65,7 +65,7 @@ export const SELLER_ACCESS_PRESETS: SellerAccessPreset[] = [
   {
     key: "financeiro_lider",
     label: "Financeiro Lider",
-    description: "Financeiro com acesso opcional a configuracoes criticas.",
+    description: "Financeiro com acesso opcional a configurações criticas.",
     role: "FINANCEIRO",
     permissions: withOverrides("FINANCEIRO", {
       "settings.edit_store": true

@@ -121,7 +121,7 @@ export default function AccountHomePage() {
             ) : recentOrders.length === 0 ? (
               <EmptyState
                 title="Nenhum pedido por aqui ainda"
-                body="Quando voce fizer sua primeira escolha, ela aparecera aqui com todos os detalhes."
+                body="Quando você fizer sua primeira escolha, ela aparecera aqui com todos os detalhes."
                 ctaLabel="Explorar a curadoria"
                 ctaHref="/catalogo"
               />

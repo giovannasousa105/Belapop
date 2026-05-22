@@ -5,16 +5,16 @@ const steps = [
   {
     index: "01",
     title: "Escaneie com orientacao simples",
-    body: "A captura organiza luz, enquadramento e expressao para transformar o scan em uma experiencia clara e premium."
+    body: "A captura organiza luz, enquadramento e expressao para transformar o scan em uma experiência clara e premium."
   },
   {
     index: "02",
     title: "Receba a leitura da pele",
-    body: "O SkinBela traduz textura, conforto, luminosidade e sensibilidade sem jargao tecnico desnecessario."
+    body: "O SkinBela traduz textura, conforto, luminosidade e sensibilidade sem jargao técnico desnecessario."
   },
   {
     index: "03",
-    title: "Compre com mais precisao",
+    title: "Compre com mais precisão",
     body: "A rotina e os produtos aparecem em ordem de uso, prioridade e compatibilidade com o seu momento de pele."
   }
 ];

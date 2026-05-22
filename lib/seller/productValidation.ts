@@ -1,3 +1,5 @@
+import { ClaimValidator, normalizeProductName, ProductImageValidator } from "@/lib/catalog-standards";
+
 export type ProductStatus = "draft" | "review" | "published" | "paused";
 
 export const DEFAULT_STATUS: ProductStatus = "draft";
@@ -20,25 +22,54 @@ export const validateProductPayload = (
   options?: { requireDimensions?: boolean }
 ) => {
   const errors: string[] = [];
+  const warnings: string[] = [];
   const statusValue = (payload.status ?? DEFAULT_STATUS) as ProductStatus;
   const enforceDimensions = options?.requireDimensions ?? statusValue !== "draft";
+  const nameResult = normalizeProductName(String(payload.name ?? ""));
 
   if (!payload.name?.trim()) {
     errors.push("Informe um nome editorial.");
   }
+  if (nameResult.blocked) {
+    errors.push(nameResult.issues.map((issue) => issue.detail).join(" "));
+  } else if (nameResult.issues.length) {
+    warnings.push(nameResult.issues.map((issue) => issue.detail).join(" "));
+  }
   if (!payload.description?.trim()) {
     errors.push("Conte-nos sobre o produto.");
   }
+
+  const claimText = [
+    payload.name,
+    payload.description,
+    ...(Array.isArray(payload.highlights) ? payload.highlights : []),
+    ...(Array.isArray(payload.claims) ? payload.claims : [])
+  ]
+    .filter(Boolean)
+    .join(" ");
+  const blockedClaimIssues = ClaimValidator.scanTextForBlockedTerms(claimText);
+  if (blockedClaimIssues.length) {
+    errors.push(blockedClaimIssues.map((issue) => issue.detail).join(" "));
+  }
+  if (Array.isArray(payload.claims) && payload.claims.length) {
+    const claimValidation = ClaimValidator.validate(payload.claims);
+    if (!claimValidation.isValid) {
+      errors.push(claimValidation.issues.map((issue) => issue.detail).join(" "));
+    } else if (claimValidation.unknown.length && enforceDimensions) {
+      warnings.push("Claims fora da whitelist precisam de revisao editorial.");
+    }
+  }
+
   const price = Number(payload.price);
   if (!payload.price || Number.isNaN(price) || price <= 0) {
-    errors.push("Defina um preço válido.");
+    errors.push("Defina um preco valido.");
   }
   if (enforceDimensions) {
     const numericFields = ["weightKg", "widthCm", "heightCm", "lengthCm"] as const;
     numericFields.forEach((field) => {
       const value = Number(payload[field]);
       if (!payload[field] || Number.isNaN(value) || value <= 0) {
-        errors.push("Preencha peso e dimensões completas.");
+        errors.push("Preencha peso e dimensoes completas.");
       }
     });
   }
@@ -48,7 +79,24 @@ export const validateProductPayload = (
   }
   const images = normalizeImages(payload.images);
   if (!images.length) {
-    errors.push("Inclua ao menos uma imagem de referência.");
+    errors.push("Inclua ao menos uma imagem de referencia.");
   }
-  return { errors, images, status: statusValue };
+  const imageValidation = ProductImageValidator.validate(
+    images.map((url, index) => ({
+      kind: index === 0 ? "main" : "secondary",
+      url
+    }))
+  );
+  const criticalImageAlerts = imageValidation.alerts.filter((alert) => alert.severity === "critical");
+  if (criticalImageAlerts.length) {
+    errors.push(criticalImageAlerts.map((alert) => alert.detail).join(" "));
+  }
+
+  return {
+    errors,
+    images,
+    normalizedName: nameResult.value || String(payload.name ?? "").trim(),
+    status: statusValue,
+    warnings
+  };
 };

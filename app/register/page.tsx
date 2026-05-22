@@ -24,11 +24,11 @@ export default function RegisterPage() {
     setLoading(false);
 
     if (!result.ok) {
-      setMessage(result.message ?? "Erro ao cadastrar.");
+      setMessage("Não foi possivel criar sua conta agora. Revise os dados ou tente novamente.");
       return;
     }
 
-    router.push("/minha-conta");
+    router.push("/conta");
   };
 
   return (

@@ -18,6 +18,8 @@ type ProductCardProduct = {
   tags?: string[] | null;
   hero_image_url?: string | null;
   coverImage?: string | null;
+  sellerName?: string | null;
+  saleOrigin?: "própria" | "marketplace" | null;
 };
 
 type ProductCardProps = {
@@ -25,6 +27,7 @@ type ProductCardProps = {
 };
 
 export function CatalogProductCard({ product }: ProductCardProps) {
+  const belaPopFolded = "BelaPop".toLowerCase();
   const badge = product.badge ?? product.badges?.[0] ?? "Curadoria";
   const visualTagMap: Record<string, string> = {
     skin_tone_deep: "Pele Negra",
@@ -32,7 +35,7 @@ export function CatalogProductCard({ product }: ProductCardProps) {
     high_pigment: "Alta pigmentacao",
     hair_cacheado: "Cabelo Cacheado",
     no_white_cast: "Sem esbranquicar",
-    no_gray_cast: "Nao acinzenta"
+    no_gray_cast: "Não acinzenta"
   };
   const visualTags = Array.from(
     new Set(
@@ -50,6 +53,11 @@ export function CatalogProductCard({ product }: ProductCardProps) {
     heroImageUrl: product.hero_image_url,
     coverImage: product.coverImage
   });
+  const sellerLabel = product.sellerName?.trim() || "BelaPop";
+  const saleOriginLabel =
+    product.saleOrigin === "própria" || sellerLabel.toLowerCase() === belaPopFolded
+      ? "Venda própria"
+      : "Marketplace curado";
   return (
     <Link
       href={`/produto/${product.slug}`}
@@ -90,9 +98,12 @@ export function CatalogProductCard({ product }: ProductCardProps) {
         </div>
         <div className="mt-auto flex items-end justify-between gap-4 pt-4 sm:pt-5">
           <p className="text-[1.04rem] font-semibold tracking-[-0.015em] text-bpBlack sm:text-xl">{formatPrice(price)}</p>
-          <span className="text-[10px] uppercase tracking-[0.22em] text-bpBlackSoft/88">
-            Beleza guiada
-          </span>
+        </div>
+        <div className="mt-3 border-t border-black/8 pt-3">
+          <p className="text-[10px] uppercase tracking-[0.18em] text-bpBlackSoft/62">
+            {saleOriginLabel}
+          </p>
+          <p className="mt-1 text-xs text-bpBlackSoft/78">Vendido por {sellerLabel}</p>
         </div>
       </div>
     </Link>

@@ -338,10 +338,10 @@ export const ProductsClient = () => {
 
     maybePush("finish", "Glow elegante", "Aplicar: Glow elegante", ["glow", "ilumina"]);
     maybePush("skin_type", "Pele sensivel", "Aplicar: Pele sensivel", ["sensivel", "sensivel"]);
-    maybePush("tags", "Sem fragrancia", "Aplicar: Sem fragrancia", ["sensivel", "fragrance"]);
+    maybePush("tags", "Sem fragrancia", "Aplicar: Sem fragrancia", ["sensível", "fragrance"]);
     maybePush("tags", "Vegano", "Aplicar: Vegano", ["veg", "vegan"]);
     maybePush("moment", "Noite de autocuidado", "Aplicar: Noite de autocuidado", ["noite", "autocuidado"]);
-    maybePush("moment", "Plantao", "Aplicar: Plantao", ["plantao", "duracao"]);
+    maybePush("moment", "Plantao", "Aplicar: Plantao", ["plantao", "duração"]);
 
     return suggestions.slice(0, 4);
   }, [finishes, moments, normalizedQuery, skinTypes, tags]);

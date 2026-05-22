@@ -47,7 +47,7 @@ export async function POST(request: NextRequest) {
   const sizeBytes = Number(body.size_bytes);
   if (!ALLOWED_CONTENT_TYPES.has(contentType)) {
     return NextResponse.json(
-      { error: "Tipo de arquivo nao permitido. Use imagem, mp4 ou pdf." },
+      { error: "Tipo de arquivo não permitido. Use imagem, mp4 ou pdf." },
       { status: 400 }
     );
   }
@@ -99,7 +99,7 @@ export async function POST(request: NextRequest) {
       .eq("id", attachmentId)
       .eq("user_id", userId);
     return NextResponse.json(
-      { error: signed.error?.message ?? "Nao foi possivel gerar upload assinado." },
+      { error: signed.error?.message ?? "Não foi possivel gerar upload assinado." },
       { status: 500 }
     );
   }

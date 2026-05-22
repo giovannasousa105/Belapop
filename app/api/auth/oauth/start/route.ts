@@ -45,6 +45,12 @@ export async function GET(request: NextRequest) {
     );
   }
 
+  if (provider === "facebook" && process.env.FACEBOOK_OAUTH_ENABLED !== "true") {
+    return redirectWithNoStore(
+      withOrigin(origin, buildLoginErrorHref({ audience, reason: "facebook_provider_misconfigured", returnTo }))
+    );
+  }
+
   try {
     const { applyCookies, supabase } = createSupabaseRouteClient(request);
     const redirectTo = withOrigin(origin, buildAuthCallbackPath(audience, returnTo));

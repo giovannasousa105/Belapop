@@ -9,6 +9,7 @@ type RangePreset = "today" | "7d" | "30d" | "90d";
 
 type SnapshotRow = {
   seller_order_id: string;
+  sub_order_id?: string | null;
   seller_id: string;
   order_id: string;
   items_total_cents: number;
@@ -16,6 +17,11 @@ type SnapshotRow = {
   discount_allocated_cents: number;
   fee_cents: number;
   seller_payout_cents: number;
+  payout_status?: string | null;
+  payment_date?: string | null;
+  transferred_at?: string | null;
+  stripe_transfer_id?: string | null;
+  failure_reason?: string | null;
   created_at: string;
   updated_at: string | null;
 };
@@ -71,9 +77,63 @@ const mapSnapshotRow = (row: Record<string, unknown>): SnapshotRow => ({
   discount_allocated_cents: toNumber(row.discount_allocated_cents),
   fee_cents: toNumber(row.fee_cents),
   seller_payout_cents: toNumber(row.seller_payout_cents),
+  payout_status: row.payout_status ? String(row.payout_status) : null,
+  payment_date: row.payment_date ? String(row.payment_date) : null,
+  transferred_at: row.transferred_at ? String(row.transferred_at) : null,
+  stripe_transfer_id: row.stripe_transfer_id ? String(row.stripe_transfer_id) : null,
+  failure_reason: row.failure_reason ? String(row.failure_reason) : null,
   created_at: String(row.created_at ?? new Date().toISOString()),
   updated_at: row.updated_at ? String(row.updated_at) : null
 });
+
+const listRowsFromSellerTransfers = async (args: {
+  admin: SupabaseClient;
+  sellerId: string;
+  dateFrom: string;
+  dateTo: string | null;
+}) => {
+  let query = args.admin
+    .from("seller_transfers")
+    .select(
+      "id,order_id,sub_order_id,seller_id,stripe_account_id,stripe_transfer_id,gross_amount_cents,platform_fee_cents,shipping_total_cents,seller_net_cents,currency,status,failure_reason,transferred_at,created_at,updated_at"
+    )
+    .eq("seller_id", args.sellerId)
+    .gte("created_at", args.dateFrom)
+    .order("created_at", { ascending: false });
+
+  if (args.dateTo) query = query.lte("created_at", args.dateTo);
+
+  const result = await query;
+  if (result.error) {
+    if (isMissingTableError(result.error)) return null;
+    throw new Error(result.error.message ?? "Falha ao consultar transferencias de repasse.");
+  }
+
+  const rows = (result.data ?? []).map((row) => {
+    const payload = row as Record<string, unknown>;
+
+    return {
+      seller_order_id: String(payload.sub_order_id ?? payload.id ?? ""),
+      sub_order_id: String(payload.sub_order_id ?? ""),
+      seller_id: String(payload.seller_id ?? ""),
+      order_id: String(payload.order_id ?? ""),
+      items_total_cents: toNumber(payload.gross_amount_cents),
+      shipping_cents: toNumber(payload.shipping_total_cents),
+      discount_allocated_cents: 0,
+      fee_cents: toNumber(payload.platform_fee_cents),
+      seller_payout_cents: toNumber(payload.seller_net_cents),
+      payout_status: String(payload.status ?? "pending"),
+      payment_date: String(payload.created_at ?? new Date().toISOString()),
+      transferred_at: payload.transferred_at ? String(payload.transferred_at) : null,
+      stripe_transfer_id: payload.stripe_transfer_id ? String(payload.stripe_transfer_id) : null,
+      failure_reason: payload.failure_reason ? String(payload.failure_reason) : null,
+      created_at: String(payload.created_at ?? new Date().toISOString()),
+      updated_at: payload.updated_at ? String(payload.updated_at) : null
+    } satisfies SnapshotRow;
+  });
+
+  return { source: "seller_transfers" as const, rows };
+};
 
 const mapPayoutBatchRow = (row: Record<string, unknown>): PayoutBatchRow => ({
   id: String(row.id ?? ""),
@@ -246,6 +306,7 @@ export async function GET(request: NextRequest) {
   try {
     let source:
       | "seller_payouts"
+      | "seller_transfers"
       | "seller_order_financial_snapshot"
       | "seller_orders"
       | "sub_orders" =
@@ -253,12 +314,23 @@ export async function GET(request: NextRequest) {
 
     let rows: SnapshotRow[] = [];
 
-    const payoutBatchResult = await listRowsFromPayoutBatches({
+    const transferResult = await listRowsFromSellerTransfers({
       admin: auth.ctx.admin,
       sellerId: auth.ctx.scope.sellerId,
       dateFrom,
       dateTo
     });
+
+    if (transferResult && transferResult.rows.length > 0) {
+      source = transferResult.source;
+      rows = transferResult.rows;
+    } else {
+      const payoutBatchResult = await listRowsFromPayoutBatches({
+        admin: auth.ctx.admin,
+        sellerId: auth.ctx.scope.sellerId,
+        dateFrom,
+        dateTo
+      });
 
     if (payoutBatchResult) {
       source = payoutBatchResult.source;
@@ -305,6 +377,7 @@ export async function GET(request: NextRequest) {
           updated_at: null
         }));
       }
+    }
     }
 
     const total = rows.length;

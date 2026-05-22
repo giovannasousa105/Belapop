@@ -85,12 +85,12 @@ const logisticsTheme = {
 const sidebarItems: SidebarItem[] = [
   { label: "Dashboard", href: "/adm/dashboard-executivo", icon: LayoutDashboard },
   { label: "Curadoria", href: "/adm/curadoria/produtos", icon: Sparkles },
-  { label: "Sellers", href: "/adm/operacao/parceiros", icon: Store },
-  { label: "Pedidos", href: "/adm/operacao/pedidos-criticos", icon: ShoppingBag },
-  { label: "Logística", href: "/adm/operacao/logistica", icon: Truck, active: true },
+  { label: "Sellers", href: "/adm/operação/parceiros", icon: Store },
+  { label: "Pedidos", href: "/adm/operação/pedidos-criticos", icon: ShoppingBag },
+  { label: "Logística", href: "/adm/operação/logistica", icon: Truck, active: true },
   { label: "Risco", href: "/adm/financeiro/risco", icon: ShieldAlert },
   { label: "Financeiro", href: "/adm/financeiro", icon: Wallet },
-  { label: "Configurações", href: "/adm/gestao/configuracoes", icon: Settings }
+  { label: "Configurações", href: "/adm/gestao/configurações", icon: Settings }
 ];
 
 const tabs: Array<{ key: ShipmentViewState; label: string }> = [
@@ -376,7 +376,7 @@ export async function LogisticsPage({ filters, searchParamsSource }: LogisticsPa
                       return (
                         <Link
                           key={tab.key}
-                          href={buildHref("/adm/operacao/logistica", searchParamsSource, {
+                          href={buildHref("/adm/operação/logistica", searchParamsSource, {
                             activity: tab.key === "todos" ? undefined : tab.key,
                             page: undefined
                           })}
@@ -489,7 +489,7 @@ export async function LogisticsPage({ filters, searchParamsSource }: LogisticsPa
                             </td>
                             <td className="px-8 py-7 text-right">
                               <Link
-                                href={`/adm/operacao/logistica/envios/${row.id}?shipment=${row.id}`}
+                                href={`/adm/operação/logistica/envios/${row.id}?shipment=${row.id}`}
                                 className="inline-flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.16em] text-[var(--logistics-text)] underline underline-offset-4"
                               >
                                 Acompanhar
@@ -523,7 +523,7 @@ export async function LogisticsPage({ filters, searchParamsSource }: LogisticsPa
                     {incidentCards.map((incident) => (
                       <Link
                         key={incident.id}
-                        href={`/adm/operacao/logistica/incidentes?shipment=${incident.shipmentId}`}
+                        href={`/adm/operação/logistica/incidentes?shipment=${incident.shipmentId}`}
                         className="block rounded-xl bg-[var(--logistics-surface)] p-4 transition-colors hover:bg-white"
                       >
                         <div className="flex items-start gap-3">

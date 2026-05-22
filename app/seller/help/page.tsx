@@ -52,9 +52,9 @@ const roadmap = [
     phase: "Fase 4 (Semanas 11-16)",
     title: "Ranking logistico e hardening enterprise",
     items: [
-      "Ranking de busca sensivel ao desempenho logistico",
+      "Ranking de busca sensível ao desempenho logistico",
       "Auditoria imutavel de alteracoes",
-      "Politica publica de performance para lojistas",
+      "Política publica de performance para lojistas",
       "Disputas financeiras e relatarios auditaveis"
     ]
   }

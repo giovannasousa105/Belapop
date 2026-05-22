@@ -114,7 +114,7 @@ export function CurationFlowHeader({
             </Link>
             <Link
               href="/carrinho"
-              aria-label="Abrir sacola"
+              aria-label="Abrir carrinho"
               className={`inline-flex h-11 w-11 items-center justify-center transition-colors ${iconClass}`}
             >
               <ShoppingBag className="h-5 w-5" />
@@ -172,7 +172,7 @@ export function CurationFlowHeader({
                 </Link>
                 <Link
                   href="/carrinho"
-                  aria-label="Abrir sacola"
+                  aria-label="Abrir carrinho"
                   className={`relative inline-flex h-11 w-11 items-center justify-center transition-colors ${iconClass}`}
                 >
                   <ShoppingBag className="h-5 w-5" />
@@ -233,7 +233,7 @@ export function CurationFlowHeader({
                 </Link>
                 <Link
                   href="/carrinho"
-                  aria-label="Abrir sacola"
+                  aria-label="Abrir carrinho"
                   className={`relative inline-flex h-11 w-11 items-center justify-center transition-colors ${iconClass}`}
                 >
                   <ShoppingBag className="h-5 w-5" />
@@ -311,7 +311,7 @@ export function CurationFlowHeader({
               }`}
             >
               <ShoppingBag className="h-4 w-4" />
-              Ver Sacola
+              Ver Carrinho
             </Link>
           </div>
         </div>

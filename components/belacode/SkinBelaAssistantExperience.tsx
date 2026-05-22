@@ -19,7 +19,7 @@ import { SkinScanLuxuryShell } from "@/components/popclub/skin-scan/SkinScanLuxu
 import { popClubPaths } from "@/lib/popclub/navigation";
 
 const profileMetrics = [
-  { label: "Hidratacao", value: "84%", width: "84%", accent: true },
+  { label: "Hidratação", value: "84%", width: "84%", accent: true },
   { label: "Sensibilidade", value: "Baixa", width: "20%", accent: false },
   { label: "Textura", value: "Suave", width: "92%", accent: true }
 ] as const;
@@ -52,7 +52,7 @@ export function SkinBelaAssistantExperience() {
       <div className="mx-auto max-w-[1600px] px-4 pb-20 pt-10 sm:px-6 lg:px-8 lg:pb-24 lg:pt-14">
         <header className="mb-10 space-y-5 lg:mb-12">
           <p className="text-[10px] font-semibold uppercase tracking-[0.3em] text-[#ef75ce]">
-            Relatorio de diagnostico IA
+            Relatorio de leitura assistida
           </p>
           <div className="flex flex-col gap-6 xl:flex-row xl:items-end xl:justify-between">
             <div className="max-w-4xl">
@@ -62,7 +62,7 @@ export function SkinBelaAssistantExperience() {
               </h1>
             </div>
             <p className="max-w-md text-sm leading-relaxed text-[#444748] lg:text-base">
-              Conversa guiada pela sua pele, pelo seu diagnostico mais recente e por fontes
+              Conversa guiada pela sua pele, pela sua leitura mais recente e por fontes
               clinicas priorizadas com criterio editorial.
             </p>
           </div>
@@ -125,7 +125,7 @@ export function SkinBelaAssistantExperience() {
                       className="inline-flex min-h-12 items-center justify-center gap-2 border border-black/10 bg-[#fcf9f8] px-4 text-[11px] font-semibold uppercase tracking-[0.18em] text-black transition hover:border-black/20 hover:bg-[#f6f3f2]"
                     >
                       <ScanFace className="h-4 w-4" />
-                      Ver diagnostico
+                      Ver leitura
                     </Link>
                     <Link
                       href={popClubPaths.skinScanRoutine}

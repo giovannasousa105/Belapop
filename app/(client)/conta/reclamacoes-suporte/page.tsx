@@ -147,7 +147,7 @@ export default function ContaSuportePage() {
       return;
     }
     if (!confirmTruth) {
-      setMessage("Confirme que as informacoes sao verdadeiras para abrir o protocolo.");
+      setMessage("Confirme que as informações sao verdadeiras para abrir o protocolo.");
       return;
     }
 
@@ -194,7 +194,7 @@ export default function ContaSuportePage() {
       }));
       setConfirmTruth(false);
     } catch (error) {
-      setMessage(error instanceof Error ? error.message : "Nao foi possivel abrir o protocolo.");
+      setMessage(error instanceof Error ? error.message : "Não foi possivel abrir o protocolo.");
     } finally {
       setSaving(false);
     }
@@ -203,20 +203,20 @@ export default function ContaSuportePage() {
   return (
     <div className="space-y-6 pb-8">
       <section className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
-        <p className="text-xs uppercase tracking-[0.3em] text-bpGraphite/60">Reclamacoes e suporte</p>
+        <p className="text-xs uppercase tracking-[0.3em] text-bpGraphite/60">Reclamações e suporte</p>
         <h1 className="mt-3 font-display text-4xl text-bpBlack">Central com protocolo</h1>
         <p className="mt-3 text-sm text-bpGraphite/75">
-          SLA alvo: resposta inicial em ate 24h. Toda atualizacao fica registrada no historico do caso.
+          SLA alvo: resposta inicial em até 24h. Toda atualização fica registrada no histórico do caso.
         </p>
       </section>
 
       <section className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
         <form onSubmit={handleCreateTicket} className="space-y-4">
-          <p className="text-sm font-semibold text-bpBlack">Abrir nova reclamacao</p>
+          <p className="text-sm font-semibold text-bpBlack">Abrir nova reclamação</p>
 
           <div className="rounded-2xl border border-black/10 bg-bpOffWhite/60 p-4">
             <p className="text-xs uppercase tracking-[0.2em] text-bpGraphite/60">Passo 1 e 2</p>
-            <p className="mt-1 text-sm text-bpGraphite/75">Selecione pedido e lojista.</p>
+            <p className="mt-1 text-sm text-bpGraphite/75">Selecione o pedido e o lojista.</p>
           </div>
           <div className="grid gap-3 md:grid-cols-2">
             <select
@@ -288,7 +288,7 @@ export default function ContaSuportePage() {
           <textarea
             value={form.description}
             onChange={(event) => setForm((prev) => ({ ...prev, description: event.target.value }))}
-            placeholder="Descreva o ocorrido e o que voce espera como resolucao"
+            placeholder="Descreva o ocorrido e o que você espera como resolução"
             className="min-h-[130px] w-full rounded-2xl border border-black/10 bg-white px-4 py-3 text-sm"
           />
 

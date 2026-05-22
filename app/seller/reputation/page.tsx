@@ -204,7 +204,7 @@ export default function SellerReputationPage() {
       { key: "sla", label: "SLA envio", value: scoreData.components.sla },
       { key: "cancel", label: "Cancelamento", value: scoreData.components.cancel },
       { key: "returns", label: "Devolucao", value: scoreData.components.returns },
-      { key: "rating", label: "Avaliacao", value: scoreData.components.rating },
+      { key: "rating", label: "Avaliação", value: scoreData.components.rating },
       { key: "stockout", label: "Ruptura", value: scoreData.components.stockout },
       { key: "response", label: "Resposta suporte", value: scoreData.components.response }
     ];
@@ -235,7 +235,7 @@ export default function SellerReputationPage() {
           </div>
           <div className="max-w-xl rounded-2xl border border-bpPink/25 bg-[#FFF4F8] px-4 py-3 text-xs text-bpGraphite/85">
             {scoreData?.formula?.summary ??
-              "Score composto por SLA, cancelamento, devolucao, avaliacao, ruptura e tempo de resposta."}
+              "Score composto por SLA, cancelamento, devolucao, avaliação, ruptura e tempo de resposta."}
           </div>
         </div>
 

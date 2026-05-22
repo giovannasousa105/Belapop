@@ -10,7 +10,7 @@ import { useAuth } from "@/lib/AuthContext";
 const navItems = [
   { label: "Visao Geral", href: "/account" },
   { label: "Pedidos", href: "/account/orders" },
-  { label: "Trocas e Devolucoes", href: "/account/returns" },
+  { label: "Trocas e Devoluções", href: "/account/returns" },
   { label: "Carteira", href: "/account/wallet" },
   { label: "Pagamentos", href: "/account/payments" },
   { label: "Enderecos", href: "/account/addresses" },

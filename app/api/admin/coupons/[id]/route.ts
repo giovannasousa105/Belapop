@@ -63,7 +63,7 @@ export async function PATCH(
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
   if (!data) {
-    return NextResponse.json({ error: "Campanha nao encontrada." }, { status: 404 });
+    return NextResponse.json({ error: "Campanha não encontrada." }, { status: 404 });
   }
 
   return NextResponse.json({ campaign: mapCampaign(data) });

@@ -132,7 +132,7 @@ export async function PATCH(request: NextRequest) {
 
   if (profileError || metadataError) {
     return NextResponse.json(
-      { error: profileError ?? metadataError ?? "Nao foi possivel atualizar seu perfil." },
+      { error: profileError ?? metadataError ?? "Não foi possivel atualizar seu perfil." },
       { status: 500 }
     );
   }

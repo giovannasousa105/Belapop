@@ -1,0 +1,41 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e5]:
+    - paragraph [ref=e6]: Catalogo BelaPop
+    - heading "Preparando sua selecao..." [level=1] [ref=e7]
+  - generic [ref=e17]:
+    - generic [ref=e19]:
+      - paragraph [ref=e20]: Cookies e privacidade
+      - heading "Escolha como a BelaPop usa cookies." [level=2] [ref=e21]
+    - generic [ref=e23]:
+      - generic [ref=e24]:
+        - paragraph [ref=e25]: Usamos cookies e tecnologias semelhantes para manter a plataforma segura, lembrar sessão, prevenir fraude, medir desempenho e, quando permitido, personalizar conteúdo ou campanhas. Você pode aceitar tudo, recusar os não essenciais ou personalizar as categorias.
+        - paragraph [ref=e26]:
+          - text: Saiba mais na
+          - link "Política de Cookies" [ref=e27] [cursor=pointer]:
+            - /url: /politica-de-cookies
+          - text: .
+      - generic [ref=e28]:
+        - paragraph [ref=e29]: Categorias tratadas
+        - list [ref=e30]:
+          - listitem [ref=e31]:
+            - generic [ref=e32]: "Estritamente necessários:"
+            - text: Mantêm sessão, segurança, autenticação, prevenção a fraude e funcionamento básico da plataforma.
+          - listitem [ref=e33]:
+            - generic [ref=e34]: "Desempenho e análise:"
+            - text: Ajudam a entender navegação, performance de páginas e erros para melhorar a experiência.
+          - listitem [ref=e35]:
+            - generic [ref=e36]: "Funcionalidade:"
+            - text: Guardam preferências de interface, conteúdo útil e recursos que tornam a navegação mais consistente.
+          - listitem [ref=e37]:
+            - generic [ref=e38]: "Publicidade e personalização:"
+            - text: Suportam personalização de campanhas, audiências e experiências de mídia quando houver base adequada.
+    - generic [ref=e40]:
+      - button "Aceitar todos" [ref=e41] [cursor=pointer]
+      - button "Recusar não essenciais" [ref=e42] [cursor=pointer]
+      - button "Personalizar cookies" [ref=e43] [cursor=pointer]
+  - button "Abrir Consultora BelaPop" [ref=e44] [cursor=pointer]:
+    - img [ref=e46]
+    - generic [ref=e48]:
+      - generic [ref=e49]: Precisa de ajuda?
+      - generic [ref=e50]: Rotina, presente ou recompra
+  - alert [ref=e51]

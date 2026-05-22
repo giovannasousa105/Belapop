@@ -1,17 +1,15 @@
 import type { Metadata } from "next";
 
 import { LuxuryStaticFooter } from "@/components/layout/LuxuryStaticFooter";
-import { LuxuryStaticHeader } from "@/components/layout/LuxuryStaticHeader";
 
 export const metadata: Metadata = {
   title: "Sobre a BelaPop",
-  description: "Uma nova experiencia de beleza, guiada por inteligencia e desejo."
+  description: "Uma nova experiência de beleza, guiada por inteligência e desejo."
 };
 
 export default function SobrePage() {
   return (
     <div className="min-h-screen bg-[#F6F1EB] text-[#1B1A18]">
-      <LuxuryStaticHeader />
       <main className="overflow-hidden">
         <section className="border-b border-[#DDD3CA] px-6 py-12 md:px-10 lg:px-14">
           <div className="mx-auto max-w-[1440px]">
@@ -58,8 +56,8 @@ export default function SobrePage() {
               <a href="/skin-scan" className="rounded-full bg-[#1B1A18] px-5 py-2 text-xs uppercase tracking-[0.25em] text-white">
                 Fazer leitura
               </a>
-              <a href="/vitrine" className="rounded-full border border-[#DDD3CA] px-5 py-2 text-xs uppercase tracking-[0.25em] text-[#1B1A18]">
-                Explorar vitrine
+              <a href="/catalogo" className="rounded-full border border-[#DDD3CA] px-5 py-2 text-xs uppercase tracking-[0.25em] text-[#1B1A18]">
+                Explorar loja
               </a>
             </div>
           </div>

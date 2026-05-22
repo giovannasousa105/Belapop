@@ -18,7 +18,7 @@ const SKIN_TYPE_COPY: Record<string, { name: string; description: string }> = {
     description: "Geralmente tem mais oleosidade na zona T e mais ressecamento ou conforto reduzido em outras areas."
   },
   sensitive: {
-    name: "Sensivel",
+    name: "Sensível",
     description: "Reage mais facil com ardor, vermelhidao ou desconforto quando a barreira da pele fica fragilizada."
   },
   acne_prone: {
@@ -34,7 +34,7 @@ const SKIN_TONE_COPY: Record<string, { name: string; description: string }> = {
   },
   medium: {
     name: "Tom medio",
-    description: "Importante para ajustar recomendacoes de fotoprotecao e leitura de manchas ou textura."
+    description: "Importante para ajustar recomendações de fotoprotecao e leitura de manchas ou textura."
   },
   tan: {
     name: "Pele morena",

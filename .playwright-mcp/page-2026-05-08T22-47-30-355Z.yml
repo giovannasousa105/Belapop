@@ -1,0 +1,383 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e3]:
+    - complementary [ref=e4]:
+      - generic [ref=e6]:
+        - paragraph [ref=e7]: BelaPop
+        - paragraph [ref=e8]: Curator Admin
+      - navigation [ref=e9]:
+        - generic [ref=e10]:
+          - paragraph [ref=e11]: Visao Geral
+          - generic [ref=e12]:
+            - link "Central de Controle" [ref=e14] [cursor=pointer]:
+              - /url: /adm
+              - img [ref=e16]
+              - generic [ref=e21]: Central de Controle
+            - link "Dashboard Executivo" [ref=e23] [cursor=pointer]:
+              - /url: /adm/dashboard-executivo
+              - img [ref=e25]
+              - generic [ref=e28]: Dashboard Executivo
+            - link "Qualidade do Catalogo" [ref=e30] [cursor=pointer]:
+              - /url: /adm/qualidade-catalogo
+              - img [ref=e32]
+              - generic [ref=e35]: Qualidade do Catalogo
+        - generic [ref=e36]:
+          - paragraph [ref=e37]: Curadoria
+          - generic [ref=e38]:
+            - link "Curadoria de Produtos" [ref=e40] [cursor=pointer]:
+              - /url: /adm/curadoria/produtos
+              - img [ref=e42]
+              - generic [ref=e44]: Curadoria de Produtos
+            - link "Regras de Curadoria" [ref=e46] [cursor=pointer]:
+              - /url: /adm/curadoria/regras
+              - img [ref=e48]
+              - generic [ref=e51]: Regras de Curadoria
+            - link "Score de Qualidade" [ref=e53] [cursor=pointer]:
+              - /url: /adm/curadoria/score
+              - img [ref=e55]
+              - generic [ref=e58]: Score de Qualidade
+            - link "Monitoramento de Qualidade" [ref=e60] [cursor=pointer]:
+              - /url: /adm/curadoria/monitoramento
+              - img [ref=e62]
+              - generic [ref=e64]: Monitoramento de Qualidade
+            - link "Historico de Versoes" [ref=e66] [cursor=pointer]:
+              - /url: /adm/curadoria/historico-versoes
+              - img [ref=e68]
+              - generic [ref=e70]: Historico de Versoes
+            - link "Documentos" [ref=e72] [cursor=pointer]:
+              - /url: /adm/curadoria/documentos
+              - img [ref=e74]
+              - generic [ref=e77]: Documentos
+            - link "Compliance e Confianca" [ref=e79] [cursor=pointer]:
+              - /url: /adm/curadoria/compliance
+              - img [ref=e81]
+              - generic [ref=e84]: Compliance e Confianca
+        - generic [ref=e85]:
+          - paragraph [ref=e86]: Operacao
+          - generic [ref=e87]:
+            - link "Pedidos Criticos" [ref=e89] [cursor=pointer]:
+              - /url: /adm/operacao/pedidos-criticos
+              - img [ref=e91]
+              - generic [ref=e93]: Pedidos Criticos
+            - generic [ref=e94]:
+              - link "Logistica" [ref=e95] [cursor=pointer]:
+                - /url: /adm/operacao/logistica
+                - img [ref=e97]
+                - generic [ref=e102]: Logistica
+              - link "Incidentes Logisticos" [ref=e104] [cursor=pointer]:
+                - /url: /adm/operacao/logistica/incidentes
+            - link "Parceiros" [ref=e106] [cursor=pointer]:
+              - /url: /adm/operacao/parceiros
+              - img [ref=e108]
+              - generic [ref=e113]: Parceiros
+            - link "Comunicacao com Sellers" [ref=e115] [cursor=pointer]:
+              - /url: /adm/operacao/comunicacao-sellers
+              - img [ref=e117]
+              - generic [ref=e119]: Comunicacao com Sellers
+        - generic [ref=e120]:
+          - paragraph [ref=e121]: Financeiro
+          - generic [ref=e122]:
+            - link "Financeiro" [ref=e124] [cursor=pointer]:
+              - /url: /adm/financeiro
+              - img [ref=e126]
+              - generic [ref=e129]: Financeiro
+            - link "Repasses" [ref=e131] [cursor=pointer]:
+              - /url: /adm/financeiro/repasses
+              - img [ref=e133]
+              - generic [ref=e136]: Repasses
+            - link "Reembolsos" [ref=e138] [cursor=pointer]:
+              - /url: /adm/financeiro/reembolsos
+              - img [ref=e140]
+              - generic [ref=e143]: Reembolsos
+            - link "Auditoria Financeira" [ref=e145] [cursor=pointer]:
+              - /url: /adm/financeiro/auditoria
+              - img [ref=e147]
+              - generic [ref=e150]: Auditoria Financeira
+            - link "Antifraude / Risco" [ref=e152] [cursor=pointer]:
+              - /url: /adm/financeiro/risco
+              - img [ref=e154]
+              - generic [ref=e156]: Antifraude / Risco
+        - generic [ref=e157]:
+          - paragraph [ref=e158]: Catalogo e Marca
+          - generic [ref=e159]:
+            - link "Conteudo e Vitrines" [ref=e161] [cursor=pointer]:
+              - /url: /adm/catalogo-marca/conteudo-vitrines
+              - img [ref=e163]
+              - generic [ref=e168]: Conteudo e Vitrines
+            - link "Campanhas / Destaques" [ref=e170] [cursor=pointer]:
+              - /url: /adm/catalogo-marca/campanhas
+              - img [ref=e172]
+              - generic [ref=e175]: Campanhas / Destaques
+            - link "Reviews / Avaliacoes" [ref=e177] [cursor=pointer]:
+              - /url: /adm/catalogo-marca/reviews
+              - img [ref=e179]
+              - generic [ref=e184]: Reviews / Avaliacoes
+            - link "Inteligencia de Catalogo" [ref=e186] [cursor=pointer]:
+              - /url: /adm/catalogo-marca/inteligencia
+              - img [ref=e188]
+              - generic [ref=e191]: Inteligencia de Catalogo
+        - generic [ref=e192]:
+          - paragraph [ref=e193]: Relacionamento
+          - generic [ref=e194]:
+            - link "Clientes" [ref=e196] [cursor=pointer]:
+              - /url: /adm/relacionamento/clientes
+              - img [ref=e198]
+              - generic [ref=e203]: Clientes
+            - link "CRM Pos-compra" [ref=e205] [cursor=pointer]:
+              - /url: /adm/relacionamento/pos-compra
+              - img [ref=e207]
+              - generic [ref=e209]: CRM Pos-compra
+        - generic [ref=e210]:
+          - paragraph [ref=e211]: Gestao
+          - generic [ref=e212]:
+            - link "Relatorios" [ref=e214] [cursor=pointer]:
+              - /url: /adm/gestao/relatorios
+              - img [ref=e216]
+              - generic [ref=e219]: Relatorios
+            - link "Usuarios Internos" [ref=e221] [cursor=pointer]:
+              - /url: /adm/gestao/usuarios-internos
+              - img [ref=e223]
+              - generic [ref=e228]: Usuarios Internos
+            - link "Log de Atividades" [ref=e230] [cursor=pointer]:
+              - /url: /adm/gestao/log-atividades
+              - img [ref=e232]
+              - generic [ref=e234]: Log de Atividades
+            - link "Configuracoes" [ref=e236] [cursor=pointer]:
+              - /url: /adm/gestao/configuracoes
+              - img [ref=e238]
+              - generic [ref=e241]: Configuracoes
+      - generic [ref=e244]:
+        - generic [ref=e245]: He
+        - generic [ref=e246]:
+          - paragraph [ref=e247]: Helena Martins
+          - paragraph [ref=e248]: Admin Master
+    - generic [ref=e249]:
+      - banner [ref=e250]:
+        - generic [ref=e251]:
+          - generic [ref=e253]:
+            - navigation [ref=e254]:
+              - generic [ref=e255]:
+                - link "ADM" [ref=e256] [cursor=pointer]:
+                  - /url: /adm
+                - generic [ref=e257]: /
+              - generic [ref=e259]: CRM Pos-compra
+            - paragraph [ref=e260]: CRM Pos-compra
+          - generic [ref=e261]:
+            - button "Buscar" [ref=e262] [cursor=pointer]:
+              - img [ref=e263]
+            - button "H Helena Martins Admin Master" [ref=e267] [cursor=pointer]:
+              - generic [ref=e268]: H
+              - generic [ref=e269]:
+                - generic [ref=e270]: Helena Martins
+                - generic [ref=e271]: Admin Master
+              - img [ref=e272]
+      - main [ref=e274]:
+        - generic [ref=e275]:
+          - generic [ref=e277]:
+            - img [ref=e279]
+            - generic [ref=e281]:
+              - paragraph [ref=e282]: Lifecycle pos-compra BelaPop
+              - paragraph [ref=e283]: Regua automatizada para orientar uso, acompanhar entrega, recomendar complementos, lembrar recompra e coletar avaliacoes reais.
+              - link "Ver job interno" [ref=e284] [cursor=pointer]:
+                - /url: /api/internal/jobs/process-customer-lifecycle
+          - generic [ref=e286]:
+            - generic [ref=e287]:
+              - paragraph [ref=e288]: CRM, recompra e cuidado continuado
+              - heading "A experiencia nao termina no checkout. Ela vira rotina, acompanhamento e recompra com criterio." [level=1] [ref=e289]
+              - paragraph [ref=e290]: Este painel prepara email, WhatsApp, SMS futuro e push/in-app para fluxos transacionais e de marketing, respeitando consentimento e evitando duplicidade por messageId.
+            - generic [ref=e291]:
+              - paragraph [ref=e292]: "Transacional: guia de uso e acompanhamento de entrega."
+              - paragraph [ref=e293]: "Marketing: complemento, recompra e avaliacao real com opt-out respeitado."
+          - generic [ref=e294]:
+            - article [ref=e295]:
+              - paragraph [ref=e296]: Mensagens criadas
+              - paragraph [ref=e297]: "10"
+              - paragraph [ref=e298]: Geradas pelo mock processor diario, sem duplicar mensagens ja enviadas.
+            - article [ref=e299]:
+              - paragraph [ref=e300]: Elegiveis para recompra
+              - paragraph [ref=e301]: "0"
+              - paragraph [ref=e302]: Produtos dentro da janela 30/45/60+ dias conforme categoria.
+            - article [ref=e303]:
+              - paragraph [ref=e304]: Avaliacoes pendentes
+              - paragraph [ref=e305]: "4"
+              - paragraph [ref=e306]: Pedidos entregues com convite para opiniao real, sem incentivo indevido.
+            - article [ref=e307]:
+              - paragraph [ref=e308]: Recomendacoes geradas
+              - paragraph [ref=e309]: "5"
+              - paragraph [ref=e310]: Complementos por categoria, necessidade, bundle e Skin Scan.
+          - generic [ref=e311]:
+            - article [ref=e312]:
+              - generic [ref=e313]:
+                - img [ref=e315]
+                - generic [ref=e319]:
+                  - paragraph [ref=e320]: D+0 · transactional
+                  - heading "Guia de uso apos pedido confirmado" [level=3] [ref=e321]
+                  - paragraph [ref=e322]: Ensina ordem, frequencia, cuidados, combina com e evitar junto.
+                  - generic [ref=e324]: email
+            - article [ref=e325]:
+              - generic [ref=e326]:
+                - img [ref=e328]
+                - generic [ref=e332]:
+                  - paragraph [ref=e333]: D+2 · transactional
+                  - heading "Check-in 2 dias apos entrega" [level=3] [ref=e334]
+                  - paragraph [ref=e335]: Confirma recebimento, estado do pedido e acesso ao suporte.
+                  - generic [ref=e336]:
+                    - generic [ref=e337]: email
+                    - generic [ref=e338]: whatsapp
+            - article [ref=e339]:
+              - generic [ref=e340]:
+                - img [ref=e342]
+                - generic [ref=e346]:
+                  - paragraph [ref=e347]: D+7 · marketing
+                  - heading "Recomendacao complementar 7 dias apos entrega" [level=3] [ref=e348]
+                  - paragraph [ref=e349]: Sugere complemento por categoria, necessidade, Skin Scan ou bundle.
+                  - generic [ref=e350]:
+                    - generic [ref=e351]: email
+                    - generic [ref=e352]: whatsapp
+            - article [ref=e353]:
+              - generic [ref=e354]:
+                - img [ref=e356]
+                - generic [ref=e360]:
+                  - paragraph [ref=e361]: D+21 · marketing
+                  - heading "Convite para avaliacao real" [level=3] [ref=e362]
+                  - paragraph [ref=e363]: Pede opiniao real, nota e comentario sem incentivo a avaliacao positiva.
+                  - generic [ref=e364]:
+                    - generic [ref=e365]: email
+                    - generic [ref=e366]: whatsapp
+            - article [ref=e367]:
+              - generic [ref=e368]:
+                - img [ref=e370]
+                - generic [ref=e374]:
+                  - paragraph [ref=e375]: D+30 · marketing
+                  - heading "Lembrete de recompra por categoria" [level=3] [ref=e376]
+                  - paragraph [ref=e377]: Usa duracao media de limpador, serum, hidratante, protetor, mascara e bundle.
+                  - generic [ref=e378]:
+                    - generic [ref=e379]: email
+                    - generic [ref=e380]: whatsapp
+          - generic [ref=e381]:
+            - generic [ref=e382]:
+              - generic [ref=e383]:
+                - generic [ref=e384]:
+                  - paragraph [ref=e385]: Editor de template
+                  - heading "Tom premium, humano e direto" [level=3] [ref=e386]
+                - combobox [ref=e387]:
+                  - option "Guia de uso pos-compra" [selected]
+                  - option "Acompanhamento apos entrega"
+                  - option "Recomendacao complementar"
+                  - option "Lembrete de recompra"
+                  - option "Convite para avaliacao real"
+                  - option "WhatsApp guia de uso"
+                  - option "WhatsApp acompanhamento entrega"
+                  - option "WhatsApp recomendacao complementar"
+                  - option "WhatsApp lembrete de recompra"
+                  - option "WhatsApp convite avaliacao real"
+              - generic [ref=e388]:
+                - textbox [ref=e389]: Marina, seu ritual BelaPop comeca aqui
+                - textbox [ref=e390]: "Ola, Marina. Seu ritual chegou. Agora vamos te ajudar a usar da melhor forma. Aurora Maison Barrier Creme Ceramidas 50g entra em: hidratacao. Frequencia: manha e noite. Como usar: Aplique uma camada fina apos limpeza e serum. Reforce em areas sensibilizadas. Cuidados: Evite aplicar sobre pele lesionada. Reduza ativos intensos nos primeiros dias. Combina com: limpeza suave, protetor solar, pantenol. Evite junto com: esfoliacao agressiva. Esse produto funciona melhor quando entra no momento certo da rotina."
+                - paragraph [ref=e391]: O editor esta em modo mockavel. A persistencia pode conectar depois em Resend, Brevo, Klaviyo, Zenvia, Twilio ou CRM proprio.
+            - generic [ref=e392]:
+              - article [ref=e393]:
+                - generic [ref=e394]:
+                  - generic [ref=e395]:
+                    - paragraph [ref=e396]: email
+                    - heading "Guia de uso pos-compra" [level=3] [ref=e397]
+                  - img [ref=e399]
+                - paragraph [ref=e402]: Marina, seu ritual BelaPop comeca aqui
+                - paragraph [ref=e403]: "Ola, Marina. Seu ritual chegou. Agora vamos te ajudar a usar da melhor forma. Aurora Maison Barrier Creme Ceramidas 50g entra em: hidratacao. Frequencia: manha e noite. Como usar: Aplique uma camada fina apos limpeza e serum. Reforce em areas sensibilizadas. Cuidados: Evite aplicar sobre pele lesionada. Reduza ativos intensos nos primeiros dias. Combina com: limpeza suave, protetor solar, pantenol. Evite junto com: esfoliacao agressiva. Esse produto funciona melhor quando entra no momento certo da rotina."
+                - paragraph [ref=e404]: Ver minha rotina
+              - article [ref=e405]:
+                - generic [ref=e406]:
+                  - generic [ref=e407]:
+                    - paragraph [ref=e408]: email
+                    - heading "Acompanhamento apos entrega" [level=3] [ref=e409]
+                  - img [ref=e411]
+                - paragraph [ref=e414]: Marina, seu pedido chegou bem?
+                - paragraph [ref=e415]: Ola, Marina. Queremos confirmar se seu pedido chegou em perfeito estado. Para comecar por Aurora Maison Barrier Creme Ceramidas 50g, use com calma e observe como sua pele responde nos primeiros dias. Se algo chegou avariado, divergente ou se voce quiser orientacao, nosso concierge pode ajudar.
+                - paragraph [ref=e416]: Preciso de ajuda
+          - generic [ref=e417]:
+            - generic [ref=e418]:
+              - generic [ref=e419]:
+                - paragraph [ref=e420]: Historico de comunicacoes
+                - heading "Mensagens enviadas e agendadas" [level=2] [ref=e421]
+              - link "Ver clientes" [ref=e422] [cursor=pointer]:
+                - /url: /adm/relacionamento/clientes
+            - table [ref=e424]:
+              - rowgroup [ref=e425]:
+                - row "Mensagem Cliente Status Agendamento" [ref=e426]:
+                  - columnheader "Mensagem" [ref=e427]
+                  - columnheader "Cliente" [ref=e428]
+                  - columnheader "Status" [ref=e429]
+                  - columnheader "Agendamento" [ref=e430]
+              - rowgroup [ref=e431]:
+                - row "Marina, seu ritual BelaPop comeca aqui usage_guide · email Marina Alves sent 24/04, 08:06" [ref=e432]:
+                  - cell "Marina, seu ritual BelaPop comeca aqui usage_guide · email" [ref=e433]:
+                    - generic [ref=e434]:
+                      - paragraph [ref=e435]: Marina, seu ritual BelaPop comeca aqui
+                      - paragraph [ref=e436]: usage_guide · email
+                  - cell "Marina Alves" [ref=e437]
+                  - cell "sent" [ref=e438]
+                  - cell "24/04, 08:06" [ref=e439]
+                - row "Bianca, como foi sua experiencia real? review_request · email Bianca Torres scheduled 30/04, 06:00" [ref=e440]:
+                  - cell "Bianca, como foi sua experiencia real? review_request · email" [ref=e441]:
+                    - generic [ref=e442]:
+                      - paragraph [ref=e443]: Bianca, como foi sua experiencia real?
+                      - paragraph [ref=e444]: review_request · email
+                  - cell "Bianca Torres" [ref=e445]
+                  - cell "scheduled" [ref=e446]
+                  - cell "30/04, 06:00" [ref=e447]
+                - row "Marina, seu ritual BelaPop comeca aqui usage_guide · email Marina Alves scheduled 27/04, 14:10" [ref=e448]:
+                  - cell "Marina, seu ritual BelaPop comeca aqui usage_guide · email" [ref=e449]:
+                    - generic [ref=e450]:
+                      - paragraph [ref=e451]: Marina, seu ritual BelaPop comeca aqui
+                      - paragraph [ref=e452]: usage_guide · email
+                  - cell "Marina Alves" [ref=e453]
+                  - cell "scheduled" [ref=e454]
+                  - cell "27/04, 14:10" [ref=e455]
+                - row "postPurchaseUsageWhatsApp usage_guide · whatsapp Marina Alves scheduled 27/04, 14:10" [ref=e456]:
+                  - cell "postPurchaseUsageWhatsApp usage_guide · whatsapp" [ref=e457]:
+                    - generic [ref=e458]:
+                      - paragraph [ref=e459]: postPurchaseUsageWhatsApp
+                      - paragraph [ref=e460]: usage_guide · whatsapp
+                  - cell "Marina Alves" [ref=e461]
+                  - cell "scheduled" [ref=e462]
+                  - cell "27/04, 14:10" [ref=e463]
+                - row "Marina, seu pedido chegou bem? delivery_follow_up · email Marina Alves scheduled 29/04, 14:10" [ref=e464]:
+                  - cell "Marina, seu pedido chegou bem? delivery_follow_up · email" [ref=e465]:
+                    - generic [ref=e466]:
+                      - paragraph [ref=e467]: Marina, seu pedido chegou bem?
+                      - paragraph [ref=e468]: delivery_follow_up · email
+                  - cell "Marina Alves" [ref=e469]
+                  - cell "scheduled" [ref=e470]
+                  - cell "29/04, 14:10" [ref=e471]
+                - row "deliveryFollowUpWhatsApp delivery_follow_up · whatsapp Marina Alves scheduled 29/04, 14:10" [ref=e472]:
+                  - cell "deliveryFollowUpWhatsApp delivery_follow_up · whatsapp" [ref=e473]:
+                    - generic [ref=e474]:
+                      - paragraph [ref=e475]: deliveryFollowUpWhatsApp
+                      - paragraph [ref=e476]: delivery_follow_up · whatsapp
+                  - cell "Marina Alves" [ref=e477]
+                  - cell "scheduled" [ref=e478]
+                  - cell "29/04, 14:10" [ref=e479]
+                - row "Bianca, seu ritual BelaPop comeca aqui usage_guide · email Bianca Torres scheduled 09/04, 10:15" [ref=e480]:
+                  - cell "Bianca, seu ritual BelaPop comeca aqui usage_guide · email" [ref=e481]:
+                    - generic [ref=e482]:
+                      - paragraph [ref=e483]: Bianca, seu ritual BelaPop comeca aqui
+                      - paragraph [ref=e484]: usage_guide · email
+                  - cell "Bianca Torres" [ref=e485]
+                  - cell "scheduled" [ref=e486]
+                  - cell "09/04, 10:15" [ref=e487]
+                - row "Bianca, seu pedido chegou bem? delivery_follow_up · email Bianca Torres scheduled 11/04, 10:15" [ref=e488]:
+                  - cell "Bianca, seu pedido chegou bem? delivery_follow_up · email" [ref=e489]:
+                    - generic [ref=e490]:
+                      - paragraph [ref=e491]: Bianca, seu pedido chegou bem?
+                      - paragraph [ref=e492]: delivery_follow_up · email
+                  - cell "Bianca Torres" [ref=e493]
+                  - cell "scheduled" [ref=e494]
+                  - cell "11/04, 10:15" [ref=e495]
+          - generic [ref=e498]:
+            - paragraph [ref=e499]: Fila operacional
+            - heading "Pontos de atencao do dia" [level=2] [ref=e500]
+            - generic [ref=e501]:
+              - paragraph [ref=e502]: 1 pedido(s) entregues sem acompanhamento de 2 dias.
+              - paragraph [ref=e503]: 4 produto(s) aguardam convite de avaliacao real.
+              - paragraph [ref=e504]: WhatsApp respeita opt-in; marketing por email respeita consentimento e descadastro.
+  - button "Open Next.js Dev Tools" [ref=e510] [cursor=pointer]:
+    - img [ref=e511]

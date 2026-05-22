@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 
+import { belapopContact, buildBelapopMailto } from "@/lib/brand/contact";
+
 export const metadata: Metadata = {
   title: "Trabalhe Conosco | BelaPop",
   description:
@@ -25,6 +27,11 @@ const SectionLead = ({ children }: { children: React.ReactNode }) => (
 );
 
 export default function CarreirasPage() {
+  const careersHref = buildBelapopMailto(
+    belapopContact.supportEmail,
+    "Carreiras BelaPop - Seu Nome"
+  );
+
   return (
     <div className="min-h-screen bg-bpBlack text-bpOffWhite">
       <div className="mx-auto w-full max-w-6xl px-6 py-16 md:py-20">
@@ -47,7 +54,7 @@ export default function CarreirasPage() {
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
             <a
-              href="mailto:giovannasousa105@gmail.com?subject=Vaga%20—%20Seu%20Nome"
+              href={careersHref}
               className="inline-flex items-center justify-center rounded-full bg-gradient-to-r from-[#B80F5A] to-[#D11469] px-7 py-3 text-xs font-semibold uppercase tracking-[0.24em] text-white shadow-[0_15px_45px_rgba(184,15,90,0.35)]"
             >
               Enviar currículo
@@ -205,10 +212,10 @@ export default function CarreirasPage() {
             Envie seu currículo e carta de motivação para:
           </p>
           <a
-            href="mailto:giovannasousa105@gmail.com?subject=Vaga%20—%20Seu%20Nome"
+            href={careersHref}
             className="mt-3 inline-flex items-center gap-2 text-sm font-semibold text-[#F7BFD1] underline decoration-[#F7BFD1]/60 underline-offset-4"
           >
-            giovannasousa105@gmail.com
+            {belapopContact.supportEmail}
           </a>
           <p className="mt-4 text-sm text-bpPinkSoft/70">Assunto: Vaga — Seu Nome</p>
           <p className="mt-2 text-sm text-bpPinkSoft/70">

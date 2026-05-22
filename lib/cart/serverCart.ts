@@ -77,20 +77,20 @@ export const loadCartItemsForCheckout = async (
 ): Promise<CartAccessResult> => {
   const cart = await loadCartRow(input);
   if (!cart) {
-    throw toError("CART_NOT_FOUND", "Carrinho nao encontrado.");
+    throw toError("CART_NOT_FOUND", "Carrinho não encontrado.");
   }
 
   if (cart.status && cart.status !== "active") {
-    throw toError("CART_INACTIVE", "Carrinho nao esta ativo.");
+    throw toError("CART_INACTIVE", "Carrinho não está ativo.");
   }
 
   if (input.userId) {
     if (!cart.user_id || cart.user_id !== input.userId) {
-      throw toError("CART_ACCESS_DENIED", "Carrinho nao pertence ao usuario.");
+      throw toError("CART_ACCESS_DENIED", "Carrinho não pertence ao usuário.");
     }
   } else if (input.anonId) {
     if (!cart.anon_id || cart.anon_id !== input.anonId) {
-      throw toError("CART_ACCESS_DENIED", "Carrinho anonimo nao autorizado.");
+      throw toError("CART_ACCESS_DENIED", "Carrinho anônimo não autorizado.");
     }
   } else {
     throw toError("CART_ACCESS_DENIED", "Credenciais de carrinho ausentes.");
@@ -98,7 +98,7 @@ export const loadCartItemsForCheckout = async (
 
   const items = normalizeCartItems(cart.items);
   if (items.length === 0) {
-    throw toError("CART_EMPTY", "Carrinho sem itens validos.");
+    throw toError("CART_EMPTY", "Carrinho sem itens válidos.");
   }
 
   return {

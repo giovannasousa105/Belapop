@@ -1,0 +1,36 @@
+version: "3.8"
+
+# Compose isolado para o serviço de CV.
+# Uso em desenvolvimento local:
+#   docker compose -f services/cv/docker-compose.cv.yml up
+#
+# Em produção: integrar ao docker-compose principal do projeto
+# e usar a rede interna para que Next.js alcance http://cv-service:8000
+
+services:
+  cv-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: belapop-cv-service
+    ports:
+      - "8001:8000"   # 8001 no host → 8000 no container (evita conflito com Next.js)
+    environment:
+      - INTERNAL_API_KEY=${INTERNAL_API_KEY:?INTERNAL_API_KEY é obrigatório}
+      - MODEL_PATH=/app/models/skin_analysis.onnx
+      - PYTHONUNBUFFERED=1
+    volumes:
+      - ./models:/app/models:ro   # modelos montados em runtime — não copiados na imagem
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "curl -sf http://localhost:8000/health || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 90s   # MediaPipe + ONNX podem demorar no primeiro startup
+    networks:
+      - cv-net
+
+networks:
+  cv-net:
+    name: belapop-cv

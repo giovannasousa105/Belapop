@@ -33,7 +33,7 @@ export async function ShipmentDetailPage({ shipmentId }: ShipmentDetailPageProps
     return (
       <ErrorState
         title="Falha ao carregar detalhe do envio"
-        description={result.error?.message ?? "Nao foi possivel carregar este envio."}
+        description={result.error?.message ?? "Não foi possivel carregar este envio."}
       />
     );
   }
@@ -42,10 +42,10 @@ export async function ShipmentDetailPage({ shipmentId }: ShipmentDetailPageProps
     return (
       <AlertBanner
         tone="critical"
-        title="Envio nao encontrado"
+        title="Envio não encontrado"
         description="Verifique o identificador e retorne para a central logistica."
         actionLabel="Voltar para logistica"
-        actionHref="/adm/operacao/logistica"
+        actionHref="/adm/operação/logistica"
       />
     );
   }
@@ -102,7 +102,7 @@ export async function ShipmentDetailPage({ shipmentId }: ShipmentDetailPageProps
       label: "Preparado",
       title: sellerName
         ? `${sellerName} concluiu a preparacao premium do pacote.`
-        : "Preparacao premium concluida no seller responsavel.",
+        : "Preparacao premium concluida no seller responsável.",
       timestamp: order ? formatDateTime(order.createdAt) : undefined,
       tone: "done" as const
     },
@@ -178,7 +178,7 @@ export async function ShipmentDetailPage({ shipmentId }: ShipmentDetailPageProps
               </p>
               <div className="mt-3 space-y-2 text-sm text-[var(--adm-text-muted)]">
                 <p>Segmento: {customer?.segment ?? "premium"}</p>
-                <p>LTV: {customer ? formatCurrency(customer.ltv) : "Nao informado"}</p>
+                <p>LTV: {customer ? formatCurrency(customer.ltv) : "Não informado"}</p>
                 <p>Tickets em aberto: {customer?.openTickets ?? 0}</p>
               </div>
             </div>
@@ -252,13 +252,13 @@ export async function ShipmentDetailPage({ shipmentId }: ShipmentDetailPageProps
                 </p>
                 <p className="mt-2 text-sm leading-6 text-[var(--adm-text-muted)]">
                   {incident?.summary ??
-                    "O envio segue monitorado com o historico centralizado para intervencoes rapidas."}
+                    "O envio segue monitorado com o histórico centralizado para intervencoes rapidas."}
                 </p>
               </div>
             </div>
             {incident ? (
               <Link
-                href={`/adm/operacao/logistica/incidentes?shipment=${shipment.id}`}
+                href={`/adm/operação/logistica/incidentes?shipment=${shipment.id}`}
                 className="mt-5 inline-flex min-h-11 items-center justify-center rounded-full bg-[var(--adm-tertiary)] px-5 text-[10px] font-semibold uppercase tracking-[0.18em] text-white"
               >
                 Priorizar resolucao
@@ -271,9 +271,9 @@ export async function ShipmentDetailPage({ shipmentId }: ShipmentDetailPageProps
               Acoes rapidas
             </p>
             <div className="mt-4 space-y-3">
-              <PermissionGate route="/adm/operacao/logistica/incidentes">
+              <PermissionGate route="/adm/operação/logistica/incidentes">
                 <Link
-                  href={`/adm/operacao/logistica/incidentes?shipment=${shipment.id}`}
+                  href={`/adm/operação/logistica/incidentes?shipment=${shipment.id}`}
                   className="flex items-center justify-between rounded-[18px] bg-[var(--adm-surface-muted)] px-4 py-4 text-sm text-[var(--adm-text)] transition hover:bg-[var(--adm-surface-soft)]"
                 >
                   <span>Notificar seller</span>
@@ -281,15 +281,15 @@ export async function ShipmentDetailPage({ shipmentId }: ShipmentDetailPageProps
                 </Link>
               </PermissionGate>
               <Link
-                href={`/adm/operacao/logistica/envios/${shipment.id}`}
+                href={`/adm/operação/logistica/envios/${shipment.id}`}
                 className="flex items-center justify-between rounded-[18px] bg-[var(--adm-surface-muted)] px-4 py-4 text-sm text-[var(--adm-text)] transition hover:bg-[var(--adm-surface-soft)]"
               >
                 <span>Atualizar status</span>
                 <ArrowRight className="h-4 w-4" />
               </Link>
-              <PermissionGate route="/adm/operacao/logistica/incidentes">
+              <PermissionGate route="/adm/operação/logistica/incidentes">
                 <Link
-                  href={`/adm/operacao/logistica/incidentes?shipment=${shipment.id}`}
+                  href={`/adm/operação/logistica/incidentes?shipment=${shipment.id}`}
                   className="flex items-center justify-between rounded-[18px] bg-[var(--adm-surface-muted)] px-4 py-4 text-sm text-[var(--adm-text)] transition hover:bg-[var(--adm-surface-soft)]"
                 >
                   <span>Registrar incidente</span>
@@ -404,18 +404,18 @@ export async function ShipmentDetailPage({ shipmentId }: ShipmentDetailPageProps
               Reembolso
             </Link>
           </PermissionGate>
-          <PermissionGate route="/adm/operacao/logistica/incidentes">
+          <PermissionGate route="/adm/operação/logistica/incidentes">
             <Link
-              href={`/adm/operacao/logistica/incidentes?shipment=${shipment.id}`}
+              href={`/adm/operação/logistica/incidentes?shipment=${shipment.id}`}
               className="inline-flex min-h-11 items-center gap-2 rounded-full border border-[var(--adm-border-strong)] px-5 text-[10px] font-semibold uppercase tracking-[0.18em] text-[var(--adm-text)]"
             >
               <Ticket className="h-4 w-4" />
               Incidentes
             </Link>
           </PermissionGate>
-          <PermissionGate route="/adm/operacao/parceiros">
+          <PermissionGate route="/adm/operação/parceiros">
             <Link
-              href={`/adm/operacao/parceiros?seller=${shipment.sellerId}`}
+              href={`/adm/operação/parceiros?seller=${shipment.sellerId}`}
               className="inline-flex min-h-11 items-center gap-2 rounded-full border border-[var(--adm-border-strong)] px-5 text-[10px] font-semibold uppercase tracking-[0.18em] text-[var(--adm-text)]"
             >
               <Users className="h-4 w-4" />

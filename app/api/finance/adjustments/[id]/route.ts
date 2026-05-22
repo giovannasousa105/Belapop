@@ -68,7 +68,7 @@ export async function GET(
     return NextResponse.json({ error: lookup.error.message }, { status: 500 });
   }
   if (!lookup.data) {
-    return NextResponse.json({ error: "Ajuste nao encontrado." }, { status: 404 });
+    return NextResponse.json({ error: "Ajuste não encontrado." }, { status: 404 });
   }
 
   const approvalsLookup = await admin
@@ -118,7 +118,7 @@ export async function PATCH(
     return NextResponse.json({ error: lookup.error.message }, { status: 500 });
   }
   if (!lookup.data) {
-    return NextResponse.json({ error: "Ajuste nao encontrado." }, { status: 404 });
+    return NextResponse.json({ error: "Ajuste não encontrado." }, { status: 404 });
   }
   if (!isAdjustmentStatus(lookup.data.status) || lookup.data.status !== "draft") {
     return NextResponse.json(
@@ -243,7 +243,7 @@ export async function DELETE(
     return NextResponse.json({ error: lookup.error.message }, { status: 500 });
   }
   if (!lookup.data) {
-    return NextResponse.json({ error: "Ajuste nao encontrado." }, { status: 404 });
+    return NextResponse.json({ error: "Ajuste não encontrado." }, { status: 404 });
   }
   if (!isAdjustmentStatus(lookup.data.status) || lookup.data.status !== "draft") {
     return NextResponse.json(

@@ -9,7 +9,7 @@ export function DiaryArticleExperience() {
     <div className="bg-[#fcf9f8] font-sans text-[#1c1b1b]" data-belapop-page="diario-article-public">
       <BelaPopValidatedHeader />
 
-      <main className="pt-[64px]">
+      <main className="pt-[78px] lg:pt-[86px]">
         <section className="relative w-full overflow-hidden">
           <div className="aspect-[4/5] w-full md:aspect-[21/9]">
             <img
@@ -114,10 +114,10 @@ export function DiaryArticleExperience() {
 
             <div className="mt-16">
               <Link
-                href="/vitrine"
+                href="/catalogo"
                 className="inline-flex min-h-[60px] items-center justify-center border border-[#c4c7c7] px-10 py-5 text-xs uppercase tracking-widest text-[#1c1b1b] transition-all duration-300 hover:bg-black hover:text-white"
               >
-                Explorar o Atelier
+                Explorar a loja
               </Link>
             </div>
           </div>

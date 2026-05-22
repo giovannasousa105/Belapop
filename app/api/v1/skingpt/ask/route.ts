@@ -5,82 +5,8 @@ import { skinGptAskSchema } from "@/lib/skincare/contracts";
 import { mapUserSkinProfile, type RoutineRecommendationRow } from "@/lib/skincare/routine";
 import { loadCurrentSkinProfile, loadSkinProfileOptions, loadSkinTwinBundle } from "@/lib/skincare/server";
 import { answerSkinGpt, inferConcernSlug } from "@/lib/skingpt/assistant";
-import { searchDermatologyDocumentsByVector } from "@/lib/skingpt/documentEmbeddings";
-import { rankEvidenceDocuments } from "@/lib/skingpt/evidence";
-import { getSupabaseAdminClient } from "@/lib/supabase/admin";
+import { getRankedDermatologyKnowledge } from "@/lib/skingpt/knowledge";
 import { deriveBaselineMetrics, metricsFromScan, metricsFromTwin } from "@/lib/skincare/twin";
-
-type AdminClient = ReturnType<typeof getSupabaseAdminClient>;
-
-async function hydrateKnowledgeDocuments(
-  admin: AdminClient,
-  docs: Array<{
-    id: string;
-    slug: string;
-    title: string;
-    topic_slug: string;
-    body: string;
-    source_label: string | null;
-    source_url: string | null;
-    similarity?: number | null;
-    status?: string | null;
-    editorial_boost?: number | null;
-    published_at?: string | null;
-  }>
-) {
-  if (docs.length === 0) return [];
-
-  const ids = docs.map((doc) => doc.id);
-  const { data, error } = await admin
-    .from("dermatology_documents")
-    .select("id,metadata,updated_at,status,editorial_boost,published_at")
-    .in("id", ids);
-
-  if (error) throw error;
-  const byId = new Map(
-    (data ?? []).map((item) => [
-      String(item.id),
-      {
-        metadata: (item.metadata as Record<string, unknown> | null) ?? null,
-        updated_at: (item.updated_at as string | null) ?? null,
-        status: (item.status as string | null) ?? null,
-        editorial_boost: (item.editorial_boost as number | null) ?? null,
-        published_at: (item.published_at as string | null) ?? null
-      }
-    ])
-  );
-
-  return docs.map((doc) => ({
-    ...doc,
-    metadata: byId.get(doc.id)?.metadata ?? null,
-    updated_at: byId.get(doc.id)?.updated_at ?? null,
-    status: byId.get(doc.id)?.status ?? null,
-    editorial_boost: byId.get(doc.id)?.editorial_boost ?? null,
-    published_at: byId.get(doc.id)?.published_at ?? null
-  }));
-}
-
-function rankKnowledgeDocuments(
-  question: string,
-  concernSlug: string,
-  docs: Array<{
-    id: string;
-    slug: string;
-    title: string;
-    topic_slug: string;
-    body: string;
-    source_label: string | null;
-    source_url: string | null;
-    metadata?: Record<string, unknown> | null;
-    similarity?: number | null;
-    updated_at?: string | null;
-    status?: string | null;
-    editorial_boost?: number | null;
-    published_at?: string | null;
-  }>
-) {
-  return rankEvidenceDocuments(question, concernSlug, docs).slice(0, 3);
-}
 
 export async function POST(request: NextRequest) {
   const auth = await requireCustomerApiContext();
@@ -139,60 +65,15 @@ export async function POST(request: NextRequest) {
       : null;
 
     const concernSlug = inferConcernSlug(parsed.data.question, mappedProfile, currentMetrics);
-    let knowledgeDocuments: Array<{
-      id: string;
-      slug: string;
-      title: string;
-      topic_slug: string;
-      body: string;
-      source_label: string | null;
-      source_url: string | null;
-    }> = [];
-
-    try {
-      knowledgeDocuments = await searchDermatologyDocumentsByVector(admin, {
-        question: parsed.data.question,
-        profile: mappedProfile,
-        metrics: currentMetrics,
-        latestOverallScore: latestFaceScore,
-        topicSlug: concernSlug,
-        limit: 8
-      });
-      knowledgeDocuments = rankKnowledgeDocuments(
-        parsed.data.question,
-        concernSlug,
-        await hydrateKnowledgeDocuments(admin, knowledgeDocuments)
-      );
-    } catch {
-      const { data: docsResult, error: docsError } = await admin
-        .from("dermatology_documents")
-        .select("id,slug,title,topic_slug,body,source_label,source_url,metadata,updated_at,status,editorial_boost,published_at")
-        .eq("status", "published")
-        .order("topic_slug", { ascending: true });
-
-      if (docsError) {
-        return NextResponse.json({ error: docsError.message }, { status: 500 });
-      }
-
-      knowledgeDocuments = rankKnowledgeDocuments(
-        parsed.data.question,
-        concernSlug,
-        (docsResult ?? []).map((item) => ({
-          id: item.id as string,
-          slug: item.slug as string,
-          title: item.title as string,
-          topic_slug: item.topic_slug as string,
-          body: item.body as string,
-          source_label: (item.source_label as string | null) ?? null,
-          source_url: (item.source_url as string | null) ?? null,
-          metadata: (item.metadata as Record<string, unknown> | null) ?? null,
-          updated_at: (item.updated_at as string | null) ?? null,
-          status: (item.status as string | null) ?? null,
-          editorial_boost: (item.editorial_boost as number | null) ?? null,
-          published_at: (item.published_at as string | null) ?? null
-        }))
-      );
-    }
+    const knowledgeDocuments = await getRankedDermatologyKnowledge(admin, {
+      question: parsed.data.question,
+      concernSlug,
+      profile: mappedProfile,
+      metrics: currentMetrics,
+      latestOverallScore: latestFaceScore,
+      searchLimit: 8,
+      topN: 3
+    });
 
     const answer = await answerSkinGpt({
       question: parsed.data.question,

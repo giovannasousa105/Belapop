@@ -109,11 +109,11 @@ export const EVIDENCE_SOURCE_FAMILY_LABELS: Record<string, string> = {
 
 export const EVIDENCE_STUDY_TYPE_LABELS: Record<string, string> = {
   living_summary: "sumario clinico",
-  guideline: "diretriz clinica",
+  guideline: "diretriz clínica",
   meta_analysis: "meta-analise",
   systematic_review: "revisao sistematica",
   umbrella_review: "umbrella review",
-  network_meta_analysis: "meta-analise em rede",
+  network_meta_analysis: "meta-análise em rede",
   randomized_trial: "ensaio randomizado",
   pragmatic_randomized_trial: "ensaio randomizado pragmatico",
   clinical_trial: "ensaio clinico",
@@ -209,7 +209,7 @@ export function formatEvidenceCitation(doc: EvidenceDocument) {
   const sourceFamily =
     EVIDENCE_SOURCE_FAMILY_LABELS[metadata.source_family ?? ""] ??
     doc.source_label ??
-    "Fonte dermatologica";
+    "Fonte dermatológica";
   const yearSuffix = metadata.published_year ? ` ${metadata.published_year}` : "";
   const studyType = metadata.study_type ? EVIDENCE_STUDY_TYPE_LABELS[metadata.study_type] ?? metadata.study_type : null;
 
@@ -221,7 +221,7 @@ export function buildEvidenceBadge(doc: EvidenceDocument) {
   const sourceFamily =
     EVIDENCE_SOURCE_FAMILY_LABELS[metadata.source_family ?? ""] ??
     doc.source_label ??
-    "Fonte dermatologica";
+    "Fonte dermatológica";
   return {
     sourceFamily,
     publishedYear: metadata.published_year,

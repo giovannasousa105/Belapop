@@ -56,7 +56,7 @@ export async function PATCH(
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
   if (!data) {
-    return NextResponse.json({ error: "Endereco nao encontrado." }, { status: 404 });
+    return NextResponse.json({ error: "Endereco não encontrado." }, { status: 404 });
   }
 
   return NextResponse.json(data);

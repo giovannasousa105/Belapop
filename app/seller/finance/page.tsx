@@ -7,10 +7,68 @@ import { useAuth } from "@/lib/AuthContext";
 import { orderRepository } from "@/lib/orders/orderRepository";
 import { formatPrice } from "@/lib/utils";
 
+type SellerPayoutApiItem = {
+  seller_order_id: string;
+  sub_order_id?: string | null;
+  order_id: string;
+  items_total_cents: number;
+  shipping_cents: number;
+  fee_cents: number;
+  seller_payout_cents: number;
+  payout_status?: string | null;
+  payment_date?: string | null;
+  transferred_at?: string | null;
+  stripe_transfer_id?: string | null;
+  failure_reason?: string | null;
+  created_at: string;
+  updated_at: string | null;
+};
+
+type SellerPayoutApiResponse = {
+  source: string;
+  summary?: {
+    items_total_cents?: number;
+    shipping_cents?: number;
+    fee_cents?: number;
+    seller_payout_cents?: number;
+  };
+  items?: SellerPayoutApiItem[];
+};
+
+const centsToAmount = (value: number | null | undefined) => Number(value ?? 0) / 100;
+
+const formatDateTime = (value: string | null | undefined) => {
+  if (!value) return "--";
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return "--";
+  return new Intl.DateTimeFormat("pt-BR", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit"
+  }).format(date);
+};
+
+const payoutStatusLabel = (status: string | null | undefined) => {
+  if (status === "transferred") return "Transferido";
+  if (status === "failed") return "Falhou";
+  if (status === "reversed") return "Revertido";
+  if (status === "pending") return "Pendente";
+  if (status === "paid") return "Pago";
+  if (status === "scheduled") return "Agendado";
+  if (status === "processing") return "Processando";
+  return status ?? "Pendente";
+};
+
 export default function SellerFinancePage() {
   const { user } = useAuth();
   const sellerId = user?.sellerProfile?.sellerId;
   const [subOrders, setSubOrders] = useState<any[]>([]);
+  const [payoutItems, setPayoutItems] = useState<SellerPayoutApiItem[]>([]);
+  const [payoutSource, setPayoutSource] = useState<string>("seller_transfers");
+  const [payoutLoading, setPayoutLoading] = useState(false);
+  const [payoutError, setPayoutError] = useState<string | null>(null);
   const [costRate, setCostRate] = useState("38");
   const [nowTs, setNowTs] = useState(() => Date.now());
 
@@ -30,6 +88,40 @@ export default function SellerFinancePage() {
   useEffect(() => {
     setNowTs(Date.now());
   }, [subOrders.length]);
+
+  useEffect(() => {
+    if (!sellerId) return;
+    let active = true;
+    setPayoutLoading(true);
+    setPayoutError(null);
+
+    void fetch("/api/partner/payouts?range=90d&page_size=80")
+      .then(async (response) => {
+        const payload = (await response.json()) as SellerPayoutApiResponse & { error?: string };
+        if (!response.ok) {
+          throw new Error(payload.error ?? "Falha ao carregar repasses.");
+        }
+        return payload;
+      })
+      .then((payload) => {
+        if (!active) return;
+        setPayoutItems(payload.items ?? []);
+        setPayoutSource(payload.source ?? "seller_transfers");
+      })
+      .catch((error) => {
+        if (!active) return;
+        setPayoutError(error instanceof Error ? error.message : "Falha ao carregar repasses.");
+        setPayoutItems([]);
+      })
+      .finally(() => {
+        if (!active) return;
+        setPayoutLoading(false);
+      });
+
+    return () => {
+      active = false;
+    };
+  }, [sellerId]);
 
   const dre = useMemo(() => {
     const gross = subOrders.reduce((sum, row) => sum + Number(row.productTotal ?? 0), 0);
@@ -103,9 +195,23 @@ export default function SellerFinancePage() {
 
   const disputeLogs = [
     { id: "dsp-1", when: "Hoje 10:22", status: "aberta", note: "Divergencia em repasse do pedido #A102" },
-    { id: "dsp-2", when: "Ontem 17:14", status: "em analise", note: "Estorno parcial nao refletido no extrato" },
+    { id: "dsp-2", when: "Ontem 17:14", status: "em análise", note: "Estorno parcial não refletido no extrato" },
     { id: "dsp-3", when: "28/02 09:30", status: "resolvida", note: "Taxa corrigida e repasse complementar efetuado" }
   ];
+
+  const payoutTotals = useMemo(() => {
+    return payoutItems.reduce(
+      (acc, row) => {
+        acc.gross += row.items_total_cents;
+        acc.fee += row.fee_cents;
+        acc.shipping += row.shipping_cents;
+        acc.net += row.seller_payout_cents;
+        acc.failed += row.payout_status === "failed" ? 1 : 0;
+        return acc;
+      },
+      { gross: 0, fee: 0, shipping: 0, net: 0, failed: 0 }
+    );
+  }, [payoutItems]);
 
   return (
     <div className="flex w-full flex-col gap-6">
@@ -163,7 +269,9 @@ export default function SellerFinancePage() {
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
             <h2 className="font-display text-2xl text-bpBlack">Repasses e pendencias</h2>
-            <p className="mt-1 text-sm text-bpGraphite/80">Calendario de recebiveis e divergencias.</p>
+            <p className="mt-1 text-sm text-bpGraphite/80">
+              Repasse automatico apos confirmacao do pagamento, com disponibilidade conforme regras da Stripe.
+            </p>
           </div>
           <button
             type="button"
@@ -172,6 +280,109 @@ export default function SellerFinancePage() {
           >
             Abrir disputa
           </button>
+        </div>
+      </section>
+
+      <section className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
+        <div className="flex flex-wrap items-start justify-between gap-4">
+          <div>
+            <p className="text-xs uppercase tracking-[0.3em] text-bpGraphite/70">Repasses</p>
+            <h2 className="mt-2 font-display text-2xl text-bpBlack">Transferencias Stripe Connect</h2>
+            <p className="mt-2 max-w-3xl text-sm leading-6 text-bpGraphite/80">
+              A disponibilidade para saque bancario segue o calendario da Stripe.
+            </p>
+          </div>
+          <div className="rounded-2xl border border-black/10 bg-[#FAFAFB] px-4 py-3 text-xs text-bpGraphite/70">
+            Fonte: {payoutSource}
+          </div>
+        </div>
+
+        <div className="mt-5 grid gap-3 md:grid-cols-2 xl:grid-cols-5">
+          <article className="rounded-2xl border border-black/10 bg-[#FAFAFB] p-4">
+            <p className="text-xs uppercase tracking-[0.18em] text-bpGraphite/70">Bruto</p>
+            <p className="mt-2 text-lg font-semibold text-bpBlackSoft">{formatPrice(centsToAmount(payoutTotals.gross))}</p>
+          </article>
+          <article className="rounded-2xl border border-black/10 bg-[#FAFAFB] p-4">
+            <p className="text-xs uppercase tracking-[0.18em] text-bpGraphite/70">Comissao BelaPop</p>
+            <p className="mt-2 text-lg font-semibold text-bpBlackSoft">{formatPrice(centsToAmount(payoutTotals.fee))}</p>
+          </article>
+          <article className="rounded-2xl border border-black/10 bg-[#FAFAFB] p-4">
+            <p className="text-xs uppercase tracking-[0.18em] text-bpGraphite/70">Frete</p>
+            <p className="mt-2 text-lg font-semibold text-bpBlackSoft">{formatPrice(centsToAmount(payoutTotals.shipping))}</p>
+          </article>
+          <article className="rounded-2xl border border-black/10 bg-[#FAFAFB] p-4">
+            <p className="text-xs uppercase tracking-[0.18em] text-bpGraphite/70">Liquido</p>
+            <p className="mt-2 text-lg font-semibold text-bpBlackSoft">{formatPrice(centsToAmount(payoutTotals.net))}</p>
+          </article>
+          <article className="rounded-2xl border border-black/10 bg-[#FAFAFB] p-4">
+            <p className="text-xs uppercase tracking-[0.18em] text-bpGraphite/70">Falhas</p>
+            <p className="mt-2 text-lg font-semibold text-bpBlackSoft">{payoutTotals.failed}</p>
+          </article>
+        </div>
+
+        {payoutError ? (
+          <div className="mt-5 rounded-2xl border border-rose-200 bg-rose-50 p-4 text-sm text-rose-800">
+            {payoutError}
+          </div>
+        ) : null}
+
+        <div className="mt-5 overflow-x-auto">
+          <table className="min-w-[980px] w-full border-separate border-spacing-y-2">
+            <thead>
+              <tr className="text-left text-xs uppercase tracking-[0.18em] text-bpGraphite/70">
+                <th>Venda</th>
+                <th>Pedido</th>
+                <th>Pagamento</th>
+                <th>Bruto</th>
+                <th>Comissao</th>
+                <th>Frete</th>
+                <th>Liquido</th>
+                <th>Status</th>
+                <th>Transferencia Stripe</th>
+              </tr>
+            </thead>
+            <tbody>
+              {payoutItems.map((row) => (
+                <tr key={`${row.order_id}-${row.seller_order_id}`} className="bg-[#FAFAFB] text-sm">
+                  <td className="rounded-l-2xl px-3 py-3">{row.seller_order_id || row.sub_order_id || "--"}</td>
+                  <td className="px-3 py-3">{row.order_id || "--"}</td>
+                  <td className="px-3 py-3">{formatDateTime(row.payment_date ?? row.created_at)}</td>
+                  <td className="px-3 py-3">{formatPrice(centsToAmount(row.items_total_cents))}</td>
+                  <td className="px-3 py-3">{formatPrice(centsToAmount(row.fee_cents))}</td>
+                  <td className="px-3 py-3">{formatPrice(centsToAmount(row.shipping_cents))}</td>
+                  <td className="px-3 py-3 font-semibold text-bpBlackSoft">{formatPrice(centsToAmount(row.seller_payout_cents))}</td>
+                  <td className="px-3 py-3">
+                    <span className="rounded-full border border-black/10 bg-white px-3 py-1 text-xs">
+                      {payoutStatusLabel(row.payout_status)}
+                    </span>
+                    {row.failure_reason ? (
+                      <span className="mt-1 block max-w-[18rem] text-xs text-rose-700">{row.failure_reason}</span>
+                    ) : null}
+                  </td>
+                  <td className="rounded-r-2xl px-3 py-3">
+                    <span className="block">{formatDateTime(row.transferred_at)}</span>
+                    <span className="mt-1 block max-w-[14rem] truncate text-xs text-bpGraphite/60">
+                      {row.stripe_transfer_id ?? "--"}
+                    </span>
+                  </td>
+                </tr>
+              ))}
+              {!payoutLoading && payoutItems.length === 0 ? (
+                <tr>
+                  <td colSpan={9} className="rounded-2xl bg-[#FAFAFB] px-4 py-6 text-center text-sm text-bpGraphite/70">
+                    Nenhum repasse encontrado para o periodo.
+                  </td>
+                </tr>
+              ) : null}
+              {payoutLoading ? (
+                <tr>
+                  <td colSpan={9} className="rounded-2xl bg-[#FAFAFB] px-4 py-6 text-center text-sm text-bpGraphite/70">
+                    Carregando repasses...
+                  </td>
+                </tr>
+              ) : null}
+            </tbody>
+          </table>
         </div>
       </section>
 

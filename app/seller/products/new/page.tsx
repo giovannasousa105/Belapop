@@ -3,8 +3,10 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
+import { ProductStandardsChecklist } from "@/components/catalog-standards";
 import { LuxuryButton } from "@/components/LuxuryButton";
 import { useAuth } from "@/lib/AuthContext";
+import { ClaimValidator, normalizeProductName, type StandardChecklistItem } from "@/lib/catalog-standards";
 import { productRepository } from "@/lib/repositories/productRepository";
 import { Product, ProductCategory, ProductImageTone } from "@/lib/types";
 import { createUUID } from "@/lib/utils";
@@ -51,6 +53,17 @@ export default function NewProductPage() {
       return;
     }
 
+    const nameStandard = normalizeProductName(form.name);
+    const blockedClaimIssues = ClaimValidator.scanTextForBlockedTerms(`${form.name} ${form.description}`);
+    if (nameStandard.blocked || blockedClaimIssues.length) {
+      setMessage(
+        [...nameStandard.issues, ...blockedClaimIssues]
+          .map((issue) => issue.detail)
+          .join(" ")
+      );
+      return;
+    }
+
 
     const priceValue = Number(form.price);
     const weightKg = Number(form.weightKg);
@@ -82,7 +95,7 @@ export default function NewProductPage() {
     const newProduct: Product = {
       id: createUUID(),
       sellerId: user.sellerProfile.sellerId,
-      name: form.name,
+      name: nameStandard.value,
       description: form.description,
       price: priceValue,
       category: form.category as ProductCategory,
@@ -104,6 +117,45 @@ export default function NewProductPage() {
     router.push("/seller/products");
   };
 
+  const images = form.images
+    .split(",")
+    .map((item) => item.trim())
+    .filter(Boolean);
+  const nameStandard = normalizeProductName(form.name);
+  const claimIssues = ClaimValidator.scanTextForBlockedTerms(`${form.name} ${form.description}`);
+  const standardChecks: StandardChecklistItem[] = [
+    {
+      detail: nameStandard.value || "Use Marca + Linha + Tipo + Ativo + Volume.",
+      label: "Naming padronizado",
+      passed: Boolean(form.name.trim()) && !nameStandard.blocked,
+      required: true
+    },
+    {
+      detail: "Sem promessas medicas, milagrosas ou garantidas.",
+      label: "Claims seguros",
+      passed: claimIssues.length === 0,
+      required: true
+    },
+    {
+      detail: `${images.length} imagem(ns) informada(s).`,
+      label: "Imagem principal",
+      passed: images.length > 0,
+      required: true
+    },
+    {
+      detail: "Peso, largura, altura e comprimento alimentam frete e checkout.",
+      label: "Regras logisticas",
+      passed: [form.weightKg, form.widthCm, form.heightCm, form.lengthCm].every((value) => Number(value) > 0),
+      required: true
+    },
+    {
+      detail: "Preco valido e seller ativo para seguir para curadoria.",
+      label: "Preco e seller",
+      passed: Number(form.price) > 0 && Boolean(user?.sellerProfile?.sellerId),
+      required: true
+    }
+  ];
+
   return (
     <div className="flex w-full flex-col gap-8">
       <div>
@@ -117,6 +169,11 @@ export default function NewProductPage() {
           Preencha os dados essenciais e defina o status de publicação.
         </p>
       </div>
+
+      <ProductStandardsChecklist
+        checks={standardChecks}
+        title="Minimo obrigatorio antes da curadoria"
+      />
 
       <form
         onSubmit={(event) => {

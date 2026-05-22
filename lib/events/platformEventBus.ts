@@ -29,11 +29,15 @@ type QueueNotificationInput = {
   templateKey: string;
   title: string;
   body: string;
+  subject?: string | null;
+  html?: string | null;
   ctaLabel?: string | null;
   ctaHref?: string | null;
   metadata?: Record<string, unknown>;
   scheduledAt?: string;
   dedupeKey?: string | null;
+  automationRunId?: string | null;
+  communicationType?: "transactional" | "marketing";
 };
 
 type OrderActors = {
@@ -120,6 +124,8 @@ export const queueNotificationOutbox = async (input: QueueNotificationInput) => 
   const payload = {
     title: input.title,
     body: input.body,
+    subject: input.subject ?? input.title,
+    html: input.html ?? null,
     cta_label: input.ctaLabel ?? null,
     cta_href: input.ctaHref ?? null,
     metadata: input.metadata ?? {}
@@ -137,12 +143,14 @@ export const queueNotificationOutbox = async (input: QueueNotificationInput) => 
 
   const insert = await admin.from("notification_outbox").insert({
     event_id: input.eventId ?? null,
+    automation_run_id: input.automationRunId ?? null,
     recipient_user_id: input.recipientUserId,
     recipient_seller_id: input.recipientSellerId ?? null,
     channel: input.channel,
     template_key: input.templateKey,
     dedupe_key: dedupeKey,
     payload,
+    communication_type: input.communicationType ?? "transactional",
     scheduled_at: ensureIso(input.scheduledAt)
   });
 
@@ -181,10 +189,14 @@ export const queueNotificationChannels = async (args: {
   templateKey: string;
   title: string;
   body: string;
+  subject?: string | null;
+  html?: string | null;
   ctaLabel?: string | null;
   ctaHref?: string | null;
   metadata?: Record<string, unknown>;
   dedupeSeed?: string;
+  automationRunId?: string | null;
+  communicationType?: "transactional" | "marketing";
 }) => {
   const dedupeSeed =
     args.dedupeSeed ??
@@ -205,9 +217,13 @@ export const queueNotificationChannels = async (args: {
       templateKey: args.templateKey,
       title: args.title,
       body: args.body,
+      subject: args.subject ?? null,
+      html: args.html ?? null,
       ctaLabel: args.ctaLabel ?? null,
       ctaHref: args.ctaHref ?? null,
       metadata: args.metadata,
+      automationRunId: args.automationRunId ?? null,
+      communicationType: args.communicationType ?? "transactional",
       dedupeKey: buildDeterministicKey([dedupeSeed, channel])
     });
   }
@@ -260,4 +276,3 @@ export const resolveOrderActors = async (orderId: string): Promise<OrderActors> 
 
   return { customerUserId, sellerIds, sellerUserIds };
 };
-

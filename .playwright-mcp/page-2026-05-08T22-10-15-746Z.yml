@@ -1,0 +1,839 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e3]:
+    - complementary [ref=e4]:
+      - generic [ref=e6]:
+        - paragraph [ref=e7]: BelaPop
+        - paragraph [ref=e8]: Curator Admin
+      - navigation [ref=e9]:
+        - generic [ref=e10]:
+          - paragraph [ref=e11]: Visao Geral
+          - generic [ref=e12]:
+            - link "Central de Controle" [ref=e14] [cursor=pointer]:
+              - /url: /adm
+              - img [ref=e16]
+              - generic [ref=e21]: Central de Controle
+            - link "Dashboard Executivo" [ref=e23] [cursor=pointer]:
+              - /url: /adm/dashboard-executivo
+              - img [ref=e25]
+              - generic [ref=e28]: Dashboard Executivo
+            - link "Qualidade do Catalogo" [ref=e30] [cursor=pointer]:
+              - /url: /adm/qualidade-catalogo
+              - img [ref=e32]
+              - generic [ref=e35]: Qualidade do Catalogo
+        - generic [ref=e36]:
+          - paragraph [ref=e37]: Curadoria
+          - generic [ref=e38]:
+            - link "Curadoria de Produtos" [ref=e40] [cursor=pointer]:
+              - /url: /adm/curadoria/produtos
+              - img [ref=e42]
+              - generic [ref=e44]: Curadoria de Produtos
+            - link "Regras de Curadoria" [ref=e46] [cursor=pointer]:
+              - /url: /adm/curadoria/regras
+              - img [ref=e48]
+              - generic [ref=e51]: Regras de Curadoria
+            - link "Score de Qualidade" [ref=e53] [cursor=pointer]:
+              - /url: /adm/curadoria/score
+              - img [ref=e55]
+              - generic [ref=e58]: Score de Qualidade
+            - link "Monitoramento de Qualidade" [ref=e60] [cursor=pointer]:
+              - /url: /adm/curadoria/monitoramento
+              - img [ref=e62]
+              - generic [ref=e64]: Monitoramento de Qualidade
+            - link "Historico de Versoes" [ref=e66] [cursor=pointer]:
+              - /url: /adm/curadoria/historico-versoes
+              - img [ref=e68]
+              - generic [ref=e70]: Historico de Versoes
+            - link "Documentos" [ref=e72] [cursor=pointer]:
+              - /url: /adm/curadoria/documentos
+              - img [ref=e74]
+              - generic [ref=e77]: Documentos
+            - link "Compliance e Confianca" [ref=e79] [cursor=pointer]:
+              - /url: /adm/curadoria/compliance
+              - img [ref=e81]
+              - generic [ref=e84]: Compliance e Confianca
+        - generic [ref=e85]:
+          - paragraph [ref=e86]: Operacao
+          - generic [ref=e87]:
+            - link "Pedidos Criticos" [ref=e89] [cursor=pointer]:
+              - /url: /adm/operacao/pedidos-criticos
+              - img [ref=e91]
+              - generic [ref=e93]: Pedidos Criticos
+            - generic [ref=e94]:
+              - link "Logistica" [ref=e95] [cursor=pointer]:
+                - /url: /adm/operacao/logistica
+                - img [ref=e97]
+                - generic [ref=e102]: Logistica
+              - link "Incidentes Logisticos" [ref=e104] [cursor=pointer]:
+                - /url: /adm/operacao/logistica/incidentes
+            - link "Parceiros" [ref=e106] [cursor=pointer]:
+              - /url: /adm/operacao/parceiros
+              - img [ref=e108]
+              - generic [ref=e113]: Parceiros
+            - link "Comunicacao com Sellers" [ref=e115] [cursor=pointer]:
+              - /url: /adm/operacao/comunicacao-sellers
+              - img [ref=e117]
+              - generic [ref=e119]: Comunicacao com Sellers
+        - generic [ref=e120]:
+          - paragraph [ref=e121]: Financeiro
+          - generic [ref=e122]:
+            - link "Financeiro" [ref=e124] [cursor=pointer]:
+              - /url: /adm/financeiro
+              - img [ref=e126]
+              - generic [ref=e129]: Financeiro
+            - link "Repasses" [ref=e131] [cursor=pointer]:
+              - /url: /adm/financeiro/repasses
+              - img [ref=e133]
+              - generic [ref=e136]: Repasses
+            - link "Reembolsos" [ref=e138] [cursor=pointer]:
+              - /url: /adm/financeiro/reembolsos
+              - img [ref=e140]
+              - generic [ref=e143]: Reembolsos
+            - link "Auditoria Financeira" [ref=e145] [cursor=pointer]:
+              - /url: /adm/financeiro/auditoria
+              - img [ref=e147]
+              - generic [ref=e150]: Auditoria Financeira
+            - link "Antifraude / Risco" [ref=e152] [cursor=pointer]:
+              - /url: /adm/financeiro/risco
+              - img [ref=e154]
+              - generic [ref=e156]: Antifraude / Risco
+        - generic [ref=e157]:
+          - paragraph [ref=e158]: Catalogo e Marca
+          - generic [ref=e159]:
+            - link "Conteudo e Vitrines" [ref=e161] [cursor=pointer]:
+              - /url: /adm/catalogo-marca/conteudo-vitrines
+              - img [ref=e163]
+              - generic [ref=e168]: Conteudo e Vitrines
+            - link "Campanhas / Destaques" [ref=e170] [cursor=pointer]:
+              - /url: /adm/catalogo-marca/campanhas
+              - img [ref=e172]
+              - generic [ref=e175]: Campanhas / Destaques
+            - link "Reviews / Avaliacoes" [ref=e177] [cursor=pointer]:
+              - /url: /adm/catalogo-marca/reviews
+              - img [ref=e179]
+              - generic [ref=e184]: Reviews / Avaliacoes
+            - link "Inteligencia de Catalogo" [ref=e186] [cursor=pointer]:
+              - /url: /adm/catalogo-marca/inteligencia
+              - img [ref=e188]
+              - generic [ref=e191]: Inteligencia de Catalogo
+        - generic [ref=e192]:
+          - paragraph [ref=e193]: Relacionamento
+          - link "Clientes" [ref=e196] [cursor=pointer]:
+            - /url: /adm/relacionamento/clientes
+            - img [ref=e198]
+            - generic [ref=e203]: Clientes
+        - generic [ref=e204]:
+          - paragraph [ref=e205]: Gestao
+          - generic [ref=e206]:
+            - link "Relatorios" [ref=e208] [cursor=pointer]:
+              - /url: /adm/gestao/relatorios
+              - img [ref=e210]
+              - generic [ref=e213]: Relatorios
+            - link "Usuarios Internos" [ref=e215] [cursor=pointer]:
+              - /url: /adm/gestao/usuarios-internos
+              - img [ref=e217]
+              - generic [ref=e222]: Usuarios Internos
+            - link "Log de Atividades" [ref=e224] [cursor=pointer]:
+              - /url: /adm/gestao/log-atividades
+              - img [ref=e226]
+              - generic [ref=e228]: Log de Atividades
+            - link "Configuracoes" [ref=e230] [cursor=pointer]:
+              - /url: /adm/gestao/configuracoes
+              - img [ref=e232]
+              - generic [ref=e235]: Configuracoes
+      - generic [ref=e238]:
+        - generic [ref=e239]: He
+        - generic [ref=e240]:
+          - paragraph [ref=e241]: Helena Martins
+          - paragraph [ref=e242]: Admin Master
+    - generic [ref=e243]:
+      - banner [ref=e244]:
+        - generic [ref=e245]:
+          - generic [ref=e247]:
+            - navigation [ref=e248]:
+              - generic [ref=e249]:
+                - link "ADM" [ref=e250] [cursor=pointer]:
+                  - /url: /adm
+                - generic [ref=e251]: /
+              - generic [ref=e253]: Qualidade do Catalogo
+            - paragraph [ref=e254]: Qualidade do Catalogo
+          - generic [ref=e255]:
+            - button "Buscar" [ref=e256] [cursor=pointer]:
+              - img [ref=e257]
+            - button "H Helena Martins Admin Master" [ref=e261] [cursor=pointer]:
+              - generic [ref=e262]: H
+              - generic [ref=e263]:
+                - generic [ref=e264]: Helena Martins
+                - generic [ref=e265]: Admin Master
+              - img [ref=e266]
+      - main [ref=e268]:
+        - generic [ref=e269]:
+          - generic [ref=e271]:
+            - img [ref=e273]
+            - generic [ref=e278]:
+              - paragraph [ref=e279]: "BelaPop Quality Standard: governanca minima de sellers e SKUs"
+              - paragraph [ref=e280]: Camada operacional para controlar autenticidade, naming, imagem, claims, logistica, embalagem e score antes da publicacao.
+          - generic [ref=e282]:
+            - generic [ref=e283]:
+              - paragraph [ref=e284]: Marketplace premium, nao vitrine aberta
+              - heading "Todo seller e todo SKU precisam parecer auditados, consistentes e dignos da curadoria." [level=1] [ref=e285]
+              - paragraph [ref=e286]: O painel abaixo consolida padrao por seller, padrao por SKU, autenticidade, logistica, visual, claims, embalagem e score para decidir o que publica, o que volta para ajuste e o que recebe selo BelaPop.
+            - generic [ref=e287]:
+              - generic [ref=e288]: Seller Verificado
+              - generic [ref=e293]:
+                - img [ref=e294]
+                - text: Produto Autentico
+              - generic [ref=e297]:
+                - img [ref=e298]
+                - text: Envio Premium
+              - generic [ref=e303]: Curadoria BelaPop
+          - generic [ref=e305]:
+            - article [ref=e306]:
+              - generic [ref=e307]:
+                - paragraph [ref=e308]: Sellers pendentes
+                - generic [ref=e309]: Pendente
+              - paragraph [ref=e310]: "2"
+              - paragraph [ref=e311]: Sellers com termo, CNPJ, politicas ou auditoria pendentes.
+            - article [ref=e312]:
+              - generic [ref=e313]:
+                - paragraph [ref=e314]: SKUs incompletos
+                - generic [ref=e315]: Revisao
+              - paragraph [ref=e316]: "1"
+              - paragraph [ref=e317]: Itens sem todos os campos editoriais, SEO, lote ou guia tecnico.
+            - article [ref=e318]:
+              - generic [ref=e319]:
+                - paragraph [ref=e320]: Alertas de imagem
+                - generic [ref=e321]: Revisao
+              - paragraph [ref=e322]: "1"
+              - paragraph [ref=e323]: Imagens com baixa resolucao, texto promocional, ratio irregular ou metadados ausentes.
+            - article [ref=e324]:
+              - generic [ref=e325]:
+                - paragraph [ref=e326]: Claims invalidos
+                - generic [ref=e327]: Bloqueio
+              - paragraph [ref=e328]: "2"
+              - paragraph [ref=e329]: Claims bloqueados ou fora da whitelist BelaPop.
+            - article [ref=e330]:
+              - generic [ref=e331]:
+                - paragraph [ref=e332]: Autenticidade pendente
+                - generic [ref=e333]: Pendente
+              - paragraph [ref=e334]: "2"
+              - paragraph [ref=e335]: Produtos sem autenticidade final, NF, origem ou lote validado.
+            - article [ref=e336]:
+              - generic [ref=e337]:
+                - paragraph [ref=e338]: Politica de envio
+                - generic [ref=e339]: Revisao
+              - paragraph [ref=e340]: "1"
+              - paragraph [ref=e341]: Sellers sem envio premium, rastreio ou SLA consistente.
+            - article [ref=e342]:
+              - generic [ref=e343]:
+                - paragraph [ref=e344]: Sellers aprovados
+                - generic [ref=e345]: OK
+              - paragraph [ref=e346]: "1"
+              - paragraph [ref=e347]: Sellers aprovados, verificados ou prontos para operar dentro do padrao.
+            - article [ref=e348]:
+              - generic [ref=e349]:
+                - paragraph [ref=e350]: Sellers reprovados
+                - generic [ref=e351]: Bloqueio
+              - paragraph [ref=e352]: "0"
+              - paragraph [ref=e353]: Sellers reprovados ou suspensos ate recompor documentacao e qualidade.
+            - article [ref=e354]:
+              - generic [ref=e355]:
+                - paragraph [ref=e356]: Produtos bloqueados
+                - generic [ref=e357]: Bloqueio
+              - paragraph [ref=e358]: "4"
+              - paragraph [ref=e359]: Produtos que nao passam em imagem, naming, seller, politica, estoque ou autenticidade.
+            - article [ref=e360]:
+              - generic [ref=e361]:
+                - paragraph [ref=e362]: Score medio por seller
+                - generic [ref=e363]: OK
+              - paragraph [ref=e364]: 87/100
+              - paragraph [ref=e365]: Media consolidada de envio, reclamacoes, resposta, catalogo, visual e confiabilidade.
+          - generic [ref=e366]:
+            - generic [ref=e367]:
+              - generic [ref=e368]:
+                - paragraph [ref=e369]: BelaPop Quality Standard
+                - heading "Pilares obrigatorios de publicacao" [level=2] [ref=e370]
+              - link "Ver regras de curadoria" [ref=e371] [cursor=pointer]:
+                - /url: /adm/curadoria/regras
+            - generic [ref=e372]:
+              - paragraph [ref=e374]: Padrao por Seller
+              - paragraph [ref=e376]: Padrao por SKU
+              - paragraph [ref=e378]: Controle de autenticidade
+              - paragraph [ref=e380]: Regras logisticas
+              - paragraph [ref=e382]: Regras visuais
+              - paragraph [ref=e384]: Regras de claims
+              - paragraph [ref=e386]: Regras de embalagem
+              - paragraph [ref=e388]: Score de qualidade
+          - generic [ref=e389]:
+            - generic [ref=e390]:
+              - generic [ref=e392]:
+                - img "Logo Aurora Maison" [ref=e394]
+                - generic [ref=e395]:
+                  - paragraph [ref=e396]: Dermocosmeticos
+                  - heading "Aurora Maison" [level=2] [ref=e397]
+                  - paragraph [ref=e398]: Laboratorio boutique de skincare com formulas objetivas e apelo clinico discreto.
+                - generic "Seller Verificado com score 96" [ref=e399]:
+                  - img [ref=e400]
+                  - text: Seller Verificado
+                  - generic [ref=e403]: "96"
+              - generic [ref=e404]:
+                - generic [ref=e405]:
+                  - img [ref=e406]
+                  - text: "CNPJ validado: 12.345.678/0001-90"
+                - generic [ref=e409]:
+                  - img [ref=e410]
+                  - text: SLA 24h
+                - generic [ref=e415]:
+                  - img [ref=e416]
+                  - text: Sao Paulo, SP
+            - generic [ref=e419]:
+              - generic [ref=e420]:
+                - generic [ref=e421]:
+                  - paragraph [ref=e422]: Score interno do seller
+                  - heading "Aurora Maison" [level=3] [ref=e423]
+                - generic "Seller Verificado com score 96" [ref=e424]:
+                  - img [ref=e425]
+                  - text: Seller Verificado
+                  - generic [ref=e428]: "96"
+              - generic [ref=e429]:
+                - generic [ref=e431]:
+                  - generic [ref=e432]: Envio
+                  - generic [ref=e433]: "97"
+                - generic [ref=e437]:
+                  - generic [ref=e438]: Avaliacoes
+                  - generic [ref=e439]: "96"
+                - generic [ref=e443]:
+                  - generic [ref=e444]: Devolucao
+                  - generic [ref=e445]: "95"
+                - generic [ref=e449]:
+                  - generic [ref=e450]: Resposta
+                  - generic [ref=e451]: "94"
+                - generic [ref=e455]:
+                  - generic [ref=e456]: Catalogo
+                  - generic [ref=e457]: "96"
+                - generic [ref=e461]:
+                  - generic [ref=e462]: Visual
+                  - generic [ref=e463]: "95"
+                - generic [ref=e467]:
+                  - generic [ref=e468]: Reclamacoes
+                  - generic [ref=e469]: "96"
+                - generic [ref=e473]:
+                  - generic [ref=e474]: Confiabilidade
+                  - generic [ref=e475]: "98"
+          - generic [ref=e478]:
+            - generic [ref=e479]:
+              - generic [ref=e481]:
+                - paragraph [ref=e482]: Governanca de SKU
+                - heading "Checklist de seller" [level=3] [ref=e483]
+              - generic [ref=e484]:
+                - generic [ref=e486]:
+                  - img [ref=e487]
+                  - paragraph [ref=e490]: Dados cadastrais completos
+                - generic [ref=e492]:
+                  - img [ref=e493]
+                  - paragraph [ref=e496]: Contato comercial
+                - generic [ref=e498]:
+                  - img [ref=e499]
+                  - paragraph [ref=e502]: Origem de envio
+                - generic [ref=e504]:
+                  - img [ref=e505]
+                  - paragraph [ref=e508]: Logo e banner
+                - generic [ref=e510]:
+                  - img [ref=e511]
+                  - paragraph [ref=e514]: Politicas de troca e devolucao
+                - generic [ref=e516]:
+                  - img [ref=e517]
+                  - paragraph [ref=e520]: Nota fiscal confirmada
+                - generic [ref=e522]:
+                  - img [ref=e523]
+                  - paragraph [ref=e526]: Autenticidade confirmada
+                - generic [ref=e528]:
+                  - img [ref=e529]
+                  - paragraph [ref=e532]: Seller aprovado
+            - generic [ref=e533]:
+              - paragraph [ref=e534]: Guia de embalagem do seller
+              - heading "Velvet Lab" [level=3] [ref=e535]
+              - paragraph [ref=e536]: Itens lacrados quando aplicavel, protecao contra impacto e apresentacao limpa.
+          - generic [ref=e537]:
+            - generic [ref=e538]:
+              - generic [ref=e539]:
+                - generic [ref=e540]:
+                  - paragraph [ref=e541]: Governanca de SKU
+                  - heading "Aurora Maison Clinical Serum Niacinamida 30ml" [level=3] [ref=e542]
+                - generic [ref=e543]: 94/100
+              - generic [ref=e544]:
+                - generic [ref=e546]:
+                  - img [ref=e547]
+                  - paragraph [ref=e550]: Naming padronizado
+                - generic [ref=e552]:
+                  - img [ref=e553]
+                  - paragraph [ref=e556]: Claims controlados
+                - generic [ref=e558]:
+                  - img [ref=e559]
+                  - paragraph [ref=e562]: Imagem principal e apoio
+                - generic [ref=e564]:
+                  - img [ref=e565]
+                  - paragraph [ref=e568]: Origem e NF
+                - generic [ref=e570]:
+                  - img [ref=e571]
+                  - paragraph [ref=e574]: Prazo de envio
+                - generic [ref=e576]:
+                  - img [ref=e577]
+                  - paragraph [ref=e580]: SEO basico
+                - generic [ref=e582]:
+                  - img [ref=e583]
+                  - paragraph [ref=e586]: Embalagem premium
+            - generic [ref=e587]:
+              - generic [ref=e588]:
+                - generic [ref=e589]:
+                  - paragraph [ref=e590]: Governanca de SKU
+                  - heading "Aurora Maison Barrier Creme Ceramidas 50g" [level=3] [ref=e591]
+                - generic [ref=e592]: 94/100
+              - generic [ref=e593]:
+                - generic [ref=e595]:
+                  - img [ref=e596]
+                  - paragraph [ref=e599]: Naming padronizado
+                - generic [ref=e601]:
+                  - img [ref=e602]
+                  - paragraph [ref=e605]: Claims controlados
+                - generic [ref=e607]:
+                  - img [ref=e608]
+                  - paragraph [ref=e611]: Imagem principal e apoio
+                - generic [ref=e613]:
+                  - img [ref=e614]
+                  - paragraph [ref=e617]: Origem e NF
+                - generic [ref=e619]:
+                  - img [ref=e620]
+                  - paragraph [ref=e623]: Prazo de envio
+                - generic [ref=e625]:
+                  - img [ref=e626]
+                  - paragraph [ref=e629]: SEO basico
+                - generic [ref=e631]:
+                  - img [ref=e632]
+                  - paragraph [ref=e635]: Embalagem premium
+            - generic [ref=e636]:
+              - generic [ref=e637]:
+                - generic [ref=e638]:
+                  - paragraph [ref=e639]: Governanca de SKU
+                  - heading "Velvet Lab Atelier Paleta Soft Focus 12g" [level=3] [ref=e640]
+                - generic [ref=e641]: 91/100
+              - generic [ref=e642]:
+                - generic [ref=e643]:
+                  - paragraph [ref=e647]: Naming padronizado
+                  - paragraph [ref=e648]: Velvet Lab Atelier Paleta Soft Focus 12g
+                - generic [ref=e649]:
+                  - paragraph [ref=e653]: Claims controlados
+                  - paragraph [ref=e654]: Glow, Textura mais macia
+                - generic [ref=e655]:
+                  - paragraph [ref=e659]: Imagem principal e apoio
+                  - paragraph [ref=e660]: 3 imagem(ns) cadastrada(s)
+                - generic [ref=e661]:
+                  - generic [ref=e662]:
+                    - img [ref=e663]
+                    - paragraph [ref=e665]: Origem e NF
+                  - paragraph [ref=e666]: Origem validada com NF
+                - generic [ref=e667]:
+                  - generic [ref=e668]:
+                    - img [ref=e669]
+                    - paragraph [ref=e672]: Prazo de envio
+                  - paragraph [ref=e673]: 24h a 36h
+                - generic [ref=e674]:
+                  - generic [ref=e675]:
+                    - img [ref=e676]
+                    - paragraph [ref=e679]: SEO basico
+                  - paragraph [ref=e680]: Velvet Lab Atelier Paleta Soft Focus 12g
+                - generic [ref=e681]:
+                  - paragraph [ref=e685]: Embalagem premium
+                  - paragraph [ref=e686]: Unboxing 92/100
+          - generic [ref=e687]:
+            - region "SKU em bloqueio editorial" [ref=e688]:
+              - generic [ref=e689]:
+                - generic [ref=e690]:
+                  - paragraph [ref=e691]: SKU em bloqueio editorial
+                  - paragraph [ref=e692]: Naming, imagem, claims, logistica e autenticidade.
+                - paragraph [ref=e693]: "67"
+              - generic [ref=e696]:
+                - generic [ref=e697]:
+                  - generic [ref=e698]: authenticity
+                  - generic [ref=e699]: "58"
+                - generic [ref=e700]:
+                  - generic [ref=e701]: claims
+                  - generic [ref=e702]: "32"
+                - generic [ref=e703]:
+                  - generic [ref=e704]: content
+                  - generic [ref=e705]: "61"
+                - generic [ref=e706]:
+                  - generic [ref=e707]: images
+                  - generic [ref=e708]: "42"
+                - generic [ref=e709]:
+                  - generic [ref=e710]: logistics
+                  - generic [ref=e711]: "70"
+                - generic [ref=e712]:
+                  - generic [ref=e713]: naming
+                  - generic [ref=e714]: "28"
+                - generic [ref=e715]:
+                  - generic [ref=e716]: seo
+                  - generic [ref=e717]: "54"
+            - generic [ref=e718]:
+              - paragraph [ref=e719]: Claims controlados
+              - heading "Whitelist e blacklist da curadoria" [level=2] [ref=e720]
+              - generic [ref=e721]:
+                - generic [ref=e722]:
+                  - paragraph [ref=e723]: Permitidos
+                  - generic [ref=e724]:
+                    - generic [ref=e725]: Hidratacao
+                    - generic [ref=e726]: Glow
+                    - generic [ref=e727]: Fortalecimento da barreira
+                    - generic [ref=e728]: Uniformizacao
+                    - generic [ref=e729]: Controle de oleosidade
+                    - generic [ref=e730]: Reducao de aparencia de poros
+                    - generic [ref=e731]: Suavizacao de textura
+                    - generic [ref=e732]: Conforto para pele sensivel
+                    - generic [ref=e733]: Protecao solar
+                    - generic [ref=e734]: Limpeza suave
+                    - generic [ref=e735]: Acao antioxidante
+                    - generic [ref=e736]: Conforto
+                    - generic [ref=e737]: Textura mais macia
+                    - generic [ref=e738]: Luminosidade
+                    - generic [ref=e739]: Toque seco
+                    - generic [ref=e740]: Baixa irritabilidade
+                - generic [ref=e741]:
+                  - paragraph [ref=e742]: Bloqueados
+                  - generic [ref=e743]:
+                    - generic [ref=e744]: o melhor
+                    - generic [ref=e745]: milagroso
+                    - generic [ref=e746]: produto milagroso
+                    - generic [ref=e747]: resultado garantido
+                    - generic [ref=e748]: resultado imediato garantido
+                    - generic [ref=e749]: promocao imperdivel
+                    - generic [ref=e750]: cura
+                    - generic [ref=e751]: curar
+                    - generic [ref=e752]: cura acne
+                    - generic [ref=e753]: 100% definitivo
+          - generic [ref=e754]:
+            - region "Envio e entrega" [ref=e755]:
+              - generic [ref=e756]:
+                - img [ref=e758]
+                - generic [ref=e763]:
+                  - paragraph [ref=e764]: Envio e entrega
+                  - 'heading "SLA de postagem: ate 36h" [level=3] [ref=e765]'
+                  - paragraph [ref=e766]: Pedido separado com conferencia de lacre e embalagem de protecao.
+              - generic [ref=e767]:
+                - generic [ref=e768]:
+                  - img [ref=e769]
+                  - text: 3 a 6 dias uteis
+                - generic [ref=e774]:
+                  - img [ref=e775]
+                  - text: Sudeste, Sul, Nordeste
+                - generic [ref=e778]:
+                  - img [ref=e779]
+                  - text: "Origem: Rua Dias Ferreira, 90 - Rio de Janeiro, RJ"
+            - region "Trocas e devolucoes" [ref=e782]:
+              - generic [ref=e783]:
+                - img [ref=e785]
+                - generic [ref=e788]:
+                  - paragraph [ref=e789]: Trocas e devolucoes
+                  - heading "7 dias para solicitar" [level=3] [ref=e790]
+                  - paragraph [ref=e791]: Politica clara para maquiagem e itens de higiene.
+              - generic [ref=e792]:
+                - img [ref=e793]
+                - text: Logistica reversa aprovada apos triagem.
+              - link "Ver politica completa" [ref=e796] [cursor=pointer]:
+                - /url: /termos-e-condicoes
+            - region "Padrao de embalagem" [ref=e797]:
+              - generic [ref=e798]:
+                - img [ref=e800]
+                - generic [ref=e805]:
+                  - paragraph [ref=e806]: Embalagem
+                  - heading "Produto protegido e nota fiscal garantida" [level=3] [ref=e807]
+                  - paragraph [ref=e808]: Embalagem limpa, protecao contra avarias e apresentacao alinhada ao padrao minimo BelaPop.
+              - generic [ref=e810]:
+                - generic [ref=e811]:
+                  - paragraph [ref=e812]: Score de embalagem
+                  - paragraph [ref=e813]: Protecao, limpeza, lacre, NF e experiencia de unboxing.
+                - paragraph [ref=e814]: "68"
+          - generic [ref=e817]:
+            - generic [ref=e819]:
+              - img [ref=e820]
+              - generic [ref=e823]:
+                - paragraph [ref=e824]: Status de publicacao
+                - heading "SKU bloqueado para publicacao" [level=3] [ref=e825]
+                - generic [ref=e826]:
+                  - paragraph [ref=e827]:
+                    - img [ref=e828]
+                    - text: O seller precisa estar aprovado ou verificado BelaPop.
+                  - paragraph [ref=e830]:
+                    - img [ref=e831]
+                    - text: Produto precisa ter autenticidade minima validada.
+                  - paragraph [ref=e833]:
+                    - img [ref=e834]
+                    - text: "\"Resultado imediato garantido\" nao pode ser publicado no padrao BelaPop."
+                  - paragraph [ref=e836]:
+                    - img [ref=e837]
+                    - text: Imagem de SKU nao deve conter chamadas promocionais.
+            - generic [ref=e839]:
+              - generic [ref=e840]:
+                - generic [ref=e842]:
+                  - paragraph [ref=e843]: Governanca de SKU
+                  - heading "Checklist visual do SKU" [level=3] [ref=e844]
+                - generic [ref=e845]:
+                  - generic [ref=e846]:
+                    - generic [ref=e847]:
+                      - img [ref=e848]
+                      - paragraph [ref=e851]: Imagem principal
+                    - paragraph [ref=e852]: Imagem principal com fundo limpo e produto centralizado.
+                  - generic [ref=e853]:
+                    - generic [ref=e854]:
+                      - img [ref=e855]
+                      - paragraph [ref=e857]: Sem poluicao visual
+                    - paragraph [ref=e858]: Sem marca d'agua, texto promocional ou print de catalogo.
+                  - generic [ref=e859]:
+                    - generic [ref=e860]:
+                      - img [ref=e861]
+                      - paragraph [ref=e864]: Imagens secundarias
+                    - paragraph [ref=e865]: Textura, embalagem, modo de uso ou lifestyle clean.
+              - generic [ref=e867]:
+                - img [ref=e868]
+                - generic [ref=e870]:
+                  - paragraph [ref=e871]: "Qualidade de imagem: 40/100"
+                  - generic [ref=e872]:
+                    - paragraph [ref=e873]: Priorize imagens com pelo menos 1200px no menor lado.
+                    - paragraph [ref=e874]: Imagem de SKU nao deve conter chamadas promocionais.
+                    - paragraph [ref=e875]: A imagem principal deve ter fundo limpo e produto centralizado.
+                    - paragraph [ref=e876]: Centralize o produto para manter consistencia visual.
+                    - paragraph [ref=e877]: Troque por imagem com luz limpa e uniforme.
+                    - paragraph [ref=e878]: Use ratio proximo de 4/5 ou 1/1 para vitrines e PDP.
+            - generic [ref=e879]:
+              - generic [ref=e881]:
+                - paragraph [ref=e882]: Governanca de SKU
+                - heading "Checklist de embalagem" [level=3] [ref=e883]
+              - generic [ref=e884]:
+                - generic [ref=e886]:
+                  - img [ref=e887]
+                  - paragraph [ref=e889]: Protecao contra vazamento e quebra
+                - generic [ref=e891]:
+                  - img [ref=e892]
+                  - paragraph [ref=e895]: Embalagem limpa
+                - generic [ref=e897]:
+                  - img [ref=e898]
+                  - paragraph [ref=e900]: Produto lacrado quando aplicavel
+                - generic [ref=e902]:
+                  - img [ref=e903]
+                  - paragraph [ref=e906]: Nota fiscal e pedido identificados
+                - generic [ref=e908]:
+                  - img [ref=e909]
+                  - paragraph [ref=e912]: Sem caixa danificada
+                - generic [ref=e914]:
+                  - img [ref=e915]
+                  - paragraph [ref=e917]: Unboxing premium
+          - generic [ref=e918]:
+            - generic [ref=e919]:
+              - generic [ref=e920]:
+                - paragraph [ref=e921]: Triage operacional de SKU
+                - heading "Produtos, selos e inconsistencias" [level=2] [ref=e922]
+              - link "Abrir curadoria de produtos" [ref=e923] [cursor=pointer]:
+                - /url: /adm/curadoria/produtos
+            - table [ref=e925]:
+              - rowgroup [ref=e926]:
+                - row "Produto / SKU Seller Autenticidade Score Alertas Acao" [ref=e927]:
+                  - columnheader "Produto / SKU" [ref=e928]
+                  - columnheader "Seller" [ref=e929]
+                  - columnheader "Autenticidade" [ref=e930]
+                  - columnheader "Score" [ref=e931]
+                  - columnheader "Alertas" [ref=e932]
+                  - columnheader "Acao" [ref=e933]
+              - rowgroup [ref=e934]:
+                - row "Aurora Maison Clinical Serum Niacinamida 30ml prd-001 - Aurora Maison Aurora Maison Produto Autentico 94/100 0 alerta(s) Revisar" [ref=e935]:
+                  - cell "Aurora Maison Clinical Serum Niacinamida 30ml prd-001 - Aurora Maison" [ref=e936]:
+                    - generic [ref=e937]:
+                      - paragraph [ref=e938]: Aurora Maison Clinical Serum Niacinamida 30ml
+                      - paragraph [ref=e939]: prd-001 - Aurora Maison
+                  - cell "Aurora Maison" [ref=e940]:
+                    - link "Aurora Maison" [ref=e941] [cursor=pointer]:
+                      - /url: /adm/operacao/parceiros?seller=sel-aurora
+                  - cell "Produto Autentico" [ref=e942]:
+                    - generic [ref=e943]:
+                      - img [ref=e944]
+                      - paragraph [ref=e948]: Produto Autentico
+                  - cell "94/100" [ref=e949]
+                  - cell "0 alerta(s)" [ref=e950]:
+                    - generic [ref=e951]: 0 alerta(s)
+                  - cell "Revisar" [ref=e952]:
+                    - link "Revisar" [ref=e953] [cursor=pointer]:
+                      - /url: /adm/curadoria/produtos?product=prd-001&seller=sel-aurora
+                - row "Aurora Maison Barrier Creme Ceramidas 50g prd-010 - Aurora Maison Aurora Maison Produto Autentico 94/100 0 alerta(s) Revisar" [ref=e954]:
+                  - cell "Aurora Maison Barrier Creme Ceramidas 50g prd-010 - Aurora Maison" [ref=e955]:
+                    - generic [ref=e956]:
+                      - paragraph [ref=e957]: Aurora Maison Barrier Creme Ceramidas 50g
+                      - paragraph [ref=e958]: prd-010 - Aurora Maison
+                  - cell "Aurora Maison" [ref=e959]:
+                    - link "Aurora Maison" [ref=e960] [cursor=pointer]:
+                      - /url: /adm/operacao/parceiros?seller=sel-aurora
+                  - cell "Produto Autentico" [ref=e961]:
+                    - generic [ref=e962]:
+                      - img [ref=e963]
+                      - paragraph [ref=e967]: Produto Autentico
+                  - cell "94/100" [ref=e968]
+                  - cell "0 alerta(s)" [ref=e969]:
+                    - generic [ref=e970]: 0 alerta(s)
+                  - cell "Revisar" [ref=e971]:
+                    - link "Revisar" [ref=e972] [cursor=pointer]:
+                      - /url: /adm/curadoria/produtos?product=prd-010&seller=sel-aurora
+                - row "Velvet Lab Atelier Paleta Soft Focus 12g prd-004 - Velvet Lab Velvet Lab Autenticidade em revisao 91/100 1 alerta(s) Revisar" [ref=e973]:
+                  - cell "Velvet Lab Atelier Paleta Soft Focus 12g prd-004 - Velvet Lab" [ref=e974]:
+                    - generic [ref=e975]:
+                      - paragraph [ref=e976]: Velvet Lab Atelier Paleta Soft Focus 12g
+                      - paragraph [ref=e977]: prd-004 - Velvet Lab
+                  - cell "Velvet Lab" [ref=e978]:
+                    - link "Velvet Lab" [ref=e979] [cursor=pointer]:
+                      - /url: /adm/operacao/parceiros?seller=sel-velvet
+                  - cell "Autenticidade em revisao" [ref=e980]:
+                    - generic [ref=e981]:
+                      - img [ref=e982]
+                      - paragraph [ref=e987]: Autenticidade em revisao
+                  - cell "91/100" [ref=e988]
+                  - cell "1 alerta(s)" [ref=e989]:
+                    - generic [ref=e990]: 1 alerta(s)
+                  - cell "Revisar" [ref=e991]:
+                    - link "Revisar" [ref=e992] [cursor=pointer]:
+                      - /url: /adm/curadoria/produtos?product=prd-004&seller=sel-velvet
+                - row "Lumiere Rituals Noir Eau de Parfum Musk Ambarado 100ml prd-005 - Lumiere Rituals Lumiere Rituals Autenticidade em revisao 67/100 6 alerta(s) Revisar" [ref=e993]:
+                  - cell "Lumiere Rituals Noir Eau de Parfum Musk Ambarado 100ml prd-005 - Lumiere Rituals" [ref=e994]:
+                    - generic [ref=e995]:
+                      - paragraph [ref=e996]: Lumiere Rituals Noir Eau de Parfum Musk Ambarado 100ml
+                      - paragraph [ref=e997]: prd-005 - Lumiere Rituals
+                  - cell "Lumiere Rituals" [ref=e998]:
+                    - link "Lumiere Rituals" [ref=e999] [cursor=pointer]:
+                      - /url: /adm/operacao/parceiros?seller=sel-lumi
+                  - cell "Autenticidade em revisao" [ref=e1000]:
+                    - generic [ref=e1001]:
+                      - img [ref=e1002]
+                      - paragraph [ref=e1007]: Autenticidade em revisao
+                  - cell "67/100" [ref=e1008]
+                  - cell "6 alerta(s)" [ref=e1009]:
+                    - generic [ref=e1010]: 6 alerta(s)
+                  - cell "Revisar" [ref=e1011]:
+                    - link "Revisar" [ref=e1012] [cursor=pointer]:
+                      - /url: /adm/curadoria/produtos?product=prd-005&seller=sel-lumi
+                - row "Belapop Radiance Serum Peptideos 30ml p1 - BelaPop s1 Produto Autentico 94/100 0 alerta(s) Revisar" [ref=e1013]:
+                  - cell "Belapop Radiance Serum Peptideos 30ml p1 - BelaPop" [ref=e1014]:
+                    - generic [ref=e1015]:
+                      - paragraph [ref=e1016]: Belapop Radiance Serum Peptideos 30ml
+                      - paragraph [ref=e1017]: p1 - BelaPop
+                  - cell "s1" [ref=e1018]:
+                    - link "s1" [ref=e1019] [cursor=pointer]:
+                      - /url: /adm/operacao/parceiros?seller=s1
+                  - cell "Produto Autentico" [ref=e1020]:
+                    - generic [ref=e1021]:
+                      - img [ref=e1022]
+                      - paragraph [ref=e1026]: Produto Autentico
+                  - cell "94/100" [ref=e1027]
+                  - cell "0 alerta(s)" [ref=e1028]:
+                    - generic [ref=e1029]: 0 alerta(s)
+                  - cell "Revisar" [ref=e1030]:
+                    - link "Revisar" [ref=e1031] [cursor=pointer]:
+                      - /url: /adm/curadoria/produtos?product=p1&seller=s1
+                - row "Belapop Aurora Patch Cafeina 30 Pares p11 - BelaPop s1 Produto Autentico 94/100 0 alerta(s) Revisar" [ref=e1032]:
+                  - cell "Belapop Aurora Patch Cafeina 30 Pares p11 - BelaPop" [ref=e1033]:
+                    - generic [ref=e1034]:
+                      - paragraph [ref=e1035]: Belapop Aurora Patch Cafeina 30 Pares
+                      - paragraph [ref=e1036]: p11 - BelaPop
+                  - cell "s1" [ref=e1037]:
+                    - link "s1" [ref=e1038] [cursor=pointer]:
+                      - /url: /adm/operacao/parceiros?seller=s1
+                  - cell "Produto Autentico" [ref=e1039]:
+                    - generic [ref=e1040]:
+                      - img [ref=e1041]
+                      - paragraph [ref=e1045]: Produto Autentico
+                  - cell "94/100" [ref=e1046]
+                  - cell "0 alerta(s)" [ref=e1047]:
+                    - generic [ref=e1048]: 0 alerta(s)
+                  - cell "Revisar" [ref=e1049]:
+                    - link "Revisar" [ref=e1050] [cursor=pointer]:
+                      - /url: /adm/curadoria/produtos?product=p11&seller=s1
+          - generic [ref=e1051]:
+            - generic [ref=e1052]:
+              - paragraph [ref=e1053]: Produto Verificado BelaPop
+              - heading "Selos de confianca" [level=2] [ref=e1054]
+              - generic [ref=e1055]:
+                - generic [ref=e1056]:
+                  - paragraph [ref=e1057]: prd-001
+                  - paragraph [ref=e1058]: "Seller aprovado: sim"
+                  - generic [ref=e1059]:
+                    - generic [ref=e1060]: Produto Autentico
+                    - generic [ref=e1061]: Curadoria BelaPop
+                - generic [ref=e1062]:
+                  - paragraph [ref=e1063]: prd-010
+                  - paragraph [ref=e1064]: "Seller aprovado: sim"
+                  - generic [ref=e1065]:
+                    - generic [ref=e1066]: Produto Autentico
+                    - generic [ref=e1067]: Curadoria BelaPop
+                - generic [ref=e1068]:
+                  - paragraph [ref=e1069]: prd-004
+                  - paragraph [ref=e1070]: "Seller aprovado: sim"
+                  - generic [ref=e1072]: Revisao BelaPop
+                - generic [ref=e1073]:
+                  - paragraph [ref=e1074]: prd-005
+                  - paragraph [ref=e1075]: "Seller aprovado: sim"
+                  - generic [ref=e1077]: Revisao BelaPop
+            - generic [ref=e1078]:
+              - paragraph [ref=e1079]: Alertas de inconsistencia
+              - heading "O que impede uma experiencia premium" [level=2] [ref=e1080]
+              - generic [ref=e1081]:
+                - generic [ref=e1082]: SKU com claim proibido deve voltar para rascunho antes de qualquer destaque comercial.
+                - generic [ref=e1083]: Seller com SLA acima de 36h perde selo Envio Premium ate recompor historico.
+                - generic [ref=e1084]: Produto sem NF ou origem declarada nao recebe badge Produto Autentico.
+                - generic [ref=e1085]: Imagem principal com texto promocional deve ser substituida por packshot limpo.
+          - generic [ref=e1086]:
+            - link "Fila de curadoria acima do limite Alerta Produtos em revisao e pendentes acumulados nas ultimas 24h. Abrir modulo relacionado" [ref=e1087] [cursor=pointer]:
+              - /url: /adm/curadoria/produtos?status=pendente
+              - generic [ref=e1088]:
+                - paragraph [ref=e1089]: Fila de curadoria acima do limite
+                - generic [ref=e1090]: Alerta
+              - paragraph [ref=e1091]: Produtos em revisao e pendentes acumulados nas ultimas 24h.
+              - paragraph [ref=e1092]: Abrir modulo relacionado
+            - link "Seller com score em queda Bloqueado BelaPop Curadoria caiu para 0 no score de qualidade. Abrir modulo relacionado" [ref=e1093] [cursor=pointer]:
+              - /url: /adm/operacao/parceiros?seller=ee74c0c4-1418-43f8-9f20-b5546fc40413
+              - generic [ref=e1094]:
+                - paragraph [ref=e1095]: Seller com score em queda
+                - generic [ref=e1096]: Bloqueado
+              - paragraph [ref=e1097]: BelaPop Curadoria caiu para 0 no score de qualidade.
+              - paragraph [ref=e1098]: Abrir modulo relacionado
+            - link "Incidente logistico impactando reputacao Critico Sem evento de rastreio por 48h em rota SP Abrir modulo relacionado" [ref=e1099] [cursor=pointer]:
+              - /url: /adm/operacao/logistica/incidentes?shipment=shp-401&priority=critica
+              - generic [ref=e1100]:
+                - paragraph [ref=e1101]: Incidente logistico impactando reputacao
+                - generic [ref=e1102]: Critico
+              - paragraph [ref=e1103]: Sem evento de rastreio por 48h em rota SP
+              - paragraph [ref=e1104]: Abrir modulo relacionado
+            - link "Divergencia financeira em repasse Alerta Provider unknown em 2026-03-05 apresentou divergencia. Delta cash/gross=0, ledgerNet/gatewayNet=-39000, payout/cashOut=-39000. Abrir modulo relacionado" [ref=e1105] [cursor=pointer]:
+              - /url: /adm/financeiro/auditoria?alert=4f24eaa6-6ae9-421b-96aa-36d0632823a3
+              - generic [ref=e1106]:
+                - paragraph [ref=e1107]: Divergencia financeira em repasse
+                - generic [ref=e1108]: Alerta
+              - paragraph [ref=e1109]: Provider unknown em 2026-03-05 apresentou divergencia. Delta cash/gross=0, ledgerNet/gatewayNet=-39000, payout/cashOut=-39000.
+              - paragraph [ref=e1110]: Abrir modulo relacionado
+            - link "Documentos vencidos em seller bloqueado Bloqueado Certificado ANVISA segue pendente sob Compliance. Abrir modulo relacionado" [ref=e1111] [cursor=pointer]:
+              - /url: /adm/curadoria/documentos?document=doc-802
+              - generic [ref=e1112]:
+                - paragraph [ref=e1113]: Documentos vencidos em seller bloqueado
+                - generic [ref=e1114]: Bloqueado
+              - paragraph [ref=e1115]: Certificado ANVISA segue pendente sob Compliance.
+              - paragraph [ref=e1116]: Abrir modulo relacionado
+            - link "Reputacao em queda em SKU sensivel Critico Atrasou e chegou com vazamento na tampa. Abrir modulo relacionado" [ref=e1117] [cursor=pointer]:
+              - /url: /adm/catalogo-marca/reviews?review=rev-602
+              - generic [ref=e1118]:
+                - paragraph [ref=e1119]: Reputacao em queda em SKU sensivel
+                - generic [ref=e1120]: Critico
+              - paragraph [ref=e1121]: Atrasou e chegou com vazamento na tampa.
+              - paragraph [ref=e1122]: Abrir modulo relacionado
+          - table [ref=e1125]:
+            - rowgroup [ref=e1126]:
+              - row "Produto Critico Seller Status Acao" [ref=e1127]:
+                - columnheader "Produto Critico" [ref=e1128]
+                - columnheader "Seller" [ref=e1129]
+                - columnheader "Status" [ref=e1130]
+                - columnheader "Acao" [ref=e1131]
+            - rowgroup
+  - button "Open Next.js Dev Tools" [ref=e1137] [cursor=pointer]:
+    - img [ref=e1138]
+  - alert [ref=e1141]

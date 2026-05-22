@@ -1,0 +1,25 @@
+- generic [active] [ref=e1] [box=0,-3477,1434,4577]:
+  - generic [ref=e89] [box=0,-3477,1434,4577]:
+    - complementary [ref=e90] [box=0,0,280,1100]:
+      - generic [ref=e92] [box=24,20,110,59]:
+        - paragraph [ref=e93] [box=24,20,110,40]: BelaPop
+        - paragraph [ref=e94] [box=24,64,110,15]: Curator Admin
+      - navigation [ref=e95] [box=0,99,275,2279]:
+        - generic [ref=e96] [box=20,119,235,219]
+        - generic [ref=e122] [box=20,370,235,483]
+        - generic [ref=e171] [box=20,885,235,337]
+        - generic [ref=e206] [box=20,1254,235,351]
+        - generic [ref=e243] [box=20,1637,235,285]
+        - generic [ref=e278] [box=20,1954,235,87]
+        - generic [ref=e290] [box=20,2073,235,285]
+      - generic [ref=e324] [box=36,2415,203,44]:
+        - generic [ref=e325] [box=36,2415,44,44]: He
+        - generic [ref=e326] [box=92,2419,101,35]
+    - generic [ref=e329] [box=0,-3477,1434,4577]:
+      - banner [ref=e330] [box=280,-3477,1154,73]:
+        - generic [ref=e331] [box=280,-3477,1154,72]
+      - main [ref=e354] [box=280,-3404,1154,4504]:
+        - generic [ref=e355] [box=312,-3372,1090,4424]
+  - button "Open Next.js Dev Tools" [ref=e85] [cursor=pointer] [box=22,1046,32,32]:
+    - img [ref=e86] [box=22,1042,40,40]
+  - alert [ref=e1003] [box=-1,1099,1,1]

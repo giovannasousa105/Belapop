@@ -66,7 +66,7 @@ export default async function AdmLayout({ children }: { children: React.ReactNod
       >
         <AccessDenied
           title="Acesso restrito a este modulo"
-          description="Seu perfil interno esta autenticado, mas nao possui permissao para abrir esta rota do ADM."
+          description="Seu perfil interno esta autenticado, mas não possui permissao para abrir esta rota do ADM."
           detail={routeMeta ? `${routeMeta.title} - ${roleLabel}` : roleLabel}
           actionHref={defaultLandingPath}
           actionLabel="Voltar ao meu painel"

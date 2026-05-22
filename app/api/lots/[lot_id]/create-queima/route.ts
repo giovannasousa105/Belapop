@@ -53,7 +53,7 @@ export async function POST(
   if (discountPercent > maxDiscount) {
     return NextResponse.json(
       {
-        error: `Seu limite atual e ${maxDiscount}%. Peca aprovacao.`
+        error: `Seu limite atual e ${maxDiscount}%. Peca aprovação.`
       },
       { status: 403 }
     );

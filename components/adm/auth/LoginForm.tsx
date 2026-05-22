@@ -15,7 +15,7 @@ type LoginFormProps = {
 
 const reasonMessageMap: Record<string, string> = {
   "session-expired": "Sua sessao interna expirou. Entre novamente para continuar.",
-  "invalid-session": "Nao foi possivel validar sua sessao interna. Entre novamente.",
+  "invalid-session": "Não foi possivel validar sua sessao interna. Entre novamente.",
   "signed-out": "Sessao encerrada com sucesso."
 };
 
@@ -55,7 +55,7 @@ export function LoginForm({
         | null;
 
       if (!response.ok || !payload?.ok) {
-        setMessage(payload?.error ?? "Nao foi possivel autenticar este perfil interno.");
+        setMessage(payload?.error ?? "Não foi possivel autenticar este perfil interno.");
         setLoading(false);
         return;
       }

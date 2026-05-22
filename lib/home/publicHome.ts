@@ -1,5 +1,5 @@
 export const HOME_PAGE_DESCRIPTION =
-  "Interface de decisao em skincare com analise visual, curadoria com criterio e acompanhamento da rotina.";
+  "Interface de decisão em skincare com análise visual, curadoria com critério e acompanhamento da rotina.";
 
 export type SearchParamValue = string | string[] | undefined;
 

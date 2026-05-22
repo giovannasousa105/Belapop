@@ -1,5 +1,11 @@
+import { Suspense } from "react";
+
 import { LoginPreviewScreen } from "@/components/previews/belapop/login-screen";
 
 export default function LoginPage() {
-  return <LoginPreviewScreen mode="live" />;
+  return (
+    <Suspense fallback={null}>
+      <LoginPreviewScreen mode="live" />
+    </Suspense>
+  );
 }

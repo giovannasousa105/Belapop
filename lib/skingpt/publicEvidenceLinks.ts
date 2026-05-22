@@ -12,14 +12,14 @@ export const skinBelaPublicEvidenceSources: SkinBelaPublicEvidenceSource[] = [
   {
     key: "cochrane",
     label: "Cochrane",
-    description: "Revisoes sistematicas de alto nivel para apoiar escolhas cosmeticas e contexto de tratamento.",
+    description: "Revisoes sistematicas de alto nivel para apoiar escolhas cosméticas e contexto de tratamento.",
     priority: "nivel 1",
     aliases: ["cochrane"]
   },
   {
     key: "aad-jaad",
     label: "AAD / JAAD",
-    description: "Diretrizes e artigos dermatologicos usados quando a leitura pede criterio clinico mais forte.",
+    description: "Diretrizes e artigos dermatologicos usados quando a leitura pede critério clínico mais forte.",
     priority: "diretriz",
     aliases: ["aad", "jaad", "aad / jaad", "aad/jaad"]
   },
@@ -40,14 +40,14 @@ export const skinBelaPublicEvidenceSources: SkinBelaPublicEvidenceSource[] = [
   {
     key: "dermnet",
     label: "DermNet",
-    description: "Referencia clinica visual para traduzir sinais cutaneos em linguagem clara de autocuidado.",
-    priority: "referencia clinica",
+    description: "Referencia clínica visual para traduzir sinais cutaneos em linguagem clara de autocuidado.",
+    priority: "referencia clínica",
     aliases: ["dermnet"]
   },
   {
     key: "abd-lilacs-scielo",
     label: "ABD / LILACS / SciELO",
-    description: "Contexto brasileiro e latino-americano para pele sensivel, manchas, fotoprotecao e rotina real.",
+    description: "Contexto brasileiro e latino-americano para pele sensível, manchas, fotoprotecao e rotina real.",
     priority: "contexto regional",
     aliases: ["abd", "lilacs", "scielo", "abd / scielo", "abd / lilacs", "abd / lilacs / scielo", "abd / scielo / lilacs"]
   }

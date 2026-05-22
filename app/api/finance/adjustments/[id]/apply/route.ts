@@ -48,7 +48,7 @@ export async function POST(
   }
 
   if (!lookup.data) {
-    return NextResponse.json({ error: "Ajuste nao encontrado." }, { status: 404 });
+    return NextResponse.json({ error: "Ajuste não encontrado." }, { status: 404 });
   }
 
   if (!isAdjustmentStatus(lookup.data.status) || lookup.data.status !== "approved") {
@@ -69,7 +69,7 @@ export async function POST(
       return NextResponse.json(
         {
           error:
-            "Funcao post_finance_adjustment_ledger nao encontrada. Rode a migration " +
+            "Funcao post_finance_adjustment_ledger não encontrada. Rode a migration " +
             FINANCE_LEDGER_MIGRATION +
             "."
         },
@@ -89,7 +89,7 @@ export async function POST(
 
   const journalId = String(applyResult.data ?? "").trim();
   if (!journalId) {
-    return NextResponse.json({ error: "Nao foi possivel identificar o journal aplicado." }, { status: 500 });
+    return NextResponse.json({ error: "Não foi possivel identificar o journal aplicado." }, { status: 500 });
   }
 
   const [updatedAdjustment, entriesLookup] = await Promise.all([

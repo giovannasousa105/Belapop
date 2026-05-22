@@ -18,12 +18,12 @@ const processSteps = [
   {
     index: "01",
     title: "Leitura visual guiada",
-    body: "A captura observa sinais de textura, conforto e luminosidade em uma experiencia simples e silenciosa."
+    body: "A captura observa sinais de textura, conforto e luminosidade em uma experiência simples e silenciosa."
   },
   {
     index: "02",
     title: "Interpretacao da pele",
-    body: "A leitura traduz o que aparece no rosto em contexto cosmetico, sem jargao tecnico desnecessario."
+    body: "A leitura traduz o que aparece no rosto em contexto cosmético, sem jargao técnico desnecessario."
   },
   {
     index: "03",
@@ -90,10 +90,10 @@ function HeroVariant({
                 BelaCode / Precision Beauty System
               </p>
               <h2 className="mt-5 max-w-[11ch] text-balance font-display text-[2.55rem] leading-[0.97] tracking-[-0.035em] text-bpBlack sm:text-[3.9rem] lg:text-[4.7rem] xl:text-[5rem]">
-                Sua pele, lida com precisao silenciosa.
+                Sua pele, lida com precisão silenciosa.
               </h2>
               <p className="mt-6 max-w-[22ch] text-balance text-[1rem] leading-8 text-bpGraphite/88 sm:text-[1.12rem] lg:max-w-[28ch] lg:text-[1.24rem] lg:leading-9">
-                Uma leitura visual sofisticada que traduz sinais da pele em curadoria de rotina, orientacao de autocuidado e inteligencia cosmetica.
+                Uma leitura visual sofisticada que traduz sinais da pele em curadoria de rotina, orientação de autocuidado e inteligência cosmética.
               </p>
 
               <div className="mt-8 flex flex-wrap gap-3 sm:mt-10">
@@ -124,7 +124,7 @@ function HeroVariant({
                   </p>
 
                   <div className="mt-4 inline-flex items-center gap-2 rounded-full border border-[#ecdcde] bg-white/56 px-4 py-2 text-sm text-bpGraphite/86">
-                    <span>Analise em andamento</span>
+                    <span>Análise em andamento</span>
                     <span className="flex items-center gap-1">
                       <span className="h-2 w-2 rounded-full bg-[#ead1d5]" />
                       <span className="h-2 w-2 rounded-full bg-[#e3c2c9]" />
@@ -165,7 +165,7 @@ function HeroVariant({
 
           <div className="relative border-t border-[#ede1e3] px-5 py-4 sm:px-8 lg:px-16">
             <p className="text-[0.72rem] leading-6 text-bpGraphite/66 sm:text-[0.76rem]">
-              BelaCode e SkinBela apoiam triagem cosmetica, leitura de rotina e orientacao de autocuidado com base em literatura clinica. Nao substituem avaliacao medica dermatologica, dermatoscopia, biopsia ou decisao clinica presencial quando houver lesoes novas, mudancas suspeitas ou sinais de alerta.
+              BelaCode e SkinBela apoiam triagem cosmética, leitura de rotina e orientação de autocuidado com base em literatura clínica. Não substituem avaliação médica dermatológica, dermatoscopia, biópsia ou decisão clínica presencial quando houver lesões novas, mudanças suspeitas ou sinais de alerta.
             </p>
           </div>
         </div>

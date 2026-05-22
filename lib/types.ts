@@ -51,6 +51,9 @@ export type PublicProduct = ProductCurationFields & {
   title: string;
   price_cents: number;
   hero_image_url?: string | null;
+  stock_quantity?: number | null;
+  stockQuantity?: number | null;
+  inStock?: boolean | null;
 };
 
 export type Article = {
@@ -146,6 +149,7 @@ export type ShippingOption = {
   deliveryTimeDays: number;
   carrier: string;
   serviceId: string;
+  badge?: string;
 };
 
 export type SellerShipment = ShippingOption & {
@@ -153,6 +157,9 @@ export type SellerShipment = ShippingOption & {
   sellerName: string;
   originCep: string;
   destinationCep: string;
+  provider?: string;
+  quoteMode?: "live" | "sandbox" | "fallback";
+  availableOptions?: ShippingOption[];
 };
 
 export type UserRole = "customer" | "seller" | "admin";

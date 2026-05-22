@@ -1,0 +1,5353 @@
+{
+  "generatedAt": "2026-05-21T02:17:29.327Z",
+  "base": "https://belapopoficial.com.br",
+  "desktop": [
+    {
+      "route": "/",
+      "url": "https://belapopoficial.com.br/",
+      "finalUrl": "https://belapopoficial.com.br/",
+      "status": 200,
+      "loadError": null,
+      "title": "BelaPop | Skincare guiado pela sua pele · BelaPop",
+      "meta": {
+        "title": "BelaPop | Skincare guiado pela sua pele · BelaPop",
+        "description": "Interface de decisao em skincare com analise visual, curadoria com criterio e acompanhamento da rotina.",
+        "canonical": null,
+        "ogTitle": "BelaPop | Skincare guiado pela sua pele",
+        "ogImage": "https://belapopoficial.com.br/logo-dark.svg"
+      },
+      "headings": [
+        {
+          "tag": "H1",
+          "text": "Seu skincare começa por um diagnóstico."
+        },
+        {
+          "tag": "H2",
+          "text": "Seu diagnóstico começa aqui."
+        },
+        {
+          "tag": "H2",
+          "text": "Entre pelo desejo da pele, nao por uma prateleira infinita."
+        },
+        {
+          "tag": "H3",
+          "text": "Luminosidade refinada e hidratacao profunda."
+        },
+        {
+          "tag": "H3",
+          "text": "Controle inteligente sem agredir sua barreira."
+        },
+        {
+          "tag": "H3",
+          "text": "Reconstrucao da pele sensibilizada."
+        },
+        {
+          "tag": "H2",
+          "text": "Compra inteligente: cada passo aumenta o valor da rotina."
+        },
+        {
+          "tag": "H3",
+          "text": "Limpeza"
+        },
+        {
+          "tag": "H3",
+          "text": "Toner"
+        },
+        {
+          "tag": "H3",
+          "text": "Serum"
+        },
+        {
+          "tag": "H3",
+          "text": "Creme"
+        },
+        {
+          "tag": "H3",
+          "text": "SPF"
+        }
+      ],
+      "buttons": [
+        {
+          "tag": "A",
+          "text": "BelaPop",
+          "href": "/",
+          "type": null
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Buscar produtos",
+          "href": null,
+          "type": "button"
+        },
+        {
+          "tag": "A",
+          "text": "Entrar",
+          "href": "/login?tab=customer&returnTo=%2Fconta",
+          "type": null
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Abrir menu",
+          "href": null,
+          "type": "button"
+        },
+        {
+          "tag": "A",
+          "text": "Entender minha pele",
+          "href": "/skin-scan",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Skincare",
+          "href": "/skincare",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Cabelos",
+          "href": "/cabelos",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Autocuidado",
+          "href": "/rituais",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Maquiagem",
+          "href": "/maquiagem",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "BelaPop",
+          "href": "/",
+          "type": null
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Buscar produtos",
+          "href": null,
+          "type": "button"
+        },
+        {
+          "tag": "A",
+          "text": "Favoritos",
+          "href": "/login?tab=customer&returnTo=%2Fconta%2Ffavoritos",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Entrar",
+          "href": "/login?tab=customer&returnTo=%2Fconta",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Carrinho",
+          "href": "/carrinho",
+          "type": null
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Fechar menu",
+          "href": null,
+          "type": "button"
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Fechar menu",
+          "href": null,
+          "type": "button"
+        },
+        {
+          "tag": "A",
+          "text": "Entender minha pele",
+          "href": "/skin-scan",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Skincare",
+          "href": "/skincare",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Cabelos",
+          "href": "/cabelos",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Autocuidado",
+          "href": "/rituais",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Maquiagem",
+          "href": "/maquiagem",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Favoritos",
+          "href": "/login?tab=customer&returnTo=%2Fconta%2Ffavoritos",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Minha conta",
+          "href": "/login?tab=customer&returnTo=%2Fconta",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Meus pedidos",
+          "href": "/login?tab=customer&returnTo=%2Fconta%2Fpedidos",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Atendimento",
+          "href": "/contato",
+          "type": null
+        }
+      ],
+      "bodyFont": "\"DM Sans\", \"DM Sans Fallback\", Manrope, \"Manrope Fallback\", sans-serif",
+      "h1Style": {
+        "fontFamily": "\"Playfair Display\", \"Playfair Display Fallback\", serif",
+        "fontWeight": "700",
+        "fontSize": "51.84px",
+        "lineHeight": "51.84px"
+      },
+      "overflow": {
+        "width": 1440,
+        "docWidth": 1440,
+        "bodyWidth": 1440,
+        "hasHorizontalOverflow": false
+      },
+      "accentIssues": [
+        {
+          "found": "hidratacao",
+          "expected": "hidratação",
+          "context": "OCURADA GLASS SKIN Luminosidade refinada e hidratacao profunda. Para pele opaca, cansada ou sem v"
+        },
+        {
+          "found": "comecar",
+          "expected": "começar",
+          "context": "protecao diaria Uma rotina inteligente para comecar o dia com pele limpa, luminosa e protegida. "
+        },
+        {
+          "found": "protecao",
+          "expected": "proteção",
+          "context": "r, hidratar e proteger. OBJETIVO DA ROTINA protecao diaria Uma rotina inteligente para comecar "
+        },
+        {
+          "found": "sensivel",
+          "expected": "sensível",
+          "context": "ntexto de uso: manha / noite para pele seca, sensivel, normal FUNCIONA MELHOR COM Creme Barrier C"
+        },
+        {
+          "found": "nao",
+          "expected": "não",
+          "context": "NIVERSOS BELAPOP Entre pelo desejo da pele, nao por uma prateleira infinita. Cada universo "
+        }
+      ],
+      "console": [],
+      "pageErrors": [],
+      "badResponses": [],
+      "requestFailures": [],
+      "imagesSummary": {
+        "total": 23,
+        "missingAlt": 0,
+        "lazy": 20,
+        "notLoaded": 13
+      },
+      "screenshot": "tmp\\prod-desktop--.png"
+    },
+    {
+      "route": "/skin-scan",
+      "url": "https://belapopoficial.com.br/skin-scan",
+      "finalUrl": "https://belapopoficial.com.br/skin-scan",
+      "status": 200,
+      "loadError": null,
+      "title": "Skin Scan BelaPop | Apresentacao · BelaPop",
+      "meta": {
+        "title": "Skin Scan BelaPop | Apresentacao · BelaPop",
+        "description": "Tela de apresentacao do Skin Scan BelaPop com explicacao do fluxo, leitura visual e inicio guiado para a analise.",
+        "canonical": null,
+        "ogTitle": "BelaPop — Skincare Curado com Inteligência",
+        "ogImage": "https://belapopoficial.com.br/og-default.jpg"
+      },
+      "headings": [
+        {
+          "tag": "H1",
+          "text": "Entenda sua pele com mais clareza"
+        },
+        {
+          "tag": "H2",
+          "text": "O processo"
+        },
+        {
+          "tag": "H3",
+          "text": "Defina prioridades"
+        },
+        {
+          "tag": "H3",
+          "text": "Envie sua imagem"
+        },
+        {
+          "tag": "H3",
+          "text": "Leitura visual"
+        },
+        {
+          "tag": "H3",
+          "text": "Rotina sugerida"
+        },
+        {
+          "tag": "H2",
+          "text": "O que observamos"
+        },
+        {
+          "tag": "H3",
+          "text": "Textura aparente"
+        },
+        {
+          "tag": "H3",
+          "text": "Oleosidade visivel"
+        },
+        {
+          "tag": "H3",
+          "text": "Sensibilidade aparente"
+        },
+        {
+          "tag": "H3",
+          "text": "Uniformidade"
+        },
+        {
+          "tag": "H3",
+          "text": "Ressecamento aparente"
+        }
+      ],
+      "buttons": [
+        {
+          "tag": "A",
+          "text": "BelaPop",
+          "href": "/",
+          "type": null
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Buscar produtos",
+          "href": null,
+          "type": "button"
+        },
+        {
+          "tag": "A",
+          "text": "Entrar",
+          "href": "/login?tab=customer&returnTo=%2Fconta",
+          "type": null
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Abrir menu",
+          "href": null,
+          "type": "button"
+        },
+        {
+          "tag": "A",
+          "text": "Entender minha pele",
+          "href": "/skin-scan",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Skincare",
+          "href": "/skincare",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Cabelos",
+          "href": "/cabelos",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Autocuidado",
+          "href": "/rituais",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Maquiagem",
+          "href": "/maquiagem",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "BelaPop",
+          "href": "/",
+          "type": null
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Buscar produtos",
+          "href": null,
+          "type": "button"
+        },
+        {
+          "tag": "A",
+          "text": "Favoritos",
+          "href": "/login?tab=customer&returnTo=%2Fconta%2Ffavoritos",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Entrar",
+          "href": "/login?tab=customer&returnTo=%2Fconta",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Carrinho",
+          "href": "/carrinho",
+          "type": null
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Fechar menu",
+          "href": null,
+          "type": "button"
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Fechar menu",
+          "href": null,
+          "type": "button"
+        },
+        {
+          "tag": "A",
+          "text": "Entender minha pele",
+          "href": "/skin-scan",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Skincare",
+          "href": "/skincare",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Cabelos",
+          "href": "/cabelos",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Autocuidado",
+          "href": "/rituais",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Maquiagem",
+          "href": "/maquiagem",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Favoritos",
+          "href": "/login?tab=customer&returnTo=%2Fconta%2Ffavoritos",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Minha conta",
+          "href": "/login?tab=customer&returnTo=%2Fconta",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Meus pedidos",
+          "href": "/login?tab=customer&returnTo=%2Fconta%2Fpedidos",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Atendimento",
+          "href": "/contato",
+          "type": null
+        }
+      ],
+      "bodyFont": "\"DM Sans\", \"DM Sans Fallback\", Manrope, \"Manrope Fallback\", sans-serif",
+      "h1Style": {
+        "fontFamily": "\"Playfair Display\", \"Playfair Display Fallback\"",
+        "fontWeight": "400",
+        "fontSize": "72px",
+        "lineHeight": "72px"
+      },
+      "overflow": {
+        "width": 1440,
+        "docWidth": 1440,
+        "bodyWidth": 1440,
+        "hasHorizontalOverflow": false
+      },
+      "accentIssues": [
+        {
+          "found": "voce",
+          "expected": "você",
+          "context": "ectada O PROCESSO 01. DEFINA PRIORIDADES Voce escolhe os focos de cuidado que fazem sentid"
+        },
+        {
+          "found": "comecar",
+          "expected": "começar",
+          "context": "a de skincare de forma simples e confiavel. COMECAR LEITURA DA PELE VER COMO FUNCIONA NAO SUBST"
+        },
+        {
+          "found": "politica",
+          "expected": "política",
+          "context": "rivacidade e controle de consentimento. VER POLITICA DE PRIVACIDADE DUVIDAS FREQUENTES A analise "
+        },
+        {
+          "found": "avaliacao",
+          "expected": "avaliação",
+          "context": "URA DA PELE VER COMO FUNCIONA NAO SUBSTITUI AVALIACAO DERMATOLOGICA LEITURA EM ANDAMENTO Textura"
+        },
+        {
+          "found": "nao",
+          "expected": "não",
+          "context": " COMECAR LEITURA DA PELE VER COMO FUNCIONA NAO SUBSTITUI AVALIACAO DERMATOLOGICA LEITURA E"
+        }
+      ],
+      "console": [],
+      "pageErrors": [],
+      "badResponses": [],
+      "requestFailures": [],
+      "imagesSummary": {
+        "total": 1,
+        "missingAlt": 0,
+        "lazy": 0,
+        "notLoaded": 0
+      },
+      "screenshot": "tmp\\prod-desktop--skin-scan.png"
+    },
+    {
+      "route": "/skin-scan/foco",
+      "url": "https://belapopoficial.com.br/skin-scan/foco",
+      "finalUrl": "https://belapopoficial.com.br/skin-scan/foco",
+      "status": 200,
+      "loadError": null,
+      "title": "Selecione seu foco de cuidado | Skin Scan BelaPop · BelaPop",
+      "meta": {
+        "title": "Selecione seu foco de cuidado | Skin Scan BelaPop · BelaPop",
+        "description": "Selecione os focos do seu cuidado para iniciar uma análise cosmética mais precisa no Skin Scan BelaPop.",
+        "canonical": null,
+        "ogTitle": "BelaPop — Skincare Curado com Inteligência",
+        "ogImage": "https://belapopoficial.com.br/og-default.jpg"
+      },
+      "headings": [
+        {
+          "tag": "H1",
+          "text": "Qual é a sua principal preocupação?"
+        }
+      ],
+      "buttons": [
+        {
+          "tag": "A",
+          "text": "Fechar Skin Scan",
+          "href": "/skin-scan",
+          "type": null
+        },
+        {
+          "tag": "BUTTON",
+          "text": "AcneCravos e lesões",
+          "href": null,
+          "type": "button"
+        },
+        {
+          "tag": "BUTTON",
+          "text": "OleosidadeBrilho excessivo",
+          "href": null,
+          "type": "button"
+        },
+        {
+          "tag": "BUTTON",
+          "text": "ManchasTom irregular",
+          "href": null,
+          "type": "button"
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Linhas finasEnvelhecimento precoce",
+          "href": null,
+          "type": "button"
+        },
+        {
+          "tag": "BUTTON",
+          "text": "SensibilidadeVermelhidão e ardência",
+          "href": null,
+          "type": "button"
+        },
+        {
+          "tag": "BUTTON",
+          "text": "PorosPoros dilatados",
+          "href": null,
+          "type": "button"
+        },
+        {
+          "tag": "BUTTON",
+          "text": "LuminosidadePele apagada",
+          "href": null,
+          "type": "button"
+        },
+        {
+          "tag": "BUTTON",
+          "text": "HidrataçãoRessecamento e tensão",
+          "href": null,
+          "type": "button"
+        },
+        {
+          "tag": "BUTTON",
+          "text": "TexturaAsperezas e irregularidades",
+          "href": null,
+          "type": "button"
+        },
+        {
+          "tag": "BUTTON",
+          "text": "OlheirasÁrea periorbital",
+          "href": null,
+          "type": "button"
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Iniciar leitura",
+          "href": null,
+          "type": "button"
+        }
+      ],
+      "bodyFont": "\"DM Sans\", \"DM Sans Fallback\", Manrope, \"Manrope Fallback\", sans-serif",
+      "h1Style": {
+        "fontFamily": "\"Playfair Display\", \"Playfair Display Fallback\"",
+        "fontWeight": "500",
+        "fontSize": "38.4px",
+        "lineHeight": "42.24px"
+      },
+      "overflow": {
+        "width": 1440,
+        "docWidth": 1440,
+        "bodyWidth": 1440,
+        "hasHorizontalOverflow": false
+      },
+      "accentIssues": [],
+      "console": [],
+      "pageErrors": [],
+      "badResponses": [],
+      "requestFailures": [],
+      "imagesSummary": {
+        "total": 0,
+        "missingAlt": 0,
+        "lazy": 0,
+        "notLoaded": 0
+      },
+      "screenshot": "tmp\\prod-desktop--skin-scan-foco.png"
+    },
+    {
+      "route": "/catalogo",
+      "url": "https://belapopoficial.com.br/catalogo",
+      "finalUrl": "https://belapopoficial.com.br/catalogo",
+      "status": 200,
+      "loadError": null,
+      "title": "Catálogo | BelaPop · BelaPop",
+      "meta": {
+        "title": "Catálogo | BelaPop · BelaPop",
+        "description": "Catálogo com filtros por marca, ritual, textura, seleção e faixa de preço.",
+        "canonical": null,
+        "ogTitle": "Catálogo | BelaPop",
+        "ogImage": "https://belapopoficial.com.br/editorial/presenca-diurna.svg"
+      },
+      "headings": [
+        {
+          "tag": "H1",
+          "text": "Produtos organizados para facilitar sua escolha."
+        },
+        {
+          "tag": "H3",
+          "text": "Oleo Capilar Nuit"
+        },
+        {
+          "tag": "H3",
+          "text": "Blush Veu Rose"
+        },
+        {
+          "tag": "H3",
+          "text": "Creme Barrier Celeste"
+        },
+        {
+          "tag": "H3",
+          "text": "Serum Radiance 01"
+        },
+        {
+          "tag": "H3",
+          "text": "Patch Olhos Aurora"
+        },
+        {
+          "tag": "H3",
+          "text": "Gel Limpeza Veludo"
+        },
+        {
+          "tag": "H3",
+          "text": "Protetor Solar Luz de Vela FPS 50"
+        },
+        {
+          "tag": "H3",
+          "text": "Tonico Nuvem de Rosa"
+        },
+        {
+          "tag": "H2",
+          "text": "Escolha como a BelaPop usa cookies."
+        }
+      ],
+      "buttons": [
+        {
+          "tag": "A",
+          "text": "BelaPop",
+          "href": "/",
+          "type": null
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Buscar produtos",
+          "href": null,
+          "type": "button"
+        },
+        {
+          "tag": "A",
+          "text": "Entrar",
+          "href": "/login?tab=customer&returnTo=%2Fconta",
+          "type": null
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Abrir menu",
+          "href": null,
+          "type": "button"
+        },
+        {
+          "tag": "A",
+          "text": "Entender minha pele",
+          "href": "/skin-scan",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Skincare",
+          "href": "/skincare",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Cabelos",
+          "href": "/cabelos",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Autocuidado",
+          "href": "/rituais",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Maquiagem",
+          "href": "/maquiagem",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "BelaPop",
+          "href": "/",
+          "type": null
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Buscar produtos",
+          "href": null,
+          "type": "button"
+        },
+        {
+          "tag": "A",
+          "text": "Favoritos",
+          "href": "/login?tab=customer&returnTo=%2Fconta%2Ffavoritos",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Entrar",
+          "href": "/login?tab=customer&returnTo=%2Fconta",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Carrinho",
+          "href": "/carrinho",
+          "type": null
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Fechar menu",
+          "href": null,
+          "type": "button"
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Fechar menu",
+          "href": null,
+          "type": "button"
+        },
+        {
+          "tag": "A",
+          "text": "Entender minha pele",
+          "href": "/skin-scan",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Skincare",
+          "href": "/skincare",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Cabelos",
+          "href": "/cabelos",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Autocuidado",
+          "href": "/rituais",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Maquiagem",
+          "href": "/maquiagem",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Favoritos",
+          "href": "/login?tab=customer&returnTo=%2Fconta%2Ffavoritos",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Minha conta",
+          "href": "/login?tab=customer&returnTo=%2Fconta",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Meus pedidos",
+          "href": "/login?tab=customer&returnTo=%2Fconta%2Fpedidos",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Atendimento",
+          "href": "/contato",
+          "type": null
+        }
+      ],
+      "bodyFont": "\"DM Sans\", \"DM Sans Fallback\", Manrope, \"Manrope Fallback\", sans-serif",
+      "h1Style": {
+        "fontFamily": "\"Cormorant Garamond\", \"Cormorant Garamond Fallback\", serif",
+        "fontWeight": "400",
+        "fontSize": "60px",
+        "lineHeight": "60px"
+      },
+      "overflow": {
+        "width": 1440,
+        "docWidth": 1440,
+        "bodyWidth": 1440,
+        "hasHorizontalOverflow": false
+      },
+      "accentIssues": [
+        {
+          "found": "preco",
+          "expected": "preço",
+          "context": " BUSCAR Ordenar Recomendados Novidades Menor preco Maior preco Produtos vendidos por parceiros"
+        },
+        {
+          "found": "nao",
+          "expected": "não",
+          "context": " Blush Veu Rose MAQUIAGEM ALTA PIGMENTACAO NAO ACINZENTA PELE NEGRA R$ 198,00 MARKETPLACE"
+        }
+      ],
+      "console": [],
+      "pageErrors": [],
+      "badResponses": [],
+      "requestFailures": [
+        {
+          "url": "https://belapopoficial.com.br/produto/oleo-capilar-nuit?_rsc=qq21z",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://belapopoficial.com.br/produto/gel-limpeza-veludo?_rsc=1eayg",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://belapopoficial.com.br/produto/serum-radiance-01?_rsc=1eayg",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://belapopoficial.com.br/produto/creme-barrier-celeste?_rsc=1eayg",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://belapopoficial.com.br/produto/oleo-capilar-nuit?_rsc=1eayg",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://belapopoficial.com.br/produto/blush-veu-rose?_rsc=1eayg",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://belapopoficial.com.br/?_rsc=1eayg",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://belapopoficial.com.br/produto/patch-olhos-aurora?_rsc=1eayg",
+          "failure": "net::ERR_ABORTED"
+        }
+      ],
+      "imagesSummary": {
+        "total": 16,
+        "missingAlt": 8,
+        "lazy": 16,
+        "notLoaded": 0
+      },
+      "screenshot": "tmp\\prod-desktop--catalogo.png"
+    },
+    {
+      "route": "/kits",
+      "url": "https://belapopoficial.com.br/kits",
+      "finalUrl": "https://belapopoficial.com.br/kits",
+      "status": 200,
+      "loadError": null,
+      "title": "Kits de skincare | BelaPop · BelaPop",
+      "meta": {
+        "title": "Kits de skincare | BelaPop · BelaPop",
+        "description": "Kits BelaPop organizados por ritual, necessidade e tipo de pele para comprar uma rotina completa com mais clareza.",
+        "canonical": null,
+        "ogTitle": "Kits de skincare | BelaPop",
+        "ogImage": null
+      },
+      "headings": [
+        {
+          "tag": "H2",
+          "text": "Kits pensados como rituais, não como produtos soltos."
+        },
+        {
+          "tag": "H3",
+          "text": "Edicao Descoberta"
+        },
+        {
+          "tag": "H3",
+          "text": "Ritual da Manha"
+        },
+        {
+          "tag": "H3",
+          "text": "Kit Barreira"
+        },
+        {
+          "tag": "H3",
+          "text": "Kit Pele Sensivel"
+        },
+        {
+          "tag": "H3",
+          "text": "Ritual da Noite"
+        },
+        {
+          "tag": "H3",
+          "text": "Kit Glow"
+        },
+        {
+          "tag": "H2",
+          "text": "Escolha como a BelaPop usa cookies."
+        }
+      ],
+      "buttons": [
+        {
+          "tag": "A",
+          "text": "BelaPop",
+          "href": "/",
+          "type": null
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Buscar produtos",
+          "href": null,
+          "type": "button"
+        },
+        {
+          "tag": "A",
+          "text": "Entrar",
+          "href": "/login?tab=customer&returnTo=%2Fconta",
+          "type": null
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Abrir menu",
+          "href": null,
+          "type": "button"
+        },
+        {
+          "tag": "A",
+          "text": "Entender minha pele",
+          "href": "/skin-scan",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Skincare",
+          "href": "/skincare",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Cabelos",
+          "href": "/cabelos",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Autocuidado",
+          "href": "/rituais",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Maquiagem",
+          "href": "/maquiagem",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "BelaPop",
+          "href": "/",
+          "type": null
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Buscar produtos",
+          "href": null,
+          "type": "button"
+        },
+        {
+          "tag": "A",
+          "text": "Favoritos",
+          "href": "/login?tab=customer&returnTo=%2Fconta%2Ffavoritos",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Entrar",
+          "href": "/login?tab=customer&returnTo=%2Fconta",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Carrinho",
+          "href": "/carrinho",
+          "type": null
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Fechar menu",
+          "href": null,
+          "type": "button"
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Fechar menu",
+          "href": null,
+          "type": "button"
+        },
+        {
+          "tag": "A",
+          "text": "Entender minha pele",
+          "href": "/skin-scan",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Skincare",
+          "href": "/skincare",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Cabelos",
+          "href": "/cabelos",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Autocuidado",
+          "href": "/rituais",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Maquiagem",
+          "href": "/maquiagem",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Favoritos",
+          "href": "/login?tab=customer&returnTo=%2Fconta%2Ffavoritos",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Minha conta",
+          "href": "/login?tab=customer&returnTo=%2Fconta",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Meus pedidos",
+          "href": "/login?tab=customer&returnTo=%2Fconta%2Fpedidos",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Atendimento",
+          "href": "/contato",
+          "type": null
+        }
+      ],
+      "bodyFont": "\"DM Sans\", \"DM Sans Fallback\", Manrope, \"Manrope Fallback\", sans-serif",
+      "h1Style": null,
+      "overflow": {
+        "width": 1440,
+        "docWidth": 1440,
+        "bodyWidth": 1440,
+        "hasHorizontalOverflow": false
+      },
+      "accentIssues": [
+        {
+          "found": "hidratacao",
+          "expected": "hidratação",
+          "context": " ao longo do dia. 4 Patch Olhos Aurora Apoia hidratacao e efeito descansado. NORMAL MISTA MANHA PREM"
+        },
+        {
+          "found": "comecar",
+          "expected": "começar",
+          "context": "ormal ORDENACAO Mais recomendado Melhor para comecar Menor preco Maior ticket NOVO MAIS ESCOLHIDO"
+        },
+        {
+          "found": "seguranca",
+          "expected": "segurança",
+          "context": "ma para peles sensibilizadas que precisam de seguranca e conforto. MENOS AGRESSAO, MAIS PREVISIBIL"
+        },
+        {
+          "found": "preco",
+          "expected": "preço",
+          "context": "O Mais recomendado Melhor para comecar Menor preco Maior ticket NOVO MAIS ESCOLHIDO DA SEMANA M"
+        },
+        {
+          "found": "protecao",
+          "expected": "proteção",
+          "context": "r, hidratar e proteger. OBJETIVO DA ROTINA protecao diaria Uma rotina inteligente para comecar "
+        },
+        {
+          "found": "sensivel",
+          "expected": "sensível",
+          "context": "l. OBJETIVO Todos Manha Noite Glow Barreira Sensivel Descoberta TIPO DE PELE Todos Oleosa Mista S"
+        },
+        {
+          "found": "aparencia",
+          "expected": "aparência",
+          "context": "idade Uma selecao para luminosidade, vico e aparencia de pele saudavel. PELE MAIS LUMINOSA COM AC"
+        }
+      ],
+      "console": [],
+      "pageErrors": [],
+      "badResponses": [],
+      "requestFailures": [
+        {
+          "url": "https://belapopoficial.com.br/skincare?_rsc=3hfbv",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://belapopoficial.com.br/skincare?_rsc=dt9xx",
+          "failure": "net::ERR_ABORTED"
+        }
+      ],
+      "imagesSummary": {
+        "total": 6,
+        "missingAlt": 0,
+        "lazy": 6,
+        "notLoaded": 0
+      },
+      "screenshot": "tmp\\prod-desktop--kits.png"
+    },
+    {
+      "route": "/produto/serum-radiance-01",
+      "url": "https://belapopoficial.com.br/produto/serum-radiance-01",
+      "finalUrl": "https://belapopoficial.com.br/produto/serum-radiance-01",
+      "status": 200,
+      "loadError": null,
+      "title": "Serum Radiance 01 · BelaPop",
+      "meta": {
+        "title": "Serum Radiance 01 · BelaPop",
+        "description": "Produto de skincare selecionado por formulacao objetiva e uso continuo. Ativos: hidratacao, uso consistente. Disponível agora.",
+        "canonical": "https://belapopoficial.com.br/produto/serum-radiance-01",
+        "ogTitle": "Serum Radiance 01 · BelaPop",
+        "ogImage": "https://belapopoficial.com.br/api/og/produto?nome=Serum%20Radiance%2001&preco=289&imagem=https%3A%2F%2Flh3.googleusercontent.com%2Faida-public%2FAB6AXuAU2BbAbeAwR5Vu09mQLjv0INQ3dKGhvUBcc4k7j91FBWyYf2Nh_x7eKFzKwzEIeHMhRGItg2_LrBVpLY5p5Wmpu72xuexID-FBVP9zl9y-CMTQhkGxyOgGaMcYPMeRYA8uqeIlLlmBTUZNy0BJGadN2Y3rx9ERHNwR8MHZiwkO_0yTkHqvh8fIgzJEGrlQUORnbsGhg-kq9Xo1u2cMDOMH250uY6mwOXRi2IyI044h_7bIyqWL5teoU-2_lDCCvSf2l9fu8VBu14OJ"
+      },
+      "headings": [
+        {
+          "tag": "H1",
+          "text": "Serum Radiance 01"
+        },
+        {
+          "tag": "H3",
+          "text": "SLA de postagem: ate 48h"
+        },
+        {
+          "tag": "H3",
+          "text": "7 dias para solicitar"
+        },
+        {
+          "tag": "H3",
+          "text": "Produto protegido e nota fiscal garantida"
+        },
+        {
+          "tag": "H3",
+          "text": "Autenticidade, curadoria, entrega, pos-venda e pagamento visiveis antes da decisao."
+        },
+        {
+          "tag": "H3",
+          "text": "Escolha com mais segurança"
+        },
+        {
+          "tag": "H1",
+          "text": "Serum Radiance 01"
+        },
+        {
+          "tag": "H3",
+          "text": "SLA de postagem: ate 48h"
+        },
+        {
+          "tag": "H3",
+          "text": "7 dias para solicitar"
+        },
+        {
+          "tag": "H3",
+          "text": "Produto protegido e nota fiscal garantida"
+        },
+        {
+          "tag": "H3",
+          "text": "Autenticidade, curadoria, entrega, pos-venda e pagamento visiveis antes da decisao."
+        },
+        {
+          "tag": "H3",
+          "text": "Complete a rotina com inteligência"
+        }
+      ],
+      "buttons": [
+        {
+          "tag": "A",
+          "text": "BelaPop",
+          "href": "/",
+          "type": null
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Buscar produtos",
+          "href": null,
+          "type": "button"
+        },
+        {
+          "tag": "A",
+          "text": "Entrar",
+          "href": "/login?tab=customer&returnTo=%2Fconta",
+          "type": null
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Abrir menu",
+          "href": null,
+          "type": "button"
+        },
+        {
+          "tag": "A",
+          "text": "Entender minha pele",
+          "href": "/skin-scan",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Skincare",
+          "href": "/skincare",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Cabelos",
+          "href": "/cabelos",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Autocuidado",
+          "href": "/rituais",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Maquiagem",
+          "href": "/maquiagem",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "BelaPop",
+          "href": "/",
+          "type": null
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Buscar produtos",
+          "href": null,
+          "type": "button"
+        },
+        {
+          "tag": "A",
+          "text": "Favoritos",
+          "href": "/login?tab=customer&returnTo=%2Fconta%2Ffavoritos",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Entrar",
+          "href": "/login?tab=customer&returnTo=%2Fconta",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Carrinho",
+          "href": "/carrinho",
+          "type": null
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Fechar menu",
+          "href": null,
+          "type": "button"
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Fechar menu",
+          "href": null,
+          "type": "button"
+        },
+        {
+          "tag": "A",
+          "text": "Entender minha pele",
+          "href": "/skin-scan",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Skincare",
+          "href": "/skincare",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Cabelos",
+          "href": "/cabelos",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Autocuidado",
+          "href": "/rituais",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Maquiagem",
+          "href": "/maquiagem",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Favoritos",
+          "href": "/login?tab=customer&returnTo=%2Fconta%2Ffavoritos",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Minha conta",
+          "href": "/login?tab=customer&returnTo=%2Fconta",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Meus pedidos",
+          "href": "/login?tab=customer&returnTo=%2Fconta%2Fpedidos",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Atendimento",
+          "href": "/contato",
+          "type": null
+        }
+      ],
+      "bodyFont": "\"DM Sans\", \"DM Sans Fallback\", Manrope, \"Manrope Fallback\", sans-serif",
+      "h1Style": {
+        "fontFamily": "\"Playfair Display\", \"Playfair Display Fallback\"",
+        "fontWeight": "500",
+        "fontSize": "26.4px",
+        "lineHeight": "26.928px"
+      },
+      "overflow": {
+        "width": 1440,
+        "docWidth": 1440,
+        "bodyWidth": 1440,
+        "hasHorizontalOverflow": false
+      },
+      "accentIssues": [
+        {
+          "found": "hidratacao",
+          "expected": "hidratação",
+          "context": "ER ORIENTAÇÃO POR QUE A BELAPOP SELECIONOU Hidratacao imediata com conforto durante o dia. Textura"
+        },
+        {
+          "found": "politica",
+          "expected": "política",
+          "context": " TROCAS E DEVOLUCOES 7 dias para solicitar Politica BelaPop aplicada ao pedido. Logistica rever"
+        },
+        {
+          "found": "protecao",
+          "expected": "proteção",
+          "context": "do e nota fiscal garantida Embalagem limpa, protecao contra avarias e apresentacao alinhada ao pa"
+        },
+        {
+          "found": "beneficios",
+          "expected": "benefícios",
+          "context": "m poucos passos, sem aumentar complexidade. Beneficios HIDRATACAO LUMINOSIDADE TEXTURA CONFORTO Com"
+        },
+        {
+          "found": "ate",
+          "expected": "até",
+          "context": "a leve e acabamento luminoso. R$ 289,00 EM ATE 6X DE R$ 48,17 SEM JUROS EM ESTOQUE ADICIO"
+        }
+      ],
+      "console": [
+        {
+          "type": "error",
+          "text": "Failed to load resource: the server responded with a status of 401 ()"
+        },
+        {
+          "type": "error",
+          "text": "Failed to load resource: the server responded with a status of 500 ()"
+        }
+      ],
+      "pageErrors": [],
+      "badResponses": [
+        {
+          "status": 401,
+          "url": "https://belapopoficial.com.br/api/catalogo/wishlist"
+        },
+        {
+          "status": 500,
+          "url": "https://belapopoficial.com.br/api/lotes/produto/d4f28b60-cc02-466a-a5b3-54c04be69790"
+        }
+      ],
+      "requestFailures": [
+        {
+          "url": "https://belapopoficial.com.br/skincare?_rsc=19cs1",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://belapopoficial.com.br/?_rsc=19p56",
+          "failure": "net::ERR_ABORTED"
+        }
+      ],
+      "imagesSummary": {
+        "total": 9,
+        "missingAlt": 0,
+        "lazy": 7,
+        "notLoaded": 3
+      },
+      "screenshot": "tmp\\prod-desktop--produto-serum-radiance-01.png"
+    },
+    {
+      "route": "/produto/gel-limpeza-veludo",
+      "url": "https://belapopoficial.com.br/produto/gel-limpeza-veludo",
+      "finalUrl": "https://belapopoficial.com.br/produto/gel-limpeza-veludo",
+      "status": 200,
+      "loadError": null,
+      "title": "Gel Limpeza Veludo · BelaPop",
+      "meta": {
+        "title": "Gel Limpeza Veludo · BelaPop",
+        "description": "Cleanser calmante com centella asiatica e ceramidas para limpar sem repuxar. Ativos: pele confortavel, barreira preservada. Disponível agora.",
+        "canonical": "https://belapopoficial.com.br/produto/gel-limpeza-veludo",
+        "ogTitle": "Gel Limpeza Veludo · BelaPop",
+        "ogImage": "https://belapopoficial.com.br/api/og/produto?nome=Gel%20Limpeza%20Veludo&preco=219&imagem=https%3A%2F%2Flh3.googleusercontent.com%2Faida-public%2FAB6AXuAU2BbAbeAwR5Vu09mQLjv0INQ3dKGhvUBcc4k7j91FBWyYf2Nh_x7eKFzKwzEIeHMhRGItg2_LrBVpLY5p5Wmpu72xuexID-FBVP9zl9y-CMTQhkGxyOgGaMcYPMeRYA8uqeIlLlmBTUZNy0BJGadN2Y3rx9ERHNwR8MHZiwkO_0yTkHqvh8fIgzJEGrlQUORnbsGhg-kq9Xo1u2cMDOMH250uY6mwOXRi2IyI044h_7bIyqWL5teoU-2_lDCCvSf2l9fu8VBu14OJ"
+      },
+      "headings": [
+        {
+          "tag": "H1",
+          "text": "Gel Limpeza Veludo"
+        },
+        {
+          "tag": "H3",
+          "text": "SLA de postagem: ate 48h"
+        },
+        {
+          "tag": "H3",
+          "text": "7 dias para solicitar"
+        },
+        {
+          "tag": "H3",
+          "text": "Produto protegido e nota fiscal garantida"
+        },
+        {
+          "tag": "H3",
+          "text": "Autenticidade, curadoria, entrega, pos-venda e pagamento visiveis antes da decisao."
+        },
+        {
+          "tag": "H3",
+          "text": "Escolha com mais segurança"
+        },
+        {
+          "tag": "H1",
+          "text": "Gel Limpeza Veludo"
+        },
+        {
+          "tag": "H3",
+          "text": "SLA de postagem: ate 48h"
+        },
+        {
+          "tag": "H3",
+          "text": "7 dias para solicitar"
+        },
+        {
+          "tag": "H3",
+          "text": "Produto protegido e nota fiscal garantida"
+        },
+        {
+          "tag": "H3",
+          "text": "Autenticidade, curadoria, entrega, pos-venda e pagamento visiveis antes da decisao."
+        },
+        {
+          "tag": "H3",
+          "text": "Complete a rotina com inteligência"
+        }
+      ],
+      "buttons": [
+        {
+          "tag": "A",
+          "text": "BelaPop",
+          "href": "/",
+          "type": null
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Buscar produtos",
+          "href": null,
+          "type": "button"
+        },
+        {
+          "tag": "A",
+          "text": "Entrar",
+          "href": "/login?tab=customer&returnTo=%2Fconta",
+          "type": null
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Abrir menu",
+          "href": null,
+          "type": "button"
+        },
+        {
+          "tag": "A",
+          "text": "Entender minha pele",
+          "href": "/skin-scan",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Skincare",
+          "href": "/skincare",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Cabelos",
+          "href": "/cabelos",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Autocuidado",
+          "href": "/rituais",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Maquiagem",
+          "href": "/maquiagem",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "BelaPop",
+          "href": "/",
+          "type": null
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Buscar produtos",
+          "href": null,
+          "type": "button"
+        },
+        {
+          "tag": "A",
+          "text": "Favoritos",
+          "href": "/login?tab=customer&returnTo=%2Fconta%2Ffavoritos",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Entrar",
+          "href": "/login?tab=customer&returnTo=%2Fconta",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Carrinho",
+          "href": "/carrinho",
+          "type": null
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Fechar menu",
+          "href": null,
+          "type": "button"
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Fechar menu",
+          "href": null,
+          "type": "button"
+        },
+        {
+          "tag": "A",
+          "text": "Entender minha pele",
+          "href": "/skin-scan",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Skincare",
+          "href": "/skincare",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Cabelos",
+          "href": "/cabelos",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Autocuidado",
+          "href": "/rituais",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Maquiagem",
+          "href": "/maquiagem",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Favoritos",
+          "href": "/login?tab=customer&returnTo=%2Fconta%2Ffavoritos",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Minha conta",
+          "href": "/login?tab=customer&returnTo=%2Fconta",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Meus pedidos",
+          "href": "/login?tab=customer&returnTo=%2Fconta%2Fpedidos",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Atendimento",
+          "href": "/contato",
+          "type": null
+        }
+      ],
+      "bodyFont": "\"DM Sans\", \"DM Sans Fallback\", Manrope, \"Manrope Fallback\", sans-serif",
+      "h1Style": {
+        "fontFamily": "\"Playfair Display\", \"Playfair Display Fallback\"",
+        "fontWeight": "500",
+        "fontSize": "26.4px",
+        "lineHeight": "26.928px"
+      },
+      "overflow": {
+        "width": 1440,
+        "docWidth": 1440,
+        "bodyWidth": 1440,
+        "hasHorizontalOverflow": false
+      },
+      "accentIssues": [
+        {
+          "found": "hidratacao",
+          "expected": "hidratação",
+          "context": "ER ORIENTAÇÃO POR QUE A BELAPOP SELECIONOU Hidratacao imediata com conforto durante o dia. Textura"
+        },
+        {
+          "found": "politica",
+          "expected": "política",
+          "context": " TROCAS E DEVOLUCOES 7 dias para solicitar Politica BelaPop aplicada ao pedido. Logistica rever"
+        },
+        {
+          "found": "protecao",
+          "expected": "proteção",
+          "context": "do e nota fiscal garantida Embalagem limpa, protecao contra avarias e apresentacao alinhada ao pa"
+        },
+        {
+          "found": "beneficios",
+          "expected": "benefícios",
+          "context": "m poucos passos, sem aumentar complexidade. Beneficios HIDRATACAO LUMINOSIDADE TEXTURA CONFORTO Com"
+        },
+        {
+          "found": "ate",
+          "expected": "até",
+          "context": "a leve e acabamento luminoso. R$ 219,00 EM ATE 6X DE R$ 36,50 SEM JUROS EM ESTOQUE ADICIO"
+        }
+      ],
+      "console": [
+        {
+          "type": "error",
+          "text": "Failed to load resource: the server responded with a status of 401 ()"
+        },
+        {
+          "type": "error",
+          "text": "Failed to load resource: the server responded with a status of 500 ()"
+        }
+      ],
+      "pageErrors": [],
+      "badResponses": [
+        {
+          "status": 401,
+          "url": "https://belapopoficial.com.br/api/catalogo/wishlist"
+        },
+        {
+          "status": 500,
+          "url": "https://belapopoficial.com.br/api/lotes/produto/803cd63a-b92b-4fe9-b2f3-7fe681a308d7"
+        }
+      ],
+      "requestFailures": [],
+      "imagesSummary": {
+        "total": 9,
+        "missingAlt": 0,
+        "lazy": 7,
+        "notLoaded": 3
+      },
+      "screenshot": "tmp\\prod-desktop--produto-gel-limpeza-veludo.png"
+    },
+    {
+      "route": "/carrinho",
+      "url": "https://belapopoficial.com.br/carrinho",
+      "finalUrl": "https://belapopoficial.com.br/carrinho",
+      "status": 200,
+      "loadError": null,
+      "title": "Carrinho | BelaPop · BelaPop",
+      "meta": {
+        "title": "Carrinho | BelaPop · BelaPop",
+        "description": "Revise sua curadoria antes de finalizar a compra.",
+        "canonical": null,
+        "ogTitle": "Carrinho | BelaPop",
+        "ogImage": null
+      },
+      "headings": [
+        {
+          "tag": "H1",
+          "text": "Sua seleção"
+        },
+        {
+          "tag": "H2",
+          "text": "Carregando seu carrinho"
+        },
+        {
+          "tag": "H3",
+          "text": "PopClub Rewards"
+        },
+        {
+          "tag": "H3",
+          "text": "Quer revisar este carrinho com mais clareza?"
+        },
+        {
+          "tag": "H3",
+          "text": "Autenticidade, curadoria, entrega, pos-venda e pagamento visiveis antes da decisao."
+        },
+        {
+          "tag": "H2",
+          "text": "Resumo do pedido"
+        },
+        {
+          "tag": "H3",
+          "text": "Antes de seguir para o checkout"
+        }
+      ],
+      "buttons": [
+        {
+          "tag": "A",
+          "text": "BelaPop",
+          "href": "/",
+          "type": null
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Buscar produtos",
+          "href": null,
+          "type": "button"
+        },
+        {
+          "tag": "A",
+          "text": "Entrar",
+          "href": "/login?tab=customer&returnTo=%2Fconta",
+          "type": null
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Abrir menu",
+          "href": null,
+          "type": "button"
+        },
+        {
+          "tag": "A",
+          "text": "Entender minha pele",
+          "href": "/skin-scan",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Skincare",
+          "href": "/skincare",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Cabelos",
+          "href": "/cabelos",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Autocuidado",
+          "href": "/rituais",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Maquiagem",
+          "href": "/maquiagem",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "BelaPop",
+          "href": "/",
+          "type": null
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Buscar produtos",
+          "href": null,
+          "type": "button"
+        },
+        {
+          "tag": "A",
+          "text": "Favoritos",
+          "href": "/login?tab=customer&returnTo=%2Fconta%2Ffavoritos",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Entrar",
+          "href": "/login?tab=customer&returnTo=%2Fconta",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Carrinho",
+          "href": "/carrinho",
+          "type": null
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Fechar menu",
+          "href": null,
+          "type": "button"
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Fechar menu",
+          "href": null,
+          "type": "button"
+        },
+        {
+          "tag": "A",
+          "text": "Entender minha pele",
+          "href": "/skin-scan",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Skincare",
+          "href": "/skincare",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Cabelos",
+          "href": "/cabelos",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Autocuidado",
+          "href": "/rituais",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Maquiagem",
+          "href": "/maquiagem",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Favoritos",
+          "href": "/login?tab=customer&returnTo=%2Fconta%2Ffavoritos",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Minha conta",
+          "href": "/login?tab=customer&returnTo=%2Fconta",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Meus pedidos",
+          "href": "/login?tab=customer&returnTo=%2Fconta%2Fpedidos",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Atendimento",
+          "href": "/contato",
+          "type": null
+        }
+      ],
+      "bodyFont": "\"DM Sans\", \"DM Sans Fallback\", Manrope, \"Manrope Fallback\", sans-serif",
+      "h1Style": {
+        "fontFamily": "\"Playfair Display\", \"Playfair Display Fallback\"",
+        "fontWeight": "600",
+        "fontSize": "48px",
+        "lineHeight": "48px"
+      },
+      "overflow": {
+        "width": 1440,
+        "docWidth": 1440,
+        "bodyWidth": 1440,
+        "hasHorizontalOverflow": false
+      },
+      "accentIssues": [
+        {
+          "found": "voce",
+          "expected": "você",
+          "context": "OTAL R$ 0,00 FINALIZAR PEDIDO Ao continuar, voce confirma os termos da plataforma e condicoes"
+        },
+        {
+          "found": "politica",
+          "expected": "política",
+          "context": "e meios realmente disponíveis para o pedido. POLITICA DE REEMBOLSO E DEVOLUCAO TERMOS E CONDICOES "
+        },
+        {
+          "found": "beneficios",
+          "expected": "benefícios",
+          "context": "gin para acumular pontos na compra e liberar beneficios exclusivos. ACESSAR CONTA CONSULTORA BELAP"
+        }
+      ],
+      "console": [],
+      "pageErrors": [],
+      "badResponses": [],
+      "requestFailures": [],
+      "imagesSummary": {
+        "total": 0,
+        "missingAlt": 0,
+        "lazy": 0,
+        "notLoaded": 0
+      },
+      "screenshot": "tmp\\prod-desktop--carrinho.png"
+    },
+    {
+      "route": "/checkout",
+      "url": "https://belapopoficial.com.br/checkout",
+      "finalUrl": "https://belapopoficial.com.br/login?tab=customer&returnTo=%2Fcheckout",
+      "status": 200,
+      "loadError": null,
+      "title": "BelaPop — Skincare Curado com Inteligência",
+      "meta": {
+        "title": "BelaPop — Skincare Curado com Inteligência",
+        "description": "Skincare com curadoria clínica, análise facial personalizada e lotes limitados verificados. Descubra sua rotina ideal em minutos.",
+        "canonical": null,
+        "ogTitle": "BelaPop — Skincare Curado com Inteligência",
+        "ogImage": "https://belapopoficial.com.br/og-default.jpg"
+      },
+      "headings": [],
+      "buttons": [],
+      "bodyFont": "\"DM Sans\", \"DM Sans Fallback\", Manrope, \"Manrope Fallback\", sans-serif",
+      "h1Style": null,
+      "overflow": {
+        "width": 1440,
+        "docWidth": 1440,
+        "bodyWidth": 1440,
+        "hasHorizontalOverflow": false
+      },
+      "accentIssues": [],
+      "console": [],
+      "pageErrors": [],
+      "badResponses": [],
+      "requestFailures": [],
+      "imagesSummary": {
+        "total": 0,
+        "missingAlt": 0,
+        "lazy": 0,
+        "notLoaded": 0
+      },
+      "screenshot": "tmp\\prod-desktop--checkout.png"
+    },
+    {
+      "route": "/login",
+      "url": "https://belapopoficial.com.br/login",
+      "finalUrl": "https://belapopoficial.com.br/login",
+      "status": 200,
+      "loadError": null,
+      "title": "BelaPop — Skincare Curado com Inteligência",
+      "meta": {
+        "title": "BelaPop — Skincare Curado com Inteligência",
+        "description": "Skincare com curadoria clínica, análise facial personalizada e lotes limitados verificados. Descubra sua rotina ideal em minutos.",
+        "canonical": null,
+        "ogTitle": "BelaPop — Skincare Curado com Inteligência",
+        "ogImage": "https://belapopoficial.com.br/og-default.jpg"
+      },
+      "headings": [],
+      "buttons": [],
+      "bodyFont": "\"DM Sans\", \"DM Sans Fallback\", Manrope, \"Manrope Fallback\", sans-serif",
+      "h1Style": null,
+      "overflow": {
+        "width": 1440,
+        "docWidth": 1440,
+        "bodyWidth": 1440,
+        "hasHorizontalOverflow": false
+      },
+      "accentIssues": [],
+      "console": [],
+      "pageErrors": [],
+      "badResponses": [],
+      "requestFailures": [],
+      "imagesSummary": {
+        "total": 0,
+        "missingAlt": 0,
+        "lazy": 0,
+        "notLoaded": 0
+      },
+      "screenshot": "tmp\\prod-desktop--login.png"
+    },
+    {
+      "route": "/register",
+      "url": "https://belapopoficial.com.br/register",
+      "finalUrl": "https://belapopoficial.com.br/register",
+      "status": 200,
+      "loadError": null,
+      "title": "BelaPop — Skincare Curado com Inteligência",
+      "meta": {
+        "title": "BelaPop — Skincare Curado com Inteligência",
+        "description": "Skincare com curadoria clínica, análise facial personalizada e lotes limitados verificados. Descubra sua rotina ideal em minutos.",
+        "canonical": null,
+        "ogTitle": "BelaPop — Skincare Curado com Inteligência",
+        "ogImage": "https://belapopoficial.com.br/og-default.jpg"
+      },
+      "headings": [
+        {
+          "tag": "H1",
+          "text": "Crie sua conta."
+        },
+        {
+          "tag": "H2",
+          "text": "Criar conta BelaPop"
+        }
+      ],
+      "buttons": [
+        {
+          "tag": "A",
+          "text": "BelaPop",
+          "href": "/",
+          "type": null
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Buscar produtos",
+          "href": null,
+          "type": "button"
+        },
+        {
+          "tag": "A",
+          "text": "Entrar",
+          "href": "/login?tab=customer&returnTo=%2Fconta",
+          "type": null
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Abrir menu",
+          "href": null,
+          "type": "button"
+        },
+        {
+          "tag": "A",
+          "text": "Entender minha pele",
+          "href": "/skin-scan",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Skincare",
+          "href": "/skincare",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Cabelos",
+          "href": "/cabelos",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Autocuidado",
+          "href": "/rituais",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Maquiagem",
+          "href": "/maquiagem",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "BelaPop",
+          "href": "/",
+          "type": null
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Buscar produtos",
+          "href": null,
+          "type": "button"
+        },
+        {
+          "tag": "A",
+          "text": "Favoritos",
+          "href": "/login?tab=customer&returnTo=%2Fconta%2Ffavoritos",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Entrar",
+          "href": "/login?tab=customer&returnTo=%2Fconta",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Carrinho",
+          "href": "/carrinho",
+          "type": null
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Fechar menu",
+          "href": null,
+          "type": "button"
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Fechar menu",
+          "href": null,
+          "type": "button"
+        },
+        {
+          "tag": "A",
+          "text": "Entender minha pele",
+          "href": "/skin-scan",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Skincare",
+          "href": "/skincare",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Cabelos",
+          "href": "/cabelos",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Autocuidado",
+          "href": "/rituais",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Maquiagem",
+          "href": "/maquiagem",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Favoritos",
+          "href": "/login?tab=customer&returnTo=%2Fconta%2Ffavoritos",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Minha conta",
+          "href": "/login?tab=customer&returnTo=%2Fconta",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Meus pedidos",
+          "href": "/login?tab=customer&returnTo=%2Fconta%2Fpedidos",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Atendimento",
+          "href": "/contato",
+          "type": null
+        }
+      ],
+      "bodyFont": "\"DM Sans\", \"DM Sans Fallback\", Manrope, \"Manrope Fallback\", sans-serif",
+      "h1Style": {
+        "fontFamily": "\"Cormorant Garamond\", \"Cormorant Garamond Fallback\", serif",
+        "fontWeight": "400",
+        "fontSize": "36px",
+        "lineHeight": "40px"
+      },
+      "overflow": {
+        "width": 1440,
+        "docWidth": 1440,
+        "bodyWidth": 1440,
+        "hasHorizontalOverflow": false
+      },
+      "accentIssues": [
+        {
+          "found": "ja",
+          "expected": "já",
+          "context": "ar sua experiencia premium. CRIAR CADASTRO Ja tem conta? Entrar Cadastro de lojista? Ir p"
+        }
+      ],
+      "console": [],
+      "pageErrors": [],
+      "badResponses": [],
+      "requestFailures": [],
+      "imagesSummary": {
+        "total": 0,
+        "missingAlt": 0,
+        "lazy": 0,
+        "notLoaded": 0
+      },
+      "screenshot": "tmp\\prod-desktop--register.png"
+    },
+    {
+      "route": "/sobre",
+      "url": "https://belapopoficial.com.br/sobre",
+      "finalUrl": "https://belapopoficial.com.br/sobre",
+      "status": 200,
+      "loadError": null,
+      "title": "Sobre a BelaPop · BelaPop",
+      "meta": {
+        "title": "Sobre a BelaPop · BelaPop",
+        "description": "Uma nova experiencia de beleza, guiada por inteligencia e desejo.",
+        "canonical": null,
+        "ogTitle": "BelaPop — Skincare Curado com Inteligência",
+        "ogImage": "https://belapopoficial.com.br/og-default.jpg"
+      },
+      "headings": [
+        {
+          "tag": "H1",
+          "text": "Uma nova experiencia de beleza, guiada por inteligencia e desejo."
+        },
+        {
+          "tag": "H2",
+          "text": "Quem somos"
+        },
+        {
+          "tag": "H2",
+          "text": "O que nos diferencia"
+        },
+        {
+          "tag": "H3",
+          "text": "Marca + tecnologia"
+        }
+      ],
+      "buttons": [
+        {
+          "tag": "A",
+          "text": "BelaPop",
+          "href": "/",
+          "type": null
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Buscar produtos",
+          "href": null,
+          "type": "button"
+        },
+        {
+          "tag": "A",
+          "text": "Entrar",
+          "href": "/login?tab=customer&returnTo=%2Fconta",
+          "type": null
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Abrir menu",
+          "href": null,
+          "type": "button"
+        },
+        {
+          "tag": "A",
+          "text": "Entender minha pele",
+          "href": "/skin-scan",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Skincare",
+          "href": "/skincare",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Cabelos",
+          "href": "/cabelos",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Autocuidado",
+          "href": "/rituais",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Maquiagem",
+          "href": "/maquiagem",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "BelaPop",
+          "href": "/",
+          "type": null
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Buscar produtos",
+          "href": null,
+          "type": "button"
+        },
+        {
+          "tag": "A",
+          "text": "Favoritos",
+          "href": "/login?tab=customer&returnTo=%2Fconta%2Ffavoritos",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Entrar",
+          "href": "/login?tab=customer&returnTo=%2Fconta",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Carrinho",
+          "href": "/carrinho",
+          "type": null
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Fechar menu",
+          "href": null,
+          "type": "button"
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Fechar menu",
+          "href": null,
+          "type": "button"
+        },
+        {
+          "tag": "A",
+          "text": "Entender minha pele",
+          "href": "/skin-scan",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Skincare",
+          "href": "/skincare",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Cabelos",
+          "href": "/cabelos",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Autocuidado",
+          "href": "/rituais",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Maquiagem",
+          "href": "/maquiagem",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Favoritos",
+          "href": "/login?tab=customer&returnTo=%2Fconta%2Ffavoritos",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Minha conta",
+          "href": "/login?tab=customer&returnTo=%2Fconta",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Meus pedidos",
+          "href": "/login?tab=customer&returnTo=%2Fconta%2Fpedidos",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Atendimento",
+          "href": "/contato",
+          "type": null
+        }
+      ],
+      "bodyFont": "\"DM Sans\", \"DM Sans Fallback\", Manrope, \"Manrope Fallback\", sans-serif",
+      "h1Style": {
+        "fontFamily": "\"DM Serif Display\", \"DM Serif Display Fallback\", \"Playfair Display\", \"Playfair Display Fallback\", serif",
+        "fontWeight": "400",
+        "fontSize": "60px",
+        "lineHeight": "60px"
+      },
+      "overflow": {
+        "width": 1440,
+        "docWidth": 1440,
+        "bodyWidth": 1440,
+        "hasHorizontalOverflow": false
+      },
+      "accentIssues": [],
+      "console": [],
+      "pageErrors": [],
+      "badResponses": [],
+      "requestFailures": [],
+      "imagesSummary": {
+        "total": 0,
+        "missingAlt": 0,
+        "lazy": 0,
+        "notLoaded": 0
+      },
+      "screenshot": "tmp\\prod-desktop--sobre.png"
+    }
+  ],
+  "mobile": [
+    {
+      "route": "/",
+      "url": "https://belapopoficial.com.br/",
+      "finalUrl": "https://belapopoficial.com.br/",
+      "status": 200,
+      "loadError": null,
+      "title": "BelaPop | Skincare guiado pela sua pele · BelaPop",
+      "meta": {
+        "title": "BelaPop | Skincare guiado pela sua pele · BelaPop",
+        "description": "Interface de decisao em skincare com analise visual, curadoria com criterio e acompanhamento da rotina.",
+        "canonical": null,
+        "ogTitle": "BelaPop | Skincare guiado pela sua pele",
+        "ogImage": "https://belapopoficial.com.br/logo-dark.svg"
+      },
+      "headings": [
+        {
+          "tag": "H1",
+          "text": "Seu skincare começa por um diagnóstico."
+        },
+        {
+          "tag": "H2",
+          "text": "Seu diagnóstico começa aqui."
+        },
+        {
+          "tag": "H2",
+          "text": "Entre pelo desejo da pele, nao por uma prateleira infinita."
+        },
+        {
+          "tag": "H3",
+          "text": "Luminosidade refinada e hidratacao profunda."
+        },
+        {
+          "tag": "H3",
+          "text": "Controle inteligente sem agredir sua barreira."
+        },
+        {
+          "tag": "H3",
+          "text": "Reconstrucao da pele sensibilizada."
+        },
+        {
+          "tag": "H2",
+          "text": "Compra inteligente: cada passo aumenta o valor da rotina."
+        },
+        {
+          "tag": "H3",
+          "text": "Limpeza"
+        },
+        {
+          "tag": "H3",
+          "text": "Toner"
+        },
+        {
+          "tag": "H3",
+          "text": "Serum"
+        },
+        {
+          "tag": "H3",
+          "text": "Creme"
+        },
+        {
+          "tag": "H3",
+          "text": "SPF"
+        }
+      ],
+      "buttons": [
+        {
+          "tag": "A",
+          "text": "BelaPop",
+          "href": "/",
+          "type": null
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Buscar produtos",
+          "href": null,
+          "type": "button"
+        },
+        {
+          "tag": "A",
+          "text": "Entrar",
+          "href": "/login?tab=customer&returnTo=%2Fconta",
+          "type": null
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Abrir menu",
+          "href": null,
+          "type": "button"
+        },
+        {
+          "tag": "A",
+          "text": "Entender minha pele",
+          "href": "/skin-scan",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Skincare",
+          "href": "/skincare",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Cabelos",
+          "href": "/cabelos",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Autocuidado",
+          "href": "/rituais",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Maquiagem",
+          "href": "/maquiagem",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "BelaPop",
+          "href": "/",
+          "type": null
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Buscar produtos",
+          "href": null,
+          "type": "button"
+        },
+        {
+          "tag": "A",
+          "text": "Favoritos",
+          "href": "/login?tab=customer&returnTo=%2Fconta%2Ffavoritos",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Entrar",
+          "href": "/login?tab=customer&returnTo=%2Fconta",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Carrinho",
+          "href": "/carrinho",
+          "type": null
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Fechar menu",
+          "href": null,
+          "type": "button"
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Fechar menu",
+          "href": null,
+          "type": "button"
+        },
+        {
+          "tag": "A",
+          "text": "Entender minha pele",
+          "href": "/skin-scan",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Skincare",
+          "href": "/skincare",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Cabelos",
+          "href": "/cabelos",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Autocuidado",
+          "href": "/rituais",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Maquiagem",
+          "href": "/maquiagem",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Favoritos",
+          "href": "/login?tab=customer&returnTo=%2Fconta%2Ffavoritos",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Minha conta",
+          "href": "/login?tab=customer&returnTo=%2Fconta",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Meus pedidos",
+          "href": "/login?tab=customer&returnTo=%2Fconta%2Fpedidos",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Atendimento",
+          "href": "/contato",
+          "type": null
+        }
+      ],
+      "bodyFont": "\"DM Sans\", \"DM Sans Fallback\", Manrope, \"Manrope Fallback\", sans-serif",
+      "h1Style": {
+        "fontFamily": "\"Playfair Display\", \"Playfair Display Fallback\", serif",
+        "fontWeight": "700",
+        "fontSize": "29px",
+        "lineHeight": "33.64px"
+      },
+      "overflow": {
+        "width": 393,
+        "docWidth": 393,
+        "bodyWidth": 393,
+        "hasHorizontalOverflow": false
+      },
+      "accentIssues": [
+        {
+          "found": "hidratacao",
+          "expected": "hidratação",
+          "context": "OCURADA GLASS SKIN Luminosidade refinada e hidratacao profunda. Para pele opaca, cansada ou sem v"
+        },
+        {
+          "found": "comecar",
+          "expected": "começar",
+          "context": "protecao diaria Uma rotina inteligente para comecar o dia com pele limpa, luminosa e protegida. "
+        },
+        {
+          "found": "protecao",
+          "expected": "proteção",
+          "context": "r, hidratar e proteger. OBJETIVO DA ROTINA protecao diaria Uma rotina inteligente para comecar "
+        },
+        {
+          "found": "sensivel",
+          "expected": "sensível",
+          "context": "ntexto de uso: manha / noite para pele seca, sensivel, normal FUNCIONA MELHOR COM Creme Barrier C"
+        },
+        {
+          "found": "nao",
+          "expected": "não",
+          "context": "NIVERSOS BELAPOP Entre pelo desejo da pele, nao por uma prateleira infinita. Cada universo "
+        }
+      ],
+      "console": [],
+      "pageErrors": [],
+      "badResponses": [],
+      "requestFailures": [
+        {
+          "url": "https://belapopoficial.com.br/skincare?_rsc=p37cr",
+          "failure": "net::ERR_ABORTED"
+        }
+      ],
+      "imagesSummary": {
+        "total": 23,
+        "missingAlt": 0,
+        "lazy": 20,
+        "notLoaded": 16
+      },
+      "screenshot": "tmp\\prod-iphone--.png"
+    },
+    {
+      "route": "/catalogo",
+      "url": "https://belapopoficial.com.br/catalogo",
+      "finalUrl": "https://belapopoficial.com.br/catalogo",
+      "status": 200,
+      "loadError": null,
+      "title": "Catálogo | BelaPop · BelaPop",
+      "meta": {
+        "title": "Catálogo | BelaPop · BelaPop",
+        "description": "Catálogo com filtros por marca, ritual, textura, seleção e faixa de preço.",
+        "canonical": null,
+        "ogTitle": "Catálogo | BelaPop",
+        "ogImage": "https://belapopoficial.com.br/editorial/presenca-diurna.svg"
+      },
+      "headings": [
+        {
+          "tag": "H1",
+          "text": "Produtos organizados para facilitar sua escolha."
+        },
+        {
+          "tag": "H3",
+          "text": "Oleo Capilar Nuit"
+        },
+        {
+          "tag": "H3",
+          "text": "Blush Veu Rose"
+        },
+        {
+          "tag": "H3",
+          "text": "Creme Barrier Celeste"
+        },
+        {
+          "tag": "H3",
+          "text": "Serum Radiance 01"
+        },
+        {
+          "tag": "H3",
+          "text": "Patch Olhos Aurora"
+        },
+        {
+          "tag": "H3",
+          "text": "Gel Limpeza Veludo"
+        },
+        {
+          "tag": "H3",
+          "text": "Protetor Solar Luz de Vela FPS 50"
+        },
+        {
+          "tag": "H3",
+          "text": "Tonico Nuvem de Rosa"
+        },
+        {
+          "tag": "H2",
+          "text": "Escolha como a BelaPop usa cookies."
+        }
+      ],
+      "buttons": [
+        {
+          "tag": "A",
+          "text": "BelaPop",
+          "href": "/",
+          "type": null
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Buscar produtos",
+          "href": null,
+          "type": "button"
+        },
+        {
+          "tag": "A",
+          "text": "Entrar",
+          "href": "/login?tab=customer&returnTo=%2Fconta",
+          "type": null
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Abrir menu",
+          "href": null,
+          "type": "button"
+        },
+        {
+          "tag": "A",
+          "text": "Entender minha pele",
+          "href": "/skin-scan",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Skincare",
+          "href": "/skincare",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Cabelos",
+          "href": "/cabelos",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Autocuidado",
+          "href": "/rituais",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Maquiagem",
+          "href": "/maquiagem",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "BelaPop",
+          "href": "/",
+          "type": null
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Buscar produtos",
+          "href": null,
+          "type": "button"
+        },
+        {
+          "tag": "A",
+          "text": "Favoritos",
+          "href": "/login?tab=customer&returnTo=%2Fconta%2Ffavoritos",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Entrar",
+          "href": "/login?tab=customer&returnTo=%2Fconta",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Carrinho",
+          "href": "/carrinho",
+          "type": null
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Fechar menu",
+          "href": null,
+          "type": "button"
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Fechar menu",
+          "href": null,
+          "type": "button"
+        },
+        {
+          "tag": "A",
+          "text": "Entender minha pele",
+          "href": "/skin-scan",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Skincare",
+          "href": "/skincare",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Cabelos",
+          "href": "/cabelos",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Autocuidado",
+          "href": "/rituais",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Maquiagem",
+          "href": "/maquiagem",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Favoritos",
+          "href": "/login?tab=customer&returnTo=%2Fconta%2Ffavoritos",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Minha conta",
+          "href": "/login?tab=customer&returnTo=%2Fconta",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Meus pedidos",
+          "href": "/login?tab=customer&returnTo=%2Fconta%2Fpedidos",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Atendimento",
+          "href": "/contato",
+          "type": null
+        }
+      ],
+      "bodyFont": "\"DM Sans\", \"DM Sans Fallback\", Manrope, \"Manrope Fallback\", sans-serif",
+      "h1Style": {
+        "fontFamily": "\"Cormorant Garamond\", \"Cormorant Garamond Fallback\", serif",
+        "fontWeight": "400",
+        "fontSize": "32.32px",
+        "lineHeight": "32.32px"
+      },
+      "overflow": {
+        "width": 393,
+        "docWidth": 393,
+        "bodyWidth": 393,
+        "hasHorizontalOverflow": false
+      },
+      "accentIssues": [
+        {
+          "found": "preco",
+          "expected": "preço",
+          "context": " BUSCAR Ordenar Recomendados Novidades Menor preco Maior preco Produtos vendidos por parceiros"
+        },
+        {
+          "found": "nao",
+          "expected": "não",
+          "context": " Blush Veu Rose MAQUIAGEM ALTA PIGMENTACAO NAO ACINZENTA PELE NEGRA R$ 198,00 MARKETPLACE"
+        }
+      ],
+      "console": [],
+      "pageErrors": [],
+      "badResponses": [],
+      "requestFailures": [
+        {
+          "url": "https://belapopoficial.com.br/skincare?_rsc=qq21z",
+          "failure": "net::ERR_ABORTED"
+        }
+      ],
+      "imagesSummary": {
+        "total": 16,
+        "missingAlt": 8,
+        "lazy": 16,
+        "notLoaded": 4
+      },
+      "screenshot": "tmp\\prod-iphone--catalogo.png"
+    },
+    {
+      "route": "/produto/serum-radiance-01",
+      "url": "https://belapopoficial.com.br/produto/serum-radiance-01",
+      "finalUrl": "https://belapopoficial.com.br/produto/serum-radiance-01",
+      "status": 200,
+      "loadError": null,
+      "title": "Serum Radiance 01 · BelaPop",
+      "meta": {
+        "title": "Serum Radiance 01 · BelaPop",
+        "description": "Produto de skincare selecionado por formulacao objetiva e uso continuo. Ativos: hidratacao, uso consistente. Disponível agora.",
+        "canonical": "https://belapopoficial.com.br/produto/serum-radiance-01",
+        "ogTitle": "Serum Radiance 01 · BelaPop",
+        "ogImage": "https://belapopoficial.com.br/api/og/produto?nome=Serum%20Radiance%2001&preco=289&imagem=https%3A%2F%2Flh3.googleusercontent.com%2Faida-public%2FAB6AXuAU2BbAbeAwR5Vu09mQLjv0INQ3dKGhvUBcc4k7j91FBWyYf2Nh_x7eKFzKwzEIeHMhRGItg2_LrBVpLY5p5Wmpu72xuexID-FBVP9zl9y-CMTQhkGxyOgGaMcYPMeRYA8uqeIlLlmBTUZNy0BJGadN2Y3rx9ERHNwR8MHZiwkO_0yTkHqvh8fIgzJEGrlQUORnbsGhg-kq9Xo1u2cMDOMH250uY6mwOXRi2IyI044h_7bIyqWL5teoU-2_lDCCvSf2l9fu8VBu14OJ"
+      },
+      "headings": [
+        {
+          "tag": "H1",
+          "text": "Serum Radiance 01"
+        },
+        {
+          "tag": "H3",
+          "text": "SLA de postagem: ate 48h"
+        },
+        {
+          "tag": "H3",
+          "text": "7 dias para solicitar"
+        },
+        {
+          "tag": "H3",
+          "text": "Produto protegido e nota fiscal garantida"
+        },
+        {
+          "tag": "H3",
+          "text": "Autenticidade, curadoria, entrega, pos-venda e pagamento visiveis antes da decisao."
+        },
+        {
+          "tag": "H3",
+          "text": "Escolha com mais segurança"
+        },
+        {
+          "tag": "H1",
+          "text": "Serum Radiance 01"
+        },
+        {
+          "tag": "H3",
+          "text": "SLA de postagem: ate 48h"
+        },
+        {
+          "tag": "H3",
+          "text": "7 dias para solicitar"
+        },
+        {
+          "tag": "H3",
+          "text": "Produto protegido e nota fiscal garantida"
+        },
+        {
+          "tag": "H3",
+          "text": "Autenticidade, curadoria, entrega, pos-venda e pagamento visiveis antes da decisao."
+        },
+        {
+          "tag": "H3",
+          "text": "Complete a rotina com inteligência"
+        }
+      ],
+      "buttons": [
+        {
+          "tag": "A",
+          "text": "BelaPop",
+          "href": "/",
+          "type": null
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Buscar produtos",
+          "href": null,
+          "type": "button"
+        },
+        {
+          "tag": "A",
+          "text": "Entrar",
+          "href": "/login?tab=customer&returnTo=%2Fconta",
+          "type": null
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Abrir menu",
+          "href": null,
+          "type": "button"
+        },
+        {
+          "tag": "A",
+          "text": "Entender minha pele",
+          "href": "/skin-scan",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Skincare",
+          "href": "/skincare",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Cabelos",
+          "href": "/cabelos",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Autocuidado",
+          "href": "/rituais",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Maquiagem",
+          "href": "/maquiagem",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "BelaPop",
+          "href": "/",
+          "type": null
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Buscar produtos",
+          "href": null,
+          "type": "button"
+        },
+        {
+          "tag": "A",
+          "text": "Favoritos",
+          "href": "/login?tab=customer&returnTo=%2Fconta%2Ffavoritos",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Entrar",
+          "href": "/login?tab=customer&returnTo=%2Fconta",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Carrinho",
+          "href": "/carrinho",
+          "type": null
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Fechar menu",
+          "href": null,
+          "type": "button"
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Fechar menu",
+          "href": null,
+          "type": "button"
+        },
+        {
+          "tag": "A",
+          "text": "Entender minha pele",
+          "href": "/skin-scan",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Skincare",
+          "href": "/skincare",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Cabelos",
+          "href": "/cabelos",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Autocuidado",
+          "href": "/rituais",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Maquiagem",
+          "href": "/maquiagem",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Favoritos",
+          "href": "/login?tab=customer&returnTo=%2Fconta%2Ffavoritos",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Minha conta",
+          "href": "/login?tab=customer&returnTo=%2Fconta",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Meus pedidos",
+          "href": "/login?tab=customer&returnTo=%2Fconta%2Fpedidos",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Atendimento",
+          "href": "/contato",
+          "type": null
+        }
+      ],
+      "bodyFont": "\"DM Sans\", \"DM Sans Fallback\", Manrope, \"Manrope Fallback\", sans-serif",
+      "h1Style": {
+        "fontFamily": "\"Playfair Display\", \"Playfair Display Fallback\"",
+        "fontWeight": "500",
+        "fontSize": "26.4px",
+        "lineHeight": "26.928px"
+      },
+      "overflow": {
+        "width": 393,
+        "docWidth": 393,
+        "bodyWidth": 393,
+        "hasHorizontalOverflow": false
+      },
+      "accentIssues": [
+        {
+          "found": "hidratacao",
+          "expected": "hidratação",
+          "context": "uo. LER MAIS POR QUE A BELAPOP SELECIONOU Hidratacao imediata com conforto durante o dia. Textura"
+        },
+        {
+          "found": "politica",
+          "expected": "política",
+          "context": "? COMO FUNCIONA DEVOLUCAO? Mais detalhes na politica da plataforma. BelaPop CURADORIA PREMIUM, "
+        },
+        {
+          "found": "beneficios",
+          "expected": "benefícios",
+          "context": "m poucos passos, sem aumentar complexidade. Beneficios HIDRATACAO LUMINOSIDADE TEXTURA CONFORTO Com"
+        },
+        {
+          "found": "ate",
+          "expected": "até",
+          "context": "Maquiagem Favoritos Minha conta Meus pedidos Atendimento Políticas e Termos Ver carrinho Pro"
+        }
+      ],
+      "console": [
+        {
+          "type": "error",
+          "text": "Failed to load resource: the server responded with a status of 401 ()"
+        },
+        {
+          "type": "error",
+          "text": "Failed to load resource: the server responded with a status of 500 ()"
+        }
+      ],
+      "pageErrors": [],
+      "badResponses": [
+        {
+          "status": 401,
+          "url": "https://belapopoficial.com.br/api/catalogo/wishlist"
+        },
+        {
+          "status": 500,
+          "url": "https://belapopoficial.com.br/api/lotes/produto/d4f28b60-cc02-466a-a5b3-54c04be69790"
+        }
+      ],
+      "requestFailures": [],
+      "imagesSummary": {
+        "total": 9,
+        "missingAlt": 0,
+        "lazy": 7,
+        "notLoaded": 4
+      },
+      "screenshot": "tmp\\prod-iphone--produto-serum-radiance-01.png"
+    },
+    {
+      "route": "/carrinho",
+      "url": "https://belapopoficial.com.br/carrinho",
+      "finalUrl": "https://belapopoficial.com.br/carrinho",
+      "status": 200,
+      "loadError": null,
+      "title": "Carrinho | BelaPop · BelaPop",
+      "meta": {
+        "title": "Carrinho | BelaPop · BelaPop",
+        "description": "Revise sua curadoria antes de finalizar a compra.",
+        "canonical": null,
+        "ogTitle": "Carrinho | BelaPop",
+        "ogImage": null
+      },
+      "headings": [
+        {
+          "tag": "H1",
+          "text": "Sua seleção"
+        },
+        {
+          "tag": "H2",
+          "text": "Carregando seu carrinho"
+        },
+        {
+          "tag": "H3",
+          "text": "PopClub Rewards"
+        },
+        {
+          "tag": "H3",
+          "text": "Quer revisar este carrinho com mais clareza?"
+        },
+        {
+          "tag": "H3",
+          "text": "Autenticidade, curadoria, entrega, pos-venda e pagamento visiveis antes da decisao."
+        },
+        {
+          "tag": "H2",
+          "text": "Resumo do pedido"
+        },
+        {
+          "tag": "H3",
+          "text": "Antes de seguir para o checkout"
+        }
+      ],
+      "buttons": [
+        {
+          "tag": "A",
+          "text": "BelaPop",
+          "href": "/",
+          "type": null
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Buscar produtos",
+          "href": null,
+          "type": "button"
+        },
+        {
+          "tag": "A",
+          "text": "Entrar",
+          "href": "/login?tab=customer&returnTo=%2Fconta",
+          "type": null
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Abrir menu",
+          "href": null,
+          "type": "button"
+        },
+        {
+          "tag": "A",
+          "text": "Entender minha pele",
+          "href": "/skin-scan",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Skincare",
+          "href": "/skincare",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Cabelos",
+          "href": "/cabelos",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Autocuidado",
+          "href": "/rituais",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Maquiagem",
+          "href": "/maquiagem",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "BelaPop",
+          "href": "/",
+          "type": null
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Buscar produtos",
+          "href": null,
+          "type": "button"
+        },
+        {
+          "tag": "A",
+          "text": "Favoritos",
+          "href": "/login?tab=customer&returnTo=%2Fconta%2Ffavoritos",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Entrar",
+          "href": "/login?tab=customer&returnTo=%2Fconta",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Carrinho",
+          "href": "/carrinho",
+          "type": null
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Fechar menu",
+          "href": null,
+          "type": "button"
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Fechar menu",
+          "href": null,
+          "type": "button"
+        },
+        {
+          "tag": "A",
+          "text": "Entender minha pele",
+          "href": "/skin-scan",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Skincare",
+          "href": "/skincare",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Cabelos",
+          "href": "/cabelos",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Autocuidado",
+          "href": "/rituais",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Maquiagem",
+          "href": "/maquiagem",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Favoritos",
+          "href": "/login?tab=customer&returnTo=%2Fconta%2Ffavoritos",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Minha conta",
+          "href": "/login?tab=customer&returnTo=%2Fconta",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Meus pedidos",
+          "href": "/login?tab=customer&returnTo=%2Fconta%2Fpedidos",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Atendimento",
+          "href": "/contato",
+          "type": null
+        }
+      ],
+      "bodyFont": "\"DM Sans\", \"DM Sans Fallback\", Manrope, \"Manrope Fallback\", sans-serif",
+      "h1Style": {
+        "fontFamily": "\"Playfair Display\", \"Playfair Display Fallback\"",
+        "fontWeight": "600",
+        "fontSize": "36px",
+        "lineHeight": "40px"
+      },
+      "overflow": {
+        "width": 393,
+        "docWidth": 393,
+        "bodyWidth": 393,
+        "hasHorizontalOverflow": false
+      },
+      "accentIssues": [
+        {
+          "found": "voce",
+          "expected": "você",
+          "context": "OTAL R$ 0,00 FINALIZAR PEDIDO Ao continuar, voce confirma os termos da plataforma e condicoes"
+        },
+        {
+          "found": "politica",
+          "expected": "política",
+          "context": "e meios realmente disponíveis para o pedido. POLITICA DE REEMBOLSO E DEVOLUCAO TERMOS E CONDICOES "
+        },
+        {
+          "found": "beneficios",
+          "expected": "benefícios",
+          "context": "gin para acumular pontos na compra e liberar beneficios exclusivos. ACESSAR CONTA CONSULTORA BELAP"
+        }
+      ],
+      "console": [],
+      "pageErrors": [],
+      "badResponses": [],
+      "requestFailures": [
+        {
+          "url": "https://belapopoficial.com.br/skincare?_rsc=1dcam",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://belapopoficial.com.br/?_rsc=1dcam",
+          "failure": "net::ERR_ABORTED"
+        }
+      ],
+      "imagesSummary": {
+        "total": 0,
+        "missingAlt": 0,
+        "lazy": 0,
+        "notLoaded": 0
+      },
+      "screenshot": "tmp\\prod-iphone--carrinho.png"
+    },
+    {
+      "route": "/checkout",
+      "url": "https://belapopoficial.com.br/checkout",
+      "finalUrl": "https://belapopoficial.com.br/login?tab=customer&returnTo=%2Fcheckout",
+      "status": 200,
+      "loadError": null,
+      "title": "BelaPop — Skincare Curado com Inteligência",
+      "meta": {
+        "title": "BelaPop — Skincare Curado com Inteligência",
+        "description": "Skincare com curadoria clínica, análise facial personalizada e lotes limitados verificados. Descubra sua rotina ideal em minutos.",
+        "canonical": null,
+        "ogTitle": "BelaPop — Skincare Curado com Inteligência",
+        "ogImage": "https://belapopoficial.com.br/og-default.jpg"
+      },
+      "headings": [
+        {
+          "tag": "H2",
+          "text": "A Essencia daBeleza Curada"
+        },
+        {
+          "tag": "H2",
+          "text": "Escolha como a BelaPop usa cookies."
+        }
+      ],
+      "buttons": [
+        {
+          "tag": "BUTTON",
+          "text": "Entrar",
+          "href": null,
+          "type": "button"
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Criar Conta",
+          "href": null,
+          "type": "button"
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Esqueceu a senha?",
+          "href": null,
+          "type": "button"
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Acessar Colecao",
+          "href": null,
+          "type": "submit"
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Conectar com Google",
+          "href": null,
+          "type": "button"
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Entrar com Facebook",
+          "href": null,
+          "type": "button"
+        },
+        {
+          "tag": "A",
+          "text": "Termos e Condicoes",
+          "href": "/termos-e-condicoes",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Politica de Privacidade",
+          "href": "/aviso-de-privacidade",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Política de Cookies",
+          "href": "/politica-de-cookies",
+          "type": null
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Aceitar todos",
+          "href": null,
+          "type": "button"
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Recusar não essenciais",
+          "href": null,
+          "type": "button"
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Personalizar cookies",
+          "href": null,
+          "type": "button"
+        }
+      ],
+      "bodyFont": "\"DM Sans\", \"DM Sans Fallback\", Manrope, \"Manrope Fallback\", sans-serif",
+      "h1Style": null,
+      "overflow": {
+        "width": 393,
+        "docWidth": 393,
+        "bodyWidth": 393,
+        "hasHorizontalOverflow": false
+      },
+      "accentIssues": [
+        {
+          "found": "voce",
+          "expected": "você",
+          "context": "OM GOOGLE ENTRAR COM FACEBOOK Ao continuar, voce concorda com nossos Termos e Condicoes e Pol"
+        },
+        {
+          "found": "politica",
+          "expected": "política",
+          "context": "oce concorda com nossos Termos e Condicoes e Politica de Privacidade. COOKIES E PRIVACIDADE Esco"
+        }
+      ],
+      "console": [],
+      "pageErrors": [],
+      "badResponses": [],
+      "requestFailures": [],
+      "imagesSummary": {
+        "total": 2,
+        "missingAlt": 0,
+        "lazy": 0,
+        "notLoaded": 0
+      },
+      "screenshot": "tmp\\prod-iphone--checkout.png"
+    },
+    {
+      "route": "/login",
+      "url": "https://belapopoficial.com.br/login",
+      "finalUrl": "https://belapopoficial.com.br/login",
+      "status": 200,
+      "loadError": null,
+      "title": "BelaPop — Skincare Curado com Inteligência",
+      "meta": {
+        "title": "BelaPop — Skincare Curado com Inteligência",
+        "description": "Skincare com curadoria clínica, análise facial personalizada e lotes limitados verificados. Descubra sua rotina ideal em minutos.",
+        "canonical": null,
+        "ogTitle": "BelaPop — Skincare Curado com Inteligência",
+        "ogImage": "https://belapopoficial.com.br/og-default.jpg"
+      },
+      "headings": [
+        {
+          "tag": "H2",
+          "text": "A Essencia daBeleza Curada"
+        },
+        {
+          "tag": "H2",
+          "text": "Escolha como a BelaPop usa cookies."
+        }
+      ],
+      "buttons": [
+        {
+          "tag": "BUTTON",
+          "text": "Entrar",
+          "href": null,
+          "type": "button"
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Criar Conta",
+          "href": null,
+          "type": "button"
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Esqueceu a senha?",
+          "href": null,
+          "type": "button"
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Acessar Colecao",
+          "href": null,
+          "type": "submit"
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Conectar com Google",
+          "href": null,
+          "type": "button"
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Entrar com Facebook",
+          "href": null,
+          "type": "button"
+        },
+        {
+          "tag": "A",
+          "text": "Termos e Condicoes",
+          "href": "/termos-e-condicoes",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Politica de Privacidade",
+          "href": "/aviso-de-privacidade",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Política de Cookies",
+          "href": "/politica-de-cookies",
+          "type": null
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Aceitar todos",
+          "href": null,
+          "type": "button"
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Recusar não essenciais",
+          "href": null,
+          "type": "button"
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Personalizar cookies",
+          "href": null,
+          "type": "button"
+        }
+      ],
+      "bodyFont": "\"DM Sans\", \"DM Sans Fallback\", Manrope, \"Manrope Fallback\", sans-serif",
+      "h1Style": null,
+      "overflow": {
+        "width": 393,
+        "docWidth": 393,
+        "bodyWidth": 393,
+        "hasHorizontalOverflow": false
+      },
+      "accentIssues": [
+        {
+          "found": "voce",
+          "expected": "você",
+          "context": "OM GOOGLE ENTRAR COM FACEBOOK Ao continuar, voce concorda com nossos Termos e Condicoes e Pol"
+        },
+        {
+          "found": "politica",
+          "expected": "política",
+          "context": "oce concorda com nossos Termos e Condicoes e Politica de Privacidade. COOKIES E PRIVACIDADE Esco"
+        }
+      ],
+      "console": [],
+      "pageErrors": [],
+      "badResponses": [],
+      "requestFailures": [],
+      "imagesSummary": {
+        "total": 2,
+        "missingAlt": 0,
+        "lazy": 0,
+        "notLoaded": 0
+      },
+      "screenshot": "tmp\\prod-iphone--login.png"
+    }
+  ],
+  "android": [
+    {
+      "route": "/",
+      "url": "https://belapopoficial.com.br/",
+      "finalUrl": "https://belapopoficial.com.br/",
+      "status": 200,
+      "loadError": null,
+      "title": "BelaPop | Skincare guiado pela sua pele · BelaPop",
+      "meta": {
+        "title": "BelaPop | Skincare guiado pela sua pele · BelaPop",
+        "description": "Interface de decisao em skincare com analise visual, curadoria com criterio e acompanhamento da rotina.",
+        "canonical": null,
+        "ogTitle": "BelaPop | Skincare guiado pela sua pele",
+        "ogImage": "https://belapopoficial.com.br/logo-dark.svg"
+      },
+      "headings": [
+        {
+          "tag": "H1",
+          "text": "Seu skincare começa por um diagnóstico."
+        },
+        {
+          "tag": "H2",
+          "text": "Seu diagnóstico começa aqui."
+        },
+        {
+          "tag": "H2",
+          "text": "Entre pelo desejo da pele, nao por uma prateleira infinita."
+        },
+        {
+          "tag": "H3",
+          "text": "Luminosidade refinada e hidratacao profunda."
+        },
+        {
+          "tag": "H3",
+          "text": "Controle inteligente sem agredir sua barreira."
+        },
+        {
+          "tag": "H3",
+          "text": "Reconstrucao da pele sensibilizada."
+        },
+        {
+          "tag": "H2",
+          "text": "Compra inteligente: cada passo aumenta o valor da rotina."
+        },
+        {
+          "tag": "H3",
+          "text": "Limpeza"
+        },
+        {
+          "tag": "H3",
+          "text": "Toner"
+        },
+        {
+          "tag": "H3",
+          "text": "Serum"
+        },
+        {
+          "tag": "H3",
+          "text": "Creme"
+        },
+        {
+          "tag": "H3",
+          "text": "SPF"
+        }
+      ],
+      "buttons": [
+        {
+          "tag": "A",
+          "text": "BelaPop",
+          "href": "/",
+          "type": null
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Buscar produtos",
+          "href": null,
+          "type": "button"
+        },
+        {
+          "tag": "A",
+          "text": "Entrar",
+          "href": "/login?tab=customer&returnTo=%2Fconta",
+          "type": null
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Abrir menu",
+          "href": null,
+          "type": "button"
+        },
+        {
+          "tag": "A",
+          "text": "Entender minha pele",
+          "href": "/skin-scan",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Skincare",
+          "href": "/skincare",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Cabelos",
+          "href": "/cabelos",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Autocuidado",
+          "href": "/rituais",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Maquiagem",
+          "href": "/maquiagem",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "BelaPop",
+          "href": "/",
+          "type": null
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Buscar produtos",
+          "href": null,
+          "type": "button"
+        },
+        {
+          "tag": "A",
+          "text": "Favoritos",
+          "href": "/login?tab=customer&returnTo=%2Fconta%2Ffavoritos",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Entrar",
+          "href": "/login?tab=customer&returnTo=%2Fconta",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Carrinho",
+          "href": "/carrinho",
+          "type": null
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Fechar menu",
+          "href": null,
+          "type": "button"
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Fechar menu",
+          "href": null,
+          "type": "button"
+        },
+        {
+          "tag": "A",
+          "text": "Entender minha pele",
+          "href": "/skin-scan",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Skincare",
+          "href": "/skincare",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Cabelos",
+          "href": "/cabelos",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Autocuidado",
+          "href": "/rituais",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Maquiagem",
+          "href": "/maquiagem",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Favoritos",
+          "href": "/login?tab=customer&returnTo=%2Fconta%2Ffavoritos",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Minha conta",
+          "href": "/login?tab=customer&returnTo=%2Fconta",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Meus pedidos",
+          "href": "/login?tab=customer&returnTo=%2Fconta%2Fpedidos",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Atendimento",
+          "href": "/contato",
+          "type": null
+        }
+      ],
+      "bodyFont": "\"DM Sans\", \"DM Sans Fallback\", Manrope, \"Manrope Fallback\", sans-serif",
+      "h1Style": {
+        "fontFamily": "\"Playfair Display\", \"Playfair Display Fallback\", serif",
+        "fontWeight": "700",
+        "fontSize": "29px",
+        "lineHeight": "33.64px"
+      },
+      "overflow": {
+        "width": 412,
+        "docWidth": 412,
+        "bodyWidth": 412,
+        "hasHorizontalOverflow": false
+      },
+      "accentIssues": [
+        {
+          "found": "hidratacao",
+          "expected": "hidratação",
+          "context": "OCURADA GLASS SKIN Luminosidade refinada e hidratacao profunda. Para pele opaca, cansada ou sem v"
+        },
+        {
+          "found": "comecar",
+          "expected": "começar",
+          "context": "protecao diaria Uma rotina inteligente para comecar o dia com pele limpa, luminosa e protegida. "
+        },
+        {
+          "found": "protecao",
+          "expected": "proteção",
+          "context": "r, hidratar e proteger. OBJETIVO DA ROTINA protecao diaria Uma rotina inteligente para comecar "
+        },
+        {
+          "found": "sensivel",
+          "expected": "sensível",
+          "context": "ntexto de uso: manha / noite para pele seca, sensivel, normal FUNCIONA MELHOR COM Creme Barrier C"
+        },
+        {
+          "found": "nao",
+          "expected": "não",
+          "context": "NIVERSOS BELAPOP Entre pelo desejo da pele, nao por uma prateleira infinita. Cada universo "
+        }
+      ],
+      "console": [],
+      "pageErrors": [],
+      "badResponses": [],
+      "requestFailures": [],
+      "imagesSummary": {
+        "total": 23,
+        "missingAlt": 0,
+        "lazy": 20,
+        "notLoaded": 16
+      },
+      "screenshot": "tmp\\prod-android--.png"
+    },
+    {
+      "route": "/catalogo",
+      "url": "https://belapopoficial.com.br/catalogo",
+      "finalUrl": "https://belapopoficial.com.br/catalogo",
+      "status": 200,
+      "loadError": null,
+      "title": "Catálogo | BelaPop · BelaPop",
+      "meta": {
+        "title": "Catálogo | BelaPop · BelaPop",
+        "description": "Catálogo com filtros por marca, ritual, textura, seleção e faixa de preço.",
+        "canonical": null,
+        "ogTitle": "Catálogo | BelaPop",
+        "ogImage": "https://belapopoficial.com.br/editorial/presenca-diurna.svg"
+      },
+      "headings": [
+        {
+          "tag": "H1",
+          "text": "Produtos organizados para facilitar sua escolha."
+        },
+        {
+          "tag": "H3",
+          "text": "Oleo Capilar Nuit"
+        },
+        {
+          "tag": "H3",
+          "text": "Blush Veu Rose"
+        },
+        {
+          "tag": "H3",
+          "text": "Creme Barrier Celeste"
+        },
+        {
+          "tag": "H3",
+          "text": "Serum Radiance 01"
+        },
+        {
+          "tag": "H3",
+          "text": "Patch Olhos Aurora"
+        },
+        {
+          "tag": "H3",
+          "text": "Gel Limpeza Veludo"
+        },
+        {
+          "tag": "H3",
+          "text": "Protetor Solar Luz de Vela FPS 50"
+        },
+        {
+          "tag": "H3",
+          "text": "Tonico Nuvem de Rosa"
+        },
+        {
+          "tag": "H2",
+          "text": "Escolha como a BelaPop usa cookies."
+        }
+      ],
+      "buttons": [
+        {
+          "tag": "A",
+          "text": "BelaPop",
+          "href": "/",
+          "type": null
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Buscar produtos",
+          "href": null,
+          "type": "button"
+        },
+        {
+          "tag": "A",
+          "text": "Entrar",
+          "href": "/login?tab=customer&returnTo=%2Fconta",
+          "type": null
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Abrir menu",
+          "href": null,
+          "type": "button"
+        },
+        {
+          "tag": "A",
+          "text": "Entender minha pele",
+          "href": "/skin-scan",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Skincare",
+          "href": "/skincare",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Cabelos",
+          "href": "/cabelos",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Autocuidado",
+          "href": "/rituais",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Maquiagem",
+          "href": "/maquiagem",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "BelaPop",
+          "href": "/",
+          "type": null
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Buscar produtos",
+          "href": null,
+          "type": "button"
+        },
+        {
+          "tag": "A",
+          "text": "Favoritos",
+          "href": "/login?tab=customer&returnTo=%2Fconta%2Ffavoritos",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Entrar",
+          "href": "/login?tab=customer&returnTo=%2Fconta",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Carrinho",
+          "href": "/carrinho",
+          "type": null
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Fechar menu",
+          "href": null,
+          "type": "button"
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Fechar menu",
+          "href": null,
+          "type": "button"
+        },
+        {
+          "tag": "A",
+          "text": "Entender minha pele",
+          "href": "/skin-scan",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Skincare",
+          "href": "/skincare",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Cabelos",
+          "href": "/cabelos",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Autocuidado",
+          "href": "/rituais",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Maquiagem",
+          "href": "/maquiagem",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Favoritos",
+          "href": "/login?tab=customer&returnTo=%2Fconta%2Ffavoritos",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Minha conta",
+          "href": "/login?tab=customer&returnTo=%2Fconta",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Meus pedidos",
+          "href": "/login?tab=customer&returnTo=%2Fconta%2Fpedidos",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Atendimento",
+          "href": "/contato",
+          "type": null
+        }
+      ],
+      "bodyFont": "\"DM Sans\", \"DM Sans Fallback\", Manrope, \"Manrope Fallback\", sans-serif",
+      "h1Style": {
+        "fontFamily": "\"Cormorant Garamond\", \"Cormorant Garamond Fallback\", serif",
+        "fontWeight": "400",
+        "fontSize": "32.32px",
+        "lineHeight": "32.32px"
+      },
+      "overflow": {
+        "width": 412,
+        "docWidth": 412,
+        "bodyWidth": 412,
+        "hasHorizontalOverflow": false
+      },
+      "accentIssues": [
+        {
+          "found": "preco",
+          "expected": "preço",
+          "context": " BUSCAR Ordenar Recomendados Novidades Menor preco Maior preco Produtos vendidos por parceiros"
+        },
+        {
+          "found": "nao",
+          "expected": "não",
+          "context": " Blush Veu Rose MAQUIAGEM ALTA PIGMENTACAO NAO ACINZENTA PELE NEGRA R$ 198,00 MARKETPLACE"
+        }
+      ],
+      "console": [],
+      "pageErrors": [],
+      "badResponses": [],
+      "requestFailures": [
+        {
+          "url": "https://belapopoficial.com.br/skincare?_rsc=1eayg",
+          "failure": "net::ERR_ABORTED"
+        }
+      ],
+      "imagesSummary": {
+        "total": 16,
+        "missingAlt": 8,
+        "lazy": 16,
+        "notLoaded": 2
+      },
+      "screenshot": "tmp\\prod-android--catalogo.png"
+    },
+    {
+      "route": "/produto/serum-radiance-01",
+      "url": "https://belapopoficial.com.br/produto/serum-radiance-01",
+      "finalUrl": "https://belapopoficial.com.br/produto/serum-radiance-01",
+      "status": 200,
+      "loadError": null,
+      "title": "Serum Radiance 01 · BelaPop",
+      "meta": {
+        "title": "Serum Radiance 01 · BelaPop",
+        "description": "Produto de skincare selecionado por formulacao objetiva e uso continuo. Ativos: hidratacao, uso consistente. Disponível agora.",
+        "canonical": "https://belapopoficial.com.br/produto/serum-radiance-01",
+        "ogTitle": "Serum Radiance 01 · BelaPop",
+        "ogImage": "https://belapopoficial.com.br/api/og/produto?nome=Serum%20Radiance%2001&preco=289&imagem=https%3A%2F%2Flh3.googleusercontent.com%2Faida-public%2FAB6AXuAU2BbAbeAwR5Vu09mQLjv0INQ3dKGhvUBcc4k7j91FBWyYf2Nh_x7eKFzKwzEIeHMhRGItg2_LrBVpLY5p5Wmpu72xuexID-FBVP9zl9y-CMTQhkGxyOgGaMcYPMeRYA8uqeIlLlmBTUZNy0BJGadN2Y3rx9ERHNwR8MHZiwkO_0yTkHqvh8fIgzJEGrlQUORnbsGhg-kq9Xo1u2cMDOMH250uY6mwOXRi2IyI044h_7bIyqWL5teoU-2_lDCCvSf2l9fu8VBu14OJ"
+      },
+      "headings": [
+        {
+          "tag": "H1",
+          "text": "Serum Radiance 01"
+        },
+        {
+          "tag": "H3",
+          "text": "SLA de postagem: ate 48h"
+        },
+        {
+          "tag": "H3",
+          "text": "7 dias para solicitar"
+        },
+        {
+          "tag": "H3",
+          "text": "Produto protegido e nota fiscal garantida"
+        },
+        {
+          "tag": "H3",
+          "text": "Autenticidade, curadoria, entrega, pos-venda e pagamento visiveis antes da decisao."
+        },
+        {
+          "tag": "H3",
+          "text": "Escolha com mais segurança"
+        },
+        {
+          "tag": "H1",
+          "text": "Serum Radiance 01"
+        },
+        {
+          "tag": "H3",
+          "text": "SLA de postagem: ate 48h"
+        },
+        {
+          "tag": "H3",
+          "text": "7 dias para solicitar"
+        },
+        {
+          "tag": "H3",
+          "text": "Produto protegido e nota fiscal garantida"
+        },
+        {
+          "tag": "H3",
+          "text": "Autenticidade, curadoria, entrega, pos-venda e pagamento visiveis antes da decisao."
+        },
+        {
+          "tag": "H3",
+          "text": "Complete a rotina com inteligência"
+        }
+      ],
+      "buttons": [
+        {
+          "tag": "A",
+          "text": "BelaPop",
+          "href": "/",
+          "type": null
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Buscar produtos",
+          "href": null,
+          "type": "button"
+        },
+        {
+          "tag": "A",
+          "text": "Entrar",
+          "href": "/login?tab=customer&returnTo=%2Fconta",
+          "type": null
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Abrir menu",
+          "href": null,
+          "type": "button"
+        },
+        {
+          "tag": "A",
+          "text": "Entender minha pele",
+          "href": "/skin-scan",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Skincare",
+          "href": "/skincare",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Cabelos",
+          "href": "/cabelos",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Autocuidado",
+          "href": "/rituais",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Maquiagem",
+          "href": "/maquiagem",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "BelaPop",
+          "href": "/",
+          "type": null
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Buscar produtos",
+          "href": null,
+          "type": "button"
+        },
+        {
+          "tag": "A",
+          "text": "Favoritos",
+          "href": "/login?tab=customer&returnTo=%2Fconta%2Ffavoritos",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Entrar",
+          "href": "/login?tab=customer&returnTo=%2Fconta",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Carrinho",
+          "href": "/carrinho",
+          "type": null
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Fechar menu",
+          "href": null,
+          "type": "button"
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Fechar menu",
+          "href": null,
+          "type": "button"
+        },
+        {
+          "tag": "A",
+          "text": "Entender minha pele",
+          "href": "/skin-scan",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Skincare",
+          "href": "/skincare",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Cabelos",
+          "href": "/cabelos",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Autocuidado",
+          "href": "/rituais",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Maquiagem",
+          "href": "/maquiagem",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Favoritos",
+          "href": "/login?tab=customer&returnTo=%2Fconta%2Ffavoritos",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Minha conta",
+          "href": "/login?tab=customer&returnTo=%2Fconta",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Meus pedidos",
+          "href": "/login?tab=customer&returnTo=%2Fconta%2Fpedidos",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Atendimento",
+          "href": "/contato",
+          "type": null
+        }
+      ],
+      "bodyFont": "\"DM Sans\", \"DM Sans Fallback\", Manrope, \"Manrope Fallback\", sans-serif",
+      "h1Style": {
+        "fontFamily": "\"Playfair Display\", \"Playfair Display Fallback\"",
+        "fontWeight": "500",
+        "fontSize": "26.4px",
+        "lineHeight": "26.928px"
+      },
+      "overflow": {
+        "width": 412,
+        "docWidth": 412,
+        "bodyWidth": 412,
+        "hasHorizontalOverflow": false
+      },
+      "accentIssues": [
+        {
+          "found": "hidratacao",
+          "expected": "hidratação",
+          "context": "uo. LER MAIS POR QUE A BELAPOP SELECIONOU Hidratacao imediata com conforto durante o dia. Textura"
+        },
+        {
+          "found": "politica",
+          "expected": "política",
+          "context": "? COMO FUNCIONA DEVOLUCAO? Mais detalhes na politica da plataforma. BelaPop CURADORIA PREMIUM, "
+        },
+        {
+          "found": "beneficios",
+          "expected": "benefícios",
+          "context": "m poucos passos, sem aumentar complexidade. Beneficios HIDRATACAO LUMINOSIDADE TEXTURA CONFORTO Com"
+        },
+        {
+          "found": "ate",
+          "expected": "até",
+          "context": "Maquiagem Favoritos Minha conta Meus pedidos Atendimento Políticas e Termos Ver carrinho Pro"
+        }
+      ],
+      "console": [
+        {
+          "type": "error",
+          "text": "Failed to load resource: the server responded with a status of 401 ()"
+        },
+        {
+          "type": "error",
+          "text": "Failed to load resource: the server responded with a status of 500 ()"
+        }
+      ],
+      "pageErrors": [],
+      "badResponses": [
+        {
+          "status": 401,
+          "url": "https://belapopoficial.com.br/api/catalogo/wishlist"
+        },
+        {
+          "status": 500,
+          "url": "https://belapopoficial.com.br/api/lotes/produto/d4f28b60-cc02-466a-a5b3-54c04be69790"
+        }
+      ],
+      "requestFailures": [],
+      "imagesSummary": {
+        "total": 9,
+        "missingAlt": 0,
+        "lazy": 7,
+        "notLoaded": 4
+      },
+      "screenshot": "tmp\\prod-android--produto-serum-radiance-01.png"
+    },
+    {
+      "route": "/carrinho",
+      "url": "https://belapopoficial.com.br/carrinho",
+      "finalUrl": "https://belapopoficial.com.br/carrinho",
+      "status": 200,
+      "loadError": null,
+      "title": "Carrinho | BelaPop · BelaPop",
+      "meta": {
+        "title": "Carrinho | BelaPop · BelaPop",
+        "description": "Revise sua curadoria antes de finalizar a compra.",
+        "canonical": null,
+        "ogTitle": "Carrinho | BelaPop",
+        "ogImage": null
+      },
+      "headings": [
+        {
+          "tag": "H1",
+          "text": "Sua seleção"
+        },
+        {
+          "tag": "H2",
+          "text": "Carregando seu carrinho"
+        },
+        {
+          "tag": "H3",
+          "text": "PopClub Rewards"
+        },
+        {
+          "tag": "H3",
+          "text": "Quer revisar este carrinho com mais clareza?"
+        },
+        {
+          "tag": "H3",
+          "text": "Autenticidade, curadoria, entrega, pos-venda e pagamento visiveis antes da decisao."
+        },
+        {
+          "tag": "H2",
+          "text": "Resumo do pedido"
+        },
+        {
+          "tag": "H3",
+          "text": "Antes de seguir para o checkout"
+        }
+      ],
+      "buttons": [
+        {
+          "tag": "A",
+          "text": "BelaPop",
+          "href": "/",
+          "type": null
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Buscar produtos",
+          "href": null,
+          "type": "button"
+        },
+        {
+          "tag": "A",
+          "text": "Entrar",
+          "href": "/login?tab=customer&returnTo=%2Fconta",
+          "type": null
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Abrir menu",
+          "href": null,
+          "type": "button"
+        },
+        {
+          "tag": "A",
+          "text": "Entender minha pele",
+          "href": "/skin-scan",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Skincare",
+          "href": "/skincare",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Cabelos",
+          "href": "/cabelos",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Autocuidado",
+          "href": "/rituais",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Maquiagem",
+          "href": "/maquiagem",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "BelaPop",
+          "href": "/",
+          "type": null
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Buscar produtos",
+          "href": null,
+          "type": "button"
+        },
+        {
+          "tag": "A",
+          "text": "Favoritos",
+          "href": "/login?tab=customer&returnTo=%2Fconta%2Ffavoritos",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Entrar",
+          "href": "/login?tab=customer&returnTo=%2Fconta",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Carrinho",
+          "href": "/carrinho",
+          "type": null
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Fechar menu",
+          "href": null,
+          "type": "button"
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Fechar menu",
+          "href": null,
+          "type": "button"
+        },
+        {
+          "tag": "A",
+          "text": "Entender minha pele",
+          "href": "/skin-scan",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Skincare",
+          "href": "/skincare",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Cabelos",
+          "href": "/cabelos",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Autocuidado",
+          "href": "/rituais",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Maquiagem",
+          "href": "/maquiagem",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Favoritos",
+          "href": "/login?tab=customer&returnTo=%2Fconta%2Ffavoritos",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Minha conta",
+          "href": "/login?tab=customer&returnTo=%2Fconta",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Meus pedidos",
+          "href": "/login?tab=customer&returnTo=%2Fconta%2Fpedidos",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Atendimento",
+          "href": "/contato",
+          "type": null
+        }
+      ],
+      "bodyFont": "\"DM Sans\", \"DM Sans Fallback\", Manrope, \"Manrope Fallback\", sans-serif",
+      "h1Style": {
+        "fontFamily": "\"Playfair Display\", \"Playfair Display Fallback\"",
+        "fontWeight": "600",
+        "fontSize": "36px",
+        "lineHeight": "40px"
+      },
+      "overflow": {
+        "width": 412,
+        "docWidth": 412,
+        "bodyWidth": 412,
+        "hasHorizontalOverflow": false
+      },
+      "accentIssues": [
+        {
+          "found": "voce",
+          "expected": "você",
+          "context": "OTAL R$ 0,00 FINALIZAR PEDIDO Ao continuar, voce confirma os termos da plataforma e condicoes"
+        },
+        {
+          "found": "politica",
+          "expected": "política",
+          "context": "e meios realmente disponíveis para o pedido. POLITICA DE REEMBOLSO E DEVOLUCAO TERMOS E CONDICOES "
+        },
+        {
+          "found": "beneficios",
+          "expected": "benefícios",
+          "context": "gin para acumular pontos na compra e liberar beneficios exclusivos. ACESSAR CONTA CONSULTORA BELAP"
+        }
+      ],
+      "console": [],
+      "pageErrors": [],
+      "badResponses": [],
+      "requestFailures": [],
+      "imagesSummary": {
+        "total": 0,
+        "missingAlt": 0,
+        "lazy": 0,
+        "notLoaded": 0
+      },
+      "screenshot": "tmp\\prod-android--carrinho.png"
+    },
+    {
+      "route": "/checkout",
+      "url": "https://belapopoficial.com.br/checkout",
+      "finalUrl": "https://belapopoficial.com.br/login?tab=customer&returnTo=%2Fcheckout",
+      "status": 200,
+      "loadError": null,
+      "title": "BelaPop — Skincare Curado com Inteligência",
+      "meta": {
+        "title": "BelaPop — Skincare Curado com Inteligência",
+        "description": "Skincare com curadoria clínica, análise facial personalizada e lotes limitados verificados. Descubra sua rotina ideal em minutos.",
+        "canonical": null,
+        "ogTitle": "BelaPop — Skincare Curado com Inteligência",
+        "ogImage": "https://belapopoficial.com.br/og-default.jpg"
+      },
+      "headings": [
+        {
+          "tag": "H2",
+          "text": "A Essencia daBeleza Curada"
+        },
+        {
+          "tag": "H2",
+          "text": "Escolha como a BelaPop usa cookies."
+        }
+      ],
+      "buttons": [
+        {
+          "tag": "BUTTON",
+          "text": "Entrar",
+          "href": null,
+          "type": "button"
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Criar Conta",
+          "href": null,
+          "type": "button"
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Esqueceu a senha?",
+          "href": null,
+          "type": "button"
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Acessar Colecao",
+          "href": null,
+          "type": "submit"
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Conectar com Google",
+          "href": null,
+          "type": "button"
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Entrar com Facebook",
+          "href": null,
+          "type": "button"
+        },
+        {
+          "tag": "A",
+          "text": "Termos e Condicoes",
+          "href": "/termos-e-condicoes",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Politica de Privacidade",
+          "href": "/aviso-de-privacidade",
+          "type": null
+        },
+        {
+          "tag": "A",
+          "text": "Política de Cookies",
+          "href": "/politica-de-cookies",
+          "type": null
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Aceitar todos",
+          "href": null,
+          "type": "button"
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Recusar não essenciais",
+          "href": null,
+          "type": "button"
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Personalizar cookies",
+          "href": null,
+          "type": "button"
+        }
+      ],
+      "bodyFont": "\"DM Sans\", \"DM Sans Fallback\", Manrope, \"Manrope Fallback\", sans-serif",
+      "h1Style": null,
+      "overflow": {
+        "width": 412,
+        "docWidth": 412,
+        "bodyWidth": 412,
+        "hasHorizontalOverflow": false
+      },
+      "accentIssues": [
+        {
+          "found": "voce",
+          "expected": "você",
+          "context": "OM GOOGLE ENTRAR COM FACEBOOK Ao continuar, voce concorda com nossos Termos e Condicoes e Pol"
+        },
+        {
+          "found": "politica",
+          "expected": "política",
+          "context": "oce concorda com nossos Termos e Condicoes e Politica de Privacidade. COOKIES E PRIVACIDADE Esco"
+        }
+      ],
+      "console": [],
+      "pageErrors": [],
+      "badResponses": [],
+      "requestFailures": [],
+      "imagesSummary": {
+        "total": 2,
+        "missingAlt": 0,
+        "lazy": 0,
+        "notLoaded": 0
+      },
+      "screenshot": "tmp\\prod-android--checkout.png"
+    }
+  ],
+  "interactions": [
+    {
+      "name": "checkout-auth-redirect",
+      "ok": true,
+      "status": 200,
+      "finalUrl": "https://belapopoficial.com.br/login?tab=customer&returnTo=%2Fcheckout",
+      "bodyText": "A Essencia da\nBeleza Curada\n\nDESCUBRA UMA CURADORIA EXCLUSIVA DE COSMETICOS DE LUXO E EXPERIENCIAS DE BEM-ESTAR.\n\nACESSO AO ATELIER DIGITAL\n\nEntrar\nCriar Conta\nE-MAIL\nSENHA\nESQUECEU A SENHA?\nACESSAR COLECAO\nOU CONTINUE COM\nCONECTAR COM GOOGLE\nENTRAR COM FACEBOOK\n\nAo continuar, voce concorda com nossos Termos e Condicoes e Politica de Privacidade.\n\nCOOKIES E PRIVACIDADE\n\nEscolha como a BelaPop usa cookies.\n\nUsamos cookies e tecnologias semelhantes para manter a plataforma segura, lembrar sessão, prevenir fraude, medir desempenho e, quando permitido, personalizar conteúdo ou campanhas. Você pode aceitar tudo, recusar os não essenciais ou personalizar as categorias.\n\nSaiba mais na Política de Cookies.\n\nCATEGORIAS TRATADAS\n\nEstritamente necessários: Mantêm sessão, segurança, autenticação, prevenção a fraude e funcionamento básico da plataforma.\nDesempenho e análise: Ajudam a entender navegação, performance de páginas e erros para melhorar a experiência.\nFuncionalidade: Guardam preferências",
+      "console": [],
+      "badResponses": [],
+      "pageErrors": []
+    },
+    {
+      "name": "login-invalid-email-password",
+      "ok": false,
+      "error": "locator.click: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('button[type=\\'submit\\'], button:has-text(\\'Entrar\\'), button:has-text(\\'login\\'), button:has-text(\\'Login\\')').first()\u001b[22m\n\u001b[2m    - locator resolved to <button type=\"button\" class=\"noto_serif_708ce440-module__mAhJLW__className relative pb-3 text-2xl transition-colors text-black\">…</button>\u001b[22m\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <div class=\"flex min-h-full items-end justify-center p-4 md:items-center\">…</div> from <div class=\"fixed inset-0 z-[70] bg-black/45 backdrop-blur-sm\">…</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m    - waiting 20ms\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <div class=\"flex min-h-full items-end justify-center p-4 md:items-center\">…</div> from <div class=\"fixed inset-0 z-[70] bg-black/45 backdrop-blur-sm\">…</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 100ms\u001b[22m\n\u001b[2m    54 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m       - element is visible, enabled and stable\u001b[22m\n\u001b[2m       - scrolling into view if needed\u001b[22m\n\u001b[2m       - done scrolling\u001b[22m\n\u001b[2m       - <div class=\"flex min-h-full items-end justify-center p-4 md:items-center\">…</div> from <div class=\"fixed inset-0 z-[70] bg-black/45 backdrop-blur-sm\">…</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m     - retrying click action\u001b[22m\n\u001b[2m       - waiting 500ms\u001b[22m\n",
+      "currentUrl": "https://belapopoficial.com.br/login?returnTo=%2Fcheckout",
+      "console": [],
+      "badResponses": [],
+      "pageErrors": []
+    },
+    {
+      "name": "pdp-add-cart-attempt",
+      "ok": false,
+      "error": "locator.click: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('button:has-text(\\'Adicionar\\'), button:has-text(\\'carrinho\\'), button:has-text(\\'Comprar\\'), a:has-text(\\'Comprar\\'), a:has-text(\\'carrinho\\')').first()\u001b[22m\n\u001b[2m    - locator resolved to <a href=\"/carrinho\" class=\"flex min-h-12 items-center justify-between rounded-full bg-[#1c1b1b] px-5 text-sm font-semibold text-[#fcf9f8] transition-transform hover:-translate-y-0.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#8E5B68]\">…</a>\u001b[22m\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is not visible\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m    - waiting 20ms\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is not visible\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 100ms\u001b[22m\n\u001b[2m    58 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m       - element is not visible\u001b[22m\n\u001b[2m     - retrying click action\u001b[22m\n\u001b[2m       - waiting 500ms\u001b[22m\n",
+      "currentUrl": "https://belapopoficial.com.br/produto/serum-radiance-01",
+      "console": [
+        {
+          "type": "error",
+          "text": "Failed to load resource: the server responded with a status of 401 ()"
+        },
+        {
+          "type": "error",
+          "text": "Failed to load resource: the server responded with a status of 500 ()"
+        },
+        {
+          "type": "warning",
+          "text": "The resource https://belapopoficial.com.br/_next/static/media/8e9d1a1dbcc3c9ea-s.p.04p-ex3i8ywzp.woff2?dpl=dpl_8K9mry5VXm5dSqbyBRKgPUYeTrug was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally."
+        },
+        {
+          "type": "warning",
+          "text": "The resource https://belapopoficial.com.br/_next/static/chunks/0qngujgqi4sjv.css?dpl=dpl_8K9mry5VXm5dSqbyBRKgPUYeTrug was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally."
+        },
+        {
+          "type": "warning",
+          "text": "The resource https://belapopoficial.com.br/_next/static/media/b4e85636e2ca4056-s.p.0c3c6tp9xl371.woff2?dpl=dpl_8K9mry5VXm5dSqbyBRKgPUYeTrug was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally."
+        }
+      ],
+      "badResponses": [
+        {
+          "status": 401,
+          "url": "https://belapopoficial.com.br/api/catalogo/wishlist"
+        },
+        {
+          "status": 500,
+          "url": "https://belapopoficial.com.br/api/lotes/produto/d4f28b60-cc02-466a-a5b3-54c04be69790"
+        }
+      ],
+      "pageErrors": []
+    },
+    {
+      "name": "cart-edit-controls",
+      "ok": true,
+      "status": 200,
+      "finalUrl": "https://belapopoficial.com.br/carrinho",
+      "bodyText": "Entender minha pele\nSkincare\nCabelos\nAutocuidado\nMaquiagem\nBELAPOP\nCARRINHO\n•\nIDENTIFICACAO\n•\nPAGAMENTO\nSua seleção\n\nItens selecionados para a sua rotina de cuidado.\n\nCarrinho vazio\n\nAdicione produtos para continuar com checkout seguro e acompanhamento do pedido.\n\nVER PRODUTOS\nPOPCLUB REWARDS\n\nFaca login para acumular pontos na compra e liberar beneficios exclusivos.\n\nACESSAR CONTA\n\nCONSULTORA BELAPOP\n\nQuer revisar este carrinho com mais clareza?\n\nEu analiso os itens adicionados e sugiro um complemento por vez, com foco em encaixe de rotina e decisão rápida.\n\nANALISAR MEU CARRINHO\n\nCOMPRA COM CONTEXTO\n\nAutenticidade, curadoria, entrega, pos-venda e pagamento visiveis antes da decisao.\n\nAUTENTICIDADE\n\nSeller identificado, procedência declarada e item original com controle de origem antes da compra.\n\nCURADORIA BELAPOP\n\nA seleção editorial deixa claro por que o item entrou na vitrine e em qual contexto ele faz sentido.\n\nENVIO COM RASTREIO\n\nPrazo consolidado no pedido e acompanhamento de rastreio assim que a expedição é liberada.\n\nTROCA FACILITADA\n\nFluxo de troca, devolução ou estorno com protocolo, histórico e acompanhamento no pós-venda.\n\nCONCIERGE\n\nSuporte humano e contextual para compra, pedido, entrega e pós-venda sem perder o histórico.\n\nPAGAMENTO SEGURO\n\nCobrança condicionada à validação do backend, antifraude e meios realmente disponíveis para o pedido.\n\nResumo do pedido\nSubtotal\nR$ 0,00\nFrete\nA calcular\nTOTAL\nR$ 0,00\nFINALIZAR PEDIDO\n\nAo continuar, voce confirma os termos da plataforma e condicoes do seller.\n\nRESUMO DE CONFIANCA\n\nAntes de seguir para o checkout\nAutenticidade: Seller identificado, procedência declarada e item original com controle de origem antes da compra.\nCuradoria BelaPop: A seleção editorial deixa claro por que o item entrou na vitrine e em qual",
+      "controls": [
+        {
+          "tag": "A",
+          "text": "BelaPop",
+          "type": null,
+          "value": null
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Buscar produtos",
+          "type": "button",
+          "value": null
+        },
+        {
+          "tag": "A",
+          "text": "Entrar",
+          "type": null,
+          "value": null
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Abrir menu",
+          "type": "button",
+          "value": null
+        },
+        {
+          "tag": "A",
+          "text": "Entender minha pele",
+          "type": null,
+          "value": null
+        },
+        {
+          "tag": "A",
+          "text": "Skincare",
+          "type": null,
+          "value": null
+        },
+        {
+          "tag": "A",
+          "text": "Cabelos",
+          "type": null,
+          "value": null
+        },
+        {
+          "tag": "A",
+          "text": "Autocuidado",
+          "type": null,
+          "value": null
+        },
+        {
+          "tag": "A",
+          "text": "Maquiagem",
+          "type": null,
+          "value": null
+        },
+        {
+          "tag": "A",
+          "text": "BelaPop",
+          "type": null,
+          "value": null
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Buscar produtos",
+          "type": "button",
+          "value": null
+        },
+        {
+          "tag": "A",
+          "text": "Favoritos",
+          "type": null,
+          "value": null
+        },
+        {
+          "tag": "A",
+          "text": "Entrar",
+          "type": null,
+          "value": null
+        },
+        {
+          "tag": "A",
+          "text": "Carrinho",
+          "type": null,
+          "value": null
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Fechar menu",
+          "type": "button",
+          "value": null
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Fechar menu",
+          "type": "button",
+          "value": null
+        },
+        {
+          "tag": "A",
+          "text": "Entender minha pele",
+          "type": null,
+          "value": null
+        },
+        {
+          "tag": "A",
+          "text": "Skincare",
+          "type": null,
+          "value": null
+        },
+        {
+          "tag": "A",
+          "text": "Cabelos",
+          "type": null,
+          "value": null
+        },
+        {
+          "tag": "A",
+          "text": "Autocuidado",
+          "type": null,
+          "value": null
+        },
+        {
+          "tag": "A",
+          "text": "Maquiagem",
+          "type": null,
+          "value": null
+        },
+        {
+          "tag": "A",
+          "text": "Favoritos",
+          "type": null,
+          "value": null
+        },
+        {
+          "tag": "A",
+          "text": "Minha conta",
+          "type": null,
+          "value": null
+        },
+        {
+          "tag": "A",
+          "text": "Meus pedidos",
+          "type": null,
+          "value": null
+        },
+        {
+          "tag": "A",
+          "text": "Atendimento",
+          "type": null,
+          "value": null
+        },
+        {
+          "tag": "A",
+          "text": "Políticas e Termos",
+          "type": null,
+          "value": null
+        },
+        {
+          "tag": "A",
+          "text": "Ver carrinho",
+          "type": null,
+          "value": null
+        },
+        {
+          "tag": "A",
+          "text": "Ver produtos",
+          "type": null,
+          "value": null
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Acessar conta",
+          "type": "button",
+          "value": null
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Analisar meu carrinho",
+          "type": "button",
+          "value": null
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Finalizar pedido",
+          "type": "button",
+          "value": null
+        },
+        {
+          "tag": "A",
+          "text": "Politica de reembolso e devolucao",
+          "type": null,
+          "value": null
+        },
+        {
+          "tag": "A",
+          "text": "Termos e condicoes",
+          "type": null,
+          "value": null
+        },
+        {
+          "tag": "A",
+          "text": "Skincare",
+          "type": null,
+          "value": null
+        },
+        {
+          "tag": "A",
+          "text": "Maquiagem",
+          "type": null,
+          "value": null
+        },
+        {
+          "tag": "A",
+          "text": "Cabelos",
+          "type": null,
+          "value": null
+        },
+        {
+          "tag": "A",
+          "text": "Perfumes",
+          "type": null,
+          "value": null
+        },
+        {
+          "tag": "A",
+          "text": "Contato",
+          "type": null,
+          "value": null
+        },
+        {
+          "tag": "A",
+          "text": "Rastrear pedido",
+          "type": null,
+          "value": null
+        },
+        {
+          "tag": "A",
+          "text": "Termos de uso",
+          "type": null,
+          "value": null
+        },
+        {
+          "tag": "A",
+          "text": "Privacidade",
+          "type": null,
+          "value": null
+        },
+        {
+          "tag": "A",
+          "text": "Política de Cookies",
+          "type": null,
+          "value": null
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Aceitar todos",
+          "type": "button",
+          "value": null
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Recusar não essenciais",
+          "type": "button",
+          "value": null
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Personalizar cookies",
+          "type": "button",
+          "value": null
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Precisa de ajuda?Rotina, presente ou recompra",
+          "type": "button",
+          "value": null
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Precisa de ajuda?Rotina, presente ou recompra",
+          "type": "button",
+          "value": null
+        }
+      ],
+      "console": [],
+      "badResponses": [],
+      "pageErrors": []
+    }
+  ]
+}

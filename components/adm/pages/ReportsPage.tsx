@@ -100,13 +100,13 @@ type SellerPerformance = {
 const sidebarItems: SidebarItem[] = [
   { label: "Dashboard", href: "/adm/dashboard-executivo", icon: LayoutDashboard },
   { label: "Curadoria", href: "/adm/curadoria/produtos", icon: Sparkles },
-  { label: "Sellers", href: "/adm/operacao/parceiros", icon: Store },
-  { label: "Pedidos", href: "/adm/operacao/pedidos-criticos", icon: ShoppingCart },
-  { label: "Logística", href: "/adm/operacao/logistica", icon: Truck },
+  { label: "Sellers", href: "/adm/operação/parceiros", icon: Store },
+  { label: "Pedidos", href: "/adm/operação/pedidos-criticos", icon: ShoppingCart },
+  { label: "Logística", href: "/adm/operação/logistica", icon: Truck },
   { label: "Relatórios", href: "/adm/gestao/relatorios", icon: BarChart3, active: true },
   { label: "Financeiro", href: "/adm/financeiro", icon: Wallet },
   { label: "Clientes", href: "/adm/relacionamento/clientes", icon: Users },
-  { label: "Configurações", href: "/adm/gestao/configuracoes", icon: Settings }
+  { label: "Configurações", href: "/adm/gestao/configurações", icon: Settings }
 ];
 
 const metrics: Metric[] = [

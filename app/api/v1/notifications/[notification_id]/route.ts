@@ -27,7 +27,7 @@ export async function PATCH(
     .maybeSingle();
 
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });
-  if (!data) return NextResponse.json({ error: "Notificacao nao encontrada." }, { status: 404 });
+  if (!data) return NextResponse.json({ error: "Notificacao não encontrada." }, { status: 404 });
 
   return NextResponse.json(data);
 }

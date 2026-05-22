@@ -1,0 +1,311 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e3]:
+      - generic [ref=e4]:
+        - navigation [ref=e5]:
+          - link "Loja" [ref=e6] [cursor=pointer]:
+            - /url: /catalogo
+            - text: Loja
+          - link "Universos" [ref=e8] [cursor=pointer]:
+            - /url: /universos
+            - text: Universos
+          - link "Skin Scan" [ref=e9] [cursor=pointer]:
+            - /url: /skin-scan
+            - text: Skin Scan
+          - link "PopClub" [ref=e10] [cursor=pointer]:
+            - /url: /popclub
+            - text: PopClub
+          - link "Guias" [ref=e11] [cursor=pointer]:
+            - /url: /guias
+            - text: Guias
+        - link "BelaPop" [ref=e12] [cursor=pointer]:
+          - /url: /
+        - generic [ref=e13]:
+          - button "Buscar produtos" [ref=e14] [cursor=pointer]:
+            - img [ref=e15]
+          - link "Entrar" [ref=e18] [cursor=pointer]:
+            - /url: /login?tab=customer&returnTo=%2Fconta
+            - img [ref=e19]
+          - link "Sacola" [ref=e22] [cursor=pointer]:
+            - /url: /carrinho
+            - img [ref=e23]
+      - generic [ref=e27]:
+        - link "Skincare" [ref=e28] [cursor=pointer]:
+          - /url: /skincare
+          - text: Skincare
+        - link "Maquiagem" [ref=e29] [cursor=pointer]:
+          - /url: /maquiagem
+          - text: Maquiagem
+        - link "Cabelos" [ref=e30] [cursor=pointer]:
+          - /url: /cabelos
+          - text: Cabelos
+        - link "Perfumes" [ref=e31] [cursor=pointer]:
+          - /url: /perfumes
+          - text: Perfumes
+  - generic [ref=e33]:
+    - banner [ref=e34]:
+      - generic [ref=e35]:
+        - generic [ref=e36]:
+          - navigation [ref=e37]:
+            - link "Loja" [ref=e38] [cursor=pointer]:
+              - /url: /catalogo
+              - text: Loja
+            - link "Universos" [ref=e40] [cursor=pointer]:
+              - /url: /universos
+              - text: Universos
+            - link "Skin Scan" [ref=e41] [cursor=pointer]:
+              - /url: /skin-scan
+              - text: Skin Scan
+            - link "PopClub" [ref=e42] [cursor=pointer]:
+              - /url: /popclub
+              - text: PopClub
+            - link "Guias" [ref=e43] [cursor=pointer]:
+              - /url: /guias
+              - text: Guias
+          - link "BelaPop" [ref=e44] [cursor=pointer]:
+            - /url: /
+          - generic [ref=e45]:
+            - button "Buscar produtos" [ref=e46] [cursor=pointer]:
+              - img [ref=e47]
+            - link "Entrar" [ref=e50] [cursor=pointer]:
+              - /url: /login?tab=customer&returnTo=%2Fconta
+              - img [ref=e51]
+            - link "Sacola" [ref=e54] [cursor=pointer]:
+              - /url: /carrinho
+              - img [ref=e55]
+        - generic [ref=e59]:
+          - link "Skincare" [ref=e60] [cursor=pointer]:
+            - /url: /skincare
+            - text: Skincare
+          - link "Maquiagem" [ref=e62] [cursor=pointer]:
+            - /url: /maquiagem
+            - text: Maquiagem
+          - link "Cabelos" [ref=e63] [cursor=pointer]:
+            - /url: /cabelos
+            - text: Cabelos
+          - link "Perfumes" [ref=e64] [cursor=pointer]:
+            - /url: /perfumes
+            - text: Perfumes
+    - main [ref=e65]:
+      - generic [ref=e66]:
+        - generic [ref=e67]:
+          - paragraph [ref=e68]: Minha rotina BelaPop
+          - heading "Seu ritual, organizado para usar melhor e recomprar no tempo certo." [level=1] [ref=e69]
+          - paragraph [ref=e70]: Guia de uso, recomendacoes complementares e recompra assistida conectam o pos-compra ao cuidado real da sua pele.
+        - generic [ref=e71]:
+          - paragraph [ref=e72]: Skin Scan conectado
+          - paragraph [ref=e73]: Barreira sensibilizada com necessidade de conforto e baixa irritabilidade.
+          - link "Atualizar diagnostico" [ref=e74] [cursor=pointer]:
+            - /url: /skin-scan
+      - generic [ref=e75]:
+        - article [ref=e76]:
+          - generic [ref=e77]:
+            - img [ref=e79]
+            - generic [ref=e81]:
+              - paragraph [ref=e82]: Guia de uso
+              - heading "Aurora Maison Barrier Creme Ceramidas 50g" [level=3] [ref=e83]
+              - paragraph [ref=e84]: "Etapa: hidratacao · Frequencia: manha e noite"
+          - generic [ref=e85]:
+            - paragraph [ref=e86]:
+              - img [ref=e87]
+              - text: Aplique uma camada fina apos limpeza e serum.
+            - paragraph [ref=e90]:
+              - img [ref=e91]
+              - text: Reforce em areas sensibilizadas.
+          - generic [ref=e94]:
+            - paragraph [ref=e95]: "Combina com: limpeza suave, protetor solar, pantenol"
+            - paragraph [ref=e96]: "Evitar junto com: esfoliacao agressiva"
+        - article [ref=e97]:
+          - generic [ref=e98]:
+            - img [ref=e100]
+            - generic [ref=e103]:
+              - paragraph [ref=e104]: Recompra assistida
+              - heading "Talvez esteja na hora de repor seu favorito." [level=3] [ref=e105]
+              - paragraph [ref=e106]: Aurora Maison Barrier Creme Ceramidas 50g costuma durar cerca de 38 dias nessa categoria.
+          - generic [ref=e107]:
+            - link "Recomprar agora" [ref=e108] [cursor=pointer]:
+              - /url: /produto/creme-barrier-celeste
+            - link "Ver alternativa premium" [ref=e109] [cursor=pointer]:
+              - /url: /universos/clinical-luxury
+      - generic [ref=e110]:
+        - generic [ref=e111]:
+          - generic [ref=e112]:
+            - paragraph [ref=e113]: Complementos
+            - heading "Pela sua escolha, isto pode completar a rotina." [level=2] [ref=e114]
+          - link "Ver kits BelaPop" [ref=e115] [cursor=pointer]:
+            - /url: /kits
+        - article [ref=e117]:
+          - generic [ref=e119]:
+            - paragraph [ref=e120]: Combina com sua rotina
+            - heading "BelaPop Hidratante Pantenol Calmo 50g" [level=3] [ref=e121]
+            - paragraph [ref=e122]: pele sensivel pede conforto e baixa irritabilidade antes de ativos intensos
+            - generic [ref=e123]:
+              - generic [ref=e124]: R$ 189,00
+              - link "Ver" [ref=e125] [cursor=pointer]:
+                - /url: /produto/hidratante-pantenol-calmo
+                - text: Ver
+                - img [ref=e126]
+      - generic [ref=e128]:
+        - article [ref=e129]:
+          - generic [ref=e130]:
+            - generic [ref=e131]:
+              - paragraph [ref=e132]: email
+              - heading "Marina, seu ritual BelaPop comeca aqui" [level=3] [ref=e133]
+            - img [ref=e135]
+          - paragraph [ref=e138]: Marina, seu ritual BelaPop comeca aqui
+          - paragraph [ref=e139]: Seu ritual chegou. Agora vamos te ajudar a usar da melhor forma.
+          - paragraph [ref=e140]: Ver minha rotina
+        - article [ref=e141]:
+          - generic [ref=e142]:
+            - generic [ref=e143]:
+              - paragraph [ref=e144]: email
+              - heading "Bianca, como foi sua experiencia real?" [level=3] [ref=e145]
+            - img [ref=e147]
+          - paragraph [ref=e150]: Bianca, como foi sua experiencia real?
+          - paragraph [ref=e151]: Queremos saber como foi sua experiencia real com esse produto.
+          - paragraph [ref=e152]: Avaliar produto
+    - contentinfo [ref=e153]:
+      - generic [ref=e154]:
+        - generic [ref=e155]:
+          - heading "BelaPop" [level=2] [ref=e156]
+          - paragraph [ref=e157]: Skincare guided by your skin.
+        - generic [ref=e158]:
+          - heading "Compre com confianca" [level=3] [ref=e159]
+          - generic [ref=e160]:
+            - generic [ref=e161]:
+              - img [ref=e163]
+              - generic [ref=e166]: Produtos autenticos
+            - generic [ref=e167]:
+              - img [ref=e169]
+              - generic [ref=e172]: Pagamentos seguros
+            - generic [ref=e173]:
+              - img [ref=e175]
+              - generic [ref=e180]: Envio com rastreio
+            - generic [ref=e181]:
+              - img [ref=e183]
+              - generic [ref=e188]: Devolucao facil
+            - generic [ref=e189]:
+              - img [ref=e191]
+              - generic [ref=e193]: Selecao curada
+            - generic [ref=e194]:
+              - img [ref=e196]
+              - generic [ref=e199]: Suporte concierge
+        - generic [ref=e200]:
+          - generic [ref=e201]:
+            - heading "Institucional" [level=4] [ref=e202]
+            - generic [ref=e203]:
+              - link "Sobre a BelaPop" [ref=e204] [cursor=pointer]:
+                - /url: /sobre
+              - link "Seguranca" [ref=e205] [cursor=pointer]:
+                - /url: /seguranca
+              - link "Fale conosco" [ref=e206] [cursor=pointer]:
+                - /url: /contato
+          - generic [ref=e207]:
+            - heading "Legal" [level=4] [ref=e208]
+            - generic [ref=e209]:
+              - link "Aviso de Privacidade" [ref=e210] [cursor=pointer]:
+                - /url: /aviso-de-privacidade
+              - link "Termos e Condicoes" [ref=e211] [cursor=pointer]:
+                - /url: /termos-e-condicoes
+              - link "Politica de Cookies" [ref=e212] [cursor=pointer]:
+                - /url: /politica-de-cookies
+              - button "Personalizar cookies" [ref=e213] [cursor=pointer]
+        - generic [ref=e214]:
+          - generic [ref=e215]:
+            - heading "63.945.608 GIOVANNA DE SOUSA FERREIRA SANTOS" [level=5] [ref=e216]
+            - generic [ref=e217]:
+              - generic [ref=e218]: CNPJ 63.945.608/0001-09
+              - generic [ref=e219]: Rua Coromandel, 189 - Araguari - Minas Gerais - Brasil
+          - 'link "Canal de Privacidade / Solicitacao de Dados: privacidade@belapopoficial.com.br" [ref=e220] [cursor=pointer]':
+            - /url: mailto:privacidade@belapopoficial.com.br
+        - generic [ref=e221]:
+          - link "Instagram" [ref=e222] [cursor=pointer]:
+            - /url: https://instagram.com/belapop.oficial
+            - img [ref=e223]
+          - link "TikTok" [ref=e225] [cursor=pointer]:
+            - /url: https://tiktok.com/@belapop.oficial
+            - img [ref=e226]
+          - link "Facebook" [ref=e228] [cursor=pointer]:
+            - /url: https://facebook.com/belapopoficial
+            - img [ref=e229]
+          - link "WhatsApp" [ref=e231] [cursor=pointer]:
+            - /url: https://wa.me/5534999999999
+            - img [ref=e232]
+        - generic [ref=e234]:
+          - paragraph [ref=e235]: © BelaPop 2026 - Todos os direitos reservados
+          - generic [ref=e236]: Brasil
+  - contentinfo [ref=e237]:
+    - generic [ref=e238]:
+      - generic [ref=e239]:
+        - heading "BelaPop" [level=2] [ref=e240]
+        - paragraph [ref=e241]: Skincare guided by your skin.
+      - generic [ref=e242]:
+        - heading "Compre com confianca" [level=3] [ref=e243]
+        - generic [ref=e244]:
+          - generic [ref=e245]:
+            - img [ref=e247]
+            - generic [ref=e250]: Produtos autenticos
+          - generic [ref=e251]:
+            - img [ref=e253]
+            - generic [ref=e256]: Pagamentos seguros
+          - generic [ref=e257]:
+            - img [ref=e259]
+            - generic [ref=e264]: Envio com rastreio
+          - generic [ref=e265]:
+            - img [ref=e267]
+            - generic [ref=e272]: Devolucao facil
+          - generic [ref=e273]:
+            - img [ref=e275]
+            - generic [ref=e277]: Selecao curada
+          - generic [ref=e278]:
+            - img [ref=e280]
+            - generic [ref=e283]: Suporte concierge
+      - generic [ref=e284]:
+        - generic [ref=e285]:
+          - heading "Institucional" [level=4] [ref=e286]
+          - generic [ref=e287]:
+            - link "Sobre a BelaPop" [ref=e288] [cursor=pointer]:
+              - /url: /sobre
+            - link "Seguranca" [ref=e289] [cursor=pointer]:
+              - /url: /seguranca
+            - link "Fale conosco" [ref=e290] [cursor=pointer]:
+              - /url: /contato
+        - generic [ref=e291]:
+          - heading "Legal" [level=4] [ref=e292]
+          - generic [ref=e293]:
+            - link "Aviso de Privacidade" [ref=e294] [cursor=pointer]:
+              - /url: /aviso-de-privacidade
+            - link "Termos e Condicoes" [ref=e295] [cursor=pointer]:
+              - /url: /termos-e-condicoes
+            - link "Politica de Cookies" [ref=e296] [cursor=pointer]:
+              - /url: /politica-de-cookies
+            - button "Personalizar cookies" [ref=e297] [cursor=pointer]
+      - generic [ref=e298]:
+        - generic [ref=e299]:
+          - heading "63.945.608 GIOVANNA DE SOUSA FERREIRA SANTOS" [level=5] [ref=e300]
+          - generic [ref=e301]:
+            - generic [ref=e302]: CNPJ 63.945.608/0001-09
+            - generic [ref=e303]: Rua Coromandel, 189 - Araguari - Minas Gerais - Brasil
+        - 'link "Canal de Privacidade / Solicitacao de Dados: privacidade@belapopoficial.com.br" [ref=e304] [cursor=pointer]':
+          - /url: mailto:privacidade@belapopoficial.com.br
+      - generic [ref=e305]:
+        - link "Instagram" [ref=e306] [cursor=pointer]:
+          - /url: https://instagram.com/belapop.oficial
+          - img [ref=e307]
+        - link "TikTok" [ref=e309] [cursor=pointer]:
+          - /url: https://tiktok.com/@belapop.oficial
+          - img [ref=e310]
+        - link "Facebook" [ref=e312] [cursor=pointer]:
+          - /url: https://facebook.com/belapopoficial
+          - img [ref=e313]
+        - link "WhatsApp" [ref=e315] [cursor=pointer]:
+          - /url: https://wa.me/5534999999999
+          - img [ref=e316]
+      - generic [ref=e318]:
+        - paragraph [ref=e319]: © BelaPop 2026 - Todos os direitos reservados
+        - generic [ref=e320]: Brasil
+  - link "Falar com concierge no WhatsApp" [ref=e321] [cursor=pointer]:
+    - /url: https://wa.me/553498047036?text=Ol%C3%A1%2C%20quero%20falar%20com%20o%20concierge%20BelaPop
+    - img [ref=e322]
+  - button "Open Next.js Dev Tools" [ref=e329] [cursor=pointer]:
+    - img [ref=e330]

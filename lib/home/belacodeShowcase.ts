@@ -51,14 +51,14 @@ const CONCERN_COPY: Record<
   },
   dehydration: {
     label: "Desidratacao",
-    summary: "Conforto reduzido, viço menor e necessidade de hidratacao refinada concentram a leitura publica.",
-    sidebarSummary: "A leitura atual pede hidratacao inteligente, conforto imediato e textura mais macia.",
+    summary: "Conforto reduzido, viço menor e necessidade de hidratação refinada concentram a leitura publica.",
+    sidebarSummary: "A leitura atual pede hidratação inteligente, conforto imediato e textura mais macia.",
     productKeywords: ["hydr", "essence", "dew", "rosee", "cream", "comfort", "moist", "ceramide", "repair"]
   },
   barrier_damage: {
     label: "Barreira sensibilizada",
     summary: "Barreira sensibilizada, textura irregular e necessidade de reparacao elegante seguem no centro da leitura.",
-    sidebarSummary: "A leitura atual pede reparacao de barreira, rotina gentil e protecao diaria consistente.",
+    sidebarSummary: "A leitura atual pede reparacao de barreira, rotina gentil e proteção diaria consistente.",
     productKeywords: ["barrier", "repair", "ceramide", "cream", "calm", "comfort", "soothing", "restore"]
   },
   rosacea: {
@@ -70,7 +70,7 @@ const CONCERN_COPY: Record<
   aging: {
     label: "Linhas finas e firmeza",
     summary: "Linhas, textura e perda sutil de firmeza concentram a leitura atual do BelaCode.",
-    sidebarSummary: "A leitura atual pede rotina noturna de firmeza, textura lisa e protecao impecavel.",
+    sidebarSummary: "A leitura atual pede rotina noturna de firmeza, textura lisa e proteção impecavel.",
     productKeywords: ["night", "nuit", "sculpt", "firm", "lift", "renew", "serum", "peptide"]
   }
 };

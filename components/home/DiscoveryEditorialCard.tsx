@@ -19,7 +19,7 @@ export function DiscoveryEditorialCard({ item }: DiscoveryEditorialCardProps) {
   const productCountLabel =
     item.productCount > 0
       ? `${item.productCount} ${item.productCount === 1 ? "produto" : "produtos"}`
-      : "Selecao editorial";
+      : "Seleção editorial";
 
   return (
     <Link

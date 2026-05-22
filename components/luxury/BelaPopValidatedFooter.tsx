@@ -45,8 +45,8 @@ export function BelaPopValidatedFooter() {
         <div className="space-y-6">
           <div className="font-headline text-lg font-bold">BelaPop</div>
           <p className="max-w-xs font-body text-[10px] uppercase tracking-[0.18em] leading-relaxed text-gray-400">
-            Curadoria premium, seller identificado, pagamento sujeito a validacao e pos-venda com
-            informacao clara.
+            Curadoria premium, seller identificado, pagamento sujeito a validação e pós-venda com
+            informação clara.
           </p>
           <InstitutionalIdentityCard tone="dark" compact className="max-w-xl" />
         </div>
@@ -68,7 +68,7 @@ export function BelaPopValidatedFooter() {
 
         <div className="space-y-6">
           <h5 className="font-body text-[10px] font-bold uppercase tracking-[0.2em] text-white">
-            Presenca digital
+            Presença digital
           </h5>
           <div className="flex flex-col gap-4">
             {socialLinks.map((link) => (
@@ -84,7 +84,7 @@ export function BelaPopValidatedFooter() {
             ))}
           </div>
           <p className="text-xs leading-6 text-gray-400">
-            A BelaPop informa o seller responsavel antes da compra. Marcas exibidas nao se tornam
+            A BelaPop informa o seller responsável antes da compra. Marcas exibidas não se tornam
             vendedoras automaticamente.
           </p>
         </div>
@@ -92,8 +92,8 @@ export function BelaPopValidatedFooter() {
 
       <div className="mx-auto mt-16 max-w-7xl border-t border-white/5 pt-10">
         <p className="text-center font-body text-[10px] uppercase tracking-[0.18em] text-gray-400 md:text-left">
-          &copy; 2026 BelaPop. Dados operacionais e politicas podem ser atualizados conforme
-          validacao juridica e operacional.
+          &copy; 2026 BelaPop. Dados operacionais e políticas podem ser atualizados conforme
+          validação jurídica e operacional.
         </p>
       </div>
     </footer>

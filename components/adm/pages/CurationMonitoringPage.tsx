@@ -88,8 +88,8 @@ const sidebarItems: SidebarItem[] = [
   { label: "Dashboard", href: "/adm/dashboard-executivo", icon: LayoutDashboard },
   { label: "Sellers em Risco", href: "/adm/curadoria/monitoramento", icon: ShieldAlert, active: true },
   { label: "Produtos", href: "/adm/curadoria/produtos", icon: Package2 },
-  { label: "Logistica", href: "/adm/operacao/logistica", icon: Truck },
-  { label: "Devolucoes", href: "/adm/financeiro/reembolsos", icon: Undo2 }
+  { label: "Logistica", href: "/adm/operação/logistica", icon: Truck },
+  { label: "Devoluções", href: "/adm/financeiro/reembolsos", icon: Undo2 }
 ];
 
 const periodLabelMap: Record<string, string> = {
@@ -303,7 +303,7 @@ export async function CurationMonitoringPage({
             imageAlt:
               "minimalist studio product shot of a sleek designer watch on a stone surface with soft ambient lighting",
             reviewHref: `/adm/curadoria/produtos?product=${primaryProduct.id}&status=${primaryProduct.curationStatus}`,
-            secondaryHref: `/adm/operacao/parceiros?seller=${primaryProduct.sellerId}`,
+            secondaryHref: `/adm/operação/parceiros?seller=${primaryProduct.sellerId}`,
             secondaryLabel: "Suspender"
           };
         })()
@@ -329,7 +329,7 @@ export async function CurationMonitoringPage({
             imageSrc: entityPreviewImages.sellerStudio,
             imageAlt:
               "lifestyle portrait of a craftsman in a well-organized studio workspace with neutral tones and soft lighting",
-            reviewHref: `/adm/operacao/parceiros?seller=${secondarySeller.sellerId}`,
+            reviewHref: `/adm/operação/parceiros?seller=${secondarySeller.sellerId}`,
             secondaryHref: `/adm/catalogo-marca/campanhas?seller=${secondarySeller.sellerId}`,
             secondaryLabel: "Rebaixar"
           };
@@ -381,7 +381,7 @@ export async function CurationMonitoringPage({
       icon: AlertTriangle
     },
     {
-      label: "Aumento de Devolucoes",
+      label: "Aumento de Devoluções",
       value: `+${returnPressurePct}%`,
       detail: `Principal motivo: "${mainRefundReason}"`,
       pill: { label: "Monitorando", tone: "watch" }

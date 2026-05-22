@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-import { legalRoutes } from "@/lib/legal/content";
+import { commerceTrustMarkers, legalRoutes } from "@/lib/legal/content";
 
 type PurchaseTrustSummaryProps = {
   context: "cart" | "checkout";
@@ -22,20 +22,14 @@ export function PurchaseTrustSummary({
       <h3 className="mt-3 font-display text-2xl text-[#1c1b1b]">{heading}</h3>
 
       <ul className="mt-5 space-y-3 text-sm leading-6 text-[#51494a]">
-        <li className="flex gap-3">
-          <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-[#c88fa3]" />
-          <span>A confirmacao do pedido esta sujeita ao pagamento e a analise antifraude.</span>
-        </li>
-        <li className="flex gap-3">
-          <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-[#c88fa3]" />
-          <span>O prazo estimado de entrega conta depois da aprovacao e da liberacao operacional.</span>
-        </li>
-        <li className="flex gap-3">
-          <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-[#c88fa3]" />
-          <span>
-            A BelaPop e a vendedora direta, salvo indicacao expressa em contrario antes da compra.
-          </span>
-        </li>
+        {commerceTrustMarkers.map((item) => (
+          <li key={item.key} className="flex gap-3">
+            <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-[#c88fa3]" />
+            <span>
+              <strong className="font-semibold text-[#1c1b1b]">{item.shortLabel}:</strong> {item.body}
+            </span>
+          </li>
+        ))}
       </ul>
 
       <div className="mt-5 flex flex-col gap-2 text-[11px] font-semibold uppercase tracking-[0.18em]">

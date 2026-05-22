@@ -1,0 +1,22 @@
+User-Agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /api/
+Disallow: /seller/portal/
+Disallow: /seller/cadastro/
+Disallow: /configuracoes/
+Disallow: /perfil/
+Disallow: /minha-pele/
+Disallow: /checkout/
+Disallow: /conta/
+Disallow: /parceiro/
+
+User-Agent: GPTBot
+User-Agent: ChatGPT-User
+User-Agent: CCBot
+User-Agent: anthropic-ai
+User-Agent: Claude-Web
+Disallow: /
+
+Sitemap: https://belapopoficial.com.br
+/sitemap.xml

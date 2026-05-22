@@ -74,7 +74,7 @@ export async function GET(
 
   const ticketCheck = await ensureTicketOwnership(admin, ticketId, userId);
   if (ticketCheck.error) return NextResponse.json({ error: ticketCheck.error }, { status: 500 });
-  if (!ticketCheck.ticket) return NextResponse.json({ error: "Protocolo nao encontrado." }, { status: 404 });
+  if (!ticketCheck.ticket) return NextResponse.json({ error: "Protocolo não encontrado." }, { status: 404 });
 
   let query = admin
     .from("support_messages")
@@ -113,10 +113,10 @@ export async function POST(
 
   const ticketCheck = await ensureTicketOwnership(admin, ticketId, userId);
   if (ticketCheck.error) return NextResponse.json({ error: ticketCheck.error }, { status: 500 });
-  if (!ticketCheck.ticket) return NextResponse.json({ error: "Protocolo nao encontrado." }, { status: 404 });
+  if (!ticketCheck.ticket) return NextResponse.json({ error: "Protocolo não encontrado." }, { status: 404 });
 
   if (normalizeTicketStatus(ticketCheck.ticket.status) === "CLOSED") {
-    return NextResponse.json({ error: "Ticket encerrado. Nao aceita novas mensagens." }, { status: 400 });
+    return NextResponse.json({ error: "Ticket encerrado. Não aceita novas mensagens." }, { status: 400 });
   }
 
   const currentStatus = normalizeTicketStatus(ticketCheck.ticket.status);

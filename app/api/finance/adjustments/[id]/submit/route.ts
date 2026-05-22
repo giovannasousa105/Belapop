@@ -40,12 +40,12 @@ export async function POST(
   }
 
   if (!lookup.data) {
-    return NextResponse.json({ error: "Ajuste nao encontrado." }, { status: 404 });
+    return NextResponse.json({ error: "Ajuste não encontrado." }, { status: 404 });
   }
 
   if (!isAdjustmentStatus(lookup.data.status) || lookup.data.status !== "draft") {
     return NextResponse.json(
-      { error: "Somente ajustes em draft podem ser enviados para aprovacao." },
+      { error: "Somente ajustes em draft podem ser enviados para aprovação." },
       { status: 400 }
     );
   }

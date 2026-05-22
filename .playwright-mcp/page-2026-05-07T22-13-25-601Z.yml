@@ -1,0 +1,544 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e3]:
+    - banner [ref=e4]:
+      - generic [ref=e5]:
+        - generic [ref=e6]:
+          - navigation [ref=e7]:
+            - link "Loja" [ref=e8] [cursor=pointer]:
+              - /url: /catalogo
+              - text: Loja
+            - link "Universos" [ref=e9] [cursor=pointer]:
+              - /url: /universos
+              - text: Universos
+            - link "Skin Scan" [ref=e11] [cursor=pointer]:
+              - /url: /skin-scan
+              - text: Skin Scan
+            - link "PopClub" [ref=e12] [cursor=pointer]:
+              - /url: /popclub
+              - text: PopClub
+            - link "Guias" [ref=e13] [cursor=pointer]:
+              - /url: /guias
+              - text: Guias
+          - link "BelaPop" [ref=e14] [cursor=pointer]:
+            - /url: /
+          - generic [ref=e15]:
+            - button "Buscar produtos" [ref=e16] [cursor=pointer]:
+              - img [ref=e17]
+            - link "Entrar" [ref=e20] [cursor=pointer]:
+              - /url: /login?tab=customer&returnTo=%2Fconta
+              - img [ref=e21]
+            - link "Sacola" [ref=e24] [cursor=pointer]:
+              - /url: /carrinho
+              - img [ref=e25]
+        - generic:
+          - generic:
+            - link "Skincare":
+              - /url: /skincare
+              - text: Skincare
+            - link "Maquiagem":
+              - /url: /maquiagem
+              - text: Maquiagem
+            - link "Cabelos":
+              - /url: /cabelos
+              - text: Cabelos
+            - link "Perfumes":
+              - /url: /perfumes
+              - text: Perfumes
+    - main [ref=e28]:
+      - generic [ref=e29]:
+        - img "Hero clinical luxury com pele e tecnologia." [ref=e30]
+        - generic [ref=e33]:
+          - navigation [ref=e34]:
+            - link "Universos" [ref=e35] [cursor=pointer]:
+              - /url: /universos
+            - text: / Clinical Luxury
+          - generic [ref=e36]:
+            - generic [ref=e37]: Performance discreta
+            - generic [ref=e38]: ciencia, resultado e luxo discreto
+          - paragraph [ref=e39]: Dermocosmeticos com apelo clinico, performance, tecnologia e sofisticacao.
+          - heading "Clinical Luxury" [level=1] [ref=e40]
+          - paragraph [ref=e41]: Ciencia, resultado e luxo discreto para comprar por ativo, tolerancia e consistencia de uso.
+          - generic [ref=e42]:
+            - link "Explorar clinical luxury" [ref=e43] [cursor=pointer]:
+              - /url: "#produtos"
+              - text: Explorar clinical luxury
+              - img [ref=e44]
+            - link "Montar minha rotina" [ref=e46] [cursor=pointer]:
+              - /url: "#rotinas"
+            - link "Fazer Skin Scan" [ref=e47] [cursor=pointer]:
+              - /url: /skin-scan
+              - text: Fazer Skin Scan
+              - img [ref=e48]
+      - generic [ref=e55]:
+        - link "Narrativa" [ref=e56] [cursor=pointer]:
+          - /url: "#narrativa"
+        - link "Produtos" [ref=e57] [cursor=pointer]:
+          - /url: "#produtos"
+        - link "Kits" [ref=e58] [cursor=pointer]:
+          - /url: "#kits"
+        - link "Colecoes" [ref=e59] [cursor=pointer]:
+          - /url: "#colecoes"
+        - link "Rotinas" [ref=e60] [cursor=pointer]:
+          - /url: "#rotinas"
+        - link "Pele Sensivel" [ref=e62] [cursor=pointer]:
+          - /url: /universos/pele-sensivel
+        - link "Icones da Curadoria" [ref=e63] [cursor=pointer]:
+          - /url: /universos/icones-da-curadoria
+        - generic [ref=e64]: Performance discreta
+      - generic [ref=e66]:
+        - generic [ref=e67]:
+          - paragraph [ref=e68]: Narrativa editorial
+          - heading "Ciencia, resultado e luxo discreto para comprar por ativo, tolerancia e consistencia de uso." [level=2] [ref=e69]
+          - paragraph [ref=e70]: "Clinical Luxury e a area tecnica da BelaPop. A linguagem e de performance, mas a experiencia continua sensorial: ativo certo, frequencia possivel, barreira respeitada e uma compra que nao depende de promessas barulhentas."
+          - generic [ref=e71]:
+            - link "Trilha editorial Ativos que valem investimento Niacinamida, ceramidas e retinol explicados por papel na rotina. Ver guia" [ref=e72] [cursor=pointer]:
+              - /url: /guias/ativos
+              - paragraph [ref=e73]: Trilha editorial
+              - heading "Ativos que valem investimento" [level=3] [ref=e74]
+              - paragraph [ref=e75]: Niacinamida, ceramidas e retinol explicados por papel na rotina.
+              - generic [ref=e76]:
+                - text: Ver guia
+                - img [ref=e77]
+            - link "Combina com Pele Sensivel quando a performance pede pausa Conforto e barreira como parte da estrategia, nao como plano B. Ir para pele sensivel" [ref=e80] [cursor=pointer]:
+              - /url: /universos/pele-sensivel
+              - paragraph [ref=e81]: Combina com
+              - heading "Pele Sensivel quando a performance pede pausa" [level=3] [ref=e82]
+              - paragraph [ref=e83]: Conforto e barreira como parte da estrategia, nao como plano B.
+              - generic [ref=e84]:
+                - text: Ir para pele sensivel
+                - img [ref=e85]
+        - complementary [ref=e88]:
+          - generic [ref=e89]:
+            - img [ref=e90]
+            - text: Curadoria da semana
+          - heading "Creme Barrier Celeste para sustentar ativos" [level=3] [ref=e92]
+          - paragraph [ref=e93]: Um reparador que deixa a rotina tecnica mais toleravel e constante.
+          - link "Ver curadoria" [ref=e94] [cursor=pointer]:
+            - /url: /guias/ativos/ceramidas
+            - text: Ver curadoria
+            - img [ref=e95]
+          - generic [ref=e98]:
+            - paragraph [ref=e99]: Tags do universo
+            - generic [ref=e100]:
+              - generic [ref=e101]: clinical
+              - generic [ref=e102]: luxury
+              - generic [ref=e103]: routine
+              - generic [ref=e104]: bundle
+      - generic [ref=e106]:
+        - generic [ref=e107]:
+          - paragraph [ref=e108]: Compra assistida
+          - heading "Transforme este universo em uma compra coerente." [level=2] [ref=e109]
+          - paragraph [ref=e110]: A concierge organiza ativos para evitar combinacoes redundantes.
+        - generic [ref=e111]:
+          - 'button "Adicionar kit ao carrinho: Kit Barreira" [ref=e112] [cursor=pointer]':
+            - img [ref=e113]
+            - text: Adicionar kit ao carrinho
+          - link "Fazer Skin Scan" [ref=e116] [cursor=pointer]:
+            - /url: /skin-scan
+            - img [ref=e117]
+            - text: Fazer Skin Scan
+          - button "Falar com concierge" [ref=e123] [cursor=pointer]:
+            - img [ref=e124]
+            - text: Falar com concierge
+      - generic [ref=e127]:
+        - generic [ref=e128]:
+          - generic [ref=e129]:
+            - paragraph [ref=e130]: Produtos vinculados
+            - heading "Produtos escondidos dentro de uma historia, nao em um grid seco." [level=2] [ref=e131]
+          - paragraph [ref=e132]: O produto que entrega performance sem teatralizar a rotina.
+        - generic [ref=e133]:
+          - link "Creme Barrier Céleste Clinical da semana Creme Barrier Celeste para sustentar ativos Um reparador que deixa a rotina tecnica mais toleravel e constante. Ver achado" [ref=e134] [cursor=pointer]:
+            - /url: /produto/creme-barrier-celeste
+            - img "Creme Barrier Céleste" [ref=e135]
+            - generic [ref=e137]:
+              - generic [ref=e138]:
+                - img [ref=e139]
+                - text: Clinical da semana
+              - heading "Creme Barrier Celeste para sustentar ativos" [level=3] [ref=e141]
+              - paragraph [ref=e142]: Um reparador que deixa a rotina tecnica mais toleravel e constante.
+              - generic [ref=e143]:
+                - text: Ver achado
+                - img [ref=e144]
+          - generic [ref=e147]:
+            - link "Creme Barrier Céleste Selecao BelaPop BelaPop Creme Barrier Céleste Hidratante de alta performance para reforço de barreira e conforto imediato. R$ 320,00" [ref=e148] [cursor=pointer]:
+              - /url: /produto/creme-barrier-celeste
+              - generic [ref=e149]:
+                - img "Creme Barrier Céleste" [ref=e150]
+                - generic [ref=e152]: Selecao BelaPop
+              - generic [ref=e153]:
+                - paragraph [ref=e154]: BelaPop
+                - heading "Creme Barrier Céleste" [level=3] [ref=e155]
+                - paragraph [ref=e156]: Hidratante de alta performance para reforço de barreira e conforto imediato.
+                - generic [ref=e157]:
+                  - generic [ref=e158]: R$ 320,00
+                  - img [ref=e159]
+            - link "Sérum Radiance 01 Selecao BelaPop BelaPop Sérum Radiance 01 Sérum iluminador com peptídeos e niacinamida para uniformizar e hidratar. R$ 289,00" [ref=e162] [cursor=pointer]:
+              - /url: /produto/serum-radiance-01
+              - generic [ref=e163]:
+                - img "Sérum Radiance 01" [ref=e164]
+                - generic [ref=e166]: Selecao BelaPop
+              - generic [ref=e167]:
+                - paragraph [ref=e168]: BelaPop
+                - heading "Sérum Radiance 01" [level=3] [ref=e169]
+                - paragraph [ref=e170]: Sérum iluminador com peptídeos e niacinamida para uniformizar e hidratar.
+                - generic [ref=e171]:
+                  - generic [ref=e172]: R$ 289,00
+                  - img [ref=e173]
+            - link "Gel Limpeza Veludo Selecao BelaPop BelaPop Gel Limpeza Veludo Gel de limpeza suave com pH balanceado e espuma delicada. R$ 182,00" [ref=e176] [cursor=pointer]:
+              - /url: /produto/gel-limpeza-veludo
+              - generic [ref=e177]:
+                - img "Gel Limpeza Veludo" [ref=e178]
+                - generic [ref=e180]: Selecao BelaPop
+              - generic [ref=e181]:
+                - paragraph [ref=e182]: BelaPop
+                - heading "Gel Limpeza Veludo" [level=3] [ref=e183]
+                - paragraph [ref=e184]: Gel de limpeza suave com pH balanceado e espuma delicada.
+                - generic [ref=e185]:
+                  - generic [ref=e186]: R$ 182,00
+                  - img [ref=e187]
+            - link "Patch Olhos Aurora Selecao BelaPop BelaPop Patch Olhos Aurora Patches para área dos olhos com cafeína e ácido hialurônico. R$ 198,00" [ref=e190] [cursor=pointer]:
+              - /url: /produto/patch-olhos-aurora
+              - generic [ref=e191]:
+                - img "Patch Olhos Aurora" [ref=e192]
+                - generic [ref=e194]: Selecao BelaPop
+              - generic [ref=e195]:
+                - paragraph [ref=e196]: BelaPop
+                - heading "Patch Olhos Aurora" [level=3] [ref=e197]
+                - paragraph [ref=e198]: Patches para área dos olhos com cafeína e ácido hialurônico.
+                - generic [ref=e199]:
+                  - generic [ref=e200]: R$ 198,00
+                  - img [ref=e201]
+        - generic [ref=e204]:
+          - link "Ver catalogo completo" [ref=e205] [cursor=pointer]:
+            - /url: /catalogo
+          - generic [ref=e206]: "Tags: clinical, luxury, routine, bundle"
+      - generic [ref=e208]:
+        - generic [ref=e209]:
+          - generic [ref=e210]:
+            - paragraph [ref=e211]: Bundles vinculados
+            - heading "Kits que transformam desejo em rotina compravel." [level=2] [ref=e212]
+          - paragraph [ref=e213]: "Cada kit aparece como uma decisao pronta: produto, ordem de uso, economia e proxima acao."
+        - generic [ref=e214]:
+          - article [ref=e215]:
+            - generic [ref=e216]:
+              - img "Cena editorial noturna de beleza premium." [ref=e217]
+              - generic [ref=e219]:
+                - generic [ref=e220]: Rotina completa
+                - generic [ref=e221]: Comece por aqui
+              - generic [ref=e222]:
+                - paragraph [ref=e223]: Noite
+                - heading "Ritual da Noite" [level=3] [ref=e224]
+                - paragraph [ref=e225]: Reparar enquanto a pele descansa.
+            - generic [ref=e226]:
+              - paragraph [ref=e227]: Tratamento noturno para renovar, reparar e acordar com sensacao de pele descansada.
+              - generic [ref=e228]:
+                - generic [ref=e229]:
+                  - paragraph [ref=e230]: Separado
+                  - paragraph [ref=e231]: R$ 1.029,00
+                - generic [ref=e232]:
+                  - paragraph [ref=e233]: Kit
+                  - paragraph [ref=e234]: R$ 899,00
+              - list [ref=e235]:
+                - listitem [ref=e236]:
+                  - generic [ref=e237]: "1"
+                  - generic [ref=e238]:
+                    - strong [ref=e239]: Gel Limpeza Veludo
+                    - generic [ref=e240]: Prepara a pele para receber tratamento.
+                - listitem [ref=e241]:
+                  - generic [ref=e242]: "2"
+                  - generic [ref=e243]:
+                    - strong [ref=e244]: Creme Barrier Celeste
+                    - generic [ref=e245]: Reforca barreira e maciez.
+                - listitem [ref=e246]:
+                  - generic [ref=e247]: "3"
+                  - generic [ref=e248]:
+                    - strong [ref=e249]: Serum Radiance 01
+                    - generic [ref=e250]: Apoia luminosidade e uniformidade.
+              - generic [ref=e251]:
+                - 'button "Adicionar kit ao carrinho: Ritual da Noite" [ref=e252] [cursor=pointer]':
+                  - img [ref=e253]
+                  - text: Adicionar kit ao carrinho
+                - link "Ver detalhes do kit" [ref=e256] [cursor=pointer]:
+                  - /url: /kits/ritual-da-noite
+                  - text: Ver detalhes do kit
+                  - img [ref=e257]
+          - article [ref=e260]:
+            - generic [ref=e261]:
+              - img "Close editorial de pele e tecnologia BelaPop." [ref=e262]
+              - generic [ref=e265]: Mais vendido
+              - generic [ref=e266]:
+                - paragraph [ref=e267]: Barreira
+                - heading "Kit Barreira" [level=3] [ref=e268]
+                - paragraph [ref=e269]: Conforto e barreira fortalecida.
+            - generic [ref=e270]:
+              - paragraph [ref=e271]: Cuidado de conforto para pele seca, sensibilizada ou com barreira fragilizada.
+              - generic [ref=e272]:
+                - generic [ref=e273]:
+                  - paragraph [ref=e274]: Separado
+                  - paragraph [ref=e275]: R$ 882,00
+                - generic [ref=e276]:
+                  - paragraph [ref=e277]: Kit
+                  - paragraph [ref=e278]: R$ 769,00
+              - list [ref=e279]:
+                - listitem [ref=e280]:
+                  - generic [ref=e281]: "1"
+                  - generic [ref=e282]:
+                    - strong [ref=e283]: Gel Limpeza Veludo
+                    - generic [ref=e284]: Limpa respeitando a barreira.
+                - listitem [ref=e285]:
+                  - generic [ref=e286]: "2"
+                  - generic [ref=e287]:
+                    - strong [ref=e288]: Creme Barrier Celeste
+                    - generic [ref=e289]: Reforca maciez e elasticidade.
+                - listitem [ref=e290]:
+                  - generic [ref=e291]: "3"
+                  - generic [ref=e292]:
+                    - strong [ref=e293]: Patch Olhos Aurora
+                    - generic [ref=e294]: Entrega hidratacao localizada.
+              - generic [ref=e295]:
+                - 'button "Adicionar kit ao carrinho: Kit Barreira" [ref=e296] [cursor=pointer]':
+                  - img [ref=e297]
+                  - text: Adicionar kit ao carrinho
+                - link "Ver detalhes do kit" [ref=e300] [cursor=pointer]:
+                  - /url: /kits/kit-barreira
+                  - text: Ver detalhes do kit
+                  - img [ref=e301]
+          - article [ref=e304]:
+            - generic [ref=e305]:
+              - img "Rotina de skincare editorial com pele luminosa e frascos premium." [ref=e306]
+              - generic [ref=e309]: Curadoria BelaPop
+              - generic [ref=e310]:
+                - paragraph [ref=e311]: Manha
+                - heading "Ritual da Manha" [level=3] [ref=e312]
+                - paragraph [ref=e313]: Preparar, hidratar e proteger.
+            - generic [ref=e314]:
+              - paragraph [ref=e315]: Uma rotina inteligente para comecar o dia com pele limpa, luminosa e protegida.
+              - generic [ref=e316]:
+                - generic [ref=e317]:
+                  - paragraph [ref=e318]: Separado
+                  - paragraph [ref=e319]: R$ 989,00
+                - generic [ref=e320]:
+                  - paragraph [ref=e321]: Kit
+                  - paragraph [ref=e322]: R$ 849,00
+              - list [ref=e323]:
+                - listitem [ref=e324]:
+                  - generic [ref=e325]: "1"
+                  - generic [ref=e326]:
+                    - strong [ref=e327]: Gel Limpeza Veludo
+                    - generic [ref=e328]: Remove impurezas sem ressecar.
+                - listitem [ref=e329]:
+                  - generic [ref=e330]: "2"
+                  - generic [ref=e331]:
+                    - strong [ref=e332]: Serum Radiance 01
+                    - generic [ref=e333]: Ajuda na luminosidade e uniformidade.
+                - listitem [ref=e334]:
+                  - generic [ref=e335]: "3"
+                  - generic [ref=e336]:
+                    - strong [ref=e337]: Creme Barrier Celeste
+                    - generic [ref=e338]: Mantem a pele confortavel ao longo do dia.
+              - generic [ref=e339]:
+                - 'button "Adicionar kit ao carrinho: Ritual da Manha" [ref=e340] [cursor=pointer]':
+                  - img [ref=e341]
+                  - text: Adicionar kit ao carrinho
+                - link "Ver detalhes do kit" [ref=e344] [cursor=pointer]:
+                  - /url: /kits/ritual-da-manha
+                  - text: Ver detalhes do kit
+                  - img [ref=e345]
+      - generic [ref=e349]:
+        - generic [ref=e350]:
+          - generic [ref=e351]:
+            - paragraph [ref=e352]: Colecoes vinculadas
+            - heading "Prateleiras editoriais para continuar explorando." [level=2] [ref=e353]
+          - paragraph [ref=e354]: Colecoes conectam SKUs, guias e kits para a cliente descobrir por intencao, nao por filtro frio.
+        - generic [ref=e355]:
+          - link "Close editorial de pele e tecnologia BelaPop. Ciencia aplicada ativos, barreira e performance Clinical Edit Produtos e guias para quem compra por evidencia, tolerancia e resultado, sem abrir mao do sensorial. Explorar colecao" [ref=e356] [cursor=pointer]:
+            - /url: /guias/ativos
+            - img "Close editorial de pele e tecnologia BelaPop." [ref=e357]
+            - generic [ref=e359]:
+              - generic [ref=e360]: Ciencia aplicada
+              - paragraph [ref=e361]: ativos, barreira e performance
+              - heading "Clinical Edit" [level=3] [ref=e362]
+              - paragraph [ref=e363]: Produtos e guias para quem compra por evidencia, tolerancia e resultado, sem abrir mao do sensorial.
+              - generic [ref=e364]:
+                - text: Explorar colecao
+                - img [ref=e365]
+          - link "Retrato de pele com luz suave e sensacao de conforto. Pele sensivel baixo atrito, alta previsibilidade Barreira & Conforto Rotinas gentis para peles que pedem menos estimulo, mais consistencia e uma compra sem susto. Explorar colecao" [ref=e368] [cursor=pointer]:
+            - /url: /guias/rotinas/pele-sensivel
+            - img "Retrato de pele com luz suave e sensacao de conforto." [ref=e369]
+            - generic [ref=e371]:
+              - generic [ref=e372]: Pele sensivel
+              - paragraph [ref=e373]: baixo atrito, alta previsibilidade
+              - heading "Barreira & Conforto" [level=3] [ref=e374]
+              - paragraph [ref=e375]: Rotinas gentis para peles que pedem menos estimulo, mais consistencia e uma compra sem susto.
+              - generic [ref=e376]:
+                - text: Explorar colecao
+                - img [ref=e377]
+      - generic [ref=e381]:
+        - generic [ref=e382]:
+          - paragraph [ref=e383]: Rotinas recomendadas
+          - heading "Por onde comecar dentro deste universo." [level=2] [ref=e384]
+          - paragraph [ref=e385]: O Skin Scan ajuda a ajustar intensidade, tolerancia e ordem de uso.
+          - generic [ref=e386]:
+            - link "Comece por aqui Defina um ativo principal A rotina fica mais elegante quando performance tem prioridade clara. Ler guia de ativo" [ref=e387] [cursor=pointer]:
+              - /url: /guias/ativos/retinol
+              - paragraph [ref=e388]: Comece por aqui
+              - heading "Defina um ativo principal" [level=3] [ref=e389]
+              - paragraph [ref=e390]: A rotina fica mais elegante quando performance tem prioridade clara.
+              - generic [ref=e391]:
+                - text: Ler guia de ativo
+                - img [ref=e392]
+            - link "Comece por aqui Inclua recuperacao Barreira forte sustenta resultado e reduz abandono de tratamento. Ver kit barreira" [ref=e395] [cursor=pointer]:
+              - /url: /kits/kit-barreira
+              - paragraph [ref=e396]: Comece por aqui
+              - heading "Inclua recuperacao" [level=3] [ref=e397]
+              - paragraph [ref=e398]: Barreira forte sustenta resultado e reduz abandono de tratamento.
+              - generic [ref=e399]:
+                - text: Ver kit barreira
+                - img [ref=e400]
+        - article [ref=e404]:
+          - paragraph [ref=e405]: performance com recuperacao
+          - heading "Clinical Night Protocol" [level=3] [ref=e406]
+          - paragraph [ref=e407]: Tratamento noturno com foco em ativo principal, barreira e tolerancia ao longo da semana.
+          - list [ref=e408]:
+            - listitem [ref=e409]:
+              - img [ref=e410]
+              - generic [ref=e412]:
+                - strong [ref=e413]: Limpeza precisa
+                - generic [ref=e414]: Remova residuos sem deixar a pele repuxando.
+            - listitem [ref=e415]:
+              - img [ref=e416]
+              - generic [ref=e418]:
+                - strong [ref=e419]: Ativo em dias alternados
+                - generic [ref=e420]: Use performance com frequencia ajustada ao momento da pele.
+            - listitem [ref=e421]:
+              - img [ref=e422]
+              - generic [ref=e424]:
+                - strong [ref=e425]: Recuperacao
+                - generic [ref=e426]: Ceramidas e hidratacao sustentam conforto e adesao.
+          - generic [ref=e427]:
+            - 'button "Adicionar kit ao carrinho: Ritual da Noite" [ref=e428] [cursor=pointer]':
+              - img [ref=e429]
+              - text: Adicionar kit ao carrinho
+            - link "Explorar protocolo" [ref=e432] [cursor=pointer]:
+              - /url: /guias/ativos/retinol
+              - text: Explorar protocolo
+              - img [ref=e433]
+      - generic [ref=e437]:
+        - paragraph [ref=e438]: Navegue entre universos relacionados
+        - generic [ref=e439]:
+          - link "Combina com Pele Sensivel Cuidado, seguranca e acolhimento para comprar com calma quando a pele pede previsibilidade. Explorar universo" [ref=e440] [cursor=pointer]:
+            - /url: /universos/pele-sensivel
+            - paragraph [ref=e441]: Combina com
+            - heading "Pele Sensivel" [level=3] [ref=e442]
+            - paragraph [ref=e443]: Cuidado, seguranca e acolhimento para comprar com calma quando a pele pede previsibilidade.
+            - generic [ref=e444]:
+              - text: Explorar universo
+              - img [ref=e445]
+          - 'link "Combina com Icones da Curadoria A selecao que traduz autoridade, confianca e desejo: produtos com razao clara para existir na rotina. Explorar universo" [ref=e448] [cursor=pointer]':
+            - /url: /universos/icones-da-curadoria
+            - paragraph [ref=e449]: Combina com
+            - heading "Icones da Curadoria" [level=3] [ref=e450]
+            - paragraph [ref=e451]: "A selecao que traduz autoridade, confianca e desejo: produtos com razao clara para existir na rotina."
+            - generic [ref=e452]:
+              - text: Explorar universo
+              - img [ref=e453]
+      - generic [ref=e457]:
+        - generic [ref=e458]:
+          - generic [ref=e459]: clinical-edit
+          - generic [ref=e460]: sensitive-barrier
+        - paragraph [ref=e461]:
+          - img [ref=e462]
+          - text: Universo conectado a produtos, colecoes, kits, rotinas e guias.
+      - generic [ref=e465]:
+        - generic [ref=e466]:
+          - paragraph [ref=e467]: Compra assistida
+          - heading "Transforme este universo em uma compra coerente." [level=2] [ref=e468]
+          - paragraph [ref=e469]: A concierge organiza ativos para evitar combinacoes redundantes.
+        - generic [ref=e470]:
+          - 'button "Adicionar kit ao carrinho: Kit Barreira" [ref=e471] [cursor=pointer]':
+            - img [ref=e472]
+            - text: Adicionar kit ao carrinho
+          - link "Fazer Skin Scan" [ref=e475] [cursor=pointer]:
+            - /url: /skin-scan
+            - img [ref=e476]
+            - text: Fazer Skin Scan
+          - button "Falar com concierge" [ref=e482] [cursor=pointer]:
+            - img [ref=e483]
+            - text: Falar com concierge
+    - contentinfo [ref=e485]:
+      - generic [ref=e486]:
+        - generic [ref=e487]:
+          - heading "BelaPop" [level=2] [ref=e488]
+          - paragraph [ref=e489]: Skincare guided by your skin.
+        - generic [ref=e490]:
+          - heading "Compre com confianca" [level=3] [ref=e491]
+          - generic [ref=e492]:
+            - generic [ref=e493]:
+              - img [ref=e495]
+              - generic [ref=e498]: Produtos autenticos
+            - generic [ref=e499]:
+              - img [ref=e501]
+              - generic [ref=e504]: Pagamentos seguros
+            - generic [ref=e505]:
+              - img [ref=e507]
+              - generic [ref=e512]: Envio com rastreio
+            - generic [ref=e513]:
+              - img [ref=e515]
+              - generic [ref=e520]: Devolucao facil
+            - generic [ref=e521]:
+              - img [ref=e523]
+              - generic [ref=e525]: Selecao curada
+            - generic [ref=e526]:
+              - img [ref=e528]
+              - generic [ref=e531]: Suporte concierge
+        - generic [ref=e532]:
+          - generic [ref=e533]:
+            - heading "Institucional" [level=4] [ref=e534]
+            - generic [ref=e535]:
+              - link "Sobre a BelaPop" [ref=e536] [cursor=pointer]:
+                - /url: /sobre
+              - link "Seguranca" [ref=e537] [cursor=pointer]:
+                - /url: /seguranca
+              - link "Fale conosco" [ref=e538] [cursor=pointer]:
+                - /url: /contato
+          - generic [ref=e539]:
+            - heading "Legal" [level=4] [ref=e540]
+            - generic [ref=e541]:
+              - link "Aviso de Privacidade" [ref=e542] [cursor=pointer]:
+                - /url: /aviso-de-privacidade
+              - link "Termos e Condicoes" [ref=e543] [cursor=pointer]:
+                - /url: /termos-e-condicoes
+              - link "Politica de Cookies" [ref=e544] [cursor=pointer]:
+                - /url: /politica-de-cookies
+              - button "Personalizar cookies" [ref=e545] [cursor=pointer]
+        - generic [ref=e546]:
+          - generic [ref=e547]:
+            - heading "63.945.608 GIOVANNA DE SOUSA FERREIRA SANTOS" [level=5] [ref=e548]
+            - generic [ref=e549]:
+              - generic [ref=e550]: CNPJ 63.945.608/0001-09
+              - generic [ref=e551]: Rua Coromandel, 189 - Araguari - Minas Gerais - Brasil
+          - 'link "Canal de Privacidade / Solicitacao de Dados: privacidade@belapopoficial.com.br" [ref=e552] [cursor=pointer]':
+            - /url: mailto:privacidade@belapopoficial.com.br
+        - generic [ref=e553]:
+          - link "Instagram" [ref=e554] [cursor=pointer]:
+            - /url: https://instagram.com/belapop.oficial
+            - img [ref=e555]
+          - link "TikTok" [ref=e557] [cursor=pointer]:
+            - /url: https://tiktok.com/@belapop.oficial
+            - img [ref=e558]
+          - link "Facebook" [ref=e560] [cursor=pointer]:
+            - /url: https://facebook.com/belapopoficial
+            - img [ref=e561]
+          - link "WhatsApp" [ref=e563] [cursor=pointer]:
+            - /url: https://wa.me/5534999999999
+            - img [ref=e564]
+        - generic [ref=e566]:
+          - paragraph [ref=e567]: © BelaPop 2026 - Todos os direitos reservados
+          - generic [ref=e568]: Brasil
+  - button "Abrir Consultora BelaPop" [ref=e569] [cursor=pointer]:
+    - img [ref=e571]
+    - generic [ref=e573]:
+      - generic [ref=e574]: Precisa de ajuda?
+      - generic [ref=e575]: Rotina, presente ou recompra
+  - button "Open Next.js Dev Tools" [ref=e581] [cursor=pointer]:
+    - img [ref=e582]

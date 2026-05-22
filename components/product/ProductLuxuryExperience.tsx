@@ -16,9 +16,13 @@ import {
   Truck
 } from "lucide-react";
 
+import { SaleOriginSummary } from "@/components/commerce/SaleOriginSummary";
+import { BundleRecommendationStrip } from "@/components/bundles/BundleRecommendationStrip";
 import { BelaPopValidatedFooter } from "@/components/luxury/BelaPopValidatedFooter";
 import { BelaPopValidatedHeader } from "@/components/luxury/BelaPopValidatedHeader";
 import { ProductPurchaseActions } from "@/components/product/ProductPurchaseActions";
+import { brandCtas } from "@/lib/brand/ctas";
+import { brandSectionNames } from "@/lib/brand/sections";
 import { formatPrice } from "@/lib/utils";
 
 type ProductGalleryItem = {
@@ -38,6 +42,9 @@ type ProductLuxuryExperienceProduct = {
   price?: number | null;
   price_cents?: number | null;
   sellerId?: string | null;
+  sellerName?: string | null;
+  sellerStatus?: string | null;
+  saleOrigin?: "própria" | "marketplace" | null;
   title: string;
 };
 
@@ -239,7 +246,7 @@ function PurchasePanel({
           productId={product.id}
           sellerId={sellerId}
           primaryTarget="cart"
-          primaryLabel="Adicionar à sacola"
+          primaryLabel={brandCtas.primary.addToCart}
           containerClassName="w-full"
           primaryClassName="min-h-14 w-full rounded-none bg-black px-6 text-[11px] font-semibold uppercase tracking-[0.22em] text-white transition hover:bg-black/90"
         />
@@ -248,7 +255,7 @@ function PurchasePanel({
           productId={product.id}
           sellerId={sellerId}
           primaryTarget="checkout"
-          primaryLabel="Comprar agora"
+          primaryLabel={brandCtas.primary.buyNow}
           containerClassName="w-full"
           primaryClassName="min-h-14 w-full rounded-none border border-black bg-transparent px-6 text-[11px] font-semibold uppercase tracking-[0.22em] text-black transition hover:bg-black hover:text-white"
         />
@@ -256,9 +263,15 @@ function PurchasePanel({
 
       <MicroProofs />
 
+      <SaleOriginSummary
+        sellerName={product.sellerName}
+        sellerStatus={product.sellerStatus}
+        saleOrigin={product.saleOrigin}
+      />
+
       <div className="space-y-3 border-t border-black/10 pt-5">
         <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-black/70">
-          Por que você vai amar
+          {brandSectionNames.product.whySelected}
         </p>
         <ul className="space-y-2">
           <li className="flex items-start gap-2 text-sm leading-relaxed text-black/72">
@@ -276,9 +289,6 @@ function PurchasePanel({
         </ul>
       </div>
 
-      <p className="text-xs text-black/58">
-        Vendido por parceiro verificado. Condições variam conforme seller.
-      </p>
     </div>
   );
 }
@@ -332,7 +342,7 @@ export function ProductLuxuryExperience({
     <div className="min-h-screen bg-[#fcf9f8] text-[#1c1b1b]" data-belapop-page="product-luxury">
       <BelaPopValidatedHeader activeSection={activeSection} />
 
-      <main className="pb-24 pt-16 md:pb-0">
+      <main className="pb-24 pt-[78px] md:pb-0 lg:pt-[86px]">
         <section className="bg-[#f6f3f2]">
           <div className="md:hidden">
             <div className="relative h-[70svh] min-h-[460px] w-full overflow-hidden bg-[#efe9e4]">
@@ -458,7 +468,7 @@ export function ProductLuxuryExperience({
                   Recomendação
                 </p>
                 <h2 className="mt-3 font-editorial text-3xl leading-tight text-black sm:text-4xl">
-                  Por que recomendamos para você
+                  {brandSectionNames.product.forWho}
                 </h2>
               </div>
               <div className="inline-flex items-end gap-2 border-b border-black/15 pb-1">
@@ -532,7 +542,7 @@ export function ProductLuxuryExperience({
 
         <section className="bg-[#fcf9f8] px-5 py-14 md:px-8 md:py-20">
           <div className="mx-auto max-w-[1100px]">
-            <h2 className="text-center font-editorial text-3xl text-black sm:text-4xl">Como usar</h2>
+            <h2 className="text-center font-editorial text-3xl text-black sm:text-4xl">{brandSectionNames.product.howToUse}</h2>
             <div className="mt-10 grid grid-cols-1 gap-8 md:grid-cols-3">
               {howToUse.map((step, index) => (
                 <article key={step} className="text-center">
@@ -570,6 +580,13 @@ export function ProductLuxuryExperience({
             </div>
           </div>
         </section>
+
+        <BundleRecommendationStrip
+          title="Complete com um kit pensado como rotina"
+          subtitle="A BelaPop organiza combinacoes por necessidade para transformar produto solto em ritual compravel."
+          limit={3}
+          className="border-y border-black/10"
+        />
 
         <section className="bg-[#f6f3f2] px-5 py-14 md:px-8 md:py-20">
           <div className="mx-auto max-w-[920px]">
@@ -609,7 +626,7 @@ export function ProductLuxuryExperience({
             productId={product.id}
             sellerId={sellerId}
             primaryTarget="cart"
-            primaryLabel="Adicionar à sacola"
+            primaryLabel={brandCtas.primary.addToCart}
             containerClassName="flex-1"
             primaryClassName="min-h-12 w-full rounded-none bg-black px-4 text-[10px] font-semibold uppercase tracking-[0.2em] text-white transition hover:bg-black/90"
           />

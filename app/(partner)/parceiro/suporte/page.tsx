@@ -1,4 +1,5 @@
 import { getPartnerPortalAccess } from "@/lib/auth/partnerPortal";
+import { belapopContact, buildBelapopMailto } from "@/lib/brand/contact";
 
 function buildWhatsappHref() {
   const raw = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? "";
@@ -11,6 +12,10 @@ function buildWhatsappHref() {
 export default async function ParceiroSuportePage() {
   await getPartnerPortalAccess({ requirePartner: true });
   const whatsappHref = buildWhatsappHref();
+  const supportHref = buildBelapopMailto(
+    belapopContact.supportEmail,
+    "Suporte Parceiro BelaPop"
+  );
 
   return (
     <div className="mx-auto w-full max-w-5xl space-y-6 px-6 py-10">
@@ -21,7 +26,7 @@ export default async function ParceiroSuportePage() {
 
       <div className="grid gap-4 md:grid-cols-3">
         <a
-          href="mailto:giovannasousa105@gmail.com?subject=Suporte%20Parceiro%20BelaPop"
+          href={supportHref}
           className="rounded-2xl border border-black/10 bg-white px-5 py-4 text-sm font-semibold text-bpBlackSoft shadow-sm"
         >
           Enviar e-mail
@@ -37,7 +42,7 @@ export default async function ParceiroSuportePage() {
           </a>
         ) : (
           <div className="rounded-2xl border border-black/10 bg-white px-5 py-4 text-sm text-bpGraphite/70 shadow-sm">
-            WhatsApp indisponivel no momento.
+            Atendimento pelo e-mail institucional.
           </div>
         )}
         <a
@@ -50,4 +55,3 @@ export default async function ParceiroSuportePage() {
     </div>
   );
 }
-

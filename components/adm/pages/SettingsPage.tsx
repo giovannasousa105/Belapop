@@ -86,13 +86,13 @@ type TierLimit = {
 const sidebarItems: SidebarItem[] = [
   { label: "Dashboard", href: "/adm/dashboard-executivo", icon: LayoutDashboard },
   { label: "Curadoria", href: "/adm/curadoria/produtos", icon: Sparkles },
-  { label: "Sellers", href: "/adm/operacao/parceiros", icon: Store },
-  { label: "Pedidos", href: "/adm/operacao/pedidos-criticos", icon: ShoppingBag },
-  { label: "Logistica", href: "/adm/operacao/logistica", icon: Truck },
+  { label: "Sellers", href: "/adm/operação/parceiros", icon: Store },
+  { label: "Pedidos", href: "/adm/operação/pedidos-criticos", icon: ShoppingBag },
+  { label: "Logistica", href: "/adm/operação/logistica", icon: Truck },
   { label: "Risco", href: "/adm/financeiro/risco", icon: ShieldAlert },
   { label: "Financeiro", href: "/adm/financeiro", icon: Wallet },
   { label: "Clientes", href: "/adm/relacionamento/clientes", icon: Users },
-  { label: "Configuracoes", href: "/adm/gestao/configuracoes", icon: Settings, active: true }
+  { label: "Configuracoes", href: "/adm/gestao/configurações", icon: Settings, active: true }
 ];
 
 const takeRateHistory: HistoryItem[] = [
@@ -370,7 +370,7 @@ export async function SettingsPage({ filters: _filters, searchParamsSource: _sea
             <section className="grid grid-cols-1 gap-12 md:grid-cols-[220px_minmax(0,1fr)]" id="refunds">
               <SectionIntro
                 title="Refund Policies"
-                description="Automacao de reembolsos e janelas de devolucao para curadoria de experiencia do cliente."
+                description="Automacao de reembolsos e janelas de devolucao para curadoria de experiência do cliente."
               />
 
               <div className="space-y-6">
@@ -400,7 +400,7 @@ export async function SettingsPage({ filters: _filters, searchParamsSource: _sea
                     <div className="flex items-center gap-3 border-b border-[rgba(177,179,169,0.3)] py-2">
                       <span className="text-sm text-[var(--settings-text-soft)]">R$</span>
                       <input
-                        aria-label="Auto-aprovacao ate"
+                        aria-label="Auto-aprovação ate"
                         readOnly
                         value="150"
                         className={`${notoSerif.className} w-24 bg-transparent p-0 text-2xl leading-none text-[var(--settings-text)] outline-none`}

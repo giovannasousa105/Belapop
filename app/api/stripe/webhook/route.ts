@@ -3,12 +3,26 @@ import { createHash } from "node:crypto";
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
 
-import { loadPersistedSplitsForOrder } from "@/lib/checkout/serverCheckout";
+import { posthogServer } from "@/lib/analytics/posthog";
+import { captureError } from "@/lib/analytics/sentry";
 import { updateCheckoutSessionProviderState } from "@/lib/checkout/paymentSessions";
 import { postChargebackEconomicEntries } from "@/lib/finance/chargebacks";
 import { recordPaymentState } from "@/lib/payments/stateMachine";
 import { getSupabaseAdminClient } from "@/lib/supabase/admin";
+import {
+  handleCheckoutCompleted,
+  handleCheckoutSessionExpired,
+} from "@/lib/stripe/handleCheckoutCompleted";
+import { handlePaymentFailed } from "@/lib/stripe/handlePaymentFailed";
+import { handleRefundCompleted } from "@/lib/stripe/handleRefundCompleted";
+import { createSellerTransfersForPaymentIntent } from "@/lib/stripe/sellerTransfers";
 import { getNormalizedEnvValue, getStripe } from "@/lib/stripe/stripeClient";
+import {
+  checkAndMarkIdempotency,
+  confirmarLoteReserva,
+  findReservaPorPaymentIntent,
+  logWebhookEvent,
+} from "@/lib/stripe/stripeWebhookUtils";
 
 export const runtime = "nodejs";
 
@@ -23,6 +37,43 @@ const buildIdempotencyKey = (parts: Array<string | null | undefined>) =>
         .join(":")
     )
     .digest("hex");
+
+const toMetadataString = (
+  metadata: Stripe.Metadata | null | undefined,
+  key: string
+) => {
+  const value = metadata?.[key];
+  return typeof value === "string" && value.trim() ? value.trim() : null;
+};
+
+async function captureCheckoutCompletedServer(
+  session: Stripe.Checkout.Session
+): Promise<void> {
+  try {
+    const metadata = session.metadata;
+    const userId = toMetadataString(metadata, "user_id");
+    const sessionBp = toMetadataString(metadata, "session_bp");
+    const produtoId = toMetadataString(metadata, "produto_id");
+
+    await posthogServer.capture({
+      distinctId: userId && userId !== "anonimo" ? userId : `anon_${sessionBp ?? "stripe"}`,
+      event: "pedido_confirmado_server",
+      properties: {
+        valor_cents: Number(session.amount_total ?? 0),
+        produto_id: produtoId,
+        entrou_popclub: false,
+        canal: "stripe_webhook"
+      }
+    });
+  } catch (error) {
+    captureError(error, {
+      route: "/api/stripe/webhook",
+      etapa: "posthog_pedido_confirmado_server"
+    });
+  } finally {
+    await posthogServer.shutdown();
+  }
+}
 
 const persistStripeTransaction = async ({
   stripe,
@@ -505,35 +556,6 @@ const markOrderAsChargeback = async ({
   }
 };
 
-const createTransfers = async (
-  stripe: Stripe,
-  paymentIntent: Stripe.PaymentIntent,
-  orderId: string | null
-) => {
-  if (!orderId) return;
-  const splits = await loadPersistedSplitsForOrder(orderId);
-
-  await Promise.all(
-    splits.map((split) =>
-      stripe.transfers.create(
-        {
-          amount: split.sellerNetCents,
-          currency: paymentIntent.currency,
-          destination: split.stripeAccountId,
-          transfer_group: paymentIntent.transfer_group ?? orderId,
-          metadata: {
-            orderId,
-            sellerId: split.sellerId
-          }
-        },
-        {
-          idempotencyKey: `transfer-${paymentIntent.id}-${split.sellerId}`
-        }
-      )
-    )
-  );
-};
-
 const resolveStripeDisputeFeeCents = async (stripe: Stripe, dispute: Stripe.Dispute) => {
   const balanceTransactions =
     Array.isArray(dispute.balance_transactions) && dispute.balance_transactions.length > 0
@@ -552,20 +574,21 @@ const resolveStripeDisputeFeeCents = async (stripe: Stripe, dispute: Stripe.Disp
 
 export async function POST(request: Request) {
   if (!webhookSecret) {
-    return NextResponse.json(
-      { error: "STRIPE_WEBHOOK_SECRET nao configurado." },
-      { status: 500 }
-    );
+    // Misconfiguration: log server-side, return 200 so Stripe doesn't retry
+    console.error("[stripe-webhook] STRIPE_WEBHOOK_SECRET não configurado.");
+    return NextResponse.json({ received: true, warning: "webhook_secret_missing" });
   }
 
   const signature = request.headers.get("stripe-signature");
   if (!signature) {
+    // 400 is correct here: Stripe always sends this header
     return NextResponse.json(
       { error: "Assinatura do webhook ausente." },
       { status: 400 }
     );
   }
 
+  // CRITICAL: read raw body as text — never JSON.parse before constructEvent
   const body = await request.text();
   const stripe = getStripe();
   let event: Stripe.Event;
@@ -573,13 +596,52 @@ export async function POST(request: Request) {
   try {
     event = stripe.webhooks.constructEvent(body, signature, webhookSecret);
   } catch (error) {
+    // 400 = signature mismatch (bad secret or tampered body) — do NOT retry
     const message =
       error instanceof Error ? error.message : "Assinatura invalida.";
     return NextResponse.json({ error: message }, { status: 400 });
   }
 
+  // Per Stripe best-practices: always return 200 for valid events.
+  // Non-2xx causes indefinite retries for 3 days. Log errors internally.
   try {
-    if (event.type === "payment_intent.created") {
+    await routeStripeEvent(stripe, event);
+  } catch (error) {
+    const message = error instanceof Error ? error.message : String(error);
+    captureError(new Error(`Stripe webhook ${event.type} failed: ${message}`), {
+      route: "/api/stripe/webhook",
+      event_id: event.id,
+      event_type: event.type
+    });
+    logWebhookEvent("error", event.id, event.type,
+      "unhandled_exception — returning 200 to prevent Stripe retry storm",
+      { error: message });
+  }
+
+  return NextResponse.json({ received: true });
+}
+
+async function routeStripeEvent(stripe: Stripe, event: Stripe.Event): Promise<void> {
+  // ── Lote-specific events (handled exclusively by the new handlers) ─────────
+
+  if (event.type === "checkout.session.completed") {
+    const session = event.data.object as Stripe.Checkout.Session;
+    await handleCheckoutCompleted(session, event.id);
+    await captureCheckoutCompletedServer(session);
+    return;
+  }
+
+  if (event.type === "checkout.session.expired") {
+    await handleCheckoutSessionExpired(
+      event.data.object as Stripe.Checkout.Session,
+      event.id
+    );
+    return;
+  }
+
+  // ── Existing handlers with lote side-effects added ────────────────────────
+
+  if (event.type === "payment_intent.created") {
       const paymentIntent = event.data.object as Stripe.PaymentIntent;
       const orderId = await resolveOrderIdFromPaymentIntent(paymentIntent);
       await markOrderAsIntermediateState(
@@ -620,7 +682,27 @@ export async function POST(request: Request) {
       const orderId = await resolveOrderIdFromPaymentIntent(paymentIntent);
       await persistStripeTransaction({ stripe, event, paymentIntent, orderId });
       await markOrderAsPaid(orderId, paymentIntent, event.id);
-      await createTransfers(stripe, paymentIntent, orderId);
+      await createSellerTransfersForPaymentIntent({ stripe, paymentIntent, orderId });
+
+      // Lote: confirm reservation tied to this PaymentIntent
+      const { skip: alreadyDone } = await checkAndMarkIdempotency(
+        `lote:${event.id}`,
+        "payment_intent.succeeded:lote"
+      );
+      if (!alreadyDone) {
+        const reserva = await findReservaPorPaymentIntent(paymentIntent.id);
+        if (reserva?.status === "ATIVA") {
+          const confirmResult = await confirmarLoteReserva({
+            loteId: reserva.lote_id,
+            reservaId: reserva.id,
+            pedidoId: orderId ?? paymentIntent.id,
+            actorId: reserva.user_id ?? null,
+          });
+          logWebhookEvent("info", event.id, event.type,
+            confirmResult.ok ? "lote_venda_confirmada" : "lote_confirmar_falhou",
+            { reserva_id: reserva.id, lote_id: reserva.lote_id });
+        }
+      }
     }
 
     if (event.type === "payment_intent.payment_failed") {
@@ -633,6 +715,8 @@ export async function POST(request: Request) {
         "payment_intent.payment_failed",
         event.id
       );
+      // Lote: release reservation
+      await handlePaymentFailed(paymentIntent, event.id, "payment_intent.payment_failed");
     }
 
     if (event.type === "payment_intent.canceled") {
@@ -645,6 +729,8 @@ export async function POST(request: Request) {
         "payment_intent.canceled",
         event.id
       );
+      // Lote: release reservation (same as failed)
+      await handlePaymentFailed(paymentIntent, event.id, "payment_intent.canceled");
     }
 
     if (event.type === "charge.refunded") {
@@ -658,6 +744,23 @@ export async function POST(request: Request) {
           providerEventId: event.id,
           amountCents: Number(refundCharge.amount_refunded ?? refundCharge.amount ?? 0)
         });
+      }
+      // Lote: audit trail + admin task (no automatic stock restoration)
+      await handleRefundCompleted(refundCharge, event.id, "charge.refunded");
+    }
+
+    if (event.type === "charge.refund.updated") {
+      // event.data.object is a Stripe.Refund; retrieve the parent Charge for context
+      const refund = event.data.object as Stripe.Refund;
+      if (refund.status === "succeeded") {
+        const chargeRef = refund.charge;
+        if (chargeRef) {
+          const charge =
+            typeof chargeRef === "string"
+              ? await stripe.charges.retrieve(chargeRef)
+              : (chargeRef as Stripe.Charge);
+          await handleRefundCompleted(charge, event.id, "charge.refund.updated");
+        }
       }
     }
 
@@ -689,16 +792,4 @@ export async function POST(request: Request) {
     if (event.type === "transfer.created") {
       console.info("[Stripe webhook] Transfer criado:", event.data.object.id);
     }
-  } catch (error) {
-    console.error("[Stripe webhook] Falha ao processar evento:", error);
-    return NextResponse.json(
-      {
-        error:
-          error instanceof Error ? error.message : "Falha ao processar evento Stripe."
-      },
-      { status: 500 }
-    );
-  }
-
-  return NextResponse.json({ received: true });
 }
