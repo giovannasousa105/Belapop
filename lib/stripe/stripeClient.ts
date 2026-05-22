@@ -17,7 +17,8 @@ export const getStripe = () => {
   }
   if (!stripeInstance) {
     stripeInstance = new Stripe(secretKey, {
-      apiVersion: "2026-02-25.clover"
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      apiVersion: "2025-12-15.clover" as any
     });
   }
   return stripeInstance;
