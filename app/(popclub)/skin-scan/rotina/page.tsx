@@ -136,9 +136,11 @@ function ProductCard({ product, step }: { product: RotinaPasso; step: number }) 
 }
 
 export default function SkinScanRotinaPage() {
+  const { addItem } = useCart();
   const router = useRouter();
   const [result, setResult] = useState<SkinScanResult | null>(null);
   const [activeTab, setActiveTab] = useState<RoutineTab>("manha");
+  const [allAdded, setAllAdded] = useState(false);
 
   useEffect(() => {
     const raw =
@@ -185,6 +187,34 @@ export default function SkinScanRotinaPage() {
   const currentProducts = rotina[activeTab] ?? [];
   const tipoPele = result.analise.tipoPele;
 
+  // Produtos únicos de toda a rotina (para o CTA de kit completo)
+  const allProducts = useMemo(() => {
+    const seen = new Set<string>();
+    const items: RotinaPasso[] = [];
+    for (const produto of [
+      ...(rotina.manha ?? []),
+      ...(rotina.noite ?? []),
+      ...(rotina.semanal ?? []),
+      ...(rotina.semana1 ?? []),
+    ]) {
+      if (!seen.has(produto.slug)) {
+        seen.add(produto.slug);
+        items.push(produto);
+      }
+    }
+    return items;
+  }, [rotina]);
+
+  const totalRotina = allProducts.reduce((sum, p) => sum + p.preco, 0);
+
+  const handleAddAll = () => {
+    for (const produto of allProducts) {
+      addItem(produto.slug, 1, "belapop");
+    }
+    setAllAdded(true);
+    setTimeout(() => setAllAdded(false), 4000);
+  };
+
   return (
     <main className="mx-auto max-w-2xl space-y-8 px-4 py-10">
       <div className="space-y-2 text-center">
@@ -218,6 +248,20 @@ export default function SkinScanRotinaPage() {
         {currentProducts.length} produto{currentProducts.length !== 1 ? "s" : ""} na rotina de{" "}
         {PERIOD_LABELS[activeTab].toLowerCase()}
       </p>
+
+      {/* Melhoria 3.3 — CTA "Adicionar rotina completa" */}
+      {allProducts.length > 0 && (
+        <button
+          type="button"
+          onClick={handleAddAll}
+          disabled={allAdded}
+          className="w-full rounded-xl border-2 border-black bg-black py-4 text-center text-sm font-semibold tracking-wider text-white transition-all hover:bg-neutral-800 disabled:border-green-600 disabled:bg-green-600"
+        >
+          {allAdded
+            ? `✓ ${allProducts.length} produtos adicionados`
+            : `Adicionar rotina completa — R$ ${totalRotina.toLocaleString("pt-BR", { minimumFractionDigits: 2 })}`}
+        </button>
+      )}
 
       {currentProducts.length > 0 ? (
         <div className="space-y-4">
