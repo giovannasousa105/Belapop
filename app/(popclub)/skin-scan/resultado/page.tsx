@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 
@@ -18,6 +18,177 @@ type PreviousScan = {
   overallScore: number;      // 0-100
   skinType: string | null;
 };
+
+// ── Melhoria 5 — SkinGPT ─────────────────────────────────────────────────────
+
+const MAX_QUESTIONS = 3;
+
+type GptEntry = { question: string; answer: string | null; loading: boolean };
+
+/** Chips de perguntas sugeridas de acordo com os focos selecionados */
+function suggestedQuestions(focos: string[]): string[] {
+  const chips: string[] = [];
+  if (focos.includes("oleosidade")) chips.push("Por que minha pele fica oleosa?");
+  if (focos.includes("manchas")) chips.push("Como clarear manchas de forma segura?");
+  if (focos.includes("acne")) chips.push("O que piora a acne?");
+  if (focos.some((f) => f === "linhas_finas" || f === "linhas")) chips.push("Quando começar a usar retinol?");
+  if (focos.includes("sensibilidade")) chips.push("Como fortalecer a barreira da pele?");
+  if (focos.includes("poros")) chips.push("Como reduzir a aparência dos poros?");
+  chips.push("Posso usar maquiagem com essa rotina?");
+  return chips.slice(0, 5); // máximo de 5 chips
+}
+
+/** Widget de perguntas ao SkinGPT — inline, sem modal */
+function SkinGptWidget({
+  focos,
+  analise,
+  isLoggedIn,
+}: {
+  focos: string[];
+  analise: SkinScanResult["analise"];
+  isLoggedIn: boolean;
+}) {
+  const [entries, setEntries] = useState<GptEntry[]>([]);
+  const [input, setInput] = useState("");
+  const [error, setError] = useState<string | null>(null);
+  const bottomRef = useRef<HTMLDivElement>(null);
+  const suggestions = useMemo(() => suggestedQuestions(focos), [focos]);
+  const remaining = MAX_QUESTIONS - entries.length;
+
+  const ask = async (question: string) => {
+    if (!question.trim() || remaining <= 0) return;
+    const trimmed = question.trim();
+
+    // Enriquecer a pergunta com contexto para o SkinGPT dar resposta mais específica
+    const contextualQuestion = `${trimmed} (Contexto da usuária: pele ${analise.tipoPele}, focos: ${focos.join(", ")})`;
+
+    setInput("");
+    setError(null);
+    setEntries((prev) => [...prev, { question: trimmed, answer: null, loading: true }]);
+
+    try {
+      const res = await fetch("/api/v1/skingpt/ask", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ question: contextualQuestion }),
+      });
+
+      if (!res.ok) {
+        const body = (await res.json().catch(() => ({}))) as { error?: string };
+        throw new Error(body.error ?? `Erro ${res.status}`);
+      }
+
+      const data = (await res.json()) as { answer?: string };
+      setEntries((prev) =>
+        prev.map((e) => (e.question === trimmed && e.loading ? { ...e, answer: data.answer ?? "—", loading: false } : e))
+      );
+    } catch (err) {
+      setEntries((prev) =>
+        prev.map((e) => (e.question === trimmed && e.loading ? { ...e, answer: null, loading: false } : e))
+      );
+      setError(err instanceof Error ? err.message : "Não foi possível obter resposta. Tente novamente.");
+    }
+
+    setTimeout(() => bottomRef.current?.scrollIntoView({ behavior: "smooth" }), 100);
+  };
+
+  if (!isLoggedIn) {
+    return (
+      <div className="rounded-xl border border-neutral-200 p-5 text-center">
+        <p className="text-sm text-neutral-600">Faça login para perguntar sobre sua pele ao SkinGPT.</p>
+        <Link
+          href="/conta/login?returnTo=/skin-scan/resultado"
+          className="mt-3 inline-block rounded-lg bg-black px-5 py-2.5 text-xs tracking-wider text-white transition-colors hover:bg-neutral-800"
+        >
+          Entrar
+        </Link>
+      </div>
+    );
+  }
+
+  return (
+    <div className="space-y-4">
+      {/* Chips de perguntas sugeridas */}
+      {remaining > 0 && entries.length === 0 && (
+        <div className="flex flex-wrap gap-2">
+          {suggestions.map((q) => (
+            <button
+              key={q}
+              type="button"
+              onClick={() => ask(q)}
+              className="rounded-full border border-neutral-200 bg-neutral-50 px-3 py-1.5 text-[11px] tracking-wide text-neutral-700 transition-colors hover:border-black hover:bg-white"
+            >
+              {q}
+            </button>
+          ))}
+        </div>
+      )}
+
+      {/* Histórico de Q&A */}
+      {entries.map((entry, i) => (
+        <div key={i} className="space-y-2">
+          <div className="flex justify-end">
+            <span className="max-w-[85%] rounded-2xl rounded-tr-sm bg-black px-4 py-2.5 text-xs leading-relaxed text-white">
+              {entry.question}
+            </span>
+          </div>
+          <div className="flex justify-start">
+            {entry.loading ? (
+              <span className="flex items-center gap-2 rounded-2xl rounded-tl-sm bg-neutral-100 px-4 py-2.5 text-xs text-neutral-500">
+                <span className="inline-block h-3 w-3 animate-spin rounded-full border border-neutral-400 border-t-transparent" />
+                Consultando SkinGPT...
+              </span>
+            ) : entry.answer ? (
+              <span className="max-w-[90%] rounded-2xl rounded-tl-sm bg-neutral-100 px-4 py-2.5 text-xs leading-relaxed text-neutral-700">
+                {entry.answer}
+              </span>
+            ) : null}
+          </div>
+        </div>
+      ))}
+
+      {error && (
+        <p className="rounded-lg bg-red-50 p-3 text-xs text-red-600">{error}</p>
+      )}
+
+      {/* Campo de texto livre */}
+      {remaining > 0 ? (
+        <form
+          onSubmit={(e) => { e.preventDefault(); ask(input); }}
+          className="flex gap-2"
+        >
+          <input
+            type="text"
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            placeholder="Faça uma pergunta sobre sua pele..."
+            maxLength={400}
+            className="flex-1 rounded-xl border border-neutral-200 bg-white px-4 py-2.5 text-xs outline-none transition-colors focus:border-black"
+          />
+          <button
+            type="submit"
+            disabled={!input.trim()}
+            className="rounded-xl bg-black px-4 py-2.5 text-xs tracking-wider text-white transition-colors hover:bg-neutral-800 disabled:opacity-40"
+          >
+            →
+          </button>
+        </form>
+      ) : (
+        <p className="text-center text-xs text-neutral-400">
+          Limite de {MAX_QUESTIONS} perguntas por sessão atingido.
+        </p>
+      )}
+
+      {remaining > 0 && remaining < MAX_QUESTIONS && (
+        <p className="text-right text-[10px] text-neutral-400">
+          {remaining} pergunta{remaining !== 1 ? "s" : ""} restante{remaining !== 1 ? "s" : ""}
+        </p>
+      )}
+
+      <div ref={bottomRef} />
+    </div>
+  );
+}
 
 // ── Labels ────────────────────────────────────────────────────────────────────
 
@@ -437,6 +608,21 @@ export default function SkinScanResultadoPage() {
           Refazer análise
         </button>
       </div>
+
+      {/* ── Melhoria 5 — SkinGPT integrado ── */}
+      <section className="space-y-4">
+        <div className="space-y-1">
+          <p className="text-xs uppercase tracking-widest text-neutral-500">Tem dúvidas sobre seu resultado?</p>
+          <p className="text-sm text-neutral-600">
+            Pergunte ao SkinGPT — responde com base na sua análise e em evidências científicas.
+          </p>
+        </div>
+        <SkinGptWidget
+          focos={result.focos}
+          analise={analise}
+          isLoggedIn={authReady && !!user}
+        />
+      </section>
 
       <p className="text-center text-xs text-neutral-400">
         A imagem foi processada e deletada imediatamente após a análise.
