@@ -4,8 +4,11 @@ import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 
+import { getBeneficio } from "@/lib/skin-scan/ativos-map";
 import { BELAPOP_SCAN_KEY } from "@/types/skin-scan";
 import type { SkinScanResult } from "@/types/skin-scan";
+
+// ── Labels ────────────────────────────────────────────────────────────────────
 
 const TIPO_PELE_LABELS: Record<string, string> = {
   oleosa: "Oleosa",
@@ -49,9 +52,59 @@ const ACHADO_LABELS: Record<string, string> = {
   acne: "Acne",
 };
 
+// Melhoria 2.1 — descrições Fitzpatrick completas
+const FOTOTIPO_LABELS: Record<number, string> = {
+  1: "Pele muito clara — sempre queima, nunca bronzeia. SPF 50+ obrigatório.",
+  2: "Pele clara — quase sempre queima, bronzeia pouco. SPF 50+ recomendado.",
+  3: "Pele média — às vezes queima, bronzeia gradualmente. SPF 30+ diário.",
+  4: "Pele morena clara — raramente queima, bronzeia com facilidade. SPF 30+ diário.",
+  5: "Pele morena escura — muito raramente queima, bronzeia facilmente. SPF 30+ diário.",
+  6: "Pele negra — nunca queima. SPF 30+ diário para prevenir fotodano cumulativo.",
+};
+
+// Melhoria 2.2 — badge de confiança
+type ConfidenceBadge = { label: string; bg: string; text: string };
+
+function getConfidenceBadge(confianca: number): ConfidenceBadge {
+  if (confianca >= 85) return { label: "Alta precisão", bg: "bg-green-100", text: "text-green-800" };
+  if (confianca >= 60) return { label: "Boa leitura", bg: "bg-yellow-100", text: "text-yellow-800" };
+  if (confianca >= 40) return { label: "Leitura parcial", bg: "bg-orange-100", text: "text-orange-800" };
+  return { label: "Imagem difícil", bg: "bg-red-100", text: "text-red-700" };
+}
+
 function normalizeLabel(value: string) {
   return value.replace(/_/g, " ");
 }
+
+// ── Componente de ativo expandível (Melhoria 2.3) ────────────────────────────
+
+function AtivoItem({ ativo, index }: { ativo: string; index: number }) {
+  const [open, setOpen] = useState(false);
+  const beneficio = getBeneficio(ativo);
+
+  return (
+    <div className="rounded-lg border border-neutral-100 bg-neutral-50">
+      <button
+        type="button"
+        onClick={() => setOpen((v) => !v)}
+        className="flex w-full items-start gap-3 p-3 text-left transition-colors hover:bg-neutral-100"
+      >
+        <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-white text-xs font-medium shadow-sm">
+          {index + 1}
+        </span>
+        <span className="flex-1 text-sm text-neutral-700">{ativo}</span>
+        <span className="text-[10px] text-neutral-400">{open ? "▲" : "▼"}</span>
+      </button>
+      {open && (
+        <div className="border-t border-neutral-100 px-3 pb-3 pt-2 text-xs leading-relaxed text-neutral-500">
+          {beneficio ?? "Ativo cosmético incluído com base nos achados visuais e focos selecionados."}
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ── Página principal ──────────────────────────────────────────────────────────
 
 export default function SkinScanResultadoPage() {
   const router = useRouter();
@@ -86,7 +139,6 @@ export default function SkinScanResultadoPage() {
 
   const topAtivos = useMemo(() => {
     if (!result) return [];
-    // Usar ?? [] em todos os campos — protege contra dados de sessões antigas
     const steps = [
       ...(result.rotina.manha   ?? []),
       ...(result.rotina.noite   ?? []),
@@ -107,17 +159,36 @@ export default function SkinScanResultadoPage() {
   const { analise } = result;
   const scoreEntries = Object.entries(analise.scores);
   const achadosEntries = Object.entries(analise.achados).filter(([, value]) => Boolean(value));
+  const badge = getConfidenceBadge(analise.confianca);
+  const needsImprovement = analise.confianca < 60;
 
   return (
     <main className="mx-auto max-w-2xl space-y-10 px-4 py-10">
-      <div className="space-y-2 text-center">
-        <p className="text-xs uppercase tracking-widest text-neutral-500">Etapa 3 - Resultado</p>
+
+      {/* ── Cabeçalho + badge de confiança (Melhoria 2.2) ── */}
+      <div className="space-y-3 text-center">
+        <p className="text-xs uppercase tracking-widest text-neutral-500">Etapa 3 — Resultado</p>
         <h1 style={{ fontFamily: "var(--font-playfair, serif)" }} className="text-3xl">
           Sua análise de pele
         </h1>
-        <p className="text-sm text-neutral-500">
-          Protocolo belapop_scan_v2 · Confiança {analise.confianca}%
-        </p>
+        <div className="flex flex-wrap items-center justify-center gap-2">
+          <span className={`rounded-full px-3 py-1 text-[11px] font-semibold ${badge.bg} ${badge.text}`}>
+            {badge.label} · {analise.confianca}%
+          </span>
+          {analise.modoFallback && (
+            <span className="rounded-full bg-neutral-100 px-3 py-1 text-[11px] text-neutral-500">
+              Baseado nos focos selecionados
+            </span>
+          )}
+        </div>
+        {needsImprovement && (
+          <Link
+            href="/skin-scan/captura"
+            className="inline-block rounded-xl border border-neutral-300 px-4 py-2 text-xs tracking-wider transition-colors hover:border-black hover:text-black"
+          >
+            📸 Melhorar minha análise
+          </Link>
+        )}
       </div>
 
       {analise.alertas.length > 0 && (
@@ -126,6 +197,7 @@ export default function SkinScanResultadoPage() {
         </section>
       )}
 
+      {/* ── Tipo de pele ── */}
       <section className="space-y-3 rounded-2xl bg-neutral-50 p-6">
         <p className="text-xs uppercase tracking-widest text-neutral-500">Tipo de pele identificado</p>
         <h2 style={{ fontFamily: "var(--font-playfair, serif)" }} className="text-4xl capitalize">
@@ -133,13 +205,21 @@ export default function SkinScanResultadoPage() {
         </h2>
         {analise.subtipo && <p className="text-sm leading-relaxed text-neutral-600">{analise.subtipo}</p>}
         <p className="text-sm leading-relaxed text-neutral-600">{analise.observacao}</p>
+
+        {/* Melhoria 2.1 — fototipo com descrição Fitzpatrick completa */}
         {analise.fototipo && (
-          <p className="text-xs uppercase tracking-widest text-neutral-400">
-            Fototipo Fitzpatrick {analise.fototipo}
-          </p>
+          <div className="rounded-xl border border-neutral-200 bg-white p-3">
+            <p className="text-[10px] uppercase tracking-widest text-neutral-400">
+              Fototipo Fitzpatrick {analise.fototipo}
+            </p>
+            <p className="mt-1 text-xs leading-relaxed text-neutral-600">
+              {FOTOTIPO_LABELS[analise.fototipo] ?? `Fototipo ${analise.fototipo} identificado.`}
+            </p>
+          </div>
         )}
       </section>
 
+      {/* ── Scores visuais ── */}
       {scoreEntries.length > 0 && (
         <section className="space-y-4">
           <p className="text-xs uppercase tracking-widest text-neutral-500">Scores visuais</p>
@@ -162,6 +242,7 @@ export default function SkinScanResultadoPage() {
         </section>
       )}
 
+      {/* ── Focos considerados ── */}
       {result.focos.length > 0 && (
         <section className="space-y-3">
           <p className="text-xs uppercase tracking-widest text-neutral-500">Focos considerados</p>
@@ -175,6 +256,7 @@ export default function SkinScanResultadoPage() {
         </section>
       )}
 
+      {/* ── Achados visuais ── */}
       {achadosEntries.length > 0 && (
         <section className="space-y-3 rounded-xl border border-neutral-200 p-5">
           <p className="text-xs uppercase tracking-widest text-neutral-500">Achados visuais</p>
@@ -191,24 +273,22 @@ export default function SkinScanResultadoPage() {
         </section>
       )}
 
+      {/* ── Ativos prioritários expandíveis (Melhoria 2.3) ── */}
       {topAtivos.length > 0 && (
         <section className="space-y-3">
           <p className="text-xs uppercase tracking-widest text-neutral-500">
-            Ativos prioritarios - base cientifica
+            Ativos prioritários — base científica
           </p>
+          <p className="text-xs text-neutral-400">Toque em cada ativo para ver o que ele faz.</p>
           <div className="space-y-2">
             {topAtivos.map((ativo, index) => (
-              <div key={ativo} className="flex items-start gap-3 text-sm">
-                <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-neutral-100 text-xs font-medium">
-                  {index + 1}
-                </span>
-                <span className="text-neutral-700">{ativo}</span>
-              </div>
+              <AtivoItem key={ativo} ativo={ativo} index={index} />
             ))}
           </div>
         </section>
       )}
 
+      {/* ── CTAs ── */}
       <div className="space-y-3">
         <Link
           href="/skin-scan/rotina"
@@ -221,14 +301,14 @@ export default function SkinScanResultadoPage() {
           onClick={() => router.push("/skin-scan/foco")}
           className="block w-full py-3 text-center text-sm text-neutral-500 transition-colors hover:text-black"
         >
-          Refazer analise
+          Refazer análise
         </button>
       </div>
 
       <p className="text-center text-xs text-neutral-400">
-        A imagem foi processada e deletada imediatamente apos a analise.
+        A imagem foi processada e deletada imediatamente após a análise.
         <br />
-        Esta analise e orientativa e nao substitui avaliacao dermatologica.
+        Esta análise é orientativa e não substitui avaliação dermatológica.
       </p>
     </main>
   );
