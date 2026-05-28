@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 
 import { InstitutionalIdentityCard } from "@/components/legal/InstitutionalIdentityCard";
 import { LegalPageLayout, LegalSection } from "@/components/legal/LegalPageLayout";
@@ -67,7 +67,7 @@ export default function CookiesPolicyPage() {
       <LegalSection id="gestao" title="Como personalizar ou retirar o consentimento">
         <p>
           O cliente pode reabrir o painel de preferências pelo link &quot;Personalizar cookies&quot; no
-          rodapé. Também é possível ajustar configurações diretamente no navegador, observadas as
+          rodapé. Também é possível ajustar configuracoes diretamente no navegador, observadas as
           limitações técnicas de cada ambiente.
         </p>
       </LegalSection>

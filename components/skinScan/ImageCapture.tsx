@@ -2,451 +2,472 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
-import { Camera, Upload, RotateCcw } from "lucide-react";
+import { Upload } from "lucide-react";
 
-// ─── Tipos ────────────────────────────────────────────────────────────────────
+import { useFaceDetection } from "@/hooks/useFaceDetection";
+import { BELAPOP_SCAN_KEY, LEGACY_SKIN_SCAN_KEYS, SKIN_SCAN_FOCOS_KEY } from "@/types/skin-scan";
+import type { SkinScanResult } from "@/types/skin-scan";
 
-type Modo = "escolha" | "camera" | "preview";
+type Mode = "idle" | "camera" | "preview" | "analyzing";
 
-// ─── Guias visuais ────────────────────────────────────────────────────────────
+const QUALITY_LABELS = [
+  { key: "centered" as const, label: "Posição" },
+  { key: "lightingOk" as const, label: "Iluminação" },
+  { key: "stable" as const, label: "Estabilidade" },
+] satisfies { key: keyof import("@/hooks/useFaceDetection").FaceQuality; label: string }[];
 
-const GUIAS = [
-  "Luz natural, de frente",
-  "Sem maquiagem",
-  "Rosto centralizado",
-] as const;
-
-// ─── Componente ───────────────────────────────────────────────────────────────
-
-interface ImageCaptureProps {
-  /** Chamado após o envio bem-sucedido — recebe o scan_id retornado pela API */
-  onScanIniciado?: (scanId: string) => void;
-}
-
-export function ImageCapture({ onScanIniciado }: ImageCaptureProps) {
+export function ImageCapture() {
   const router = useRouter();
-  const videoRef = useRef<HTMLVideoElement | null>(null);
-  const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const captureCanvasRef = useRef<HTMLCanvasElement>(null);
+  const overlayCanvasRef = useRef<HTMLCanvasElement>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const streamRef = useRef<MediaStream | null>(null);
-  const fileInputRef = useRef<HTMLInputElement | null>(null);
 
-  const [modo, setModo] = useState<Modo>("escolha");
-  const [imageBase64, setImageBase64] = useState<string | null>(null); // data URL
-  const [consentido, setConsentido] = useState(false);
-  const [enviando, setEnviando] = useState(false);
-  const [erro, setErro] = useState<string | null>(null);
+  const [mode, setMode] = useState<Mode>("idle");
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  const [previewBase64, setPreviewBase64] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [autoCapturing, setAutoCapturing] = useState(false);
+  const [focos, setFocos] = useState<string[]>(["hidratacao"]);
 
-  // ── Limpar stream ao desmontar ─────────────────────────────────────────────
+  const { quality, readyToCapture, stableSeconds, isModelLoading } =
+    useFaceDetection(videoRef, overlayCanvasRef, mode === "camera");
+
+  // Load focos from previous step
   useEffect(() => {
-    return () => {
-      streamRef.current?.getTracks().forEach((t) => t.stop());
-    };
+    try {
+      const raw = sessionStorage.getItem(SKIN_SCAN_FOCOS_KEY);
+      if (raw) setFocos(JSON.parse(raw) as string[]);
+    } catch {
+      /* use default */
+    }
   }, []);
 
-  // ── Câmera ─────────────────────────────────────────────────────────────────
+  // Stop camera tracks
+  const stopCamera = useCallback(() => {
+    streamRef.current?.getTracks().forEach((t) => t.stop());
+    streamRef.current = null;
+    if (videoRef.current) videoRef.current.srcObject = null;
+  }, []);
 
-  const iniciarCamera = useCallback(async () => {
-    setErro(null);
+  // Cleanup on unmount
+  useEffect(() => () => stopCamera(), [stopCamera]);
+
+  // Open camera
+  const openCamera = useCallback(async () => {
+    setError(null);
     try {
       const stream = await navigator.mediaDevices.getUserMedia({
-        video: {
-          facingMode: "user", // câmera frontal por padrão em mobile
-          width: { ideal: 1280 },
-          height: { ideal: 720 },
-        },
+        video: { facingMode: "user", width: { ideal: 1280 }, height: { ideal: 720 } },
+        audio: false,
       });
       streamRef.current = stream;
       if (videoRef.current) {
         videoRef.current.srcObject = stream;
-        await videoRef.current.play();
+        videoRef.current.play().catch(() => {});
       }
-      setModo("camera");
-    } catch {
-      setErro(
-        "Não foi possível acessar a câmera. Verifique as permissões do navegador ou use a opção de envio de arquivo."
-      );
+      setMode("camera");
+    } catch (err) {
+      const e = err as { name?: string };
+      if (e.name === "NotAllowedError" || e.name === "PermissionDeniedError") {
+        setError("Permissão de câmera negada. Permita o acesso nas configurações do navegador ou use 'Enviar arquivo'.");
+      } else {
+        setError("Câmera não disponível. Use 'Enviar arquivo' para continuar.");
+      }
     }
   }, []);
 
-  const pararCamera = useCallback(() => {
-    streamRef.current?.getTracks().forEach((t) => t.stop());
-    streamRef.current = null;
-  }, []);
-
-  const capturarFoto = useCallback(() => {
-    if (!videoRef.current || !canvasRef.current) return;
+  // Capture current frame from video
+  const captureFrame = useCallback(() => {
     const video = videoRef.current;
-    const canvas = canvasRef.current;
-    canvas.width = video.videoWidth;
-    canvas.height = video.videoHeight;
-    canvas.getContext("2d")?.drawImage(video, 0, 0);
+    const canvas = captureCanvasRef.current;
+    if (!video || !canvas) return;
+
+    canvas.width = video.videoWidth || 1280;
+    canvas.height = video.videoHeight || 720;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    // Mirror horizontal (selfie view)
+    ctx.translate(canvas.width, 0);
+    ctx.scale(-1, 1);
+    ctx.drawImage(video, 0, 0);
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+
     const dataUrl = canvas.toDataURL("image/jpeg", 0.92);
-    pararCamera();
-    setImageBase64(dataUrl);
-    setModo("preview");
-  }, [pararCamera]);
+    setPreviewUrl(dataUrl);
+    setPreviewBase64(dataUrl.split(",")[1]);
 
-  // ── Arquivo ────────────────────────────────────────────────────────────────
+    stopCamera();
+    setAutoCapturing(false);
+    setMode("preview");
+  }, [stopCamera]);
 
-  const handleFileChange = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      const file = e.target.files?.[0];
-      if (!file) return;
-      if (!["image/jpeg", "image/png"].includes(file.type)) {
-        setErro("Use um arquivo JPEG ou PNG.");
-        return;
-      }
-      if (file.size > 10 * 1024 * 1024) {
-        setErro("Arquivo muito grande — máximo 10 MB.");
-        return;
-      }
-      const reader = new FileReader();
-      reader.onload = (ev) => {
-        setImageBase64(ev.target?.result as string);
-        setModo("preview");
-        setErro(null);
-      };
-      reader.readAsDataURL(file);
-    },
-    []
-  );
-
-  const reiniciar = useCallback(() => {
-    pararCamera();
-    setImageBase64(null);
-    setConsentido(false);
-    setErro(null);
-    setModo("escolha");
-  }, [pararCamera]);
-
-  // ── Envio ──────────────────────────────────────────────────────────────────
-
-  const handleEnviar = useCallback(async () => {
-    if (!imageBase64 || !consentido || enviando) return;
-    setEnviando(true);
-    setErro(null);
-
-    // Ler focos da sessão (definidos na etapa anterior)
-    let focos: string[] = ["oleosidade"];
-    try {
-      const stored = sessionStorage.getItem("skinScanFocos");
-      if (stored) focos = JSON.parse(stored) as string[];
-    } catch {
-      // fallback
+  // Auto-capture when face quality is sufficient
+  useEffect(() => {
+    if (mode === "camera" && readyToCapture && !autoCapturing) {
+      setAutoCapturing(true);
+      const timer = setTimeout(captureFrame, 800);
+      return () => clearTimeout(timer);
     }
+  }, [mode, readyToCapture, autoCapturing, captureFrame]);
 
-    // Remover prefixo data URL antes de enviar
-    const base64 = imageBase64.includes(",")
-      ? imageBase64.split(",")[1]
-      : imageBase64;
+  // Cancel camera and go back to idle
+  const cancelCamera = useCallback(() => {
+    stopCamera();
+    setAutoCapturing(false);
+    setMode("idle");
+  }, [stopCamera]);
+
+  // File upload handler
+  const handleFileChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    if (!["image/jpeg", "image/png", "image/webp"].includes(file.type)) {
+      setError("Use um arquivo JPEG, PNG ou WebP.");
+      return;
+    }
+    if (file.size > 10 * 1024 * 1024) {
+      setError("Arquivo muito grande — máximo 10 MB.");
+      return;
+    }
+    setError(null);
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      const result = ev.target?.result as string;
+      setPreviewUrl(result);
+      setPreviewBase64(result.split(",")[1]);
+      setMode("preview");
+    };
+    reader.readAsDataURL(file);
+  }, []);
+
+  // Retake — go back to idle
+  const retake = useCallback(() => {
+    setPreviewUrl(null);
+    setPreviewBase64(null);
+    setError(null);
+    setMode("idle");
+  }, []);
+
+  // Send to API and navigate to resultado
+  const analyzeImage = useCallback(async () => {
+    if (!previewBase64) return;
+    setMode("analyzing");
+    setError(null);
 
     try {
-      const res = await fetch("/api/skin-scan/iniciar", {
+      const res = await fetch("/api/skin-scan/analyze", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ image_base64: base64, focos }),
+        body: JSON.stringify({ image_base64: previewBase64, focos }),
       });
 
       if (!res.ok) {
-        const body = await res.json().catch(() => ({})) as { error?: string };
+        const body = (await res.json().catch(() => ({}))) as { error?: string };
         throw new Error(body.error ?? `Erro ${res.status}`);
       }
 
-      const { scan_id } = (await res.json()) as { scan_id: string };
+      const data = (await res.json()) as {
+        success: boolean;
+        analysis?: SkinScanResult;
+        result?: SkinScanResult;
+      };
+      const analysis = data.analysis ?? data.result;
 
-      if (onScanIniciado) {
-        onScanIniciado(scan_id);
-      } else {
-        router.push(`/skin-scan/processando/${scan_id}`);
+      if (!analysis?.analise || !analysis.rotina) {
+        throw new Error("Resposta de analise invalida.");
       }
+
+      for (const key of LEGACY_SKIN_SCAN_KEYS) {
+        sessionStorage.removeItem(key);
+      }
+      sessionStorage.setItem(BELAPOP_SCAN_KEY, JSON.stringify(analysis));
+
+      router.push("/skin-scan/resultado");
     } catch (err) {
-      setErro(
+      setError(
         err instanceof Error
           ? err.message
-          : "Não foi possível iniciar a análise. Tente novamente."
+          : "Não foi possível concluir a análise. Tente novamente."
       );
-      setEnviando(false);
+      setMode("preview");
     }
-  }, [imageBase64, consentido, enviando, router, onScanIniciado]);
+  }, [previewBase64, focos, router]);
 
-  // ── Estilos base ───────────────────────────────────────────────────────────
+  // ── CSS helpers ──────────────────────────────────────────────────────────────
 
-  const vars = {
-    "--scan-fg": "var(--bp-black, #1e1e1e)",
-    "--scan-bg": "var(--bp-offwhite, #fbf7f4)",
-    "--scan-border": "rgba(30,30,30,0.1)",
-    "--scan-muted": "rgba(30,30,30,0.45)",
-  } as React.CSSProperties;
+  const scoreColor =
+    quality.score > 80 ? "#4ade80" : quality.score > 50 ? "#fbbf24" : "#f87171";
 
-  const labelBase: React.CSSProperties = {
-    fontFamily: "var(--font-inter, sans-serif)",
-    fontSize: 11,
-    fontWeight: 600,
-    letterSpacing: "0.18em",
-    textTransform: "uppercase",
-    color: "var(--scan-fg)",
-  };
-
-  // ── Render ─────────────────────────────────────────────────────────────────
+  // ── Render ───────────────────────────────────────────────────────────────────
 
   return (
-    <div style={vars}>
-      {/* Guias visuais */}
-      <ul className="mb-8 flex flex-wrap justify-center gap-3">
-        {GUIAS.map((g) => (
-          <li
-            key={g}
-            style={{
-              fontFamily: "var(--font-inter, sans-serif)",
-              fontSize: 11,
-              letterSpacing: "0.14em",
-              textTransform: "uppercase",
-              color: "var(--scan-muted)",
-              padding: "6px 14px",
-              border: "1px solid var(--scan-border)",
-            }}
-          >
-            {g}
-          </li>
-        ))}
-      </ul>
+    <div>
+      <style>{`@keyframes bp-spin { to { transform: rotate(360deg); } }`}</style>
 
-      {/* ── Modo escolha ───────────────────────────────────────────────────── */}
-      {modo === "escolha" && (
-        <div className="flex flex-wrap justify-center gap-4">
-          <button
-            type="button"
-            onClick={iniciarCamera}
-            style={{
-              ...labelBase,
-              padding: "20px 32px",
-              border: "1px solid var(--scan-border)",
-              background: "transparent",
-              cursor: "pointer",
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              gap: 10,
-              minWidth: 180,
-            }}
+      {/* ── IDLE — mode selection ──────────────────────────────────────────────── */}
+      {mode === "idle" && (
+        <div>
+          <ul
+            className="mb-8 flex flex-wrap justify-center gap-2"
+            aria-label="Instruções de captura"
           >
-            <Camera size={20} aria-hidden style={{ opacity: 0.6 }} />
-            Tirar foto
-          </button>
+            {["☀️ Luz natural, de frente", "💄 Sem maquiagem", "📸 Rosto centralizado"].map(
+              (g) => (
+                <li
+                  key={g}
+                  className="rounded-full border border-black/10 px-3 py-1 text-[11px] uppercase tracking-[0.12em] text-[rgba(30,30,30,0.5)]"
+                >
+                  {g}
+                </li>
+              )
+            )}
+          </ul>
 
-          <button
-            type="button"
-            onClick={() => fileInputRef.current?.click()}
-            style={{
-              ...labelBase,
-              padding: "20px 32px",
-              border: "1px solid var(--scan-border)",
-              background: "transparent",
-              cursor: "pointer",
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              gap: 10,
-              minWidth: 180,
-            }}
-          >
-            <Upload size={20} aria-hidden style={{ opacity: 0.6 }} />
-            Enviar arquivo
-          </button>
+          <div className="grid grid-cols-2 gap-3">
+            <button
+              type="button"
+              onClick={openCamera}
+              className="flex flex-col items-center gap-3 rounded-2xl border border-black/10 p-6 text-[11px] font-semibold uppercase tracking-[0.16em] transition hover:border-black/30"
+            >
+              <span className="text-2xl">📷</span>
+              Tirar foto
+            </button>
 
-          <input
-            ref={fileInputRef}
-            type="file"
-            accept="image/jpeg,image/png"
-            className="sr-only"
-            aria-label="Selecionar imagem"
-            onChange={handleFileChange}
-          />
+            <button
+              type="button"
+              onClick={() => fileInputRef.current?.click()}
+              className="flex flex-col items-center gap-3 rounded-2xl border border-black/10 p-6 text-[11px] font-semibold uppercase tracking-[0.16em] transition hover:border-black/30"
+            >
+              <Upload className="h-6 w-6 opacity-50" />
+              Enviar arquivo
+            </button>
+
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept="image/jpeg,image/png,image/webp"
+              className="sr-only"
+              onChange={handleFileChange}
+            />
+          </div>
+
+          {error && (
+            <p role="alert" className="mt-4 text-center text-xs text-red-600">
+              {error}
+            </p>
+          )}
         </div>
       )}
 
-      {/* ── Modo câmera ─────────────────────────────────────────────────────── */}
-      {modo === "camera" && (
-        <div className="flex flex-col items-center gap-6">
+      {/* ── CAMERA — live viewfinder with face detection overlay ─────────────── */}
+      {mode === "camera" && (
+        <div className="space-y-3">
+          {/* Quality bar */}
+          <div className="flex items-center justify-between gap-3">
+            <p className="text-xs text-[rgba(30,30,30,0.55)]">{quality.guidance}</p>
+            <div className="flex items-center gap-2">
+              <div className="h-1.5 w-16 overflow-hidden rounded-full bg-[rgba(30,30,30,0.08)]">
+                <div
+                  className="h-full rounded-full transition-all duration-300"
+                  style={{ width: `${quality.score}%`, backgroundColor: scoreColor }}
+                />
+              </div>
+              <span className="text-[10px] text-[rgba(30,30,30,0.45)]">{quality.score}%</span>
+            </div>
+          </div>
+
+          {/* Camera viewport */}
           <div
-            style={{
-              position: "relative",
-              width: "100%",
-              maxWidth: 480,
-              height: "min(56vh, 420px)",
-              background: "#000",
-              overflow: "hidden",
-            }}
+            className="relative overflow-hidden rounded-2xl bg-black"
+            style={{ aspectRatio: "4/3" }}
           >
+            {/* Live video — mirrored for selfie */}
             <video
               ref={videoRef}
+              autoPlay
               playsInline
               muted
-              style={{ width: "100%", height: "100%", objectFit: "cover", transform: "scaleX(-1)" }}
+              className="absolute inset-0 h-full w-full object-cover"
+              style={{ transform: "scaleX(-1)" }}
             />
-            {/* Guia de enquadramento oval */}
-            <div
-              aria-hidden
-              style={{
-                position: "absolute",
-                left: "15%",
-                right: "15%",
-                top: "8%",
-                bottom: "8%",
-                border: "1px solid rgba(255,255,255,0.5)",
-                borderRadius: "50%",
-                pointerEvents: "none",
-              }}
+
+            {/* Face detection overlay — mirrored to match video */}
+            <canvas
+              ref={overlayCanvasRef}
+              className="pointer-events-none absolute inset-0 h-full w-full"
+              style={{ transform: "scaleX(-1)" }}
             />
+
+            {/* Model loading badge */}
+            {isModelLoading && (
+              <div className="absolute left-3 top-3 flex items-center gap-1.5 rounded-full bg-black/50 px-2.5 py-1">
+                <div
+                  className="h-2.5 w-2.5 rounded-full border border-white/40"
+                  style={{
+                    borderTopColor: "#fff",
+                    animation: "bp-spin 0.9s linear infinite",
+                  }}
+                />
+                <span className="text-[9px] font-medium uppercase tracking-widest text-white/70">
+                  Carregando AI...
+                </span>
+              </div>
+            )}
+
+            {/* Zone legend */}
+            {quality.faceDetected && (
+              <div className="absolute left-3 top-3 space-y-1">
+                {[
+                  { color: "rgba(240,70,100,0.9)", label: "Zona T" },
+                  { color: "rgba(130,90,240,0.9)", label: "Bochechas" },
+                  { color: "rgba(60,150,255,0.9)", label: "Olhos" },
+                ].map((z) => (
+                  <div
+                    key={z.label}
+                    className="flex items-center gap-1.5 rounded-full bg-black/40 px-2 py-0.5"
+                  >
+                    <div
+                      className="h-2 w-2 rounded-full"
+                      style={{ backgroundColor: z.color }}
+                    />
+                    <span className="text-[9px] text-white">{z.label}</span>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {/* Stability dots */}
+            {quality.faceDetected && !readyToCapture && quality.centered && (
+              <div className="absolute bottom-4 left-1/2 flex -translate-x-1/2 gap-1.5">
+                {[0, 1, 2].map((i) => (
+                  <div
+                    key={i}
+                    className="h-2 w-2 rounded-full transition-all duration-300"
+                    style={{
+                      backgroundColor:
+                        i < stableSeconds ? "#4ade80" : "rgba(255,255,255,0.35)",
+                    }}
+                  />
+                ))}
+              </div>
+            )}
+
+            {/* Auto-capture flash overlay */}
+            {autoCapturing && (
+              <div className="absolute inset-0 flex items-center justify-center bg-white/10">
+                <div className="rounded-2xl bg-white/90 px-6 py-3 text-center">
+                  <p className="text-sm font-medium text-[#1e1e1e]">✓ Capturando...</p>
+                </div>
+              </div>
+            )}
           </div>
 
-          <canvas ref={canvasRef} className="hidden" />
+          {/* Quality indicators */}
+          <div className="grid grid-cols-3 gap-2">
+            {QUALITY_LABELS.map(({ key, label }) => {
+              const ok = Boolean(quality[key]);
+              return (
+                <div
+                  key={label}
+                  className={`rounded-xl py-2 text-center text-[11px] font-semibold transition-colors ${
+                    ok ? "bg-green-50 text-green-700" : "bg-[rgba(30,30,30,0.04)] text-[rgba(30,30,30,0.45)]"
+                  }`}
+                >
+                  {ok ? "✓" : "○"} {label}
+                </div>
+              );
+            })}
+          </div>
 
-          <div className="flex gap-4">
+          {/* Action buttons */}
+          <div className="grid grid-cols-2 gap-3">
             <button
               type="button"
-              onClick={capturarFoto}
-              style={{
-                ...labelBase,
-                padding: "14px 32px",
-                background: "var(--scan-fg)",
-                color: "var(--scan-bg)",
-                border: "none",
-                cursor: "pointer",
-              }}
+              onClick={captureFrame}
+              className="flex items-center justify-center gap-2 rounded-2xl bg-[#1e1e1e] py-3 text-[11px] font-semibold uppercase tracking-[0.18em] text-white transition hover:bg-black/80"
             >
-              Capturar
+              📸 Capturar
             </button>
             <button
               type="button"
-              onClick={reiniciar}
-              style={{
-                ...labelBase,
-                padding: "14px 20px",
-                background: "transparent",
-                border: "1px solid var(--scan-border)",
-                cursor: "pointer",
-                display: "flex",
-                alignItems: "center",
-                gap: 6,
-              }}
+              onClick={cancelCamera}
+              className="rounded-2xl border border-black/10 py-3 text-[11px] font-semibold uppercase tracking-[0.18em] text-[rgba(30,30,30,0.6)] transition hover:border-black/30"
             >
-              <RotateCcw size={14} aria-hidden />
-              Cancelar
+              ↩ Cancelar
             </button>
           </div>
+
+          {/* Hidden capture canvas */}
+          <canvas ref={captureCanvasRef} className="hidden" />
         </div>
       )}
 
-      {/* ── Modo preview ────────────────────────────────────────────────────── */}
-      {modo === "preview" && imageBase64 && (
-        <div className="flex flex-col items-center gap-6">
-          {/* Preview da imagem capturada */}
-          <div
-            style={{
-              position: "relative",
-              width: "100%",
-              maxWidth: 480,
-              height: "min(56vh, 420px)",
-              overflow: "hidden",
-              background: "#f0ede9",
-            }}
-          >
+      {/* ── PREVIEW — confirm captured image ──────────────────────────────────── */}
+      {mode === "preview" && previewUrl && (
+        <div className="space-y-4">
+          <div className="overflow-hidden rounded-2xl">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src={imageBase64}
-              alt="Preview da foto capturada"
-              style={{ width: "100%", height: "100%", objectFit: "cover" }}
+              src={previewUrl}
+              alt="Foto capturada para análise"
+              className="w-full object-cover"
             />
           </div>
 
-          {/* Consentimento LGPD — obrigatório */}
-          <label
-            style={{
-              display: "flex",
-              alignItems: "flex-start",
-              gap: 12,
-              maxWidth: 480,
-              cursor: "pointer",
-            }}
-          >
-            <input
-              type="checkbox"
-              checked={consentido}
-              onChange={(e) => setConsentido(e.target.checked)}
-              style={{ marginTop: 2, flexShrink: 0, accentColor: "var(--scan-fg)" }}
-              aria-required="true"
-            />
-            <span
-              style={{
-                fontFamily: "var(--font-inter, sans-serif)",
-                fontSize: 12,
-                lineHeight: 1.6,
-                color: "var(--scan-muted)",
-              }}
-            >
-              Concordo com o uso temporário desta imagem para análise cosmética.
-              A imagem é deletada imediatamente após o processamento.
-            </span>
-          </label>
+          <p className="text-center text-xs leading-relaxed text-[rgba(30,30,30,0.5)]">
+            A imagem é processada em memória e deletada imediatamente após a análise.
+          </p>
 
-          {/* Botões de ação */}
-          <div className="flex gap-3">
+          {error && (
+            <p role="alert" className="rounded-xl bg-red-50 p-3 text-center text-xs text-red-600">
+              {error}
+            </p>
+          )}
+
+          <div className="grid grid-cols-2 gap-3">
             <button
               type="button"
-              onClick={handleEnviar}
-              disabled={!consentido || enviando}
-              style={{
-                ...labelBase,
-                padding: "14px 28px",
-                background: consentido && !enviando ? "var(--scan-fg)" : "var(--scan-border)",
-                color: consentido && !enviando ? "var(--scan-bg)" : "var(--scan-muted)",
-                border: "none",
-                cursor: consentido && !enviando ? "pointer" : "not-allowed",
-                transition: "background 200ms, color 200ms",
-              }}
+              onClick={analyzeImage}
+              className="rounded-2xl bg-[#1e1e1e] py-3 text-[11px] font-semibold uppercase tracking-[0.18em] text-white transition hover:bg-black/80"
             >
-              {enviando ? "Enviando..." : "Usar esta foto"}
+              Analisar pele →
             </button>
-
             <button
               type="button"
-              onClick={reiniciar}
-              disabled={enviando}
-              style={{
-                ...labelBase,
-                padding: "14px 20px",
-                background: "transparent",
-                border: "1px solid var(--scan-border)",
-                cursor: enviando ? "not-allowed" : "pointer",
-                display: "flex",
-                alignItems: "center",
-                gap: 6,
-              }}
+              onClick={retake}
+              className="rounded-2xl border border-black/10 py-3 text-[11px] font-semibold uppercase tracking-[0.18em] text-[rgba(30,30,30,0.6)] transition hover:border-black/30"
             >
-              <RotateCcw size={14} aria-hidden />
-              Tirar outra
+              ↩ Outra foto
             </button>
           </div>
         </div>
       )}
 
-      {/* Erro */}
-      {erro && (
-        <p
-          role="alert"
-          style={{
-            fontFamily: "var(--font-inter, sans-serif)",
-            fontSize: 12,
-            color: "#b91c1c",
-            textAlign: "center",
-            marginTop: 16,
-            maxWidth: 480,
-            marginInline: "auto",
-          }}
-        >
-          {erro}
-        </p>
+      {/* ── ANALYZING — loading while API processes ────────────────────────────── */}
+      {mode === "analyzing" && (
+        <div className="flex flex-col items-center gap-6 py-12" aria-live="polite">
+          <div
+            style={{
+              width: 52,
+              height: 52,
+              border: "2px solid rgba(30,30,30,0.10)",
+              borderTopColor: "#1e1e1e",
+              borderRadius: "50%",
+              animation: "bp-spin 1s linear infinite",
+            }}
+          />
+          <div className="text-center">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[rgba(30,30,30,0.5)]">
+              Analisando sua pele...
+            </p>
+            <p className="mt-1 text-[10px] text-[rgba(30,30,30,0.30)]">
+              Protocolo dermatológico AAD 2024 · BJD 2025
+            </p>
+          </div>
+        </div>
       )}
     </div>
   );

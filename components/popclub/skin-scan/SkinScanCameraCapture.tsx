@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 /* eslint-disable @next/next/no-img-element */
 
@@ -41,7 +41,7 @@ function normalizeCameraError(error: unknown) {
       return {
         permissionDenied: true,
         message:
-          "Não conseguimos acessar sua câmera. Você pode permitir o acesso nas configurações do navegador ou enviar uma foto."
+          "Não conseguimos acessar sua câmera. Você pode permitir o acesso nas configuracoes do navegador ou enviar uma foto."
       };
     }
 

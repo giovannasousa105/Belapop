@@ -4,8 +4,7 @@ import React from "react";
 
 import { ProductCard, type ProductCardData } from "@/components/ProductCard";
 import { ProductFrame } from "@/components/ProductFrame";
-import { useWishlist } from "@/lib/hooks/useWishlist";
-import { WishlistLoginModal } from "@/components/WishlistLoginModal";
+import { useFavorites } from "@/lib/favorites";
 
 type ProductGridProps = {
   products: ProductCardData[];
@@ -18,25 +17,26 @@ export const ProductGrid = ({
   tone = "light",
   ratings
 }: ProductGridProps) => {
-  const { isWishlisted, toggle, promptOpen, closePrompt } = useWishlist();
+  const { isFavorite, toggleFavorite } = useFavorites();
 
   return (
-    <>
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-        {products.map((product) => (
+    <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+      {products.map((product) => {
+        const favoriteKey = product.slug ?? product.id;
+
+        return (
           <ProductFrame key={product.id} className="h-full">
             <ProductCard
               product={product}
               tone={tone}
-              isWishlisted={isWishlisted(product.id)}
-              onToggleWishlist={toggle}
+              isWishlisted={isFavorite(favoriteKey)}
+              onToggleWishlist={toggleFavorite}
               ratingAvg={ratings?.[product.id]?.avg}
               ratingCount={ratings?.[product.id]?.count}
             />
           </ProductFrame>
-        ))}
-      </div>
-      <WishlistLoginModal open={promptOpen} onClose={closePrompt} />
-    </>
+        );
+      })}
+    </div>
   );
 };

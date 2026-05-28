@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 
 import { AdminFilters } from "@/components/adm/AdminFilters";
 import { AdminTable } from "@/components/adm/AdminTable";
@@ -104,7 +104,7 @@ export async function QualityScorePage({ filters }: QualityScorePageProps) {
               render: (row) => (
                 <div className="flex justify-end gap-3 text-xs font-semibold uppercase tracking-[0.14em]">
                   <Link
-                    href={`/adm/operação/parceiros?seller=${row.sellerId}`}
+                    href={`/adm/operacao/parceiros?seller=${row.sellerId}`}
                     className="underline underline-offset-4"
                   >
                     Seller

@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import Image from "next/image";
 import Link from "next/link";
@@ -33,6 +33,7 @@ import { LoteStatus } from "@/components/lote/LoteStatus";
 import { brandCtas } from "@/lib/brand/ctas";
 import { brandSectionNames } from "@/lib/brand/sections";
 import { useCart } from "@/lib/CartContext";
+import { useFavorites } from "@/lib/favorites";
 import { useLoteStatus } from "@/lib/hooks/useLoteStatus";
 import { liberarReserva } from "@/lib/stripe/reservarLote";
 import {
@@ -42,7 +43,11 @@ import {
   type SellerStandardRecord
 } from "@/lib/catalog-standards";
 import { formatPrice } from "@/lib/utils";
-import { useWishlist } from "@/hooks/useWishlist";
+import {
+  COMPLEMENTARY_PRODUCTS,
+  PRODUCT_DETAILS,
+  PRODUCT_NAMES,
+} from "@/lib/product-data";
 
 type HeaderSection = "skincare" | "maquiagem" | "cabelos" | "perfumes";
 
@@ -59,6 +64,9 @@ type ProductPdpPremiumMobileProduct = {
   gallery?: ProductGalleryItem[] | null;
   hero_image_url?: string | null;
   howToUse?: string[] | null;
+  ingredients?: string | null;
+  inci?: string | null;
+  ritual?: string | null;
   id: string;
   price?: number | null;
   price_cents?: number | null;
@@ -168,7 +176,8 @@ function resolveActiveSection(category: string | null | undefined): HeaderSectio
   return "skincare";
 }
 
-function resolveSubtitle(category: string | null | undefined) {
+function resolveSubtitle(category: string | null | undefined, override?: string | null) {
+  if (override) return override;
   const normalized = (category ?? "").toLowerCase();
   if (normalized.includes("maqui")) return "Cobertura uniforme com acabamento leve.";
   if (normalized.includes("cabel")) return "Tratamento capilar de toque leve e uso diario.";
@@ -368,16 +377,20 @@ function ReviewsBottomSheet({
 
 // ─── GalleryWishlistButton ────────────────────────────────────────────────────
 
-function GalleryWishlistButton({ productId }: { productId: string }) {
-  const { estaNaLista, toggle } = useWishlist();
-  const ativa = estaNaLista(productId);
+function GalleryWishlistButton({ productSlug }: { productSlug: string }) {
+  const { isFavorite, toggleFavorite } = useFavorites();
+  const ativa = isFavorite(productSlug);
 
   return (
     <button
       type="button"
       aria-label={ativa ? "Remover dos favoritos" : "Adicionar aos favoritos"}
       aria-pressed={ativa}
-      onClick={() => void toggle(productId)}
+      onClick={(event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        toggleFavorite(productSlug);
+      }}
       className="flex h-11 w-11 items-center justify-center rounded-full"
       style={{ background: "rgba(255,255,255,0.9)" }}
     >
@@ -486,6 +499,12 @@ export function ProductPdpPremiumMobile({
     () => providedSellerStandard ?? resolveSellerStandard(productStandard.sellerId),
     [productStandard.sellerId, providedSellerStandard]
   );
+
+  const productDetails = PRODUCT_DETAILS[product.slug ?? ""] ?? null;
+  const complementarySlugs = COMPLEMENTARY_PRODUCTS[(product.category ?? "").toLowerCase()] ?? [];
+  const activeLovePoints: string[] = productDetails
+    ? productDetails.ativos.slice(0, 3).map((a) => a.funcao)
+    : Array.from(LOVE_POINTS);
 
   const { config: loteConfig } = useLoteStatus(product.id);
   const [loteEncerrado, setLoteEncerrado] = useState(false);
@@ -611,7 +630,7 @@ export function ProductPdpPremiumMobile({
 
               {/* WishlistButton: canto superior direito — touch target 44×44px */}
               <div className="absolute right-3 top-3 z-10">
-                <GalleryWishlistButton productId={product.id} />
+                <GalleryWishlistButton productSlug={product.slug ?? product.id} />
               </div>
 
               {/* Dots: área clicável 44×44px, indicador visual menor */}
@@ -645,7 +664,7 @@ export function ProductPdpPremiumMobile({
                     {product.title}
                   </h1>
                   <p className="text-[0.9rem] font-normal leading-[1.62] text-black/62">
-                    {resolveSubtitle(product.category)}
+                    {resolveSubtitle(product.category, productDetails?.subtitulo)}
                   </p>
                 </div>
 
@@ -747,7 +766,7 @@ export function ProductPdpPremiumMobile({
                     {brandSectionNames.product.whySelected}
                   </p>
                   <ul className="space-y-2">
-                    {LOVE_POINTS.map((point) => (
+                    {activeLovePoints.map((point) => (
                       <li key={point} className="flex items-start gap-2 text-[0.94rem] leading-[1.66] text-black/72">
                         <Check className="mt-0.5 h-4 w-4 shrink-0 text-black" />
                         {point}
@@ -807,7 +826,7 @@ export function ProductPdpPremiumMobile({
                     {product.title}
                   </h1>
                   <p className="text-[0.95rem] font-normal leading-[1.62] text-black/62">
-                    {resolveSubtitle(product.category)}
+                    {resolveSubtitle(product.category, productDetails?.subtitulo)}
                   </p>
                 </div>
 
@@ -877,7 +896,7 @@ export function ProductPdpPremiumMobile({
                   flow="routine"
                   origin="pdp_inline"
                   currentProductSlug={product.slug}
-                  title="Complete a rotina com inteligência"
+                  title="Complete a rotina com inteligencia"
                   description="Eu uso este item como ponto de partida para sugerir os próximos passos com mais coerência e menos excesso."
                   ctaLabel="Receber orientação"
                 />
@@ -887,7 +906,7 @@ export function ProductPdpPremiumMobile({
                     {brandSectionNames.product.whySelected}
                   </p>
                   <ul className="space-y-2">
-                    {LOVE_POINTS.map((point) => (
+                    {activeLovePoints.map((point) => (
                       <li key={point} className="flex items-start gap-2 text-[0.94rem] leading-[1.66] text-black/72">
                         <Check className="mt-0.5 h-4 w-4 shrink-0 text-black" />
                         {point}
@@ -957,70 +976,250 @@ export function ProductPdpPremiumMobile({
 
         <section className="bg-[#fcf9f8] px-5 py-14 md:px-8 md:py-20">
           <div className="mx-auto max-w-[980px]">
-            <h2 className="text-center [font-family:var(--font-playfair)] text-[2rem] font-medium leading-[1.1] tracking-[-0.014em] text-black sm:text-[2.35rem]">
-              {brandSectionNames.product.howToUse}
-            </h2>
-            <div className="mt-10 grid grid-cols-1 gap-8 md:grid-cols-3">
-              {howToUse.map((step, index) => (
-                <article key={step} className="text-center">
-                  <p className="[font-family:var(--font-playfair)] text-5xl font-medium leading-none tracking-[-0.012em] text-black/20">{`0${index + 1}`}</p>
-                  <p className="mt-3 text-[0.94rem] leading-[1.62] text-black/70">{step}</p>
-                </article>
-              ))}
+            <div className="mb-6 flex flex-wrap items-center gap-3">
+              <h2 className="[font-family:var(--font-playfair)] text-[2rem] font-medium leading-[1.1] tracking-[-0.014em] text-black sm:text-[2.35rem]">
+                {brandSectionNames.product.howToUse}
+              </h2>
+              {product.ritual ? (
+                <span className="border border-black/15 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-black/60">
+                  {product.ritual}
+                </span>
+              ) : null}
             </div>
+            {productDetails?.comoUsar?.length ? (
+              <div className="space-y-8">
+                {productDetails.comoUsar.map((uso, ui) => (
+                  <div key={ui}>
+                    <p className="mb-4 text-[10px] font-semibold uppercase tracking-[0.22em] text-black/50">
+                      {uso.periodo}
+                    </p>
+                    <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+                      {uso.passos.map((passo, pi) => (
+                        <article key={pi} className="flex items-start gap-4">
+                          <p className="[font-family:var(--font-playfair)] text-4xl font-medium leading-none tracking-[-0.012em] text-black/20">
+                            {`0${pi + 1}`}
+                          </p>
+                          <p className="pt-1 text-[0.94rem] leading-[1.62] text-black/70">{passo}</p>
+                        </article>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
+                {howToUse.map((step, index) => (
+                  <article key={step} className="text-center">
+                    <p className="[font-family:var(--font-playfair)] text-5xl font-medium leading-none tracking-[-0.012em] text-black/20">{`0${index + 1}`}</p>
+                    <p className="mt-3 text-[0.94rem] leading-[1.62] text-black/70">{step}</p>
+                  </article>
+                ))}
+              </div>
+            )}
+            <p className="mt-10 text-center">
+              <Link
+                href="/kits"
+                className="text-[11px] font-semibold uppercase tracking-[0.18em] underline underline-offset-4 text-black/60 hover:text-black"
+              >
+                Ver kits que incluem este tipo de produto →
+              </Link>
+            </p>
           </div>
         </section>
 
-        <section className="border-y border-black/10 bg-white px-5 py-14 md:px-8 md:py-20">
-          <div className="mx-auto max-w-[1180px]">
-            <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+        {(product.ingredients || product.inci) ? (
+          <section className="bg-white px-5 py-14 md:px-8 md:py-20">
+            <div className="mx-auto max-w-[980px]">
+              <details>
+                <summary className="flex cursor-pointer list-none items-center justify-between gap-4">
+                  <h2 className="[font-family:var(--font-playfair)] text-[1.6rem] font-medium tracking-[-0.012em] text-black sm:text-[2rem]">
+                    Ingredientes
+                  </h2>
+                  <ChevronDown className="h-5 w-5 shrink-0 text-black/50 transition-transform [[open]_&]:rotate-180" />
+                </summary>
+                <div className="mt-6 space-y-4">
+                  {product.ingredients ? (
+                    <p className="text-[0.9rem] leading-[1.7] text-black/70">{product.ingredients}</p>
+                  ) : null}
+                  {product.inci ? (
+                    <div>
+                      <p className="mb-2 text-[10px] font-semibold uppercase tracking-[0.2em] text-black/45">Lista INCI</p>
+                      <p className="text-[11px] leading-[1.8] tracking-[0.02em] text-black/50">{product.inci}</p>
+                    </div>
+                  ) : null}
+                </div>
+              </details>
+            </div>
+          </section>
+        ) : null}
+
+        {productDetails && (
+          <section className="bg-[#f6f1eb] px-5 py-14 md:px-8 md:py-20">
+            <div className="mx-auto max-w-[980px] space-y-6">
               <div>
-                <h2 className="[font-family:var(--font-playfair)] text-[2rem] font-medium leading-[1.1] tracking-[-0.014em] text-black sm:text-[2.35rem]">
-                  Avaliacoes
-                </h2>
-                <p className="mt-2 text-[0.94rem] leading-[1.6] text-black/60">
-                  Nota media 4.9 baseada em 120 avaliacoes
+                <p className="text-[10px] font-semibold uppercase tracking-[0.24em] text-black/50">
+                  Formulacao
                 </p>
+                <h2 className="mt-2 [font-family:var(--font-playfair)] text-[2rem] font-medium leading-[1.1] tracking-[-0.014em] text-black sm:text-[2.35rem]">
+                  Ativos e Evidencias
+                </h2>
               </div>
-              <div className="flex items-center gap-2">
-                {Array.from({ length: 5 }).map((_, index) => (
-                  <Star key={index} className="h-4 w-4 fill-black text-black" />
+              <div className="space-y-3">
+                {productDetails.ativos.map((ativo) => (
+                  <div
+                    key={ativo.nome}
+                    className="rounded-2xl border border-black/10 bg-white px-5 py-5"
+                  >
+                    <div className="flex items-start justify-between gap-4">
+                      <span className="text-[0.94rem] font-medium text-black">{ativo.nome}</span>
+                      <span className="shrink-0 rounded-full border border-black/15 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.14em] text-black/60">
+                        {ativo.concentracao}
+                      </span>
+                    </div>
+                    <p className="mt-2 text-[0.9rem] leading-[1.62] text-black/65">{ativo.funcao}</p>
+                    <p className="mt-1.5 text-[10px] tracking-[0.06em] text-black/35">{ativo.referencia}</p>
+                  </div>
                 ))}
               </div>
             </div>
+          </section>
+        )}
 
-            {/* Mobile: 2 avaliações + botão bottom sheet; desktop: todas */}
-            <div className="mt-8 grid grid-cols-1 gap-4 md:grid-cols-3">
-              {REVIEWS.slice(0, 2).map((review) => (
-                <article key={review.author} className="rounded-2xl border border-black/10 px-5 py-6 md:block">
-                  <p className="text-[0.94rem] leading-[1.66] text-black/70">&ldquo;{review.text}&rdquo;</p>
-                  <p className="mt-4 text-xs font-semibold uppercase tracking-[0.16em] text-black/65">
-                    {review.author}
+        {productDetails && (
+          <section className="bg-[#fcf9f8] px-5 py-14 md:px-8 md:py-20">
+            <div className="mx-auto max-w-[980px] space-y-8">
+              <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
+                <div className="space-y-4">
+                  <p className="text-[10px] font-semibold uppercase tracking-[0.24em] text-black/50">
+                    Indicado para
                   </p>
-                </article>
-              ))}
-              {/* Avaliação extra: oculta no mobile, visível no desktop */}
-              {REVIEWS.slice(2).map((review) => (
-                <article key={review.author} className="hidden rounded-2xl border border-black/10 px-5 py-6 md:block">
-                  <p className="text-[0.94rem] leading-[1.66] text-black/70">&ldquo;{review.text}&rdquo;</p>
-                  <p className="mt-4 text-xs font-semibold uppercase tracking-[0.16em] text-black/65">
-                    {review.author}
+                  <ul className="space-y-2">
+                    {productDetails.indicadoPara.map((item, i) => (
+                      <li
+                        key={i}
+                        className="flex items-start gap-2.5 text-[0.94rem] leading-[1.62] text-black/70"
+                      >
+                        <Check className="mt-0.5 h-4 w-4 shrink-0 text-black" />
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                <div className="space-y-4">
+                  <p className="text-[10px] font-semibold uppercase tracking-[0.24em] text-black/50">
+                    Atencao
                   </p>
-                </article>
-              ))}
+                  <ul className="space-y-2">
+                    {productDetails.naoIndicadoPara.map((item, i) => (
+                      <li
+                        key={i}
+                        className="flex items-start gap-2.5 text-[0.9rem] leading-[1.62] text-black/60"
+                      >
+                        <span className="mt-0.5 shrink-0 text-xs font-bold text-amber-600">!</span>
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+              <div className="flex flex-wrap gap-2 border-t border-black/10 pt-6">
+                {productDetails.tags.map((tag) => (
+                  <span
+                    key={tag}
+                    className="rounded-full border border-black/10 bg-white px-3 py-1 text-[11px] font-medium tracking-[0.06em] text-black/55"
+                  >
+                    #{tag}
+                  </span>
+                ))}
+              </div>
             </div>
+          </section>
+        )}
 
-            {REVIEWS.length > 2 && (
-              <button
-                type="button"
-                onClick={() => setReviewsSheetOpen(true)}
-                className="mt-6 min-h-[44px] w-full border border-black/12 px-4 text-[11px] font-semibold uppercase tracking-[0.16em] text-black/70 transition hover:border-black/30 md:hidden"
+        <section className="border-y border-black/10 bg-[#fcf9f8] px-5 py-14 md:px-8 md:py-20">
+          <div className="mx-auto max-w-[1180px]">
+            <h2 className="[font-family:var(--font-playfair)] text-[2rem] font-medium leading-[1.1] tracking-[-0.014em] text-black sm:text-[2.35rem]">
+              Avaliações
+            </h2>
+            <div className="mt-8 rounded-2xl border border-black/10 bg-white px-6 py-8 text-center">
+              <div className="flex justify-center gap-1">
+                {Array.from({ length: 5 }).map((_, i) => (
+                  <Star key={i} className="h-5 w-5 text-black/20" />
+                ))}
+              </div>
+              <p className="mt-4 [font-family:var(--font-playfair)] text-xl font-medium text-black">
+                Seja o primeiro a avaliar
+              </p>
+              <p className="mt-2 text-sm leading-7 text-black/55">
+                Comprou este produto? Compartilhe sua experiência com outros clientes.
+              </p>
+              <Link
+                href="/conta/pedidos"
+                className="mt-5 inline-flex min-h-11 items-center justify-center border border-black px-5 text-[11px] font-semibold uppercase tracking-[0.18em] transition hover:bg-black hover:text-white"
               >
-                {`Ver todas as ${REVIEWS.length} avaliações`}
-              </button>
-            )}
+                Avaliar após a compra
+              </Link>
+            </div>
           </div>
         </section>
+
+        <section className="bg-[#f6f1eb] px-5 py-14 md:px-8 md:py-20">
+          <div className="mx-auto max-w-[1180px]">
+            <h2 className="[font-family:var(--font-playfair)] text-[1.8rem] font-medium leading-[1.1] tracking-[-0.014em] text-black sm:text-[2.2rem]">
+              Encontrado nos kits
+            </h2>
+            <p className="mt-3 text-sm leading-7 text-black/60">
+              Este produto faz parte de rotinas curadas pela BelaPop.
+            </p>
+            <Link
+              href="/kits"
+              className="mt-6 inline-flex min-h-12 items-center justify-center border border-black px-6 text-[11px] font-semibold uppercase tracking-[0.2em] transition hover:bg-black hover:text-white"
+            >
+              Ver todos os kits →
+            </Link>
+          </div>
+        </section>
+
+        {complementarySlugs.length > 0 && (
+          <section className="bg-white px-5 py-14 md:px-8 md:py-20">
+            <div className="mx-auto max-w-[980px] space-y-6">
+              <h2 className="[font-family:var(--font-playfair)] text-[2rem] font-medium leading-[1.1] tracking-[-0.014em] text-black sm:text-[2.35rem]">
+                Completa sua Rotina
+              </h2>
+              <div className="space-y-3">
+                {complementarySlugs.map((slug) => {
+                  const pd = PRODUCT_DETAILS[slug];
+                  const name = PRODUCT_NAMES[slug] ?? slug;
+                  if (!pd) return null;
+                  const icon =
+                    pd.categoria === "Limpeza" ? "🫧"
+                    : pd.categoria === "Tonico" ? "💧"
+                    : pd.categoria === "Serum" ? "✨"
+                    : pd.categoria === "Hidratante" ? "🌿"
+                    : pd.categoria === "Protecao Solar" ? "☀️"
+                    : pd.categoria === "Olhos" ? "◉"
+                    : "◈";
+                  return (
+                    <Link
+                      key={slug}
+                      href={`/produto/${slug}`}
+                      className="flex items-center gap-4 rounded-2xl border border-black/10 bg-[#fcf9f8] p-4 transition hover:border-black/30"
+                    >
+                      <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-white text-xl">
+                        {icon}
+                      </div>
+                      <div className="min-w-0 flex-1">
+                        <p className="text-[0.94rem] font-medium text-black">{name}</p>
+                        <p className="text-xs text-black/55">{pd.subtitulo}</p>
+                      </div>
+                      <span className="text-black/30">→</span>
+                    </Link>
+                  );
+                })}
+              </div>
+            </div>
+          </section>
+        )}
 
         <section className="bg-[#f6f1eb] px-5 py-14 md:px-8 md:py-20">
           <div className="mx-auto max-w-[920px]">

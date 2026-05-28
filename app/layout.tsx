@@ -15,6 +15,7 @@ import "@/styles/globals.css";
 import "@/styles/theme.css";
 import { AppShell } from "@/components/AppShell";
 import { Providers } from "@/components/Providers";
+import { AnalyticsScripts } from "@/components/analytics/AnalyticsScripts";
 import { getAcsbConfig, initGuarded } from "@/lib/accessibilityWidget";
 import { getPublicUrl, sanitizePublicEnvValue } from "@/lib/publicEnv";
 
@@ -36,22 +37,26 @@ const dmSerifDisplay = DM_Serif_Display({
 
 const manrope = Manrope({
   subsets: ["latin"],
-  variable: "--font-manrope"
+  variable: "--font-manrope",
+  display: "swap"
 });
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-inter",
-  weight: ["400", "500", "600"]
+  weight: ["400", "500", "600"],
+  display: "swap"
 });
 const cormorant = Cormorant_Garamond({
   subsets: ["latin"],
   variable: "--font-cormorant",
-  weight: ["500", "600", "700"]
+  weight: ["500", "600", "700"],
+  display: "swap"
 });
 const playfair = Playfair_Display({
   subsets: ["latin"],
   variable: "--font-playfair",
-  weight: ["400", "500", "600", "700"]
+  weight: ["400", "500", "600", "700"],
+  display: "swap"
 });
 const metadataBaseUrl = getPublicUrl(
   process.env.NEXT_PUBLIC_SITE_URL,
@@ -69,7 +74,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(metadataBaseUrl),
 
   title: {
-    default:  "BelaPop — Skincare Curado com Inteligência",
+    default:  "BelaPop — Skincare Curado com inteligencia",
     template: "%s · BelaPop",
   },
 
@@ -97,13 +102,13 @@ export const metadata: Metadata = {
     locale:      "pt_BR",
     url:         metadataBaseUrl,
     siteName:    "BelaPop",
-    title:       "BelaPop — Skincare Curado com Inteligência",
+    title:       "BelaPop — Skincare Curado com inteligencia",
     description: "Curadoria clínica, análise facial e lotes limitados verificados.",
     images: [{
       url:    "/og-default.jpg",
       width:  1200,
       height: 630,
-      alt:    "BelaPop — Skincare com Inteligência",
+      alt:    "BelaPop — Skincare com inteligencia",
     }],
   },
 
@@ -111,7 +116,7 @@ export const metadata: Metadata = {
     card:        "summary_large_image",
     site:        "@belapop",
     creator:     "@belapop",
-    title:       "BelaPop — Skincare Curado com Inteligência",
+    title:       "BelaPop — Skincare Curado com inteligencia",
     description: "Curadoria clínica, análise facial e lotes limitados verificados.",
     images:      ["/og-default.jpg"],
   },
@@ -148,12 +153,35 @@ export default function RootLayout({
 }) {
   return (
     <html lang="pt-BR">
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link
+          rel="preload"
+          as="image"
+          href="/editorial/belapop-skin-scan-hero-mobile-poster.jpg"
+          media="(max-width: 767px)"
+        />
+        <link
+          rel="preload"
+          as="image"
+          href="/editorial/belapop-skin-scan-hero-poster.jpg"
+          media="(min-width: 768px)"
+        />
+      </head>
       <body
         className={`${dmSans.variable} ${dmSerifDisplay.variable} ${manrope.variable} ${inter.variable} ${cormorant.variable} ${playfair.variable} font-sans text-bpOffWhite`}
       >
+        <a
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[9999] focus:rounded focus:bg-white focus:px-4 focus:py-2 focus:text-sm focus:font-medium focus:text-black focus:shadow-lg"
+        >
+          Pular para o conteúdo principal
+        </a>
         <Providers>
           <AppShell>{children}</AppShell>
         </Providers>
+        <AnalyticsScripts />
         <Analytics />
         <SpeedInsights />
         {acsbAccountId ? (

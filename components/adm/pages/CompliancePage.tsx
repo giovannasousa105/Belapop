@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 
 import { AdminDrawer } from "@/components/adm/AdminDrawer";
 import { AdminFilters } from "@/components/adm/AdminFilters";
@@ -240,7 +240,7 @@ export async function CompliancePage({ filters, searchParamsSource }: Compliance
                     </Link>
                   ) : null}
                   <Link
-                    href={row.alertId ? `/adm/financeiro/auditoria?alert=${row.alertId}` : `/adm/operação/parceiros?seller=${row.sellerId}`}
+                    href={row.alertId ? `/adm/financeiro/auditoria?alert=${row.alertId}` : `/adm/operacao/parceiros?seller=${row.sellerId}`}
                     className="underline underline-offset-4"
                   >
                     {row.alertId ? "Financeiro" : "Seller"}

@@ -88,9 +88,40 @@ function LoginPreviewScreenContent({ mode = "preview" }: LoginPreviewScreenProps
   const [loading, setLoading] = useState(false);
   const [oauthLoadingProvider, setOauthLoadingProvider] = useState<"google" | "facebook" | null>(null);
   const [message, setMessage] = useState<string | null>(null);
+  const [lgpdAccepted, setLgpdAccepted] = useState(false);
 
   const isLogin = authMode === "login";
   const returnTo = normalizeReturnTo(searchParams.get("returnTo"), "/conta");
+
+  const valueContext = returnTo.startsWith("/skin-scan")
+    ? {
+        headline: "Salve sua análise de pele",
+        sub: "Veja sua rotina completa e acompanhe sua evolução ao longo do tempo.",
+        bullets: [
+          "Resultado do Skin Scan salvo",
+          "Rotina personalizada gerada",
+          "Histórico de evolução da pele"
+        ]
+      }
+    : returnTo.startsWith("/carrinho") || returnTo.startsWith("/checkout")
+    ? {
+        headline: "Finalize sua compra",
+        sub: "Faça login para concluir seu pedido e acumular pontos PopClub.",
+        bullets: [
+          "Histórico de pedidos acessível",
+          "Pontos PopClub acumulados",
+          "Checkout mais rápido"
+        ]
+      }
+    : {
+        headline: "Sua rotina personalizada te espera",
+        sub: "Crie sua conta gratuita e aproveite todos os benefícios BelaPop.",
+        bullets: [
+          "Resultado do Skin Scan salvo",
+          "Pontos PopClub acumulados",
+          "Histórico de pedidos"
+        ]
+      };
   const authRedirectHref = `/auth/redirect?audience=customer&returnTo=${encodeURIComponent(returnTo)}`;
   const oauthCallbackHref = `/auth/callback?audience=customer&returnTo=${encodeURIComponent(returnTo)}`;
   const facebookOAuthEnabled = process.env.NEXT_PUBLIC_FACEBOOK_OAUTH_ENABLED === "true";
@@ -120,6 +151,11 @@ function LoginPreviewScreenContent({ mode = "preview" }: LoginPreviewScreenProps
 
     if (!isLogin && password !== confirmPassword) {
       setMessage("A confirmação de senha não confere.");
+      return;
+    }
+
+    if (!isLogin && !lgpdAccepted) {
+      setMessage("Aceite os termos de uso e política de privacidade para criar sua conta.");
       return;
     }
 
@@ -208,13 +244,19 @@ function LoginPreviewScreenContent({ mode = "preview" }: LoginPreviewScreenProps
               <h2
                 className={`${previewHeadlineFont.className} text-4xl font-bold leading-tight tracking-[-0.04em] text-white lg:text-5xl`}
               >
-                A Essência da
-                <br />
-                Beleza Curada
+                {valueContext.headline}
               </h2>
-              <p className="mt-6 max-w-sm text-sm uppercase tracking-[0.2em] text-white/70">
-                Descubra uma curadoria exclusiva de cosméticos de luxo e experiências de bem-estar.
+              <p className="mt-4 max-w-sm text-sm text-white/70">
+                {valueContext.sub}
               </p>
+              <ul className="mt-5 space-y-2">
+                {valueContext.bullets.map((b) => (
+                  <li key={b} className="flex items-center gap-2 text-xs text-white/80">
+                    <span className="flex h-4 w-4 items-center justify-center rounded-full bg-[#ed93d5]/80 text-[9px] font-bold text-white">✓</span>
+                    {b}
+                  </li>
+                ))}
+              </ul>
             </div>
           </section>
 
@@ -321,13 +363,12 @@ function LoginPreviewScreenContent({ mode = "preview" }: LoginPreviewScreenProps
                       Senha
                     </label>
                     {isLogin ? (
-                      <button
-                        type="button"
-                        onClick={handleMagicLink}
+                      <Link
+                        href={`/login/recuperar-senha${returnTo !== "/conta" ? `?returnTo=${encodeURIComponent(returnTo)}` : ""}`}
                         className="text-[9px] font-bold uppercase tracking-[0.2em] text-[#444748]/70 underline-offset-4 transition-colors hover:text-[#ef75ce] hover:underline"
                       >
-                        Esqueceu a senha?
-                      </button>
+                        Esqueci minha senha
+                      </Link>
                     ) : null}
                   </div>
                   <input
@@ -340,18 +381,40 @@ function LoginPreviewScreenContent({ mode = "preview" }: LoginPreviewScreenProps
                 </div>
 
                 {!isLogin ? (
-                  <div className="space-y-2">
-                    <label className="block text-[10px] font-bold uppercase tracking-[0.22em] text-[#444748]">
-                      Confirmar senha
+                  <>
+                    <div className="space-y-2">
+                      <label className="block text-[10px] font-bold uppercase tracking-[0.22em] text-[#444748]">
+                        Confirmar senha
+                      </label>
+                      <input
+                        className={previewInputClass}
+                        placeholder="********"
+                        type="password"
+                        value={confirmPassword}
+                        onChange={(event) => setConfirmPassword(event.target.value)}
+                      />
+                    </div>
+                    <label className="flex items-start gap-3 text-[11px] leading-5 text-[#444748]">
+                      <input
+                        type="checkbox"
+                        checked={lgpdAccepted}
+                        onChange={(e) => setLgpdAccepted(e.target.checked)}
+                        className="mt-0.5 h-4 w-4 shrink-0 accent-black"
+                        required
+                      />
+                      <span>
+                        Li e aceito os{" "}
+                        <Link href="/termos-e-condicoes" className="underline underline-offset-4" target="_blank">
+                          Termos de Uso
+                        </Link>{" "}
+                        e a{" "}
+                        <Link href="/aviso-de-privacidade" className="underline underline-offset-4" target="_blank">
+                          Política de Privacidade
+                        </Link>
+                        . Autorizo o tratamento dos meus dados conforme a LGPD.
+                      </span>
                     </label>
-                    <input
-                      className={previewInputClass}
-                      placeholder="********"
-                      type="password"
-                      value={confirmPassword}
-                      onChange={(event) => setConfirmPassword(event.target.value)}
-                    />
-                  </div>
+                  </>
                 ) : null}
 
                 {visibleMessage ? (

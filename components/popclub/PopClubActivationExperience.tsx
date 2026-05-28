@@ -3,7 +3,7 @@
 /* eslint-disable @next/next/no-img-element */
 
 import Link from "next/link";
-import { Apple, CreditCard, Lock, Sparkles, X } from "lucide-react";
+import { Apple, CreditCard, Lock, Sparkles } from "lucide-react";
 import { useState, type ReactNode } from "react";
 
 import { popClubTierMap, popClubTiers } from "@/lib/popclub/tiers";
@@ -42,22 +42,6 @@ export default function PopClubActivationExperience() {
 
   return (
     <div className="min-h-screen bg-[#fafafa] text-[#1c1b1b]">
-      <header className="fixed inset-x-0 top-0 z-50 bg-[#fcf9f8]/82 backdrop-blur-xl">
-        <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6 lg:h-[72px] lg:px-10">
-          <Link
-            href="/popclub/membership"
-            className="inline-flex h-10 w-10 items-center justify-center text-black"
-            aria-label="Voltar"
-          >
-            <X className="h-5 w-5" />
-          </Link>
-          <h1 className="font-[var(--font-playfair)] text-[22px] font-medium text-[#1a1a1a]">
-            Ative seu PopClub
-          </h1>
-          <div className="w-6" />
-        </div>
-      </header>
-
       <main className="mx-auto max-w-7xl px-6 pb-36 pt-24 lg:px-10 lg:pb-20 lg:pt-32">
         <div className="grid gap-12 lg:grid-cols-[minmax(0,0.92fr)_minmax(440px,1.08fr)] lg:gap-16">
           <section className="lg:sticky lg:top-28 lg:self-start">

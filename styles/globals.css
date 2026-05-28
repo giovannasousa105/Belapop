@@ -54,6 +54,13 @@
   --adm-success: #2f7f59;
   --adm-warning: #b17818;
   --adm-info: #446a92;
+  --adm-danger: #991B1B;
+  /* Spec tokens */
+  --bp-ok: #2D6A4F;
+  --bp-warning: #B45309;
+  --bp-danger: #991B1B;
+  --bp-info: #1E40AF;
+  --bp-accent: #C4956A;
   --adm-radius: 16px;
   --adm-radius-lg: 24px;
   --adm-shadow-soft: 0 18px 48px rgba(49, 51, 44, 0.05);
@@ -248,17 +255,44 @@ textarea {
 }
 
 ::-webkit-scrollbar {
-  height: 6px;
-  width: 6px;
+  height: 5px;
+  width: 5px;
 }
 
 ::-webkit-scrollbar-track {
-  background: rgba(20, 20, 22, 0.08);
+  background: #f0e8e3;
+  border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(91, 49, 56, 0.45);
-  border-radius: 999px;
+  background: #C17A90;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #a0617a;
+}
+
+/* ── Product card lift on hover ─────────────────────────────────────────────── */
+.product-card {
+  transition: transform 0.22s ease, box-shadow 0.22s ease;
+}
+
+.product-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+}
+
+/* ── Universe image scale on hover ─────────────────────────────────────────── */
+.universe-img {
+  transition: transform 0.4s ease;
+  overflow: hidden;
+}
+
+.universe-img:hover img,
+.universe-img:hover > * {
+  transform: scale(1.03);
+  transition: transform 0.4s ease;
 }
 
 #acsb-trigger,

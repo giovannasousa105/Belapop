@@ -2,9 +2,9 @@ import { belapopContact } from "@/lib/brand/contact";
 
 export const legalRoutes = {
   privacy: "/aviso-de-privacidade",
-  terms: "/termos-e-condições",
+  terms: "/termos-e-condicoes",
   cookies: "/política-de-cookies",
-  returns: "/trocas-e-devoluções",
+  returns: "/trocas-e-devolucoes",
   shipping: "/política-de-envio"
 } as const;
 

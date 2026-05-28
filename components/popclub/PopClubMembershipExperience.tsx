@@ -7,16 +7,11 @@ import {
   Apple,
   ArrowRight,
   Camera,
-  Menu,
   Shield,
-  ShoppingBag,
   Sparkles,
   Star
 } from "lucide-react";
-import { useState } from "react";
 
-import { ImmersiveMenuDrawer } from "@/components/popclub/shared/ImmersiveMenuDrawer";
-import { membershipMenuLinks } from "@/lib/popclub/navigation";
 import { popClubBenefitThemes, popClubTiers } from "@/lib/popclub/tiers";
 
 const membershipBenefits = [
@@ -33,41 +28,8 @@ const membershipPillars = [
 ] as const;
 
 export default function PopClubMembershipExperience() {
-  const [menuOpen, setMenuOpen] = useState(false);
-
   return (
     <div className="min-h-screen bg-[#fcf9f8] text-[#1c1b1b]">
-      <header className="fixed inset-x-0 top-0 z-50 border-b border-black/[0.04] bg-white/85 backdrop-blur-xl">
-        <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6 md:h-[72px] lg:px-10">
-          <button
-            type="button"
-            onClick={() => setMenuOpen(true)}
-            className="inline-flex h-10 w-10 items-center justify-center text-[#1c1b1b]"
-            aria-label="Abrir menu"
-          >
-            <Menu className="h-5 w-5" />
-          </button>
-          <div className="text-sm font-semibold tracking-tight text-[#1c1b1b]/80">
-            Clube PopClub
-          </div>
-          <Link
-            href="/carrinho"
-            className="inline-flex h-10 w-10 items-center justify-center text-[#1c1b1b]"
-            aria-label="Abrir carrinho"
-          >
-            <ShoppingBag className="h-5 w-5" />
-          </Link>
-        </div>
-      </header>
-
-      <ImmersiveMenuDrawer
-        open={menuOpen}
-        onClose={() => setMenuOpen(false)}
-        title="PopClub"
-        links={membershipMenuLinks}
-        searchPlaceholder="Buscar no clube"
-      />
-
       <main className="mx-auto max-w-7xl px-6 pb-16 pt-24 lg:px-10 lg:pb-24 lg:pt-32">
         <div className="grid gap-10 lg:grid-cols-[minmax(0,1.05fr)_minmax(420px,0.95fr)] lg:gap-16">
           <section className="lg:sticky lg:top-28 lg:self-start">
@@ -319,7 +281,7 @@ export default function PopClubMembershipExperience() {
             <div className="mt-5 flex flex-wrap justify-center gap-6 lg:justify-start">
               {[
                 { label: "Aviso de Privacidade", href: "/aviso-de-privacidade" },
-                { label: "Termos e Condições", href: "/termos-e-condições" },
+                { label: "Termos e Condições", href: "/termos-e-condicoes" },
                 { label: "Fale Conosco", href: "/contato" }
               ].map((item) => (
                 <Link

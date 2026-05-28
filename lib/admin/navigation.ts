@@ -1,4 +1,4 @@
-export type AdminNavItem = {
+﻿export type AdminNavItem = {
   label: string;
   href: string;
   match?: string[];
@@ -52,7 +52,7 @@ export const adminNav: AdminNavGroup[] = [
       {
         label: "Configuracoes",
         href: "/admin/settings",
-        match: ["/admin/configurações", "/admin/config"]
+        match: ["/admin/configuracoes", "/admin/config"]
       }
     ]
   },

@@ -1,6 +1,6 @@
 "use client";
 
-import { useWishlist } from "@/hooks/useWishlist";
+import { useFavorites } from "@/lib/favorites";
 
 interface Props {
   product_id: string;
@@ -10,8 +10,8 @@ interface Props {
 }
 
 export function WishlistButton({ product_id, compat_score, tipo_pele, className = "" }: Props) {
-  const { estaNaLista, toggle } = useWishlist();
-  const ativa = estaNaLista(product_id);
+  const { isFavorite, toggleFavorite } = useFavorites();
+  const ativa = isFavorite(product_id);
 
   return (
     <button
@@ -21,7 +21,7 @@ export function WishlistButton({ product_id, compat_score, tipo_pele, className 
       onClick={(e) => {
         e.preventDefault();
         e.stopPropagation();
-        void toggle(product_id, compat_score, tipo_pele);
+        toggleFavorite(product_id);
       }}
       className={`flex items-center justify-center w-8 h-8 rounded-full transition-colors ${
         ativa

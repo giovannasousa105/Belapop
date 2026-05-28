@@ -311,7 +311,7 @@ export const skincareBundles: SkinBundle[] = [
     recommendedFor: ["Pele opaca", "Preparacao de maquiagem", "Rotina de evento"],
     ticketLabel: "Ticket sugerido",
     recommendationScore: 89,
-    image: "/hero-bela-pop-editorial.jpg",
+    image: "/editorial/belapop-skin-scan-hero-poster.jpg",
     imageAlt: "Beleza editorial com luz suave e acabamento glow.",
     products: [
       {

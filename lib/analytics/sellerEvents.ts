@@ -25,7 +25,7 @@ type SellerEventPayload = Record<string, string | number | boolean | null | unde
 
 declare global {
   interface Window {
-    dataLayer?: Array<Record<string, unknown>>;
+    dataLayer?: unknown[];
   }
 }
 

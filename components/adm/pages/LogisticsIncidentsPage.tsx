@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import { AlertTriangle, Filter, ShieldAlert, Users } from "lucide-react";
 
 import { AdminFilters } from "@/components/adm/AdminFilters";
@@ -89,7 +89,7 @@ export async function LogisticsIncidentsPage({
           return (
             <Link
               key={tab.key}
-              href={buildHref("/adm/operação/logistica/incidentes", searchParamsSource, {
+              href={buildHref("/adm/operacao/logistica/incidentes", searchParamsSource, {
                 status: tab.key,
                 page: undefined
               })}
@@ -170,7 +170,7 @@ export async function LogisticsIncidentsPage({
         <NoResultsState
           title="Sem incidentes para os filtros ativos"
           description="Ajuste status, prioridade, seller ou busca para localizar incidentes."
-          actionHref="/adm/operação/logistica/incidentes"
+          actionHref="/adm/operacao/logistica/incidentes"
           actionLabel="Limpar filtros"
         />
       ) : listResult.data.items.length === 0 ? (
@@ -260,7 +260,7 @@ export async function LogisticsIncidentsPage({
                 render: (incident) => (
                   <div className="flex justify-end gap-3 text-[11px] font-semibold uppercase tracking-[0.16em]">
                     <Link
-                      href={`/adm/operação/logistica/envios/${incident.shipmentId}?shipment=${incident.shipmentId}`}
+                      href={`/adm/operacao/logistica/envios/${incident.shipmentId}?shipment=${incident.shipmentId}`}
                       className="text-[var(--adm-text)] underline underline-offset-4"
                     >
                       Detalhe envio

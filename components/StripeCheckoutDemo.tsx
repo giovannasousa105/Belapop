@@ -4,6 +4,8 @@ import { Elements, PaymentElement, useElements, useStripe } from "@stripe/react-
 import { loadStripe, StripeElementsOptions } from "@stripe/stripe-js";
 import { useMemo, useState } from "react";
 
+import { PixQrCode } from "@/components/checkout/PixQrCode";
+
 const normalizeEnvValue = (value?: string | null) =>
   value
     ? (() => {
@@ -17,17 +19,41 @@ const normalizeEnvValue = (value?: string | null) =>
 const publishableKey = normalizeEnvValue(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY);
 const stripePromise = publishableKey ? loadStripe(publishableKey) : null;
 
+type CheckoutSuccessPayload = {
+  orderId?: string;
+  orderCode?: string;
+  paymentIntentId?: string;
+  status?: string;
+};
+
+type PixDisplayQrCode = {
+  data?: string | null;
+  image_url?: string | null;
+  expires_at?: number | null;
+};
+
+const getPixDisplayQrCode = (paymentIntent: unknown): PixDisplayQrCode | null => {
+  const nextAction = (paymentIntent as { next_action?: unknown } | null)?.next_action;
+  if (!nextAction || typeof nextAction !== "object") return null;
+  const typedNextAction = nextAction as { type?: string; pix_display_qr_code?: PixDisplayQrCode };
+  if (typedNextAction.type !== "pix_display_qr_code") return null;
+  return typedNextAction.pix_display_qr_code ?? null;
+};
+
 type Props = {
   clientSecret: string;
   amountCents: number;
   currency: string;
-  onSuccess?: () => void;
+  onSuccess?: (payload?: CheckoutSuccessPayload) => void;
+  orderId?: string;
+  orderCode?: string;
+  paymentIntentId?: string;
   returnUrl?: string;
   ctaLabel?: string;
 };
 
 export function StripeCheckoutDemo(props: Props) {
-  const { clientSecret, amountCents, currency, onSuccess, returnUrl, ctaLabel } = props;
+  const { clientSecret, amountCents, currency, onSuccess, orderId, orderCode, paymentIntentId, returnUrl, ctaLabel } = props;
 
   const options: StripeElementsOptions = useMemo(
     () => ({
@@ -96,6 +122,9 @@ export function StripeCheckoutDemo(props: Props) {
         amountCents={amountCents}
         currency={currency}
         onSuccess={onSuccess}
+        orderCode={orderCode}
+        orderId={orderId}
+        paymentIntentId={paymentIntentId}
         returnUrl={returnUrl}
         ctaLabel={ctaLabel}
       />
@@ -107,12 +136,18 @@ function PaymentForm({
   amountCents,
   currency,
   onSuccess,
+  orderId,
+  orderCode,
+  paymentIntentId,
   returnUrl,
   ctaLabel
 }: {
   amountCents: number;
   currency: string;
-  onSuccess?: () => void;
+  onSuccess?: (payload?: CheckoutSuccessPayload) => void;
+  orderId?: string;
+  orderCode?: string;
+  paymentIntentId?: string;
   returnUrl?: string;
   ctaLabel?: string;
 }) {
@@ -120,12 +155,19 @@ function PaymentForm({
   const elements = useElements();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [pixData, setPixData] = useState<{
+    paymentIntentId: string;
+    qrCodeUrl: string;
+    qrCodeData: string;
+    expiresAt: number;
+  } | null>(null);
 
   const handlePay = async () => {
     if (!stripe || !elements) return;
     setLoading(true);
     setError(null);
-    const { error } = await stripe.confirmPayment({
+    setPixData(null);
+    const { error, paymentIntent } = await stripe.confirmPayment({
       elements,
       confirmParams: {
         return_url: returnUrl ?? `${window.location.origin}/pedido/sucesso`,
@@ -135,10 +177,60 @@ function PaymentForm({
     setLoading(false);
     if (error) {
       setError(error.message ?? "Erro ao processar pagamento");
+    } else if (paymentIntent?.status === "succeeded") {
+      onSuccess?.({
+        orderCode,
+        orderId,
+        paymentIntentId: paymentIntent.id,
+        status: paymentIntent.status
+      });
     } else {
-      onSuccess?.();
+      const pixDisplay = getPixDisplayQrCode(paymentIntent);
+      if (pixDisplay?.data && pixDisplay?.image_url && pixDisplay?.expires_at) {
+        setPixData({
+          paymentIntentId: paymentIntent.id,
+          qrCodeData: pixDisplay.data,
+          qrCodeUrl: pixDisplay.image_url,
+          expiresAt: pixDisplay.expires_at
+        });
+        return;
+      }
+
+      if (paymentIntent?.status === "processing" || paymentIntent?.status === "requires_action") {
+        setError("Pagamento iniciado. Siga as instruções exibidas pelo Stripe para concluir.");
+        return;
+      }
+
+      onSuccess?.({
+        orderCode,
+        orderId,
+        paymentIntentId: paymentIntent?.id ?? paymentIntentId,
+        status: paymentIntent?.status
+      });
     }
   };
+
+  if (pixData) {
+    return (
+      <PixQrCode
+        amountCents={amountCents}
+        expiresAt={pixData.expiresAt}
+        orderCode={orderCode}
+        orderId={orderId ?? ""}
+        paymentIntentId={pixData.paymentIntentId}
+        qrCodeData={pixData.qrCodeData}
+        qrCodeUrl={pixData.qrCodeUrl}
+        onPaid={(payload) =>
+          onSuccess?.({
+            orderCode: payload?.orderCode ?? orderCode,
+            orderId: payload?.orderId ?? orderId,
+            paymentIntentId: payload?.paymentIntentId ?? pixData.paymentIntentId,
+            status: payload?.status ?? "succeeded"
+          })
+        }
+      />
+    );
+  }
 
   return (
     <div className="space-y-4 rounded-2xl border border-black/10 bg-[#fcfafb] p-5 shadow-[0_10px_24px_rgba(15,15,16,0.05)]">

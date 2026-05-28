@@ -1,4 +1,4 @@
-import type { AdmRole } from "@/types/adm/auth";
+﻿import type { AdmRole } from "@/types/adm/auth";
 
 export const ADM_AUTH_COOKIE_NAME = "belapop_adm_session";
 export const ADM_AUTH_LOGIN_PATH = "/adm/login";
@@ -17,8 +17,8 @@ export const ADM_DEFAULT_HOME_BY_ROLE: Record<AdmRole, string> = {
   admin_master: "/adm",
   curadoria: "/adm/curadoria/produtos",
   financeiro: "/adm/financeiro",
-  logistica: "/adm/operação/logistica",
-  operação: "/adm/operação/pedidos-criticos",
+  logistica: "/adm/operacao/logistica",
+  operação: "/adm/operacao/pedidos-criticos",
   catalogo_marca: "/adm/catalogo-marca/conteudo-vitrines",
   suporte: "/adm/relacionamento/clientes",
   leitura: "/adm/dashboard-executivo"

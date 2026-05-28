@@ -49,6 +49,10 @@ export default function WeeklyCurationPage() {
               Destaques editoriais conectados a produto, kit, colecao e Skin
               Scan quando fizer sentido. Menos vitrine solta, mais curadoria.
             </p>
+            <p className="mt-4 text-[11px] text-[#8a8179]">
+              Atualizado em{" "}
+              <time dateTime="2026-05-22">22 de maio de 2026</time>
+            </p>
             <div className="mt-7 flex flex-col gap-3 sm:flex-row">
               <SkinScanCTA label="Fazer Skin Scan" />
               <ConciergeCTA origin="weekly_curation_hero" />

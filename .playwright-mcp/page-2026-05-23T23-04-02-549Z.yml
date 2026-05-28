@@ -1,0 +1,83 @@
+- generic [active] [ref=e1]:
+  - link "Pular para o conteúdo principal" [ref=e2] [cursor=pointer]:
+    - /url: "#main-content"
+  - generic [ref=e6]:
+    - generic [ref=e7]:
+      - paragraph [ref=e8]: BelaPop Internal Access
+      - heading "Governanca silenciosa para um ADM real." [level=2] [ref=e9]
+      - paragraph [ref=e10]: A nova camada do backoffice foi organizada para receber sessao server-side, provider externo de autenticacao e regras de acesso por papel sem quebrar o App Router.
+      - generic [ref=e11]:
+        - generic [ref=e12]:
+          - paragraph [ref=e13]: RBAC
+          - paragraph [ref=e14]: Roles, permissions, guards por rota e acoes sensiveis centralizadas.
+        - generic [ref=e15]:
+          - paragraph [ref=e16]: Server First
+          - paragraph [ref=e17]: Sessao validada no server antes do layout administrativo renderizar.
+        - generic [ref=e18]:
+          - paragraph [ref=e19]: Mock preparado
+          - paragraph [ref=e20]: Cookie assinado local hoje, troca futura para backend real sem refazer a arquitetura.
+        - generic [ref=e21]:
+          - paragraph [ref=e22]: UX premium
+          - paragraph [ref=e23]: Navegacao limpa por permissao, estados discretos e topbar contextual com perfil atual.
+      - link "Voltar ao site publico" [ref=e25] [cursor=pointer]:
+        - /url: /
+    - generic [ref=e27]:
+      - generic [ref=e28]:
+        - generic [ref=e29]:
+          - paragraph [ref=e30]: Acesso interno
+          - heading "ADM BelaPop" [level=1] [ref=e31]
+          - paragraph [ref=e32]: Ambiente institucional para operacao, curadoria, financeiro e governanca.
+        - generic [ref=e33]: Sessao mock preparada para backend real
+      - generic [ref=e34]:
+        - generic [ref=e35]:
+          - generic [ref=e36]: E-mail interno
+          - textbox "E-mail interno" [ref=e37]:
+            - /placeholder: nome@belapop.internal
+            - text: helena.master@belapop.internal
+        - generic [ref=e38]:
+          - generic [ref=e39]: Senha
+          - textbox "Senha" [ref=e40]:
+            - /placeholder: Digite sua senha
+            - text: BelaPopADM#2026
+        - button "Entrar no ADM" [ref=e41] [cursor=pointer]
+      - generic [ref=e42]:
+        - paragraph [ref=e43]: Ambiente interno
+        - paragraph [ref=e44]: Esta camada usa sessao mockada por cookie assinado e foi preparada para troca futura por provedor real, JWT ou sessao server-side.
+        - paragraph [ref=e45]: "Senha local mock: BelaPopADM#2026"
+      - generic [ref=e46]:
+        - paragraph [ref=e47]: Perfis para validacao local
+        - generic [ref=e48]:
+          - button "Helena Martins Admin Master helena.master@belapop.internal" [ref=e49] [cursor=pointer]:
+            - generic [ref=e50]: Helena Martins
+            - generic [ref=e51]: Admin Master
+            - generic [ref=e52]: helena.master@belapop.internal
+          - button "Sofia Prado Curadoria sofia.curadoria@belapop.internal" [ref=e53] [cursor=pointer]:
+            - generic [ref=e54]: Sofia Prado
+            - generic [ref=e55]: Curadoria
+            - generic [ref=e56]: sofia.curadoria@belapop.internal
+          - button "Mateus Leal Financeiro mateus.financeiro@belapop.internal" [ref=e57] [cursor=pointer]:
+            - generic [ref=e58]: Mateus Leal
+            - generic [ref=e59]: Financeiro
+            - generic [ref=e60]: mateus.financeiro@belapop.internal
+          - button "Livia Porto Logistica livia.logistica@belapop.internal" [ref=e61] [cursor=pointer]:
+            - generic [ref=e62]: Livia Porto
+            - generic [ref=e63]: Logistica
+            - generic [ref=e64]: livia.logistica@belapop.internal
+          - button "Rafael Costa Operação rafael.operação@belapop.internal" [ref=e65] [cursor=pointer]:
+            - generic [ref=e66]: Rafael Costa
+            - generic [ref=e67]: Operação
+            - generic [ref=e68]: rafael.operação@belapop.internal
+          - button "Clara Vidal Catalogo e Marca clara.catalogo@belapop.internal" [ref=e69] [cursor=pointer]:
+            - generic [ref=e70]: Clara Vidal
+            - generic [ref=e71]: Catalogo e Marca
+            - generic [ref=e72]: clara.catalogo@belapop.internal
+          - button "Bruno Leme Suporte bruno.suporte@belapop.internal" [ref=e73] [cursor=pointer]:
+            - generic [ref=e74]: Bruno Leme
+            - generic [ref=e75]: Suporte
+            - generic [ref=e76]: bruno.suporte@belapop.internal
+          - button "Ana Carvalho Leitura ana.leitura@belapop.internal" [ref=e77] [cursor=pointer]:
+            - generic [ref=e78]: Ana Carvalho
+            - generic [ref=e79]: Leitura
+            - generic [ref=e80]: ana.leitura@belapop.internal
+  - button "Open Next.js Dev Tools" [ref=e86] [cursor=pointer]:
+    - img [ref=e87]

@@ -8,6 +8,7 @@ import { useEffect, useMemo, useState } from "react";
 import { LuxuryButton } from "@/components/LuxuryButton";
 import { brandCtas } from "@/lib/brand/ctas";
 import { useCart } from "@/lib/CartContext";
+import { useFavorites } from "@/lib/favorites";
 import { getProductDisplayImage } from "@/lib/product/productCovers";
 import { getSupabaseClient } from "@/lib/supabase/client";
 import { type ProductImageTone } from "@/lib/types";
@@ -50,9 +51,13 @@ export const ProductCard = ({
 }: ProductCardProps) => {
   const [sellerName, setSellerName] = useState("Seller verificado");
   const { addItem } = useCart();
+  const { isFavorite, toggleFavorite: toggleLocalFavorite } = useFavorites();
   const isLight = tone === "light";
 
   const productHref = `/produto/${product.slug ?? product.id}`;
+  const favoriteKey = product.slug ?? product.id;
+  const favoriteActive =
+    typeof isWishlisted === "boolean" ? isWishlisted : isFavorite(favoriteKey);
   const imageUrl = useMemo(
     () =>
       getProductDisplayImage({
@@ -95,8 +100,11 @@ export const ProductCard = ({
   }, [product.sellerId]);
 
   const toggleFavorite = () => {
-    if (!onToggleWishlist) return;
-    onToggleWishlist(product.id);
+    if (onToggleWishlist) {
+      onToggleWishlist(favoriteKey);
+      return;
+    }
+    toggleLocalFavorite(favoriteKey);
   };
 
   return (
@@ -123,15 +131,15 @@ export const ProductCard = ({
         <button
           type="button"
           onClick={toggleFavorite}
-          aria-label={isWishlisted ? "Remover dos favoritos" : "Adicionar aos favoritos"}
-          aria-pressed={isWishlisted}
+          aria-label={favoriteActive ? "Remover dos favoritos" : "Adicionar aos favoritos"}
+          aria-pressed={favoriteActive}
           className={`absolute right-4 top-4 flex h-9 w-9 items-center justify-center rounded-full border transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-bpPink/70 ${
             isLight
               ? "border-black/10 bg-white/92 text-bpGraphite/80 hover:text-bpPink"
               : "border-white/20 bg-bpBlack/70 text-bpPinkSoft/80 hover:text-bpOffWhite"
           }`}
         >
-          <Heart size={16} fill={isWishlisted ? "currentColor" : "none"} />
+          <Heart size={16} fill={favoriteActive ? "currentColor" : "none"} />
         </button>
       </div>
       <div className="flex flex-1 flex-col gap-3 p-5">

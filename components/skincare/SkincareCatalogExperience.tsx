@@ -4,19 +4,29 @@ import Image from "next/image";
 import Link from "next/link";
 import {
   ArrowRight,
-  ChevronLeft,
-  ChevronRight,
+  Check,
   Flower2,
+  Heart,
   Search,
+  ShoppingBag,
   Sparkles,
   SunMedium,
-  Waves
+  Waves,
+  X
 } from "lucide-react";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 import { brandCtas } from "@/lib/brand/ctas";
+import { useCart } from "@/lib/CartContext";
+import {
+  CATALOG_PRODUCTS,
+  type CatalogProduct,
+  type ConcernFilter,
+  type SkinTypeFilter,
+} from "@/lib/catalog-search";
+import { useFavorites } from "@/lib/favorites";
 
-type SkincareProduct = {
+type SkincareProductInput = {
   id: string;
   slug: string;
   title: string;
@@ -27,7 +37,9 @@ type SkincareProduct = {
   heroImageUrl: string | null;
 };
 
-type Props = { products: SkincareProduct[] };
+type SkincareProduct = SkincareProductInput & { catalog: CatalogProduct };
+
+type Props = { products: SkincareProductInput[] };
 
 const primaryFilters = [
   "Todos",
@@ -39,15 +51,27 @@ const primaryFilters = [
   "Mascaras"
 ] as const;
 
-const refinementFilters = [
-  "Tipo de pele",
-  "Necessidade",
-  "Textura",
-  "Ativos",
-  "Marca",
-  "Preco",
-  "Avaliação"
-] as const;
+type RefinementTab = "Tipo de pele" | "Necessidade";
+
+const SKIN_TYPE_OPTIONS: { key: SkinTypeFilter; label: string }[] = [
+  { key: "oleosa", label: "Oleosa" },
+  { key: "seca", label: "Seca" },
+  { key: "mista", label: "Mista" },
+  { key: "normal", label: "Normal" },
+  { key: "sensivel", label: "Sensivel" },
+];
+
+const CONCERN_OPTIONS: { key: ConcernFilter; label: string }[] = [
+  { key: "acne", label: "Acne" },
+  { key: "manchas", label: "Manchas" },
+  { key: "oleosidade", label: "Oleosidade" },
+  { key: "hidratacao", label: "Hidratacao" },
+  { key: "linhas-finas", label: "Linhas Finas" },
+  { key: "poros", label: "Poros" },
+  { key: "luminosidade", label: "Luminosidade" },
+  { key: "olheiras", label: "Olheiras" },
+  { key: "textura", label: "Textura" },
+];
 
 const sortOptions = [
   "Mais desejados",
@@ -86,6 +110,16 @@ const ritualSteps = [
 
 const ITEMS_PER_PAGE = 15;
 
+const CATEGORY_MAP: Record<(typeof primaryFilters)[number], string | null> = {
+  Todos: null,
+  Limpeza: "limpeza",
+  Seruns: "serum",
+  "Hidratação": "hidratante",
+  "Proteção": "protecao",
+  Olhos: "olhos",
+  Mascaras: "olhos",
+};
+
 function normalizeText(value: string) {
   return value.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().trim();
 }
@@ -116,33 +150,92 @@ function previewRating(product: SkincareProduct) {
 }
 
 export function SkincareCatalogExperience({ products }: Props) {
+  const { addItem } = useCart();
+  const { isFavorite, toggleFavorite } = useFavorites();
   const [query, setQuery] = useState("");
   const [activeFilter, setActiveFilter] =
     useState<(typeof primaryFilters)[number]>("Todos");
-  const [activeRefinement, setActiveRefinement] =
-    useState<(typeof refinementFilters)[number]>("Tipo de pele");
+  const [activeRefinementTab, setActiveRefinementTab] = useState<RefinementTab | null>(null);
+  const [activeSkinType, setActiveSkinType] = useState<SkinTypeFilter | null>(null);
+  const [activeConcern, setActiveConcern] = useState<ConcernFilter | null>(null);
   const [activeSort, setActiveSort] =
     useState<(typeof sortOptions)[number]>("Mais desejados");
   const [activePage, setActivePage] = useState(1);
-  const carouselRef = useRef<HTMLDivElement>(null);
+  const [quickAdded, setQuickAdded] = useState<string | null>(null);
 
-  const hotProducts = useMemo(() => products.slice(0, 2), [products]);
+  const handleQuickAdd = (product: SkincareProduct, event: React.MouseEvent) => {
+    event.preventDefault();
+    event.stopPropagation();
+    addItem(product.id, 1, "belapop");
+    setQuickAdded(product.id);
+    window.setTimeout(() => setQuickAdded(null), 1500);
+  };
+
+  const sourceProducts = useMemo<SkincareProduct[]>(() => {
+    const apiProductsBySlug = new Map(products.map((product) => [product.slug, product]));
+
+    return CATALOG_PRODUCTS
+      .filter((product) => !["cabelos", "maquiagem"].includes(product.category))
+      .map((catalogProduct) => {
+        const apiProduct = apiProductsBySlug.get(catalogProduct.slug);
+
+        return {
+          brand: apiProduct?.brand ?? "BelaPop",
+          catalog: catalogProduct,
+          category: catalogProduct.category,
+          currency: apiProduct?.currency ?? "BRL",
+          heroImageUrl: apiProduct?.heroImageUrl ?? null,
+          id: apiProduct?.id ?? catalogProduct.slug,
+          priceCents: apiProduct?.priceCents ?? Math.round((catalogProduct.price ?? 0) * 100),
+          slug: catalogProduct.slug,
+          title: catalogProduct.name,
+        };
+      });
+  }, [products]);
 
   const filteredProducts = useMemo(() => {
     const normalizedQuery = normalizeText(query);
 
-    return products.filter((product) => {
-      const category = resolveCategory(product);
-      const matchesFilter = activeFilter === "Todos" || category === activeFilter;
-      const matchesQuery =
-        normalizedQuery.length === 0 ||
-        normalizeText(`${product.title} ${product.brand ?? ""} ${category}`).includes(
-          normalizedQuery
-        );
+    const filtered = sourceProducts.filter((product) => {
+      const catalog = product.catalog;
+      const targetCategory = CATEGORY_MAP[activeFilter];
+      if (targetCategory && catalog.category !== targetCategory) return false;
 
-      return matchesFilter && matchesQuery;
+      if (normalizedQuery.length > 0) {
+        const searchable = normalizeText(
+          [
+            catalog.name,
+            catalog.category,
+            ...catalog.keyActives,
+            ...catalog.tags,
+            ...catalog.searchTerms,
+            ...catalog.concerns,
+            ...catalog.skinTypes,
+          ].join(" "),
+        );
+        if (!searchable.includes(normalizedQuery)) return false;
+      }
+
+      if (
+        activeSkinType &&
+        catalog.skinTypes.length > 0 &&
+        !catalog.skinTypes.includes(activeSkinType)
+      ) {
+        return false;
+      }
+
+      if (activeConcern && !catalog.concerns.includes(activeConcern)) {
+        return false;
+      }
+
+      return true;
     });
-  }, [activeFilter, products, query]);
+
+    return filtered.filter(
+      (product, index, self) =>
+        self.findIndex((candidate) => candidate.slug === product.slug) === index,
+    );
+  }, [activeFilter, sourceProducts, query, activeSkinType, activeConcern]);
 
   const sortedProducts = useMemo(() => {
     const list = [...filteredProducts];
@@ -186,14 +279,8 @@ export function SkincareCatalogExperience({ products }: Props) {
 
   useEffect(() => {
     setActivePage(1);
-  }, [activeFilter, activeSort, query]);
+  }, [activeFilter, activeSort, query, activeSkinType, activeConcern]);
 
-  const scrollCarousel = (direction: "left" | "right") => {
-    carouselRef.current?.scrollBy({
-      left: direction === "left" ? -260 : 260,
-      behavior: "smooth"
-    });
-  };
 
   return (
     <div
@@ -292,109 +379,83 @@ export function SkincareCatalogExperience({ products }: Props) {
                 Filtros personalizados
               </p>
               <div className="flex gap-2 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-                {refinementFilters.map((filter) => (
-                  <button
-                    key={filter}
-                    type="button"
-                    onClick={() => setActiveRefinement(filter)}
-                    className={`shrink-0 rounded-full border px-4 py-3 text-[11px] font-medium tracking-[0.08em] transition-colors ${
-                      activeRefinement === filter
-                        ? "border-[#1c1b1b] bg-[#1c1b1b] text-white"
-                        : "border-black/10 bg-white text-[#5f595b] hover:border-[#c9b8be] hover:text-[#1c1b1b]"
-                    }`}
-                  >
-                    {filter}
-                  </button>
-                ))}
+                {(["Tipo de pele", "Necessidade"] as RefinementTab[]).map((tab) => {
+                  const isActive = activeRefinementTab === tab;
+                  const hasValue =
+                    (tab === "Tipo de pele" && activeSkinType) ||
+                    (tab === "Necessidade" && activeConcern);
+                  return (
+                    <button
+                      key={tab}
+                      type="button"
+                      onClick={() => setActiveRefinementTab(isActive ? null : tab)}
+                      className={`shrink-0 rounded-full border px-4 py-3 text-[11px] font-medium tracking-[0.08em] transition-colors ${
+                        isActive || hasValue
+                          ? "border-[#1c1b1b] bg-[#1c1b1b] text-white"
+                          : "border-black/10 bg-white text-[#5f595b] hover:border-[#c9b8be] hover:text-[#1c1b1b]"
+                      }`}
+                    >
+                      {tab}
+                    </button>
+                  );
+                })}
               </div>
+              {activeRefinementTab === "Tipo de pele" && (
+                <div className="mt-3 flex flex-wrap gap-2">
+                  {SKIN_TYPE_OPTIONS.map((opt) => (
+                    <button
+                      key={opt.key}
+                      type="button"
+                      onClick={() => setActiveSkinType(activeSkinType === opt.key ? null : opt.key)}
+                      className={`rounded-full border px-3 py-1.5 text-[11px] transition-colors ${
+                        activeSkinType === opt.key
+                          ? "border-[#1c1b1b] bg-[#1c1b1b] text-white"
+                          : "border-black/10 bg-white text-[#5f595b] hover:border-[#c9b8be]"
+                      }`}
+                    >
+                      {opt.label}
+                    </button>
+                  ))}
+                </div>
+              )}
+              {activeRefinementTab === "Necessidade" && (
+                <div className="mt-3 flex flex-wrap gap-2">
+                  {CONCERN_OPTIONS.map((opt) => (
+                    <button
+                      key={opt.key}
+                      type="button"
+                      onClick={() => setActiveConcern(activeConcern === opt.key ? null : opt.key)}
+                      className={`rounded-full border px-3 py-1.5 text-[11px] transition-colors ${
+                        activeConcern === opt.key
+                          ? "border-[#1c1b1b] bg-[#1c1b1b] text-white"
+                          : "border-black/10 bg-white text-[#5f595b] hover:border-[#c9b8be]"
+                      }`}
+                    >
+                      {opt.label}
+                    </button>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
         </section>
 
-        <section className="bg-[#f6f3f2] py-16 lg:py-24">
-          <div className="mx-auto mb-8 flex max-w-[1440px] items-end justify-between gap-4 px-6 lg:px-8">
+        <section className="bg-[#f6f3f2] px-6 py-10 lg:px-8 lg:py-14">
+          <div className="mx-auto max-w-[1440px] flex items-center justify-between gap-6 border-b border-black/10 pb-8">
             <div>
-              <span className="mb-2 block text-[10px] uppercase tracking-[0.3em] text-[#444748]">
-                Tendencias
+              <span className="block text-[10px] uppercase tracking-[0.3em] text-[#444748]">
+                Curadoria BelaPop
               </span>
-              <h2 className="font-display text-[2.2rem] leading-none text-[#1c1b1b] lg:text-[3.2rem]">
-                Hot Products
-              </h2>
+              <p className="mt-2 text-sm leading-7 text-[#5f595b]">
+                Seleção atualizada semanalmente com foco em performance, textura e resultados reais.
+              </p>
             </div>
-
-            <div className="flex items-end gap-4">
-              <div className="flex gap-2">
-                <button
-                  type="button"
-                  aria-label="Voltar produtos"
-                  className="flex h-10 w-10 items-center justify-center border border-black/20 transition-colors hover:bg-white"
-                  onClick={() => scrollCarousel("left")}
-                >
-                  <ChevronLeft className="h-4 w-4" />
-                </button>
-                <button
-                  type="button"
-                  aria-label="Avancar produtos"
-                  className="flex h-10 w-10 items-center justify-center border border-black/20 transition-colors hover:bg-white"
-                  onClick={() => scrollCarousel("right")}
-                >
-                  <ChevronRight className="h-4 w-4" />
-                </button>
-              </div>
-              <Link
-                href="/catalogo?categoria=skincare"
-                className="border-b border-black pb-1 text-xs uppercase tracking-[0.18em]"
-              >
-                Ver tudo
-              </Link>
-            </div>
-          </div>
-
-          <div
-            ref={carouselRef}
-            className="flex snap-x snap-mandatory gap-6 overflow-x-auto px-6 pb-2 [scrollbar-width:none] lg:mx-auto lg:grid lg:max-w-[1440px] lg:grid-cols-2 lg:overflow-visible lg:px-8 [&::-webkit-scrollbar]:hidden"
-          >
-            {hotProducts.map((product, index) => (
-              <article
-                key={product.id || `${product.title}-${index}`}
-                className="min-w-0 shrink-0 basis-[calc((100%-1.5rem)/2)] bg-white lg:basis-auto"
-              >
-                <Link href={`/produto/${product.slug}`} className="block">
-                  <div className="relative aspect-[3/4] overflow-hidden bg-[#f1eeeb] lg:aspect-[4/5]">
-                    {product.heroImageUrl ? (
-                      <Image
-                        alt={product.title}
-                        fill
-                        className="object-cover"
-                        sizes="(max-width: 1023px) 50vw, 40vw"
-                        src={product.heroImageUrl}
-                      />
-                    ) : null}
-                  </div>
-                </Link>
-                <div className="p-3 lg:p-6">
-                  <span
-                    className={`text-[10px] uppercase tracking-[0.18em] ${
-                      index === 0 ? "font-bold text-[#ed93d5]" : "text-[#444748]"
-                    }`}
-                  >
-                    {index === 0 ? "Limited Edition" : "Mais Vendido"}
-                  </span>
-                  <h3 className="mt-1 font-display text-[1.15rem] leading-tight text-[#1c1b1b] lg:text-[2rem]">
-                    {product.title}
-                  </h3>
-                  <p className="mb-3 mt-1 text-[13px] leading-5 text-[#444748] lg:mb-5 lg:text-base lg:leading-7">
-                    {product.brand || resolveCategory(product)}
-                  </p>
-                  <Link
-                    href={`/produto/${product.slug}`}
-                    className="inline-flex min-h-12 w-full items-center justify-center bg-black px-3 text-[11px] font-semibold uppercase tracking-[0.2em] text-white transition-colors hover:bg-black/90 lg:min-h-[56px]"
-                  >
-                    {brandCtas.secondary.seeDetails}
-                  </Link>
-                </div>
-              </article>
-            ))}
+            <time
+              dateTime={new Date().toISOString().slice(0, 10)}
+              className="shrink-0 text-[10px] uppercase tracking-[0.18em] text-[#8a8486]"
+            >
+              {new Date().toLocaleDateString("pt-BR", { month: "short", year: "numeric" })}
+            </time>
           </div>
         </section>
 
@@ -404,6 +465,18 @@ export function SkincareCatalogExperience({ products }: Props) {
               <h2 className="font-display text-[2.25rem] leading-none text-[#1c1b1b]">
                 Nossa Colecao
               </h2>
+
+              <div className="mx-auto mt-5 hidden max-w-md items-center gap-3 rounded-full border border-black/10 bg-white px-5 py-3 text-left shadow-sm lg:flex">
+                <Search className="h-4 w-4 shrink-0 text-[#747878]" />
+                <input
+                  id="skincare-search-desktop"
+                  type="text"
+                  value={query}
+                  onChange={(event) => setQuery(event.target.value)}
+                  placeholder="Buscar por ativo, produto ou necessidade"
+                  className="h-8 min-w-0 flex-1 border-0 bg-transparent text-sm text-[#1c1b1b] placeholder:text-[#747878]/70 focus:outline-none focus:ring-0"
+                />
+              </div>
 
               <div className="mt-5 hidden gap-6 overflow-x-auto pb-1 [scrollbar-width:none] lg:flex lg:justify-center [&::-webkit-scrollbar]:hidden">
                 {primaryFilters.map((filter) => (
@@ -422,25 +495,103 @@ export function SkincareCatalogExperience({ products }: Props) {
                 ))}
               </div>
 
-              <div className="mt-6 hidden gap-3 overflow-x-auto pb-1 [scrollbar-width:none] lg:flex lg:justify-center [&::-webkit-scrollbar]:hidden">
-                {refinementFilters.map((filter) => (
-                  <button
-                    key={filter}
-                    type="button"
-                    onClick={() => setActiveRefinement(filter)}
-                    className={`shrink-0 rounded-full border px-4 py-2 text-[11px] font-medium tracking-[0.08em] transition-colors ${
-                      activeRefinement === filter
-                        ? "border-[#1c1b1b] bg-[#1c1b1b] text-white"
-                        : "border-black/10 bg-white text-[#5f595b] hover:border-[#c9b8be] hover:text-[#1c1b1b]"
-                    }`}
-                  >
-                    {filter}
-                  </button>
-                ))}
+              <div className="mt-6 hidden flex-col items-center gap-3 lg:flex">
+                <div className="flex gap-3">
+                  {(["Tipo de pele", "Necessidade"] as RefinementTab[]).map((tab) => {
+                    const isActive = activeRefinementTab === tab;
+                    const hasValue =
+                      (tab === "Tipo de pele" && activeSkinType) ||
+                      (tab === "Necessidade" && activeConcern);
+                    return (
+                      <button
+                        key={tab}
+                        type="button"
+                        onClick={() => setActiveRefinementTab(isActive ? null : tab)}
+                        className={`shrink-0 rounded-full border px-4 py-2 text-[11px] font-medium tracking-[0.08em] transition-colors ${
+                          isActive || hasValue
+                            ? "border-[#1c1b1b] bg-[#1c1b1b] text-white"
+                            : "border-black/10 bg-white text-[#5f595b] hover:border-[#c9b8be] hover:text-[#1c1b1b]"
+                        }`}
+                      >
+                        {tab}
+                      </button>
+                    );
+                  })}
+                </div>
+                {activeRefinementTab === "Tipo de pele" && (
+                  <div className="flex flex-wrap justify-center gap-2">
+                    {SKIN_TYPE_OPTIONS.map((opt) => (
+                      <button
+                        key={opt.key}
+                        type="button"
+                        onClick={() => setActiveSkinType(activeSkinType === opt.key ? null : opt.key)}
+                        className={`rounded-full border px-3 py-1.5 text-[11px] transition-colors ${
+                          activeSkinType === opt.key
+                            ? "border-[#1c1b1b] bg-[#1c1b1b] text-white"
+                            : "border-black/10 bg-white text-[#5f595b] hover:border-[#c9b8be]"
+                        }`}
+                      >
+                        {opt.label}
+                      </button>
+                    ))}
+                  </div>
+                )}
+                {activeRefinementTab === "Necessidade" && (
+                  <div className="flex flex-wrap justify-center gap-2">
+                    {CONCERN_OPTIONS.map((opt) => (
+                      <button
+                        key={opt.key}
+                        type="button"
+                        onClick={() => setActiveConcern(activeConcern === opt.key ? null : opt.key)}
+                        className={`rounded-full border px-3 py-1.5 text-[11px] transition-colors ${
+                          activeConcern === opt.key
+                            ? "border-[#1c1b1b] bg-[#1c1b1b] text-white"
+                            : "border-black/10 bg-white text-[#5f595b] hover:border-[#c9b8be]"
+                        }`}
+                      >
+                        {opt.label}
+                      </button>
+                    ))}
+                  </div>
+                )}
               </div>
 
               <div className="mt-5 flex flex-col items-center gap-3 lg:flex-row lg:justify-between">
-                <p className="text-sm text-[#5f595b]">{filteredProducts.length} produtos em skincare</p>
+                <div className="flex flex-wrap items-center gap-2">
+                  <p className="text-sm text-[#5f595b]">
+                    {filteredProducts.length} produto{filteredProducts.length !== 1 ? "s" : ""} encontrado{filteredProducts.length !== 1 ? "s" : ""}
+                  </p>
+                  {activeFilter !== "Todos" && (
+                    <button
+                      type="button"
+                      onClick={() => setActiveFilter("Todos")}
+                      className="inline-flex items-center gap-1 rounded-full border border-black bg-black px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-white"
+                    >
+                      {activeFilter}
+                      <X className="h-3 w-3" />
+                    </button>
+                  )}
+                  {activeSkinType && (
+                    <button
+                      type="button"
+                      onClick={() => setActiveSkinType(null)}
+                      className="inline-flex items-center gap-1 rounded-full border border-black bg-black px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-white"
+                    >
+                      {SKIN_TYPE_OPTIONS.find((o) => o.key === activeSkinType)?.label}
+                      <X className="h-3 w-3" />
+                    </button>
+                  )}
+                  {activeConcern && (
+                    <button
+                      type="button"
+                      onClick={() => setActiveConcern(null)}
+                      className="inline-flex items-center gap-1 rounded-full border border-black bg-black px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-white"
+                    >
+                      {CONCERN_OPTIONS.find((o) => o.key === activeConcern)?.label}
+                      <X className="h-3 w-3" />
+                    </button>
+                  )}
+                </div>
                 <div className="flex flex-wrap items-center justify-center gap-2">
                   {sortOptions.map((option) => (
                     <button
@@ -465,40 +616,79 @@ export function SkincareCatalogExperience({ products }: Props) {
             </div>
 
             <div className="grid grid-cols-2 gap-x-4 gap-y-16 lg:grid-cols-5 lg:gap-x-6 lg:gap-y-20">
-              {paginatedProducts.map((product) => (
-                <article key={product.id} className="flex flex-col">
-                  <Link href={`/produto/${product.slug}`} className="group block">
-                    <div className="relative mb-4 aspect-[4/5] overflow-hidden bg-[#f6f3f2]">
-                      {product.heroImageUrl ? (
-                        <Image
-                          alt={product.title}
-                          fill
-                          className="object-cover transition-transform duration-700 group-hover:scale-[1.03]"
-                          sizes="(max-width: 1023px) 50vw, 20vw"
-                          src={product.heroImageUrl}
+              {paginatedProducts.map((product) => {
+                const isAdded = quickAdded === product.id;
+                return (
+                  <article key={product.id} className="flex flex-col">
+                    <div className="group relative mb-4 aspect-[4/5] overflow-hidden bg-[#f6f3f2]">
+                      <Link href={`/produto/${product.slug}`} className="block h-full w-full">
+                        {product.heroImageUrl ? (
+                          <Image
+                            alt={product.title}
+                            fill
+                            className="object-cover transition-transform duration-700 group-hover:scale-[1.03]"
+                            sizes="(max-width: 1023px) 50vw, 20vw"
+                            src={product.heroImageUrl}
+                          />
+                        ) : (
+                          <div className="h-full w-full bg-[#ece7e2]" />
+                        )}
+                      </Link>
+                      <button
+                        type="button"
+                        onClick={(e) => handleQuickAdd(product, e)}
+                        aria-label={isAdded ? "Adicionado ao carrinho" : `Adicionar ${product.title} ao carrinho`}
+                        className={`absolute inset-x-0 bottom-0 flex items-center justify-center gap-2 py-3 text-[10px] font-semibold uppercase tracking-[0.18em] transition-all duration-200 ${
+                          isAdded
+                            ? "bg-[#1D9E75] text-white opacity-100"
+                            : "translate-y-full bg-black/90 text-white opacity-0 group-hover:translate-y-0 group-hover:opacity-100"
+                        }`}
+                      >
+                        {isAdded ? (
+                          <><Check className="h-3.5 w-3.5" aria-hidden="true" /> Adicionado</>
+                        ) : (
+                          <><ShoppingBag className="h-3.5 w-3.5" aria-hidden="true" /> Adicionar</>
+                        )}
+                      </button>
+                      <button
+                        type="button"
+                        onClick={(event) => {
+                          event.preventDefault();
+                          event.stopPropagation();
+                          toggleFavorite(product.slug);
+                        }}
+                        aria-label={
+                          isFavorite(product.slug)
+                            ? `Remover ${product.title} dos favoritos`
+                            : `Adicionar ${product.title} aos favoritos`
+                        }
+                        aria-pressed={isFavorite(product.slug)}
+                        className="absolute right-3 top-3 flex h-9 w-9 items-center justify-center rounded-full border border-black/10 bg-white/92 text-[#1c1b1b] shadow-sm transition hover:text-red-500"
+                      >
+                        <Heart
+                          className="h-4 w-4"
+                          fill={isFavorite(product.slug) ? "currentColor" : "none"}
                         />
-                      ) : (
-                        <div className="h-full w-full bg-[#ece7e2]" />
-                      )}
+                      </button>
                     </div>
-                  </Link>
-                  <p className="text-[10px] uppercase tracking-[0.24em] text-[#444748]">
-                    {product.brand || "Bela Atelier"}
-                  </p>
-                  <h3 className="mt-1 font-display text-[1.2rem] leading-tight text-[#1c1b1b]">
-                    {product.title}
-                  </h3>
-                  <p className="mt-1 text-sm text-[#444748]">
-                    {formatPrice(product.priceCents, product.currency ?? "BRL")}
-                  </p>
-                  <Link
-                    href={`/produto/${product.slug}`}
-                    className="mt-4 inline-flex min-h-12 items-center justify-center bg-black px-4 text-[11px] font-semibold uppercase tracking-[0.22em] text-white transition-colors hover:bg-black/90"
-                  >
-                    Ver produto
-                  </Link>
-                </article>
-              ))}
+                    <p className="text-[10px] uppercase tracking-[0.24em] text-[#444748]">
+                      {product.brand || "Bela Atelier"}
+                    </p>
+                    <h3 className="mt-1 font-display text-[1.2rem] leading-tight text-[#1c1b1b]">
+                      {product.title}
+                    </h3>
+                    <p className="mt-1 text-sm text-[#444748]">
+                      {formatPrice(product.priceCents, product.currency ?? "BRL")}
+                    </p>
+                    <Link
+                      href={`/produto/${product.slug}`}
+                      className="mt-4 inline-flex min-h-12 items-center justify-center border border-black/20 px-4 text-[11px] font-medium uppercase tracking-[0.18em] text-black/70 transition-colors hover:border-black hover:text-black"
+                    >
+                      Ver produto
+                    </Link>
+                  </article>
+                );
+              })}
             </div>
 
             {paginatedProducts.length === 0 ? (

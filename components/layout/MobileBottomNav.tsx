@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Home, Search, Heart, User } from "lucide-react";
+import { Home, Search, Layers3, Sparkles, User } from "lucide-react";
 import { usePathname } from "next/navigation";
 
 import { useAuth } from "@/lib/AuthContext";
@@ -17,7 +17,6 @@ export function MobileBottomNav() {
   const pathname = usePathname();
   const { user, ready } = useAuth();
 
-  const favoritesHref = ready && user ? "/conta/favoritos" : buildLoginHref("/conta/favoritos");
   const accountHref = ready && user ? "/conta" : buildLoginHref("/conta");
 
   const navItems: NavItem[] = [
@@ -26,7 +25,7 @@ export function MobileBottomNav() {
   ];
 
   const rightItems: NavItem[] = [
-    { label: "Desejos", href: favoritesHref, icon: <Heart size={20} /> },
+    { label: "Kits", href: "/kits", icon: <Layers3 size={20} /> },
     { label: "Conta", href: accountHref, icon: <User size={20} /> },
   ];
 
@@ -42,7 +41,7 @@ export function MobileBottomNav() {
 
   return (
     <nav
-      className="fixed inset-x-0 bottom-0 z-[100] flex items-center justify-around border-t border-black/8 bg-[#fcf9f8]/95 backdrop-blur-xl"
+      className="fixed inset-x-0 bottom-0 z-[100] flex items-center justify-around border-t border-black/8 bg-[#fcf9f8]/95 backdrop-blur-xl tablet:hidden"
       style={{ paddingBottom: "calc(8px + env(safe-area-inset-bottom))", paddingTop: 6 }}
       aria-label="Navegação mobile"
     >
@@ -65,11 +64,7 @@ export function MobileBottomNav() {
           style={{ width: 52, height: 52 }}
           aria-hidden="true"
         >
-          {/* camera-selfie aproximado com ícone SVG simples */}
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-            <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" />
-            <circle cx="12" cy="13" r="4" />
-          </svg>
+          <Sparkles size={22} strokeWidth={1.6} />
         </span>
         <span className="text-[10px] uppercase tracking-[0.12em] text-[#1c1b1b]">Scan</span>
       </Link>

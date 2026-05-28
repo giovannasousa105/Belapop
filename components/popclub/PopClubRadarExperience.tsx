@@ -6,15 +6,11 @@ import Link from "next/link";
 import {
   BellRing,
   Flame,
-  Menu,
-  ShoppingBag,
   Sparkles
 } from "lucide-react";
-import { useState } from "react";
 
 import { ImmersiveBottomNav } from "@/components/popclub/shared/ImmersiveBottomNav";
-import { ImmersiveMenuDrawer } from "@/components/popclub/shared/ImmersiveMenuDrawer";
-import { radarBottomNavItems, radarMenuLinks } from "@/lib/popclub/navigation";
+import { radarBottomNavItems } from "@/lib/popclub/navigation";
 
 const radarItems = [
   {
@@ -50,47 +46,12 @@ const radarItems = [
 ] as const;
 
 export default function PopClubRadarExperience() {
-  const [menuOpen, setMenuOpen] = useState(false);
-
   return (
     <div className="relative min-h-screen overflow-x-hidden bg-[#fcf9f8] pb-24 text-[#1a1a1a]">
       <div className="pointer-events-none fixed inset-0 -z-10 opacity-30">
         <div className="absolute left-[-12%] top-[14%] h-[34vh] w-[56vw] rounded-full bg-[#ed93d5]/20 blur-[120px]" />
         <div className="absolute bottom-[8%] right-[-8%] h-[32vh] w-[50vw] rounded-full bg-[#f0ebe6] blur-[110px]" />
       </div>
-
-      <header className="fixed inset-x-0 top-0 z-50 bg-[#fcf9f8]/80 backdrop-blur-md">
-        <div className="mx-auto flex h-20 max-w-6xl items-center justify-between px-6 lg:px-10">
-          <button
-            type="button"
-            onClick={() => setMenuOpen(true)}
-            className="inline-flex h-10 w-10 items-center justify-center text-[#1a1a1a] transition-opacity hover:opacity-70"
-            aria-label="Abrir menu"
-          >
-            <Menu className="h-5 w-5" />
-          </button>
-
-          <div className="font-[var(--font-playfair)] text-xl font-black uppercase tracking-tight">
-            Radar PopClub
-          </div>
-
-          <Link
-            href="/carrinho"
-            className="inline-flex h-10 w-10 items-center justify-center text-[#1a1a1a] transition-opacity hover:opacity-70"
-            aria-label="Abrir carrinho"
-          >
-            <ShoppingBag className="h-5 w-5" />
-          </Link>
-        </div>
-      </header>
-
-      <ImmersiveMenuDrawer
-        open={menuOpen}
-        onClose={() => setMenuOpen(false)}
-        title="Radar PopClub"
-        links={radarMenuLinks}
-        searchPlaceholder="Buscar drops"
-      />
 
       <main className="mx-auto max-w-6xl px-6 pb-40 pt-28 lg:px-10 lg:pt-32">
         <section className="mb-16 grid gap-12 lg:grid-cols-[minmax(0,0.72fr)_minmax(360px,0.88fr)] lg:items-start">

@@ -3,7 +3,7 @@
 /* eslint-disable @next/next/no-img-element */
 
 import Link from "next/link";
-import { ArrowRight, Star, X } from "lucide-react";
+import { ArrowRight, Star } from "lucide-react";
 
 import { popClubTierMap } from "@/lib/popclub/tiers";
 
@@ -17,22 +17,7 @@ const welcomeBenefits = [
 export default function PopClubWelcomeExperience() {
   return (
     <div className="min-h-screen bg-[#fcf9f8] text-[#1c1b1b]">
-      <header className="fixed inset-x-0 top-0 z-50 bg-[#fcf9f8]/82 px-6 py-4 backdrop-blur-xl lg:px-10">
-        <div className="mx-auto flex max-w-7xl items-center justify-between">
-          <span className="font-[var(--font-playfair)] text-xl uppercase tracking-[-0.02em] text-[#1c1b1b]">
-            PopClub
-          </span>
-          <Link
-            href="/popclub/inicio"
-            className="inline-flex h-10 w-10 items-center justify-center text-[#1c1b1b]"
-            aria-label="Fechar"
-          >
-            <X className="h-5 w-5" />
-          </Link>
-        </div>
-      </header>
-
-      <main className="mx-auto max-w-7xl pb-16 pt-16 lg:px-10 lg:pt-28">
+      <main className="mx-auto max-w-7xl pb-16 pt-24 lg:px-10 lg:pt-28">
         <div className="grid gap-0 lg:grid-cols-[minmax(0,1.04fr)_minmax(420px,0.96fr)] lg:gap-12">
           <section className="relative mb-[-4rem] aspect-[4/5] w-full overflow-hidden lg:mb-0 lg:min-h-[720px] lg:rounded-[32px]">
             <img

@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { motion, useReducedMotion } from "framer-motion";
 
@@ -45,7 +45,7 @@ export function BelaCodeOrbShowcase({
                 </h2>
                 <p className="mt-4 max-w-2xl text-[0.93rem] leading-6 text-[#6E5F61] md:mt-5 md:text-lg md:leading-7">
                   Uma leitura visual sofisticada que traduz sinais da pele em curadoria de rotina,
-                  orientação de autocuidado e inteligência cosmética.
+                  orientação de autocuidado e inteligencia cosmética.
                 </p>
               </div>
 

@@ -26,5 +26,5 @@ function resolveActiveSection(pathname: string | null) {
 export function BPHeader() {
   const pathname = usePathname();
 
-  return <BelaPopValidatedHeader activeSection={resolveActiveSection(pathname)} variant="dark" />;
+  return <BelaPopValidatedHeader activeSection={resolveActiveSection(pathname)} managedByShell variant="dark" />;
 }

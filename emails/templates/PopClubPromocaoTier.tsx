@@ -1,4 +1,4 @@
-import React from "react";
+﻿import React from "react";
 import { Section, Text, Link, Hr } from "@react-email/components";
 import { EmailBase, BASE_URL, baseStyles as s } from "./base/EmailBase";
 
@@ -119,7 +119,7 @@ export default function PopClubPromocaoTier({
       <Hr style={{ borderColor: "#e5e5e5", margin: "28px 0 12px" }} />
       <Text style={{ fontSize: 11, color: "#999999", margin: 0 }}>
         Você recebe este e-mail porque subiu de tier no PopClub BelaPop.{" "}
-        <Link href={`${BASE_URL}/configurações/emails`} style={{ color: "#999999" }}>
+        <Link href={`${BASE_URL}/configuracoes/emails`} style={{ color: "#999999" }}>
           Gerenciar preferências de e-mail
         </Link>
       </Text>

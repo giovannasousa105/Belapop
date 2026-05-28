@@ -1,4 +1,4 @@
-import type { AdmPermission, AdmPermissionCheckMode } from "@/types/adm/auth";
+﻿import type { AdmPermission, AdmPermissionCheckMode } from "@/types/adm/auth";
 
 export type AdmIconKey =
   | "layout-dashboard"
@@ -13,7 +13,23 @@ export type AdmIconKey =
   | "users"
   | "settings"
   | "activity"
-  | "message-square";
+  | "message-square"
+  | "store"
+  | "heart"
+  | "brain-circuit"
+  | "shield-alert"
+  | "arrow-right-left"
+  | "rotate-ccw"
+  | "clipboard-list"
+  | "pie-chart"
+  | "user-cog"
+  | "sliders-horizontal"
+  | "history"
+  | "file-text"
+  | "scale"
+  | "bar-chart-2"
+  | "layout"
+  | "trending-up";
 
 export interface AdmNavItem {
   label: string;
@@ -83,22 +99,22 @@ export const admSidebarGroups: AdmNavGroup[] = [
         requiredPermissions: ["view_quality"]
       },
       {
-        label: "Histórico de Versoes",
-        href: "/adm/curadoria/histórico-versoes",
-        icon: "activity",
+        label: "Histórico de Versões",
+        href: "/adm/curadoria/historico-versoes",
+        icon: "history",
         requiredPermissions: ["view_quality", "view_activity_logs"],
         permissionMode: "any"
       },
       {
         label: "Documentos",
         href: "/adm/curadoria/documentos",
-        icon: "scroll-text",
+        icon: "file-text",
         requiredPermissions: ["manage_documents"]
       },
       {
-        label: "Compliance e Confianca",
+        label: "Compliance e Confiança",
         href: "/adm/curadoria/compliance",
-        icon: "shield-check",
+        icon: "scale",
         requiredPermissions: ["manage_documents", "view_quality"],
         permissionMode: "any"
       }
@@ -109,32 +125,32 @@ export const admSidebarGroups: AdmNavGroup[] = [
     items: [
       {
         label: "Pedidos Criticos",
-        href: "/adm/operação/pedidos-criticos",
+        href: "/adm/operacao/pedidos-criticos",
         icon: "triangle-alert",
         requiredPermissions: ["manage_logistics"]
       },
       {
         label: "Logistica",
-        href: "/adm/operação/logistica",
+        href: "/adm/operacao/logistica",
         icon: "truck",
         requiredPermissions: ["manage_logistics"],
         children: [
           {
             label: "Incidentes Logisticos",
-            href: "/adm/operação/logistica/incidentes",
+            href: "/adm/operacao/logistica/incidentes",
             requiredPermissions: ["manage_logistics"]
           }
         ]
       },
       {
-        label: "Parceiros",
-        href: "/adm/operação/parceiros",
-        icon: "users",
+        label: "Sellers & Parceiros",
+        href: "/adm/operacao/parceiros",
+        icon: "store",
         requiredPermissions: ["manage_sellers"]
       },
       {
         label: "Comunicação com Sellers",
-        href: "/adm/operação/comunicação-sellers",
+        href: "/adm/operacao/comunicacao-sellers",
         icon: "message-square",
         requiredPermissions: ["manage_sellers"]
       }
@@ -150,28 +166,28 @@ export const admSidebarGroups: AdmNavGroup[] = [
         requiredPermissions: ["manage_finance"]
       },
       {
-        label: "Repasses",
+        label: "Repasses para Sellers",
         href: "/adm/financeiro/repasses",
-        icon: "wallet",
+        icon: "arrow-right-left",
         requiredPermissions: ["manage_finance"]
       },
       {
         label: "Reembolsos",
         href: "/adm/financeiro/reembolsos",
-        icon: "wallet",
+        icon: "rotate-ccw",
         requiredPermissions: ["manage_refunds", "manage_finance"],
         permissionMode: "any"
       },
       {
         label: "Auditoria Financeira",
         href: "/adm/financeiro/auditoria",
-        icon: "shield-check",
+        icon: "clipboard-list",
         requiredPermissions: ["manage_finance"]
       },
       {
-        label: "Antifraude / Risco",
+        label: "Risco & Antifraude",
         href: "/adm/financeiro/risco",
-        icon: "triangle-alert",
+        icon: "shield-alert",
         requiredPermissions: ["manage_finance"]
       }
     ]
@@ -181,8 +197,8 @@ export const admSidebarGroups: AdmNavGroup[] = [
     items: [
       {
         label: "Conteúdo e Vitrines",
-        href: "/adm/catalogo-marca/conteúdo-vitrines",
-        icon: "layout-dashboard",
+        href: "/adm/catalogo-marca/conteudo-vitrines",
+        icon: "layout",
         requiredPermissions: ["manage_campaigns"]
       },
       {
@@ -198,9 +214,9 @@ export const admSidebarGroups: AdmNavGroup[] = [
         requiredPermissions: ["manage_reviews"]
       },
       {
-        label: "Inteligencia de Catalogo",
-        href: "/adm/catalogo-marca/inteligência",
-        icon: "line-chart",
+        label: "inteligencia de Catálogo",
+        href: "/adm/catalogo-marca/inteligencia",
+        icon: "brain-circuit",
         requiredPermissions: ["manage_campaigns", "view_quality"],
         permissionMode: "any"
       }
@@ -216,9 +232,9 @@ export const admSidebarGroups: AdmNavGroup[] = [
         requiredPermissions: ["view_customers"]
       },
       {
-        label: "CRM Pos-compra",
+        label: "CRM Pós-compra",
         href: "/adm/relacionamento/pos-compra",
-        icon: "message-square",
+        icon: "heart",
         requiredPermissions: ["view_customers"]
       }
     ]
@@ -227,15 +243,15 @@ export const admSidebarGroups: AdmNavGroup[] = [
     label: "Gestao",
     items: [
       {
-        label: "Relatorios",
+        label: "Relatórios & Performance",
         href: "/adm/gestao/relatorios",
-        icon: "line-chart",
+        icon: "pie-chart",
         requiredPermissions: ["view_reports"]
       },
       {
-        label: "Usuarios Internos",
+        label: "Usuários Internos",
         href: "/adm/gestao/usuarios-internos",
-        icon: "users",
+        icon: "user-cog",
         requiredPermissions: ["manage_users"]
       },
       {
@@ -246,7 +262,7 @@ export const admSidebarGroups: AdmNavGroup[] = [
       },
       {
         label: "Configuracoes",
-        href: "/adm/gestao/configurações",
+        href: "/adm/gestao/configuracoes",
         icon: "settings",
         requiredPermissions: ["manage_settings"]
       }
@@ -262,7 +278,7 @@ export const admHiddenRoutes: AdmNavItem[] = [
   },
   {
     label: "Detalhe de Envio",
-    href: "/adm/operação/logistica/envios",
+    href: "/adm/operacao/logistica/envios",
     requiredPermissions: ["manage_logistics"],
     hidden: true,
     matchers: [/^\/adm\/operacao\/logistica\/envios\/[^/]+$/]
@@ -366,18 +382,18 @@ export const toAdmLegacyPath = (pathname: string): string => {
     "/admin/produtos": "/adm/curadoria/produtos",
     "/admin/products": "/adm/curadoria/produtos",
     "/admin/products/pending": "/adm/curadoria/produtos?status=pendente",
-    "/admin/sellers": "/adm/operação/parceiros",
-    "/admin/parceiros": "/adm/operação/parceiros",
-    "/admin/orders": "/adm/operação/pedidos-criticos",
-    "/admin/pedidos": "/adm/operação/pedidos-criticos",
-    "/admin/frete-logistica": "/adm/operação/logistica",
+    "/admin/sellers": "/adm/operacao/parceiros",
+    "/admin/parceiros": "/adm/operacao/parceiros",
+    "/admin/orders": "/adm/operacao/pedidos-criticos",
+    "/admin/pedidos": "/adm/operacao/pedidos-criticos",
+    "/admin/frete-logistica": "/adm/operacao/logistica",
     "/admin/finance": "/adm/financeiro",
     "/admin/auditoria": "/adm/financeiro/auditoria",
     "/admin/campaigns": "/adm/catalogo-marca/campanhas",
     "/admin/customers": "/adm/relacionamento/clientes",
-    "/admin/settings": "/adm/gestao/configurações",
-    "/admin/config": "/adm/gestao/configurações",
-    "/admin/configurações": "/adm/gestao/configurações"
+    "/admin/settings": "/adm/gestao/configuracoes",
+    "/admin/config": "/adm/gestao/configuracoes",
+    "/admin/configuracoes": "/adm/gestao/configuracoes"
   };
 
   const normalized = pathname.length > 1 && pathname.endsWith("/") ? pathname.slice(0, -1) : pathname;
@@ -387,12 +403,12 @@ export const toAdmLegacyPath = (pathname: string): string => {
 
   if (normalized.startsWith("/admin/lojas/") || normalized.startsWith("/admin/sellers/")) {
     const sellerId = normalized.split("/").at(-1) ?? "";
-    return `/adm/operação/parceiros?seller=${sellerId}`;
+    return `/adm/operacao/parceiros?seller=${sellerId}`;
   }
 
   if (normalized.startsWith("/admin/orders/")) {
     const orderId = normalized.split("/").at(-1) ?? "";
-    return `/adm/operação/pedidos-criticos?order=${orderId}`;
+    return `/adm/operacao/pedidos-criticos?order=${orderId}`;
   }
 
   if (normalized.startsWith("/admin/produtos/") || normalized.startsWith("/admin/products/")) {

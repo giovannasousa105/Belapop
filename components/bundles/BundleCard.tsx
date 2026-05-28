@@ -105,9 +105,14 @@ export function BundleCard({ bundle, featured = false, compact = false }: Bundle
             </p>
           </div>
           {bundle.savings > 0 ? (
-            <div className="col-span-2 inline-flex items-center gap-2 bg-[#f7f0d3] px-3 py-2 text-xs font-semibold uppercase tracking-[0.06em] text-[#6c5e06]">
-              <Sparkles className="h-3.5 w-3.5" aria-hidden="true" />
-              Economize {formatBundleCurrency(bundle.savings)} comprando o kit
+            <div className="col-span-2 flex items-center justify-between gap-2 bg-[#f7f0d3] px-3 py-2">
+              <div className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.06em] text-[#6c5e06]">
+                <Sparkles className="h-3.5 w-3.5" aria-hidden="true" />
+                Economize {formatBundleCurrency(bundle.savings)}
+              </div>
+              <span className="rounded bg-[#1D9E75] px-2 py-0.5 text-[10px] font-bold text-white">
+                {Math.round((bundle.savings / bundle.originalPrice) * 100)}% off
+              </span>
             </div>
           ) : null}
         </div>
@@ -165,10 +170,10 @@ export function BundleCard({ bundle, featured = false, compact = false }: Bundle
           <BundleAddToCartButton bundle={bundle} label={bundle.cta} />
           <Link
             href={`/kits/${bundle.slug}`}
-            className="inline-flex min-h-12 items-center justify-center gap-2 border border-[#1c1b1b] px-5 text-xs font-semibold uppercase tracking-[0.08em] text-[#1c1b1b] transition hover:bg-[#1c1b1b] hover:text-white"
+            className="inline-flex min-h-12 items-center justify-center gap-1.5 border border-black/20 px-5 text-xs font-medium uppercase tracking-[0.08em] text-black/60 transition hover:border-black hover:text-black"
           >
             {bundle.secondaryCta}
-            <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
+            <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" />
           </Link>
         </div>
       </div>

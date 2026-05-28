@@ -1,28 +1,27 @@
 import Link from "next/link";
-import { Noto_Serif } from "next/font/google";
-import type { CSSProperties } from "react";
-import type { LucideIcon } from "lucide-react";
+import { Cormorant_Garamond } from "next/font/google";
 import {
   AlertTriangle,
-  CalendarDays,
+  ChevronLeft,
   ChevronRight,
-  LayoutDashboard,
   MapPinned,
   PackageCheck,
-  Settings,
-  ShieldAlert,
-  ShoppingBag,
-  Sparkles,
-  Store,
   Truck,
-  Wallet,
-  Waves
+  Waves,
+  Zap,
 } from "lucide-react";
 
+import { FinanceSidebar } from "@/components/admin/financeiro/FinanceSidebar";
+import { FinanceKpiCard } from "@/components/admin/financeiro/FinanceKpiCard";
 import { ErrorState } from "@/components/adm/DataStates";
 import { logisticsRepository } from "@/lib/adm/repositories";
 import { getAdmDataSource } from "@/lib/adm/repositories/source";
 import { buildHref, toListQueryParams, type AdmFilters, type SearchParamsInput } from "@/lib/adm/url";
+
+const cormorant = Cormorant_Garamond({
+  subsets: ["latin"],
+  weight: ["400", "500", "600"],
+});
 
 type LogisticsPageProps = {
   filters: AdmFilters;
@@ -30,21 +29,6 @@ type LogisticsPageProps = {
 };
 
 type ShipmentViewState = "todos" | "enviado" | "pendente" | "atrasado" | "sem-rastreio";
-
-type SidebarItem = {
-  label: string;
-  href: string;
-  icon: LucideIcon;
-  active?: boolean;
-};
-
-type LogisticsMetric = {
-  label: string;
-  value: string;
-  detail: string;
-  tone: "primary" | "secondary" | "tertiary" | "muted";
-  icon: LucideIcon;
-};
 
 type DisplayShipment = {
   id: string;
@@ -58,47 +42,12 @@ type DisplayShipment = {
   viewState: Exclude<ShipmentViewState, "todos">;
 };
 
-const editorialSerif = Noto_Serif({
-  subsets: ["latin"],
-  weight: ["400", "700"],
-  style: ["normal", "italic"]
-});
-
-const logisticsTheme = {
-  "--logistics-bg": "#fbf9f4",
-  "--logistics-sidebar": "#f5f4ed",
-  "--logistics-surface": "#ffffff",
-  "--logistics-surface-low": "#efeee6",
-  "--logistics-surface-high": "#e8e9e0",
-  "--logistics-surface-highest": "#e2e3d9",
-  "--logistics-text": "#31332c",
-  "--logistics-text-soft": "#5e6058",
-  "--logistics-outline": "#797c73",
-  "--logistics-outline-variant": "rgba(177,179,169,0.16)",
-  "--logistics-primary": "#5f5e5e",
-  "--logistics-primary-dim": "#535252",
-  "--logistics-secondary": "#6e5b4d",
-  "--logistics-tertiary": "#a23d3e",
-  "--logistics-shadow": "0 20px 40px rgba(49, 51, 44, 0.04)"
-} as CSSProperties;
-
-const sidebarItems: SidebarItem[] = [
-  { label: "Dashboard", href: "/adm/dashboard-executivo", icon: LayoutDashboard },
-  { label: "Curadoria", href: "/adm/curadoria/produtos", icon: Sparkles },
-  { label: "Sellers", href: "/adm/operação/parceiros", icon: Store },
-  { label: "Pedidos", href: "/adm/operação/pedidos-criticos", icon: ShoppingBag },
-  { label: "Logística", href: "/adm/operação/logistica", icon: Truck, active: true },
-  { label: "Risco", href: "/adm/financeiro/risco", icon: ShieldAlert },
-  { label: "Financeiro", href: "/adm/financeiro", icon: Wallet },
-  { label: "Configurações", href: "/adm/gestao/configurações", icon: Settings }
-];
-
 const tabs: Array<{ key: ShipmentViewState; label: string }> = [
   { key: "todos", label: "Todos" },
   { key: "enviado", label: "Em trânsito" },
   { key: "pendente", label: "Preparação" },
   { key: "atrasado", label: "Atrasados" },
-  { key: "sem-rastreio", label: "Sem rastreio" }
+  { key: "sem-rastreio", label: "Sem rastreio" },
 ];
 
 const getShipmentViewState = (
@@ -107,7 +56,6 @@ const getShipmentViewState = (
   incidentType?: string
 ): Exclude<ShipmentViewState, "todos"> => {
   const normalizedIncident = incidentType?.toLowerCase() ?? "";
-
   if (normalizedIncident.includes("sem rastreio")) return "sem-rastreio";
   if (status === "critico" || new Date(eta).getTime() < Date.now()) return "atrasado";
   if (status === "pendente" || status === "em-revisao") return "pendente";
@@ -119,73 +67,19 @@ const formatShortDate = (value: string) =>
     new Date(value)
   );
 
-function SidebarLink({ item }: { item: SidebarItem }) {
-  const Icon = item.icon;
+function ShipmentStatusBadge({ state }: { state: Exclude<ShipmentViewState, "todos"> }) {
+  const config = {
+    atrasado:    { label: "Atrasado",    dot: "bg-[#EF4444]", text: "text-[#7F1D1D]", bg: "bg-[#FEE2E2]" },
+    pendente:    { label: "Preparação",  dot: "bg-[#F59E0B]", text: "text-[#92400E]", bg: "bg-[#FEF3C7]" },
+    "sem-rastreio": { label: "Sem rastreio", dot: "bg-[#9E9589]", text: "text-[#6B5E54]", bg: "bg-[#F4F1EE]" },
+    enviado:     { label: "Em trânsito", dot: "bg-[#10B981]", text: "text-[#065F46]", bg: "bg-[#D1FAE5]" },
+  }[state];
 
   return (
-    <Link
-      href={item.href}
-      className={`group flex items-center gap-3 px-6 py-3 text-sm tracking-wide transition-colors ${
-        item.active
-          ? "border-l-2 border-[var(--logistics-primary)] bg-[rgba(239,238,230,0.55)] font-bold text-[var(--logistics-text)]"
-          : "pl-[26px] text-[var(--logistics-primary)] hover:bg-[var(--logistics-surface-low)]"
-      }`}
-    >
-      <Icon className="h-4.5 w-4.5 shrink-0" strokeWidth={item.active ? 2 : 1.8} />
-      <span>{item.label}</span>
-    </Link>
-  );
-}
-
-function LogisticsMetricCard({ metric }: { metric: LogisticsMetric }) {
-  const Icon = metric.icon;
-  const toneClass =
-    metric.tone === "primary"
-      ? "text-[var(--logistics-primary)]"
-      : metric.tone === "secondary"
-        ? "text-[var(--logistics-secondary)]"
-        : metric.tone === "tertiary"
-          ? "text-[var(--logistics-tertiary)]"
-          : "text-[var(--logistics-outline)]";
-
-  return (
-    <article
-      className="rounded-xl border border-[var(--logistics-outline-variant)] bg-[var(--logistics-surface)] p-6"
-      style={{ boxShadow: "var(--logistics-shadow)" }}
-    >
-      <p className="mb-4 text-[10px] font-bold uppercase tracking-[0.2em] text-[var(--logistics-text-soft)]">
-        {metric.label}
-      </p>
-      <p className={`${editorialSerif.className} text-4xl text-[var(--logistics-text)]`}>
-        {metric.value}
-      </p>
-      <div className={`mt-4 flex items-center gap-2 text-xs ${toneClass}`}>
-        <Icon className="h-4 w-4" strokeWidth={1.9} />
-        <span>{metric.detail}</span>
-      </div>
-    </article>
-  );
-}
-
-function ShipmentStatus({ state }: { state: DisplayShipment["viewState"] }) {
-  const config =
-    state === "atrasado"
-      ? { label: "Atrasado", dot: "bg-[var(--logistics-tertiary)]", text: "text-[var(--logistics-tertiary)]" }
-      : state === "pendente"
-        ? {
-            label: "Preparação",
-            dot: "bg-[var(--logistics-secondary)]",
-            text: "text-[var(--logistics-secondary)]"
-          }
-        : state === "sem-rastreio"
-          ? { label: "Sem rastreio", dot: "bg-[var(--logistics-outline)]", text: "text-[var(--logistics-outline)]" }
-          : { label: "Em trânsito", dot: "bg-[var(--logistics-primary)]", text: "text-[var(--logistics-primary)]" };
-
-  return (
-    <div className={`flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.16em] ${config.text}`}>
-      <span className={`h-2 w-2 rounded-full ${config.dot}`} />
-      <span>{config.label}</span>
-    </div>
+    <span className={`inline-flex items-center gap-1.5 whitespace-nowrap rounded-full px-2.5 py-1 text-[11px] font-semibold ${config.bg} ${config.text}`}>
+      <span className={`h-1.5 w-1.5 rounded-full ${config.dot}`} />
+      {config.label}
+    </span>
   );
 }
 
@@ -195,7 +89,7 @@ export async function LogisticsPage({ filters, searchParamsSource }: LogisticsPa
       page: 1,
       pageSize: 24,
       sortBy: "lastUpdateAt",
-      sortDir: "desc"
+      sortDir: "desc",
     })
   );
   const incidentsResult = await logisticsRepository.listIncidents(
@@ -203,7 +97,7 @@ export async function LogisticsPage({ filters, searchParamsSource }: LogisticsPa
       page: 1,
       pageSize: 6,
       sortBy: "openedAt",
-      sortDir: "desc"
+      sortDir: "desc",
     })
   );
 
@@ -217,10 +111,10 @@ export async function LogisticsPage({ filters, searchParamsSource }: LogisticsPa
   }
 
   const dataSource = await getAdmDataSource();
-  const orderMap = Object.fromEntries(dataSource.orders.map((order) => [order.id, order]));
-  const customerMap = Object.fromEntries(dataSource.customers.map((customer) => [customer.id, customer]));
+  const orderMap = Object.fromEntries(dataSource.orders.map((o) => [o.id, o]));
+  const customerMap = Object.fromEntries(dataSource.customers.map((c) => [c.id, c]));
   const incidentByShipment = Object.fromEntries(
-    dataSource.logisticsIncidents.map((incident) => [incident.shipmentId, incident])
+    dataSource.logisticsIncidents.map((i) => [i.shipmentId, i])
   );
 
   const rows: DisplayShipment[] = shipmentsResult.data.items.map((shipment) => {
@@ -238,52 +132,31 @@ export async function LogisticsPage({ filters, searchParamsSource }: LogisticsPa
       trackingCode: shipment.trackingCode,
       eta: shipment.eta,
       incidentType: incident?.type,
-      viewState
+      viewState,
     };
   });
 
-  const activeTab = tabs.some((tab) => tab.key === filters.activity)
+  const activeTab = tabs.some((t) => t.key === filters.activity)
     ? (filters.activity as ShipmentViewState)
     : "todos";
-  const visibleRows = activeTab === "todos" ? rows : rows.filter((row) => row.viewState === activeTab);
-  const featuredRows = visibleRows.slice(0, 6);
-  const delayedCount = rows.filter((row) => row.viewState === "atrasado").length;
-  const pendingCount = rows.filter((row) => row.viewState === "pendente").length;
-  const transitCount = rows.filter((row) => row.viewState === "enviado").length;
-  const missingTrackingCount = rows.filter((row) => row.viewState === "sem-rastreio").length;
-  const onTimeRate = rows.length ? (((rows.length - delayedCount) / rows.length) * 100).toFixed(1) : "0.0";
+  const visibleRows = activeTab === "todos" ? rows : rows.filter((r) => r.viewState === activeTab);
+  const delayedCount = rows.filter((r) => r.viewState === "atrasado").length;
+  const pendingCount = rows.filter((r) => r.viewState === "pendente").length;
+  const transitCount = rows.filter((r) => r.viewState === "enviado").length;
+  const missingTrackingCount = rows.filter((r) => r.viewState === "sem-rastreio").length;
+  const onTimeRate = rows.length
+    ? (((rows.length - delayedCount) / rows.length) * 100).toFixed(1)
+    : "0.0";
 
-  const metrics: LogisticsMetric[] = [
-    {
-      label: "Em preparação",
-      value: String(pendingCount),
-      detail: "Pedidos em embalagem premium",
-      tone: "secondary",
-      icon: PackageCheck
-    },
-    {
-      label: "Em trânsito",
-      value: String(transitCount),
-      detail: "Fluxo embarcado na janela atual",
-      tone: "primary",
-      icon: Truck
-    },
-    {
-      label: "Atrasos críticos",
-      value: String(delayedCount),
-      detail: "Escalação imediata",
-      tone: "tertiary",
-      icon: AlertTriangle
-    },
-    {
-      label: "SLA no prazo",
-      value: `${onTimeRate}%`,
-      detail: `${missingTrackingCount} envios sem rastreio ativo`,
-      tone: "muted",
-      icon: Waves
-    }
-  ];
+  const tabCounts: Record<ShipmentViewState, number> = {
+    todos: rows.length,
+    enviado: transitCount,
+    pendente: pendingCount,
+    atrasado: delayedCount,
+    "sem-rastreio": missingTrackingCount,
+  };
 
+  const incidentCards = incidentsResult.data.items.slice(0, 4);
   const carrierSummary = Array.from(
     rows.reduce<Map<string, number>>((acc, row) => {
       acc.set(row.carrier, (acc.get(row.carrier) ?? 0) + 1);
@@ -293,311 +166,276 @@ export async function LogisticsPage({ filters, searchParamsSource }: LogisticsPa
     .sort((a, b) => b[1] - a[1])
     .slice(0, 3);
 
-  const incidentCards = incidentsResult.data.items.slice(0, 3);
-
   return (
-    <div
-      style={logisticsTheme}
-      className="min-h-screen bg-[var(--logistics-bg)] text-[var(--logistics-text)] antialiased"
-    >
-      <div className="flex min-h-screen">
-        <aside className="fixed left-0 top-0 hidden h-screen w-72 flex-col border-r border-[var(--logistics-outline-variant)] bg-[var(--logistics-sidebar)] py-8 xl:flex">
-          <div className="px-8">
-            <h1 className={`${editorialSerif.className} text-2xl italic tracking-tight text-[var(--logistics-text)]`}>
-              BelaPop
-            </h1>
-            <p className="mt-1 text-[10px] uppercase tracking-[0.22em] text-[var(--logistics-text-soft)]">
-              Curator Workspace
-            </p>
-          </div>
+    <div className="min-h-screen bg-[#FAFAF8] text-[#1A1714]">
+      <FinanceSidebar activeHref="/adm/operacao/logistica" />
 
-          <nav className="mt-8 flex-1 space-y-1">
-            {sidebarItems.map((item) => (
-              <SidebarLink key={item.label} item={item} />
-            ))}
-          </nav>
-
-          <div className="mt-auto px-6">
+      <main className="pl-[220px]">
+        {/* Header */}
+        <header className="sticky top-0 z-20 border-b border-[rgba(139,94,60,0.10)] bg-[#FAFAF8]/90 px-10 py-5 backdrop-blur-md">
+          <div className="flex items-center justify-between gap-6">
+            <div>
+              <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#9E9589]">
+                Módulo Operação
+              </p>
+              <h1 className={`${cormorant.className} text-[28px] font-medium leading-tight tracking-[-0.02em] text-[#1A1714]`}>
+                Logística & Envios
+              </h1>
+              <p className="mt-0.5 text-[11px] text-[#9E9589]">
+                {rows.length} envio{rows.length !== 1 ? "s" : ""} nesta janela
+              </p>
+            </div>
             <Link
               href="/adm/operacao/logistica/incidentes"
-              className="inline-flex min-h-12 w-full items-center justify-center rounded-xl bg-[var(--logistics-primary)] px-6 text-[11px] font-bold uppercase tracking-[0.18em] text-white transition-opacity hover:opacity-90"
+              className="flex items-center gap-2 rounded-full bg-[#EF4444] px-5 py-2 text-[11px] font-semibold uppercase tracking-[0.14em] text-white shadow-[0_4px_16px_rgba(239,68,68,0.30)] transition-all hover:bg-[#DC2626] hover:shadow-[0_6px_20px_rgba(239,68,68,0.40)]"
             >
-              Ver incidentes
+              <Zap className="h-3.5 w-3.5" strokeWidth={2.2} />
+              Incidentes críticos
             </Link>
           </div>
-        </aside>
+        </header>
 
-        <main className="flex-1 xl:ml-72">
-          <header className="sticky top-0 z-40 bg-[rgba(251,249,244,0.86)] backdrop-blur-xl">
-            <div className="mx-auto flex w-full max-w-[1680px] flex-col gap-5 px-6 py-6 xl:px-12">
-              <div className="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
-                <div>
-                  <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-[var(--logistics-text-soft)]">
-                    Operação / Envios Premium
-                  </p>
-                  <h2 className={`${editorialSerif.className} mt-2 text-4xl tracking-tight text-[var(--logistics-text)]`}>
-                    Logística & envios
-                  </h2>
-                  <p className="mt-3 max-w-2xl text-sm leading-7 text-[var(--logistics-text-soft)]">
-                    Controle editorial da malha, leitura de risco por transportadora e visão limpa
-                    dos envios que exigem resposta rápida da operação.
-                  </p>
-                </div>
+        <div className="px-10 py-8 space-y-6">
+          {/* KPI Row */}
+          <section className="grid grid-cols-2 gap-4 xl:grid-cols-4">
+            <FinanceKpiCard
+              label="Em Preparação"
+              value={String(pendingCount)}
+              subtext="Pedidos em embalagem"
+              icon={<PackageCheck className="h-4 w-4" strokeWidth={1.8} />}
+              variant="warning"
+            />
+            <FinanceKpiCard
+              label="Em Trânsito"
+              value={String(transitCount)}
+              subtext="Fluxo embarcado"
+              icon={<Truck className="h-4 w-4" strokeWidth={1.8} />}
+            />
+            <FinanceKpiCard
+              label="Atrasos Críticos"
+              value={String(delayedCount)}
+              subtext="Escalação imediata"
+              icon={<AlertTriangle className="h-4 w-4" strokeWidth={1.8} />}
+              variant={delayedCount > 0 ? "critical" : "default"}
+            />
+            <FinanceKpiCard
+              label="SLA no Prazo"
+              value={`${onTimeRate}%`}
+              subtext={`${missingTrackingCount} sem rastreio`}
+              icon={<Waves className="h-4 w-4" strokeWidth={1.8} />}
+              variant={parseFloat(onTimeRate) >= 95 ? "default" : "warning"}
+            />
+          </section>
 
-                <div className="flex flex-col gap-3 sm:flex-row">
-                  <div className="inline-flex min-h-11 items-center gap-3 rounded-full border border-[var(--logistics-outline-variant)] bg-[var(--logistics-surface)] px-4 text-xs font-medium tracking-wide text-[var(--logistics-text)]">
-                    <CalendarDays className="h-4 w-4" strokeWidth={1.8} />
-                    <span>01 Jan — 31 Jan 2024</span>
-                  </div>
-                  <Link
-                    href="/adm/operacao/logistica/incidentes"
-                    className="inline-flex min-h-11 items-center justify-center rounded-full bg-[var(--logistics-text)] px-6 text-[11px] font-bold uppercase tracking-[0.18em] text-white transition-opacity hover:opacity-90"
-                  >
-                    Incidentes críticos
-                  </Link>
-                </div>
-              </div>
-            </div>
-          </header>
-
-          <div className="mx-auto w-full max-w-[1680px] px-6 py-10 xl:px-12">
-            <section className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-4">
-              {metrics.map((metric) => (
-                <LogisticsMetricCard key={metric.label} metric={metric} />
-              ))}
-            </section>
-
-            <section className="mt-10 grid grid-cols-1 gap-8 xl:grid-cols-12">
-              <div className="space-y-6 xl:col-span-8">
-                <nav className="overflow-x-auto">
-                  <div className="flex min-w-max gap-10 border-b border-[var(--logistics-outline-variant)] pb-0.5">
-                    {tabs.map((tab) => {
-                      const active = activeTab === tab.key;
-                      return (
-                        <Link
-                          key={tab.key}
-                          href={buildHref("/adm/operação/logistica", searchParamsSource, {
-                            activity: tab.key === "todos" ? undefined : tab.key,
-                            page: undefined
-                          })}
-                          className={`pb-4 text-xs font-bold uppercase tracking-[0.18em] transition ${
-                            active
-                              ? "border-b-2 border-[var(--logistics-text)] text-[var(--logistics-text)]"
-                              : "text-[var(--logistics-text-soft)] hover:text-[var(--logistics-text)]"
-                          }`}
-                        >
-                          {tab.label}
-                        </Link>
-                      );
-                    })}
-                  </div>
-                </nav>
-
-                <section
-                  className="overflow-hidden rounded-xl border border-[var(--logistics-outline-variant)] bg-[var(--logistics-surface)]"
-                  style={{ boxShadow: "var(--logistics-shadow)" }}
-                >
-                  <div className="flex items-end justify-between gap-6 px-8 py-7">
-                    <div>
-                      <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-[var(--logistics-text-soft)]">
-                        Manifesto de envios
-                      </p>
-                      <h3 className={`${editorialSerif.className} mt-2 text-2xl text-[var(--logistics-text)]`}>
-                        Jornada logística em acompanhamento
-                      </h3>
-                    </div>
+          {/* Main grid — table + right panel */}
+          <div className="grid gap-6 xl:grid-cols-[1fr_280px]">
+            {/* Left: tabs + table */}
+            <div className="space-y-4">
+              {/* Tabs */}
+              <div className="flex gap-0.5 overflow-x-auto border-b border-[rgba(139,94,60,0.08)]">
+                {tabs.map((tab) => {
+                  const active = activeTab === tab.key;
+                  const count = tabCounts[tab.key];
+                  return (
                     <Link
-                      href="/adm/operacao/logistica/incidentes"
-                      className="text-[11px] font-bold uppercase tracking-[0.16em] text-[var(--logistics-text-soft)] underline underline-offset-4"
+                      key={tab.key}
+                      href={buildHref("/adm/operacao/logistica", searchParamsSource, {
+                        activity: tab.key === "todos" ? undefined : tab.key,
+                        page: undefined,
+                      })}
+                      className={`flex shrink-0 items-center gap-2 whitespace-nowrap border-b-2 px-3.5 py-3 text-[13px] font-medium transition-all ${
+                        active
+                          ? "border-[#8B5E3C] font-semibold text-[#8B5E3C]"
+                          : "border-transparent text-[#9E9589] hover:text-[#1A1714]"
+                      }`}
                     >
-                      Ver todos os incidentes
+                      {tab.label}
+                      {count > 0 && (
+                        <span className={`rounded-full px-1.5 py-0.5 text-[10px] font-bold ${
+                          active
+                            ? "bg-[rgba(139,94,60,0.12)] text-[#8B5E3C]"
+                            : tab.key === "atrasado"
+                              ? "bg-[#FEE2E2] text-[#EF4444]"
+                              : "bg-[rgba(139,94,60,0.08)] text-[#8B5E3C]"
+                        }`}>
+                          {count}
+                        </span>
+                      )}
                     </Link>
-                  </div>
+                  );
+                })}
+              </div>
 
-                  <div className="overflow-x-auto">
-                    <table className="min-w-full border-collapse text-left">
-                      <thead>
-                        <tr className="bg-[var(--logistics-surface-low)]">
-                          <th className="px-8 py-5 text-[10px] font-bold uppercase tracking-[0.18em] text-[var(--logistics-text-soft)]">
-                            Pedido
+              {/* Table */}
+              <section className="overflow-hidden rounded-2xl border border-[rgba(139,94,60,0.14)] bg-white shadow-[0_4px_16px_rgba(28,26,24,0.04)]">
+                <div className="overflow-x-auto">
+                  <table className="min-w-full border-collapse text-left">
+                    <thead>
+                      <tr className="border-b border-[rgba(139,94,60,0.10)] bg-[#F4F1EE]">
+                        {["#", "Cliente", "Seller", "Status", "Prazo", "Transportadora", "Rastreio", "Ação"].map((h, i) => (
+                          <th
+                            key={h}
+                            className={`px-5 py-3.5 text-[10px] font-semibold uppercase tracking-[0.12em] text-[#9E9589] ${i === 7 ? "text-right" : ""}`}
+                          >
+                            {h}
                           </th>
-                          <th className="px-8 py-5 text-[10px] font-bold uppercase tracking-[0.18em] text-[var(--logistics-text-soft)]">
-                            Cliente
-                          </th>
-                          <th className="px-8 py-5 text-[10px] font-bold uppercase tracking-[0.18em] text-[var(--logistics-text-soft)]">
-                            Seller
-                          </th>
-                          <th className="px-8 py-5 text-[10px] font-bold uppercase tracking-[0.18em] text-[var(--logistics-text-soft)]">
-                            Status
-                          </th>
-                          <th className="px-8 py-5 text-[10px] font-bold uppercase tracking-[0.18em] text-[var(--logistics-text-soft)]">
-                            Prazo
-                          </th>
-                          <th className="px-8 py-5 text-[10px] font-bold uppercase tracking-[0.18em] text-[var(--logistics-text-soft)]">
-                            Transportadora
-                          </th>
-                          <th className="px-8 py-5 text-[10px] font-bold uppercase tracking-[0.18em] text-[var(--logistics-text-soft)]">
-                            Rastreio
-                          </th>
-                          <th className="px-8 py-5 text-right text-[10px] font-bold uppercase tracking-[0.18em] text-[var(--logistics-text-soft)]">
-                            Ação
-                          </th>
+                        ))}
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-[rgba(139,94,60,0.06)]">
+                      {visibleRows.length === 0 ? (
+                        <tr>
+                          <td colSpan={8} className="px-5 py-12 text-center text-[13px] text-[#9E9589]">
+                            Nenhum envio nesta categoria.
+                          </td>
                         </tr>
-                      </thead>
-                      <tbody className="divide-y divide-[rgba(177,179,169,0.10)]">
-                        {featuredRows.map((row) => (
+                      ) : (
+                        visibleRows.map((row) => (
                           <tr
                             key={row.id}
-                            className={`transition-colors hover:bg-[var(--logistics-surface-low)] ${
+                            className={`group transition-colors hover:bg-[rgba(139,94,60,0.02)] ${
                               row.viewState === "atrasado"
-                                ? "border-l-2 border-l-[var(--logistics-tertiary)]"
+                                ? "border-l-[3px] border-l-[#EF4444]"
                                 : row.viewState === "sem-rastreio"
-                                  ? "border-l-2 border-l-[var(--logistics-secondary)]"
+                                  ? "border-l-[3px] border-l-[#F59E0B]"
                                   : ""
                             }`}
                           >
-                            <td className="px-8 py-7">
-                              <span className="font-medium tracking-[-0.02em] text-[var(--logistics-text)]">
-                                {row.orderId}
-                              </span>
+                            <td className="px-5 py-4">
+                              <code
+                                className="rounded-md bg-[#F4F1EE] px-2 py-1 font-mono text-[11px] text-[#6B5E54]"
+                                title={row.orderId}
+                              >
+                                #{row.orderId.slice(0, 8)}
+                              </code>
                             </td>
-                            <td className="px-8 py-7 text-sm text-[var(--logistics-text)]">
+                            <td className="px-5 py-4 text-[13px] font-medium text-[#1A1714]">
                               {row.customerName}
                             </td>
-                            <td className="px-8 py-7 text-sm text-[var(--logistics-text-soft)]">
+                            <td className="px-5 py-4 text-[12px] text-[#6B5E54]">
                               {row.sellerName}
                             </td>
-                            <td className="px-8 py-7">
-                              <ShipmentStatus state={row.viewState} />
+                            <td className="px-5 py-4">
+                              <ShipmentStatusBadge state={row.viewState} />
                             </td>
-                            <td className="px-8 py-7">
-                              <span
-                                className={`text-sm ${
-                                  row.viewState === "atrasado"
-                                    ? "font-medium text-[var(--logistics-tertiary)]"
-                                    : "text-[var(--logistics-text)]"
-                                }`}
-                              >
+                            <td className="px-5 py-4">
+                              <span className={`text-[12px] font-medium ${
+                                row.viewState === "atrasado" ? "text-[#EF4444]" : "text-[#6B5E54]"
+                              }`}>
                                 {formatShortDate(row.eta)}
                               </span>
                             </td>
-                            <td className="px-8 py-7 text-sm text-[var(--logistics-text)]">
+                            <td className="px-5 py-4 text-[12px] text-[#6B5E54]">
                               {row.carrier}
                             </td>
-                            <td className="px-8 py-7 text-xs text-[var(--logistics-text-soft)]">
-                              {row.viewState === "sem-rastreio" ? "Não gerado" : row.trackingCode}
+                            <td className="px-5 py-4 font-mono text-[11px] text-[#9E9589]">
+                              {row.viewState === "sem-rastreio" ? (
+                                <span className="text-[#F59E0B]">Não gerado</span>
+                              ) : (
+                                row.trackingCode
+                              )}
                             </td>
-                            <td className="px-8 py-7 text-right">
+                            <td className="px-5 py-4 text-right">
                               <Link
-                                href={`/adm/operação/logistica/envios/${row.id}?shipment=${row.id}`}
-                                className="inline-flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.16em] text-[var(--logistics-text)] underline underline-offset-4"
+                                href={`/adm/operacao/logistica/envios/${row.id}`}
+                                className="inline-flex items-center gap-1.5 rounded-lg border border-[rgba(139,94,60,0.20)] px-3 py-1.5 text-[11px] font-semibold text-[#8B5E3C] transition-all hover:bg-[rgba(139,94,60,0.06)]"
                               >
                                 Acompanhar
-                                <ChevronRight className="h-4 w-4" strokeWidth={1.8} />
                               </Link>
                             </td>
                           </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
-                </section>
-              </div>
+                        ))
+                      )}
+                    </tbody>
+                  </table>
+                </div>
 
-              <aside className="space-y-6 xl:col-span-4">
-                <section
-                  className="rounded-xl border border-[var(--logistics-outline-variant)] bg-[var(--logistics-surface-low)] p-8"
-                  style={{ boxShadow: "var(--logistics-shadow)" }}
-                >
-                  <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-[var(--logistics-text-soft)]">
-                    Monitoramento crítico
+                {/* Footer */}
+                <div className="flex items-center justify-between border-t border-[rgba(139,94,60,0.08)] px-5 py-3.5">
+                  <p className="text-[12px] text-[#9E9589]">
+                    Mostrando {visibleRows.length} de {rows.length} envios
                   </p>
-                  <h3 className={`${editorialSerif.className} mt-3 text-3xl text-[var(--logistics-text)]`}>
-                    {incidentCards.length} alertas em leitura ativa
-                  </h3>
-                  <p className="mt-4 text-sm leading-7 text-[var(--logistics-text-soft)]">
-                    A malha atual exige atenção sobre atrasos, pedidos sem rastreio e sellers com
-                    risco de quebra de SLA na janela premium.
-                  </p>
-                  <div className="mt-6 space-y-4">
-                    {incidentCards.map((incident) => (
-                      <Link
-                        key={incident.id}
-                        href={`/adm/operação/logistica/incidentes?shipment=${incident.shipmentId}`}
-                        className="block rounded-xl bg-[var(--logistics-surface)] p-4 transition-colors hover:bg-white"
-                      >
-                        <div className="flex items-start gap-3">
-                          <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0 text-[var(--logistics-tertiary)]" />
-                          <div>
-                            <p className="text-sm font-semibold text-[var(--logistics-text)]">
-                              {incident.type}
-                            </p>
-                            <p className="mt-1 text-xs leading-6 text-[var(--logistics-text-soft)]">
-                              {incident.summary}
-                            </p>
-                          </div>
-                        </div>
-                      </Link>
-                    ))}
+                  <div className="flex items-center gap-1">
+                    <button type="button" aria-label="Página anterior" className="flex h-8 w-8 items-center justify-center rounded-lg border border-[rgba(139,94,60,0.14)] text-[#9E9589] transition-colors hover:bg-[rgba(139,94,60,0.06)]">
+                      <ChevronLeft className="h-4 w-4" strokeWidth={1.8} />
+                    </button>
+                    <button type="button" aria-label="Próxima página" className="flex h-8 w-8 items-center justify-center rounded-lg border border-[rgba(139,94,60,0.14)] text-[#9E9589] transition-colors hover:bg-[rgba(139,94,60,0.06)]">
+                      <ChevronRight className="h-4 w-4" strokeWidth={1.8} />
+                    </button>
                   </div>
-                </section>
+                </div>
+              </section>
+            </div>
 
-                <section
-                  className="rounded-xl border border-[var(--logistics-outline-variant)] bg-[var(--logistics-surface)] p-8"
-                  style={{ boxShadow: "var(--logistics-shadow)" }}
-                >
-                  <div className="flex items-center justify-between gap-4">
-                    <div>
-                      <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-[var(--logistics-text-soft)]">
-                        Transportadoras
-                      </p>
-                      <h3 className={`${editorialSerif.className} mt-2 text-2xl text-[var(--logistics-text)]`}>
-                        Prioridade operacional
-                      </h3>
-                    </div>
-                    <MapPinned className="h-5 w-5 text-[var(--logistics-primary)]" strokeWidth={1.8} />
-                  </div>
-
-                  <div className="mt-6 space-y-4">
-                    {carrierSummary.map(([carrier, count]) => (
-                      <div
-                        key={carrier}
-                        className="flex items-center justify-between border-b border-[rgba(177,179,169,0.12)] pb-4 last:border-b-0 last:pb-0"
-                      >
-                        <div>
-                          <p className="text-sm font-semibold text-[var(--logistics-text)]">{carrier}</p>
-                          <p className="text-xs text-[var(--logistics-text-soft)]">
-                            {count} envios nesta janela
-                          </p>
-                        </div>
-                        <span className="text-xs font-bold uppercase tracking-[0.16em] text-[var(--logistics-primary)]">
-                          Ativa
-                        </span>
+            {/* Right panel */}
+            <div className="space-y-4">
+              {/* Incidents */}
+              <section className="rounded-2xl border border-[rgba(139,94,60,0.14)] bg-white p-5 shadow-[0_4px_16px_rgba(28,26,24,0.04)]">
+                <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#9E9589]">
+                  Monitoramento
+                </p>
+                <h2 className={`${cormorant.className} mt-1 text-[20px] font-medium text-[#1A1714]`}>
+                  {incidentCards.length} alertas em leitura
+                </h2>
+                <div className="mt-4 space-y-2.5">
+                  {incidentCards.map((incident) => (
+                    <Link
+                      key={incident.id}
+                      href={`/adm/operacao/logistica/incidentes?shipment=${incident.shipmentId}`}
+                      className="flex items-start gap-3 rounded-xl border border-[rgba(139,94,60,0.10)] bg-[#FAFAF8] p-3.5 transition-colors hover:border-[rgba(139,94,60,0.22)] hover:bg-white"
+                    >
+                      <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0 text-[#EF4444]" strokeWidth={1.8} />
+                      <div className="min-w-0">
+                        <p className="text-[12px] font-semibold text-[#1A1714]">{incident.type}</p>
+                        <p className="mt-0.5 line-clamp-2 text-[11px] leading-relaxed text-[#9E9589]">
+                          {incident.summary}
+                        </p>
                       </div>
-                    ))}
-                  </div>
-                </section>
-
-                <section
-                  className="rounded-xl border border-[var(--logistics-outline-variant)] bg-[var(--logistics-surface)] p-8"
-                  style={{ boxShadow: "var(--logistics-shadow)" }}
+                    </Link>
+                  ))}
+                </div>
+                <Link
+                  href="/adm/operacao/logistica/incidentes"
+                  className="mt-4 block text-center text-[11px] font-semibold uppercase tracking-[0.14em] text-[#8B5E3C] underline underline-offset-4 transition-opacity hover:opacity-70"
                 >
-                  <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-[var(--logistics-text-soft)]">
-                    Diretriz da operação
-                  </p>
-                  <p className={`${editorialSerif.className} mt-3 text-2xl italic text-[var(--logistics-text)]`}>
-                    Transparência logística é parte da curadoria.
-                  </p>
-                  <p className="mt-4 text-sm leading-7 text-[var(--logistics-text-soft)]">
-                    Para sellers premium, a prioridade não é apenas entregar, mas sustentar a
-                    percepção de confiança em cada atualização de rota, prazo e tratativa.
-                  </p>
-                </section>
-              </aside>
-            </section>
+                  Ver todos os incidentes
+                </Link>
+              </section>
+
+              {/* Carriers */}
+              <section className="rounded-2xl border border-[rgba(139,94,60,0.14)] bg-white p-5 shadow-[0_4px_16px_rgba(28,26,24,0.04)]">
+                <div className="flex items-center justify-between gap-3">
+                  <div>
+                    <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#9E9589]">
+                      Transportadoras
+                    </p>
+                    <h2 className={`${cormorant.className} mt-1 text-[18px] font-medium text-[#1A1714]`}>
+                      Prioridade operacional
+                    </h2>
+                  </div>
+                  <MapPinned className="h-4 w-4 shrink-0 text-[#9E9589]" strokeWidth={1.8} />
+                </div>
+                <div className="mt-4 space-y-3">
+                  {carrierSummary.map(([carrier, count]) => (
+                    <div
+                      key={carrier}
+                      className="flex items-center justify-between border-b border-[rgba(139,94,60,0.08)] pb-3 last:border-0 last:pb-0"
+                    >
+                      <div>
+                        <p className="text-[13px] font-semibold text-[#1A1714]">{carrier}</p>
+                        <p className="text-[11px] text-[#9E9589]">{count} envio{count !== 1 ? "s" : ""}</p>
+                      </div>
+                      <span className="rounded-full bg-[#D1FAE5] px-2 py-0.5 text-[10px] font-bold text-[#065F46]">
+                        Ativa
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              </section>
+            </div>
           </div>
-        </main>
-      </div>
+        </div>
+      </main>
     </div>
   );
 }

@@ -1,4 +1,4 @@
-import React from "react";
+﻿import React from "react";
 import { Hr, Text, Link } from "@react-email/components";
 import { criarUnsubscribeToken } from "@/lib/crm/unsubscribeToken";
 import type { FluxoEnum, GrupoEnum } from "@/lib/crm/crmTypes";
@@ -51,7 +51,7 @@ export function Footer({ fluxo, unsubscribe_url, grupo, motivo_recebimento }: Fo
           Cancelar {GRUPO_LABEL[grupo] ?? "e-mails"}
         </Link>
         {" · "}
-        <Link href={`${BASE_URL}/configurações/emails`} style={linkStyle}>
+        <Link href={`${BASE_URL}/configuracoes/emails`} style={linkStyle}>
           Gerenciar preferências
         </Link>
       </Text>

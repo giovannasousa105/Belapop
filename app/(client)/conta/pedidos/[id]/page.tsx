@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 
 import { OrderTimeline } from "@/components/OrderTimeline";
 import { ReorderButton } from "@/components/customer/ReorderButton";
@@ -27,12 +27,14 @@ import type { CustomerTrackingByOrderDto } from "@/lib/customer/dto";
 import { buildSubOrderTrackingSummary } from "@/lib/customer/trackingSummary";
 import {
   getCustomerOrder,
+  getCustomerOrders,
   getCustomerOrderStatusHistory,
   getCustomerOrderSubOrders,
   getCustomerTrackingByOrder,
   mapDetailedSubOrderToLegacy,
   mapOrderDtoToLegacyRow
 } from "@/lib/customer/api";
+import { isOrderUuid } from "@/lib/orders/orderReference";
 
 type HistoryRow = {
   id: string;
@@ -96,6 +98,7 @@ function SubOrderStatusInfo({
 
 export default function ContaPedidoDetalhePage() {
   const params = useParams();
+  const router = useRouter();
   const orderId = String(params?.id ?? "");
   const { user } = useAuth();
   const [loading, setLoading] = useState(true);
@@ -116,6 +119,26 @@ export default function ContaPedidoDetalhePage() {
 
     const load = async () => {
       try {
+        if (!isOrderUuid(orderId)) {
+          const ordersPayload = await getCustomerOrders({ code: orderId, page_size: 100 });
+          const resolvedOrderId = ordersPayload.items[0]?.order_id;
+
+          if (resolvedOrderId) {
+            router.replace(`/conta/pedidos/${resolvedOrderId}`);
+            return;
+          }
+
+          if (active) {
+            setOrder(null);
+            setSubOrders([]);
+            setHistory([]);
+            setTrackingBySubOrder({});
+            setSellerMap({});
+            setProductMap({});
+          }
+          return;
+        }
+
         const [orderPayload, subOrdersPayload, statusHistoryPayload, trackingPayload] = await Promise.all([
           getCustomerOrder(orderId),
           getCustomerOrderSubOrders(orderId),
@@ -169,7 +192,7 @@ export default function ContaPedidoDetalhePage() {
     return () => {
       active = false;
     };
-  }, [orderId, user]);
+  }, [orderId, router, user]);
 
   const orderItems = useMemo(
     () =>

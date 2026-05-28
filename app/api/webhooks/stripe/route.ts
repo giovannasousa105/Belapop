@@ -5,6 +5,7 @@ import { posthogServer } from "@/lib/analytics/posthog";
 import { captureError } from "@/lib/analytics/sentry";
 import { getStripe } from "@/lib/stripe/stripeClient";
 import { checkAndMarkIdempotency, liberarLoteReserva, logWebhookEvent } from "@/lib/stripe/stripeWebhookUtils";
+import { finalizePaymentIntentOrder } from "@/lib/stripe/finalizePaymentIntentOrder";
 import { handleCheckoutCompleted } from "@/lib/stripe/handleCheckoutCompleted";
 import { handlePaymentFailed } from "@/lib/stripe/handlePaymentFailed";
 import { handleRefundCompleted } from "@/lib/stripe/handleRefundCompleted";
@@ -86,6 +87,10 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
 
       case "payment_intent.payment_failed":
         await handlePaymentFailed(event.data.object as Stripe.PaymentIntent, event.id, event.type);
+        break;
+
+      case "payment_intent.succeeded":
+        await finalizePaymentIntentOrder(event.data.object as Stripe.PaymentIntent);
         break;
 
       case "charge.refunded":

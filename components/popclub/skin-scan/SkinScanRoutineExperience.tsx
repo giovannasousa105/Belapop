@@ -3,70 +3,170 @@
 /* eslint-disable @next/next/no-img-element */
 
 import Link from "next/link";
-import {
-  Menu,
-  MoonStar,
-  ShoppingBag,
-  SunMedium
-} from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { Menu, ShoppingBag } from "lucide-react";
 
 import { ImmersiveBottomNav } from "@/components/popclub/shared/ImmersiveBottomNav";
 import { ImmersiveMenuDrawer } from "@/components/popclub/shared/ImmersiveMenuDrawer";
 import { routineBottomNavItems, routineMenuLinks } from "@/lib/popclub/navigation";
+import { useCart } from "@/lib/CartContext";
+import {
+  SKIN_ANALYSIS_SESSION_STORAGE_KEY,
+  skinAnalysisSessionSchema,
+  type SkinAnalysisSession,
+  type SkinAnalysisProduct,
+  type ScienceRoutineSession
+} from "@/lib/skincare/skinAnalysis";
 
-const routineGoals = [
-  "Foco em hidratação profunda",
-  "Manter equilibrio da barreira",
-  "Evitar sobrecarga de ativos"
-] as const;
+const formatPrice = (cents: number | null) =>
+  cents != null
+    ? new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(cents / 100)
+    : "—";
 
-const morningSteps = [
-  {
-    step: "Passo 01 - Limpeza Leve",
-    title: "Gel Cleanser",
-    description:
-      "Reposicao intensa de agua enquanto remove impurezas urbanas sem agredir.",
-    rationale:
-      "Sua pele apresentou sensibilidade matinal; este gel equilibra o pH sem atrito.",
-    price: "R$ 210,00",
-    image:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuBr6v6mRjP4uLbrV8V9uQSp6wCoXcJsHb8gAiExWUxW_sBncA_lQqeqTkIT35wXFDeNUwXjxgclgiQU8aYOPf-mFp64LNL9z7hj_krhxQFevRhlcvd8vGNCuJOQGgIhjLFjJtqOyl0SEtlmIL7GXdDYpmEdIASaTTJDW8DBmXetyFW4qlX6wn-k8IoWynfZ55--UzKBQM4Ge51sYLlmDf7egPFWZxqF-Ql8HPW5V6CIvzVtvTQJJyXVjCBlE5n-OyFcka2YxDyg6pye",
-    reverse: false
-  },
-  {
-    step: "Passo 02 - Hidratação",
-    title: "Serum Hidratante",
-    description:
-      "Acido hialuronico de baixo peso molecular para hidratação em camadas profundas.",
-    rationale:
-      "Essencial para preencher as linhas finas detectadas ao redor dos olhos no seu scan.",
-    price: "R$ 340,00",
-    image:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuCuoXDjWFjyI88DX59DvGHLR3Ig41wUr--LcmtsjYhSjuK0fGzdlTuPf7Hm8iMedGBdlRMe1cOW9DxIr7pWAMKnzYxCZJRBF_XPLkpWHmriv8CMH8soy4GxwhzaZ1dzII09NdvzgbuP5E7n18iNaHXXkO2g39cUHPsQhs8MPWuIIHOdBrC7VS1q-CqqNL8VT-Z_7YWAgzFVuGT_DkL0b7xpkdqF1EVRowt_q1wS4ohXdTHAgv1rKXf3sTe_wZMzpD4iakoqOQKt3NtJ",
-    reverse: true
-  }
-] as const;
+const totalPrice = (products: SkinAnalysisProduct[]) =>
+  products.reduce((acc, p) => acc + (p.priceCents ?? 0), 0);
 
-const nightTreatment = {
-  step: "Passo 02 - Tratamento",
-  title: "Serum Regenerador",
-  description:
-    "Complexo noturno que estimula a renovacao celular enquanto você descansa.",
-  price: "R$ 890,00",
-  note: "Formula Magistral",
-  image:
-    "https://lh3.googleusercontent.com/aida-public/AB6AXuCt00cNYhi8zlKL1D64pcoGyIqrRGEeWXXSHGIO8Dmm_8xXSlPxUQdciqBgZ5atlhKMOtVPhCMI05miA8YerkgJm6jH13rFvB7U5uKetN9J3DEH0usYNHGeOPMwvN0l6CYnMGVXatEIa_xNbTOjchLZVXsRNqCi2dSE3YAwZk3gy70IrKlcJGwRYuRx8K3HKGdzc1XIw9BT5L6b9i3K9GTYz3BY64ZP07JjFmSCRcyewkZzzoBgK8MSov5Jo1oBM3DSq7GxCwBnYKKZ"
-} as const;
+function ProductCard({
+  product,
+  reverse,
+  index,
+  onAdd,
+  added
+}: {
+  product: SkinAnalysisProduct;
+  reverse: boolean;
+  index: number;
+  onAdd: () => void;
+  added: boolean;
+}) {
+  return (
+    <article className="group">
+      <div
+        className={`flex flex-col gap-8 md:gap-10 lg:items-center lg:gap-12 ${
+          reverse ? "md:flex-row-reverse" : "md:flex-row"
+        }`}
+      >
+        <div className="w-full md:w-1/2">
+          <div className="aspect-[4/5] overflow-hidden bg-[#f0eded]">
+            {product.heroImageUrl ? (
+              <img
+                src={product.heroImageUrl}
+                alt={product.name}
+                className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+              />
+            ) : (
+              <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-[#f5ede9] to-[#ede4df]">
+                <span className="text-center text-[10px] uppercase tracking-[0.2em] text-[#8E5B68]/60">
+                  {product.category ?? "Skincare"}
+                </span>
+              </div>
+            )}
+          </div>
+        </div>
 
-const selectedRoutine = [
-  { title: "Gel Cleanser", category: "Limpeza Leve", price: "R$ 210,00" },
-  { title: "Serum Hidratante", category: "Hidratação", price: "R$ 340,00" },
-  { title: "Serum Regenerador", category: "Tratamento", price: "R$ 890,00" }
-] as const;
+        <div className="flex w-full flex-col justify-center md:w-1/2">
+          <span className="mb-1 text-[10px] uppercase tracking-[0.3em] text-[#444748]">
+            {product.brand ?? "BelaPop"}
+          </span>
+          <span className="mb-1 text-[9px] uppercase tracking-[0.2em] text-[#8E5B68]">
+            Passo {String(index + 1).padStart(2, "0")}
+          </span>
+          <h4 className="font-[var(--font-playfair)] text-2xl lg:text-4xl">{product.name}</h4>
+
+          {product.category && (
+            <p className="mb-2 mt-1 text-[10px] uppercase tracking-[0.14em] text-[#444748]">
+              {product.category}
+            </p>
+          )}
+
+          <div className="mb-6 border-l border-black/10 bg-[#f6f3f2] p-4 text-xs italic leading-relaxed mt-4">
+            <span className="mb-1 block text-[10px] font-bold uppercase tracking-[0.2em] not-italic">
+              Por que este produto?
+            </span>
+            {product.reason}
+          </div>
+
+          <div className="mt-auto flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+            <span className="font-[var(--font-playfair)] text-lg lg:text-2xl">
+              {formatPrice(product.priceCents)}
+            </span>
+            <button
+              type="button"
+              onClick={onAdd}
+              className={`inline-flex min-h-12 w-full items-center justify-center px-6 text-[10px] uppercase tracking-[0.18em] transition-all sm:w-auto lg:min-h-14 lg:px-8 ${
+                added
+                  ? "bg-[#2D6A4F] text-white"
+                  : "bg-black text-white hover:opacity-85"
+              }`}
+            >
+              {added ? "Adicionado ✓" : "Incluir na rotina"}
+            </button>
+          </div>
+        </div>
+      </div>
+    </article>
+  );
+}
 
 export default function SkinScanRoutineExperience() {
+  const router = useRouter();
+  const { addItem } = useCart();
   const [menuOpen, setMenuOpen] = useState(false);
+  const [session, setSession] = useState<SkinAnalysisSession | null>(null);
+  const [addedIds, setAddedIds] = useState<Set<string>>(new Set());
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    try {
+      const raw = window.sessionStorage.getItem(SKIN_ANALYSIS_SESSION_STORAGE_KEY);
+      if (!raw) {
+        router.replace("/skin-scan/captura");
+        return;
+      }
+      const parsed = skinAnalysisSessionSchema.parse(JSON.parse(raw));
+      setSession(parsed);
+    } catch {
+      window.sessionStorage.removeItem(SKIN_ANALYSIS_SESSION_STORAGE_KEY);
+      router.replace("/skin-scan/captura");
+    }
+  }, [router]);
+
+  const handleAdd = (product: SkinAnalysisProduct) => {
+    addItem(product.id, 1, product.sellerId ?? undefined);
+    setAddedIds((prev) => new Set(prev).add(product.id));
+  };
+
+  const handleAddAll = () => {
+    if (!session) return;
+    session.recommendedProducts.forEach((p) => {
+      addItem(p.id, 1, p.sellerId ?? undefined);
+    });
+    setAddedIds(new Set(session.recommendedProducts.map((p) => p.id)));
+  };
+
+  const products = session?.recommendedProducts ?? [];
+  const analysis = session?.analysis;
+  const scienceRoutine: ScienceRoutineSession | undefined = session?.scienceRoutine;
+  const goals = analysis?.topConcerns ?? [];
+  const summary = analysis?.summary ?? "";
+
+  const scienceManha = scienceRoutine?.manha ?? [];
+  const scienceNoite = scienceRoutine?.noite ?? [];
+  const scienceSemanal = scienceRoutine?.semanal ?? [];
+
+  const morningSteps = scienceManha.length > 0
+    ? scienceManha.map((s) => s.name)
+    : (analysis?.routineRecommendation.morning ?? []);
+  const nightSteps = scienceNoite.length > 0
+    ? scienceNoite.map((s) => s.name)
+    : (analysis?.routineRecommendation.night ?? []);
+
+  const morningProducts = products.slice(0, Math.max(1, Math.ceil(products.length / 2)));
+  const nightProducts = products.slice(Math.max(1, Math.ceil(products.length / 2)));
+
+  const total = totalPrice(products);
 
   return (
     <div className="relative min-h-screen overflow-x-hidden bg-[#fcf9f8] pb-24 text-[#1c1b1b]">
@@ -107,206 +207,306 @@ export default function SkinScanRoutineExperience() {
       />
 
       <main className="mx-auto max-w-6xl px-6 pb-40 pt-24 lg:px-10 lg:pt-32">
+        {/* ── Hero ── */}
         <section className="mb-16 grid gap-8 xl:grid-cols-[minmax(0,1fr)_minmax(320px,0.62fr)] xl:gap-12">
           <div>
             <h2 className="font-[var(--font-playfair)] text-5xl leading-tight tracking-tighter lg:max-w-3xl lg:text-7xl lg:leading-[1.04]">
               Sua rotina personalizada
             </h2>
-            <p className="mb-10 mt-4 text-lg font-light italic text-[#444748] lg:text-xl">
+            {summary && (
+              <p className="mb-4 mt-4 text-base leading-relaxed text-[#444748] lg:text-lg">
+                {summary}
+              </p>
+            )}
+            {scienceRoutine?.skinProfile && (
+              <p className="mb-4 border-l-2 border-[#C17A90] pl-4 text-sm leading-relaxed text-[#444748]">
+                {scienceRoutine.skinProfile}
+              </p>
+            )}
+            <p className="mb-2 text-xs font-light italic text-[#444748]">
               Baseada no seu Skin Scan
             </p>
           </div>
 
-          <div className="bg-[#f6f3f2] p-8 border-l-4 border-black xl:self-start">
-            <ul className="space-y-4">
-              {routineGoals.map((goal) => (
-                <li key={goal} className="flex items-center gap-4">
-                  <span className="h-1.5 w-1.5 bg-black" />
-                  <span className="text-xs uppercase tracking-[0.2em]">{goal}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
+          {goals.length > 0 && (
+            <div className="bg-[#f6f3f2] p-8 border-l-4 border-black xl:self-start">
+              <p className="mb-4 text-[9px] uppercase tracking-[0.22em] text-[#444748]/70">
+                Focos desta rotina
+              </p>
+              <ul className="space-y-4">
+                {goals.map((goal) => (
+                  <li key={goal} className="flex items-center gap-4">
+                    <span className="h-1.5 w-1.5 flex-shrink-0 bg-[#C17A90]" />
+                    <span className="text-xs uppercase tracking-[0.2em]">{goal}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
         </section>
 
-        <section className="mb-20">
-          <div className="mb-8 flex items-baseline justify-between gap-4 border-b border-black/10 pb-2">
-            <h3 className="font-[var(--font-playfair)] text-3xl italic lg:text-5xl">Manha</h3>
-            <span className="text-[10px] uppercase tracking-[0.2em] text-[#444748]">
-              07:00 - 08:30
-            </span>
-          </div>
-
-          <div className="space-y-16 lg:space-y-20">
-            {morningSteps.map((step) => (
-              <article key={step.title} className="group">
-                <div
-                  className={`flex flex-col gap-8 md:gap-10 lg:items-center lg:gap-12 ${
-                    step.reverse ? "md:flex-row-reverse" : "md:flex-row"
-                  }`}
+        {/* ── Ativos científicos ── */}
+        {scienceRoutine?.topActives && scienceRoutine.topActives.length > 0 && (
+          <section className="mb-16 border-y border-black/10 py-8">
+            <p className="mb-4 text-[9px] uppercase tracking-[0.28em] text-[#444748]/70">
+              Ativos indicados pela ciência para o seu perfil
+            </p>
+            <div className="flex flex-wrap gap-2">
+              {scienceRoutine.topActives.map((active) => (
+                <span
+                  key={active}
+                  className="inline-flex items-center bg-[#f6f3f2] px-3 py-1.5 text-[10px] uppercase tracking-[0.14em] text-[#1c1b1b]"
                 >
-                  <div className="w-full md:w-1/2">
-                    <div className="aspect-[4/5] overflow-hidden bg-[#f0eded]">
-                      <img
-                        src={step.image}
-                        alt={step.title}
-                        className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
-                      />
+                  {active}
+                </span>
+              ))}
+            </div>
+          </section>
+        )}
+
+        {/* ── Manhã ── */}
+        {morningSteps.length > 0 && (
+          <section className="mb-12">
+            <div className="mb-6 flex items-baseline justify-between gap-4 border-b border-black/10 pb-2">
+              <h3 className="font-[var(--font-playfair)] text-3xl italic lg:text-5xl">Manhã</h3>
+              <span className="text-[10px] uppercase tracking-[0.2em] text-[#444748]">07:00 – 08:30</span>
+            </div>
+            <ol className="mb-10 space-y-4">
+              {scienceManha.length > 0
+                ? scienceManha.map((step, i) => (
+                    <li key={step.slug} className="grid gap-1">
+                      <div className="flex items-center gap-4">
+                        <span className="text-[10px] font-bold text-[#C17A90]">{String(i + 1).padStart(2, "0")}</span>
+                        <span className="text-sm font-medium">{step.name}</span>
+                      </div>
+                      <p className="pl-8 text-[10px] uppercase tracking-[0.14em] text-[#444748]/80">
+                        {step.ritual}
+                      </p>
+                    </li>
+                  ))
+                : morningSteps.map((step, i) => (
+                    <li key={i} className="flex items-center gap-4 text-sm text-[#444748]">
+                      <span className="text-[10px] font-bold text-[#C17A90]">{String(i + 1).padStart(2, "0")}</span>
+                      {step}
+                    </li>
+                  ))}
+            </ol>
+            {morningProducts.length > 0 && (
+              <div className="space-y-16 lg:space-y-20">
+                {morningProducts.map((product, i) => (
+                  <ProductCard
+                    key={product.id}
+                    product={product}
+                    reverse={i % 2 !== 0}
+                    index={i}
+                    onAdd={() => handleAdd(product)}
+                    added={addedIds.has(product.id)}
+                  />
+                ))}
+              </div>
+            )}
+          </section>
+        )}
+
+        {/* ── Noite ── */}
+        {nightSteps.length > 0 && (
+          <section className="mb-20">
+            <div className="mb-6 flex items-baseline justify-between gap-4 border-b border-black/10 pb-2">
+              <h3 className="font-[var(--font-playfair)] text-3xl italic lg:text-5xl">Noite</h3>
+              <span className="text-[10px] uppercase tracking-[0.2em] text-[#444748]">21:00 – 23:00</span>
+            </div>
+            <ol className="mb-10 space-y-4">
+              {scienceNoite.length > 0
+                ? scienceNoite.map((step, i) => (
+                    <li key={step.slug} className="grid gap-1">
+                      <div className="flex items-center gap-4">
+                        <span className="text-[10px] font-bold text-[#C17A90]">{String(i + 1).padStart(2, "0")}</span>
+                        <span className="text-sm font-medium">{step.name}</span>
+                      </div>
+                      <p className="pl-8 text-[10px] uppercase tracking-[0.14em] text-[#444748]/80">
+                        {step.ritual}
+                      </p>
+                    </li>
+                  ))
+                : nightSteps.map((step, i) => (
+                    <li key={i} className="flex items-center gap-4 text-sm text-[#444748]">
+                      <span className="text-[10px] font-bold text-[#C17A90]">{String(i + 1).padStart(2, "0")}</span>
+                      {step}
+                    </li>
+                  ))}
+            </ol>
+
+            {nightProducts.length > 0 && (
+              <article className="bg-black p-8 text-white md:p-10 lg:p-12">
+                <div className="flex flex-col gap-10 md:flex-row md:items-center lg:gap-12">
+                  <div className="w-full md:w-[34%]">
+                    <div className="aspect-square overflow-hidden">
+                      {nightProducts[0].heroImageUrl ? (
+                        <img
+                          src={nightProducts[0].heroImageUrl}
+                          alt={nightProducts[0].name}
+                          className="h-full w-full object-cover brightness-90"
+                        />
+                      ) : (
+                        <div className="flex h-full w-full items-center justify-center bg-[#1c1b1b]">
+                          <span className="text-[10px] uppercase tracking-[0.2em] text-white/30">
+                            {nightProducts[0].category ?? "Skincare"}
+                          </span>
+                        </div>
+                      )}
                     </div>
                   </div>
 
-                  <div className="flex w-full flex-col justify-center md:w-1/2">
-                    <span className="mb-2 text-[10px] uppercase tracking-[0.3em] text-[#444748]">
-                      {step.step}
+                  <div className="flex-1">
+                    <span className="mb-1 block text-[10px] uppercase tracking-[0.3em] text-white/50">
+                      {nightProducts[0].brand ?? "BelaPop"}
                     </span>
-                    <h4 className="font-[var(--font-playfair)] text-2xl lg:text-4xl">
-                      {step.title}
+                    <span className="mb-2 block text-[10px] uppercase tracking-[0.2em] text-[#C17A90]/70">
+                      Tratamento Noturno
+                    </span>
+                    <h4 className="font-[var(--font-playfair)] text-3xl lg:text-5xl">
+                      {nightProducts[0].name}
                     </h4>
-                    <p className="mb-6 mt-3 text-sm leading-relaxed text-[#444748] lg:text-base">
-                      {step.description}
+                    <p className="mb-8 mt-4 text-base font-light leading-relaxed text-white/80 lg:max-w-2xl">
+                      {nightProducts[0].reason}
                     </p>
 
-                    <div className="mb-6 border-l border-black/10 bg-[#f6f3f2] p-4 text-xs italic leading-relaxed">
-                      <span className="mb-1 block text-[10px] font-bold uppercase tracking-[0.2em] not-italic">
-                        Por que este produto?
-                      </span>
-                      {step.rationale}
-                    </div>
-
-                    <div className="mt-auto flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-                      <span className="font-[var(--font-playfair)] text-lg lg:text-2xl">
-                        {step.price}
+                    <div className="flex flex-col gap-4 border-t border-white/10 pt-6 sm:flex-row sm:items-center sm:justify-between">
+                      <span className="font-[var(--font-playfair)] text-xl lg:text-3xl">
+                        {formatPrice(nightProducts[0].priceCents)}
                       </span>
                       <button
                         type="button"
-                        className="inline-flex min-h-12 w-full items-center justify-center bg-black px-6 text-[10px] uppercase tracking-[0.18em] text-white transition-opacity hover:opacity-85 sm:w-auto lg:min-h-14 lg:px-8"
+                        onClick={() => handleAdd(nightProducts[0])}
+                        className={`inline-flex min-h-12 w-full items-center justify-center px-6 text-[10px] uppercase tracking-[0.18em] transition-all sm:w-auto lg:min-h-14 lg:px-8 ${
+                          addedIds.has(nightProducts[0].id)
+                            ? "bg-[#2D6A4F] text-white"
+                            : "bg-[#f7e382] text-black hover:opacity-90"
+                        }`}
                       >
-                        Incluir na rotina
+                        {addedIds.has(nightProducts[0].id) ? "Adicionado ✓" : "Incluir na rotina"}
                       </button>
                     </div>
                   </div>
                 </div>
               </article>
-            ))}
-          </div>
-        </section>
+            )}
+          </section>
+        )}
 
-        <section className="mb-20">
-          <div className="mb-8 flex items-baseline justify-between gap-4 border-b border-black/10 pb-2">
-            <h3 className="font-[var(--font-playfair)] text-3xl italic lg:text-5xl">Noite</h3>
-            <span className="text-[10px] uppercase tracking-[0.2em] text-[#444748]">
-              21:00 - 23:00
-            </span>
-          </div>
+        {/* ── Semanal ── */}
+        {scienceSemanal.length > 0 && (
+          <section className="mb-16 bg-[#f6f3f2] p-8 lg:p-10">
+            <div className="mb-6 flex items-baseline justify-between gap-4 border-b border-black/10 pb-2">
+              <h3 className="font-[var(--font-playfair)] text-3xl italic lg:text-5xl">Semanal</h3>
+              <span className="text-[10px] uppercase tracking-[0.2em] text-[#444748]">2× por semana</span>
+            </div>
+            <ol className="space-y-4">
+              {scienceSemanal.map((step, i) => (
+                <li key={step.slug} className="grid gap-1">
+                  <div className="flex items-center gap-4">
+                    <span className="text-[10px] font-bold text-[#C17A90]">{String(i + 1).padStart(2, "0")}</span>
+                    <span className="text-sm font-medium">{step.name}</span>
+                  </div>
+                  <p className="pl-8 text-[10px] uppercase tracking-[0.14em] text-[#444748]/80">
+                    {step.whyRecommended}
+                  </p>
+                </li>
+              ))}
+            </ol>
+          </section>
+        )}
 
-          <article className="bg-black p-8 text-white md:p-10 lg:p-12">
-            <div className="flex flex-col gap-10 md:flex-row md:items-center lg:gap-12">
-              <div className="w-full md:w-[34%]">
-                <div className="aspect-square overflow-hidden">
-                  <img
-                    src={nightTreatment.image}
-                    alt={nightTreatment.title}
-                    className="h-full w-full object-cover brightness-90"
-                  />
+        {/* ── Fallback: sem produtos ── */}
+        {products.length === 0 && session && (
+          <div className="my-16 border border-black/10 p-8 text-center">
+            <p className="text-[10px] uppercase tracking-[0.22em] text-[#444748]">
+              Curadoria em preparo
+            </p>
+            <p className="mt-3 font-[var(--font-playfair)] text-2xl">
+              Novidades chegando em breve
+            </p>
+            <p className="mt-3 text-sm text-[#444748]">
+              Estamos montando a seleção ideal para o seu perfil. Explore o catálogo enquanto isso.
+            </p>
+            <Link
+              href="/skincare"
+              className="mt-6 inline-flex min-h-12 items-center justify-center bg-black px-6 text-[10px] uppercase tracking-[0.18em] text-white"
+            >
+              Ver catálogo de skincare
+            </Link>
+          </div>
+        )}
+
+        {/* ── Resumo da rotina ── */}
+        {products.length > 0 && (
+          <section className="mt-24 border-t-2 border-black pt-16">
+            <div className="grid gap-10 xl:grid-cols-[minmax(0,1fr)_minmax(360px,0.56fr)] xl:gap-16">
+              <div>
+                <h3 className="mb-12 font-[var(--font-playfair)] text-4xl tracking-tighter lg:text-6xl">
+                  Sua rotina selecionada
+                </h3>
+
+                <div className="space-y-6">
+                  {products.map((item) => (
+                    <div
+                      key={item.id}
+                      className="flex items-center justify-between gap-6 border-b border-black/10 py-4"
+                    >
+                      <div>
+                        <p className="font-[var(--font-playfair)] text-lg lg:text-2xl">{item.name}</p>
+                        <p className="text-[9px] uppercase tracking-[0.2em] text-[#444748]">
+                          {item.category ?? item.matchedConcern}
+                        </p>
+                      </div>
+                      <span className="text-sm lg:text-base">{formatPrice(item.priceCents)}</span>
+                    </div>
+                  ))}
                 </div>
               </div>
 
-              <div className="flex-1">
-                <span className="mb-2 block text-[10px] uppercase tracking-[0.3em] text-white/60">
-                  {nightTreatment.step}
-                </span>
-                <h4 className="font-[var(--font-playfair)] text-3xl lg:text-5xl">
-                  {nightTreatment.title}
-                </h4>
-                <p className="mb-8 mt-4 text-base font-light leading-relaxed text-white/80 lg:max-w-2xl">
-                  {nightTreatment.description}
-                </p>
+              <aside className="xl:sticky xl:top-28 xl:self-start">
+                <div className="space-y-8 bg-white/70 p-8 ring-1 ring-black/[0.05] backdrop-blur-sm">
+                  <div className="flex items-center justify-between gap-4 border-b border-black/10 pb-5">
+                    <div>
+                      <p className="text-[10px] uppercase tracking-[0.28em] text-[#444748]/65">
+                        Curadoria final
+                      </p>
+                      <p className="mt-2 font-[var(--font-playfair)] text-2xl">
+                        {products.length} {products.length === 1 ? "item selecionado" : "itens selecionados"}
+                      </p>
+                    </div>
+                    <div className="text-right text-[10px] uppercase tracking-[0.2em] text-[#444748]/70">
+                      Envio com rastreio
+                    </div>
+                  </div>
 
-                <div className="flex flex-col gap-4 border-t border-white/10 pt-6 sm:flex-row sm:items-center sm:justify-between">
-                  <div>
-                    <span className="block font-[var(--font-playfair)] text-xl lg:text-3xl">
-                      {nightTreatment.price}
+                  <div className="flex items-baseline justify-between gap-6">
+                    <span className="text-xs font-bold uppercase tracking-[0.4em]">
+                      Total da rotina
                     </span>
-                    <span className="text-[9px] uppercase tracking-[0.2em] italic text-white/50">
-                      {nightTreatment.note}
+                    <span className="font-[var(--font-playfair)] text-4xl lg:text-5xl">
+                      {total > 0 ? formatPrice(total) : "—"}
                     </span>
                   </div>
 
                   <button
                     type="button"
-                    className="inline-flex min-h-12 w-full items-center justify-center bg-[#f7e382] px-6 text-[10px] uppercase tracking-[0.18em] text-black transition-opacity hover:opacity-90 sm:w-auto lg:min-h-14 lg:px-8"
+                    onClick={handleAddAll}
+                    className="inline-flex min-h-14 w-full items-center justify-center gap-4 bg-black px-6 text-xs uppercase tracking-[0.3em] text-white transition-colors hover:bg-[#444748]"
                   >
-                    Incluir na rotina
+                    <span>Levar rotina ao carrinho</span>
+                    <span aria-hidden="true">→</span>
                   </button>
+
+                  <p className="text-center text-[10px] uppercase tracking-[0.2em] text-[#444748]/70">
+                    Produtos da rotina seguem seller identificado e prazo informado no pedido
+                  </p>
                 </div>
-              </div>
+              </aside>
             </div>
-          </article>
-        </section>
-
-        <section className="mt-24 border-t-2 border-black pt-16">
-          <div className="grid gap-10 xl:grid-cols-[minmax(0,1fr)_minmax(360px,0.56fr)] xl:gap-16">
-            <div>
-              <h3 className="mb-12 font-[var(--font-playfair)] text-4xl tracking-tighter lg:text-6xl">
-                Sua rotina selecionada
-              </h3>
-
-              <div className="space-y-6">
-                {selectedRoutine.map((item) => (
-                  <div
-                    key={item.title}
-                    className="flex items-center justify-between gap-6 border-b border-black/10 py-4"
-                  >
-                    <div>
-                      <p className="font-[var(--font-playfair)] text-lg lg:text-2xl">{item.title}</p>
-                      <p className="text-[9px] uppercase tracking-[0.2em] text-[#444748]">
-                        {item.category}
-                      </p>
-                    </div>
-                    <span className="text-sm lg:text-base">{item.price}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <aside className="xl:sticky xl:top-28 xl:self-start">
-              <div className="space-y-8 bg-white/70 p-8 ring-1 ring-black/[0.05] backdrop-blur-sm">
-                <div className="flex items-center justify-between gap-4 border-b border-black/10 pb-5">
-                  <div>
-                    <p className="text-[10px] uppercase tracking-[0.28em] text-[#444748]/65">
-                      Curadoria final
-                    </p>
-                    <p className="mt-2 font-[var(--font-playfair)] text-2xl">3 itens selecionados</p>
-                  </div>
-                  <div className="text-right text-[10px] uppercase tracking-[0.2em] text-[#444748]/70">
-                    Envio com rastreio
-                  </div>
-                </div>
-
-                <div className="flex items-baseline justify-between gap-6">
-                  <span className="text-xs font-bold uppercase tracking-[0.4em]">
-                    Total da rotina
-                  </span>
-                  <span className="font-[var(--font-playfair)] text-4xl lg:text-5xl">
-                    R$ 1.440,00
-                  </span>
-                </div>
-
-                <Link
-                  href="/carrinho"
-                  className="inline-flex min-h-14 w-full items-center justify-center gap-4 bg-black px-6 text-xs uppercase tracking-[0.3em] text-white transition-colors hover:bg-[#444748]"
-                >
-                  <span>Levar rotina ao carrinho</span>
-                  <span aria-hidden="true">-&gt;</span>
-                </Link>
-
-                <p className="text-center text-[10px] uppercase tracking-[0.2em] text-[#444748]/70">
-                  Produtos da rotina seguem seller identificado e prazo informado no pedido
-                </p>
-              </div>
-            </aside>
-          </div>
-        </section>
+          </section>
+        )}
       </main>
 
       <ImmersiveBottomNav items={routineBottomNavItems} />

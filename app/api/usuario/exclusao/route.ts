@@ -1,4 +1,4 @@
-import { NextResponse }             from "next/server";
+﻿import { NextResponse }             from "next/server";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { getSupabaseAdminClient }     from "@/lib/supabase/admin";
 import { consumeRateLimit }           from "@/lib/security/rateLimit";
@@ -84,7 +84,7 @@ export async function POST(req: Request) {
       user_id: user.id,
       tipo:    "EXCLUSAO",
       status:  "PENDENTE",
-      motivo:  "Solicitação voluntária via configurações de conta.",
+      motivo:  "Solicitação voluntária via configuracoes de conta.",
     });
 
   if (insertError) {

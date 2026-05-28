@@ -240,12 +240,18 @@ export type User = {
 
 export type Address = {
   fullName: string;
+  email?: string;
+  cpf?: string;
+  phone?: string;
   street: string;
   number: string;
+  complement?: string;
+  district?: string;
+  neighborhood?: string;
   city: string;
   state: string;
   zip: string;
-  complement?: string;
+  country?: string;
 };
 
 export type PaymentStatus =

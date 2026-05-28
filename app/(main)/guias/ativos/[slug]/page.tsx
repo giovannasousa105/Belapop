@@ -12,6 +12,7 @@ import {
   MobileGuideBar,
   SkinScanCTA
 } from "@/components/pop-guide/PopGuideActions";
+import { GuideEmailCapture } from "@/components/pop-guide/GuideEmailCapture";
 import { BelaPopValidatedFooter } from "@/components/luxury/BelaPopValidatedFooter";
 import { BelaPopValidatedHeader } from "@/components/luxury/BelaPopValidatedHeader";
 import {
@@ -142,6 +143,11 @@ export default async function IngredientGuidePage({ params }: IngredientPageProp
                 />
               ))}
               <ConciergeCTA origin={`ingredient_${guide.slug}_middle`} />
+            </div>
+          </section>
+          <section className="px-4 py-10 sm:px-6 lg:px-8">
+            <div className="mx-auto max-w-[780px]">
+              <GuideEmailCapture />
             </div>
           </section>
         </article>

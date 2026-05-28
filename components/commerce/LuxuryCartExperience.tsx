@@ -3,14 +3,12 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Minus, Plus, X } from "lucide-react";
-import { useMemo } from "react";
+import { ChevronDown, Minus, Plus, ShoppingBag, X } from "lucide-react";
+import { useMemo, useState } from "react";
 
 import { CommerceTrustMarkers } from "@/components/commerce/CommerceTrustMarkers";
 import { CommerceLightFooter } from "@/components/commerce/CommerceLightFooter";
-import { ConsultoraInlineEntry } from "@/components/assistant/ConsultoraBelaPop";
 import { ShippingCalculator } from "@/components/ShippingCalculator";
-import { PurchaseTrustSummary } from "@/components/legal/PurchaseTrustSummary";
 import { BelaPopValidatedHeader } from "@/components/luxury/BelaPopValidatedHeader";
 import { useAuth } from "@/lib/AuthContext";
 import { brandCtas } from "@/lib/brand/ctas";
@@ -87,6 +85,12 @@ export function LuxuryCartExperience() {
   const { items, ready, removeItem, updateQuantity, totalShipping } = useCart();
   const { products, loading: productsLoading } = usePublishedProducts();
 
+  // ── Cupom ────────────────────────────────────────────────────────────────────
+  const [couponOpen, setCouponOpen] = useState(false);
+  const [couponCode, setCouponCode] = useState("");
+  const [couponStatus, setCouponStatus] = useState<"idle" | "valid" | "invalid">("idle");
+  const [couponDiscount, setCouponDiscount] = useState(0);
+
   const cartEntries = useMemo(() => mapCartEntries(items, products), [items, products]);
   const liveShippingItems = useMemo(
     () =>
@@ -116,7 +120,19 @@ export function LuxuryCartExperience() {
     () => displayedEntries.reduce((total, entry) => total + entry.unitPrice * entry.quantity, 0),
     [displayedEntries]
   );
-  const total = subtotal + totalShipping;
+  const total = subtotal - couponDiscount + totalShipping;
+
+  const applyCoupon = () => {
+    const code = couponCode.trim().toUpperCase();
+    if (!code) return;
+    if (code === "BELAPOP10") {
+      setCouponStatus("valid");
+      setCouponDiscount(subtotal * 0.1);
+    } else {
+      setCouponStatus("invalid");
+      setCouponDiscount(0);
+    }
+  };
 
   const decreaseQuantity = (entry: CartEntry) => {
     updateQuantity(entry.id, entry.quantity - 1);
@@ -189,16 +205,49 @@ export function LuxuryCartExperience() {
               </article>
             ) : isEmpty ? (
               <article className="rounded-2xl border border-black/10 bg-white p-8">
-                <h2 className="[font-family:var(--font-playfair)] text-2xl font-medium">Carrinho vazio</h2>
-                <p className="mt-3 max-w-xl text-sm leading-relaxed text-black/62">
-                  Adicione produtos para continuar com checkout seguro e acompanhamento do pedido.
-                </p>
-                <Link
-                  href="/skincare"
-                  className="mt-6 inline-flex min-h-12 items-center justify-center border border-black px-6 text-[11px] font-semibold uppercase tracking-[0.2em] transition hover:bg-black hover:text-white"
-                >
-                  {brandCtas.secondary.seeProducts}
-                </Link>
+                <div className="flex flex-col items-center text-center">
+                  <div className="flex h-20 w-20 items-center justify-center rounded-full bg-[#f6f3f2]">
+                    <ShoppingBag className="h-9 w-9 text-black/30" />
+                  </div>
+                  <h2 className="mt-6 [font-family:var(--font-playfair)] text-2xl font-medium">
+                    Sua seleção está vazia
+                  </h2>
+                  <p className="mt-3 max-w-xs text-sm leading-relaxed text-black/60">
+                    Explore a curadoria BelaPop e adicione produtos à sua rotina.
+                  </p>
+                </div>
+                {products.length > 0 && (
+                  <div className="mt-8 grid grid-cols-3 gap-3 sm:gap-4">
+                    {products.slice(0, 3).map((product) => (
+                      <Link
+                        key={product.id}
+                        href="/catalogo"
+                        className="group flex flex-col gap-2"
+                      >
+                        <div className="relative aspect-square overflow-hidden rounded-xl bg-[#f6f3f2]">
+                          <Image
+                            src={resolveProductImage(product)}
+                            alt={product.name}
+                            fill
+                            unoptimized
+                            sizes="(max-width: 640px) calc(33vw - 28px), 160px"
+                            className="object-cover transition group-hover:scale-105"
+                          />
+                        </div>
+                        <p className="line-clamp-2 text-[11px] font-medium leading-snug">{product.name}</p>
+                        <p className="text-[11px] font-semibold">{formatCurrency.format(product.price)}</p>
+                      </Link>
+                    ))}
+                  </div>
+                )}
+                <div className="mt-8 flex justify-center">
+                  <Link
+                    href="/catalogo"
+                    className="inline-flex min-h-12 items-center justify-center border border-black px-6 text-[11px] font-semibold uppercase tracking-[0.2em] transition hover:bg-black hover:text-white"
+                  >
+                    Ver todos os produtos
+                  </Link>
+                </div>
               </article>
             ) : (
               <div className="space-y-6">
@@ -300,14 +349,6 @@ export function LuxuryCartExperience() {
               </button>
             </section>
 
-            <ConsultoraInlineEntry
-              flow="cart_assist"
-              origin="cart_inline"
-              title="Quer revisar este carrinho com mais clareza?"
-              description="Eu analiso os itens adicionados e sugiro um complemento por vez, com foco em encaixe de rotina e decisão rápida."
-              ctaLabel="Analisar meu carrinho"
-            />
-
             {liveShippingItems.length > 0 ? (
               <ShippingCalculator cartItems={liveShippingItems} tone="light" />
             ) : null}
@@ -321,11 +362,60 @@ export function LuxuryCartExperience() {
                 {brandSectionNames.cart.orderSummary}
               </h2>
 
-              <div className="mt-7 space-y-4 text-sm">
+              <div className="mt-6 border-t border-black/10 pt-5">
+                <button
+                  type="button"
+                  onClick={() => setCouponOpen((v) => !v)}
+                  className="flex w-full items-center justify-between text-sm font-medium"
+                >
+                  <span>Tem um cupom?</span>
+                  <ChevronDown
+                    className={`h-4 w-4 text-black/50 transition-transform duration-200${couponOpen ? " rotate-180" : ""}`}
+                  />
+                </button>
+                {couponOpen && (
+                  <div className="mt-4 space-y-2">
+                    <div className="flex gap-2">
+                      <input
+                        type="text"
+                        value={couponCode}
+                        onChange={(e) => {
+                          setCouponCode(e.target.value);
+                          if (couponStatus !== "idle") setCouponStatus("idle");
+                        }}
+                        placeholder="Digite o código"
+                        onKeyDown={(e) => e.key === "Enter" && applyCoupon()}
+                        className="h-10 flex-1 border border-black/15 bg-[#f6f3f2] px-3 text-xs font-medium uppercase tracking-[0.12em] placeholder:normal-case placeholder:tracking-normal placeholder:text-black/35 focus:border-black focus:outline-none"
+                      />
+                      <button
+                        type="button"
+                        onClick={applyCoupon}
+                        className="h-10 bg-black px-4 text-[11px] font-semibold uppercase tracking-[0.16em] text-white transition hover:bg-black/80"
+                      >
+                        Aplicar
+                      </button>
+                    </div>
+                    {couponStatus === "valid" && (
+                      <p className="text-xs font-semibold text-[#1D9E75]">Cupom aplicado com sucesso.</p>
+                    )}
+                    {couponStatus === "invalid" && (
+                      <p className="text-xs font-semibold text-red-600">Cupom inválido ou expirado.</p>
+                    )}
+                  </div>
+                )}
+              </div>
+
+              <div className="mt-6 space-y-4 text-sm">
                 <div className="flex justify-between">
                   <span className="text-black/60">Subtotal</span>
                   <span className="font-medium">{formatCurrency.format(subtotal)}</span>
                 </div>
+                {couponDiscount > 0 && (
+                  <div className="flex justify-between text-[#1D9E75]">
+                    <span>Desconto cupom</span>
+                    <span className="font-medium">− {formatCurrency.format(couponDiscount)}</span>
+                  </div>
+                )}
                 <div className="flex justify-between">
                   <span className="text-black/60">Frete</span>
                   <span className="font-medium text-[#6c5e06]">
@@ -356,7 +446,6 @@ export function LuxuryCartExperience() {
                 Ao continuar, voce confirma os termos da plataforma e condicoes do seller.
               </p>
 
-              <PurchaseTrustSummary context="cart" className="mt-6" />
             </div>
           </aside>
         </div>

@@ -125,6 +125,8 @@ const mapProductRow = (row: Record<string, unknown>): Product => ({
 const assertRequiredAddress = (address: Address) => {
   const required: Array<keyof Address> = [
     "fullName",
+    "cpf",
+    "phone",
     "street",
     "number",
     "city",

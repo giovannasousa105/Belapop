@@ -26,34 +26,30 @@ type CustomerPaymentMethodsPanelProps = {
 const AVAILABLE_METHODS = [
   {
     id: "credit",
-    title: "Cartao de credito",
-    badge: "Depende da sessao",
-    description:
-      "Cartao aparece quando a sessao Stripe do pedido habilita esse meio para a conta ativa.",
+    title: "Cartão de crédito",
+    badge: "Por sessão",
+    description: "Habilitado via Stripe por pedido.",
     icon: CreditCard
   },
   {
     id: "debit",
-    title: "Cartao de debito",
-    badge: "Depende da sessao",
-    description:
-      "Debito so aparece quando o Stripe e o emissor liberam esse meio para o pedido atual.",
+    title: "Cartão de débito",
+    badge: "Por sessão",
+    description: "Disponível quando emissor e Stripe liberam.",
     icon: WalletCards
   },
   {
     id: "pix",
     title: "Pix",
-    badge: "Depende da sessao",
-    description:
-      "Pix so e exibido quando a configuracao da conta Stripe ativa esse meio para o checkout.",
+    badge: "Por sessão",
+    description: "Exibido quando a conta Stripe habilita o meio.",
     icon: QrCode
   },
   {
     id: "boleto",
     title: "Boleto",
-    badge: "Depende da sessao",
-    description:
-      "Boleto e gerado apenas quando a sessao Stripe do pedido oferecer esse meio.",
+    badge: "Por sessão",
+    description: "Gerado quando a sessão Stripe oferecer o meio.",
     icon: Landmark
   }
 ] as const;
@@ -65,10 +61,10 @@ const methodTypeLabel = (method: PaymentMethodRow) => {
     .replace(/\s+/g, "_");
   if (normalizedType === "pix") return "Pix";
   if (normalizedType === "boleto") return "Boleto";
-  if (["debit", "debit_card", "card_debit"].includes(normalizedType)) return "Debito";
+  if (["debit", "debit_card", "card_debit"].includes(normalizedType)) return "Débito";
   if (["credit", "credit_card", "card", "card_credit"].includes(normalizedType))
-    return "Credito";
-  return "Cartao";
+    return "Crédito";
+  return "Cartão";
 };
 
 const formatCardLabel = (method: PaymentMethodRow) => {
@@ -128,90 +124,90 @@ export default function CustomerPaymentMethodsPanel(
   );
 
   return (
-    <section className={`rounded-3xl border border-black/10 bg-white p-6 shadow-sm ${className ?? ""}`}>
+    <section className={`rounded-3xl border border-[#e8e0d8] bg-white p-8 shadow-[0_4px_24px_rgba(30,15,5,0.05)] ${className ?? ""}`}>
       <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
         <div>
-          <p className="text-xs uppercase tracking-[0.3em] text-bpGraphite/60">Formas de pagamento</p>
-          <h2 className="mt-3 font-display text-3xl text-bpBlack">Credito, debito, boleto e Pix</h2>
-          <p className="mt-3 max-w-2xl text-sm text-bpGraphite/75">
-            Consulte os meios que a sua sessao de checkout realmente habilita e acompanhe os cartoes salvos para compras futuras.
+          <p className="text-[10px] font-medium uppercase tracking-[0.45em] text-[#9b9b96]">Formas de pagamento</p>
+          <h2 className="mt-2 font-display text-3xl font-light text-[#1e1e1e]">Crédito, débito, boleto e Pix</h2>
+          <p className="mt-3 max-w-2xl text-sm text-[#4a4a47]/70">
+            Consulte os meios que sua sessão de checkout habilita e acompanhe os cartões salvos.
           </p>
         </div>
 
         <Link
           href="/checkout"
-          className="inline-flex items-center justify-center rounded-full border border-bpPink/40 bg-bpPink/10 px-5 py-3 text-xs font-medium uppercase tracking-[0.24em] text-bpBlackSoft transition hover:border-bpPink/70 hover:bg-bpPink/15"
+          className="inline-flex items-center justify-center rounded-full border border-[#d4845f]/40 bg-[#d4845f]/10 px-5 py-3 text-xs font-medium uppercase tracking-[0.24em] text-[#1e1e1e] transition hover:bg-[#d4845f]/20"
         >
           Ir para checkout
         </Link>
       </div>
 
-      <div className={`mt-6 grid gap-3 ${compact ? "md:grid-cols-2 xl:grid-cols-4" : "md:grid-cols-2 xl:grid-cols-4"}`}>
+      <div className="mt-6 grid gap-3 md:grid-cols-2 xl:grid-cols-4">
         {AVAILABLE_METHODS.map((method) => {
           const Icon = method.icon;
           return (
             <article
               key={method.id}
-              className="rounded-2xl border border-black/10 bg-bpOffWhite/70 p-4"
+              className="rounded-xl border border-[#e8e0d8] bg-[#fdfcfb] p-4 transition hover:border-[#d4845f]/30"
             >
-              <div className="flex items-center justify-between gap-3">
-                <span className="inline-flex h-11 w-11 items-center justify-center rounded-2xl border border-black/10 bg-white text-bpBlackSoft">
+              <div className="flex items-center justify-between">
+                <span className="rounded-lg bg-[#fdf4f1] p-2 text-[#d4845f]">
                   <Icon size={18} />
                 </span>
-                <span className="rounded-full border border-emerald-200 bg-emerald-50 px-2.5 py-1 text-[10px] uppercase tracking-[0.22em] text-emerald-700">
+                <span className="rounded-full border border-[#e8e0d8] px-2.5 py-1 text-[9px] uppercase tracking-[0.25em] text-[#9b9b96]">
                   {method.badge}
                 </span>
               </div>
-              <p className="mt-4 text-lg font-semibold text-bpBlack">{method.title}</p>
-              <p className="mt-2 text-sm text-bpGraphite/75">{method.description}</p>
+              <p className="mt-3 text-sm font-medium text-[#1e1e1e]">{method.title}</p>
+              <p className="mt-1 text-xs leading-relaxed text-[#9b9b96]">{method.description}</p>
             </article>
           );
         })}
       </div>
 
-      <div className="mt-6 rounded-2xl border border-black/10 bg-white p-4">
+      <div className="mt-6 rounded-2xl border border-[#e8e0d8] bg-[#fdfcfb] p-4">
         <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
           <div>
-            <p className="text-xs uppercase tracking-[0.26em] text-bpGraphite/60">Metodos salvos</p>
-            <p className="mt-1 text-sm text-bpGraphite/75">
-              Cartoes tokenizados aparecem aqui para acelerar o pagamento quando a sessao Stripe permitir cartao.
+            <p className="text-[10px] font-medium uppercase tracking-[0.26em] text-[#9b9b96]">Métodos salvos</p>
+            <p className="mt-1 text-sm text-[#4a4a47]/70">
+              Cartões tokenizados para agilizar o pagamento via Stripe.
             </p>
           </div>
-          <p className="text-xs uppercase tracking-[0.2em] text-bpGraphite/60">
-            Pix e boleto so aparecem quando a sessao do pedido os habilita
+          <p className="text-[10px] uppercase tracking-[0.2em] text-[#9b9b96]">
+            Pix e boleto são habilitados por sessão
           </p>
         </div>
 
         {loading ? (
-          <p className="mt-4 text-sm text-bpGraphite/70">Carregando metodos salvos...</p>
+          <p className="mt-4 text-sm text-[#9b9b96]">Carregando métodos salvos...</p>
         ) : savedCards.length === 0 ? (
-          <div className="mt-4 rounded-2xl border border-dashed border-black/10 bg-bpOffWhite/60 p-4 text-sm text-bpGraphite/75">
-            Nenhum cartao salvo ainda. Voce pode usar credito, debito, Pix ou boleto no checkout.
+          <div className="mt-4 rounded-2xl border border-dashed border-[#e8e0d8] p-4 text-sm text-[#9b9b96]">
+            Nenhum cartão salvo ainda. Use crédito, débito, Pix ou boleto no checkout.
           </div>
         ) : (
           <div className="mt-4 space-y-3">
             {savedCards.map((method) => (
               <div
                 key={method.id}
-                className="flex flex-col gap-3 rounded-2xl border border-black/10 p-4 md:flex-row md:items-center md:justify-between"
+                className="flex flex-col gap-3 rounded-2xl border border-[#e8e0d8] p-4 md:flex-row md:items-center md:justify-between"
               >
                 <div>
                   <div className="flex flex-wrap items-center gap-2">
-                    <p className="text-sm font-semibold text-bpBlackSoft">{formatCardLabel(method)}</p>
-                    <span className="rounded-full border border-black/10 bg-bpOffWhite px-2 py-1 text-[10px] uppercase tracking-[0.18em] text-bpGraphite/70">
+                    <p className="text-sm font-semibold text-[#1e1e1e]">{formatCardLabel(method)}</p>
+                    <span className="rounded-full border border-[#e8e0d8] bg-white px-2 py-1 text-[10px] uppercase tracking-[0.18em] text-[#9b9b96]">
                       {methodTypeLabel(method)}
                     </span>
                   </div>
-                  <p className="mt-1 text-xs text-bpGraphite/70">{formatValidity(method)}</p>
+                  <p className="mt-1 text-xs text-[#9b9b96]">{formatValidity(method)}</p>
                 </div>
 
                 <div className="flex items-center gap-3 text-xs uppercase tracking-[0.2em]">
                   {method.is_default ? (
-                    <span className="rounded-full border border-bpPink/30 bg-bpPink/10 px-3 py-1 text-bpPink">
-                      Padrao
+                    <span className="rounded-full border border-[#d4845f]/30 bg-[#d4845f]/10 px-3 py-1 text-[#d4845f]">
+                      Padrão
                     </span>
                   ) : (
-                    <span className="text-bpGraphite/60">Secundario</span>
+                    <span className="text-[#9b9b96]">Secundário</span>
                   )}
                 </div>
               </div>

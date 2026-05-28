@@ -1,4 +1,4 @@
-/**
+﻿/**
  * INVARIANTE DE DOMÍNIO — LEIA ANTES DE QUALQUER OPERAÇÃO COM SCORES
  *
  * Na BelaPop, todos os marcadores de pele (acne, oleosidade, poros,
@@ -127,7 +127,7 @@ export function formatDeltaParaUsuario(delta: SkinDelta): string {
 }
 
 // ─── Configuração obrigatória para gráficos ───────────────────────────────────
-// Qualquer gráfico de marcador de pele DEVE usar estas configurações.
+// Qualquer gráfico de marcador de pele DEVE usar estas configuracoes.
 
 export const MARKER_CHART_CONFIG = {
   yAxisInverted: true, // score menor aparece mais alto

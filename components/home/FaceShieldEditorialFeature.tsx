@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/Button";
+﻿import { Button } from "@/components/ui/Button";
 
 type BelaCodeEditorialFeatureProps = {
   primaryHref?: string;
@@ -93,7 +93,7 @@ function HeroVariant({
                 Sua pele, lida com precisão silenciosa.
               </h2>
               <p className="mt-6 max-w-[22ch] text-balance text-[1rem] leading-8 text-bpGraphite/88 sm:text-[1.12rem] lg:max-w-[28ch] lg:text-[1.24rem] lg:leading-9">
-                Uma leitura visual sofisticada que traduz sinais da pele em curadoria de rotina, orientação de autocuidado e inteligência cosmética.
+                Uma leitura visual sofisticada que traduz sinais da pele em curadoria de rotina, orientação de autocuidado e inteligencia cosmética.
               </p>
 
               <div className="mt-8 flex flex-wrap gap-3 sm:mt-10">

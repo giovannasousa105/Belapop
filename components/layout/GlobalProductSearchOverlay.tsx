@@ -7,6 +7,7 @@ import { usePathname, useRouter } from "next/navigation";
 
 import { trackEvent } from "@/lib/analytics/tracker";
 import { useDebounce } from "@/lib/hooks/useDebounce";
+import { QUICK_SEARCHES, searchProducts } from "@/lib/catalog-search";
 import { formatPrice } from "@/lib/utils";
 
 type SearchProduct = {
@@ -307,6 +308,36 @@ export function GlobalProductSearchOverlay({
             </button>
           </div>
         </div>
+
+        {/* Buscas rápidas — visível quando campo está vazio */}
+        {!hasSearchIntent && (
+          <div className="mx-auto mt-4 w-full max-w-[980px]">
+            <p className="mb-3 text-[10px] uppercase tracking-[0.28em] text-white/60">
+              Buscas frequentes
+            </p>
+            <div className="flex flex-wrap gap-2">
+              {QUICK_SEARCHES.map((qs) => (
+                <button
+                  key={qs.label}
+                  type="button"
+                  onClick={() => {
+                    if (qs.query) {
+                      setQuery(qs.query);
+                    } else {
+                      const hits = searchProducts("", { category: qs.filter.category ?? null, skinType: qs.filter.skinType ?? null, concern: qs.filter.concern ?? null });
+                      if (hits.length) submitSearch(hits[0].category);
+                      else submitSearch(qs.label);
+                      return;
+                    }
+                  }}
+                  className="rounded-full border border-white/20 bg-white/10 px-3 py-1.5 text-xs text-white/80 backdrop-blur transition hover:border-white/40 hover:bg-white/18 hover:text-white"
+                >
+                  {qs.label}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
 
         {hasSearchIntent ? (
           <div className="mx-auto mt-4 w-full max-w-[1320px] overflow-hidden rounded-[30px] border border-[rgba(216,160,172,0.22)] bg-[linear-gradient(180deg,rgba(255,253,252,0.98),rgba(246,232,234,0.96)_100%)] shadow-[0_30px_90px_rgba(32,17,21,0.24)]">

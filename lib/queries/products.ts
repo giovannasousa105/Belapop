@@ -22,6 +22,8 @@ export type EditorialProduct = PublicProduct & {
   badge: string;
   editorialReason: string;
   howToUse: string[];
+  ingredients?: string | null;
+  inci?: string | null;
   sellerId: string;
   sellerName: string;
   sellerStatus: string | null;
@@ -396,6 +398,14 @@ const mapSupabaseProduct = (row: Record<string, unknown>): EditorialProduct => {
       howToUse.length > 0
         ? howToUse
         : defaultHowToUseByCategory(categoryKind),
+    ingredients:
+      typeof row.ingredients === "string" && row.ingredients.trim()
+        ? row.ingredients.trim()
+        : null,
+    inci:
+      typeof row.inci === "string" && row.inci.trim()
+        ? row.inci.trim()
+        : null,
     sellerId: seller.sellerId,
     sellerName: seller.sellerName,
     sellerStatus: seller.sellerStatus,

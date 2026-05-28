@@ -81,7 +81,7 @@ export function SkincareBundleSection({ mode = "catalog" }: SkincareBundleSectio
               <select
                 value={goal}
                 onChange={(event) => setGoal(event.target.value as FilterGoal)}
-                className="h-12 border border-[#d8d0c8] bg-white px-3 text-xs uppercase tracking-[0.06em] text-[#1c1b1b]"
+                className={`h-12 border px-3 text-xs uppercase tracking-[0.06em] text-[#1c1b1b] ${goal !== "todos" ? "border-[#1c1b1b] bg-[#1c1b1b] text-white" : "border-[#d8d0c8] bg-white"}`}
               >
                 {skinBundleGoalOptions.map((option) => (
                   <option key={option.value} value={option.value}>
@@ -96,7 +96,7 @@ export function SkincareBundleSection({ mode = "catalog" }: SkincareBundleSectio
               <select
                 value={skinType}
                 onChange={(event) => setSkinType(event.target.value as FilterSkinType)}
-                className="h-12 border border-[#d8d0c8] bg-white px-3 text-xs uppercase tracking-[0.06em] text-[#1c1b1b]"
+                className={`h-12 border px-3 text-xs uppercase tracking-[0.06em] text-[#1c1b1b] ${skinType !== "todos" ? "border-[#1c1b1b] bg-[#1c1b1b] text-white" : "border-[#d8d0c8] bg-white"}`}
               >
                 {skinBundleSkinTypeOptions.map((option) => (
                   <option key={option.value} value={option.value}>
@@ -107,11 +107,11 @@ export function SkincareBundleSection({ mode = "catalog" }: SkincareBundleSectio
             </label>
 
             <label className="flex flex-col gap-2 text-xs font-semibold uppercase tracking-[0.08em] text-[#6f6862]">
-              Ordenacao
+              Ordenação
               <select
                 value={sort}
                 onChange={(event) => setSort(event.target.value as SkinBundleSort)}
-                className="h-12 border border-[#d8d0c8] bg-white px-3 text-xs uppercase tracking-[0.06em] text-[#1c1b1b]"
+                className={`h-12 border px-3 text-xs uppercase tracking-[0.06em] text-[#1c1b1b] ${sort !== "recommended" ? "border-[#1c1b1b] bg-[#1c1b1b] text-white" : "border-[#d8d0c8] bg-white"}`}
               >
                 {skinBundleSortOptions.map((option) => (
                   <option key={option.value} value={option.value}>
@@ -123,11 +123,34 @@ export function SkincareBundleSection({ mode = "catalog" }: SkincareBundleSectio
           </div>
         ) : null}
 
-        <div className="mt-8 flex snap-x snap-mandatory gap-5 overflow-x-auto pb-3 sm:grid sm:grid-cols-2 sm:overflow-visible xl:grid-cols-3">
-          {bundles.map((bundle, index) => (
-            <BundleCard key={bundle.id} bundle={bundle} featured={bundle.featured || index === 0} />
-          ))}
-        </div>
+        {!isHome && (
+          <p className="mt-6 text-xs font-semibold uppercase tracking-[0.14em] text-[#6f6862]">
+            {bundles.length === 0
+              ? "Nenhum kit para esse filtro. Tente outro critério."
+              : `${bundles.length} ${bundles.length === 1 ? "kit encontrado" : "kits encontrados"}`}
+          </p>
+        )}
+
+        {bundles.length > 0 ? (
+          <div className="mt-4 flex snap-x snap-mandatory gap-5 overflow-x-auto pb-3 sm:grid sm:grid-cols-2 sm:overflow-visible xl:grid-cols-3">
+            {bundles.map((bundle, index) => (
+              <BundleCard key={bundle.id} bundle={bundle} featured={bundle.featured || index === 0} />
+            ))}
+          </div>
+        ) : (
+          <div className="mt-4 rounded-2xl border border-black/10 bg-white p-10 text-center">
+            <p className="text-sm leading-7 text-black/60">
+              Nenhum kit encontrado para os filtros selecionados.
+            </p>
+            <button
+              type="button"
+              onClick={() => { setGoal("todos"); setSkinType("todos"); setSort("recommended"); }}
+              className="mt-4 text-[11px] font-semibold uppercase tracking-[0.16em] underline underline-offset-4"
+            >
+              Limpar filtros
+            </button>
+          </div>
+        )}
 
         {isHome ? (
           <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">

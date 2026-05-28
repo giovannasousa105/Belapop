@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 
 import { AdminActionPanel } from "@/components/adm/AdminActionPanel";
 import { AdminDrawer } from "@/components/adm/AdminDrawer";
@@ -129,9 +129,9 @@ export async function ProductsPage({ filters, searchParamsSource }: ProductsPage
               id: "seller",
               label: "Seller",
               render: (product) => (
-                canVisit("/adm/operação/parceiros") ? (
+                canVisit("/adm/operacao/parceiros") ? (
                   <Link
-                    href={buildHref("/adm/operação/parceiros", searchParamsSource, {
+                    href={buildHref("/adm/operacao/parceiros", searchParamsSource, {
                       seller: product.sellerId,
                       status: undefined,
                       product: undefined
@@ -207,9 +207,9 @@ export async function ProductsPage({ filters, searchParamsSource }: ProductsPage
             <p className="mt-1 text-sm font-semibold text-[#27231f]">
               {selectedProduct.seller?.name ?? "Seller removido"}
             </p>
-            <PermissionGate route="/adm/operação/parceiros">
+            <PermissionGate route="/adm/operacao/parceiros">
               <Link
-                href={`/adm/operação/parceiros?seller=${selectedProduct.product.sellerId}`}
+                href={`/adm/operacao/parceiros?seller=${selectedProduct.product.sellerId}`}
                 className="mt-2 inline-flex text-xs font-semibold uppercase tracking-[0.15em] underline underline-offset-4"
               >
                 Abrir gestao de parceiros
@@ -230,9 +230,9 @@ export async function ProductsPage({ filters, searchParamsSource }: ProductsPage
                       Status logistico: {order.logisticsStatus}
                     </p>
                     <div className="mt-2 flex gap-3">
-                      <PermissionGate route={`/adm/operação/logistica/envios/${order.shipmentId}`}>
+                      <PermissionGate route={`/adm/operacao/logistica/envios/${order.shipmentId}`}>
                         <Link
-                          href={`/adm/operação/logistica/envios/${order.shipmentId}?order=${order.id}`}
+                          href={`/adm/operacao/logistica/envios/${order.shipmentId}?order=${order.id}`}
                           className="text-xs font-semibold uppercase tracking-[0.13em] underline underline-offset-4"
                         >
                           Detalhe de envio

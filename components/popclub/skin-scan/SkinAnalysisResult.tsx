@@ -19,6 +19,7 @@ import {
 
 import { BundleRecommendationStrip } from "@/components/bundles/BundleRecommendationStrip";
 import { useCart } from "@/lib/CartContext";
+import { useAuth } from "@/lib/AuthContext";
 import { popClubPaths } from "@/lib/popclub/navigation";
 import {
   ensureTopConcerns,
@@ -659,8 +660,33 @@ export default function SkinAnalysisResult({
 }: SkinAnalysisResultProps) {
   const router = useRouter();
   const { addItem } = useCart();
+  const { user, ready: authReady } = useAuth();
   const [addedProductId, setAddedProductId] = useState<string | null>(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [allAdded, setAllAdded] = useState(false);
+  const [shared, setShared] = useState(false);
+
+  const routineTotal = recommendedProducts.reduce(
+    (sum, p) => sum + (p.priceCents ?? 0),
+    0
+  );
+
+  const addAllToCart = () => {
+    recommendedProducts.forEach((p) => addItem(p.id, 1, p.sellerId ?? undefined));
+    setAllAdded(true);
+    window.setTimeout(() => router.push("/carrinho"), 400);
+  };
+
+  const handleShare = async () => {
+    const url = window.location.href;
+    if (navigator.share) {
+      await navigator.share({ title: "Meu Skin Scan BelaPop", url }).catch(() => null);
+    } else {
+      await navigator.clipboard.writeText(url).catch(() => null);
+      setShared(true);
+      window.setTimeout(() => setShared(false), 2000);
+    }
+  };
 
   const indicatorMetrics = useMemo(() => createIndicatorMetrics(analysis), [analysis]);
   const zoneSummaries = useMemo(() => createZoneSummaries(analysis), [analysis]);
@@ -710,6 +736,14 @@ export default function SkinAnalysisResult({
           <DesktopResultNav />
 
           <div className="flex items-center gap-1">
+            <button
+              type="button"
+              onClick={() => void handleShare()}
+              className="flex min-h-11 min-w-11 items-center justify-center text-[10px] uppercase tracking-[0.14em] text-[#444748] transition-opacity active:opacity-70 md:gap-1"
+              aria-label="Compartilhar resultado"
+            >
+              {shared ? "✓ Copiado" : <Sparkles className="h-4 w-4 text-[#1A1A1A]" aria-hidden="true" />}
+            </button>
             <Link
               href="/carrinho"
               className="flex min-h-11 min-w-11 items-center justify-center transition-opacity active:opacity-70"
@@ -778,6 +812,36 @@ export default function SkinAnalysisResult({
           </div>
         </section>
 
+        {authReady && !user && (
+          <section className="mt-8 px-6 lg:px-16">
+            <div className="mx-auto max-w-7xl flex flex-col items-start gap-3 rounded-2xl border border-[#dac769]/40 bg-[#fffbeb] px-6 py-5 sm:flex-row sm:items-center sm:justify-between">
+              <div>
+                <p className="text-sm font-semibold text-[#6c5e06]">Salve esta análise no seu perfil</p>
+                <p className="mt-1 text-xs text-[#5d5752]">
+                  Crie uma conta gratuita para acompanhar sua evolução e acessar a rotina salva quando quiser.
+                </p>
+              </div>
+              <Link
+                href={`/login?tab=customer&returnTo=${encodeURIComponent("/skin-scan/resultado")}`}
+                className="shrink-0 inline-flex items-center justify-center bg-[#1c1b1b] px-5 py-2.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-white transition hover:bg-[#6c5e06]"
+              >
+                Salvar análise
+              </Link>
+            </div>
+          </section>
+        )}
+
+        {authReady && user && (
+          <section className="mt-8 px-6 lg:px-16">
+            <div className="mx-auto max-w-7xl flex items-center gap-2 rounded-2xl border border-[#1D9E75]/20 bg-[#f0fdf4] px-5 py-3">
+              <span className="text-xs font-semibold text-[#1D9E75]">✓ Análise salva no seu perfil</span>
+              <Link href="/conta/skincare" className="ml-auto text-[11px] font-semibold uppercase tracking-[0.14em] text-[#1D9E75] underline underline-offset-4">
+                Ver histórico
+              </Link>
+            </div>
+          </section>
+        )}
+
         <section className="mt-20 px-6 lg:px-16">
           <h4 className="mb-10 text-center text-xs uppercase tracking-[0.22em] text-[#444748]">
             Indicadores de Saúde
@@ -793,8 +857,8 @@ export default function SkinAnalysisResult({
                 </span>
                 <div className="relative mx-auto mb-4 mt-4 h-1 w-12 bg-[#e5e2e1]">
                   <div
-                    className="absolute inset-y-0 left-0 bg-[#1c1b1b]"
-                    style={{ width: `${metric.score}%` }}
+                    className="absolute inset-y-0 left-0 bg-[#1c1b1b] transition-[width] duration-700 ease-out"
+                    style={{ width: `${metric.score}%`, transitionDelay: "200ms" }}
                   />
                 </div>
                 <p className="text-xs text-[#444748]">
@@ -1050,6 +1114,24 @@ export default function SkinAnalysisResult({
           </p>
         </footer>
       </main>
+
+      {recommendedProducts.length > 0 && (
+        <div
+          className="fixed inset-x-0 bottom-0 z-[90] border-t border-black/10 bg-[#fcf9f8]/95 px-4 backdrop-blur md:hidden"
+          style={{ paddingBottom: "calc(12px + env(safe-area-inset-bottom, 0px))", paddingTop: 12 }}
+        >
+          <button
+            type="button"
+            onClick={addAllToCart}
+            disabled={allAdded}
+            className="min-h-[52px] w-full bg-[#1c1b1b] px-4 text-[11px] font-semibold uppercase tracking-[0.2em] text-white transition hover:bg-[#6c5e06] disabled:opacity-70"
+          >
+            {allAdded
+              ? "Adicionando ao carrinho..."
+              : `Adicionar rotina completa · ${formatCurrency(routineTotal)}`}
+          </button>
+        </div>
+      )}
 
       <MobileBottomNav />
     </div>

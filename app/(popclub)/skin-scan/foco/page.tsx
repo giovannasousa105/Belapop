@@ -3,6 +3,7 @@ import Link from "next/link";
 import { X } from "lucide-react";
 
 import { FocoSelector } from "@/components/skinScan/FocoSelector";
+import { SkinScanProgress } from "@/components/skin-scan/SkinScanProgress";
 
 export const metadata: Metadata = {
   title: "Selecione seu foco de cuidado | Skin Scan BelaPop",
@@ -61,17 +62,13 @@ export default function SkinScanFocoPage() {
           Skin Scan
         </p>
 
-        {/* Progresso: etapa 1 de 3 */}
-        <p
-          style={{
-            fontSize: 11,
-            letterSpacing: "0.1em",
-            color: "rgba(30,30,30,0.4)",
-          }}
-        >
-          1 / 3
-        </p>
+        <span style={{ width: 36 }} />
       </header>
+
+      {/* Barra de progresso */}
+      <div style={{ padding: "12px 0 4px", borderBottom: "1px solid rgba(30,30,30,0.06)" }}>
+        <SkinScanProgress />
+      </div>
 
       <main style={{ maxWidth: 900, margin: "0 auto", padding: "40px 24px 80px" }}>
         <div style={{ marginBottom: 40 }}>

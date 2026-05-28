@@ -46,7 +46,7 @@ const isValidCpf = (value: string) => {
 };
 
 export default function ContaDadosPage() {
-  const { user } = useAuth();
+  const { ready, user } = useAuth();
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
@@ -62,9 +62,21 @@ export default function ContaDadosPage() {
   const [marketingOptIn, setMarketingOptIn] = useState(false);
 
   useEffect(() => {
-    if (!user) return;
+    if (!ready) return;
+    if (!user) {
+      setLoading(false);
+      setMessage("Entre na sua conta para salvar seus dados.");
+      return;
+    }
     let active = true;
     setLoading(true);
+    setMessage(null);
+
+    const timeout = window.setTimeout(() => {
+      if (!active) return;
+      setLoading(false);
+      setMessage("Nao foi possivel carregar seus dados. Voce pode preencher ou tentar recarregar a pagina.");
+    }, 5000);
 
     const load = async () => {
       try {
@@ -72,6 +84,7 @@ export default function ContaDadosPage() {
 
         if (!active) return;
 
+        window.clearTimeout(timeout);
         setFullName(profile.full_name ?? user.name ?? "");
         setEmail(profile.email ?? user.email ?? "");
         setCpf(profile.cpf ? cpfMask(profile.cpf) : "");
@@ -86,6 +99,7 @@ export default function ContaDadosPage() {
           setMessage(error instanceof Error ? error.message : "Não foi possivel carregar seus dados.");
         }
       } finally {
+        window.clearTimeout(timeout);
         if (active) setLoading(false);
       }
     };
@@ -94,8 +108,9 @@ export default function ContaDadosPage() {
 
     return () => {
       active = false;
+      window.clearTimeout(timeout);
     };
-  }, [user]);
+  }, [ready, user]);
 
   const profileComplete = useMemo(() => {
     return Boolean(fullName.trim() && onlyDigits(cpf).length === 11 && onlyDigits(phone).length >= 10);
@@ -178,8 +193,10 @@ export default function ContaDadosPage() {
 
       <section className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
         {loading ? (
-          <p className="text-sm text-bpGraphite/70">Carregando dados...</p>
-        ) : (
+          <p className="mb-4 rounded-2xl border border-black/10 bg-bpOffWhite px-4 py-3 text-sm text-bpGraphite/70">
+            Carregando dados salvos...
+          </p>
+        ) : null}
           <form onSubmit={handleSave} className="space-y-4">
             <div className="grid gap-3 md:grid-cols-2">
               <label className="space-y-2 text-sm text-bpGraphite/75">
@@ -290,7 +307,6 @@ export default function ContaDadosPage() {
 
             {message ? <p className="text-sm text-bpPink">{message}</p> : null}
           </form>
-        )}
       </section>
     </div>
   );

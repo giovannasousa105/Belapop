@@ -15,6 +15,7 @@ import {
 } from "@/lib/stripe/handleCheckoutCompleted";
 import { handlePaymentFailed } from "@/lib/stripe/handlePaymentFailed";
 import { handleRefundCompleted } from "@/lib/stripe/handleRefundCompleted";
+import { finalizePaymentIntentOrder } from "@/lib/stripe/finalizePaymentIntentOrder";
 import { createSellerTransfersForPaymentIntent } from "@/lib/stripe/sellerTransfers";
 import { getNormalizedEnvValue, getStripe } from "@/lib/stripe/stripeClient";
 import {
@@ -682,6 +683,7 @@ async function routeStripeEvent(stripe: Stripe, event: Stripe.Event): Promise<vo
       const orderId = await resolveOrderIdFromPaymentIntent(paymentIntent);
       await persistStripeTransaction({ stripe, event, paymentIntent, orderId });
       await markOrderAsPaid(orderId, paymentIntent, event.id);
+      await finalizePaymentIntentOrder(paymentIntent);
       await createSellerTransfersForPaymentIntent({ stripe, paymentIntent, orderId });
 
       // Lote: confirm reservation tied to this PaymentIntent

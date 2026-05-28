@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
@@ -158,7 +158,7 @@ const flowButtons: Array<{
   {
     flow: "post_scan",
     label: brandCtas.primary.continueAfterScan,
-    description: "Complete sua rotina com inteligência.",
+    description: "Complete sua rotina com inteligencia.",
     icon: ScanFace
   }
 ];
@@ -647,7 +647,7 @@ export function ConsultoraBelaPopProvider({
           <button
             type="button"
             onClick={() => open()}
-            className={`fixed right-4 z-[72] hidden min-h-14 items-center gap-3 rounded-full border border-black/10 bg-[#111111] px-5 text-left text-[#F8F7F4] shadow-[0_18px_48px_rgba(0,0,0,0.24)] transition hover:translate-y-[-1px] md:flex ${
+            className={`fixed right-4 z-[72] hidden min-h-14 items-center gap-3 rounded-full border border-black/10 bg-[#111111] px-5 text-left text-[#F8F7F4] shadow-[0_18px_48px_rgba(0,0,0,0.24)] transition hover:translate-y-[-1px] tablet:flex ${
               floatingHidden ? "pointer-events-none opacity-0" : "opacity-100"
             } bottom-6`}
             aria-label="Abrir Consultora BelaPop"
@@ -664,7 +664,7 @@ export function ConsultoraBelaPopProvider({
           <button
             type="button"
             onClick={() => open()}
-            className={`fixed left-4 right-4 z-[72] flex min-h-12 items-center justify-between rounded-full border border-black/10 bg-[#111111] px-4 text-[#F8F7F4] shadow-[0_18px_42px_rgba(0,0,0,0.24)] transition md:hidden ${
+            className={`fixed left-4 right-4 z-[72] flex min-h-12 items-center justify-between rounded-full border border-black/10 bg-[#111111] px-4 text-[#F8F7F4] shadow-[0_18px_42px_rgba(0,0,0,0.24)] transition tablet:hidden ${
               floatingHidden ? "pointer-events-none opacity-0" : "opacity-100"
             } ${mobileOffset}`}
             aria-label="Abrir Consultora BelaPop"

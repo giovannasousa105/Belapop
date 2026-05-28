@@ -6,6 +6,7 @@ import Link from "next/link";
 import { Camera, Sparkles, Trophy, X } from "lucide-react";
 
 import { BelaPopValidatedHeader } from "@/components/luxury/BelaPopValidatedHeader";
+import { PopClubSimulator } from "@/components/popclub/PopClubSimulator";
 import { popClubBenefitThemes, popClubTiers } from "@/lib/popclub/tiers";
 
 const valueCards = [
@@ -30,10 +31,26 @@ const valueCards = [
 ] as const;
 
 const manifestoItems = [
-  "Niveis simples",
-  "Acesso antecipado",
-  "Pontos e creditos",
-  "Recompra assistida"
+  {
+    titulo: "Níveis simples",
+    descricao:
+      "Você vê exatamente o que desbloqueia agora, o que vem no próximo nível e quantos pontos faltam. Sem confusão, sem letra miúda."
+  },
+  {
+    titulo: "Acesso antecipado",
+    descricao:
+      "Membros entram antes da abertura geral em lançamentos, edições limitadas e collabs exclusivas. 24h no Essencial, 72h no Luxo."
+  },
+  {
+    titulo: "Pontos e créditos",
+    descricao:
+      "Cada compra acumula pontos. A partir do nível Premium, os pontos viram crédito real para usar na próxima rotina."
+  },
+  {
+    titulo: "Recompra assistida",
+    descricao:
+      "Quando seu produto estiver acabando, o clube avisa e monta a cesta pronta para você confirmar em um clique."
+  }
 ] as const;
 
 const faqItems = [
@@ -128,15 +145,13 @@ export default function PopClubLandingExperience() {
               </div>
               <div className="space-y-8">
                 {manifestoItems.map((item, index) => (
-                  <article key={item} className="flex gap-6">
+                  <article key={item.titulo} className="flex gap-6">
                     <span className="font-[var(--font-playfair)] text-4xl text-black/20">
                       {String(index + 1).padStart(2, "0")}
                     </span>
                     <div>
-                      <h3 className="font-[var(--font-playfair)] text-xl font-bold">{item}</h3>
-                      <p className="mt-2 text-sm leading-7 text-[#444748]">
-                        O clube explica o que voce desbloqueia agora, o que vem no proximo nivel e como isso volta para a rotina e a recompra.
-                      </p>
+                      <h3 className="font-[var(--font-playfair)] text-xl font-bold">{item.titulo}</h3>
+                      <p className="mt-2 text-sm leading-7 text-[#444748]">{item.descricao}</p>
                     </div>
                   </article>
                 ))}
@@ -162,13 +177,20 @@ export default function PopClubLandingExperience() {
           <div className="mx-auto max-w-7xl">
             <div className="max-w-3xl">
               <span className="text-[10px] uppercase tracking-[0.34em] text-[#ed93d5]">
-                Niveis do clube
+                Níveis do clube
               </span>
               <h2 className="mt-4 font-[var(--font-playfair)] text-4xl font-bold tracking-[-0.05em] md:text-6xl">
-                Um clube simples de acompanhar.
+                Entrada no clube — Essencial
               </h2>
               <p className="mt-4 text-sm leading-7 text-[#444748] md:text-base">
-                Voce entra no Essencial e progride com pontos acumulados em compras elegiveis. Cada nivel adiciona vantagens concretas para compra, atendimento e recompra.
+                Você entra no Essencial e progride com pontos acumulados em compras elegíveis. Cada nível adiciona vantagens concretas para compra, atendimento e recompra.
+              </p>
+              <p className="mt-3 flex items-center gap-2 text-sm font-medium text-[#1D9E75]">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                  <circle cx="8" cy="8" r="7.5" stroke="#1D9E75" />
+                  <path d="M5 8l2 2 4-4" stroke="#1D9E75" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+                Gratuito para todos os clientes BelaPop
               </p>
             </div>
 
@@ -224,6 +246,8 @@ export default function PopClubLandingExperience() {
           </div>
         </section>
 
+        <PopClubSimulator />
+
         <section className="bg-[#f6f3f2] px-5 py-18 md:px-8 md:py-28">
           <div className="mx-auto max-w-4xl">
             <h2 className="font-[var(--font-playfair)] text-3xl font-bold tracking-[-0.04em] md:text-4xl">
@@ -253,7 +277,7 @@ export default function PopClubLandingExperience() {
             <div className="mt-8 flex flex-wrap gap-6">
               {[
                 { label: "Privacidade", href: "/aviso-de-privacidade" },
-                { label: "Termos", href: "/termos-e-condições" },
+                { label: "Termos", href: "/termos-e-condicoes" },
                 { label: "Entrega e devoluções", href: "/contato" },
                 { label: "Fale conosco", href: "/contato" }
               ].map((item) => (

@@ -1077,6 +1077,7 @@ export async function getCustomerOrders(params?: {
   date_from?: string;
   date_to?: string;
   q?: string;
+  code?: string;
   page?: number;
   page_size?: number;
 }) {
@@ -1087,6 +1088,7 @@ export async function getCustomerOrders(params?: {
   if (params?.date_from) search.set("date_from", params.date_from);
   if (params?.date_to) search.set("date_to", params.date_to);
   if (params?.q) search.set("q", params.q);
+  if (params?.code) search.set("code", params.code);
   if (params?.page) search.set("page", String(params.page));
   if (params?.page_size) search.set("page_size", String(params.page_size));
   const suffix = search.toString();

@@ -1,4 +1,4 @@
-import { applySearch, applySort, normalizeListQuery, toListResponse } from "@/lib/adm/repositories/base";
+﻿import { applySearch, applySort, normalizeListQuery, toListResponse } from "@/lib/adm/repositories/base";
 import { getAdmDataSource } from "@/lib/adm/repositories/source";
 import type { AdminVisualStatus, ListQueryParams, ListResponse, QualityScore } from "@/types/adm";
 
@@ -84,8 +84,8 @@ export const qualityRepository = {
             : "Seller com score abaixo do esperado.",
         severity: worstSeller?.status ?? "alerta",
         href: worstSeller
-          ? `/adm/operação/parceiros?seller=${worstSeller.id}`
-          : "/adm/operação/parceiros?priority=alta"
+          ? `/adm/operacao/parceiros?seller=${worstSeller.id}`
+          : "/adm/operacao/parceiros?priority=alta"
       },
       {
         id: "issue-logistica",
@@ -94,8 +94,8 @@ export const qualityRepository = {
           criticalIncident?.summary ?? "Atraso critico com possibilidade de chargeback ou review negativa.",
         severity: criticalIncident?.status ?? "critico",
         href: criticalIncident
-          ? `/adm/operação/logistica/incidentes?shipment=${criticalIncident.shipmentId}&priority=${criticalIncident.priority}`
-          : "/adm/operação/logistica/incidentes?priority=critica"
+          ? `/adm/operacao/logistica/incidentes?shipment=${criticalIncident.shipmentId}&priority=${criticalIncident.priority}`
+          : "/adm/operacao/logistica/incidentes?priority=critica"
       },
       {
         id: "issue-financeiro",

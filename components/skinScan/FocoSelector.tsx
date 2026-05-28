@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { BELAPOP_SCAN_KEY, LEGACY_SKIN_SCAN_KEYS, SKIN_SCAN_FOCOS_KEY } from "@/types/skin-scan";
 import {
   Blend,
   Droplets,
@@ -37,16 +38,16 @@ interface Foco {
 }
 
 const FOCOS: Foco[] = [
-  { key: "acne",        label: "Acne",         descricao: "Cravos e lesões",            icon: Sparkles },
-  { key: "oleosidade",  label: "Oleosidade",   descricao: "Brilho excessivo",           icon: Droplets },
-  { key: "manchas",     label: "Manchas",      descricao: "Tom irregular",              icon: Blend },
-  { key: "linhas",      label: "Linhas finas", descricao: "Envelhecimento precoce",     icon: Waves },
-  { key: "sensibilidade",label:"Sensibilidade",descricao: "Vermelhidão e ardência",     icon: Shield },
-  { key: "poros",       label: "Poros",        descricao: "Poros dilatados",            icon: ScanLine },
-  { key: "brilho",      label: "Luminosidade", descricao: "Pele apagada",               icon: Flame },
-  { key: "hidratação",  label: "Hidratação",   descricao: "Ressecamento e tensão",      icon: Droplets },
-  { key: "textura",     label: "Textura",      descricao: "Asperezas e irregularidades",icon: Wind },
-  { key: "olheiras",    label: "Olheiras",     descricao: "Área periorbital",           icon: Eye },
+  { key: "acne",         label: "Acne",         descricao: "Acne e cravos",                 icon: Sparkles },
+  { key: "oleosidade",   label: "Oleosidade",   descricao: "Oleosidade excessiva",          icon: Droplets },
+  { key: "manchas",      label: "Manchas",      descricao: "Manchas e hiperpigmentação",    icon: Blend },
+  { key: "linhas",       label: "Linhas finas", descricao: "Linhas finas e firmeza",        icon: Waves },
+  { key: "sensibilidade",label: "Sensibilidade",descricao: "Barreira sensibilizada",        icon: Shield },
+  { key: "poros",        label: "Poros",        descricao: "Poros aparentes e textura",     icon: ScanLine },
+  { key: "brilho",       label: "Luminosidade", descricao: "Falta de luminosidade",         icon: Flame },
+  { key: "hidratação",   label: "Hidratação",   descricao: "Desidratação e ressecamento",   icon: Droplets },
+  { key: "textura",      label: "Textura",      descricao: "Textura irregular",             icon: Wind },
+  { key: "olheiras",     label: "Olheiras",     descricao: "Olheiras e área dos olhos",     icon: Eye },
 ];
 
 // ─── Componente ───────────────────────────────────────────────────────────────
@@ -77,7 +78,11 @@ export function FocoSelector({
     if (selected.length === 0) return;
     // Persistir focos para a próxima etapa
     if (typeof sessionStorage !== "undefined") {
-      sessionStorage.setItem("skinScanFocos", JSON.stringify(selected));
+      sessionStorage.removeItem(BELAPOP_SCAN_KEY);
+      for (const key of LEGACY_SKIN_SCAN_KEYS) {
+        sessionStorage.removeItem(key);
+      }
+      sessionStorage.setItem(SKIN_SCAN_FOCOS_KEY, JSON.stringify(selected));
     }
     if (onAvancar) {
       onAvancar(selected);
@@ -206,6 +211,8 @@ export function FocoSelector({
           type="button"
           onClick={handleAvancar}
           disabled={selected.length === 0}
+          title={selected.length === 0 ? "Selecione pelo menos 1 foco para continuar" : undefined}
+          aria-disabled={selected.length === 0}
           style={{
             fontFamily: "var(--font-inter, sans-serif)",
             fontSize: 11,
@@ -217,7 +224,8 @@ export function FocoSelector({
             color: selected.length > 0 ? "var(--scan-bg)" : "var(--scan-muted)",
             border: "none",
             cursor: selected.length > 0 ? "pointer" : "not-allowed",
-            transition: "background 200ms, color 200ms",
+            opacity: selected.length > 0 ? 1 : 0.5,
+            transition: "background 200ms, color 200ms, opacity 200ms",
           }}
         >
           {labelBotao}

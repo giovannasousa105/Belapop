@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 
 import { AdminActionPanel } from "@/components/adm/AdminActionPanel";
 import { AdminDrawer } from "@/components/adm/AdminDrawer";
@@ -160,7 +160,7 @@ export async function DocumentsPage({ filters, searchParamsSource }: DocumentsPa
                     Detalhe
                   </Link>
                   <Link
-                    href={`/adm/operação/parceiros?seller=${row.sellerId}`}
+                    href={`/adm/operacao/parceiros?seller=${row.sellerId}`}
                     className="underline underline-offset-4"
                   >
                     Seller
@@ -190,7 +190,7 @@ export async function DocumentsPage({ filters, searchParamsSource }: DocumentsPa
             </p>
             <p className="mt-2 text-xs text-[#6f675e]">Atualizado em {formatDateTime(new Date().toISOString())}</p>
             <div className="mt-3 space-y-2 text-xs font-semibold uppercase tracking-[0.14em]">
-              <PermissionGate route="/adm/operação/parceiros">
+              <PermissionGate route="/adm/operacao/parceiros">
                 <Link href={`/adm/operacao/parceiros?seller=${selectedDocument.sellerId}`} className="block underline underline-offset-4">
                   Abrir seller
                 </Link>

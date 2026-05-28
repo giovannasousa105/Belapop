@@ -2,151 +2,160 @@ import { ImageResponse } from "next/og";
 
 export const runtime = "edge";
 
-const CACHE_MAX_AGE = 60 * 60 * 24 * 7; // 7 dias
+const CACHE_MAX_AGE = 60 * 60 * 24 * 7;
 
-export async function GET(req: Request) {
-  const { searchParams } = new URL(req.url);
+const CATEGORY_COLORS: Record<string, string> = {
+  limpeza: "#EEF4FF",
+  tonico: "#FFF0F5",
+  serum: "#FFFBEB",
+  hidratante: "#F0FDF4",
+  protecao: "#FEFCE8",
+  olhos: "#FAF5FF",
+  cabelos: "#FFF7ED",
+  maquiagem: "#FFF1F2",
+};
 
-  const nome   = searchParams.get("nome")   ?? "Produto BelaPop";
-  const preco  = searchParams.get("preco")  ?? "";
-  const imagem = searchParams.get("imagem") ?? "";
+const CATEGORY_ICONS: Record<string, string> = {
+  limpeza: "🫧",
+  tonico: "💧",
+  serum: "✨",
+  hidratante: "🌿",
+  protecao: "☀️",
+  olhos: "👁️",
+  cabelos: "💇",
+  maquiagem: "💄",
+};
+
+function normalizeCategory(value: string) {
+  return value
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .trim();
+}
+
+export async function GET(request: Request) {
+  const { searchParams } = new URL(request.url);
+  const nome = searchParams.get("nome") || "Produto BelaPop";
+  const subtitulo = searchParams.get("subtitulo") || "Skincare curado";
+  const categoria = normalizeCategory(searchParams.get("categoria") || "serum");
+  const preco = searchParams.get("preco") || "";
+  const bgColor = CATEGORY_COLORS[categoria] || "#FAFAFA";
+  const icon = CATEGORY_ICONS[categoria] || "✦";
 
   return new ImageResponse(
     (
       <div
         style={{
-          width:       "100%",
-          height:      "100%",
-          display:     "flex",
-          background:  "#FAF8F5",
-          fontFamily:  "sans-serif",
-          padding:     48,
-          alignItems:  "center",
+          width: "1200px",
+          height: "630px",
+          background: bgColor,
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "space-between",
+          padding: "60px",
+          fontFamily: "serif",
         }}
       >
-        {/* Imagem do produto */}
-        {imagem ? (
-          <div
-            style={{
-              width:           500,
-              height:          534,
-              background:      "#F5F2EE",
-              borderRadius:    4,
-              overflow:        "hidden",
-              display:         "flex",
-              alignItems:      "center",
-              justifyContent:  "center",
-              marginRight:     48,
-              flexShrink:      0,
-            }}
-          >
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={imagem}
-              alt={nome}
-              style={{
-                width:      "80%",
-                height:     "80%",
-                objectFit:  "contain",
-              }}
-            />
-          </div>
-        ) : (
-          <div
-            style={{
-              width:           500,
-              height:          534,
-              background:      "#EDE9E3",
-              borderRadius:    4,
-              marginRight:     48,
-              flexShrink:      0,
-              display:         "flex",
-              alignItems:      "center",
-              justifyContent:  "center",
-            }}
-          >
-            <span style={{ fontSize: 48, color: "#9B9B96" }}>✦</span>
-          </div>
-        )}
-
-        {/* Texto */}
         <div
           style={{
-            display:        "flex",
-            flexDirection:  "column",
-            justifyContent: "center",
-            flex:           1,
-            overflow:       "hidden",
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            width: "100%",
           }}
         >
-          {/* Label */}
+          <span
+            style={{
+              fontSize: "18px",
+              letterSpacing: "0.2em",
+              color: "#8B5E3C",
+              fontFamily: "sans-serif",
+              fontWeight: 700,
+            }}
+          >
+            BELAPOP
+          </span>
+          <span
+            style={{
+              fontSize: "16px",
+              color: "#6B7280",
+              fontFamily: "sans-serif",
+              letterSpacing: "0.12em",
+              textTransform: "uppercase",
+            }}
+          >
+            {icon} {categoria}
+          </span>
+        </div>
+
+        <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
           <p
             style={{
-              fontSize:       12,
-              letterSpacing:  "0.12em",
-              textTransform:  "uppercase",
-              color:          "#9B9B96",
-              margin:         "0 0 16px",
+              fontSize: "56px",
+              fontWeight: 700,
+              color: "#111827",
+              margin: 0,
+              lineHeight: 1.08,
+              maxWidth: "900px",
             }}
           >
-            BelaPop · Curadoria
+            {nome.length > 56 ? `${nome.slice(0, 53)}...` : nome}
           </p>
-
-          {/* Nome */}
-          <h1
+          <p
             style={{
-              fontSize:     38,
-              fontWeight:   400,
-              color:        "#111110",
-              margin:       "0 0 28px",
-              lineHeight:   1.25,
-              wordBreak:    "break-word",
+              fontSize: "24px",
+              color: "#6B7280",
+              margin: 0,
+              fontFamily: "sans-serif",
+              maxWidth: "780px",
+              lineHeight: 1.35,
             }}
           >
-            {nome.length > 60 ? `${nome.slice(0, 57)}…` : nome}
-          </h1>
+            {subtitulo}
+          </p>
+        </div>
 
-          {/* Preço */}
-          {preco && (
-            <p
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            width: "100%",
+          }}
+        >
+          {preco ? (
+            <span
               style={{
-                fontSize:   28,
-                fontWeight: 400,
-                color:      "#111110",
-                margin:     "0 0 12px",
+                fontSize: "28px",
+                fontWeight: 700,
+                color: "#111827",
+                fontFamily: "sans-serif",
               }}
             >
-              R$ {preco}
-            </p>
+              {preco}
+            </span>
+          ) : (
+            <span />
           )}
-
-          {/* Separator */}
-          <div
+          <span
             style={{
-              width:      60,
-              height:     1,
-              background: "#D4D3CE",
-              margin:     "12px 0",
-            }}
-          />
-
-          {/* Footer */}
-          <p
-            style={{
-              fontSize:      12,
-              color:         "#9B9B96",
-              letterSpacing: "0.06em",
-              textTransform: "uppercase",
-              margin:        0,
+              padding: "8px 20px",
+              background: "#111827",
+              color: "white",
+              borderRadius: "100px",
+              fontSize: "13px",
+              letterSpacing: "0.15em",
+              fontFamily: "sans-serif",
             }}
           >
             belapopoficial.com.br
-          </p>
+          </span>
         </div>
       </div>
     ),
     {
-      width:  1200,
+      width: 1200,
       height: 630,
       headers: {
         "Cache-Control": `public, max-age=${CACHE_MAX_AGE}, immutable`,

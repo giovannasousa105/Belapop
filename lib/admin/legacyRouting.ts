@@ -1,11 +1,11 @@
-const EXACT_ROUTE_MAP: Record<string, string> = {
+﻿const EXACT_ROUTE_MAP: Record<string, string> = {
   "/admin/pedidos": "/admin/orders",
   "/admin/parceiros": "/admin/sellers",
   "/admin/lojas": "/admin/sellers",
   "/admin/produtos": "/admin/products",
   "/admin/produtos/pendentes": "/admin/products/pending",
   "/admin/catalogo": "/admin/curadoria",
-  "/admin/configurações": "/admin/settings",
+  "/admin/configuracoes": "/admin/settings",
   "/admin/config": "/admin/settings"
 };
 

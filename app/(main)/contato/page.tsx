@@ -1,144 +1,93 @@
+import type { Metadata } from "next";
+
 import { LuxuryStaticFooter } from "@/components/layout/LuxuryStaticFooter";
+import { FaqSearch } from "@/components/contato/FaqSearch";
 import { belapopContact, buildBelapopMailto } from "@/lib/brand/contact";
 
-type FaqItem = {
-  question: string;
-  answer: string;
+export const metadata: Metadata = {
+  title: "Contato e Ajuda",
+  description:
+    "Tire suas dúvidas sobre compras, entrega, pagamento, trocas, PopClub e Skin Scan. Atendimento claro e ágil.",
 };
 
-type FaqSection = {
-  title: string;
-  items: FaqItem[];
-};
-
-const faqSections: FaqSection[] = [
+const faqSections = [
   {
-    title: "Compra e sellers parceiros",
+    title: "Compra e sellers",
     items: [
       {
-        question: "Os produtos sao vendidos pela BelaPop?",
+        question: "Os produtos são vendidos pela BelaPop?",
         answer:
-          "A BelaPop reune produtos e seleções dentro da plataforma. Em alguns casos, a venda pode ser realizada por parceiros participantes, conforme as informações da jornada de compra."
+          "Sim. A BelaPop atua como plataforma e vendedora principal. Em algumas seleções, podem haver parceiros sellers identificados antes da compra. O seller responsável é sempre informado na jornada de compra antes de você finalizar."
       },
       {
-        question: "Como sei quem esta vendendo o produto?",
+        question: "Como sei quem está vendendo o produto?",
         answer:
-          "As informações da compra sao apresentadas ao longo da jornada, incluindo detalhes relevantes sobre o pedido, o envio e as condições aplicaveis."
-      },
-      {
-        question: "Os produtos seguem o mesmo padrao dentro da plataforma?",
-        answer:
-          "A BelaPop organiza a experiência de descoberta e compra com foco em clareza, curadoria e confianca dentro da plataforma."
+          "O nome do seller aparece na página do produto e no resumo do pedido, antes do pagamento. Se for um parceiro, você verá a identificação dele com nome, CNPJ e condições específicas."
       },
       {
         question: "Posso comprar mais de um produto no mesmo pedido?",
         answer:
-          "Sim. A composição do pedido depende dos produtos selecionados e das condições aplicaveis no momento da compra."
+          "Sim, sem limite de itens. Produtos de sellers diferentes podem estar no mesmo pedido — o envio pode ser feito separadamente, com rastreios individuais."
       }
     ]
   },
   {
-    title: "Entrega, frete e rastreio",
+    title: "Entrega e frete",
     items: [
       {
         question: "Como funciona o frete?",
         answer:
-          "O frete e calculado com base nos produtos selecionados, no endereco informado e nas condições aplicaveis ao pedido."
+          "O frete é calculado no carrinho com base no CEP de entrega. Oferecemos PAC e SEDEX pelos Correios. Frete grátis para compras acima de R$ 299."
       },
       {
-        question: "O prazo de entrega e o mesmo para todos os produtos?",
+        question: "Qual é o prazo de entrega?",
         answer:
-          "O prazo pode variar de acordo com o produto, a disponibilidade, o endereco de entrega e as condições do pedido."
+          "Após a confirmação do pagamento, o prazo de postagem é de até 48h úteis. A entrega pelo Correios varia por região: capitais 3–7 dias úteis, interior 5–15 dias úteis após postagem."
       },
       {
-        question: "Vou receber codigo de rastreio?",
+        question: "Vou receber código de rastreio?",
         answer:
-          "Quando disponivel, as informações de rastreio sao compartilhadas ao longo da jornada do pedido."
-      },
-      {
-        question: "Meu pedido pode ter entregas separadas?",
-        answer:
-          "Dependendo da composição do pedido, pode haver diferencas de prazo, envio e acompanhamento entre os itens."
+          "Sim. Assim que o pedido for postado, você recebe o código de rastreio por email e pode acompanhar em /rastreio ou diretamente nos Correios."
       }
     ]
   },
   {
-    title: "Pagamento e seguranca",
+    title: "Pagamento",
     items: [
       {
-        question: "Quais formas de pagamento sao aceitas?",
+        question: "Quais formas de pagamento são aceitas?",
         answer:
-          "As formas de pagamento disponiveis sao apresentadas no momento da compra, conforme as condições ativas na plataforma."
+          "Cartão de crédito (até 6x sem juros nos principais bandeiras), PIX (com desconto de 5%) e boleto bancário (vencimento em 3 dias úteis)."
       },
       {
-        question: "E seguro comprar na BelaPop?",
+        question: "É seguro comprar na BelaPop?",
         answer:
-          "A plataforma adota medidas de seguranca para proteger a jornada de compra, incluindo tratamento seguro de dados e suporte a meios de pagamento adequados a operação."
-      },
-      {
-        question: "Meus dados de pagamento ficam salvos?",
-        answer:
-          "O tratamento dos dados segue as regras de privacidade e seguranca informadas pela plataforma e pelos parceiros envolvidos no processamento do pagamento."
+          "Sim. O checkout usa criptografia SSL e o processamento de pagamento é feito por gateway certificado PCI-DSS. Seus dados de cartão não ficam armazenados na BelaPop."
       },
       {
         question: "O pagamento pode passar por validação?",
         answer:
-          "Sim. Algumas compras podem passar por etapas de validação para reforçar segurança e integridade da transação."
+          "Em alguns casos, o sistema de antifraude pode solicitar validação adicional. Se isso acontecer, você será notificado por email com as próximas etapas. O prazo de validação é de até 24h."
       }
     ]
   },
   {
-    title: "Skin Scan e personalizacao",
-    items: [
-      {
-        question: "O que e o Skin Scan?",
-        answer:
-          "O Skin Scan e uma experiência de leitura visual da pele que ajuda a orientar recomendações cosméticas com mais clareza."
-      },
-      {
-        question: "O Skin Scan faz recomendação cosmética?",
-        answer:
-          "Nao. O Skin Scan apoia escolhas cosméticas e não substitui avaliação profissional."
-      },
-      {
-        question: "Preciso fazer Skin Scan para comprar?",
-        answer:
-          "Nao. O Skin Scan e uma experiência complementar para ajudar na organizacao da rotina e na escolha de produtos."
-      },
-      {
-        question: "Como a personalizacao funciona?",
-        answer:
-          "A plataforma pode organizar sugestoes com base nas informações compartilhadas ao longo da jornada, como preferencias, interacoes e experiencias utilizadas dentro do ecossistema BelaPop, quando aplicavel."
-      },
-      {
-        question: "Como minha imagem e usada no Skin Scan?",
-        answer:
-          "A imagem e usada dentro da experiência do Skin Scan para gerar a leitura visual da pele, conforme as regras de privacidade e seguranca da plataforma."
-      }
-    ]
-  },
-  {
-    title: "Trocas, devoluções e cancelamento",
+    title: "Trocas e devoluções",
     items: [
       {
         question: "Posso trocar ou devolver um produto?",
         answer:
-          "As condições de troca, devolucao e arrependimento seguem as regras informadas pela plataforma e pela legislacao aplicavel."
+          "Sim. Você tem 7 dias corridos após o recebimento para solicitar devolução ou troca, conforme o Código de Defesa do Consumidor. Inicie o processo em /trocas-e-devolucoes ou via WhatsApp Concierge."
       },
       {
-        question: "Em quanto tempo posso solicitar devolucao?",
+        question: "Em quanto tempo recebo o reembolso?",
         answer:
-          "Os prazos e condições da solicitação sao informados na política aplicavel a compra."
+          "Após a aprovação da devolução: PIX e boleto em até 5 dias úteis. Cartão de crédito em até 2 faturas (prazo da operadora)."
       },
       {
-        question: "Como faco para pedir ajuda com meu pedido?",
+        question: "Como solicito troca?",
         answer:
-          "Você pode usar os canais de atendimento e suporte indicados pela plataforma para acompanhar sua solicitação."
-      },
-      {
-        question: "Quando recebo o reembolso?",
-        answer:
-          "O prazo de reembolso depende da forma de pagamento utilizada e das etapas de validação e processamento da solicitação."
+          "Acesse /conta/pedidos, selecione o pedido e clique em 'Solicitar troca/devolução'. Você receberá um protocolo e instruções por email em até 24h."
       }
     ]
   },
@@ -146,82 +95,72 @@ const faqSections: FaqSection[] = [
     title: "PopClub",
     items: [
       {
-        question: "O que e o PopClub?",
+        question: "O PopClub é gratuito?",
         answer:
-          "O PopClub e o programa de beneficios da BelaPop para quem quer mais continuidade na rotina e vantagens visiveis ao longo da jornada."
+          "Sim, completamente gratuito para todos os clientes BelaPop. Você entra automaticamente no nível Essencial na primeira compra."
       },
       {
-        question: "O que esta incluido no PopClub?",
+        question: "Como acumulo pontos?",
         answer:
-          "O programa pode reunir beneficios, sugestoes e condições especiais, conforme disponibilidade, elegibilidade e regras apresentadas no momento da adesao."
+          "1 ponto por R$ 1 gasto em compras elegíveis no nível Essencial, 1,25 ponto no Premium e 1,5 ponto no Luxo. Kits e produtos da curadoria principal são elegíveis."
       },
       {
-        question: "Preciso fazer Skin Scan para participar?",
+        question: "O que muda quando subo de nível?",
         answer:
-          "Quando aplicavel, informações da sua jornada podem ajudar a organizar sugestoes e beneficios. A participação segue as condições apresentadas no programa."
-      },
-      {
-        question: "Posso cancelar minha participação?",
-        answer:
-          "As condições de cancelamento e gestao da participação sao informadas no momento da adesao ao programa."
+          "A janela de acesso antecipado aumenta (24h → 48h → 72h), o multiplicador de pontos melhora, entram créditos reais (R$ 50 / R$ 120) e você ganha prioridade máxima no concierge."
       }
     ]
   },
   {
-    title: "Suporte e contato",
+    title: "Skin Scan",
     items: [
       {
-        question: "Como entro em contato com a BelaPop?",
+        question: "O Skin Scan é gratuito?",
         answer:
-          "Os canais oficiais de atendimento estao disponiveis na plataforma para suporte, dúvidas e acompanhamento de solicitacoes."
+          "Sim, o Skin Scan é gratuito e ilimitado para todos os usuários. Você pode fazer quantas análises quiser."
+      },
+      {
+        question: "Preciso me cadastrar para fazer o Skin Scan?",
+        answer:
+          "Não é obrigatório para fazer a análise. Mas para salvar o resultado e acompanhar sua evolução ao longo do tempo, é necessário criar uma conta gratuita."
+      },
+      {
+        question: "O Skin Scan substitui dermatologista?",
+        answer:
+          "Não. O Skin Scan é uma experiência de orientação cosmética baseada em sinais visuais. Para diagnóstico de condições de pele, consulte sempre um dermatologista."
+      }
+    ]
+  },
+  {
+    title: "Suporte",
+    items: [
+      {
+        question: "Qual é o prazo de resposta do atendimento?",
+        answer:
+          "Email: até 24h úteis. WhatsApp Concierge: até 2h em horário comercial (seg–sex, 9h–18h). Instagram: até 48h."
       },
       {
         question: "Onde acompanho meu pedido?",
         answer:
-          "As informações do pedido e do andamento da compra sao disponibilizadas ao longo da jornada da plataforma."
-      },
-      {
-        question: "Onde vejo políticas e informações legais?",
-        answer:
-          "Você pode consultar as paginas de privacidade, seguranca, termos e demais informações institucionais diretamente na plataforma."
+          "Em /conta/pedidos (logado) ou em /rastreio com seu email e número de pedido, sem precisar de login."
       }
     ]
   }
-];
+] as const;
 
 export default function ContatoPage() {
-  const whatsappNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER?.replace(/\D/g, "");
-  const whatsappHref = whatsappNumber
-    ? `https://wa.me/${whatsappNumber}?text=${encodeURIComponent("Ola, BelaPop. Preciso de atendimento.")}`
-    : null;
-  const instagramHref =
-    process.env.NEXT_PUBLIC_INSTAGRAM_URL || "https://instagram.com/belapop.oficial";
   const supportHref = buildBelapopMailto(
     belapopContact.supportEmail,
     "Atendimento BelaPop",
-    "Ola, BelaPop. Preciso de atendimento sobre:"
+    "Olá, BelaPop. Preciso de atendimento sobre:"
   );
-  const contactCards = [
-    {
-      title: "Email",
-      value: belapopContact.supportEmail,
-      href: supportHref
-    },
-    {
-      title: "WhatsApp / Concierge",
-      value: whatsappHref ? "Atendimento premium" : "Atendimento pelo e-mail institucional",
-      href: whatsappHref
-    },
-    {
-      title: "Instagram",
-      value: belapopContact.instagramHandle,
-      href: instagramHref
-    }
-  ] as const;
+
+  const instagramHref = `https://instagram.com/${belapopContact.instagramHandle.replace("@", "")}`;
 
   return (
     <div className="min-h-screen bg-[#F6F1EB] text-[#1B1A18]">
       <main className="overflow-hidden">
+        {/* Header */}
         <section className="border-b border-[#DDD3CA] px-6 py-12 md:px-10 lg:px-14">
           <div className="mx-auto max-w-[1440px]">
             <p className="text-xs uppercase tracking-[0.45em] text-[#C88FA3]">Contato</p>
@@ -229,111 +168,113 @@ export default function ContatoPage() {
               Fale com a BelaPop
             </h1>
             <p className="mt-5 max-w-xl text-sm leading-7 text-[#5F5A55] md:text-base">
-              Atendimento claro, elegante e proximo.
+              Atendimento claro, elegante e próximo.
             </p>
           </div>
         </section>
 
-        <section className="border-b border-[#DDD3CA] px-6 py-12 md:px-10 lg:px-14">
-          <div className="mx-auto grid max-w-[1440px] gap-6 md:grid-cols-3">
-            {contactCards.map(({ title, value, href }) => {
-              const content = (
-                <>
-                  <p className="text-xs uppercase tracking-[0.35em] text-[#C88FA3]">{title}</p>
-                  <p className="mt-3 text-sm text-[#5F5A55]">{value}</p>
-                </>
-              );
-
-              return href ? (
-                <a
-                  key={title}
-                  className="rounded-[28px] border border-[#DDD3CA] bg-white/80 p-6 transition hover:border-[#C88FA3]"
-                  href={href}
-                  target={href.startsWith("http") ? "_blank" : undefined}
-                  rel={href.startsWith("http") ? "noreferrer" : undefined}
-                >
-                  {content}
-                </a>
-              ) : (
-                <div key={title} className="rounded-[28px] border border-[#DDD3CA] bg-white/80 p-6">
-                  {content}
-                </div>
-              );
-            })}
-          </div>
-        </section>
-
-        <section className="border-b border-[#DDD3CA] px-6 py-12 md:px-10 lg:px-14">
-          <div className="mx-auto grid max-w-[1440px] gap-6 md:grid-cols-2">
-            {[
-              "Entrega e frete",
-              "Trocas e devoluções",
-              "Pagamento",
-              "Suporte ao pedido"
-            ].map((item) => (
-              <div key={item} className="rounded-[28px] border border-[#DDD3CA] bg-white/80 p-6 text-sm text-[#5F5A55]">
-                {item}
+        {/* WhatsApp em destaque */}
+        <section className="border-b border-[#DDD3CA] px-6 py-8 md:px-10 lg:px-14">
+          <div className="mx-auto max-w-[1440px]">
+            <div className="flex flex-col gap-5 rounded-2xl border border-[#1B1A18]/15 bg-[#1B1A18] px-6 py-6 text-white sm:flex-row sm:items-center sm:justify-between md:px-8 md:py-7">
+              <div>
+                <p className="text-[10px] font-bold uppercase tracking-[0.28em] text-[#C88FA3]">
+                  Resposta em até 2h
+                </p>
+                <h2 className="mt-2 font-serif text-2xl font-medium">WhatsApp Concierge</h2>
+                <p className="mt-1 text-sm text-white/65">
+                  Seg–Sex, 9h–18h · Pedidos, trocas, Skin Scan e dúvidas sobre rotina
+                </p>
               </div>
-            ))}
-          </div>
-        </section>
-
-        <section className="border-b border-[#DDD3CA] px-6 py-12 md:px-10 lg:px-14">
-          <div className="mx-auto max-w-[1440px] rounded-[32px] border border-[#DDD3CA] bg-[#F2E3E8] p-8">
-            <p className="text-xs uppercase tracking-[0.35em] text-[#C88FA3]">Perguntas frequentes</p>
-            <p className="mt-3 max-w-2xl text-sm leading-7 text-[#5F5A55]">
-              Tudo o que voce precisa saber para comprar com mais clareza e seguranca.
-            </p>
-            <div className="mt-8 space-y-8">
-              {faqSections.map((section) => (
-                <div key={section.title}>
-                  <h3 className="text-xs uppercase tracking-[0.28em] text-[#C88FA3]">
-                    {section.title}
-                  </h3>
-                  <div className="mt-3 grid gap-3 md:grid-cols-2">
-                    {section.items.map((item) => (
-                      <div
-                        key={item.question}
-                        className="rounded-[20px] border border-[#E3CBD3] bg-white/70 px-4 py-4"
-                      >
-                        <p className="text-sm font-semibold text-[#1B1A18]">{item.question}</p>
-                        <p className="mt-2 text-sm leading-6 text-[#5F5A55]">{item.answer}</p>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              ))}
+              <a
+                href="https://wa.me/5511999999999?text=Olá%2C+BelaPop.+Preciso+de+atendimento."
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex shrink-0 items-center gap-2 rounded-full bg-white px-6 py-3 text-xs font-bold uppercase tracking-[0.2em] text-[#1B1A18] transition hover:bg-[#F6F1EB]"
+              >
+                Abrir WhatsApp
+              </a>
             </div>
           </div>
         </section>
 
+        {/* Canais de contato */}
+        <section className="border-b border-[#DDD3CA] px-6 py-10 md:px-10 lg:px-14">
+          <div className="mx-auto max-w-[1440px]">
+            <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3">
+              <a
+                href={supportHref}
+                className="group rounded-2xl border border-[#DDD3CA] bg-white/80 px-5 py-5 transition hover:border-[#C88FA3]"
+              >
+                <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#C88FA3]">Email</p>
+                <p className="mt-2 text-sm font-medium text-[#1B1A18]">{belapopContact.supportEmail}</p>
+                <p className="mt-1 text-xs text-[#5F5A55]">Resposta em até 24h úteis</p>
+              </a>
+              <a
+                href={instagramHref}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group rounded-2xl border border-[#DDD3CA] bg-white/80 px-5 py-5 transition hover:border-[#C88FA3]"
+              >
+                <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#C88FA3]">Instagram</p>
+                <p className="mt-2 text-sm font-medium text-[#1B1A18]">{belapopContact.instagramHandle}</p>
+                <p className="mt-1 text-xs text-[#5F5A55]">Resposta em até 48h</p>
+              </a>
+              <a
+                href="/rastreio"
+                className="group rounded-2xl border border-[#DDD3CA] bg-white/80 px-5 py-5 transition hover:border-[#C88FA3]"
+              >
+                <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#C88FA3]">Rastreio</p>
+                <p className="mt-2 text-sm font-medium text-[#1B1A18]">Acompanhe seu pedido</p>
+                <p className="mt-1 text-xs text-[#5F5A55]">Sem precisar de login</p>
+              </a>
+            </div>
+          </div>
+        </section>
+
+        {/* FAQ com busca */}
         <section className="px-6 py-12 md:px-10 lg:px-14">
+          <div className="mx-auto max-w-[1440px]">
+            <div className="rounded-[32px] border border-[#DDD3CA] bg-[#F2E3E8] p-8 md:p-10">
+              <p className="text-xs uppercase tracking-[0.35em] text-[#C88FA3]">Perguntas frequentes</p>
+              <h2 className="mt-3 font-serif text-3xl text-[#1B1A18]">
+                Tudo o que você precisa saber
+              </h2>
+              <p className="mt-3 text-sm leading-7 text-[#5F5A55]">
+                Respostas objetivas sobre compras, entrega, pagamento, trocas, PopClub e Skin Scan.
+              </p>
+              <div className="mt-8">
+                <FaqSearch sections={faqSections as unknown as { title: string; items: { question: string; answer: string }[] }[]} />
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* CTA final */}
+        <section className="px-6 pb-14 md:px-10 lg:px-14">
           <div className="mx-auto max-w-[1440px] rounded-[32px] border border-[#DDD3CA] bg-white/80 p-8">
-            <p className="text-xs uppercase tracking-[0.35em] text-[#C88FA3]">Atendimento</p>
-            <h2 className="mt-4 font-serif text-3xl text-[#1B1A18]">Como podemos ajudar?</h2>
-            <p className="mt-4 max-w-2xl text-sm leading-7 text-[#5F5A55]">
-              Para pedidos, entrega, pagamento, troca, devolucao ou privacidade, envie uma mensagem
-              pelo canal institucional. Inclua numero do pedido, CPF ou e-mail da compra quando
-              estiver solicitando suporte de pos-venda.
+            <h2 className="font-serif text-2xl text-[#1B1A18]">Não encontrou o que precisava?</h2>
+            <p className="mt-3 text-sm leading-7 text-[#5F5A55]">
+              Nossa equipe responde em até 24h úteis. Para agilizar, inclua o número do pedido ou email da compra.
             </p>
             <div className="mt-6 flex flex-wrap gap-3">
               <a
-                className="rounded-full bg-[#1B1A18] px-6 py-3 text-xs uppercase tracking-[0.25em] text-white transition hover:bg-[#3d3530]"
+                className="rounded-full bg-[#1B1A18] px-6 py-3 text-xs font-semibold uppercase tracking-[0.25em] text-white transition hover:bg-[#3d3530]"
                 href={supportHref}
               >
                 Enviar e-mail
               </a>
               <a
                 className="rounded-full border border-[#DDD3CA] px-6 py-3 text-xs uppercase tracking-[0.25em] text-[#1B1A18] transition hover:border-[#C88FA3]"
-                href="/politica-de-envio"
+                href="/trocas-e-devolucoes"
               >
-                Ver envio
+                Ver trocas e devoluções
               </a>
               <a
                 className="rounded-full border border-[#DDD3CA] px-6 py-3 text-xs uppercase tracking-[0.25em] text-[#1B1A18] transition hover:border-[#C88FA3]"
-                href="/trocas-e-devolucoes"
+                href="/conta/pedidos"
               >
-                Ver trocas
+                Meus pedidos
               </a>
             </div>
           </div>

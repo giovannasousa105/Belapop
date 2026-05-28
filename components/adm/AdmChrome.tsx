@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
@@ -39,16 +39,16 @@ export function AdmChrome({
     "/adm/financeiro/auditoria",
     "/adm/financeiro/risco",
     "/adm/gestao/relatorios",
-    "/adm/catalogo-marca/inteligência",
+    "/adm/catalogo-marca/inteligencia",
     "/adm/catalogo-marca/campanhas",
-    "/adm/catalogo-marca/conteúdo-vitrines",
-    "/adm/operação/pedidos-criticos",
-    "/adm/operação/parceiros",
-    "/adm/operação/logistica",
-    "/adm/operação/comunicação-sellers",
-    "/adm/gestao/configurações",
+    "/adm/catalogo-marca/conteudo-vitrines",
+    "/adm/operacao/pedidos-criticos",
+    "/adm/operacao/parceiros",
+    "/adm/operacao/logistica",
+    "/adm/operacao/comunicacao-sellers",
+    "/adm/gestao/configuracoes",
     "/adm/curadoria/regras",
-    "/adm/curadoria/histórico-versoes",
+    "/adm/curadoria/historico-versoes",
     "/adm/curadoria/monitoramento"
   ]);
   const variant: AdmChromeVariant = bypassChromeRoutes.has(pathname) ? "workspace" : "default";

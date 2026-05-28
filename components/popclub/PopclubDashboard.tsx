@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import { ChevronLeft } from "lucide-react";
 
 import { usePopClubStatus } from "@/hooks/usePopClubStatus";
 import { TierCard } from "@/components/popclub/TierCard";
@@ -126,54 +125,7 @@ export function PopclubDashboard() {
         }
       `}</style>
 
-      <header
-        style={{
-          position: "sticky",
-          top: 0,
-          zIndex: 40,
-          background: "var(--bp-offwhite, #fbf7f4)",
-          borderBottom: "0.5px solid rgba(0,0,0,0.07)",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          padding: "0 24px",
-          height: 60,
-        }}
-      >
-        <Link
-          href="/"
-          aria-label="Voltar"
-          style={{
-            display: "inline-flex",
-            alignItems: "center",
-            gap: 4,
-            fontSize: 11,
-            fontWeight: 600,
-            letterSpacing: "0.14em",
-            textTransform: "uppercase",
-            color: "rgba(0,0,0,0.4)",
-            textDecoration: "none",
-          }}
-        >
-          <ChevronLeft size={14} />
-          Voltar
-        </Link>
-
-        <p
-          style={{
-            fontSize: 11,
-            fontWeight: 600,
-            letterSpacing: "0.28em",
-            textTransform: "uppercase",
-          }}
-        >
-          PopClub
-        </p>
-
-        <div style={{ width: 50 }} />
-      </header>
-
-      <main style={{ maxWidth: 640, margin: "0 auto", padding: "32px 20px 80px" }}>
+      <main style={{ maxWidth: 640, margin: "0 auto", padding: "96px 20px 80px" }}>
         {status.isLoading ? (
           <Skeleton />
         ) : !status.membro ? (

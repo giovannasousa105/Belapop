@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 
 import { AdminActionPanel } from "@/components/adm/AdminActionPanel";
 import { AdminDrawer } from "@/components/adm/AdminDrawer";
@@ -129,9 +129,9 @@ export async function ReviewsPage({ filters, searchParamsSource }: ReviewsPagePr
               id: "seller",
               label: "Seller",
               render: (review) => (
-                <PermissionGate route="/adm/operação/parceiros" fallback={review.sellerName}>
+                <PermissionGate route="/adm/operacao/parceiros" fallback={review.sellerName}>
                   <Link
-                    href={`/adm/operação/parceiros?seller=${review.sellerId}`}
+                    href={`/adm/operacao/parceiros?seller=${review.sellerId}`}
                     className="underline underline-offset-4"
                   >
                     {review.sellerName}
@@ -197,7 +197,7 @@ export async function ReviewsPage({ filters, searchParamsSource }: ReviewsPagePr
                   Abrir produto em curadoria
                 </Link>
               </PermissionGate>
-              <PermissionGate route="/adm/operação/parceiros">
+              <PermissionGate route="/adm/operacao/parceiros">
                 <Link href={`/adm/operacao/parceiros?seller=${selectedReview.sellerId}`} className="block underline underline-offset-4">
                   Abrir seller
                 </Link>

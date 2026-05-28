@@ -1,0 +1,495 @@
+import "server-only";
+
+import { NextRequest, NextResponse } from "next/server";
+
+import { buildRotina, normalizeFocos } from "@/lib/skin-science";
+import type {
+  AchadosVisuais,
+  Fototipo,
+  SkinAnaliseFull,
+  SkinScanResult,
+  SkinScores,
+  TipoPele,
+} from "@/types/skin-scan";
+
+export const runtime = "nodejs";
+export const maxDuration = 45;
+
+// ── Configuração ──────────────────────────────────────────────────────────────
+
+const MAX_IMAGE_BYTES = 10 * 1024 * 1024;        // 10 MB
+const MIN_IMAGE_BYTES = 10 * 1024;               // 10 KB — descarta strings aleatórias
+const RATE_LIMIT_WINDOW_MS = 10 * 60 * 1000;    // 10 minutos
+const RATE_LIMIT_MAX_REQUESTS = 10;
+const CLAUDE_MODEL = "claude-sonnet-4-5";
+const CLAUDE_TIMEOUT_MS = 35_000;
+
+const requestLimitStore = new Map<string, { count: number; resetAt: number }>();
+const TIPO_PELE_VALUES: TipoPele[] = ["seca", "oleosa", "mista", "normal", "sensivel"];
+
+// ── Prompt clínico para Claude Vision ────────────────────────────────────────
+// Referências: AAD 2024 Acne Guidelines, BJD 2025, Fitzpatrick Dermatology 9th ed.
+
+const VISION_PROMPT = `Voce e um sistema especializado em analise dermatologica computacional.
+Analise a imagem facial fornecida e retorne uma avaliacao objetiva da pele visivel.
+
+INSTRUCOES OBRIGATORIAS:
+1. Analise APENAS o que e claramente visivel na imagem. Nao invente dados.
+2. Se um aspecto nao for visivel, use o valor padrao indicado.
+3. Retorne APENAS JSON valido — sem markdown, sem texto adicional, sem codigo.
+4. Se nao houver rosto visivel ou a imagem for ilegivel, defina modoFallback:true.
+
+ESTRUTURA JSON EXATA A RETORNAR:
+{
+  "tipoPele": "<seca|oleosa|mista|normal|sensivel>",
+  "subtipo": "<descricao especifica, ex: mista com zona T oleosa e bochechas normais>",
+  "fototipo": <numero 1-6 segundo Fitzpatrick, ou null se nao determinavel>,
+  "confianca": <0-100 real, baseado na qualidade da imagem e clareza dos sinais — NAO use 55 fixo>,
+  "scores": {
+    "hidratacao":   <1-10 — 10=muito hidratada, 1=muito desidratada. Avalie aspecto opaco vs brilho saudavel>,
+    "oleosidade":   <1-10 — 10=muito oleosa. Avalie reflexo sebaceo, brilho zona T>,
+    "uniformidade": <1-10 — 10=uniforme. Avalie manchas, hiperpigmentacao, eritema>,
+    "textura":      <1-10 — 10=lisa. Avalie poros, irregularidades, descamacao>,
+    "luminosidade": <1-10 — 10=radiante>,
+    "sensibilidade":<1-10 — 10=muito sensivel. Avalie eritema, rosacea, reatividade>
+  },
+  "achados": {
+    "zonaT":        "<oleosa|mista|normal>",
+    "bochechas":    "<secas|normais|oleosas>",
+    "poros":        "<dilatados_severos|dilatados_moderados|normais|finos>",
+    "eritema":      "<presente|leve|ausente>",
+    "manchas":      "<hiperpigmentadas|melasma|pos_inflamatorias|ausentes>",
+    "descamacao":   "<presente|leve|ausente>",
+    "linhasFinas":  "<presentes_moderadas|presentes_leves|ausentes>",
+    "acne":         "<ativa_severa|ativa_leve|comedoes|ausente>"
+  },
+  "observacao": "<1-2 frases objetivas descrevendo os achados principais visiveis>",
+  "alertas": [],
+  "modoFallback": false
+}
+
+Escala Fitzpatrick para referencia:
+I=pele muito clara, sempre queima; II=clara, frequentemente queima; III=media, as vezes queima;
+IV=morena clara; V=morena escura; VI=negra profunda.
+
+IMPORTANTE: O campo "confianca" deve refletir a qualidade REAL da imagem.
+Se imagem clara e rosto visivel: confianca >= 75.
+Se imagem escura ou desfocada: confianca 40-60 e modoFallback:true.
+Se sem rosto: confianca 0 e modoFallback:true.`;
+
+// ── Rate limiting ─────────────────────────────────────────────────────────────
+
+function getClientIp(req: NextRequest): string {
+  const forwarded = req.headers.get("x-forwarded-for");
+  if (forwarded) return forwarded.split(",")[0]?.trim() ?? "unknown";
+  return req.headers.get("x-real-ip")?.trim() ?? "unknown";
+}
+
+function applyRateLimit(req: NextRequest): NextResponse | null {
+  const now = Date.now();
+  for (const [key, value] of requestLimitStore.entries()) {
+    if (value.resetAt <= now) requestLimitStore.delete(key);
+  }
+
+  const ip = getClientIp(req);
+  const current = requestLimitStore.get(ip);
+
+  if (!current || current.resetAt <= now) {
+    requestLimitStore.set(ip, { count: 1, resetAt: now + RATE_LIMIT_WINDOW_MS });
+    return null;
+  }
+  if (current.count >= RATE_LIMIT_MAX_REQUESTS) {
+    return NextResponse.json(
+      { error: "Limite temporario atingido. Tente novamente em alguns minutos." },
+      { status: 429 }
+    );
+  }
+  current.count += 1;
+  return null;
+}
+
+// ── Utilitários ───────────────────────────────────────────────────────────────
+
+function estimateBase64Bytes(base64: string): number {
+  return Math.floor((base64.replace(/=+$/, "").length * 3) / 4);
+}
+
+function cleanBase64(value: string): { mimeType: string; base64: string } {
+  const match = value.match(/^data:([^;]+);base64,(.+)$/);
+  if (!match) return { mimeType: "image/jpeg", base64: value };
+  return { mimeType: match[1] ?? "image/jpeg", base64: match[2] ?? "" };
+}
+
+function normalizeText(value: unknown): string {
+  return String(value ?? "")
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[̀-ͯ]/g, "")
+    .trim();
+}
+
+function clampNumber(value: unknown, min: number, max: number, fallback: number): number {
+  const n = typeof value === "number" ? value : Number(value);
+  if (!Number.isFinite(n)) return fallback;
+  return Math.max(min, Math.min(max, Math.round(n)));
+}
+
+function pickEnum<const T extends readonly string[]>(
+  value: unknown,
+  allowed: T,
+  fallback: T[number]
+): T[number] {
+  const normalized = normalizeText(value);
+  return allowed.includes(normalized as T[number]) ? (normalized as T[number]) : fallback;
+}
+
+function extractJson(raw: string): unknown {
+  const cleaned = raw
+    .replace(/```json\s*/g, "")
+    .replace(/```\s*/g, "")
+    .trim();
+  const match = cleaned.match(/\{[\s\S]*\}/);
+  if (!match) throw new Error("INVALID_JSON_IN_RESPONSE");
+  return JSON.parse(match[0]) as unknown;
+}
+
+// ── Parsers tipados ───────────────────────────────────────────────────────────
+
+function inferTipoPele(focos: string[]): TipoPele {
+  const norm = normalizeFocos(focos);
+  if (norm.includes("oleosidade") || norm.includes("poros") || norm.includes("acne")) return "oleosa";
+  if (norm.includes("sensibilidade")) return "sensivel";
+  if (norm.includes("hidratacao")) return "seca";
+  return "mista";
+}
+
+function parseTipoPele(value: unknown, focos: string[]): TipoPele {
+  const normalized = normalizeText(value);
+  if (normalized === "sensível" || normalized === "sensivel") return "sensivel";
+  if (TIPO_PELE_VALUES.includes(normalized as TipoPele)) return normalized as TipoPele;
+  return inferTipoPele(focos);
+}
+
+function parseFototipo(value: unknown): Fototipo | null {
+  const n = typeof value === "number" ? value : Number(String(value ?? "").replace(/\D/g, ""));
+  return [1, 2, 3, 4, 5, 6].includes(n) ? (n as Fototipo) : null;
+}
+
+function parseScores(scores: unknown): SkinScores {
+  const s =
+    scores && typeof scores === "object" ? (scores as Record<string, unknown>) : {};
+  return {
+    hidratacao:   clampNumber(s.hidratacao, 1, 10, 6),
+    oleosidade:   clampNumber(s.oleosidade, 1, 10, 6),
+    uniformidade: clampNumber(s.uniformidade, 1, 10, 6),
+    textura:      clampNumber(s.textura, 1, 10, 6),
+    luminosidade: clampNumber(s.luminosidade, 1, 10, 6),
+    sensibilidade:clampNumber(s.sensibilidade, 1, 10, 5),
+  };
+}
+
+function parseAchados(achados: unknown): AchadosVisuais {
+  const a =
+    achados && typeof achados === "object" ? (achados as Record<string, unknown>) : {};
+  return {
+    zonaT:     pickEnum(a.zonaT,      ["oleosa", "mista", "normal"] as const, "normal"),
+    bochechas: pickEnum(a.bochechas,  ["secas", "normais", "oleosas"] as const, "normais"),
+    poros:     pickEnum(a.poros,      ["dilatados_severos", "dilatados_moderados", "normais", "finos"] as const, "normais"),
+    eritema:   pickEnum(a.eritema,    ["presente", "leve", "ausente"] as const, "ausente"),
+    manchas:   pickEnum(a.manchas,    ["hiperpigmentadas", "melasma", "pos_inflamatorias", "ausentes"] as const, "ausentes"),
+    descamacao:pickEnum(a.descamacao, ["presente", "leve", "ausente"] as const, "ausente"),
+    linhasFinas:pickEnum(a.linhasFinas,["presentes_moderadas", "presentes_leves", "ausentes"] as const, "ausentes"),
+    acne:      pickEnum(a.acne,       ["ativa_severa", "ativa_leve", "comedoes", "ausente"] as const, "ausente"),
+  };
+}
+
+function parseVisionPayload(raw: unknown, focos: string[], forcedFallback: boolean): SkinAnaliseFull {
+  const p = raw && typeof raw === "object" ? (raw as Record<string, unknown>) : {};
+  const rawConfianca = clampNumber(p.confianca, 0, 100, 70);
+  const modoFallback = forcedFallback || p.modoFallback === true || rawConfianca < 45;
+  const alertas = Array.isArray(p.alertas)
+    ? p.alertas.filter((x): x is string => typeof x === "string")
+    : [];
+
+  return {
+    tipoPele: parseTipoPele(p.tipoPele, focos),
+    subtipo:
+      typeof p.subtipo === "string" && p.subtipo.trim() ? p.subtipo.trim() : undefined,
+    fototipo: parseFototipo(p.fototipo),
+    confianca: modoFallback
+      ? Math.min(rawConfianca, 60)
+      : rawConfianca,
+    scores: parseScores(p.scores),
+    achados: parseAchados(p.achados),
+    observacao:
+      typeof p.observacao === "string" && p.observacao.trim()
+        ? p.observacao.trim()
+        : "Analise visual estruturada concluida com base nos sinais dermatologicos identificados.",
+    alertas:
+      modoFallback && alertas.length === 0
+        ? ["Visibilidade insuficiente para analise completa."]
+        : alertas,
+    modoFallback,
+  };
+}
+
+// ── Fallback inteligente (acionado APENAS quando análise real falha) ────────────
+
+function buildFallbackAnalise(focos: string[], alertas: string[]): SkinAnaliseFull {
+  const tipoPele = inferTipoPele(focos);
+  const norm = normalizeFocos(focos);
+
+  // Scores ajustados pelos focos selecionados — mais informativo que todos-6
+  const scores: SkinScores = {
+    hidratacao:   norm.includes("hidratacao") ? 4 : 6,
+    oleosidade:   norm.includes("oleosidade") ? 8 : 5,
+    uniformidade: norm.includes("manchas") ? 5 : 7,
+    textura:      norm.includes("textura") || norm.includes("poros") ? 5 : 7,
+    luminosidade: norm.includes("luminosidade") || norm.includes("brilho") ? 4 : 6,
+    sensibilidade:norm.includes("sensibilidade") ? 7 : 4,
+  };
+
+  return {
+    tipoPele,
+    subtipo: `${tipoPele} — rotina gerada pelos focos selecionados`,
+    fototipo: null,
+    confianca: 55,
+    scores,
+    achados: {
+      zonaT:      tipoPele === "oleosa" || tipoPele === "mista" ? "mista" : "normal",
+      bochechas:  tipoPele === "seca" ? "secas" : "normais",
+      poros:      norm.includes("poros") ? "dilatados_moderados" : "normais",
+      eritema:    norm.includes("sensibilidade") ? "leve" : "ausente",
+      manchas:    norm.includes("manchas") ? "hiperpigmentadas" : "ausentes",
+      descamacao: norm.includes("hidratacao") ? "leve" : "ausente",
+      linhasFinas:norm.includes("linhas_finas") || norm.includes("linhas") ? "presentes_leves" : "ausentes",
+      acne:       norm.includes("acne") ? "comedoes" : "ausente",
+    },
+    observacao:
+      "A leitura visual nao ficou conclusiva. A rotina foi personalizada pelos focos informados e prioriza passos seguros de limpeza, barreira e fotoprotecao.",
+    alertas,
+    modoFallback: true,
+  };
+}
+
+function buildResult(focos: string[], analise: SkinAnaliseFull): SkinScanResult {
+  const rotina = buildRotina(
+    analise.tipoPele,
+    focos,
+    analise.achados as Record<string, string>
+  );
+  return {
+    scanId:    `BP-${Date.now().toString(36).toUpperCase()}`,
+    timestamp: Date.now(),
+    focos,
+    analise,
+    rotina,
+  };
+}
+
+// ── Backend de visão: Claude claude-sonnet-4-5 (Anthropic) ────────────────────────────
+
+async function callClaudeVision(
+  imageBase64: string,
+  mimeType: string,
+  focos: string[],
+  apiKey: string
+): Promise<string> {
+  const Anthropic = (await import("@anthropic-ai/sdk")).default;
+  const client = new Anthropic({ apiKey });
+
+  // Personalizar o prompt com os focos da usuária
+  const focosStr = focos.length > 0 ? focos.join(", ") : "hidratacao, textura geral";
+  const promptWithFocos = `${VISION_PROMPT}
+
+FOCOS DE PREOCUPACAO DA USUARIO: ${focosStr}
+Priorize esses aspectos na sua analise e reflita-os nos scores relevantes.`;
+
+  const message = await Promise.race([
+    client.messages.create({
+      model: CLAUDE_MODEL,
+      max_tokens: 1024,
+      messages: [
+        {
+          role: "user",
+          content: [
+            {
+              type: "image",
+              source: {
+                type: "base64",
+                media_type: mimeType as "image/jpeg" | "image/png" | "image/gif" | "image/webp",
+                data: imageBase64,
+              },
+            },
+            {
+              type: "text",
+              text: promptWithFocos,
+            },
+          ],
+        },
+      ],
+    }),
+    new Promise<never>((_, reject) =>
+      setTimeout(() => reject(new Error("CLAUDE_TIMEOUT")), CLAUDE_TIMEOUT_MS)
+    ),
+  ]);
+
+  const block = message.content[0];
+  if (!block || block.type !== "text") throw new Error("CLAUDE_EMPTY_RESPONSE");
+  return block.text;
+}
+
+// ── Leitura e validação do payload da requisição ──────────────────────────────
+
+type PayloadOk = { imageBase64: string; mimeType: string; focos: string[] };
+type PayloadError = { error: string; status: 400 | 413 };
+
+async function readPayload(request: NextRequest): Promise<PayloadOk | PayloadError> {
+  const contentType = request.headers.get("content-type") ?? "";
+  let imageBase64 = "";
+  let mimeType = "image/jpeg";
+  let focos: string[] = [];
+
+  try {
+    if (contentType.includes("multipart/form-data")) {
+      const formData = await request.formData();
+      const file = formData.get("image");
+
+      if (!(file instanceof File)) {
+        return { error: "Campo 'image' obrigatorio.", status: 400 };
+      }
+      if (file.size > MAX_IMAGE_BYTES) {
+        return { error: "Imagem excede 10 MB.", status: 413 };
+      }
+      if (file.size < MIN_IMAGE_BYTES) {
+        return { error: "Imagem muito pequena ou invalida (minimo 10 KB).", status: 400 };
+      }
+
+      mimeType = file.type || "image/jpeg";
+      imageBase64 = Buffer.from(await file.arrayBuffer()).toString("base64");
+
+      const focosRaw = formData.get("focos");
+      if (typeof focosRaw === "string") {
+        try {
+          const parsed = JSON.parse(focosRaw) as unknown;
+          if (Array.isArray(parsed)) {
+            focos = parsed.filter((x): x is string => typeof x === "string");
+          }
+        } catch { /* ignora focos malformados */ }
+      }
+    } else {
+      const body = (await request.json()) as {
+        image_base64?: string;
+        image?: string;
+        focos?: unknown;
+        mime_type?: string;
+      };
+
+      const rawImage = body.image_base64 ?? body.image ?? "";
+
+      if (!rawImage) {
+        return { error: "Campo 'image_base64' obrigatorio.", status: 400 };
+      }
+
+      // Validar se é um data URL de imagem real ou base64 puro
+      const isDataUrl = rawImage.startsWith("data:image/");
+      const isLikelyBase64 = /^[A-Za-z0-9+/=]{100,}/.test(rawImage);
+      if (!isDataUrl && !isLikelyBase64) {
+        return { error: "Imagem invalida. Envie um data URL (data:image/...) ou base64 puro.", status: 400 };
+      }
+
+      const cleaned = cleanBase64(rawImage);
+      imageBase64 = cleaned.base64;
+      mimeType = body.mime_type ?? cleaned.mimeType ?? "image/jpeg";
+
+      const estimatedBytes = estimateBase64Bytes(imageBase64);
+      if (estimatedBytes > MAX_IMAGE_BYTES) {
+        return { error: "Imagem excede 10 MB.", status: 413 };
+      }
+      if (estimatedBytes < MIN_IMAGE_BYTES) {
+        return {
+          error: "Imagem muito pequena ou invalida. Certifique-se de que a foto foi capturada corretamente.",
+          status: 400,
+        };
+      }
+
+      if (Array.isArray(body.focos)) {
+        focos = body.focos.filter((x): x is string => typeof x === "string");
+      }
+    }
+  } catch (e) {
+    console.error("[skin-scan/analyze] Erro ao ler payload:", e);
+    return { error: "Payload invalido.", status: 400 };
+  }
+
+  // Normalizar MIME type para tipos aceitos pelo Claude
+  const allowedMimes = ["image/jpeg", "image/png", "image/gif", "image/webp"];
+  if (!allowedMimes.includes(mimeType)) mimeType = "image/jpeg";
+
+  return { imageBase64, mimeType, focos: normalizeFocos(focos) };
+}
+
+// ── Handler principal ─────────────────────────────────────────────────────────
+
+export async function POST(request: NextRequest) {
+  // 1. Rate limiting
+  const rateLimited = applyRateLimit(request);
+  if (rateLimited) return rateLimited;
+
+  // 2. Parse e validação de entrada
+  const payload = await readPayload(request);
+  if ("error" in payload) {
+    return NextResponse.json({ error: payload.error }, { status: payload.status });
+  }
+  const { imageBase64, mimeType, focos } = payload;
+
+  // 3. Verificar se a chave Anthropic está configurada
+  // Aceita tanto ANTHROPIC_API_KEY quanto OPENAI_API_KEY (alias para quem salvou com esse nome)
+  const anthropicKey = process.env.ANTHROPIC_API_KEY ?? process.env.OPENAI_API_KEY;
+  if (!anthropicKey) {
+    console.warn("[skin-scan/analyze] Nenhuma chave de API configurada — usando fallback.");
+    const analise = buildFallbackAnalise(focos, [
+      "Servico de analise visual nao configurado. Rotina gerada pelos focos selecionados.",
+    ]);
+    return NextResponse.json({ success: true, analysis: buildResult(focos, analise) });
+  }
+
+  // 4. Análise visual com Claude claude-sonnet-4-5
+  try {
+    console.log(`[skin-scan/analyze] Chamando Claude Vision — focos: [${focos.join(", ")}], mime: ${mimeType}`);
+
+    const rawText = await callClaudeVision(imageBase64, mimeType, focos, anthropicKey);
+
+    // Extrair e parsear JSON retornado pelo modelo
+    let visionPayload: unknown;
+    try {
+      visionPayload = extractJson(rawText);
+    } catch {
+      console.error("[skin-scan/analyze] Claude retornou resposta nao-JSON:", rawText.slice(0, 200));
+      throw new Error("VISION_JSON_PARSE_FAILED");
+    }
+
+    const analise = parseVisionPayload(visionPayload, focos, false);
+    const result = buildResult(focos, analise);
+
+    console.log(
+      `[skin-scan/analyze] Analise concluida — tipoPele: ${analise.tipoPele}, confianca: ${analise.confianca}%, fallback: ${analise.modoFallback}`
+    );
+
+    return NextResponse.json({ success: true, analysis: result });
+  } catch (err) {
+    // 5. Fallback inteligente apenas quando a análise real falha
+    const isTimeout = err instanceof Error && err.message.includes("TIMEOUT");
+    const errorMsg = isTimeout
+      ? "Analise visual excedeu o tempo limite. Rotina gerada pelos focos selecionados."
+      : "Nao foi possivel concluir a leitura visual. Rotina gerada pelos focos selecionados.";
+
+    console.error("[skin-scan/analyze] Erro na analise Claude Vision:", err instanceof Error ? err.message : err);
+
+    const analise = buildFallbackAnalise(focos, [errorMsg]);
+    const result = buildResult(focos, analise);
+
+    // Retorna 200 com fallback (não quebra o frontend) mas sinaliza modoFallback:true
+    return NextResponse.json({ success: true, analysis: result });
+  }
+}

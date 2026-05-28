@@ -1,11 +1,15 @@
 import type { Metadata } from "next";
 
+import { JsonLd } from "@/components/seo/JsonLd";
+import { gerarBreadcrumbSchema } from "@/lib/seo/structuredData";
 import { SkincareBundleSection } from "@/components/skincare/SkincareBundleSection";
 import { BelaPopValidatedHeader } from "@/components/luxury/BelaPopValidatedHeader";
 import { BelaPopValidatedFooter } from "@/components/luxury/BelaPopValidatedFooter";
 
+const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://belapopoficial.com.br";
+
 export const metadata: Metadata = {
-  title: "Kits de skincare | BelaPop",
+  title: "Kits de skincare",
   description:
     "Kits BelaPop organizados por ritual, necessidade e tipo de pele para comprar uma rotina completa com mais clareza.",
   alternates: {
@@ -31,8 +35,14 @@ export const metadata: Metadata = {
 };
 
 export default function KitsPage() {
+  const breadcrumb = gerarBreadcrumbSchema([
+    { nome: "Início", url: `${BASE_URL}/` },
+    { nome: "Kits", url: `${BASE_URL}/kits` },
+  ]);
+
   return (
     <div className="min-h-screen bg-[#fcf9f8] text-[#1c1b1b]">
+      <JsonLd schema={breadcrumb} />
       <BelaPopValidatedHeader activeSection="skincare" />
       <main className="pt-20 lg:pt-28">
         <SkincareBundleSection />

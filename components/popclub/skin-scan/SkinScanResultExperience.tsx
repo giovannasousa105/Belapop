@@ -188,6 +188,27 @@ export default function SkinScanResultExperience() {
   }, []);
 
   useEffect(() => {
+    if (loadState !== "ready" || !sessionData) return;
+
+    const a = sessionData.analysis;
+    void fetch("/api/v1/me/skin-scan-snapshot", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        generatedAt: sessionData.generatedAt,
+        summary: a.summary,
+        topConcerns: a.topConcerns,
+        skinTexture: { score: a.skinTexture.score, label: a.skinTexture.label },
+        visiblePores: { score: a.visiblePores.score, label: a.visiblePores.label },
+        toneUniformity: { score: a.toneUniformity.score, label: a.toneUniformity.label },
+        oilinessLabel: a.oilinessAppearance.label,
+        drynessLabel: a.drynessAppearance.label,
+        rednessLabel: a.rednessAppearance.label
+      })
+    });
+  }, [loadState, sessionData]);
+
+  useEffect(() => {
     if (loadState !== "missing") return;
 
     const timeoutId = window.setTimeout(() => {

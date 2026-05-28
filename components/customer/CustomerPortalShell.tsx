@@ -100,21 +100,34 @@ export default function CustomerPortalShell({
 
   const closeDrawer = () => setDrawerOpen(false);
 
+  const userInitial = userLabel.charAt(0).toUpperCase();
+
   const SidebarContent = ({ onLinkClick }: { onLinkClick?: () => void }) => (
     <>
-      <div className="border-b border-white/10 px-6 py-7">
-        <p className="text-xs uppercase tracking-[0.34em] text-white/78">BelaPop</p>
-        <p className="mt-2 font-display text-[2rem] leading-none text-white">Painel</p>
-        <p className="mt-3 text-sm text-white/92">{userLabel}</p>
+      <div className="border-b border-white/8 px-6 py-7">
+        <p className="font-display text-xl tracking-[0.15em] text-white/90">BelaPop</p>
+        <p className="mt-0.5 text-[9px] uppercase tracking-[0.5em] text-[#d4845f]/60">Curadoria exclusiva</p>
       </div>
 
-      <nav className="flex-1 space-y-7 overflow-y-auto px-5 py-7">
+      <div className="border-b border-white/8 px-6 py-5">
+        <div className="flex items-center gap-3">
+          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-[#d4845f] to-[#a85a38] text-sm font-medium text-white">
+            {userInitial}
+          </div>
+          <div className="min-w-0">
+            <p className="truncate text-sm font-medium text-white/90">{userLabel}</p>
+            <p className="text-[10px] uppercase tracking-[0.2em] text-[#d4845f]/70">PopClub</p>
+          </div>
+        </div>
+      </div>
+
+      <nav className="flex-1 space-y-6 overflow-y-auto px-4 py-5">
         {NAV_SECTIONS.map((group) => (
           <div key={group.section}>
-            <p className="px-2 text-[11px] uppercase tracking-[0.32em] text-white/68">
+            <p className="mb-2 px-3 text-[9px] uppercase tracking-[0.45em] text-white/30">
               {group.section}
             </p>
-            <div className="mt-2 space-y-1">
+            <div className="space-y-0.5">
               {group.items.map((item) => {
                 const active = isItemActive(pathname, item.href);
                 return (
@@ -122,18 +135,12 @@ export default function CustomerPortalShell({
                     key={item.href}
                     href={item.href}
                     onClick={onLinkClick}
-                    className={`group relative flex items-center rounded-xl px-4 py-2.5 text-sm transition ${
+                    className={`flex items-center rounded-xl px-4 py-2.5 text-sm transition ${
                       active
-                        ? "text-white"
-                        : "text-white/95 hover:bg-white/[0.04] hover:text-white"
+                        ? "border border-white/8 bg-white/8 text-white"
+                        : "text-white/50 hover:bg-white/5 hover:text-white/80"
                     }`}
                   >
-                    <span
-                      className={`absolute bottom-2 left-0 top-2 w-[2px] rounded-full ${
-                        active ? "bg-[#d14a7a]" : "bg-transparent group-hover:bg-white/20"
-                      }`}
-                      aria-hidden
-                    />
                     {item.label}
                   </Link>
                 );
@@ -143,7 +150,7 @@ export default function CustomerPortalShell({
         ))}
       </nav>
 
-      <div className="border-t border-white/10 px-5 py-5">
+      <div className="border-t border-white/8 px-5 py-5">
         <PortalRoleSwitcher variant="dark" className="mb-3" compact />
         <button
           type="button"
@@ -160,7 +167,7 @@ export default function CustomerPortalShell({
   return (
     <div className="min-h-screen overflow-x-clip bg-[#f3f1f5] text-bpBlackSoft">
       {/* Desktop sidebar */}
-      <aside className="fixed inset-y-0 left-0 z-30 hidden w-[292px] flex-col bg-[#04060d] text-white lg:flex">
+      <aside className="fixed inset-y-0 left-0 z-30 hidden w-[292px] flex-col border-r border-white/5 bg-[#0e0c0b] text-white lg:flex">
         <SidebarContent />
       </aside>
 
@@ -175,7 +182,7 @@ export default function CustomerPortalShell({
 
       {/* Mobile drawer */}
       <aside
-        className={`fixed inset-y-0 left-0 z-50 flex w-[292px] flex-col bg-[#04060d] text-white transition-transform duration-300 lg:hidden ${
+        className={`fixed inset-y-0 left-0 z-50 flex w-[292px] flex-col border-r border-white/5 bg-[#0e0c0b] text-white transition-transform duration-300 lg:hidden ${
           drawerOpen ? "translate-x-0" : "-translate-x-full"
         }`}
         aria-label="Menu de navegação"
@@ -194,7 +201,7 @@ export default function CustomerPortalShell({
       </aside>
 
       {/* Top header */}
-      <header className="fixed inset-x-0 top-0 z-20 border-b border-black/10 bg-white/95 backdrop-blur lg:left-[292px]">
+      <header className="fixed inset-x-0 top-0 z-20 border-b border-[#e8e0d8]/80 bg-[#fdfcfb]/95 shadow-[0_1px_12px_rgba(30,15,5,0.06)] backdrop-blur-md lg:left-[292px]">
         <div className="mx-auto w-full max-w-[1400px] px-3 py-3 sm:px-6 sm:py-4 lg:px-8">
           <div className="flex flex-wrap items-center gap-3">
             {/* Mobile hamburger */}

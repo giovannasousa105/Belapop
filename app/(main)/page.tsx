@@ -24,6 +24,12 @@ export const metadata: Metadata = {
     title: "BelaPop | Skincare guiado pela sua pele",
     description: HOME_PAGE_DESCRIPTION,
     images: [{ url: "/og-home.jpg", width: 1200, height: 630, alt: "BelaPop — Skincare guiado pela sua pele" }],
+    videos: [{
+      url: "https://belapopoficial.com.br/editorial/belapop-skin-scan-hero-mobile.webm",
+      type: "video/webm",
+      width: 1080,
+      height: 1920
+    }],
     type: "website"
   },
   twitter: {

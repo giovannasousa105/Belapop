@@ -450,13 +450,20 @@ export const buildOrderPayload = ({
   const now = new Date();
   const createdAt = toIsoString(order.created_at, now);
   const address = asRecord(order.address ?? {});
+  const resolvedCustomer = {
+    ...customer,
+    cpf: customer.cpf ?? normalizeCpf(safeString(address, ["cpf", "document", "documento"])),
+    phone_e164:
+      customer.phone_e164 ??
+      normalizePhone(safeString(address, ["phone", "phone_e164", "telefone", "whatsapp"]))
+  };
 
   return {
     order_id: order.id,
     order_number: toOrderNumber(order.id, createdAt),
     created_at: createdAt,
     currency: "BRL",
-    customer,
+    customer: resolvedCustomer,
     payment: {
       status: normalizePaymentStatus(order.payment_status),
       method: normalizePaymentStatus(order.payment_status) === "PAID" ? "PIX" : "UNKNOWN",
@@ -465,11 +472,11 @@ export const buildOrderPayload = ({
       provider_reference: null
     },
     delivery_address: {
-      recipient_name: safeString(address, ["recipient_name", "full_name", "name"]) ?? customer.name,
+      recipient_name: safeString(address, ["recipient_name", "full_name", "name"]) ?? resolvedCustomer.name,
       street: safeString(address, ["street", "logradouro", "line1"]) ?? "",
       number: safeString(address, ["number"]) ?? "",
       complement: safeString(address, ["complement", "line2"]) ?? "",
-      district: safeString(address, ["district", "bairro"]) ?? "",
+      district: safeString(address, ["district", "bairro", "neighborhood"]) ?? "",
       city: safeString(address, ["city"]) ?? "",
       state: safeString(address, ["state", "uf"]) ?? "",
       postal_code: safeString(address, ["postal_code", "zip", "cep"]) ?? "",

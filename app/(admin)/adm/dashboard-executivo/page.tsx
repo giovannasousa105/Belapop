@@ -1,4 +1,5 @@
 import { ExecutiveDashboardPage } from "@/components/adm/pages/ExecutiveDashboardPage";
+import type { ChartDataPoint } from "@/components/admin/dashboard/PerformanceChart";
 import { formatCurrency } from "@/lib/adm/format";
 import { overviewRepository } from "@/lib/adm/repositories";
 import { getAdmDataSource } from "@/lib/adm/repositories/source";
@@ -158,6 +159,20 @@ export default async function AdmExecutiveDashboardRoute({ searchParams }: AdmLi
     }
   ];
 
+  // Build time-series chart data from real orders grouped by date
+  const chartData: ChartDataPoint[] = (() => {
+    const byDay = new Map<string, { gmv: number; orders: number }>();
+    for (const order of data.orders) {
+      const day = order.createdAt.slice(0, 10);
+      const existing = byDay.get(day) ?? { gmv: 0, orders: 0 };
+      byDay.set(day, { gmv: existing.gmv + order.total, orders: existing.orders + 1 });
+    }
+    return Array.from(byDay.entries())
+      .sort(([a], [b]) => a.localeCompare(b))
+      .slice(-8)
+      .map(([date, vals]) => ({ date: date.slice(5), ...vals }));
+  })();
+
   void filters;
 
   return (
@@ -166,6 +181,7 @@ export default async function AdmExecutiveDashboardRoute({ searchParams }: AdmLi
       operationCards={operationCards}
       alerts={alertItems}
       insightCards={insightCards}
+      chartData={chartData}
     />
   );
 }

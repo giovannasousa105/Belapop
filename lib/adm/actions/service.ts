@@ -1,4 +1,4 @@
-import "server-only";
+﻿import "server-only";
 
 import type { AdmPermission, AuthenticatedAdmUser } from "@/types/adm/auth";
 import type {
@@ -311,7 +311,7 @@ const getRevalidatedPaths = (request: AdmActionRequest, contextPathname?: string
     case "seller.activate":
     case "seller.deactivate":
     case "seller.block":
-      paths.add("/adm/operação/parceiros");
+      paths.add("/adm/operacao/parceiros");
       break;
     case "payout.approve":
     case "payout.hold":
@@ -327,20 +327,20 @@ const getRevalidatedPaths = (request: AdmActionRequest, contextPathname?: string
       break;
     case "shipment.update-status":
     case "incident.register":
-      paths.add("/adm/operação/logistica");
-      paths.add("/adm/operação/logistica/incidentes");
-      paths.add("/adm/operação/pedidos-criticos");
+      paths.add("/adm/operacao/logistica");
+      paths.add("/adm/operacao/logistica/incidentes");
+      paths.add("/adm/operacao/pedidos-criticos");
       break;
     case "document.validate":
     case "document.request-update":
       paths.add("/adm/curadoria/documentos");
       paths.add("/adm/curadoria/compliance");
-      paths.add("/adm/operação/parceiros");
+      paths.add("/adm/operacao/parceiros");
       break;
     case "review.approve":
     case "review.hide":
       paths.add("/adm/catalogo-marca/reviews");
-      paths.add("/adm/operação/parceiros");
+      paths.add("/adm/operacao/parceiros");
       break;
   }
 

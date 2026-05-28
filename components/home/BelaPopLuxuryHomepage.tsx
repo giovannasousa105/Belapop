@@ -69,6 +69,8 @@ function LuxuryProductCard({
           alt={title}
           loading="lazy"
           decoding="async"
+          width={640}
+          height={853}
           className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
         />
       </Link>
@@ -116,7 +118,19 @@ const trustMetrics = [
   { label: "Compra segura", value: "Suporte humano" }
 ] as const;
 
-const realRoutineCards = [
+type BeforeAfterCase = {
+  quote: string;
+  detail: string;
+  skin: string;
+  routine: string;
+  time: string;
+  before: string;
+  after: string;
+  beforeImg: string;
+  afterImg: string;
+};
+
+const realRoutineCards: BeforeAfterCase[] = [
   {
     quote: "Minha pele ficou mais uniforme em 14 dias",
     detail: "Rotina curta, com ordem clara e sem excesso de passos.",
@@ -124,7 +138,9 @@ const realRoutineCards = [
     routine: "Kit Glow + rotina noturna",
     time: "14 dias",
     before: "Textura irregular",
-    after: "Glow mais uniforme"
+    after: "Glow mais uniforme",
+    beforeImg: "/hero-bela.jpg",
+    afterImg: "/hero-bela-pop-editorial.jpg"
   },
   {
     quote: "Finalmente entendi o que comprar",
@@ -133,7 +149,9 @@ const realRoutineCards = [
     routine: "Acne Care essencial",
     time: "21 dias",
     before: "Brilho intenso",
-    after: "Rotina mais equilibrada"
+    after: "Rotina mais equilibrada",
+    beforeImg: "/editorial/login-hero-original.jpg",
+    afterImg: "/editorial/belapop-skin-scan-hero-poster.jpg"
   },
   {
     quote: "A rotina veio pronta, sem confusão",
@@ -142,9 +160,11 @@ const realRoutineCards = [
     routine: "Barrier Repair",
     time: "10 dias",
     before: "Pele repuxando",
-    after: "Conforto contínuo"
+    after: "Conforto contínuo",
+    beforeImg: "/editorial/belapop-skin-scan-hero-mobile-poster.jpg",
+    afterImg: "/editorial/home-ai-card.jpg"
   }
-] as const;
+];
 
 const skinScanMetrics = [
   { label: "Textura", value: 86, detail: "leitura visual" },
@@ -273,6 +293,8 @@ function SkinScanTechnologySection() {
                 alt="Interface elegante de diagnóstico visual de pele BelaPop"
                 loading="lazy"
                 decoding="async"
+                width={900}
+                height={1125}
                 className="h-full w-full object-cover opacity-76"
               />
               <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(10,9,8,0.06),rgba(10,9,8,0.72))]" />
@@ -300,7 +322,7 @@ function SkinScanTechnologySection() {
                           className="h-px bg-[#dac769]"
                           initial={{ width: reduceMotion ? `${metric.value}%` : "18%" }}
                           whileInView={{ width: `${metric.value}%` }}
-                          viewport={{ once: true, margin: "-20%" }}
+                          viewport={{ once: true, amount: 0.1 }}
                           transition={{ duration: 0.9, ease: "easeOut" }}
                         />
                       </div>
@@ -380,7 +402,7 @@ function RealRoutinesSection() {
               <div className="grid grid-cols-2 border-b border-white/10">
                 <div className="relative min-h-[190px] overflow-hidden bg-[#1b1816]">
                   <img
-                    src="/hero-bela.jpg"
+                    src={card.beforeImg}
                     alt={`Antes da rotina: ${card.before}`}
                     loading="lazy"
                     decoding="async"
@@ -393,7 +415,7 @@ function RealRoutinesSection() {
                 </div>
                 <div className="relative min-h-[190px] overflow-hidden bg-[#201b13]">
                   <img
-                    src="/hero-bela-pop-editorial.jpg"
+                    src={card.afterImg}
                     alt={`Depois da rotina: ${card.after}`}
                     loading="lazy"
                     decoding="async"
@@ -461,7 +483,7 @@ function MobileStickyCta() {
   return (
     <div
       aria-hidden={!visible}
-      className={`fixed inset-x-3 bottom-[calc(0.75rem+env(safe-area-inset-bottom))] z-40 rounded-[8px] border border-white/18 bg-[#111111]/86 p-2 shadow-[0_18px_70px_rgba(0,0,0,0.34)] backdrop-blur-2xl transition duration-300 md:hidden ${
+      className={`fixed inset-x-3 bottom-[calc(4.5rem+env(safe-area-inset-bottom))] z-40 rounded-[8px] border border-white/18 bg-[#111111]/86 p-2 shadow-[0_18px_70px_rgba(0,0,0,0.34)] backdrop-blur-2xl transition duration-300 md:hidden ${
         visible ? "translate-y-0 opacity-100" : "pointer-events-none translate-y-4 opacity-0"
       }`}
     >
@@ -545,7 +567,7 @@ function LuxuryVideoHero() {
                 muted
                 playsInline
                 poster={heroVideo.mobilePoster}
-                preload="metadata"
+                preload="none"
               >
                 <source src={heroVideo.mobile.webm} type="video/webm" />
                 <source src={heroVideo.mobile.mp4} type="video/mp4" />
@@ -563,7 +585,7 @@ function LuxuryVideoHero() {
                 muted
                 playsInline
                 poster={heroVideo.poster}
-                preload="metadata"
+                preload="none"
               >
                 <source src={heroVideo.desktop.webm} type="video/webm" />
                 <source src={heroVideo.desktop.mp4} type="video/mp4" />

@@ -44,10 +44,11 @@ export const isConsultoraBelaPopEnabledPath = (pathname: string | null | undefin
 };
 
 export const getConsultoraMobileDockOffset = (pathname: string | null | undefined) => {
-  if (!pathname) return "bottom-4";
+  if (!pathname) return "bottom-[5.5rem]";
   if (pathname.startsWith("/skin-scan")) return "bottom-[1.5rem]";
-  if (pathname.startsWith("/produto/")) return "bottom-[5.5rem]";
-  if (pathname.startsWith("/universos/")) return "bottom-[5.5rem]";
+  if (pathname.startsWith("/produto/")) return "bottom-[6.5rem]";
+  if (pathname.startsWith("/universos/")) return "bottom-[6.5rem]";
   if (pathname.startsWith("/checkout")) return "bottom-[1.25rem]";
-  return "bottom-4";
+  // Default: float above bottom nav (~64px) + safe area buffer
+  return "bottom-[5.5rem]";
 };

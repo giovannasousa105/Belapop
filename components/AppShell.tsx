@@ -9,7 +9,11 @@ import { CookieConsent } from "@/components/CookieConsent";
 import { BPFooter } from "@/components/layout/BPFooter";
 import { BPHeader } from "@/components/layout/BPHeader";
 import { MobileBottomNav } from "@/components/layout/MobileBottomNav";
+import { ShellManagedHeaderProvider } from "@/components/luxury/BelaPopValidatedHeader";
 import { isConsultoraBelaPopEnabledPath } from "@/lib/assistant/surfaces";
+
+const matchesRouteSegment = (pathname: string | null, segment: string) =>
+  Boolean(pathname === segment || pathname?.startsWith(`${segment}/`));
 
 export const AppShell = ({ children }: { children: React.ReactNode }) => {
   const pathname = usePathname();
@@ -23,8 +27,9 @@ export const AppShell = ({ children }: { children: React.ReactNode }) => {
   const isUniversesRoute = Boolean(pathname?.startsWith("/universos"));
   const isCartRoute = pathname === "/carrinho";
   const isCheckoutRoute = pathname === "/checkout";
-  const isLoginRoute = pathname === "/login";
-  const isSkinScanCaptureRoute = pathname?.startsWith("/skin-scan/captura");
+  const isImmersiveSkinScanRoute = Boolean(
+    pathname?.startsWith("/skin-scan/") || pathname?.startsWith("/faceshield")
+  );
   const isSkinScanRoute = Boolean(
     pathname?.startsWith("/skin-scan") || pathname?.startsWith("/faceshield")
   );
@@ -35,11 +40,11 @@ export const AppShell = ({ children }: { children: React.ReactNode }) => {
       pathname?.startsWith("/skinbela")
   );
   const isCustomerPortalRoute = Boolean(
-    pathname?.startsWith("/conta") || pathname?.startsWith("/account")
+    matchesRouteSegment(pathname, "/conta") || matchesRouteSegment(pathname, "/account")
   );
   const isSellerRoute = pathname?.startsWith("/seller");
   const isAdminRoute = pathname?.startsWith("/admin") || pathname?.startsWith("/adm");
-  const hasPageOwnedHeader = Boolean(
+  const hasInternalHeaderSpacing = Boolean(
     isHomeRoute ||
       isCatalogRoute ||
       isSkincareRoute ||
@@ -50,14 +55,16 @@ export const AppShell = ({ children }: { children: React.ReactNode }) => {
       isUniversesRoute ||
       isCartRoute ||
       isCheckoutRoute ||
-      isLoginRoute ||
       isSkinScanRoute ||
       isDiaryRoute ||
       isPopClubOwnedRoute ||
       isCustomerPortalRoute
   );
+  const hasPublicHeader = Boolean(
+    pathname && !isSellerRoute && !isAdminRoute && !isCustomerPortalRoute && !isImmersiveSkinScanRoute
+  );
   const hasPageOwnedLightFooter = Boolean(
-    hasPageOwnedHeader ||
+    hasInternalHeaderSpacing ||
       pathname?.startsWith("/belacode") ||
       pathname?.startsWith("/skinbela") ||
       pathname === "/popclub" ||
@@ -97,9 +104,9 @@ export const AppShell = ({ children }: { children: React.ReactNode }) => {
   const hasConsultoraBelaPop = isConsultoraBelaPopEnabledPath(pathname);
 
   return (
-    <>
-      {isSellerRoute || isAdminRoute || hasPageOwnedHeader ? null : <BPHeader />}
-      <div className={isSellerRoute || isAdminRoute || hasPageOwnedHeader ? "pt-0" : "pt-[78px] lg:pt-[86px]"}>
+    <ShellManagedHeaderProvider enabled={hasPublicHeader}>
+      {hasPublicHeader ? <BPHeader /> : null}
+      <div id="main-content" className={hasPublicHeader && !hasInternalHeaderSpacing ? "pt-[106px] tablet:pt-[124px]" : "pt-0"}>
         {children}
       </div>
       {isSellerRoute || isAdminRoute || hasPageOwnedLightFooter ? null : <BPFooter />}
@@ -107,6 +114,6 @@ export const AppShell = ({ children }: { children: React.ReactNode }) => {
       {!hideFloating && hasAccessibilityWidget ? <AccessibilityButton /> : null}
       {!isSellerRoute && !isAdminRoute && !isSkinScanRoute ? <CookieConsent /> : null}
       {!hideBottomNav ? <MobileBottomNav /> : null}
-    </>
+    </ShellManagedHeaderProvider>
   );
 };

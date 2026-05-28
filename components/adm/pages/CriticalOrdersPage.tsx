@@ -1,28 +1,17 @@
-import Image from "next/image";
 import Link from "next/link";
-import { Noto_Serif } from "next/font/google";
-import type { CSSProperties } from "react";
-import type { LucideIcon } from "lucide-react";
-import {
-  Bell,
-  Bolt,
-  ChevronLeft,
-  ChevronRight,
-  LayoutDashboard,
-  LogOut,
-  Search,
-  Settings,
-  ShieldAlert,
-  ShoppingBag,
-  Sparkles,
-  Store,
-  Truck,
-  Wallet
-} from "lucide-react";
+import { Cormorant_Garamond } from "next/font/google";
+import { AlertTriangle, Bell, ChevronLeft, ChevronRight, Zap } from "lucide-react";
 
+import { FinanceSidebar } from "@/components/admin/financeiro/FinanceSidebar";
+import { FinanceKpiCard } from "@/components/admin/financeiro/FinanceKpiCard";
 import { ordersRepository } from "@/lib/adm/repositories";
 import { getAdmDataSource } from "@/lib/adm/repositories/source";
 import { buildHref, toListQueryParams, type AdmFilters, type SearchParamsInput } from "@/lib/adm/url";
+
+const cormorant = Cormorant_Garamond({
+  subsets: ["latin"],
+  weight: ["400", "500", "600"],
+});
 
 type CriticalOrdersPageProps = {
   filters: AdmFilters;
@@ -31,183 +20,132 @@ type CriticalOrdersPageProps = {
 
 type CriticalTab = "todos" | "atraso-envio" | "devolucao-pendente" | "chargeback" | "sem-rastreio";
 
-type SidebarItem = {
-  label: string;
-  href: string;
-  icon: LucideIcon;
-  active?: boolean;
-};
-
-type CriticalMetric = {
-  label: string;
-  value: string;
-  detail: string;
-  detailTone?: "danger" | "neutral";
-  suffix?: string;
-};
-
 type CriticalRow = {
   orderId: string;
   customer: string;
-  customerTag: string;
+  customerTag: "PREMIUM MEMBER" | "STANDARD";
   seller: string;
   issue: string;
-  issueClassName: string;
+  tabValue: CriticalTab;
   status: string;
-  statusDotClassName: string;
   deadline: string;
-  deadlineClassName: string;
+  isOverdue: boolean;
   action: string;
-  image: string;
-  imageAlt: string;
 };
-
-const editorialSerif = Noto_Serif({
-  subsets: ["latin"],
-  weight: ["400", "700"],
-  style: ["normal", "italic"]
-});
-
-const criticalTheme = {
-  "--critical-bg": "#fbf9f4",
-  "--critical-sidebar": "#f5f4ed",
-  "--critical-surface": "#fbf9f4",
-  "--critical-surface-low": "#f5f4ed",
-  "--critical-surface-high": "#e8e9e0",
-  "--critical-surface-highest": "#e2e3d9",
-  "--critical-text": "#31332c",
-  "--critical-text-soft": "#797c73",
-  "--critical-primary": "#5f5e5e",
-  "--critical-secondary": "#6e5b4d",
-  "--critical-tertiary": "#a23d3e",
-  "--critical-border": "rgba(177,179,169,0.15)"
-} as CSSProperties;
-
-const sidebarItems: SidebarItem[] = [
-  { label: "Dashboard", href: "/adm/dashboard-executivo", icon: LayoutDashboard },
-  { label: "Curadoria", href: "/adm/curadoria/produtos", icon: Sparkles },
-  { label: "Sellers", href: "/adm/operação/parceiros", icon: Store },
-  { label: "Pedidos", href: "/adm/operação/pedidos-criticos", icon: ShoppingBag, active: true },
-  { label: "Logística", href: "/adm/operação/logistica", icon: Truck },
-  { label: "Risco", href: "/adm/financeiro/risco", icon: ShieldAlert },
-  { label: "Financeiro", href: "/adm/financeiro", icon: Wallet },
-  { label: "Configurações", href: "/adm/gestao/configurações", icon: Settings }
-];
 
 const tabs: Array<{ label: string; value: CriticalTab }> = [
   { label: "Todos", value: "todos" },
   { label: "Atraso de Envio", value: "atraso-envio" },
   { label: "Devolução Pendente", value: "devolucao-pendente" },
   { label: "Chargeback", value: "chargeback" },
-  { label: "Sem Rastreio", value: "sem-rastreio" }
+  { label: "Sem Rastreio", value: "sem-rastreio" },
 ];
 
-const rows: CriticalRow[] = [
-  {
-    orderId: "#BP-8821",
-    customer: "Mariana Silveira",
-    customerTag: "PREMIUM MEMBER",
-    seller: "L'Artisan Paris",
-    issue: "Atraso Crítico",
-    issueClassName: "bg-[rgba(255,132,130,0.2)] text-[var(--critical-tertiary)]",
-    status: "Aguardando Seller",
-    statusDotClassName: "bg-[var(--critical-tertiary)] shadow-[0_0_8px_rgba(162,61,62,0.4)]",
-    deadline: "Esgotado",
-    deadlineClassName: "text-[var(--critical-tertiary)]",
-    action: "Intervir",
-    image:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuCEPe4xwYfdQT-gQyGItUsyamS0ooLl39VNZtV_4ECz2bVnhN1z300JbP0Wf0lBIaBTUZy-s0CFrzi5l9p78VqDdd885lY2SFhHg0y254jtg6KzVB90aR2bv_6dEZK5xSUZhTlW2VYsVuulHC204gJQ1hkrHuQXTQAxdYmyKiwgNlRavMIz3fghb5fRnS5r5-euVFZ-FnMJn6h-U2ibn4zNqoUUGsmpuXxhnrn-eo0IzqADUjaHtW69kH5EhwzL6ZGuviQWMbFajB0E",
-    imageAlt: "Retrato editorial feminino com maquiagem neutra e fundo limpo"
-  },
-  {
-    orderId: "#BP-9044",
-    customer: "Arthur Mendes",
-    customerTag: "STANDARD",
-    seller: "Studio Minimalist",
-    issue: "Sem Rastreio",
-    issueClassName: "bg-[var(--critical-surface-highest)] text-[var(--critical-text-soft)]",
-    status: "Em Verificação",
-    statusDotClassName: "bg-[rgba(177,179,169,1)]",
-    deadline: "24h restantes",
-    deadlineClassName: "text-[var(--critical-text)]",
-    action: "Detalhes",
-    image:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuAVVmHXSwh-fCvhoBFQ_TxcGBVXUuMcDoa3vs1f7aIWLH97pQDbS_Evxza8jGhHiX1UHFMXAOpVNMwGeDOYO3I7E1q3YdWuLqN-PmYcVWxTgGgrtfkCq9PWbXjFAnTtiFPAp25f8msYxUbPbpQhmHWFxoHcDQG3ce_McsKgwr15cU8KWwVn8TBUMtOwX1aaHW9ARN2CRGlIwPzDGZ6ZQx_MirFN8Lv_LArbg1hxHAyCBZbtms8FqIeeOjqWM8oRtXxkJ_SsMw0k90Mj",
-    imageAlt: "Retrato masculino minimalista em fundo areia"
-  },
-  {
-    orderId: "#BP-8772",
-    customer: "Isadora Porto",
-    customerTag: "PREMIUM MEMBER",
-    seller: "Casa & Alento",
-    issue: "Chargeback",
-    issueClassName: "bg-[rgba(248,222,204,0.3)] text-[var(--critical-secondary)]",
-    status: "Sob Análise",
-    statusDotClassName: "bg-[var(--critical-secondary)] shadow-[0_0_8px_rgba(110,91,77,0.3)]",
-    deadline: "Urgente",
-    deadlineClassName: "text-[var(--critical-tertiary)]",
-    action: "Resolver",
-    image:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuBlKrG_pQbQ5wEygYqy0jcU1b5cylbR43fB_Qefo92SI79CScMhV1WVVdh7xRpQ3eGJJR1ymsBwJ9YR4JCejeNyNC9ZqCACWRS1p9goiJ6KbGroDhbH0dtQ-UVvW6aBCDfj_6-6o7cQ0J26MRoScfR5ePYI84k_YRtzx0MuYXfF0Cj3O1GPhHekEJodLdG0Z1DtZeFuwhOdrdcXket41kjIrSuVWrlgXL9bwm73n5f_BUk1HFce0WurdTysaceeL9R85-fPWUK63ShB",
-    imageAlt: "Retrato feminino suave em luz natural editorial"
-  }
-];
+// Problem badge config
+const problemConfig: Record<string, { color: string; bg: string; icon: string }> = {
+  "Atraso Crítico":     { color: "#7F1D1D", bg: "#FEE2E2", icon: "⏰" },
+  "Devolução Pendente": { color: "#92400E", bg: "#FEF3C7", icon: "↩" },
+  "Chargeback":         { color: "#1E3A8A", bg: "#DBEAFE", icon: "💳" },
+  "Sem Rastreio":       { color: "#374151", bg: "#F3F4F6", icon: "📦" },
+};
 
-function SidebarLink({ item }: { item: SidebarItem }) {
-  const Icon = item.icon;
-
+function ProblemBadge({ problem }: { problem: string }) {
+  const cfg = problemConfig[problem] ?? { color: "#374151", bg: "#F3F4F6", icon: "⚠" };
   return (
-    <Link
-      href={item.href}
-      className={`flex items-center gap-3 pl-4 py-2 text-sm tracking-wide transition-all duration-200 ${
-        item.active
-          ? "border-l-2 border-[var(--critical-primary)] bg-[var(--critical-surface-mid,rgba(239,238,230,1))] font-bold text-[var(--critical-text)]"
-          : "text-[var(--critical-primary)] opacity-80 hover:bg-[rgba(239,238,230,1)]"
-      }`}
+    <span
+      className="inline-flex items-center gap-1.5 whitespace-nowrap rounded-full px-3 py-1 text-[11px] font-semibold"
+      style={{ color: cfg.color, background: cfg.bg }}
     >
-      <Icon className="h-4.5 w-4.5" strokeWidth={item.active ? 2 : 1.8} />
-      <span>{item.label}</span>
-    </Link>
+      <span aria-hidden="true">{cfg.icon}</span>
+      {problem}
+    </span>
+  );
+}
+
+function DeadlineBadge({ deadline, isOverdue }: { deadline: string; isOverdue: boolean }) {
+  if (isOverdue) {
+    return (
+      <span className="inline-flex items-center gap-1 whitespace-nowrap rounded-full bg-[#FEE2E2] px-3 py-1 text-[11px] font-bold text-[#7F1D1D]">
+        <span className="h-1.5 w-1.5 rounded-full bg-[#EF4444]" aria-hidden="true" />
+        Esgotado
+      </span>
+    );
+  }
+  const isUrgent = deadline.toLowerCase().includes("urgente") || deadline.toLowerCase().includes("24h");
+  if (isUrgent) {
+    return (
+      <span className="inline-flex items-center gap-1 whitespace-nowrap rounded-full bg-[#FEF3C7] px-3 py-1 text-[11px] font-bold text-[#92400E]">
+        <span className="h-1.5 w-1.5 rounded-full bg-[#F59E0B]" aria-hidden="true" />
+        {deadline}
+      </span>
+    );
+  }
+  return (
+    <span className="inline-flex items-center gap-1 whitespace-nowrap rounded-full bg-[#D1FAE5] px-3 py-1 text-[11px] font-bold text-[#065F46]">
+      {deadline}
+    </span>
+  );
+}
+
+function CustomerAvatar({ name }: { name: string }) {
+  const initials = name.split(" ").slice(0, 2).map((w) => w[0]).join("").toUpperCase();
+  const palettes: [string, string][] = [
+    ["#F5D0A9", "#7A5234"],
+    ["#D4E4FF", "#1E3A8A"],
+    ["#D1FAE5", "#065F46"],
+    ["#FDE8FF", "#6B21A8"],
+  ];
+  const [bg, text] = palettes[name.charCodeAt(0) % palettes.length];
+  return (
+    <span
+      className={`${cormorant.className} inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-lg text-[13px] font-bold`}
+      style={{ background: bg, color: text }}
+      aria-hidden="true"
+    >
+      {initials}
+    </span>
   );
 }
 
 export async function CriticalOrdersPage({
   filters,
-  searchParamsSource = filters
+  searchParamsSource = filters,
 }: CriticalOrdersPageProps) {
   const referenceTime = new Date("2026-04-10T00:00:00Z").getTime();
-  const activeTab = tabs.some((tab) => tab.value === filters.activity)
+  const activeTab = tabs.some((t) => t.value === filters.activity)
     ? (filters.activity as CriticalTab)
     : "todos";
-  const serif = editorialSerif.className;
+
   const [ordersResult, dataSource] = await Promise.all([
     ordersRepository.listOrders(
       toListQueryParams(searchParamsSource, {
         page: 1,
         pageSize: 24,
         sortBy: "createdAt",
-        sortDir: "desc"
+        sortDir: "desc",
       })
     ),
-    getAdmDataSource()
+    getAdmDataSource(),
   ]);
-  const customerMap = Object.fromEntries(dataSource.customers.map((customer) => [customer.id, customer]));
-  const sellerMap = Object.fromEntries(dataSource.sellers.map((seller) => [seller.id, seller]));
-  const incidentByOrder = Object.fromEntries(dataSource.logisticsIncidents.map((incident) => [incident.orderId, incident]));
-  const refundByOrder = Object.fromEntries(dataSource.refunds.map((refund) => [refund.orderId, refund]));
+
+  const customerMap = Object.fromEntries(dataSource.customers.map((c) => [c.id, c]));
+  const sellerMap = Object.fromEntries(dataSource.sellers.map((s) => [s.id, s]));
+  const incidentByOrder = Object.fromEntries(dataSource.logisticsIncidents.map((i) => [i.orderId, i]));
+  const refundByOrder = Object.fromEntries(dataSource.refunds.map((r) => [r.orderId, r]));
   const alertByOrder = Object.fromEntries(
     dataSource.financialAlerts
-      .filter((alert) => alert.orderId)
-      .map((alert) => [alert.orderId as string, alert])
+      .filter((a) => a.orderId)
+      .map((a) => [a.orderId as string, a])
   );
-  const criticalRows = ordersResult.data.items
+
+  const criticalRows: CriticalRow[] = ordersResult.data.items
     .filter((order) => {
       const incident = incidentByOrder[order.id];
       const refund = refundByOrder[order.id];
       const alert = alertByOrder[order.id];
       return order.priority !== "baixa" || Boolean(incident) || Boolean(refund) || Boolean(alert);
     })
-    .map((order, index) => {
+    .map((order) => {
       const customer = customerMap[order.customerId];
       const seller = sellerMap[order.sellerId];
       const incident = incidentByOrder[order.id];
@@ -221,14 +159,6 @@ export async function CriticalOrdersPage({
             : incident?.type.toLowerCase().includes("rastreio")
               ? "Sem Rastreio"
               : "Atraso Crítico";
-      const issueClassName =
-        issue === "Chargeback"
-          ? "bg-[rgba(248,222,204,0.3)] text-[var(--critical-secondary)]"
-          : issue === "Sem Rastreio"
-            ? "bg-[var(--critical-surface-highest)] text-[var(--critical-text-soft)]"
-            : issue === "Devolução Pendente"
-              ? "bg-[rgba(248,222,204,0.3)] text-[var(--critical-secondary)]"
-              : "bg-[rgba(255,132,130,0.2)] text-[var(--critical-tertiary)]";
       const tabValue: CriticalTab =
         issue === "Chargeback"
           ? "chargeback"
@@ -238,6 +168,7 @@ export async function CriticalOrdersPage({
               ? "devolucao-pendente"
               : "atraso-envio";
       const remainingDays = Math.ceil((new Date(order.eta).getTime() - referenceTime) / 86400000);
+      const isOverdue = remainingDays < 0;
 
       return {
         orderId: order.id,
@@ -245,269 +176,314 @@ export async function CriticalOrdersPage({
         customerTag: customer?.segment === "premium" ? "PREMIUM MEMBER" : "STANDARD",
         seller: seller?.name ?? order.sellerName,
         issue,
-        issueClassName,
+        tabValue,
         status: refund ? "Aguardando Financeiro" : alert ? "Em Análise" : "Aguardando Seller",
-        statusDotClassName:
-          issue === "Chargeback"
-            ? "bg-[var(--critical-secondary)] shadow-[0_0_8px_rgba(110,91,77,0.3)]"
-            : issue === "Sem Rastreio"
-              ? "bg-[rgba(177,179,169,1)]"
-              : "bg-[var(--critical-tertiary)] shadow-[0_0_8px_rgba(162,61,62,0.4)]",
-        deadline: remainingDays < 0 ? "Esgotado" : `${remainingDays}d restantes`,
-        deadlineClassName: remainingDays < 0 ? "text-[var(--critical-tertiary)]" : "text-[var(--critical-text)]",
+        deadline: isOverdue ? "Esgotado" : `${remainingDays}d restantes`,
+        isOverdue,
         action: refund ? "Resolver" : alert ? "Detalhes" : "Intervir",
-        image: rows[index % rows.length].image,
-        imageAlt: rows[index % rows.length].imageAlt,
-        tabValue
       };
     });
+
   const filteredRows =
-    activeTab === "todos" ? criticalRows : criticalRows.filter((row) => row.tabValue === activeTab);
-  const metricCards: CriticalMetric[] = [
-    {
-      label: "Total Críticos",
-      value: String(criticalRows.length),
-      detail: `${criticalRows.filter((row) => row.deadline === "Esgotado").length} esgotados`,
-      detailTone: "danger"
-    },
-    {
-      label: "Atraso Médio",
-      value:
-        criticalRows.length > 0
-          ? (
-              criticalRows.reduce((sum, row) => {
-                const order = dataSource.orders.find((item) => item.id === row.orderId);
-                if (!order) return sum;
-                return sum + Math.max(0, Math.ceil((referenceTime - new Date(order.eta).getTime()) / 86400000));
-              }, 0) / criticalRows.length
-            ).toFixed(1)
-          : "0.0",
-      detail: "dias",
-      detailTone: "neutral"
-    },
-    {
-      label: "Taxa de Resolução",
-      value: `${Math.max(0, 100 - criticalRows.length * 7).toFixed(1)}%`,
-      detail: "Meta: 95%",
-      detailTone: "neutral"
-    }
-  ];
+    activeTab === "todos" ? criticalRows : criticalRows.filter((r) => r.tabValue === activeTab);
+
+  const overdueCount = criticalRows.filter((r) => r.isOverdue).length;
+  const avgDelay =
+    criticalRows.length > 0
+      ? (
+          criticalRows.reduce((sum, row) => {
+            const order = dataSource.orders.find((o) => o.id === row.orderId);
+            if (!order) return sum;
+            return sum + Math.max(0, Math.ceil((referenceTime - new Date(order.eta).getTime()) / 86400000));
+          }, 0) / criticalRows.length
+        ).toFixed(1)
+      : "0,0";
+  const resolutionRate = Math.max(0, 100 - criticalRows.length * 7);
+
+  const tabCounts: Record<CriticalTab, number> = {
+    todos: criticalRows.length,
+    "atraso-envio": criticalRows.filter((r) => r.tabValue === "atraso-envio").length,
+    "devolucao-pendente": criticalRows.filter((r) => r.tabValue === "devolucao-pendente").length,
+    chargeback: criticalRows.filter((r) => r.tabValue === "chargeback").length,
+    "sem-rastreio": criticalRows.filter((r) => r.tabValue === "sem-rastreio").length,
+  };
+
+  const today = new Date().toLocaleDateString("pt-BR", {
+    weekday: "long",
+    day: "2-digit",
+    month: "long",
+    year: "numeric",
+  });
 
   return (
-    <div
-      style={criticalTheme}
-      className="min-h-screen overflow-x-hidden bg-[var(--critical-bg)] text-[var(--critical-text)] antialiased"
-    >
-      <aside className="fixed left-0 top-0 hidden h-screen w-72 flex-col bg-[var(--critical-sidebar)] px-6 py-10 lg:flex">
-        <div className="flex flex-col gap-1">
-          <h1 className={`${serif} text-lg tracking-tight text-[var(--critical-text)]`}>
-            Curator Admin
-          </h1>
-          <span className="text-[10px] uppercase tracking-[0.24em] text-[var(--critical-text-soft)]">
-            Premium Tier
-          </span>
-        </div>
+    <div className="min-h-screen bg-[#FAFAF8] text-[#1A1714]">
+      <FinanceSidebar activeHref="/adm/operacao/pedidos-criticos" />
 
-        <nav className="mt-8 flex-1 space-y-4">
-          {sidebarItems.map((item) => (
-            <SidebarLink key={item.label} item={item} />
-          ))}
-        </nav>
+      <main className="pl-[220px]">
+        {/* Header */}
+        <header className="sticky top-0 z-20 border-b border-[rgba(139,94,60,0.10)] bg-[#FAFAF8]/90 px-10 py-5 backdrop-blur-md">
+          <div className="flex items-center justify-between gap-6">
+            <div>
+              <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#9E9589]">
+                Módulo Operação
+              </p>
+              <h1
+                className={`${cormorant.className} text-[28px] font-medium leading-tight tracking-[-0.02em] text-[#1A1714]`}
+              >
+                Pedidos Críticos
+              </h1>
+              <p className="mt-0.5 text-[11px] capitalize text-[#9E9589]">{today}</p>
+            </div>
 
-        <div className="mt-auto">
-          <Link
-            href="/adm"
-            className="flex items-center gap-3 pl-4 py-2 text-sm tracking-wide text-[var(--critical-primary)] opacity-80 transition-all duration-200 hover:bg-[rgba(239,238,230,1)]"
-          >
-            <LogOut className="h-4.5 w-4.5" strokeWidth={1.8} />
-            <span>Logout</span>
-          </Link>
-        </div>
-      </aside>
-
-      <main className="min-h-screen p-6 lg:ml-72 lg:p-12">
-        <header className="mb-16 flex flex-col gap-6 md:flex-row md:items-baseline md:justify-between">
-          <div>
-            <h2 className={`${serif} text-4xl tracking-tight text-[var(--critical-text)]`}>
-              Pedidos Críticos
-            </h2>
-            <p className="mt-2 text-sm text-[var(--critical-text-soft)]">
-              Segunda-feira, 23 de Outubro de 2023
-            </p>
-          </div>
-          <div className="flex gap-4">
-            <button
-              type="button"
-              className="rounded-full p-2 text-[var(--critical-primary)] transition-colors hover:bg-[var(--critical-surface-low)]"
-              aria-label="Buscar"
-            >
-              <Search className="h-5 w-5" strokeWidth={1.8} />
-            </button>
-            <button
-              type="button"
-              className="rounded-full p-2 text-[var(--critical-primary)] transition-colors hover:bg-[var(--critical-surface-low)]"
-              aria-label="Notificações"
-            >
-              <Bell className="h-5 w-5" strokeWidth={1.8} />
-            </button>
+            <div className="flex items-center gap-3">
+              <button
+                type="button"
+                aria-label="Notificações"
+                className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-[rgba(139,94,60,0.14)] text-[#9E9589] transition-colors hover:text-[#1A1714]"
+              >
+                <Bell className="h-4 w-4" strokeWidth={1.8} />
+              </button>
+              <Link
+                href="/adm/operacao/logistica/incidentes"
+                className="flex items-center gap-2 rounded-full bg-[#EF4444] px-5 py-2 text-[11px] font-semibold uppercase tracking-[0.14em] text-white shadow-[0_4px_16px_rgba(239,68,68,0.35)] transition-all hover:bg-[#DC2626] hover:shadow-[0_6px_20px_rgba(239,68,68,0.45)]"
+              >
+                <Zap className="h-3.5 w-3.5" strokeWidth={2.2} />
+                Intervenção Rápida
+              </Link>
+            </div>
           </div>
         </header>
 
-        <section className="mb-16 grid grid-cols-1 gap-8 md:grid-cols-3">
-          {metricCards.map((metric) => (
-            <article
-              key={metric.label}
-              className="flex flex-col gap-4 rounded-xl bg-[var(--critical-surface-low)] p-8"
-            >
-              <span className="text-[10px] uppercase tracking-[0.2em] text-[var(--critical-text-soft)]">
-                {metric.label}
-              </span>
-              <div className="flex items-baseline gap-2">
-                <span className={`${serif} text-5xl font-light text-[var(--critical-text)]`}>
-                  {metric.value}
-                </span>
-                <span
-                  className={`text-xs ${
-                    metric.detailTone === "danger"
-                      ? "text-[var(--critical-tertiary)]"
-                      : "text-[var(--critical-text-soft)]"
-                  }`}
-                >
-                  {metric.detail}
+        <div className="px-10 py-8 space-y-6">
+          {/* KPI Row */}
+          <section className="grid grid-cols-3 gap-4">
+            <FinanceKpiCard
+              label="Total Críticos"
+              value={String(criticalRows.length)}
+              subtext={`${overdueCount} esgotado${overdueCount !== 1 ? "s" : ""}`}
+              icon={<AlertTriangle className="h-4 w-4" strokeWidth={1.8} />}
+              variant="critical"
+            />
+            <FinanceKpiCard
+              label="Atraso Médio"
+              value={`${avgDelay.replace(".", ",")} dias`}
+              subtext="média por pedido crítico"
+              icon={<span className="text-[13px]">⏱</span>}
+              variant="warning"
+            />
+            {/* Taxa de Resolução com progress bar inline */}
+            <div className="rounded-2xl border border-[rgba(139,94,60,0.14)] bg-white p-5 shadow-[0_4px_16px_rgba(28,26,24,0.04)]">
+              <div className="flex items-start justify-between gap-2">
+                <p className="text-[10px] font-semibold uppercase tracking-[0.10em] text-[#9E9589]">
+                  Taxa de Resolução
+                </p>
+                <span className="rounded-full bg-[#FEF3C7] px-2 py-0.5 text-[10px] font-semibold text-[#F59E0B]">
+                  Meta: 95%
                 </span>
               </div>
-            </article>
-          ))}
-        </section>
-
-        <nav className="mb-12 flex gap-12 overflow-x-auto whitespace-nowrap border-b border-[rgba(177,179,169,0.1)]">
-          {tabs.map((tab) => {
-            const active = tab.value === activeTab;
-
-            return (
-              <Link
-                key={tab.value}
-                href={buildHref("/adm/operação/pedidos-criticos", searchParamsSource, {
-                  activity: tab.value === "todos" ? undefined : tab.value,
-                  page: undefined
-                })}
-                className={`pb-4 text-sm transition-all ${
-                  active
-                    ? "border-b-2 border-[var(--critical-text)] font-bold text-[var(--critical-text)]"
-                    : "text-[var(--critical-text-soft)] hover:text-[var(--critical-text)]"
-                }`}
+              <p
+                className={`${cormorant.className} mt-3 text-[34px] font-medium leading-none tracking-[-0.02em] text-[#1A1714]`}
+                style={{ fontVariantNumeric: "tabular-nums" }}
               >
-                {tab.label}
-              </Link>
-            );
-          })}
-        </nav>
+                {resolutionRate.toFixed(1).replace(".", ",")}%
+              </p>
+              {/* Progress bar */}
+              <div className="relative mt-3 h-1 overflow-hidden rounded-full bg-[rgba(139,94,60,0.12)]">
+                <div
+                  className="h-full rounded-full transition-all duration-500"
+                  style={{
+                    width: `${Math.min(resolutionRate, 100)}%`,
+                    background: resolutionRate >= 95 ? "#10B981" : "#F59E0B",
+                  }}
+                />
+                {/* Meta marker at 95% */}
+                <div
+                  className="absolute top-[-3px] h-[10px] w-0.5 rounded-sm bg-[#9E9589]"
+                  style={{ left: "95%" }}
+                  title="Meta: 95%"
+                />
+              </div>
+            </div>
+          </section>
 
-        <div className="overflow-x-auto">
-          <table className="w-full border-separate border-spacing-0 text-left">
-            <thead>
-              <tr className="text-[10px] uppercase tracking-[0.15em] text-[var(--critical-text-soft)]">
-                <th className="pb-6 pl-4">Pedido</th>
-                <th className="pb-6">Cliente</th>
-                <th className="pb-6">Seller</th>
-                <th className="pb-6">Problema</th>
-                <th className="pb-6">Status</th>
-                <th className="pb-6">Prazo</th>
-                <th className="pb-6 pr-4 text-right">Ação</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-[rgba(177,179,169,0.05)]">
-              {filteredRows.map((row) => (
-                <tr
-                  key={row.orderId}
-                  className="group transition-all duration-300 hover:bg-[var(--critical-surface-low)]"
+          {/* Category Tabs */}
+          <div className="flex gap-0.5 overflow-x-auto border-b border-[rgba(139,94,60,0.08)] pb-0">
+            {tabs.map((tab) => {
+              const active = tab.value === activeTab;
+              const count = tabCounts[tab.value];
+              return (
+                <Link
+                  key={tab.value}
+                  href={buildHref("/adm/operacao/pedidos-criticos", searchParamsSource, {
+                    activity: tab.value === "todos" ? undefined : tab.value,
+                    page: undefined,
+                  })}
+                  className={`flex shrink-0 items-center gap-2 whitespace-nowrap border-b-2 px-3.5 py-3 text-[13px] font-medium transition-all ${
+                    active
+                      ? "border-[#8B5E3C] font-semibold text-[#8B5E3C]"
+                      : "border-transparent text-[#9E9589] hover:text-[#1A1714]"
+                  }`}
                 >
-                  <td className="py-8 pl-4">
-                    <span className="font-medium text-[var(--critical-text)]">{row.orderId}</span>
-                  </td>
-                  <td className="py-8">
-                    <div className="flex items-center gap-3">
-                      <div className="h-10 w-10 overflow-hidden rounded-full bg-[var(--critical-surface-high)]">
-                        <Image
-                          src={row.image}
-                          alt={row.imageAlt}
-                          width={40}
-                          height={40}
-                          className="h-full w-full object-cover grayscale opacity-80"
-                        />
-                      </div>
-                      <div className="flex flex-col">
-                        <span className="text-sm font-semibold text-[var(--critical-text)]">
-                          {row.customer}
-                        </span>
-                        <span className="text-[10px] tracking-[0.16em] text-[var(--critical-text-soft)]">
-                          {row.customerTag}
-                        </span>
-                      </div>
-                    </div>
-                  </td>
-                  <td className="py-8">
-                    <span className="text-sm font-medium text-[var(--critical-text)]">{row.seller}</span>
-                  </td>
-                  <td className="py-8">
+                  {tab.label}
+                  {count > 0 && (
                     <span
-                      className={`rounded-full px-3 py-1 text-[10px] font-bold uppercase tracking-[0.16em] ${row.issueClassName}`}
+                      className={`rounded-full px-1.5 py-0.5 text-[10px] font-bold ${
+                        active
+                          ? "bg-[rgba(139,94,60,0.12)] text-[#8B5E3C]"
+                          : "bg-[#FEE2E2] text-[#EF4444]"
+                      }`}
                     >
-                      {row.issue}
+                      {count}
                     </span>
-                  </td>
-                  <td className="py-8">
-                    <div className="flex items-center gap-2">
-                      <span className={`h-1.5 w-1.5 rounded-full ${row.statusDotClassName}`} />
-                      <span className="text-xs text-[rgba(49,51,44,0.7)]">{row.status}</span>
-                    </div>
-                  </td>
-                  <td className="py-8">
-                    <span className={`text-sm font-semibold ${row.deadlineClassName}`}>{row.deadline}</span>
-                  </td>
-                  <td className="py-8 pr-4 text-right">
-                    <Link
-                      href="/adm/operacao/logistica"
-                      className="border-b border-[rgba(49,51,44,0.2)] pb-1 text-[11px] font-bold uppercase tracking-[0.16em] transition-all hover:border-[var(--critical-text)]"
-                    >
-                      {row.action}
-                    </Link>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-
-        <footer className="mt-16 flex items-center justify-between text-[var(--critical-text-soft)]">
-          <p className="text-[10px] uppercase tracking-[0.24em]">
-            Mostrando {filteredRows.length} de {criticalRows.length} casos críticos
-          </p>
-          <div className="flex gap-6">
-            <button
-              type="button"
-              className="transition-colors hover:text-[var(--critical-text)]"
-              aria-label="Página anterior"
-            >
-              <ChevronLeft className="h-5 w-5" strokeWidth={1.8} />
-            </button>
-            <button
-              type="button"
-              className="transition-colors hover:text-[var(--critical-text)]"
-              aria-label="Próxima página"
-            >
-              <ChevronRight className="h-5 w-5" strokeWidth={1.8} />
-            </button>
+                  )}
+                </Link>
+              );
+            })}
           </div>
-        </footer>
+
+          {/* Table */}
+          <section className="overflow-hidden rounded-2xl border border-[rgba(139,94,60,0.14)] bg-white shadow-[0_4px_16px_rgba(28,26,24,0.04)]">
+            <div className="overflow-x-auto">
+              <table className="min-w-full border-collapse text-left">
+                <thead>
+                  <tr className="border-b border-[rgba(139,94,60,0.10)] bg-[#F4F1EE]">
+                    {["#", "Cliente", "Seller", "Problema", "Status", "Prazo", "Ação"].map(
+                      (h, i) => (
+                        <th
+                          key={h}
+                          className={`px-5 py-3.5 text-[10px] font-semibold uppercase tracking-[0.12em] text-[#9E9589] ${i === 6 ? "text-right" : ""}`}
+                        >
+                          {h}
+                        </th>
+                      )
+                    )}
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-[rgba(139,94,60,0.06)]">
+                  {filteredRows.length === 0 ? (
+                    <tr>
+                      <td
+                        colSpan={7}
+                        className="px-5 py-12 text-center text-[13px] text-[#9E9589]"
+                      >
+                        Nenhum caso crítico nesta categoria.
+                      </td>
+                    </tr>
+                  ) : (
+                    filteredRows.map((row) => (
+                      <tr
+                        key={row.orderId}
+                        className={`group transition-colors hover:bg-[rgba(139,94,60,0.02)] ${
+                          row.isOverdue ? "border-l-[3px] border-l-[#EF4444]" : ""
+                        }`}
+                      >
+                        {/* ID curto com tooltip */}
+                        <td className="px-5 py-4">
+                          <code
+                            className="rounded-md bg-[#F4F1EE] px-2 py-1 font-mono text-[11px] text-[#6B5E54]"
+                            title={row.orderId}
+                          >
+                            #{row.orderId.slice(0, 8)}
+                          </code>
+                        </td>
+
+                        {/* Cliente */}
+                        <td className="px-5 py-4">
+                          <div className="flex items-center gap-2.5">
+                            <CustomerAvatar name={row.customer} />
+                            <div>
+                              <p className="text-[13px] font-semibold text-[#1A1714]">
+                                {row.customer}
+                              </p>
+                              <p className="text-[10px] font-semibold uppercase tracking-[0.10em] text-[#9E9589]">
+                                {row.customerTag}
+                              </p>
+                            </div>
+                          </div>
+                        </td>
+
+                        {/* Seller */}
+                        <td className="px-5 py-4 text-[12px] text-[#6B5E54]">
+                          {row.seller}
+                        </td>
+
+                        {/* Problema */}
+                        <td className="px-5 py-4">
+                          <ProblemBadge problem={row.issue} />
+                        </td>
+
+                        {/* Status */}
+                        <td className="px-5 py-4">
+                          <div className="flex items-center gap-2">
+                            <span
+                              className={`h-1.5 w-1.5 shrink-0 rounded-full ${
+                                row.issue === "Chargeback"
+                                  ? "bg-blue-500"
+                                  : row.issue === "Sem Rastreio"
+                                    ? "bg-[#9E9589]"
+                                    : "bg-[#EF4444]"
+                              }`}
+                            />
+                            <span className="text-[12px] text-[#6B5E54]">{row.status}</span>
+                          </div>
+                        </td>
+
+                        {/* Prazo */}
+                        <td className="px-5 py-4">
+                          <DeadlineBadge deadline={row.deadline} isOverdue={row.isOverdue} />
+                        </td>
+
+                        {/* Ação */}
+                        <td className="px-5 py-4 text-right">
+                          <Link
+                            href={`/adm/operacao/logistica?order=${row.orderId}`}
+                            className="inline-flex items-center gap-1.5 rounded-lg bg-[#8B5E3C] px-3.5 py-1.5 text-[11px] font-semibold text-white transition-all hover:bg-[#7A5234] hover:shadow-[0_4px_12px_rgba(139,94,60,0.3)]"
+                          >
+                            <Zap className="h-3 w-3" strokeWidth={2.2} />
+                            {row.action}
+                          </Link>
+                        </td>
+                      </tr>
+                    ))
+                  )}
+                </tbody>
+              </table>
+            </div>
+
+            {/* Table footer */}
+            <div className="flex items-center justify-between border-t border-[rgba(139,94,60,0.08)] px-5 py-3.5">
+              <p className="text-[12px] text-[#9E9589]">
+                Mostrando {filteredRows.length} de {criticalRows.length} casos críticos
+              </p>
+              <div className="flex items-center gap-1">
+                <button
+                  type="button"
+                  aria-label="Página anterior"
+                  className="flex h-8 w-8 items-center justify-center rounded-lg border border-[rgba(139,94,60,0.14)] text-[#9E9589] transition-colors hover:bg-[rgba(139,94,60,0.06)]"
+                >
+                  <ChevronLeft className="h-4 w-4" strokeWidth={1.8} />
+                </button>
+                <button
+                  type="button"
+                  aria-label="Próxima página"
+                  className="flex h-8 w-8 items-center justify-center rounded-lg border border-[rgba(139,94,60,0.14)] text-[#9E9589] transition-colors hover:bg-[rgba(139,94,60,0.06)]"
+                >
+                  <ChevronRight className="h-4 w-4" strokeWidth={1.8} />
+                </button>
+              </div>
+            </div>
+          </section>
+        </div>
       </main>
 
+      {/* FAB — Intervenção Rápida */}
       <Link
         href="/adm/operacao/logistica/incidentes"
-        className="fixed bottom-12 right-12 hidden h-14 w-14 items-center justify-center rounded-full bg-[var(--critical-text)] text-[var(--critical-bg)] shadow-2xl transition-all hover:scale-105 active:scale-95 lg:flex"
-        aria-label="Intervenção rápida"
+        className="fixed bottom-7 right-7 z-[100] flex items-center gap-2 rounded-full bg-[#EF4444] px-5 py-3 text-[13px] font-semibold text-white shadow-[0_4px_20px_rgba(239,68,68,0.4)] transition-all hover:bg-[#DC2626] hover:shadow-[0_8px_28px_rgba(239,68,68,0.5)] hover:-translate-y-0.5"
+        aria-label="Intervenção Rápida"
       >
-        <Bolt className="h-5 w-5" strokeWidth={2} />
+        <Zap className="h-4 w-4" strokeWidth={2.2} />
+        <span>Intervenção Rápida</span>
       </Link>
     </div>
   );

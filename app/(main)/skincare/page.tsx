@@ -1,13 +1,17 @@
 import type { Metadata } from "next";
 
+import { JsonLd } from "@/components/seo/JsonLd";
+import { gerarBreadcrumbSchema } from "@/lib/seo/structuredData";
 import { SkincareCatalogExperience } from "@/components/skincare/SkincareCatalogExperience";
 import { getProductDisplayImage } from "@/lib/product/productCovers";
 import { getPublicProducts } from "@/lib/queries/products";
 
 export const revalidate = 300;
 
+const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://belapopoficial.com.br";
+
 export const metadata: Metadata = {
-  title: "Skincare | BelaPop",
+  title: "Skincare",
   description:
     "Skincare BelaPop com curadoria ativa, rotina guiada e experiência viva da categoria.",
   openGraph: {
@@ -51,5 +55,15 @@ export default async function SkincarePage() {
       title: product.title
     }));
 
-  return <SkincareCatalogExperience products={skincareProducts} />;
+  const breadcrumb = gerarBreadcrumbSchema([
+    { nome: "Início", url: `${BASE_URL}/` },
+    { nome: "Skincare", url: `${BASE_URL}/skincare` },
+  ]);
+
+  return (
+    <>
+      <JsonLd schema={breadcrumb} />
+      <SkincareCatalogExperience products={skincareProducts} />
+    </>
+  );
 }

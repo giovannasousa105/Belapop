@@ -1,4 +1,4 @@
-#!/usr/bin/env node
+﻿#!/usr/bin/env node
 /**
  * Fix ortografia — substitui apenas dentro de strings e JSX text.
  * NÃO altera identificadores TypeScript, nomes de variáveis, imports ou URLs.
@@ -74,7 +74,7 @@ const SUBSTITUICOES: [RegExp, string][] = [
   [/\bExperiencia\b/g, "Experiência"],
   [/\bcirculo\b/g, "círculo"],
   [/\bCirculo\b/g, "Círculo"],
-  [/\binteligencia\b/g, "inteligência"],
+  [/\binteligencia\b/g, "inteligencia"],
 
   // Adjetivos
   [/\bresponsavel\b/g, "responsável"],
@@ -114,7 +114,7 @@ const SUBSTITUICOES: [RegExp, string][] = [
   [/\bopcao\b/g, "opção"],
   [/\bOpcao\b/g, "Opção"],
   [/\bopcoes\b/g, "opções"],
-  [/\bconfiguracoes\b/g, "configurações"],
+  [/\bconfiguracoes\b/g, "configuracoes"],
   [/\bnotificacao\b/g, "notificação"],
   [/\bautorizacao\b/g, "autorização"],
   [/\bautenticacao\b/g, "autenticação"],

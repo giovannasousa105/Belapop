@@ -107,7 +107,7 @@ const buildPendingSellerStandard = (
     responsibilityTermAcceptedAt: null,
     returnPolicy: {
       exchangeRules: "Trocas seguem a política BelaPop e as informações do pedido.",
-      fullPolicyHref: "/trocas-e-devoluções",
+      fullPolicyHref: "/trocas-e-devolucoes",
       id: `return-pending-${normalizedSellerId}`,
       remorseRules: "Arrependimento em ate 7 dias conforme política da plataforma.",
       returnWindowDays: 7,

@@ -3,6 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { requireCustomerApiContext } from "@/lib/api/v1/customer-auth";
 import { buildCustomerBlock, buildOrderPayload } from "@/lib/api/v1/customer-contract";
 import { loadSubOrdersWithSellers, subOrdersByOrderId, type OrderRow } from "@/lib/api/v1/orders";
+import { matchesOrderReference } from "@/lib/orders/orderReference";
 
 const normalize = (value: string | null | undefined) =>
   (value ?? "")
@@ -22,10 +23,12 @@ export async function GET(request: NextRequest) {
   const dateFrom = params.get("date_from");
   const dateTo = params.get("date_to");
   const query = (params.get("q") ?? "").trim().toLowerCase();
+  const code = (params.get("code") ?? "").trim();
   const page = Math.max(1, Number(params.get("page") ?? "1"));
   const pageSize = Math.min(100, Math.max(1, Number(params.get("page_size") ?? "20")));
   const from = (page - 1) * pageSize;
   const to = from + pageSize - 1;
+  const lookupByCode = Boolean(code);
 
   let ordersQuery = admin
     .from("orders")
@@ -34,8 +37,9 @@ export async function GET(request: NextRequest) {
       { count: "exact" }
     )
     .eq("customer_id", userId)
-    .order("created_at", { ascending: false })
-    .range(from, to);
+    .order("created_at", { ascending: false });
+
+  ordersQuery = lookupByCode ? ordersQuery.limit(1000) : ordersQuery.range(from, to);
 
   if (dateFrom) ordersQuery = ordersQuery.gte("created_at", dateFrom);
   if (dateTo) ordersQuery = ordersQuery.lte("created_at", dateTo);
@@ -82,7 +86,7 @@ export async function GET(request: NextRequest) {
     });
   }
 
-  const mappedItems = orders.map((order) =>
+  let mappedItems = orders.map((order) =>
     buildOrderPayload({
       order,
       subOrders: groupedSubOrders[order.id] ?? [],
@@ -90,6 +94,16 @@ export async function GET(request: NextRequest) {
       customer
     })
   );
+
+  if (code) {
+    mappedItems = mappedItems.filter((order) =>
+      matchesOrderReference({
+        id: order.order_id,
+        orderNumber: order.order_number,
+        reference: code
+      })
+    );
+  }
 
   const normalizedStatus = normalize(status);
   const items = normalizedStatus

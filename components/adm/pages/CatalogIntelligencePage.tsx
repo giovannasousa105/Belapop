@@ -1,4 +1,4 @@
-import Image from "next/image";
+﻿import Image from "next/image";
 import Link from "next/link";
 import { Noto_Serif } from "next/font/google";
 import type { CSSProperties } from "react";
@@ -90,11 +90,11 @@ type Opportunity = {
 const sidebarItems: SidebarItem[] = [
   { label: "Dashboard", href: "/adm/dashboard-executivo", icon: LayoutDashboard },
   { label: "Curadoria", href: "/adm/curadoria/produtos", icon: Sparkles, active: true },
-  { label: "Sellers", href: "/adm/operação/parceiros", icon: Store },
-  { label: "Pedidos", href: "/adm/operação/pedidos-criticos", icon: ShoppingBag },
-  { label: "Logística", href: "/adm/operação/logistica", icon: Truck },
+  { label: "Sellers", href: "/adm/operacao/parceiros", icon: Store },
+  { label: "Pedidos", href: "/adm/operacao/pedidos-criticos", icon: ShoppingBag },
+  { label: "Logística", href: "/adm/operacao/logistica", icon: Truck },
   { label: "Relatórios", href: "/adm/gestao/relatorios", icon: ShieldCheck },
-  { label: "Configurações", href: "/adm/gestao/configurações", icon: Settings }
+  { label: "configuracoes", href: "/adm/gestao/configuracoes", icon: Settings }
 ];
 
 const distribution: DistributionItem[] = [
@@ -327,7 +327,7 @@ export async function CatalogIntelligencePage({
             <div className="mb-6 flex items-start justify-between gap-4">
               <div>
                 <h2 className={`text-[2.2rem] tracking-[-0.04em] ${notoSerif.className}`}>
-                  Inteligência de Catálogo
+                  inteligencia de Catálogo
                 </h2>
                 <p className="mt-1 text-sm text-[var(--ci-text-soft)]">
                   Análise qualitativa do portfólio e equilíbrio interno.

@@ -1,4 +1,4 @@
-export const brandVoice = {
+﻿export const brandVoice = {
   pillars: [
     "elegante",
     "claro",
@@ -20,7 +20,7 @@ export const brandVoice = {
       "Soar técnico demais em áreas de inspiração."
     ],
     examples: [
-      "Skincare não é excesso. É inteligência de cuidado.",
+      "Skincare não é excesso. É inteligencia de cuidado.",
       "Uma curadoria pensada para a pele real.",
       "O cuidado começa quando a escolha fica mais simples."
     ]

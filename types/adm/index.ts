@@ -8,7 +8,14 @@ export type AdminVisualStatus =
   | "resolvido"
   | "bloqueado"
   | "premium"
-  | "destaque";
+  | "destaque"
+  | "ok"
+  | "warning"
+  | "danger"
+  | "info"
+  | "blocked"
+  | "monitoring"
+  | "critical";
 
 export type PriorityLevel = "baixa" | "media" | "alta" | "critica";
 export type TimePeriod = "7d" | "30d" | "90d";

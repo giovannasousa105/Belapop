@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 
 const modelImage = "/hero-bela.jpg";
 
@@ -21,7 +21,7 @@ export default function EditorialLuxuryHero({
               <br />
               guiada por
               <br />
-              inteligência
+              inteligencia
             </h1>
 
             <p className="mt-8 max-w-[410px] font-editorial text-[17px] leading-[1.6] text-[#2A2725]/86 sm:text-[19px]">

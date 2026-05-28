@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 
 import { AlertBanner } from "@/components/adm/AlertBanner";
 import { AdminTable } from "@/components/adm/AdminTable";
@@ -290,7 +290,7 @@ export async function CatalogQualityHubPage() {
               id: "seller",
               label: "Seller",
               render: (product) => (
-                canVisit("/adm/operação/parceiros") ? (
+                canVisit("/adm/operacao/parceiros") ? (
                   <Link href={`/adm/operacao/parceiros?seller=${product.sellerId}`} className="underline underline-offset-4">
                     {sellerStandards.find((seller) => seller.sellerId === product.sellerId)?.brandName ?? product.sellerId}
                   </Link>
@@ -430,9 +430,9 @@ export async function CatalogQualityHubPage() {
               id: "seller",
               label: "Seller",
               render: (product) => (
-                canVisit("/adm/operação/parceiros") ? (
+                canVisit("/adm/operacao/parceiros") ? (
                   <Link
-                    href={`/adm/operação/parceiros?seller=${product.sellerId}`}
+                    href={`/adm/operacao/parceiros?seller=${product.sellerId}`}
                     className="text-[#2f2a25] underline underline-offset-4"
                   >
                     {product.sellerName}

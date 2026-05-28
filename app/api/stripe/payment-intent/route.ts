@@ -23,6 +23,7 @@ import {
 } from "@/lib/checkout/paymentSessions";
 import { mapStripePaymentIntentState, recordPaymentState } from "@/lib/payments/stateMachine";
 import { StubProvider } from "@/lib/payments/provider";
+import { buildShortOrderCode } from "@/lib/orders/orderReference";
 import { getStripe } from "@/lib/stripe/stripeClient";
 import { getSupabaseServerClient } from "@/lib/supabaseServer";
 import { Address } from "@/lib/types";
@@ -31,6 +32,12 @@ export const runtime = "nodejs";
 
 type PaymentIntentRequest = {
   paymentMethod?: "cartao" | "pix" | "boleto";
+  customer?: {
+    name?: string;
+    email?: string;
+    cpf?: string;
+    phone?: string;
+  };
   address?: Address;
   cartId?: string | null;
   requestedPopClubCreditsCents?: number | null;
@@ -79,6 +86,7 @@ const buildPaymentIntentResponse = ({
 }) => ({
   checkoutSessionId: checkoutSessionId ?? null,
   orderId,
+  orderCode: buildShortOrderCode(orderId),
   paymentIntentId,
   clientSecret,
   grossAmount: fromCents(grossAmountCents),
@@ -440,26 +448,42 @@ export async function POST(request: NextRequest) {
 
     let paymentIntent;
     try {
-      try {
+      if (paymentMethod === "pix") {
         paymentIntent = await stripe.paymentIntents.create({
           ...basePayload,
-          automatic_payment_methods: { enabled: true }
+          payment_method_types: ["pix"]
         }, {
           idempotencyKey
         });
-      } catch (error) {
-        if (
-          error instanceof Error &&
-          /No valid payment method types/i.test(error.message)
-        ) {
+      } else if (paymentMethod === "boleto") {
+        paymentIntent = await stripe.paymentIntents.create({
+          ...basePayload,
+          payment_method_types: ["boleto"]
+        }, {
+          idempotencyKey
+        });
+      } else {
+        try {
           paymentIntent = await stripe.paymentIntents.create({
             ...basePayload,
-            payment_method_types: ["card"]
+            automatic_payment_methods: { enabled: true }
           }, {
             idempotencyKey
           });
-        } else {
-          throw error;
+        } catch (error) {
+          if (
+            error instanceof Error &&
+            /No valid payment method types/i.test(error.message)
+          ) {
+            paymentIntent = await stripe.paymentIntents.create({
+              ...basePayload,
+              payment_method_types: ["card"]
+            }, {
+              idempotencyKey
+            });
+          } else {
+            throw error;
+          }
         }
       }
     } catch (error) {

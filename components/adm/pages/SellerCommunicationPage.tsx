@@ -1,4 +1,4 @@
-import Image from "next/image";
+﻿import Image from "next/image";
 import Link from "next/link";
 import { Noto_Serif } from "next/font/google";
 import type { CSSProperties } from "react";
@@ -83,10 +83,10 @@ type ProfileEvent = {
 
 const sidebarItems: SidebarItem[] = [
   { label: "Dashboard", href: "/adm/dashboard-executivo", icon: LayoutDashboard },
-  { label: "Catalogo", href: "/adm/catalogo-marca/inteligência", icon: Package2 },
-  { label: "Pedidos", href: "/adm/operação/pedidos-criticos", icon: ShoppingBag },
-  { label: "Comunicação", href: "/adm/operação/comunicação-sellers", icon: MessageSquare, active: true },
-  { label: "Configuracoes", href: "/adm/gestao/configurações", icon: Settings }
+  { label: "Catalogo", href: "/adm/catalogo-marca/inteligencia", icon: Package2 },
+  { label: "Pedidos", href: "/adm/operacao/pedidos-criticos", icon: ShoppingBag },
+  { label: "Comunicação", href: "/adm/operacao/comunicacao-sellers", icon: MessageSquare, active: true },
+  { label: "Configuracoes", href: "/adm/gestao/configuracoes", icon: Settings }
 ];
 
 const filters = [

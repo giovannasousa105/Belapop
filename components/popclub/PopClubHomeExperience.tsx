@@ -3,11 +3,10 @@
 /* eslint-disable @next/next/no-img-element */
 
 import Link from "next/link";
-import { Flame, Menu, Sparkles, Star } from "lucide-react";
+import { Flame, Sparkles, Star } from "lucide-react";
 import { useEffect, useState } from "react";
 
 import { ImmersiveBottomNav } from "@/components/popclub/shared/ImmersiveBottomNav";
-import { ImmersiveMenuDrawer } from "@/components/popclub/shared/ImmersiveMenuDrawer";
 import { useAuth } from "@/lib/AuthContext";
 import {
   createEmptyPopClubAccountSnapshot,
@@ -18,7 +17,7 @@ import {
   getPopClubProgressLabel,
   getPopClubSampleMessage
 } from "@/lib/popclub/accountSnapshot";
-import { homeBottomNavItems, homeMenuLinks } from "@/lib/popclub/navigation";
+import { homeBottomNavItems } from "@/lib/popclub/navigation";
 import { popClubTierMap } from "@/lib/popclub/tiers";
 
 const selectedProducts = [
@@ -46,7 +45,6 @@ const explorationCards = [
 
 export default function PopClubHomeExperience() {
   const { ready, user } = useAuth();
-  const [menuOpen, setMenuOpen] = useState(false);
   const [snapshot, setSnapshot] = useState(createEmptyPopClubAccountSnapshot);
 
   useEffect(() => {
@@ -79,37 +77,6 @@ export default function PopClubHomeExperience() {
 
   return (
     <div className="min-h-screen bg-[#fcf9f8] pb-24 text-[#1c1b1b]">
-      <header className="fixed inset-x-0 top-0 z-50 bg-[#fcf9f8]/82 backdrop-blur-xl">
-        <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6 lg:px-10">
-          <button
-            type="button"
-            onClick={() => setMenuOpen(true)}
-            className="inline-flex h-10 w-10 items-center justify-center text-[#1c1b1b]"
-            aria-label="Abrir menu"
-          >
-            <Menu className="h-5 w-5" />
-          </button>
-          <span className="font-[var(--font-playfair)] text-2xl font-bold uppercase tracking-[0.2em]">
-            PopClub
-          </span>
-          <div className="h-8 w-8 overflow-hidden rounded-full border border-black/10 bg-[#e5e2e1]">
-            <img
-              src="https://lh3.googleusercontent.com/aida-public/AB6AXuB1563xRoRq5vRheJA45fhg7X4eZ82lvYVrSgawUgITH74RnVeCpFtwwUKhk9UMcKNNne4Et4d89KZZqhQp_XkDs7sdtbpeJSXN0BCbcGY2BugKDtZ8XD21UlQB5NwyREgbjqmcoW6BF67XrNhftodkJSaFihbAeIjlXhAYb-rjAUPS_q_4kiWdwBx6wU59jx0FIZma05fk7K0m1Q_iNCdfJresE4m_JBQorooMkd-exjCnxj7Y8EJSvt0fHhn3CHOnXTLTz_nIW_T2"
-              alt="Perfil"
-              className="h-full w-full object-cover"
-            />
-          </div>
-        </div>
-      </header>
-
-      <ImmersiveMenuDrawer
-        open={menuOpen}
-        onClose={() => setMenuOpen(false)}
-        title="PopClub"
-        links={homeMenuLinks}
-        searchPlaceholder="Buscar no clube"
-      />
-
       <main className="mx-auto max-w-7xl px-6 pb-10 pt-24 lg:px-10 lg:pt-28">
         <section className="mb-12 grid gap-8 lg:grid-cols-[minmax(0,1.04fr)_minmax(320px,0.62fr)]">
           <div className="space-y-8">

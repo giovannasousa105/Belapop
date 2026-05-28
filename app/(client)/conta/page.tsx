@@ -59,7 +59,7 @@ const buildWhatsappHref = () => {
   const raw = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? "";
   const phone = raw.replace(/\D/g, "");
   if (!phone) return null;
-  const text = encodeURIComponent("Ola, preciso de apoio com meu pedido na BelaPop.");
+  const text = encodeURIComponent("Olá, preciso de apoio com meu pedido na BelaPop.");
   return `https://wa.me/${phone}?text=${text}`;
 };
 
@@ -220,190 +220,234 @@ export default function ContaPage() {
 
   return (
     <div className="space-y-8 pb-8">
-      <section className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
-        <p className="text-xs uppercase tracking-[0.32em] text-bpGraphite/60">Painel do cliente</p>
-        <h1 className="mt-3 font-display text-4xl text-bpBlack">
-          Ola, {(user?.name ?? "Cliente").split(" ")[0]}
+      <section className="relative overflow-hidden rounded-3xl border border-[#e8e0d8] bg-gradient-to-br from-[#1e1e1e] via-[#2a1f1a] to-[#3d2318] p-8 shadow-[0_20px_60px_rgba(30,15,5,0.25)]">
+        <div className="pointer-events-none absolute right-0 top-0 h-64 w-64 bg-[radial-gradient(ellipse_at_top_right,_rgba(212,132,95,0.18)_0%,_transparent_65%)]" />
+        <div className="pointer-events-none absolute bottom-0 left-0 h-40 w-40 bg-[radial-gradient(ellipse_at_bottom_left,_rgba(213,30,113,0.10)_0%,_transparent_65%)]" />
+
+        <p className="text-[10px] font-medium uppercase tracking-[0.45em] text-[#d4845f]/80">
+          Painel Exclusivo
+        </p>
+        <h1 className="mt-3 font-display text-5xl font-light tracking-wide text-white/95">
+          Olá, {(user?.name ?? "Cliente").split(" ")[0]}
         </h1>
-        <p className="mt-3 max-w-2xl text-sm text-bpGraphite/75">
+        <p className="mt-3 max-w-2xl text-sm leading-relaxed text-white/55">
           Seu resumo de compras, entregas por lojista e suporte com protocolo.
         </p>
 
         {profileIncomplete ? (
-          <div className="mt-5 rounded-2xl border border-bpPink/30 bg-bpPink/10 p-4 text-sm text-bpBlackSoft">
-            Complete seu perfil para liberar rastreio completo e dados fiscais sem friccao.
-            <Link href="/conta/dados" className="ml-2 font-medium text-bpPink">
-              Atualizar agora
-            </Link>
+          <div className="mt-6 inline-flex items-center gap-3 rounded-2xl border border-[#d4845f]/30 bg-[#d4845f]/10 px-5 py-3">
+            <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-[#d4845f]" />
+            <p className="text-xs text-[#d4845f]/90">
+              Complete seu perfil para rastreio completo e dados fiscais.{" "}
+              <Link href="/conta/dados" className="underline underline-offset-2 hover:text-[#d4845f]">
+                Atualizar agora
+              </Link>
+            </p>
           </div>
         ) : null}
       </section>
 
       <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-        <article className="rounded-2xl border border-black/10 bg-white p-5 shadow-sm">
-          <p className="text-xs uppercase tracking-[0.26em] text-bpGraphite/60">Pedidos ativos</p>
-          <p className="mt-3 text-3xl font-semibold text-bpBlack">{activeOrders.length}</p>
-          <Link href="/conta/pedidos" className="mt-4 inline-flex text-sm text-bpPink">
-            Acompanhar pedidos
+        <article className="group relative overflow-hidden rounded-2xl border border-[#e8e0d8] bg-white p-6 shadow-[0_4px_24px_rgba(30,15,5,0.06)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_8px_32px_rgba(30,15,5,0.12)]">
+          <div className="absolute inset-x-0 top-0 h-[2px] bg-gradient-to-r from-transparent via-[#d4845f]/60 to-transparent" />
+          <p className="text-[10px] font-medium uppercase tracking-[0.38em] text-[#9b9b96]">Pedidos ativos</p>
+          <p className="mt-4 font-display text-5xl font-light text-[#1e1e1e]">{activeOrders.length}</p>
+          <Link href="/conta/pedidos" className="mt-4 inline-flex items-center gap-1.5 text-xs uppercase tracking-[0.2em] text-[#d51e71] transition-all hover:gap-2.5">
+            Acompanhar →
           </Link>
         </article>
 
-        <article className="rounded-2xl border border-black/10 bg-white p-5 shadow-sm">
-          <p className="text-xs uppercase tracking-[0.26em] text-bpGraphite/60">Ultima compra</p>
+        <article className="group relative overflow-hidden rounded-2xl border border-[#e8e0d8] bg-white p-6 shadow-[0_4px_24px_rgba(30,15,5,0.06)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_8px_32px_rgba(30,15,5,0.12)]">
+          <div className="absolute inset-x-0 top-0 h-[2px] bg-gradient-to-r from-transparent via-[#d4845f]/60 to-transparent" />
+          <p className="text-[10px] font-medium uppercase tracking-[0.38em] text-[#9b9b96]">Última compra</p>
           {latestOrder ? (
             <>
-              <p className="mt-3 text-lg font-semibold text-bpBlack">Pedido {shortId(latestOrder.id)}</p>
-              <p className="mt-1 text-sm text-bpGraphite/75">{formatMoneyFromCents(latestOrder.total_order_cents)}</p>
+              <p className="mt-4 font-display text-xl font-light text-[#1e1e1e]">Pedido {shortId(latestOrder.id)}</p>
+              <p className="mt-1 text-sm text-[#4a4a47]/70">{formatMoneyFromCents(latestOrder.total_order_cents)}</p>
               <ReorderButton
                 orderId={latestOrder.id}
-                label="Comprar de novo"
-                className="mt-4 inline-flex text-sm text-bpPink"
+                label="Comprar de novo →"
+                className="mt-4 inline-flex text-xs uppercase tracking-[0.2em] text-[#d51e71]"
               />
             </>
           ) : (
-            <p className="mt-3 text-sm text-bpGraphite/70">Sem compras recentes.</p>
+            <p className="mt-4 text-sm text-[#9b9b96]">Sem compras recentes.</p>
           )}
         </article>
 
-        <article className="rounded-2xl border border-black/10 bg-white p-5 shadow-sm">
-          <p className="text-xs uppercase tracking-[0.26em] text-bpGraphite/60">Entrega mais proxima</p>
+        <article className="group relative overflow-hidden rounded-2xl border border-[#e8e0d8] bg-white p-6 shadow-[0_4px_24px_rgba(30,15,5,0.06)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_8px_32px_rgba(30,15,5,0.12)]">
+          <div className="absolute inset-x-0 top-0 h-[2px] bg-gradient-to-r from-transparent via-[#d4845f]/60 to-transparent" />
+          <p className="text-[10px] font-medium uppercase tracking-[0.38em] text-[#9b9b96]">Entrega mais próxima</p>
           {nearestShipment ? (
             <>
-              <p className="mt-3 text-lg font-semibold text-bpBlack">
+              <p className="mt-4 font-display text-xl font-light text-[#1e1e1e]">
                 {sellerMap[nearestShipment.subOrder.seller_id] ?? "Lojista"}
               </p>
-              <p className="mt-1 text-sm text-bpGraphite/75">{nearestShipment.summary.etaLabel}</p>
-              <p className="mt-1 text-xs text-bpGraphite/65">
-                {nearestShipment.summary.detailLine} - {nearestShipment.summary.lastUpdatedLabel}
+              <p className="mt-1 text-sm text-[#4a4a47]/70">{nearestShipment.summary.etaLabel}</p>
+              <p className="mt-1 text-xs text-[#9b9b96]">
+                {nearestShipment.summary.detailLine} · {nearestShipment.summary.lastUpdatedLabel}
               </p>
               <Link
                 href={`/conta/rastreio?order=${nearestShipment.subOrder.order_id}`}
-                className="mt-4 inline-flex text-sm text-bpPink"
+                className="mt-4 inline-flex items-center gap-1.5 text-xs uppercase tracking-[0.2em] text-[#d51e71] transition-all hover:gap-2.5"
               >
-                Ver rastreio
+                Ver rastreio →
               </Link>
             </>
           ) : (
-            <p className="mt-3 text-sm text-bpGraphite/70">Sem entregas em transito.</p>
+            <p className="mt-4 text-sm text-[#9b9b96]">Sem entregas em trânsito.</p>
           )}
         </article>
 
-        <article className="rounded-2xl border border-black/10 bg-white p-5 shadow-sm">
-          <p className="text-xs uppercase tracking-[0.26em] text-bpGraphite/60">Suporte</p>
-          <p className="mt-3 text-3xl font-semibold text-bpBlack">{ticketCount}</p>
-          <p className="mt-1 text-sm text-bpGraphite/75">Protocolos abertos</p>
-          <Link href="/conta/reclamacoes-suporte" className="mt-4 inline-flex text-sm text-bpPink">
-            Abrir reclamacao
+        <article className="group relative overflow-hidden rounded-2xl border border-[#e8e0d8] bg-white p-6 shadow-[0_4px_24px_rgba(30,15,5,0.06)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_8px_32px_rgba(30,15,5,0.12)]">
+          <div className="absolute inset-x-0 top-0 h-[2px] bg-gradient-to-r from-transparent via-[#d4845f]/60 to-transparent" />
+          <p className="text-[10px] font-medium uppercase tracking-[0.38em] text-[#9b9b96]">Suporte</p>
+          <p className="mt-4 font-display text-5xl font-light text-[#1e1e1e]">{ticketCount}</p>
+          <p className="mt-1 text-sm text-[#4a4a47]/70">Protocolos abertos</p>
+          <Link href="/conta/reclamacoes-suporte" className="mt-4 inline-flex items-center gap-1.5 text-xs uppercase tracking-[0.2em] text-[#d51e71] transition-all hover:gap-2.5">
+            Abrir reclamação →
           </Link>
         </article>
       </section>
 
-      <section className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
+      <section className="relative overflow-hidden rounded-3xl border border-[#d4845f]/25 bg-gradient-to-br from-[#1e1e1e] to-[#2e1f14] p-8 shadow-[0_20px_60px_rgba(30,15,5,0.20)]">
+        <div className="pointer-events-none absolute right-[-20px] top-[-20px] h-56 w-56 rounded-full bg-[#d4845f]/8 blur-3xl" />
+
         <div className="flex flex-wrap items-start justify-between gap-4">
           <div>
-            <p className="text-xs uppercase tracking-[0.3em] text-bpGraphite/60">PopClub</p>
-            <h2 className="mt-2 text-2xl font-semibold text-bpBlack">
-              Nivel {currentPopClubTier.label}
+            <p className="text-[10px] font-medium uppercase tracking-[0.45em] text-[#d4845f]/70">
+              PopClub ✦
+            </p>
+            <h2 className="mt-2 font-display text-3xl font-light text-white">
+              Nível {currentPopClubTier.label}
             </h2>
-            <p className="mt-2 max-w-2xl text-sm text-bpGraphite/75">
-              Leitura transacional de pontos, créditos e amostras elegíveis, ligada aos pedidos pagos do seu histórico.
+            <p className="mt-2 max-w-md text-sm text-white/45">
+              Pontos, créditos e amostras exclusivas ligados aos seus pedidos.
             </p>
           </div>
           <Link
             href="/popclub/inicio"
-            className="rounded-full border border-bpPink/30 bg-bpPink/10 px-5 py-3 text-xs uppercase tracking-[0.2em] text-bpBlack transition hover:border-bpPink/60 hover:bg-bpPink/20"
+            className="rounded-full border border-[#d4845f]/40 bg-[#d4845f]/15 px-5 py-2.5 text-xs uppercase tracking-[0.25em] text-[#d4845f] transition-all hover:bg-[#d4845f]/25"
           >
-            Abrir painel do clube
+            Ver clube
           </Link>
         </div>
 
+        <div className="mt-8">
+          <div className="mb-2 flex justify-between text-[10px] uppercase tracking-[0.3em] text-white/40">
+            <span>{currentPopClubTier.label}</span>
+            <span>{getPopClubProgressLabel(popClubSummary)}</span>
+          </div>
+          <div className="h-2 w-full overflow-hidden rounded-full bg-white/8">
+            <div
+              className="h-full rounded-full bg-gradient-to-r from-[#d51e71] via-[#d4845f] to-[#a85a38] shadow-[0_0_12px_rgba(213,30,113,0.4)]"
+              style={{ width: `${Math.max(0, Math.min(popClubSummary.progressBps, 10000)) / 100}%` }}
+            />
+          </div>
+          <div className="mt-1 flex justify-between">
+            {["Essencial", "Premium", "Luxo"].map((nivel) => (
+              <span key={nivel} className="text-[9px] uppercase tracking-[0.3em] text-white/30">{nivel}</span>
+            ))}
+          </div>
+        </div>
+
         <div className="mt-6 grid gap-4 lg:grid-cols-3">
-          <article className="rounded-2xl border border-black/10 bg-bpOffWhite/70 p-5">
-            <p className="text-xs uppercase tracking-[0.26em] text-bpGraphite/60">Pontos ativos</p>
-            <p className="mt-3 text-3xl font-semibold text-bpBlack">
+          <article className="rounded-2xl border border-white/10 bg-white/5 p-5 backdrop-blur-sm">
+            <p className="text-[10px] uppercase tracking-[0.35em] text-[#d4845f]/70">Pontos ativos</p>
+            <p className="mt-3 font-display text-4xl font-light text-white">
               {formatPopClubPoints(popClubSummary.pointsBalance)}
             </p>
-            <div className="mt-4 h-1.5 w-full overflow-hidden rounded-full bg-black/5">
-              <div
-                className="h-full rounded-full bg-bpPink"
-                style={{ width: `${Math.max(0, Math.min(popClubSummary.progressBps, 10000)) / 100}%` }}
-              />
-            </div>
-            <p className="mt-3 text-sm text-bpGraphite/75">{getPopClubProgressLabel(popClubSummary)}</p>
+            <p className="mt-1 text-xs text-white/35">{getPopClubProgressLabel(popClubSummary)}</p>
           </article>
 
-          <article className="rounded-2xl border border-black/10 bg-bpOffWhite/70 p-5">
-            <p className="text-xs uppercase tracking-[0.26em] text-bpGraphite/60">Creditos disponiveis</p>
-            <p className="mt-3 text-3xl font-semibold text-bpBlack">
+          <article className="rounded-2xl border border-white/10 bg-white/5 p-5 backdrop-blur-sm">
+            <p className="text-[10px] uppercase tracking-[0.35em] text-[#d4845f]/70">Créditos</p>
+            <p className="mt-3 font-display text-4xl font-light text-white">
               {formatPopClubCredits(popClubSummary.creditBalanceCents)}
             </p>
-            <p className="mt-3 text-sm text-bpGraphite/75">
-              Saldo derivado do ledger de creditos do clube, sem campo manual solto.
-            </p>
+            <p className="mt-1 text-xs text-white/35">Saldo do clube</p>
           </article>
 
-          <article className="rounded-2xl border border-black/10 bg-bpOffWhite/70 p-5">
-            <p className="text-xs uppercase tracking-[0.26em] text-bpGraphite/60">Amostras premium</p>
-            <p className="mt-3 text-3xl font-semibold text-bpBlack">{popClubSummary.latestSampleSlots}</p>
-            <p className="mt-3 text-sm text-bpGraphite/75">
-              {getPopClubSampleMessage(popClubSummary)}
+          <article className="rounded-2xl border border-white/10 bg-white/5 p-5 backdrop-blur-sm">
+            <p className="text-[10px] uppercase tracking-[0.35em] text-[#d4845f]/70">Amostras premium</p>
+            <p className="mt-3 font-display text-4xl font-light text-white">
+              {popClubSummary.latestSampleSlots > 0 ? popClubSummary.latestSampleSlots : <span className="text-white/40">—</span>}
             </p>
+            <p className="mt-1 text-xs text-white/35">{getPopClubSampleMessage(popClubSummary)}</p>
           </article>
         </div>
       </section>
 
-      <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+      <section className="grid gap-3 md:grid-cols-2 xl:grid-cols-4">
         <Link
           href="/conta/rastreio"
-          className="rounded-2xl border border-black/10 bg-white px-5 py-4 text-sm font-medium text-bpBlackSoft shadow-sm transition hover:border-bpPink/40"
+          className="group flex flex-col gap-3 rounded-2xl border border-[#e8e0d8] bg-white p-5 shadow-[0_2px_16px_rgba(30,15,5,0.05)] transition-all duration-300 hover:-translate-y-0.5 hover:border-[#d4845f]/40 hover:shadow-[0_6px_24px_rgba(30,15,5,0.10)]"
         >
-          Rastrear pedido
+          <span className="text-lg text-[#d4845f] transition-transform group-hover:scale-110">📦</span>
+          <div>
+            <p className="text-sm font-medium text-[#1e1e1e]">Rastrear pedido</p>
+            <p className="text-xs text-[#9b9b96]">Ver entregas</p>
+          </div>
         </Link>
         <Link
           href="/conta/reclamacoes-suporte"
-          className="rounded-2xl border border-black/10 bg-white px-5 py-4 text-sm font-medium text-bpBlackSoft shadow-sm transition hover:border-bpPink/40"
+          className="group flex flex-col gap-3 rounded-2xl border border-[#e8e0d8] bg-white p-5 shadow-[0_2px_16px_rgba(30,15,5,0.05)] transition-all duration-300 hover:-translate-y-0.5 hover:border-[#d4845f]/40 hover:shadow-[0_6px_24px_rgba(30,15,5,0.10)]"
         >
-          Abrir reclamacao
+          <span className="text-lg text-[#d4845f] transition-transform group-hover:scale-110">💬</span>
+          <div>
+            <p className="text-sm font-medium text-[#1e1e1e]">Abrir suporte</p>
+            <p className="text-xs text-[#9b9b96]">Protocolo rápido</p>
+          </div>
         </Link>
         {whatsappHref ? (
           <a
             href={whatsappHref}
             target="_blank"
             rel="noreferrer"
-            className="rounded-2xl border border-black/10 bg-white px-5 py-4 text-sm font-medium text-bpBlackSoft shadow-sm transition hover:border-bpPink/40"
+            className="group flex flex-col gap-3 rounded-2xl border border-[#e8e0d8] bg-white p-5 shadow-[0_2px_16px_rgba(30,15,5,0.05)] transition-all duration-300 hover:-translate-y-0.5 hover:border-[#d4845f]/40 hover:shadow-[0_6px_24px_rgba(30,15,5,0.10)]"
           >
-            Falar no WhatsApp
+            <span className="text-lg text-[#d4845f] transition-transform group-hover:scale-110">✦</span>
+            <div>
+              <p className="text-sm font-medium text-[#1e1e1e]">WhatsApp</p>
+              <p className="text-xs text-[#9b9b96]">Concierge exclusivo</p>
+            </div>
           </a>
         ) : (
-          <div className="rounded-2xl border border-black/10 bg-white px-5 py-4 text-sm text-bpGraphite/70 shadow-sm">
-            WhatsApp em atualizacao
+          <div className="flex flex-col gap-3 rounded-2xl border border-[#e8e0d8] bg-white p-5 opacity-50 shadow-[0_2px_16px_rgba(30,15,5,0.05)]">
+            <span className="text-lg text-[#9b9b96]">✦</span>
+            <div>
+              <p className="text-sm font-medium text-[#1e1e1e]">WhatsApp</p>
+              <p className="text-xs text-[#9b9b96]">Em atualização</p>
+            </div>
           </div>
         )}
         <Link
           href="/catalogo"
-          className="rounded-2xl border border-black/10 bg-white px-5 py-4 text-sm font-medium text-bpBlackSoft shadow-sm transition hover:border-bpPink/40"
+          className="group flex flex-col gap-3 rounded-2xl border border-[#e8e0d8] bg-white p-5 shadow-[0_2px_16px_rgba(30,15,5,0.05)] transition-all duration-300 hover:-translate-y-0.5 hover:border-[#d4845f]/40 hover:shadow-[0_6px_24px_rgba(30,15,5,0.10)]"
         >
-          Comprar agora
+          <span className="text-lg text-[#d4845f] transition-transform group-hover:scale-110">◈</span>
+          <div>
+            <p className="text-sm font-medium text-[#1e1e1e]">Comprar agora</p>
+            <p className="text-xs text-[#9b9b96]">Curadoria do mês</p>
+          </div>
         </Link>
       </section>
 
-      <section className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
-        <div className="flex flex-wrap items-center justify-between gap-3">
-          <div>
-            <p className="text-xs uppercase tracking-[0.3em] text-bpGraphite/60">Skincare builder</p>
-            <p className="mt-2 text-xl font-semibold text-bpBlack">Monte sua rotina completa</p>
-            <p className="mt-2 max-w-2xl text-sm text-bpGraphite/75">
-              Responda o quiz de pele, receba uma rotina por etapa e gere um carrinho pronto
-              para recompra recorrente.
-            </p>
-          </div>
-          <Link
-            href="/conta/skincare"
-            className="rounded-full border border-bpPink/40 bg-bpPink/10 px-5 py-3 text-xs uppercase tracking-[0.2em] text-bpBlack transition hover:border-bpPink/70 hover:bg-bpPink/20"
-          >
-            Abrir rotina
-          </Link>
-        </div>
+      <section className="relative overflow-hidden rounded-3xl border border-[#e8e0d8] bg-gradient-to-br from-[#fdf4f1] via-white to-[#faf8f5] p-8">
+        <div className="pointer-events-none absolute right-0 top-0 h-48 w-48 bg-[radial-gradient(ellipse,_rgba(213,30,113,0.06)_0%,_transparent_70%)]" />
+        <p className="text-[10px] font-medium uppercase tracking-[0.45em] text-[#d51e71]/60">
+          Skin Intelligence ✦
+        </p>
+        <p className="mt-2 text-xl font-semibold text-[#1e1e1e]">Monte sua rotina completa</p>
+        <p className="mt-2 max-w-2xl text-sm leading-relaxed text-[#4a4a47]/70">
+          Responda o quiz de pele, receba uma rotina personalizada por etapa e gere um carrinho pronto para recompra.
+        </p>
+        <Link
+          href="/conta/skincare"
+          className="mt-5 inline-flex items-center gap-2 rounded-full bg-[#1e1e1e] px-6 py-3 text-xs uppercase tracking-[0.25em] text-white shadow-[0_4px_16px_rgba(30,15,5,0.20)] transition-all hover:bg-[#2e1f14] hover:shadow-[0_6px_24px_rgba(30,15,5,0.30)]"
+        >
+          Iniciar rotina →
+        </Link>
       </section>
 
       <CustomerPaymentMethodsPanel compact />

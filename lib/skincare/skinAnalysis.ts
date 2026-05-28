@@ -64,11 +64,37 @@ export type SkinAnalysisApiResponse = z.infer<typeof skinAnalysisApiResponseSche
 
 export const SKIN_ANALYSIS_SESSION_STORAGE_KEY = "belapop_skin_analysis_last_result";
 
+const scienceRoutineStepSchema = z.object({
+  slug: z.string(),
+  name: z.string(),
+  category: z.string(),
+  price: z.number().nullable(),
+  step: z.number(),
+  period: z.array(z.string()),
+  description: z.string(),
+  ritual: z.string(),
+  whyRecommended: z.string(),
+  addresses: z.array(z.string()).optional(),
+  keyActives: z.array(z.string()).optional(),
+  skinTypes: z.array(z.string()).optional()
+});
+
+export const scienceRoutineSchema = z.object({
+  manha: z.array(scienceRoutineStepSchema),
+  noite: z.array(scienceRoutineStepSchema),
+  semanal: z.array(scienceRoutineStepSchema),
+  topActives: z.array(z.string()),
+  skinProfile: z.string()
+});
+
+export type ScienceRoutineSession = z.infer<typeof scienceRoutineSchema>;
+
 export const skinAnalysisSessionSchema = z.object({
   analysis: openAiSkinAnalysisSchema,
   recommendedProducts: z.array(skinAnalysisProductSchema),
   generatedAt: z.string().min(1),
-  imagePreviewDataUrl: z.string().min(1).nullable().optional()
+  imagePreviewDataUrl: z.string().min(1).nullable().optional(),
+  scienceRoutine: scienceRoutineSchema.optional()
 });
 
 export type SkinAnalysisSession = z.infer<typeof skinAnalysisSessionSchema>;

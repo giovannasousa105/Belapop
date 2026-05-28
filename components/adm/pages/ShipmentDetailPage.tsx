@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import {
   ArrowRight,
   Copy,
@@ -45,7 +45,7 @@ export async function ShipmentDetailPage({ shipmentId }: ShipmentDetailPageProps
         title="Envio não encontrado"
         description="Verifique o identificador e retorne para a central logistica."
         actionLabel="Voltar para logistica"
-        actionHref="/adm/operação/logistica"
+        actionHref="/adm/operacao/logistica"
       />
     );
   }
@@ -258,7 +258,7 @@ export async function ShipmentDetailPage({ shipmentId }: ShipmentDetailPageProps
             </div>
             {incident ? (
               <Link
-                href={`/adm/operação/logistica/incidentes?shipment=${shipment.id}`}
+                href={`/adm/operacao/logistica/incidentes?shipment=${shipment.id}`}
                 className="mt-5 inline-flex min-h-11 items-center justify-center rounded-full bg-[var(--adm-tertiary)] px-5 text-[10px] font-semibold uppercase tracking-[0.18em] text-white"
               >
                 Priorizar resolucao
@@ -271,9 +271,9 @@ export async function ShipmentDetailPage({ shipmentId }: ShipmentDetailPageProps
               Acoes rapidas
             </p>
             <div className="mt-4 space-y-3">
-              <PermissionGate route="/adm/operação/logistica/incidentes">
+              <PermissionGate route="/adm/operacao/logistica/incidentes">
                 <Link
-                  href={`/adm/operação/logistica/incidentes?shipment=${shipment.id}`}
+                  href={`/adm/operacao/logistica/incidentes?shipment=${shipment.id}`}
                   className="flex items-center justify-between rounded-[18px] bg-[var(--adm-surface-muted)] px-4 py-4 text-sm text-[var(--adm-text)] transition hover:bg-[var(--adm-surface-soft)]"
                 >
                   <span>Notificar seller</span>
@@ -281,15 +281,15 @@ export async function ShipmentDetailPage({ shipmentId }: ShipmentDetailPageProps
                 </Link>
               </PermissionGate>
               <Link
-                href={`/adm/operação/logistica/envios/${shipment.id}`}
+                href={`/adm/operacao/logistica/envios/${shipment.id}`}
                 className="flex items-center justify-between rounded-[18px] bg-[var(--adm-surface-muted)] px-4 py-4 text-sm text-[var(--adm-text)] transition hover:bg-[var(--adm-surface-soft)]"
               >
                 <span>Atualizar status</span>
                 <ArrowRight className="h-4 w-4" />
               </Link>
-              <PermissionGate route="/adm/operação/logistica/incidentes">
+              <PermissionGate route="/adm/operacao/logistica/incidentes">
                 <Link
-                  href={`/adm/operação/logistica/incidentes?shipment=${shipment.id}`}
+                  href={`/adm/operacao/logistica/incidentes?shipment=${shipment.id}`}
                   className="flex items-center justify-between rounded-[18px] bg-[var(--adm-surface-muted)] px-4 py-4 text-sm text-[var(--adm-text)] transition hover:bg-[var(--adm-surface-soft)]"
                 >
                   <span>Registrar incidente</span>
@@ -404,18 +404,18 @@ export async function ShipmentDetailPage({ shipmentId }: ShipmentDetailPageProps
               Reembolso
             </Link>
           </PermissionGate>
-          <PermissionGate route="/adm/operação/logistica/incidentes">
+          <PermissionGate route="/adm/operacao/logistica/incidentes">
             <Link
-              href={`/adm/operação/logistica/incidentes?shipment=${shipment.id}`}
+              href={`/adm/operacao/logistica/incidentes?shipment=${shipment.id}`}
               className="inline-flex min-h-11 items-center gap-2 rounded-full border border-[var(--adm-border-strong)] px-5 text-[10px] font-semibold uppercase tracking-[0.18em] text-[var(--adm-text)]"
             >
               <Ticket className="h-4 w-4" />
               Incidentes
             </Link>
           </PermissionGate>
-          <PermissionGate route="/adm/operação/parceiros">
+          <PermissionGate route="/adm/operacao/parceiros">
             <Link
-              href={`/adm/operação/parceiros?seller=${shipment.sellerId}`}
+              href={`/adm/operacao/parceiros?seller=${shipment.sellerId}`}
               className="inline-flex min-h-11 items-center gap-2 rounded-full border border-[var(--adm-border-strong)] px-5 text-[10px] font-semibold uppercase tracking-[0.18em] text-[var(--adm-text)]"
             >
               <Users className="h-4 w-4" />

@@ -9,6 +9,18 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      screens: {
+        tablet: '860px',
+      },
+      keyframes: {
+        'belapop-marquee': {
+          from: { transform: 'translateX(0)' },
+          to:   { transform: 'translateX(-50%)' },
+        },
+      },
+      animation: {
+        marquee: 'belapop-marquee 32s linear infinite',
+      },
       colors: {
         // ── Paleta legada (mantida para compatibilidade) ──────────────────
         bpBlack:     "#1E1E1E",
