@@ -12,7 +12,7 @@ const TIPO_PELE_LABELS: Record<string, string> = {
   seca: "Seca",
   mista: "Mista",
   normal: "Normal",
-  sensivel: "Sensivel",
+  sensivel: "Sensível",
 };
 
 const FOCUS_LABELS: Record<string, string> = {
@@ -24,13 +24,13 @@ const FOCUS_LABELS: Record<string, string> = {
   sensibilidade: "Sensibilidade",
   poros: "Poros",
   brilho: "Luminosidade",
-  hidratacao: "Hidratacao",
+  hidratacao: "Hidratação",
   textura: "Textura",
   olheiras: "Olheiras",
 };
 
 const SCORE_LABELS: Record<string, string> = {
-  hidratacao: "Hidratacao",
+  hidratacao: "Hidratação",
   oleosidade: "Oleosidade",
   uniformidade: "Uniformidade",
   textura: "Textura",
@@ -42,9 +42,9 @@ const ACHADO_LABELS: Record<string, string> = {
   zonaT: "Zona T",
   bochechas: "Bochechas",
   poros: "Poros",
-  eritema: "Vermelhidao",
+  eritema: "Vermelhidão",
   manchas: "Manchas",
-  descamacao: "Descamacao",
+  descamacao: "Descamação",
   linhasFinas: "Linhas finas",
   acne: "Acne",
 };
@@ -58,7 +58,11 @@ export default function SkinScanResultadoPage() {
   const [result, setResult] = useState<SkinScanResult | null>(null);
 
   useEffect(() => {
-    const raw = sessionStorage.getItem(BELAPOP_SCAN_KEY);
+    // Aceita a chave pelo valor da constante OU pelo nome literal (fallback de compatibilidade)
+    const raw =
+      sessionStorage.getItem(BELAPOP_SCAN_KEY) ??
+      sessionStorage.getItem("BELAPOP_SCAN_KEY");
+
     if (!raw) {
       router.replace("/skin-scan/foco");
       return;
@@ -66,9 +70,14 @@ export default function SkinScanResultadoPage() {
 
     try {
       const parsed = JSON.parse(raw) as SkinScanResult;
-      if (!parsed.analise || !parsed.rotina) {
-        throw new Error("Resultado antigo ou invalido.");
+
+      // Compatibilidade com resultados de sessões anteriores sem o campo semanal
+      if (parsed.rotina) {
+        parsed.rotina.semanal = parsed.rotina.semanal ?? [];
+        parsed.rotina.manha   = parsed.rotina.manha   ?? [];
+        parsed.rotina.noite   = parsed.rotina.noite   ?? [];
       }
+
       setResult(parsed);
     } catch {
       router.replace("/skin-scan/foco");
@@ -77,13 +86,14 @@ export default function SkinScanResultadoPage() {
 
   const topAtivos = useMemo(() => {
     if (!result) return [];
+    // Usar ?? [] em todos os campos — protege contra dados de sessões antigas
     const steps = [
-      ...result.rotina.manha,
-      ...result.rotina.noite,
-      ...result.rotina.semanal,
+      ...(result.rotina.manha   ?? []),
+      ...(result.rotina.noite   ?? []),
+      ...(result.rotina.semanal ?? []),
       ...(result.rotina.semana1 ?? []),
     ];
-    return [...new Set(steps.flatMap((step) => step.ativosChave))].slice(0, 6);
+    return [...new Set(steps.flatMap((step) => step.ativosChave ?? []))].slice(0, 6);
   }, [result]);
 
   if (!result) {
@@ -103,10 +113,10 @@ export default function SkinScanResultadoPage() {
       <div className="space-y-2 text-center">
         <p className="text-xs uppercase tracking-widest text-neutral-500">Etapa 3 - Resultado</p>
         <h1 style={{ fontFamily: "var(--font-playfair, serif)" }} className="text-3xl">
-          Sua analise de pele
+          Sua análise de pele
         </h1>
         <p className="text-sm text-neutral-500">
-          Protocolo belapop_scan_v2 · Confianca {analise.confianca}%
+          Protocolo belapop_scan_v2 · Confiança {analise.confianca}%
         </p>
       </div>
 

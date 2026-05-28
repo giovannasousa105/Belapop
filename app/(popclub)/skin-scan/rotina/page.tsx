@@ -24,7 +24,7 @@ const CATEGORY_ICONS: Record<string, string> = {
 };
 
 const PERIOD_LABELS: Record<RoutineTab, string> = {
-  manha: "Manha",
+  manha: "Manhã",
   noite: "Noite",
   semanal: "Semanal",
   semana1: "Semana 1",
@@ -115,7 +115,10 @@ export default function SkinScanRotinaPage() {
   const [activeTab, setActiveTab] = useState<RoutineTab>("manha");
 
   useEffect(() => {
-    const raw = sessionStorage.getItem(BELAPOP_SCAN_KEY);
+    const raw =
+      sessionStorage.getItem(BELAPOP_SCAN_KEY) ??
+      sessionStorage.getItem("BELAPOP_SCAN_KEY");
+
     if (!raw) {
       router.replace("/skin-scan/foco");
       return;
@@ -123,9 +126,14 @@ export default function SkinScanRotinaPage() {
 
     try {
       const parsed = JSON.parse(raw) as SkinScanResult;
-      if (!parsed.analise || !parsed.rotina) {
-        throw new Error("Resultado antigo ou invalido.");
+
+      // Normalizar campos ausentes em dados de sessões antigas
+      if (parsed.rotina) {
+        parsed.rotina.semanal = parsed.rotina.semanal ?? [];
+        parsed.rotina.manha   = parsed.rotina.manha   ?? [];
+        parsed.rotina.noite   = parsed.rotina.noite   ?? [];
       }
+
       setResult(parsed);
     } catch {
       router.replace("/skin-scan/foco");
@@ -133,7 +141,8 @@ export default function SkinScanRotinaPage() {
   }, [router]);
 
   const tabs = useMemo<RoutineTab[]>(() => {
-    const base: RoutineTab[] = ["manha", "noite", "semanal"];
+    const base: RoutineTab[] = ["manha", "noite"];
+    if (result?.rotina.semanal?.length) base.push("semanal");
     if (result?.rotina.semana1?.length) base.unshift("semana1");
     return base;
   }, [result]);
