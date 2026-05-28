@@ -11,6 +11,14 @@ import type { SkinScanResult } from "@/types/skin-scan";
 
 const LAST_SCAN_DATE_KEY = "belapop_last_scan_date";
 
+// ── Tipos para comparação com scan anterior (Melhoria 2.4) ───────────────────
+
+type PreviousScan = {
+  scanDate: string;          // ISO
+  overallScore: number;      // 0-100
+  skinType: string | null;
+};
+
 // ── Labels ────────────────────────────────────────────────────────────────────
 
 const TIPO_PELE_LABELS: Record<string, string> = {
@@ -113,6 +121,7 @@ export default function SkinScanResultadoPage() {
   const router = useRouter();
   const { user, ready: authReady } = useAuth();
   const [result, setResult] = useState<SkinScanResult | null>(null);
+  const [previousScan, setPreviousScan] = useState<PreviousScan | null | "loading">("loading");
 
   useEffect(() => {
     // Aceita a chave pelo valor da constante OU pelo nome literal (fallback de compatibilidade)
@@ -146,6 +155,31 @@ export default function SkinScanResultadoPage() {
     }
   }, [router]);
 
+  // Melhoria 2.4 — buscar scan anterior (somente se logada)
+  useEffect(() => {
+    if (!authReady) return;
+    if (!user) { setPreviousScan(null); return; }
+
+    fetch("/api/v1/faceshield/scans")
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data: { items?: Array<{ created_at: string; score?: { overall_score: number; skin_type: string | null } | null }> } | null) => {
+        const items = data?.items ?? [];
+        // Ordenar do mais recente para o mais antigo e pegar o segundo (o atual será persistido depois)
+        const sorted = [...items].sort(
+          (a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+        );
+        // O primeiro item é o scan mais recente salvo — usar como referência "anterior"
+        const prev = sorted[0];
+        if (!prev?.score) { setPreviousScan(null); return; }
+        setPreviousScan({
+          scanDate: prev.created_at,
+          overallScore: prev.score.overall_score,
+          skinType: prev.score.skin_type,
+        });
+      })
+      .catch(() => setPreviousScan(null));
+  }, [authReady, user]);
+
   const topAtivos = useMemo(() => {
     if (!result) return [];
     const steps = [
@@ -170,6 +204,13 @@ export default function SkinScanResultadoPage() {
   const achadosEntries = Object.entries(analise.achados).filter(([, value]) => Boolean(value));
   const badge = getConfidenceBadge(analise.confianca);
   const needsImprovement = analise.confianca < 60;
+
+  // Score médio atual em escala 0-100 (para comparar com overall_score anterior)
+  const currentAvgScore = useMemo(() => {
+    const vals = Object.values(analise.scores);
+    if (!vals.length) return 0;
+    return Math.round((vals.reduce((a, b) => a + b, 0) / vals.length) * 10);
+  }, [analise.scores]);
 
   return (
     <main className="mx-auto max-w-2xl space-y-10 px-4 py-10">
@@ -271,6 +312,66 @@ export default function SkinScanResultadoPage() {
               </div>
             ))}
           </div>
+        </section>
+      )}
+
+      {/* ── Melhoria 2.4 — Evolução da pele ── */}
+      {user && previousScan !== "loading" && (
+        <section className="space-y-3 rounded-xl border border-neutral-200 p-5">
+          <p className="text-xs uppercase tracking-widest text-neutral-500">Evolução da sua pele</p>
+
+          {previousScan === null ? (
+            <div className="space-y-1">
+              <p className="text-sm text-neutral-700">Este é seu primeiro scan registrado.</p>
+              <p className="text-xs text-neutral-400">
+                Faça um novo scan em 30 dias para acompanhar como sua pele evolui com a rotina.
+              </p>
+            </div>
+          ) : (
+            <div className="space-y-3">
+              <p className="text-xs text-neutral-500">
+                Comparado ao scan de{" "}
+                {new Date(previousScan.scanDate).toLocaleDateString("pt-BR", {
+                  day: "2-digit",
+                  month: "long",
+                  year: "numeric",
+                })}
+              </p>
+              <div className="flex items-center gap-4 rounded-lg bg-neutral-50 p-3">
+                <div className="flex-1 text-center">
+                  <p className="text-[10px] uppercase tracking-widest text-neutral-400">Anterior</p>
+                  <p className="mt-0.5 text-2xl font-medium">{previousScan.overallScore}</p>
+                </div>
+                <div className="flex flex-col items-center">
+                  {currentAvgScore > previousScan.overallScore ? (
+                    <span className="text-lg text-green-600">↑</span>
+                  ) : currentAvgScore < previousScan.overallScore ? (
+                    <span className="text-lg text-red-500">↓</span>
+                  ) : (
+                    <span className="text-lg text-neutral-400">→</span>
+                  )}
+                  <span className={`text-xs font-semibold ${
+                    currentAvgScore > previousScan.overallScore ? "text-green-600"
+                    : currentAvgScore < previousScan.overallScore ? "text-red-500"
+                    : "text-neutral-400"
+                  }`}>
+                    {currentAvgScore > previousScan.overallScore ? "+" : ""}
+                    {currentAvgScore - previousScan.overallScore} pts
+                  </span>
+                </div>
+                <div className="flex-1 text-center">
+                  <p className="text-[10px] uppercase tracking-widest text-neutral-400">Agora</p>
+                  <p className="mt-0.5 text-2xl font-medium">{currentAvgScore}</p>
+                </div>
+              </div>
+              <Link
+                href="/popclub"
+                className="block text-center text-xs tracking-wider text-neutral-400 transition-colors hover:text-black"
+              >
+                Ver histórico completo →
+              </Link>
+            </div>
+          )}
         </section>
       )}
 
