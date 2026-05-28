@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 
 import { useCart } from "@/lib/CartContext";
+import { getBeneficio } from "@/lib/skin-scan/ativos-map";
 import {
   BELAPOP_SCAN_KEY,
   LEGACY_SKIN_SCAN_KEYS,
@@ -78,14 +79,39 @@ function ProductCard({ product, step }: { product: RotinaPasso; step: number }) 
         <summary className="cursor-pointer text-[10px] uppercase tracking-widest text-neutral-400 transition-colors hover:text-black">
           Por que foi recomendado ↓
         </summary>
-        <div className="mt-2 space-y-2 text-xs leading-relaxed text-neutral-500">
+        <div className="mt-2 space-y-3 text-xs leading-relaxed text-neutral-500">
           <p>{product.porQueRecomendado}</p>
+
+          {/* Ativos e benefícios */}
+          {product.ativosChave.length > 0 && (
+            <div className="space-y-1.5">
+              <p className="text-[10px] uppercase tracking-widest text-neutral-400">
+                O que cada ativo faz
+              </p>
+              {product.ativosChave.map((ativo) => {
+                const beneficio = getBeneficio(ativo);
+                return (
+                  <div key={ativo} className="flex gap-2">
+                    <span className="shrink-0 font-medium text-neutral-700">{ativo}:</span>
+                    <span>{beneficio ?? "Ativo cosmético com função específica para esta rotina"}</span>
+                  </div>
+                );
+              })}
+            </div>
+          )}
+
+          {/* Base científica */}
           {product.evidencia && (
-            <p className="rounded-lg bg-neutral-50 p-2">
-              Evidencia {product.evidencia.grau}: {product.evidencia.fonte}
+            <p className="rounded-lg bg-neutral-50 p-2 font-medium text-neutral-600">
+              🔬 Grau {product.evidencia.grau} — {product.evidencia.fonte}
             </p>
           )}
-          {product.alertaSinergia && <p className="text-amber-700">{product.alertaSinergia}</p>}
+
+          {product.alertaSinergia && (
+            <p className="rounded-lg border border-amber-200 bg-amber-50 p-2 text-amber-700">
+              ⚠ {product.alertaSinergia}
+            </p>
+          )}
         </div>
       </details>
 
