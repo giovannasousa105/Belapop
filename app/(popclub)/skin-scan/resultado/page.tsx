@@ -4,9 +4,12 @@ import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 
+import { useAuth } from "@/lib/AuthContext";
 import { getBeneficio } from "@/lib/skin-scan/ativos-map";
 import { BELAPOP_SCAN_KEY } from "@/types/skin-scan";
 import type { SkinScanResult } from "@/types/skin-scan";
+
+const LAST_SCAN_DATE_KEY = "belapop_last_scan_date";
 
 // ── Labels ────────────────────────────────────────────────────────────────────
 
@@ -108,6 +111,7 @@ function AtivoItem({ ativo, index }: { ativo: string; index: number }) {
 
 export default function SkinScanResultadoPage() {
   const router = useRouter();
+  const { user, ready: authReady } = useAuth();
   const [result, setResult] = useState<SkinScanResult | null>(null);
 
   useEffect(() => {
@@ -132,6 +136,11 @@ export default function SkinScanResultadoPage() {
       }
 
       setResult(parsed);
+
+      // Melhoria 4.3 — salvar data do último scan em localStorage para mostrar na landing
+      try {
+        localStorage.setItem(LAST_SCAN_DATE_KEY, new Date().toISOString());
+      } catch { /* localStorage pode estar indisponível em alguns ambientes */ }
     } catch {
       router.replace("/skin-scan/foco");
     }
@@ -164,6 +173,29 @@ export default function SkinScanResultadoPage() {
 
   return (
     <main className="mx-auto max-w-2xl space-y-10 px-4 py-10">
+
+      {/* ── Melhoria 4.2 — Banner de login para não-logadas ── */}
+      {authReady && !user && (
+        <section className="flex flex-col gap-3 rounded-xl border border-neutral-200 bg-neutral-50 p-4 sm:flex-row sm:items-center sm:justify-between">
+          <p className="text-xs leading-relaxed text-neutral-600">
+            💾 Faça login para salvar sua análise e acompanhar a evolução da sua pele ao longo do tempo.
+          </p>
+          <div className="flex shrink-0 gap-2">
+            <Link
+              href={`/conta/login?returnTo=/skin-scan/resultado`}
+              className="rounded-lg bg-black px-4 py-2 text-[11px] font-semibold tracking-wider text-white transition-colors hover:bg-neutral-800"
+            >
+              Entrar
+            </Link>
+            <Link
+              href={`/conta/cadastro?returnTo=/skin-scan/resultado`}
+              className="rounded-lg border border-neutral-300 px-4 py-2 text-[11px] font-semibold tracking-wider text-neutral-700 transition-colors hover:border-black"
+            >
+              Criar conta
+            </Link>
+          </div>
+        </section>
+      )}
 
       {/* ── Cabeçalho + badge de confiança (Melhoria 2.2) ── */}
       <div className="space-y-3 text-center">

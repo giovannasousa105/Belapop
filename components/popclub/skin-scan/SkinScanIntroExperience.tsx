@@ -16,7 +16,7 @@ import {
   User,
   Waves
 } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { BelaPopValidatedHeader } from "@/components/luxury/BelaPopValidatedHeader";
 import { BelaPopValidatedFooter } from "@/components/luxury/BelaPopValidatedFooter";
@@ -139,8 +139,29 @@ const bottomNavItems: BottomNavItem[] = [
   { label: "Conta", href: "/conta", icon: User, active: false }
 ];
 
+// Melhoria 4.3 — Calcula mensagem baseada no último scan em localStorage
+function useLastScanMessage(): string | null {
+  const [msg, setMsg] = useState<string | null>(null);
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem("belapop_last_scan_date");
+      if (!raw) return;
+      const last = new Date(raw);
+      if (Number.isNaN(last.getTime())) return;
+      const daysSince = Math.floor((Date.now() - last.getTime()) / 86_400_000);
+      if (daysSince < 30) {
+        setMsg(`Seu último scan foi há ${daysSince === 0 ? "menos de 1 dia" : `${daysSince} dia${daysSince !== 1 ? "s" : ""}`}. Refaça em ${30 - daysSince} dias para acompanhar a evolução.`);
+      } else {
+        setMsg("Está na hora de um novo scan! Sua pele pode ter mudado.");
+      }
+    } catch { /* localStorage indisponível */ }
+  }, []);
+  return msg;
+}
+
 export default function SkinScanIntroExperience() {
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(0);
+  const lastScanMsg = useLastScanMessage();
 
   const toggleFaq = (index: number) => {
     setOpenFaqIndex((current) => (current === index ? null : index));
@@ -185,7 +206,13 @@ export default function SkinScanIntroExperience() {
                   Ver como funciona
                 </Link>
               </div>
-              <p className="mt-5 flex items-center gap-2 text-[11px] uppercase tracking-[0.1em] text-[#888]">
+              {/* Melhoria 4.3 — Banner do último scan */}
+              {lastScanMsg && (
+                <p className="mt-4 inline-flex items-center gap-2 rounded-full border border-[#C17A90]/30 bg-[rgba(193,122,144,0.07)] px-4 py-1.5 text-[11px] tracking-wide text-[#8E5B68]">
+                  🕐 {lastScanMsg}
+                </p>
+              )}
+              <p className="mt-3 flex items-center gap-2 text-[11px] uppercase tracking-[0.1em] text-[#888]">
                 <span>●</span> Não substitui avaliação dermatológica
               </p>
             </div>
