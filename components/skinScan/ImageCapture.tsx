@@ -29,6 +29,7 @@ export function ImageCapture() {
   const [previewBase64, setPreviewBase64] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [autoCapturing, setAutoCapturing] = useState(false);
+  const [countdown, setCountdown] = useState<number | null>(null);  // 3 → 2 → 1 → null
   const [focos, setFocos] = useState<string[]>(["hidratacao"]);
 
   const { quality, readyToCapture, stableSeconds, isModelLoading } =
@@ -104,19 +105,32 @@ export function ImageCapture() {
     setMode("preview");
   }, [stopCamera]);
 
-  // Auto-capture when face quality is sufficient
+  // Melhoria 1.1 — Auto-capture com countdown 3-2-1
   useEffect(() => {
-    if (mode === "camera" && readyToCapture && !autoCapturing) {
-      setAutoCapturing(true);
-      const timer = setTimeout(captureFrame, 800);
-      return () => clearTimeout(timer);
-    }
+    if (mode !== "camera" || !readyToCapture || autoCapturing) return;
+
+    setAutoCapturing(true);
+    setCountdown(3);
+
+    const t1 = setTimeout(() => setCountdown(2), 1000);
+    const t2 = setTimeout(() => setCountdown(1), 2000);
+    const t3 = setTimeout(() => {
+      setCountdown(null);
+      captureFrame();
+    }, 3000);
+
+    return () => {
+      clearTimeout(t1);
+      clearTimeout(t2);
+      clearTimeout(t3);
+    };
   }, [mode, readyToCapture, autoCapturing, captureFrame]);
 
   // Cancel camera and go back to idle
   const cancelCamera = useCallback(() => {
     stopCamera();
     setAutoCapturing(false);
+    setCountdown(null);
     setMode("idle");
   }, [stopCamera]);
 
@@ -176,14 +190,27 @@ export function ImageCapture() {
       };
       const analysis = data.analysis ?? data.result;
 
-      if (!analysis?.analise || !analysis.rotina) {
-        throw new Error("Resposta de analise invalida.");
+      if (!analysis) {
+        throw new Error("Resposta inválida do servidor. Tente novamente.");
       }
 
+      // Garantir campos obrigatórios para versões antigas da API
+      if (analysis.rotina) {
+        analysis.rotina.manha  = analysis.rotina.manha  ?? [];
+        analysis.rotina.noite  = analysis.rotina.noite  ?? [];
+        analysis.rotina.semanal = analysis.rotina.semanal ?? [];
+      }
+
+      // Limpar chaves legadas
       for (const key of LEGACY_SKIN_SCAN_KEYS) {
         sessionStorage.removeItem(key);
       }
-      sessionStorage.setItem(BELAPOP_SCAN_KEY, JSON.stringify(analysis));
+
+      // Gravar nas duas formas para compatibilidade com código em produção
+      // que pode usar o nome literal da constante ou o valor "belapop_scan_v2"
+      const payload = JSON.stringify(analysis);
+      sessionStorage.setItem(BELAPOP_SCAN_KEY, payload);      // "belapop_scan_v2"
+      sessionStorage.setItem("BELAPOP_SCAN_KEY", payload);    // literal — fallback
 
       router.push("/skin-scan/resultado");
     } catch (err) {
@@ -205,7 +232,14 @@ export function ImageCapture() {
 
   return (
     <div>
-      <style>{`@keyframes bp-spin { to { transform: rotate(360deg); } }`}</style>
+      <style>{`
+        @keyframes bp-spin { to { transform: rotate(360deg); } }
+        @keyframes bp-countdown-pop {
+          0%   { transform: scale(1.8); opacity: 0; }
+          60%  { transform: scale(0.92); opacity: 1; }
+          100% { transform: scale(1); opacity: 1; }
+        }
+      `}</style>
 
       {/* ── IDLE — mode selection ──────────────────────────────────────────────── */}
       {mode === "idle" && (
@@ -355,17 +389,23 @@ export function ImageCapture() {
               </div>
             )}
 
-            {/* Auto-capture flash overlay */}
-            {autoCapturing && (
-              <div className="absolute inset-0 flex items-center justify-center bg-white/10">
-                <div className="rounded-2xl bg-white/90 px-6 py-3 text-center">
-                  <p className="text-sm font-medium text-[#1e1e1e]">✓ Capturando...</p>
+            {/* Melhoria 1.1 — Countdown visual 3-2-1 */}
+            {countdown !== null && (
+              <div className="absolute inset-0 flex items-center justify-center bg-black/20">
+                <div className="flex h-24 w-24 items-center justify-center rounded-full bg-white/90 shadow-xl">
+                  <span
+                    key={countdown}
+                    className="text-5xl font-bold text-[#1e1e1e]"
+                    style={{ animation: "bp-countdown-pop 0.35s cubic-bezier(.22,1.5,.5,1) both" }}
+                  >
+                    {countdown}
+                  </span>
                 </div>
               </div>
             )}
           </div>
 
-          {/* Quality indicators */}
+          {/* Melhoria 1.2 — Indicador de qualidade colorido */}
           <div className="grid grid-cols-3 gap-2">
             {QUALITY_LABELS.map(({ key, label }) => {
               const ok = Boolean(quality[key]);
@@ -373,14 +413,27 @@ export function ImageCapture() {
                 <div
                   key={label}
                   className={`rounded-xl py-2 text-center text-[11px] font-semibold transition-colors ${
-                    ok ? "bg-green-50 text-green-700" : "bg-[rgba(30,30,30,0.04)] text-[rgba(30,30,30,0.45)]"
+                    ok
+                      ? "bg-green-50 text-green-700"
+                      : quality.faceDetected
+                        ? "bg-amber-50 text-amber-700"
+                        : "bg-[rgba(30,30,30,0.04)] text-[rgba(30,30,30,0.45)]"
                   }`}
                 >
-                  {ok ? "✓" : "○"} {label}
+                  {ok ? "✓" : quality.faceDetected ? "!" : "○"} {label}
                 </div>
               );
             })}
           </div>
+
+          {/* Melhoria 1.3 — Dica contextual de iluminação */}
+          {quality.faceDetected && !quality.lightingOk && (
+            <div className="rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-center">
+              <p className="text-xs text-amber-800">
+                💡 Aproxime-se de uma janela ou ligue a luz do quarto para melhorar a leitura.
+              </p>
+            </div>
+          )}
 
           {/* Action buttons */}
           <div className="grid grid-cols-2 gap-3">
