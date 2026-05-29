@@ -216,11 +216,11 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "Erro inesperado ao salvar inscrição." }, { status: 500 });
   }
 
-  // 3. Disparar notificações em paralelo (sem bloquear a resposta)
-  void Promise.allSettled([
+  // 3. Aguardar notificações antes de responder (serverless termina após o return)
+  await Promise.allSettled([
     member.welcome_email_sent_at ? Promise.resolve() : sendWelcomeEmail(member),
     member.welcome_whatsapp_sent_at ? Promise.resolve() : sendWelcomeWhatsApp(member),
-  ]).catch(() => {});
+  ]);
 
   return NextResponse.json(
     { success: true, message: "Você está no Círculo. O próximo drop chega no seu WhatsApp em até 14 dias." },
