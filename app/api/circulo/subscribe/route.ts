@@ -160,40 +160,56 @@ export async function POST(request: NextRequest) {
 
   // 2. Inserir no banco (idempotente por email)
   const supabase = getSupabaseAdminClient();
+  const payload = {
+    name: data.name.trim(),
+    email: data.email,
+    whatsapp_e164,
+    skin_concern: data.skin_concern,
+    spend_range: data.spend_range,
+    source: data.source,
+    consent_lgpd: true,
+    consent_marketing: data.consent_marketing,
+    consent_at: new Date().toISOString(),
+    unsubscribed_at: null,
+  };
 
-  const { data: member, error: insertError } = await supabase
+  // Tenta insert; se já existe (23505), faz update pelo email
+  let member: { id: string; name: string; email: string; whatsapp_e164: string; skin_concern: string; welcome_email_sent_at: string | null; welcome_whatsapp_sent_at: string | null } | null = null;
+
+  const { data: inserted, error: insertError } = await supabase
     .from("circulo_members")
-    .upsert(
-      {
-        name: data.name.trim(),
-        email: data.email,
-        whatsapp_e164,
-        skin_concern: data.skin_concern,
-        spend_range: data.spend_range,
-        source: data.source,
-        consent_lgpd: true,
-        consent_marketing: data.consent_marketing,
-        consent_at: new Date().toISOString(),
-        unsubscribed_at: null, // reativa se já havia saído
-      },
-      {
-        onConflict: "email",
-        ignoreDuplicates: false, // atualiza dados caso já exista
-      }
-    )
+    .insert(payload)
     .select("id, name, email, whatsapp_e164, skin_concern, welcome_email_sent_at, welcome_whatsapp_sent_at")
     .single();
 
   if (insertError) {
-    console.error("[circulo/subscribe] Erro ao inserir membro:", insertError.message);
-    // Verificar se é duplicata (email já existe e era erro de unique)
     if (insertError.code === "23505") {
-      return NextResponse.json(
-        { error: "Este e-mail já está inscrito no Círculo BelaPop." },
-        { status: 409 }
-      );
+      // Email já existe — atualiza dados e reativa
+      const { data: updated, error: updateError } = await supabase
+        .from("circulo_members")
+        .update({
+          name: payload.name,
+          whatsapp_e164: payload.whatsapp_e164,
+          skin_concern: payload.skin_concern,
+          spend_range: payload.spend_range,
+          consent_marketing: payload.consent_marketing,
+          unsubscribed_at: null,
+        })
+        .eq("email", data.email)
+        .select("id, name, email, whatsapp_e164, skin_concern, welcome_email_sent_at, welcome_whatsapp_sent_at")
+        .single();
+
+      if (updateError || !updated) {
+        console.error("[circulo/subscribe] Erro ao atualizar membro existente:", updateError?.message);
+        return NextResponse.json({ error: "Não foi possível registrar sua inscrição. Tente novamente." }, { status: 500 });
+      }
+      member = updated;
+    } else {
+      console.error("[circulo/subscribe] Erro ao inserir membro:", insertError.message);
+      return NextResponse.json({ error: "Não foi possível registrar sua inscrição. Tente novamente." }, { status: 500 });
     }
-    return NextResponse.json({ error: "Não foi possível registrar sua inscrição. Tente novamente." }, { status: 500 });
+  } else {
+    member = inserted;
   }
 
   if (!member) {
