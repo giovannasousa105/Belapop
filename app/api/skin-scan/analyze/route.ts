@@ -12,6 +12,75 @@ import type {
   TipoPele,
 } from "@/types/skin-scan";
 
+// ── Melhoria 4.1 — Persistência silenciosa no FaceShield quando logada ────────
+
+/**
+ * Mapeia os achados do SkinScan para scores 0-100 do FaceShield.
+ * Executado de forma assíncrona após retornar a resposta — falhas são ignoradas.
+ */
+async function persistScanIfLoggedIn(analise: SkinAnaliseFull, scanId: string): Promise<void> {
+  try {
+    // Importações dinâmicas para evitar bundle no edge
+    const { createSupabaseServer } = await import("@/lib/supabase/server");
+    const { getSupabaseAdminClient } = await import("@/lib/supabase/admin");
+
+    const supabase = await createSupabaseServer();
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) return; // não logada — ignorar silenciosamente
+
+    const admin = getSupabaseAdminClient();
+
+    // Mapear scores 1-10 → 0-100
+    const s = analise.scores;
+    const a = analise.achados;
+
+    const acneMap: Record<string, number> = {
+      ativa_severa: 90, ativa_leve: 70, comedoes: 40, ausente: 10
+    };
+    const manchasMap: Record<string, number> = {
+      hiperpigmentadas: 80, melasma: 80, pos_inflamatorias: 60, ausentes: 10
+    };
+    const porosMap: Record<string, number> = {
+      dilatados_severos: 90, dilatados_moderados: 60, normais: 30, finos: 10
+    };
+    const linhasMap: Record<string, number> = {
+      presentes_moderadas: 70, presentes_leves: 40, ausentes: 10
+    };
+
+    const payload = {
+      hydration_score:    Math.round(s.hidratacao * 10),
+      acne_score:         acneMap[a.acne ?? "ausente"] ?? 10,
+      pigmentation_score: manchasMap[a.manchas ?? "ausentes"] ?? 10,
+      redness_score:      Math.round(s.sensibilidade * 10),
+      pore_visibility:    porosMap[a.poros ?? "normais"] ?? 30,
+      wrinkle_depth:      linhasMap[a.linhasFinas ?? "ausentes"] ?? 10,
+      scan_source:        "ai_scan" as const,
+      metadata: {
+        belapop_scan_id:  scanId,
+        tipo_pele:        analise.tipoPele,
+        fototipo:         analise.fototipo,
+        confianca:        analise.confianca,
+        modo_fallback:    analise.modoFallback,
+      },
+    };
+
+    // Gravar skin_scan diretamente (sem passar pelo FaceShield — evita complexidade)
+    await admin.from("skin_scans").insert({
+      user_id:            user.id,
+      hydration_score:    payload.hydration_score,
+      acne_score:         payload.acne_score,
+      pigmentation_score: payload.pigmentation_score,
+      redness_score:      payload.redness_score,
+      pore_visibility:    payload.pore_visibility,
+      wrinkle_depth:      payload.wrinkle_depth,
+      scan_source:        payload.scan_source,
+      metadata:           payload.metadata,
+    });
+  } catch {
+    // Silencioso — falha na persistência não deve quebrar o fluxo principal
+  }
+}
+
 export const runtime = "nodejs";
 export const maxDuration = 45;
 
@@ -475,6 +544,12 @@ export async function POST(request: NextRequest) {
     console.log(
       `[skin-scan/analyze] Analise concluida — tipoPele: ${analise.tipoPele}, confianca: ${analise.confianca}%, fallback: ${analise.modoFallback}`
     );
+
+    // Melhoria 4.1 — Persistir no backend se logada (silencioso, 5s de timeout)
+    void Promise.race([
+      persistScanIfLoggedIn(analise, result.scanId),
+      new Promise<void>((resolve) => setTimeout(resolve, 5000)),
+    ]).catch(() => { /* garantia extra — nenhum erro vaza */ });
 
     return NextResponse.json({ success: true, analysis: result });
   } catch (err) {
