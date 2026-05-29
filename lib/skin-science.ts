@@ -102,6 +102,75 @@ export const BELAPOP_CATALOG: Record<string, CatalogProduct> = {
     alertaSinergia: "Contem retinol em baixa dose; evitar em gestantes.",
     evidencia: { grau: "B", fonte: "Lupo 2001 Dermatol Surg + Pickart 2009" },
   },
+
+  // ── Produtos semanais de tratamento (Melhoria 3.4) ─────────────────────────
+
+  "mascara-argila-purificante": {
+    slug: "mascara-argila-purificante",
+    nome: "Máscara Argila Purificante",
+    categoria: "tratamento",
+    preco: 169,
+    skinTypes: ["oleosa", "mista", "normal"],
+    addresses: ["poros", "acne", "oleosidade", "cravos", "textura"],
+    periodo: ["semanal"],
+    ativosChave: ["argila caulim 15%", "acido salicilico 0,5%", "extrato de chá verde"],
+    porQueRecomendado:
+      "Argila caulim adsorve excesso de sebo e impurezas dos poros; acido salicilico penetra o folículo e reduz comedoes e acne leve.",
+    comoUsar:
+      "Aplique camada fina no rosto limpo e seco. Aguarde 10 a 15 minutos e enxague com agua morna. Use 1 a 2 vezes por semana.",
+    alertaSinergia: "Nao use na mesma noite de retinol ou AHA. Evitar em pele muito seca ou com descamacao ativa.",
+    evidencia: { grau: "B", fonte: "Del Rosso 2013, J Clin Aesthet Dermatol" },
+  },
+
+  "serum-vitamina-c-clareador": {
+    slug: "serum-vitamina-c-clareador",
+    nome: "Sérum Vitamina C Clareador",
+    categoria: "serum",
+    preco: 259,
+    skinTypes: ["oleosa", "mista", "normal", "seca"],
+    addresses: ["manchas", "uniformidade", "brilho", "luminosidade", "hiperpigmentacao"],
+    periodo: ["semanal"],
+    ativosChave: ["vitamina c 15%", "acido ferulico 0,5%", "alfa arbutina 2%"],
+    porQueRecomendado:
+      "Vitamina C inibe tirosinase e reduz manchas por hiperpigmentacao; acido ferulico estabiliza a vitamina C e potencializa a acao antioxidante.",
+    comoUsar:
+      "Aplique de 3 a 5 gotas no rosto limpo, antes do hidratante. Use de manha (com protetor solar) ou a noite, 2 a 3 vezes por semana. Guarde longe da luz.",
+    alertaSinergia: "Pode causar leve ardencia em pele sensivel. Sempre seguir com SPF50+ de manha.",
+    evidencia: { grau: "A", fonte: "Pullar 2017, Nutrients 9(8):866" },
+  },
+
+  "esfoliante-enzimatico-suave": {
+    slug: "esfoliante-enzimatico-suave",
+    nome: "Esfoliante Enzimático Suave",
+    categoria: "tratamento",
+    preco: 189,
+    skinTypes: ["oleosa", "mista", "normal", "seca", "sensivel"],
+    addresses: ["textura", "poros", "luminosidade", "brilho", "uniformidade"],
+    periodo: ["semanal"],
+    ativosChave: ["papaína 2%", "bromelina 1%", "acido mandélico 5%"],
+    porQueRecomendado:
+      "Enzimas proteolíticas (papaína, bromelina) dissolvem a ligação entre celulas mortas sem abrasao fisica; ideal para peles sensiveis que nao toleram esfoliantes granulares.",
+    comoUsar:
+      "Aplique no rosto umido e massageie suavemente por 1 a 2 minutos. Enxague bem. Use 1 vez por semana, preferencialmente a noite.",
+    alertaSinergia: "Nao combine com retinol ou AHA/BHA na mesma noite. Aplique protetor solar no dia seguinte.",
+    evidencia: { grau: "B", fonte: "Oresajo 2008, J Cosmet Dermatol 7(2)" },
+  },
+
+  "mascara-hidratante-intensiva": {
+    slug: "mascara-hidratante-intensiva",
+    nome: "Máscara Hidratante Intensiva",
+    categoria: "tratamento",
+    preco: 179,
+    skinTypes: ["seca", "sensivel", "normal"],
+    addresses: ["hidratacao", "descamacao", "sensibilidade", "barreira", "conforto"],
+    periodo: ["semanal"],
+    ativosChave: ["acido hialuronico de baixo peso molecular", "ceramidas", "pantenol 5%", "centella asiatica"],
+    porQueRecomendado:
+      "Combinação de umectantes, oclusivos e emolientes proporciona hidratacao profunda e restaura a barreira em um unico tratamento semanal.",
+    comoUsar:
+      "Aplique camada generosa apos a limpeza e deixe agir por 20 minutos. Remova o excesso com lenco umido ou enxague levemente. Use 1 vez por semana.",
+    evidencia: { grau: "A", fonte: "Elias 2008, J Invest Dermatol 128(8)" },
+  },
 };
 
 export const ACTIVE_MATRIX: Record<
@@ -231,11 +300,48 @@ export function buildRotina(
 
   addUnique(noite, "creme-barrier-celeste");
 
+  // ── Melhoria 3.4 — Semanal baseado nos achados (máx 2 produtos) ─────────────
   const semanal: RotinaPasso[] = [];
+  const MAX_SEMANAL = 2;
+
+  const acne         = achados.acne ?? "ausente";
+  const poros        = achados.poros ?? "normais";
+  const manchas      = achados.manchas ?? "ausentes";
+  const descamacao   = achados.descamacao ?? "ausente";
+  const linhasFinas  = achados.linhasFinas ?? "ausentes";
+
+  const temPoros  = poros === "dilatados_severos" || poros === "dilatados_moderados";
+  const temAcne   = acne === "ativa_severa" || acne === "ativa_leve" || acne === "comedoes";
+  const temManchas = manchas !== "ausentes";
+  const temLinhas  = linhasFinas !== "ausentes";
+  const temDescam  = descamacao !== "ausente";
+  const temOlheiras = has("olheiras");
+
+  // Prioridade 1 — poros dilatados ou acne → máscara de argila
+  if (semanal.length < MAX_SEMANAL && (temPoros || temAcne || has("poros", "acne"))) {
+    addUnique(semanal, "mascara-argila-purificante");
+  }
+
+  // Prioridade 2 — manchas → sérum vitamina C
+  if (semanal.length < MAX_SEMANAL && (temManchas || has("manchas"))) {
+    addUnique(semanal, "serum-vitamina-c-clareador");
+  }
+
+  // Prioridade 3 — textura irregular → esfoliante enzimático
+  if (semanal.length < MAX_SEMANAL && has("textura") && !temDescam) {
+    addUnique(semanal, "esfoliante-enzimatico-suave");
+  }
+
+  // Prioridade 4 — pele seca ou descamação → máscara hidratante
   if (
-    has("olheiras", "linhas", "cansaco") ||
-    Boolean(achados.linhasFinas && achados.linhasFinas !== "ausentes")
+    semanal.length < MAX_SEMANAL &&
+    (temDescam || tipoPele === "seca" || has("hidratacao", "descamacao"))
   ) {
+    addUnique(semanal, "mascara-hidratante-intensiva");
+  }
+
+  // Prioridade 5 — olheiras ou linhas finas → patch de olhos
+  if (semanal.length < MAX_SEMANAL && (temOlheiras || temLinhas || has("linhas", "cansaco"))) {
     addUnique(semanal, "patch-olhos-aurora");
   }
 
