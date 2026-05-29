@@ -3,6 +3,7 @@ import "server-only";
 import { NextRequest, NextResponse } from "next/server";
 
 import { buildRotina, normalizeFocos } from "@/lib/skin-science";
+import { enrichRotinaWithEvidence } from "@/lib/evidence";
 import type {
   AchadosVisuais,
   Fototipo,
@@ -342,11 +343,22 @@ function buildFallbackAnalise(focos: string[], alertas: string[]): SkinAnaliseFu
 }
 
 function buildResult(focos: string[], analise: SkinAnaliseFull): SkinScanResult {
-  const rotina = buildRotina(
+  const rotinaRaw = buildRotina(
     analise.tipoPele,
     focos,
     analise.achados as Record<string, string>
   );
+
+  // Enriquecer passos com evidência do banco local (zero latência)
+  const rotina = {
+    manha:   enrichRotinaWithEvidence(rotinaRaw.manha   ?? []),
+    noite:   enrichRotinaWithEvidence(rotinaRaw.noite   ?? []),
+    semanal: enrichRotinaWithEvidence(rotinaRaw.semanal ?? []),
+    ...(rotinaRaw.semana1?.length
+      ? { semana1: enrichRotinaWithEvidence(rotinaRaw.semana1) }
+      : {}),
+  };
+
   return {
     scanId:    `BP-${Date.now().toString(36).toUpperCase()}`,
     timestamp: Date.now(),

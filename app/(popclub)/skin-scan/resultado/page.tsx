@@ -6,6 +6,7 @@ import Link from "next/link";
 
 import { useAuth } from "@/lib/AuthContext";
 import { getBeneficio } from "@/lib/skin-scan/ativos-map";
+import { findLocalEvidence } from "@/lib/evidence/evidence-database";
 import { BELAPOP_SCAN_KEY } from "@/types/skin-scan";
 import type { SkinScanResult } from "@/types/skin-scan";
 
@@ -283,6 +284,122 @@ function AtivoItem({ ativo, index }: { ativo: string; index: number }) {
         </div>
       )}
     </div>
+  );
+}
+
+// ── Fontes científicas ────────────────────────────────────────────────────────
+
+const GRADE_CHIP_STYLES: Record<"A" | "B" | "C", { bg: string; text: string }> = {
+  A: { bg: "bg-green-100",   text: "text-green-800" },
+  B: { bg: "bg-blue-100",    text: "text-blue-800" },
+  C: { bg: "bg-neutral-100", text: "text-neutral-600" },
+};
+
+function FontesCientificas({ ativosChave }: { ativosChave: string[] }) {
+  const sources = useMemo(() => {
+    const seen = new Set<string>();
+    const items: Array<{
+      ativo: string;
+      grade: "A" | "B" | "C";
+      fonte: string;
+      summary: string;
+      pubmedUrl: string | null;
+      doiUrl: string | null;
+      cochraneUrl: string | null;
+    }> = [];
+
+    for (const ativo of ativosChave) {
+      const ev = findLocalEvidence(ativo);
+      if (!ev || seen.has(ev.ativo)) continue;
+      seen.add(ev.ativo);
+      items.push({
+        ativo: ev.ativo,
+        grade: ev.grade,
+        fonte: ev.fonte,
+        summary: ev.summary,
+        pubmedUrl: ev.pubmedIds?.[0]
+          ? `https://pubmed.ncbi.nlm.nih.gov/${ev.pubmedIds[0]}/`
+          : null,
+        doiUrl: ev.doi ? `https://doi.org/${ev.doi}` : null,
+        cochraneUrl: ev.cochrane ?? null,
+      });
+    }
+
+    // Ordenar: Grau A primeiro, depois B, depois C
+    return items.sort((a, b) =>
+      a.grade.charCodeAt(0) - b.grade.charCodeAt(0)
+    );
+  }, [ativosChave]);
+
+  if (sources.length === 0) return null;
+
+  return (
+    <section className="space-y-4">
+      <div className="space-y-1">
+        <p className="text-xs uppercase tracking-widest text-neutral-500">
+          Fontes científicas desta análise
+        </p>
+        <p className="text-xs text-neutral-400">
+          Ativos recomendados com base em estudos clínicos revisados por pares.
+        </p>
+      </div>
+
+      <div className="space-y-2">
+        {sources.map((src) => {
+          const chip = GRADE_CHIP_STYLES[src.grade] ?? GRADE_CHIP_STYLES.C;
+          return (
+            <div
+              key={src.ativo}
+              className="rounded-xl border border-neutral-100 bg-neutral-50 p-3"
+            >
+              <div className="flex flex-wrap items-center gap-2">
+                <span className={`rounded-full px-2 py-0.5 text-[10px] font-semibold ${chip.bg} ${chip.text}`}>
+                  Grau {src.grade}
+                </span>
+                <span className="text-[10px] text-neutral-500">{src.fonte}</span>
+                <span className="flex-1" />
+                {src.pubmedUrl && (
+                  <a
+                    href={src.pubmedUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-[10px] text-blue-600 transition-colors hover:text-blue-800 hover:underline"
+                  >
+                    PubMed ↗
+                  </a>
+                )}
+                {src.doiUrl && (
+                  <a
+                    href={src.doiUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-[10px] text-neutral-500 transition-colors hover:text-black hover:underline"
+                  >
+                    DOI ↗
+                  </a>
+                )}
+                {src.cochraneUrl && (
+                  <a
+                    href={src.cochraneUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-[10px] text-green-700 transition-colors hover:text-green-900 hover:underline"
+                  >
+                    Cochrane ↗
+                  </a>
+                )}
+              </div>
+              <p className="mt-1.5 text-[11px] capitalize font-medium text-neutral-700">
+                {src.ativo}
+              </p>
+              <p className="mt-0.5 text-[11px] leading-relaxed text-neutral-500">
+                {src.summary}
+              </p>
+            </div>
+          );
+        })}
+      </div>
+    </section>
   );
 }
 
@@ -623,6 +740,11 @@ export default function SkinScanResultadoPage() {
           isLoggedIn={authReady && !!user}
         />
       </section>
+
+      {/* ── Fontes científicas desta análise ── */}
+      {topAtivos.length > 0 && (
+        <FontesCientificas ativosChave={topAtivos} />
+      )}
 
       <p className="text-center text-xs text-neutral-400">
         A imagem foi processada e deletada imediatamente após a análise.

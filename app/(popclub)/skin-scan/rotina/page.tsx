@@ -31,6 +31,96 @@ const PERIOD_LABELS: Record<RoutineTab, string> = {
   semana1: "Semana 1",
 };
 
+// ── EvidenciaBadge ────────────────────────────────────────────────────────────
+
+const GRADE_STYLES: Record<"A" | "B" | "C", { bg: string; text: string; label: string }> = {
+  A: { bg: "bg-green-50",   text: "text-green-800",   label: "Grau A" },
+  B: { bg: "bg-blue-50",    text: "text-blue-800",    label: "Grau B" },
+  C: { bg: "bg-neutral-50", text: "text-neutral-600", label: "Grau C" },
+};
+
+type EvidenciaBadgeProps = {
+  evidencia: { grau: "A" | "B" | "C"; fonte: string };
+  pubmedUrl?: string | null;
+  doiUrl?: string | null;
+  cochraneUrl?: string | null;
+  summary?: string | null;
+};
+
+function EvidenciaBadge({
+  evidencia,
+  pubmedUrl,
+  doiUrl,
+  cochraneUrl,
+  summary,
+}: EvidenciaBadgeProps) {
+  const [expanded, setExpanded] = useState(false);
+  const style = GRADE_STYLES[evidencia.grau] ?? GRADE_STYLES.C;
+  const hasLinks = pubmedUrl ?? doiUrl ?? cochraneUrl;
+
+  return (
+    <div className={`rounded-lg ${style.bg} p-2.5`}>
+      <button
+        type="button"
+        onClick={() => setExpanded((v) => !v)}
+        className="flex w-full items-center gap-2 text-left"
+      >
+        <span className="text-sm">🔬</span>
+        <span className={`flex-1 text-[11px] font-semibold ${style.text}`}>
+          {style.label} — {evidencia.fonte}
+        </span>
+        {(summary ?? hasLinks) && (
+          <span className={`text-[10px] ${style.text} opacity-60`}>{expanded ? "▲" : "▼"}</span>
+        )}
+      </button>
+
+      {expanded && (
+        <div className="mt-2 space-y-2 border-t border-black/5 pt-2">
+          {summary && (
+            <p className={`text-[11px] leading-relaxed ${style.text}`}>{summary}</p>
+          )}
+          {(pubmedUrl ?? doiUrl ?? cochraneUrl) && (
+            <div className="flex flex-wrap gap-2">
+              {pubmedUrl && (
+                <a
+                  href={pubmedUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1 rounded-full border border-blue-200 bg-white px-2.5 py-1 text-[10px] text-blue-700 transition-colors hover:border-blue-400"
+                >
+                  PubMed ↗
+                </a>
+              )}
+              {doiUrl && (
+                <a
+                  href={doiUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1 rounded-full border border-neutral-200 bg-white px-2.5 py-1 text-[10px] text-neutral-600 transition-colors hover:border-neutral-400"
+                >
+                  DOI ↗
+                </a>
+              )}
+              {cochraneUrl && (
+                <a
+                  href={cochraneUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1 rounded-full border border-green-200 bg-white px-2.5 py-1 text-[10px] text-green-700 transition-colors hover:border-green-400"
+                >
+                  Cochrane ↗
+                </a>
+              )}
+            </div>
+          )}
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ── ProductCard ───────────────────────────────────────────────────────────────
+
 function ProductCard({ product, step }: { product: RotinaPasso; step: number }) {
   const { addItem } = useCart();
   const [added, setAdded] = useState(false);
@@ -100,11 +190,9 @@ function ProductCard({ product, step }: { product: RotinaPasso; step: number }) 
             </div>
           )}
 
-          {/* Base científica */}
+          {/* Base científica — EvidenciaBadge */}
           {product.evidencia && (
-            <p className="rounded-lg bg-neutral-50 p-2 font-medium text-neutral-600">
-              🔬 Grau {product.evidencia.grau} — {product.evidencia.fonte}
-            </p>
+            <EvidenciaBadge evidencia={product.evidencia} />
           )}
 
           {product.alertaSinergia && (
