@@ -60,19 +60,34 @@ export function useFaceDetection(
       const filesetResolver = await FilesetResolver.forVisionTasks(
         "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@latest/wasm"
       );
-      landmarkerRef.current = await FaceLandmarker.createFromOptions(filesetResolver, {
-        baseOptions: {
-          modelAssetPath:
-            "https://storage.googleapis.com/mediapipe-models/face_landmarker/face_landmarker/float16/1/face_landmarker.task",
-          delegate: "GPU",
-        },
-        outputFaceBlendshapes: false,
-        outputFacialTransformationMatrixes: false,
-        runningMode: "VIDEO",
-        numFaces: 1,
-      });
+
+      // Tenta GPU primeiro; se falhar (WebGL indisponível), usa CPU como fallback.
+      // Evita que o modelo não carregue em ambientes sem aceleração de hardware.
+      for (const delegate of ["GPU", "CPU"] as const) {
+        try {
+          landmarkerRef.current = await FaceLandmarker.createFromOptions(filesetResolver, {
+            baseOptions: {
+              modelAssetPath:
+                "https://storage.googleapis.com/mediapipe-models/face_landmarker/face_landmarker/float16/1/face_landmarker.task",
+              delegate,
+            },
+            outputFaceBlendshapes: false,
+            outputFacialTransformationMatrixes: false,
+            runningMode: "VIDEO",
+            numFaces: 1,
+          });
+          break; // Sucesso — sair do loop
+        } catch (delegateErr) {
+          if (delegate === "GPU") {
+            console.warn("[useFaceDetection] GPU delegate falhou, usando CPU como fallback.", delegateErr);
+          } else {
+            throw delegateErr; // CPU também falhou — propagar para o catch externo
+          }
+        }
+      }
     } catch (err) {
       console.warn("[useFaceDetection] MediaPipe failed to load:", err);
+      // Câmera continua funcional; detecção facial fica inativa.
     } finally {
       loadingRef.current = false;
       setIsModelLoading(false);

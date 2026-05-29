@@ -64,6 +64,7 @@ export function ImageCapture() {
         audio: false,
       });
       streamRef.current = stream;
+      // videoRef.current existe porque <video> está sempre no DOM (display:none quando idle)
       if (videoRef.current) {
         videoRef.current.srcObject = stream;
         videoRef.current.play().catch(() => {});
@@ -78,6 +79,17 @@ export function ImageCapture() {
       }
     }
   }, []);
+
+  // Fix defensivo: re-anexa stream ao <video> caso mode mude para "camera"
+  // antes do srcObject ser atribuído (fallback para casos de timing edge-case)
+  useEffect(() => {
+    if (mode === "camera" && streamRef.current && videoRef.current) {
+      if (!videoRef.current.srcObject) {
+        videoRef.current.srcObject = streamRef.current;
+        videoRef.current.play().catch(() => {});
+      }
+    }
+  }, [mode]);
 
   // Capture current frame from video
   const captureFrame = useCallback(() => {
@@ -297,166 +309,169 @@ export function ImageCapture() {
       )}
 
       {/* ── CAMERA — live viewfinder with face detection overlay ─────────────── */}
-      {mode === "camera" && (
-        <div className="space-y-3">
-          {/* Quality bar */}
-          <div className="flex items-center justify-between gap-3">
-            <p className="text-xs text-[rgba(30,30,30,0.55)]">{quality.guidance}</p>
-            <div className="flex items-center gap-2">
-              <div className="h-1.5 w-16 overflow-hidden rounded-full bg-[rgba(30,30,30,0.08)]">
-                <div
-                  className="h-full rounded-full transition-all duration-300"
-                  style={{ width: `${quality.score}%`, backgroundColor: scoreColor }}
-                />
-              </div>
-              <span className="text-[10px] text-[rgba(30,30,30,0.45)]">{quality.score}%</span>
+      {/*
+        FIX P0: <video> fica SEMPRE no DOM (display:none quando não está em modo câmera).
+        Isso garante que videoRef.current != null quando getUserMedia() resolver,
+        evitando a race condition que causava tela preta.
+      */}
+      <div className="space-y-3" style={{ display: mode === "camera" ? "block" : "none" }}>
+        {/* Quality bar */}
+        <div className="flex items-center justify-between gap-3">
+          <p className="text-xs text-[rgba(30,30,30,0.55)]">{quality.guidance}</p>
+          <div className="flex items-center gap-2">
+            <div className="h-1.5 w-16 overflow-hidden rounded-full bg-[rgba(30,30,30,0.08)]">
+              <div
+                className="h-full rounded-full transition-all duration-300"
+                style={{ width: `${quality.score}%`, backgroundColor: scoreColor }}
+              />
             </div>
+            <span className="text-[10px] text-[rgba(30,30,30,0.45)]">{quality.score}%</span>
           </div>
+        </div>
 
-          {/* Camera viewport */}
-          <div
-            className="relative overflow-hidden rounded-2xl bg-black"
-            style={{ aspectRatio: "4/3" }}
-          >
-            {/* Live video — mirrored for selfie */}
-            <video
-              ref={videoRef}
-              autoPlay
-              playsInline
-              muted
-              className="absolute inset-0 h-full w-full object-cover"
-              style={{ transform: "scaleX(-1)" }}
-            />
+        {/* Camera viewport */}
+        <div
+          className="relative overflow-hidden rounded-2xl bg-black"
+          style={{ aspectRatio: "4/3" }}
+        >
+          {/* Live video — mirrored for selfie */}
+          <video
+            ref={videoRef}
+            autoPlay
+            playsInline
+            muted
+            className="absolute inset-0 h-full w-full object-cover"
+            style={{ transform: "scaleX(-1)" }}
+          />
 
-            {/* Face detection overlay — mirrored to match video */}
-            <canvas
-              ref={overlayCanvasRef}
-              className="pointer-events-none absolute inset-0 h-full w-full"
-              style={{ transform: "scaleX(-1)" }}
-            />
+          {/* Face detection overlay — mirrored to match video */}
+          <canvas
+            ref={overlayCanvasRef}
+            className="pointer-events-none absolute inset-0 h-full w-full"
+            style={{ transform: "scaleX(-1)" }}
+          />
 
-            {/* Model loading badge */}
-            {isModelLoading && (
-              <div className="absolute left-3 top-3 flex items-center gap-1.5 rounded-full bg-black/50 px-2.5 py-1">
-                <div
-                  className="h-2.5 w-2.5 rounded-full border border-white/40"
-                  style={{
-                    borderTopColor: "#fff",
-                    animation: "bp-spin 0.9s linear infinite",
-                  }}
-                />
-                <span className="text-[9px] font-medium uppercase tracking-widest text-white/70">
-                  Carregando AI...
-                </span>
-              </div>
-            )}
-
-            {/* Zone legend */}
-            {quality.faceDetected && (
-              <div className="absolute left-3 top-3 space-y-1">
-                {[
-                  { color: "rgba(240,70,100,0.9)", label: "Zona T" },
-                  { color: "rgba(130,90,240,0.9)", label: "Bochechas" },
-                  { color: "rgba(60,150,255,0.9)", label: "Olhos" },
-                ].map((z) => (
-                  <div
-                    key={z.label}
-                    className="flex items-center gap-1.5 rounded-full bg-black/40 px-2 py-0.5"
-                  >
-                    <div
-                      className="h-2 w-2 rounded-full"
-                      style={{ backgroundColor: z.color }}
-                    />
-                    <span className="text-[9px] text-white">{z.label}</span>
-                  </div>
-                ))}
-              </div>
-            )}
-
-            {/* Stability dots */}
-            {quality.faceDetected && !readyToCapture && quality.centered && (
-              <div className="absolute bottom-4 left-1/2 flex -translate-x-1/2 gap-1.5">
-                {[0, 1, 2].map((i) => (
-                  <div
-                    key={i}
-                    className="h-2 w-2 rounded-full transition-all duration-300"
-                    style={{
-                      backgroundColor:
-                        i < stableSeconds ? "#4ade80" : "rgba(255,255,255,0.35)",
-                    }}
-                  />
-                ))}
-              </div>
-            )}
-
-            {/* Melhoria 1.1 — Countdown visual 3-2-1 */}
-            {countdown !== null && (
-              <div className="absolute inset-0 flex items-center justify-center bg-black/20">
-                <div className="flex h-24 w-24 items-center justify-center rounded-full bg-white/90 shadow-xl">
-                  <span
-                    key={countdown}
-                    className="text-5xl font-bold text-[#1e1e1e]"
-                    style={{ animation: "bp-countdown-pop 0.35s cubic-bezier(.22,1.5,.5,1) both" }}
-                  >
-                    {countdown}
-                  </span>
-                </div>
-              </div>
-            )}
-          </div>
-
-          {/* Melhoria 1.2 — Indicador de qualidade colorido */}
-          <div className="grid grid-cols-3 gap-2">
-            {QUALITY_LABELS.map(({ key, label }) => {
-              const ok = Boolean(quality[key]);
-              return (
-                <div
-                  key={label}
-                  className={`rounded-xl py-2 text-center text-[11px] font-semibold transition-colors ${
-                    ok
-                      ? "bg-green-50 text-green-700"
-                      : quality.faceDetected
-                        ? "bg-amber-50 text-amber-700"
-                        : "bg-[rgba(30,30,30,0.04)] text-[rgba(30,30,30,0.45)]"
-                  }`}
-                >
-                  {ok ? "✓" : quality.faceDetected ? "!" : "○"} {label}
-                </div>
-              );
-            })}
-          </div>
-
-          {/* Melhoria 1.3 — Dica contextual de iluminação */}
-          {quality.faceDetected && !quality.lightingOk && (
-            <div className="rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-center">
-              <p className="text-xs text-amber-800">
-                💡 Aproxime-se de uma janela ou ligue a luz do quarto para melhorar a leitura.
-              </p>
+          {/* Model loading badge */}
+          {isModelLoading && (
+            <div className="absolute left-3 top-3 flex items-center gap-1.5 rounded-full bg-black/50 px-2.5 py-1">
+              <div
+                className="h-2.5 w-2.5 rounded-full border border-white/40"
+                style={{
+                  borderTopColor: "#fff",
+                  animation: "bp-spin 0.9s linear infinite",
+                }}
+              />
+              <span className="text-[9px] font-medium uppercase tracking-widest text-white/70">
+                Carregando AI...
+              </span>
             </div>
           )}
 
-          {/* Action buttons */}
-          <div className="grid grid-cols-2 gap-3">
-            <button
-              type="button"
-              onClick={captureFrame}
-              className="flex items-center justify-center gap-2 rounded-2xl bg-[#1e1e1e] py-3 text-[11px] font-semibold uppercase tracking-[0.18em] text-white transition hover:bg-black/80"
-            >
-              📸 Capturar
-            </button>
-            <button
-              type="button"
-              onClick={cancelCamera}
-              className="rounded-2xl border border-black/10 py-3 text-[11px] font-semibold uppercase tracking-[0.18em] text-[rgba(30,30,30,0.6)] transition hover:border-black/30"
-            >
-              ↩ Cancelar
-            </button>
-          </div>
+          {/* Zone legend */}
+          {mode === "camera" && quality.faceDetected && (
+            <div className="absolute left-3 top-3 space-y-1">
+              {[
+                { color: "rgba(240,70,100,0.9)", label: "Zona T" },
+                { color: "rgba(130,90,240,0.9)", label: "Bochechas" },
+                { color: "rgba(60,150,255,0.9)", label: "Olhos" },
+              ].map((z) => (
+                <div
+                  key={z.label}
+                  className="flex items-center gap-1.5 rounded-full bg-black/40 px-2 py-0.5"
+                >
+                  <div
+                    className="h-2 w-2 rounded-full"
+                    style={{ backgroundColor: z.color }}
+                  />
+                  <span className="text-[9px] text-white">{z.label}</span>
+                </div>
+              ))}
+            </div>
+          )}
 
-          {/* Hidden capture canvas */}
-          <canvas ref={captureCanvasRef} className="hidden" />
+          {/* Stability dots */}
+          {mode === "camera" && quality.faceDetected && !readyToCapture && quality.centered && (
+            <div className="absolute bottom-4 left-1/2 flex -translate-x-1/2 gap-1.5">
+              {[0, 1, 2].map((i) => (
+                <div
+                  key={i}
+                  className="h-2 w-2 rounded-full transition-all duration-300"
+                  style={{
+                    backgroundColor:
+                      i < stableSeconds ? "#4ade80" : "rgba(255,255,255,0.35)",
+                  }}
+                />
+              ))}
+            </div>
+          )}
+
+          {/* Melhoria 1.1 — Countdown visual 3-2-1 */}
+          {countdown !== null && (
+            <div className="absolute inset-0 flex items-center justify-center bg-black/20">
+              <div className="flex h-24 w-24 items-center justify-center rounded-full bg-white/90 shadow-xl">
+                <span
+                  key={countdown}
+                  className="text-5xl font-bold text-[#1e1e1e]"
+                  style={{ animation: "bp-countdown-pop 0.35s cubic-bezier(.22,1.5,.5,1) both" }}
+                >
+                  {countdown}
+                </span>
+              </div>
+            </div>
+          )}
         </div>
-      )}
+
+        {/* Melhoria 1.2 — Indicador de qualidade colorido */}
+        <div className="grid grid-cols-3 gap-2">
+          {QUALITY_LABELS.map(({ key, label }) => {
+            const ok = Boolean(quality[key]);
+            return (
+              <div
+                key={label}
+                className={`rounded-xl py-2 text-center text-[11px] font-semibold transition-colors ${
+                  ok
+                    ? "bg-green-50 text-green-700"
+                    : quality.faceDetected
+                      ? "bg-amber-50 text-amber-700"
+                      : "bg-[rgba(30,30,30,0.04)] text-[rgba(30,30,30,0.45)]"
+                }`}
+              >
+                {ok ? "✓" : quality.faceDetected ? "!" : "○"} {label}
+              </div>
+            );
+          })}
+        </div>
+
+        {/* Melhoria 1.3 — Dica contextual de iluminação */}
+        {mode === "camera" && quality.faceDetected && !quality.lightingOk && (
+          <div className="rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-center">
+            <p className="text-xs text-amber-800">
+              💡 Aproxime-se de uma janela ou ligue a luz do quarto para melhorar a leitura.
+            </p>
+          </div>
+        )}
+
+        {/* Action buttons */}
+        <div className="grid grid-cols-2 gap-3">
+          <button
+            type="button"
+            onClick={captureFrame}
+            className="flex items-center justify-center gap-2 rounded-2xl bg-[#1e1e1e] py-3 text-[11px] font-semibold uppercase tracking-[0.18em] text-white transition hover:bg-black/80"
+          >
+            📸 Capturar
+          </button>
+          <button
+            type="button"
+            onClick={cancelCamera}
+            className="rounded-2xl border border-black/10 py-3 text-[11px] font-semibold uppercase tracking-[0.18em] text-[rgba(30,30,30,0.6)] transition hover:border-black/30"
+          >
+            ↩ Cancelar
+          </button>
+        </div>
+
+        {/* Hidden capture canvas — sempre no DOM para captureFrame() */}
+        <canvas ref={captureCanvasRef} className="hidden" />
+      </div>
 
       {/* ── PREVIEW — confirm captured image ──────────────────────────────────── */}
       {mode === "preview" && previewUrl && (
