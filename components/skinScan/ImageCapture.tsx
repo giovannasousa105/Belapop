@@ -64,11 +64,12 @@ export function ImageCapture() {
         audio: false,
       });
       streamRef.current = stream;
-      // videoRef.current existe porque <video> está sempre no DOM (display:none quando idle)
-      if (videoRef.current) {
-        videoRef.current.srcObject = stream;
-        videoRef.current.play().catch(() => {});
-      }
+      // NÃO chamar srcObject nem play() aqui:
+      // o <video> ainda está display:none (pai com display:none).
+      // Chamar play() enquanto o elemento está oculto falha silenciosamente
+      // no Safari e em alguns contextos do Chrome mobile.
+      // O useEffect abaixo é quem conecta e inicia o vídeo, APÓS setMode("camera")
+      // ter re-renderizado o DOM com display:block.
       setMode("camera");
     } catch (err) {
       const e = err as { name?: string };
@@ -80,14 +81,15 @@ export function ImageCapture() {
     }
   }, []);
 
-  // Fix defensivo: re-anexa stream ao <video> caso mode mude para "camera"
-  // antes do srcObject ser atribuído (fallback para casos de timing edge-case)
+  // Conecta o stream e inicia a reprodução DEPOIS que o modo vira "camera"
+  // → neste ponto React já commitou o DOM: o div pai é display:block,
+  //   então play() funciona em todos os browsers (incluindo Safari/iOS).
   useEffect(() => {
-    if (mode === "camera" && streamRef.current && videoRef.current) {
-      if (!videoRef.current.srcObject) {
-        videoRef.current.srcObject = streamRef.current;
-        videoRef.current.play().catch(() => {});
-      }
+    if (mode === "camera" && videoRef.current && streamRef.current) {
+      videoRef.current.srcObject = streamRef.current;
+      videoRef.current.play().catch((e) => {
+        console.warn("[ImageCapture] video.play() falhou:", e);
+      });
     }
   }, [mode]);
 
