@@ -49,6 +49,31 @@ export interface AdmNavGroup {
 
 export const admSidebarGroups: AdmNavGroup[] = [
   {
+    label: "Círculo BelaPop",
+    items: [
+      {
+        label: "Drops",
+        href: "/adm/circulo/drops",
+        icon: "sparkles",
+        requiredPermissions: ["manage_products"],
+        matchers: [/^\/adm\/circulo\/drops(\/.*)?$/],
+        children: [
+          {
+            label: "Novo Drop",
+            href: "/adm/circulo/drops/novo",
+            requiredPermissions: ["manage_products"]
+          }
+        ]
+      },
+      {
+        label: "Membros do Círculo",
+        href: "/adm/circulo/membros",
+        icon: "users",
+        requiredPermissions: ["view_dashboard"]
+      }
+    ]
+  },
+  {
     label: "Visao Geral",
     items: [
       {

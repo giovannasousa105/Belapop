@@ -9,6 +9,7 @@ function resolveActiveSection(pathname: string | null) {
   if (pathname.startsWith("/diario")) return "diario" as const;
   if (pathname.startsWith("/universos")) return "universos" as const;
   if (pathname.startsWith("/popclub")) return "popclub" as const;
+  if (pathname.startsWith("/circulo")) return "circulo" as const;
   if (
     pathname.startsWith("/skin-scan") ||
     pathname.startsWith("/faceshield") ||

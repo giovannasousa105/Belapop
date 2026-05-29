@@ -18,13 +18,19 @@
       "Read(//c/Users/Gleiser/AppData/Local/Temp/claude/c--Users-Gleiser-Desktop-BELAPOPSITE/0fa67887-01a3-4e68-9dbc-86692ef346aa/tasks/**)",
       "Bash(mkdir -p \"c:\\\\Users\\\\Gleiser\\\\Desktop\\\\BELAPOPSITE\\\\app\\\\\\(popclub\\)\\\\popclub\\\\[nivel]\" 2>/dev/null; echo done)",
       "Bash(powershell -Command ' *)",
-      "Bash(node -e ' *)"
+      "Bash(node -e ' *)",
+      "Bash(git commit -m 'feat\\(skin-scan\\): Claude Vision + MediaPipe face detection + unified session key *)",
+      "mcp__claude_ai_Vercel__get_deployment",
+      "PowerShell(cd \"c:\\\\Users\\\\Gleiser\\\\Desktop\\\\BELAPOPSITE\"; git add lib/evidence/ app/api/evidence/ app/api/skin-scan/analyze/route.ts app/\\(popclub\\)/skin-scan/rotina/page.tsx app/\\(popclub\\)/skin-scan/resultado/page.tsx .env.example; git status --short)",
+      "Bash(git commit -m 'feat\\(evidence\\): scientific evidence layer — PubMed, CrossRef e banco local curado *)",
+      "Bash(mkdir -p \"c:/Users/Gleiser/Desktop/BELAPOPSITE/app/\\(admin\\)/adm/circulo/drops/novo\" \"c:/Users/Gleiser/Desktop/BELAPOPSITE/app/\\(admin\\)/adm/circulo/drops/[id]\" \"c:/Users/Gleiser/Desktop/BELAPOPSITE/app/\\(admin\\)/adm/circulo/membros\" && echo \"ok\")"
     ],
     "additionalDirectories": [
       "c:\\Users\\Gleiser\\.claude\\projects\\c--Users-Gleiser-Desktop-BELAPOPSITE\\memory",
       "c:\\Users\\Gleiser\\.claude\\plans",
       "c:\\Users\\Gleiser\\Desktop\\BELAPOPSITE\\app\\api\\orders\\[id]",
-      "c:\\Users\\Gleiser\\Desktop\\BELAPOPSITE\\app\\(popclub)\\popclub"
+      "c:\\Users\\Gleiser\\Desktop\\BELAPOPSITE\\app\\(popclub)\\popclub",
+      "c:\\Users\\Gleiser\\Desktop\\BELAPOPSITE\\app\\(admin)\\adm\\circulo\\drops"
     ]
   }
 }

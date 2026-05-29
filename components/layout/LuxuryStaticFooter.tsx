@@ -42,6 +42,7 @@ export function LuxuryStaticFooter() {
               <Link href="/universos" className="block transition hover:text-[#1B1A18]">Universos</Link>
               <Link href="/guias" className="block transition hover:text-[#1B1A18]">Guias</Link>
               <Link href="/popclub" className="block transition hover:text-[#1B1A18]">PopClub</Link>
+              <Link href="/circulo" className="block transition hover:text-[#C88FA3] font-medium">Círculo BelaPop</Link>
             </div>
           </div>
 

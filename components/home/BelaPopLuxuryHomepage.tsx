@@ -11,7 +11,7 @@ import { BelaPopValidatedHeader } from "@/components/luxury/BelaPopValidatedHead
 import { BelaPopValidatedFooter } from "@/components/luxury/BelaPopValidatedFooter";
 import { HomeUniversesSection } from "@/components/home/HomeUniversesSection";
 import { SkincareBundleSection } from "@/components/skincare/SkincareBundleSection";
-import { NewsletterForm } from "@/components/NewsletterForm";
+import { CirculoForm } from "@/components/circulo/CirculoForm";
 
 import { TrustSignals } from "@/components/legal/TrustSignals";
 import { brandCtas } from "@/lib/brand/ctas";
@@ -511,8 +511,8 @@ function MobileStickyCta() {
 function NewsletterSection() {
   return (
     <section className="bg-[#fcf9f8] px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
-      <div className="mx-auto max-w-7xl">
-        <NewsletterForm />
+      <div className="mx-auto max-w-2xl">
+        <CirculoForm tone="light" source="website_footer_form" />
       </div>
     </section>
   );

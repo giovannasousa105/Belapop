@@ -28,6 +28,7 @@ export type HeaderSection =
   | "perfumes"
   | "skin-scan"
   | "popclub"
+  | "circulo"
   | "kits"
   | "diario";
 
@@ -56,6 +57,7 @@ type DrawerNavLink = {
 const primaryNav: readonly PrimaryNavLink[] = [
   { href: "/skin-scan", label: "Entender minha pele", key: "skin-scan" },
   { href: "/popclub", label: "PopClub", key: "popclub" },
+  { href: "/circulo", label: "Círculo", key: "circulo" },
   { href: "/skincare", label: "Skincare", key: "skincare" },
   { href: "/cabelos", label: "Cabelos", key: "cabelos" },
   { href: "/rituais", label: "Autocuidado", key: "autocuidado" },
