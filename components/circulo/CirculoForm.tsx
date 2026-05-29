@@ -330,21 +330,30 @@ export function CirculoForm({ tone = "light", source = "website_footer_form" }: 
       </fieldset>
 
       {/* Consentimento LGPD */}
-      <label className={`flex cursor-pointer items-start gap-3 text-xs leading-relaxed ${isLight ? "text-bpGraphite/70" : "text-bpPinkSoft/60"}`}>
+      <div className="flex items-start gap-3">
         <input
+          id={`${uid}-consent`}
           type="checkbox"
           checked={consentMarketing}
           onChange={(e) => setConsentMarketing(e.target.checked)}
-          className="mt-0.5 h-4 w-4 shrink-0 accent-bpPink"
+          className="mt-0.5 h-4 w-4 shrink-0 cursor-pointer accent-bpPink"
         />
-        <span>
+        <label
+          htmlFor={`${uid}-consent`}
+          className={`cursor-pointer text-xs leading-relaxed ${isLight ? "text-bpGraphite/70" : "text-bpPinkSoft/60"}`}
+        >
           Aceito receber drops e comunicações do Círculo BelaPop por e-mail e WhatsApp. Li e concordo com a{" "}
-          <Link href="/aviso-de-privacidade" className="underline hover:text-bpPink" target="_blank">
+          <Link
+            href="/aviso-de-privacidade"
+            className="underline hover:text-bpPink"
+            target="_blank"
+            onClick={(e) => e.stopPropagation()}
+          >
             Política de Privacidade
           </Link>
           .
-        </span>
-      </label>
+        </label>
+      </div>
 
       {/* Erro do servidor */}
       {serverError && (
