@@ -1,0 +1,18 @@
+services:
+  - type: worker
+    name: belapop-worker
+    env: docker
+    dockerfilePath: Dockerfile.worker
+    plan: starter
+    autoDeploy: true
+    envVars:
+      - key: REDIS_URL
+        sync: false
+      - key: ANTHROPIC_API_KEY
+        sync: false
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_SERVICE_ROLE_KEY
+        sync: false
+      - key: INTERNAL_API_KEY
+        sync: false

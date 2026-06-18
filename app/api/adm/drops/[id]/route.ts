@@ -56,12 +56,16 @@ export async function GET(_req: NextRequest, { params }: { params: Promise<{ id:
 // ── PATCH /api/adm/drops/[id] ─────────────────────────────────────────────────
 
 const UpdateDropSchema = z.object({
-  title:     z.string().min(3).max(120).optional(),
-  opens_at:  z.string().datetime().optional(),
-  closes_at: z.string().datetime().optional(),
-  status:    z.enum(["draft", "live", "closed", "fulfilling", "delivered"]).optional(),
-  notes:     z.string().max(1000).nullable().optional(),
-  items:     z.array(z.object({
+  title:           z.string().min(3).max(120).optional(),
+  subtitle:        z.string().max(200).optional(),
+  description:     z.string().max(3000).optional(),
+  cover_image_url: z.string().url().max(500).nullable().optional(),
+  opens_at:        z.string().datetime().optional(),
+  closes_at:       z.string().datetime().optional(),
+  status:          z.enum(["draft", "scheduled", "live", "closed", "sold_out", "fulfilling", "delivered"]).optional(),
+  notes:           z.string().max(1000).nullable().optional(),
+  glass_qty:       z.number().int().min(0).optional(),
+  items:       z.array(z.object({
     product_id:           z.string().uuid(),
     drop_price_cents:     z.number().int().positive(),
     max_quantity:         z.number().int().positive(),

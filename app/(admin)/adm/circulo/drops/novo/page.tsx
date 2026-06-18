@@ -7,9 +7,12 @@ export default function NovoDropPage() {
   const router = useRouter();
 
   const [title, setTitle] = useState("");
+  const [subtitle, setSubtitle] = useState("");
+  const [description, setDescription] = useState("");
   const [opensAt, setOpensAt] = useState("");
   const [closesAt, setClosesAt] = useState("");
   const [notes, setNotes] = useState("");
+  const [glassQty, setGlassQty] = useState<number>(0);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -26,7 +29,15 @@ export default function NovoDropPage() {
       const res = await fetch("/api/adm/drops", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ title, opens_at: opensAt, closes_at: closesAt, notes: notes || undefined }),
+        body: JSON.stringify({
+          title,
+          subtitle:    subtitle.trim()    || undefined,
+          description: description.trim() || undefined,
+          opens_at:    new Date(opensAt).toISOString(),
+          closes_at:   new Date(closesAt).toISOString(),
+          notes:       notes || undefined,
+          glass_qty:   glassQty,
+        }),
       });
       const data = (await res.json()) as { drop?: { id: string }; error?: string };
       if (!res.ok) { setError(data.error ?? "Erro ao criar drop."); return; }
@@ -64,6 +75,30 @@ export default function NovoDropPage() {
           />
         </div>
 
+        <div>
+          <label className={labelClass}>Subtítulo (opcional)</label>
+          <input
+            type="text"
+            value={subtitle}
+            onChange={(e) => setSubtitle(e.target.value)}
+            maxLength={200}
+            className={inputClass}
+            placeholder="Linha de apoio exibida na PDP"
+          />
+        </div>
+
+        <div>
+          <label className={labelClass}>Descrição (opcional)</label>
+          <textarea
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            rows={4}
+            maxLength={3000}
+            className={`${inputClass} resize-none`}
+            placeholder="Markdown suportado na PDP."
+          />
+        </div>
+
         <div className="grid gap-4 sm:grid-cols-2">
           <div>
             <label className={labelClass}>Abertura da pré-venda</label>
@@ -85,6 +120,19 @@ export default function NovoDropPage() {
               required
             />
           </div>
+        </div>
+
+        <div>
+          <label className={labelClass}>Drop Glass (quantidade)</label>
+          <input
+            type="number"
+            value={glassQty}
+            onChange={(e) => setGlassQty(Math.max(0, parseInt(e.target.value, 10) || 0))}
+            min={0}
+            step={1}
+            className={inputClass}
+            placeholder="0"
+          />
         </div>
 
         <div>

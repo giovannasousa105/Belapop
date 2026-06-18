@@ -35,7 +35,7 @@ export async function GET(req: NextRequest) {
   const supabase = getSupabaseAdminClient();
   let query = supabase
     .from("drops")
-    .select("id, number, title, opens_at, closes_at, status, total_orders, gmv_cents, created_at, updated_at")
+    .select("id, number, title, opens_at, closes_at, status, total_orders, gmv_cents, glass_qty, created_at, updated_at")
     .order("number", { ascending: false })
     .limit(limit);
 
@@ -52,10 +52,13 @@ export async function GET(req: NextRequest) {
 // ── POST /api/adm/drops ───────────────────────────────────────────────────────
 
 const CreateDropSchema = z.object({
-  title: z.string().min(3).max(120),
-  opens_at: z.string().datetime(),
-  closes_at: z.string().datetime(),
-  notes: z.string().max(1000).optional(),
+  title:       z.string().min(3).max(120),
+  subtitle:    z.string().max(200).optional(),
+  description: z.string().max(3000).optional(),
+  opens_at:    z.string().datetime(),
+  closes_at:   z.string().datetime(),
+  notes:       z.string().max(1000).optional(),
+  glass_qty:   z.number().int().min(0).default(0),
 });
 
 export async function POST(req: NextRequest) {
@@ -72,7 +75,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: parsed.error.issues[0]?.message ?? "Dados inválidos." }, { status: 422 });
   }
 
-  const { title, opens_at, closes_at, notes } = parsed.data;
+  const { title, subtitle, description, opens_at, closes_at, notes, glass_qty } = parsed.data;
 
   if (new Date(closes_at) <= new Date(opens_at)) {
     return NextResponse.json({ error: "Data de fechamento deve ser posterior à abertura." }, { status: 422 });
@@ -83,9 +86,12 @@ export async function POST(req: NextRequest) {
     .from("drops")
     .insert({
       title,
+      subtitle:    subtitle    ?? null,
+      description: description ?? null,
       opens_at,
       closes_at,
       notes: notes ?? null,
+      glass_qty,
       status: "draft",
       created_by: auth.id,
     })

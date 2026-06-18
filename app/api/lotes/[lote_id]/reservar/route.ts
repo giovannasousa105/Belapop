@@ -3,6 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { posthogServer } from "@/lib/analytics/posthog";
 import { captureError } from "@/lib/analytics/sentry";
 import type { ReservarLoteRequest } from "@/lib/lote/types";
+import { expirarReservasVencidas } from "@/lib/lote/loteService";
 import { getSupabaseAdminClient } from "@/lib/supabase/admin";
 
 export const runtime = "nodejs";
@@ -33,12 +34,18 @@ export async function POST(
 
   const admin = getSupabaseAdminClient();
 
+  // Libera reservas expiradas antes de verificar disponibilidade.
+  // Substitui cron horário (bloqueado no Hobby) — cada checkout aciona a limpeza.
+  await expirarReservasVencidas(20).catch(() => {});
+
   const { data, error } = await admin.rpc("fn_reservar_lote", {
     p_lote_id: loteId,
     p_session_id: session_id.trim(),
     p_quantidade: qty,
     p_user_id: user_id ?? null,
-    p_expira_minutos: 15,
+    // TTL de 60min: limitado pelo plano Hobby do Vercel (cron mínimo = 1h)
+    // Para TTL de 15min, fazer upgrade para Pro e restaurar p_expira_minutos: 15
+    p_expira_minutos: 60,
   });
 
   if (error) {
