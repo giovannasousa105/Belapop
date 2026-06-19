@@ -2,6 +2,7 @@
 
 import { createContext, useContext, useEffect, useRef, useState, type ReactNode } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import {
   ArrowRight,
   Heart,
@@ -58,6 +59,7 @@ const primaryNav: readonly PrimaryNavLink[] = [
   { href: "/skin-scan", label: "Entender minha pele", key: "skin-scan" },
   { href: "/popclub", label: "PopClub", key: "popclub" },
   { href: "/circulo", label: "Círculo", key: "circulo" },
+  { href: "/diario", label: "Diário", key: "diario" },
   { href: "/skincare", label: "Skincare", key: "skincare" },
   { href: "/cabelos", label: "Cabelos", key: "cabelos" },
   { href: "/rituais", label: "Autocuidado", key: "autocuidado" },
@@ -66,21 +68,24 @@ const primaryNav: readonly PrimaryNavLink[] = [
   { href: "/kits", label: "Kits", key: "kits" }
 ];
 
-const explorarLinks: readonly DrawerNavLink[] = [
-  { href: "/skin-scan", label: "Entender minha pele" },
+const editorialLinks: readonly DrawerNavLink[] = [
   { href: "/circulo", label: "Círculo BelaPop" },
   { href: "/diario", label: "Diário BelaPop" },
+];
+
+const categoriaLinks: readonly DrawerNavLink[] = [
   { href: "/skincare", label: "Skincare" },
   { href: "/cabelos", label: "Cabelos" },
   { href: "/rituais", label: "Autocuidado" },
   { href: "/maquiagem", label: "Maquiagem" },
-  { href: "/kits", label: "Kits" },
-  { href: "/universos", label: "Universos" }
+  { href: "/universos", label: "Universos" },
 ];
 
 const secondaryLinks: readonly DrawerNavLink[] = [
+  { href: "/sobre", label: "Nossa história" },
   { href: "/contato", label: "Atendimento" },
-  { href: "/termos-de-uso", label: "Políticas e Termos" }
+  { href: "/termos-de-uso", label: "Termos de uso" },
+  { href: "/aviso-de-privacidade", label: "Aviso de privacidade" },
 ];
 
 const ShellManagedHeaderContext = createContext(false);
@@ -115,6 +120,7 @@ function BelaPopValidatedHeaderContent({
   mobileSidebarEnabled,
   variant = "dark"
 }: BelaPopValidatedHeaderProps) {
+  const pathname = usePathname();
   const { user, ready: authReady } = useAuth();
   const { itemCount, ready: cartReady } = useCart();
   const [menuOpen, setMenuOpen] = useState(false);
@@ -487,22 +493,48 @@ function BelaPopValidatedHeaderContent({
               {/* P1: Single card with 3 groups */}
               <nav className="mt-6" aria-label="Navegação mobile BelaPop">
                 <div className="rounded-[26px] border border-black/10 bg-white/70 shadow-[0_20px_60px_rgba(28,20,20,0.08)]">
-                  {/* GRUPO 1 — Explorar */}
+                  {/* GRUPO 1 — Explorar: editorial */}
                   <p className="px-5 pt-4 pb-2 text-[10px] uppercase tracking-[0.16em] text-[#9a8f8b]">
                     Explorar
                   </p>
                   <div className="divide-y divide-black/10">
-                    {explorarLinks.map((item) => (
-                      <Link
-                        key={item.label}
-                        href={item.href}
-                        className={`${linkBase} text-[#1c1b1b]`}
-                        onClick={closeMenu}
-                      >
-                        <span>{item.label}</span>
-                        <ArrowRight className="h-4 w-4 text-[#8E5B68] opacity-45 transition-transform group-hover:translate-x-1 group-hover:opacity-100" />
-                      </Link>
-                    ))}
+                    {editorialLinks.map((item) => {
+                      const active = pathname === item.href;
+                      return (
+                        <Link
+                          key={item.label}
+                          href={item.href}
+                          aria-current={active ? "page" : undefined}
+                          className={`${linkBase} ${active ? "font-semibold text-[#1c1b1b]" : "text-[#1c1b1b]"}`}
+                          onClick={closeMenu}
+                        >
+                          <span>{item.label}</span>
+                          <ArrowRight className="h-4 w-4 text-[#8E5B68] opacity-45 transition-transform group-hover:translate-x-1 group-hover:opacity-100" />
+                        </Link>
+                      );
+                    })}
+                  </div>
+
+                  {/* Separador + sub-header Categorias */}
+                  <div className="mx-5 flex items-center gap-3 border-t border-black/10 pt-3 pb-1">
+                    <p className="text-[10px] uppercase tracking-[0.16em] text-[#9a8f8b]">Categorias</p>
+                  </div>
+                  <div className="divide-y divide-black/10">
+                    {categoriaLinks.map((item) => {
+                      const active = pathname === item.href;
+                      return (
+                        <Link
+                          key={item.label}
+                          href={item.href}
+                          aria-current={active ? "page" : undefined}
+                          className={`${linkBase} ${active ? "font-semibold text-[#1c1b1b]" : "text-[#1c1b1b]"}`}
+                          onClick={closeMenu}
+                        >
+                          <span>{item.label}</span>
+                          <ArrowRight className="h-4 w-4 text-[#8E5B68] opacity-45 transition-transform group-hover:translate-x-1 group-hover:opacity-100" />
+                        </Link>
+                      );
+                    })}
                   </div>
 
                   {/* GRUPO 2 — Minha conta */}
@@ -511,33 +543,41 @@ function BelaPopValidatedHeaderContent({
                     Minha conta
                   </p>
                   <div className="divide-y divide-black/10">
-                    {myAccountLinks.map((item) => (
-                      <Link
-                        key={item.label}
-                        href={item.href}
-                        className={`${linkBase} text-[#1c1b1b]`}
-                        onClick={closeMenu}
-                      >
-                        <span>{item.label}</span>
-                        <ArrowRight className="h-4 w-4 text-[#8E5B68] opacity-45 transition-transform group-hover:translate-x-1 group-hover:opacity-100" />
-                      </Link>
-                    ))}
+                    {myAccountLinks.map((item) => {
+                      const active = pathname === item.href;
+                      return (
+                        <Link
+                          key={item.label}
+                          href={item.href}
+                          aria-current={active ? "page" : undefined}
+                          className={`${linkBase} ${active ? "font-semibold text-[#1c1b1b]" : "text-[#1c1b1b]"}`}
+                          onClick={closeMenu}
+                        >
+                          <span>{item.label}</span>
+                          <ArrowRight className="h-4 w-4 text-[#8E5B68] opacity-45 transition-transform group-hover:translate-x-1 group-hover:opacity-100" />
+                        </Link>
+                      );
+                    })}
                   </div>
 
                   {/* GRUPO 3 — Links secundários */}
                   <hr className="mx-5 border-black/10" />
                   <div className="divide-y divide-black/10 pb-1">
-                    {secondaryLinks.map((item) => (
-                      <Link
-                        key={item.label}
-                        href={item.href}
-                        className={`${linkBase} text-sm text-[#6c6262]`}
-                        onClick={closeMenu}
-                      >
-                        <span>{item.label}</span>
-                        <ArrowRight className="h-4 w-4 text-[#9a928e] opacity-45 transition-transform group-hover:translate-x-1 group-hover:opacity-100" />
-                      </Link>
-                    ))}
+                    {secondaryLinks.map((item) => {
+                      const active = pathname === item.href;
+                      return (
+                        <Link
+                          key={item.label}
+                          href={item.href}
+                          aria-current={active ? "page" : undefined}
+                          className={`${linkBase} text-sm ${active ? "font-semibold text-[#1c1b1b]" : "text-[#6c6262]"}`}
+                          onClick={closeMenu}
+                        >
+                          <span>{item.label}</span>
+                          <ArrowRight className="h-4 w-4 text-[#9a928e] opacity-45 transition-transform group-hover:translate-x-1 group-hover:opacity-100" />
+                        </Link>
+                      );
+                    })}
                   </div>
                 </div>
               </nav>
@@ -556,8 +596,34 @@ function BelaPopValidatedHeaderContent({
                   </span>
                 ) : null}
               </Link>
-              <p className="mt-4 text-xs leading-5 text-[#6c6262]">
-                Produtos originais, compra segura e atendimento humano no pós-compra.
+              <div className="mt-4 flex gap-4">
+                <a
+                  href="https://instagram.com/belapopoficial"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-xs text-[#6c6262] transition-colors hover:text-[#1c1b1b]"
+                >
+                  Instagram
+                </a>
+                <a
+                  href="https://tiktok.com/@belapopoficial"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-xs text-[#6c6262] transition-colors hover:text-[#1c1b1b]"
+                >
+                  TikTok
+                </a>
+              </div>
+              <p className="mt-2 text-xs leading-5 text-[#6c6262]">
+                Produtos originais, compra segura e{" "}
+                <Link
+                  href="/contato"
+                  className="underline underline-offset-2 transition-opacity hover:opacity-70"
+                  onClick={closeMenu}
+                >
+                  atendimento humano
+                </Link>{" "}
+                no pós-compra.
               </p>
             </footer>
           </aside>
