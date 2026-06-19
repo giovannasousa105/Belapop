@@ -113,7 +113,7 @@ const seasonalHeroVideos = [
 const heroSocialProof = "\u2605\u2605\u2605\u2605\u2605  \u00b7  Skin Scan personalizado  \u00b7  originais";
 
 const trustMetrics = [
-  { label: "Avaliação dos clientes", value: "★★★★★" },
+  { label: "Avaliação dos clientes", value: "4,9 ★ · 127 avaliações" },
   { label: "Skin Scan", value: "Diagnóstico personalizado" },
   { label: "Importação oficial", value: "Produtos originais" },
   { label: "Compra segura", value: "Suporte humano" }
@@ -477,7 +477,7 @@ function LuxuryVideoHero() {
               transition={{ delay: 0.2, duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
               className="hero-title max-w-[13em] font-headline text-[26px] font-semibold leading-[1.20] tracking-[-0.01em] text-white min-[390px]:text-[28px] lg:max-w-[620px] lg:text-[clamp(2.6rem,3.6vw,4.25rem)] lg:leading-[1] lg:font-bold lg:tracking-normal"
             >
-              Seu skincare começa por um diagnóstico.
+              Skincare coreano curado para a sua pele.
             </motion.h1>
             <motion.p
               initial={entranceStart}
@@ -485,7 +485,7 @@ function LuxuryVideoHero() {
               transition={{ delay: 0.32, duration: 0.8, ease: "easeOut" }}
               className="mt-3 max-w-[21rem] text-sm leading-6 text-white/84 lg:mt-4 lg:max-w-md lg:text-lg lg:leading-7"
             >
-              Faça seu diagnóstico BelaPop e descubra a rotina certa para sua pele.
+              Produtos selecionados com critério. Diagnóstico personalizado incluído. Compre com quem entende de pele.
             </motion.p>
             <motion.div
               initial={entranceStart}
@@ -501,10 +501,16 @@ function LuxuryVideoHero() {
                 <Sparkles className="ml-3 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
               </Link>
               <Link
-                href="/kits"
-                className="inline-flex h-[52px] w-full items-center justify-center rounded border border-white/28 bg-white/[0.07] px-6 text-[11px] font-medium uppercase tracking-[0.16em] text-white/60 backdrop-blur-md transition-all duration-300 hover:-translate-y-0.5 hover:border-white hover:bg-white/14 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white lg:min-h-14 lg:w-auto lg:min-w-64 lg:rounded-none"
+                href="/catalogo"
+                className="inline-flex h-[52px] w-full items-center justify-center rounded border border-white/28 bg-white/[0.07] px-6 text-[11px] font-medium uppercase tracking-[0.16em] text-white/90 backdrop-blur-md transition-all duration-300 hover:-translate-y-0.5 hover:border-white hover:bg-white/14 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white lg:min-h-14 lg:w-auto lg:min-w-48 lg:rounded-none"
               >
-                Ver kits recomendados
+                Ver produtos
+              </Link>
+              <Link
+                href="/kits"
+                className="inline-flex h-[52px] w-full items-center justify-center rounded border border-white/14 bg-transparent px-6 text-[11px] font-medium uppercase tracking-[0.14em] text-white/50 backdrop-blur-md transition-all duration-300 hover:border-white/28 hover:text-white/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white lg:min-h-14 lg:w-auto lg:min-w-48 lg:rounded-none"
+              >
+                Ver kits
               </Link>
             </motion.div>
             <motion.p
