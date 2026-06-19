@@ -3,7 +3,7 @@
 /* eslint-disable @next/next/no-img-element */
 
 import { motion, useReducedMotion } from "framer-motion";
-import { BadgeCheck, Check, CreditCard, PackageCheck, ShieldCheck, Sparkles, Truck } from "lucide-react";
+import { BadgeCheck, Check, CreditCard, PackageCheck, ShieldCheck, ShoppingBag, Sparkles, Truck } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
@@ -15,6 +15,7 @@ import { CirculoForm } from "@/components/circulo/CirculoForm";
 import { artigos } from "@/lib/diario/data";
 
 import { TrustSignals } from "@/components/legal/TrustSignals";
+import { useCart } from "@/lib/CartContext";
 import { brandCtas } from "@/lib/brand/ctas";
 import { brandSectionNames } from "@/lib/brand/sections";
 import { getProductDisplayImage } from "@/lib/product/productCovers";
@@ -27,6 +28,7 @@ type HomeProduct = {
   hero_image_url?: string | null;
   id: string;
   price_cents: number;
+  sellerId?: string | null;
   slug: string;
   title: string;
 };
@@ -41,6 +43,9 @@ function toHomeProductCard(product: HomeProduct) {
       heroImageUrl: product.hero_image_url
     }),
     price: formatPrice(product.price_cents / 100),
+    priceCents: product.price_cents,
+    productId: product.id,
+    sellerId: product.sellerId ?? "unknown",
     title: product.title
   };
 }
@@ -51,30 +56,63 @@ function LuxuryProductCard({
   href,
   title,
   price,
-  image
+  priceCents,
+  image,
+  productId,
+  sellerId,
 }: {
   brand: string;
   href: string;
   title: string;
   price: string;
+  priceCents: number;
   image: string;
+  productId: string;
+  sellerId: string;
 }) {
+  const { addItem } = useCart();
+  const [addStatus, setAddStatus] = useState<"idle" | "adding" | "added">("idle");
+
+  function handleAddToCart(e: React.MouseEvent) {
+    e.preventDefault();
+    e.stopPropagation();
+    if (addStatus !== "idle") return;
+    setAddStatus("adding");
+    addItem(productId, 1, sellerId, { name: title, price: priceCents / 100 });
+    setTimeout(() => setAddStatus("added"), 260);
+    setTimeout(() => setAddStatus("idle"), 2500);
+  }
+
   return (
-    <article className="group transition duration-300 hover:-translate-y-1">
-      <Link
-        href={href}
-        className="mb-6 block aspect-[3/4] overflow-hidden bg-[#f6f3f2] shadow-[0_18px_70px_rgba(28,27,27,0.06)] transition duration-300 group-hover:shadow-[0_28px_90px_rgba(28,27,27,0.12)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#1c1b1b]"
-      >
-        <img
-          src={image}
-          alt={title}
-          loading="lazy"
-          decoding="async"
-          width={640}
-          height={853}
-          className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
-        />
-      </Link>
+    <article className="group relative transition duration-300 hover:-translate-y-1">
+      <div className="relative mb-6">
+        <Link
+          href={href}
+          className="block aspect-[3/4] overflow-hidden bg-[#f6f3f2] shadow-[0_18px_70px_rgba(28,27,27,0.06)] transition duration-300 group-hover:shadow-[0_28px_90px_rgba(28,27,27,0.12)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#1c1b1b]"
+        >
+          <img
+            src={image}
+            alt={title}
+            loading="lazy"
+            decoding="async"
+            width={640}
+            height={853}
+            className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
+          />
+        </Link>
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 translate-y-full transition-transform duration-300 group-hover:pointer-events-auto group-hover:translate-y-0">
+          <button
+            type="button"
+            onClick={handleAddToCart}
+            disabled={addStatus !== "idle"}
+            aria-label={addStatus === "added" ? "Adicionado ao carrinho" : "Adicionar ao carrinho"}
+            className="flex w-full items-center justify-center gap-2 bg-[#1c1b1b]/92 py-3.5 text-[11px] font-semibold uppercase tracking-[0.12em] text-white backdrop-blur-sm transition-colors hover:bg-black disabled:opacity-60"
+          >
+            <ShoppingBag className="h-3.5 w-3.5" aria-hidden="true" />
+            {addStatus === "added" ? "Adicionado ✓" : addStatus === "adding" ? "…" : "Adicionar ao carrinho"}
+          </button>
+        </div>
+      </div>
       <h4 className="mb-2 font-display text-[13px] font-normal normal-case tracking-[0.01em] text-[#3a3535]">
         {brand}
       </h4>
