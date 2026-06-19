@@ -28,7 +28,7 @@ export type HeaderSection =
   | "perfumes"
   | "skin-scan"
   | "popclub"
-  | "circulo"
+  | "círculo"
   | "kits"
   | "diario";
 
@@ -68,6 +68,8 @@ const primaryNav: readonly PrimaryNavLink[] = [
 
 const explorarLinks: readonly DrawerNavLink[] = [
   { href: "/skin-scan", label: "Entender minha pele" },
+  { href: "/circulo", label: "Círculo BelaPop" },
+  { href: "/diario", label: "Diário BelaPop" },
   { href: "/skincare", label: "Skincare" },
   { href: "/cabelos", label: "Cabelos" },
   { href: "/rituais", label: "Autocuidado" },
@@ -78,7 +80,7 @@ const explorarLinks: readonly DrawerNavLink[] = [
 
 const secondaryLinks: readonly DrawerNavLink[] = [
   { href: "/contato", label: "Atendimento" },
-  { href: "/termos-e-condicoes", label: "Políticas e Termos" }
+  { href: "/termos-de-uso", label: "Políticas e Termos" }
 ];
 
 const ShellManagedHeaderContext = createContext(false);
@@ -245,7 +247,7 @@ function BelaPopValidatedHeaderContent({
             <Link
               href="/"
               aria-label="BelaPop — Página inicial"
-              className="text-[1.08rem] font-bold uppercase tracking-[0.28em] transition-colors"
+              className="text-[1.08rem] font-bold uppercase tracking-[0.32em] lg:tracking-[0.28em] transition-colors"
             >
               BelaPop
             </Link>

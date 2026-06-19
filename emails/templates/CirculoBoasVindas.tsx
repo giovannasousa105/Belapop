@@ -7,9 +7,17 @@ interface Props {
   nome: string;
   skin_concern_label: string; // ex: "Acne e cravos"
   unsubscribe_url?: string;
+  subgroup_url?: string | null;
+  subgroup_label?: string;
 }
 
-export default function CirculoBoasVindas({ nome, skin_concern_label, unsubscribe_url }: Props) {
+export default function CirculoBoasVindas({
+  nome,
+  skin_concern_label,
+  unsubscribe_url,
+  subgroup_url,
+  subgroup_label,
+}: Props) {
   return (
     <EmailBase
       preview={`${nome}, você está no Círculo BelaPop.`}
@@ -38,6 +46,39 @@ export default function CirculoBoasVindas({ nome, skin_concern_label, unsubscrib
             {item}
           </Text>
         ))}
+      </Section>
+
+      {/* 2.1 Grupo de WhatsApp */}
+      <Section style={{ marginBottom: 28 }}>
+        <Text style={{ fontSize: 12, fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase" as const, color: "#aaaaaa", margin: "0 0 10px" }}>
+          Seu grupo no WhatsApp
+        </Text>
+        {subgroup_url ? (
+          <>
+            <Text style={{ fontSize: 13, color: "#555555", lineHeight: "1.6", margin: "0 0 14px" }}>
+              Entre agora no grupo de {subgroup_label} para trocar com outras membras e receber os avisos de drop.
+            </Text>
+            <Link
+              href={subgroup_url}
+              style={{
+                ...s.brand,
+                backgroundColor: "#25D366",
+                color: "#ffffff",
+                padding: "13px 28px",
+                borderRadius: 8,
+                textDecoration: "none",
+                display: "inline-block",
+                fontSize: 11,
+              }}
+            >
+              Entrar no grupo do WhatsApp
+            </Link>
+          </>
+        ) : (
+          <Text style={{ fontSize: 13, color: "#555555", lineHeight: "1.6", margin: 0 }}>
+            Em até 48h, alguém do time BelaPop vai te chamar no WhatsApp para te indicar o grupo certo dentro da Comunidade.
+          </Text>
+        )}
       </Section>
 
       {/* 3. Etiqueta do grupo */}

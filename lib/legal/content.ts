@@ -2,9 +2,9 @@ import { belapopContact } from "@/lib/brand/contact";
 
 export const legalRoutes = {
   privacy: "/aviso-de-privacidade",
-  terms: "/termos-e-condicoes",
+  terms: "/termos-de-uso",
   cookies: "/política-de-cookies",
-  returns: "/trocas-e-devolucoes",
+  returns: "/política-de-trocas-e-devoluções",
   shipping: "/política-de-envio"
 } as const;
 
@@ -33,9 +33,9 @@ export const belapopOperationalContacts = {
 
 export const operationalPendingItems = [
   "Atendimento a pedidos, entrega, pagamento e pós-venda pelo canal institucional.",
-  "Solicitações de privacidade e LGPD direcionadas ao canal de privacidade.",
-  "Registro de protocolos e acompanhamento conforme o histórico da compra.",
-  "Políticas de envio, troca e devolução publicadas antes da finalização do pedido."
+  "Solicitações de privacidade, LGPD e incidentes direcionadas ao canal de privacidade.",
+  "Registro de protocolos para atendimento e acompanhamento conforme o histórico da compra.",
+  "Políticas de envio, troca, devolução, cookies e termos disponíveis antes da finalização do pedido."
 ] as const;
 
 export const footerLinkGroups = [
@@ -43,6 +43,7 @@ export const footerLinkGroups = [
     title: "Institucional",
     links: [
       { label: "Sobre a BelaPop", href: "/sobre" },
+      { label: "Círculo BelaPop", href: "/circulo" },
       { label: "Segurança", href: "/seguranca" },
       { label: "Fale conosco", href: "/contato" }
     ]
@@ -51,7 +52,7 @@ export const footerLinkGroups = [
     title: "Legal",
     links: [
       { label: "Aviso de Privacidade", href: legalRoutes.privacy },
-      { label: "Termos e Condições", href: legalRoutes.terms },
+      { label: "Termos de Uso", href: legalRoutes.terms },
       { label: "Política de Cookies", href: legalRoutes.cookies },
       { label: "Trocas e Devoluções", href: legalRoutes.returns },
       { label: "Envio e Frete", href: legalRoutes.shipping },
@@ -156,25 +157,33 @@ export const cookieCategories = [
 export type CookieCategoryKey = (typeof cookieCategories)[number]["key"];
 
 export const privacyNotice = {
-  updatedAt: "13/05/2026",
+  updatedAt: "29/05/2026",
   intro:
-    "Este Aviso de Privacidade resume como a BelaPop trata dados pessoais no ambiente digital, quais finalidades orientam esse tratamento e quais canais oficiais existem para atendimento ao titular.",
+    "Este Aviso de Privacidade explica como a BelaPop trata dados pessoais no site, no Skin Scan, no Círculo BelaPop, no WhatsApp, no checkout e no pós-venda.",
   tableOfContents: [
-    { id: "controladora", label: "Controladora e identificação" },
+    { id: "controladora", label: "Controladora, DPO e contato" },
     { id: "dados-tratados", label: "Dados tratados" },
+    { id: "dados-pele", label: "Dados de pele e saúde" },
     { id: "finalidades-bases-legais", label: "Finalidades e bases legais" },
+    { id: "círculo-whatsapp", label: "Círculo e WhatsApp" },
     { id: "compartilhamento", label: "Compartilhamento" },
-    { id: "retencao", label: "Retenção" },
+    { id: "transferencia-internacional", label: "Transferência internacional" },
+    { id: "cookies-rastreamento", label: "Cookies e rastreamento" },
+    { id: "retencao", label: "Prazos de retenção" },
+    { id: "menores", label: "Menores de idade" },
     { id: "direitos", label: "Direitos do titular" },
-    { id: "seguranca", label: "Segurança e antifraude" },
-    { id: "contato", label: "Contato e atualizações" }
+    { id: "seguranca", label: "Segurança, antifraude e incidentes" },
+    { id: "links-terceiros", label: "Links para sites de terceiros" },
+    { id: "atualizacoes", label: "Alterações neste aviso" },
+    { id: "contato", label: "Contato e canal de privacidade" }
   ],
   dataTypes: [
     "Dados cadastrais e de contato, como nome, CPF, e-mail, telefone e endereço de entrega ou cobrança.",
     "Dados de navegação e dispositivo, como IP, identificadores técnicos, preferências de sessão e eventos de uso.",
     "Dados necessários para pagamento, prevenção a fraude, autenticação e conciliação financeira.",
     "Dados de atendimento, trocas, devoluções, reclamações e histórico operacional do pedido.",
-    "Dados fornecidos em formulários, campanhas, avaliações, wishlist, conta e interações com concierge ou suporte."
+    "Dados fornecidos em formulários, campanhas, avaliações, wishlist, conta e interações com concierge ou suporte.",
+    "Dados de pele informados no Skin Scan, no Círculo BelaPop ou em preferências de skincare, como tipo de pele, foco de cuidado, preocupação dermatológica e imagem enviada para análise visual quando a funcionalidade for usada."
   ],
   purposes: [
     {
@@ -210,7 +219,7 @@ export const privacyNotice = {
     "Autoridades públicas ou terceiros legitimados quando houver dever legal, regulatório ou ordem válida."
   ],
   retention:
-    "A BelaPop mantém dados pelo tempo necessário para cumprir a finalidade informada, atender obrigações legais, fiscais, regulatórias, resolver disputas, resguardar direitos e prevenir fraude. Os critérios de retenção são revisados conforme a evolução da operação.",
+    "Dados fiscais e transacionais são mantidos por 5 anos; dados relacionados à relação de consumo e pós-venda por 5 anos; logs de acesso por 6 meses, salvo obrigação legal ou ordem de autoridade; dados de marketing e WhatsApp permanecem até revogação do consentimento; dados de pele e imagem do Skin Scan são mantidos apenas pelo tempo necessário à análise e à entrega da experiência, salvo se a cliente salvar o resultado na conta.",
   rights: [
     "Confirmação da existência de tratamento.",
     "Acesso aos dados e correção de informações incompletas, inexatas ou desatualizadas.",
@@ -224,16 +233,19 @@ export const privacyNotice = {
 } as const;
 
 export const termsAndConditions = {
-  updatedAt: "13/05/2026",
+  updatedAt: "29/05/2026",
   intro:
-    "Estes Termos deixam claro como a BelaPop vende, aprova, entrega, acompanha e eventualmente reembolsa pedidos no ambiente digital. O objetivo é reduzir ambiguidade jurídica e tornar a operação visível para o cliente antes da compra.",
+    "Estes Termos de Uso explicam as regras de uso do site, do Círculo BelaPop, dos drops, do checkout, das comunicações e do atendimento ao consumidor.",
   tableOfContents: [
     { id: "identificacao-escopo", label: "Identificação e escopo" },
     { id: "cadastro-elegibilidade", label: "Cadastro e elegibilidade" },
+    { id: "círculo-whatsapp", label: "Círculo BelaPop e WhatsApp" },
+    { id: "drops", label: "Drops e janela de compra" },
     { id: "seller-e-oferta", label: "Seller, oferta e marcas exibidas" },
     { id: "preco-estoque-aprovação", label: "Preço, estoque e aprovação" },
     { id: "pagamento-antifraude", label: "Pagamento e antifraude" },
     { id: "logistica-entrega", label: "Logística e entrega" },
+    { id: "cosmeticos-seguranca", label: "Uso de cosméticos e patch test" },
     { id: "reembolso-e-devolucao", label: "Reembolso e devolução" },
     { id: "propriedade-intelectual", label: "Propriedade intelectual" },
     { id: "limitação-responsabilidade", label: "Limitação de responsabilidade" },
@@ -242,33 +254,38 @@ export const termsAndConditions = {
 } as const;
 
 export const cookiesPolicy = {
-  updatedAt: "13/05/2026",
+  updatedAt: "29/05/2026",
   intro:
-    "A Política de Cookies explica como a BelaPop usa cookies e tecnologias semelhantes para manter sessão, segurança, prevenção a fraude, mensuração de desempenho e personalização opcional.",
+    "A Política de Cookies explica quais cookies e tecnologias semelhantes a BelaPop usa, quais são essenciais, quais dependem de consentimento e como revisar suas preferências.",
   tableOfContents: [
     { id: "o-que-sao", label: "O que são cookies" },
     { id: "categorias", label: "Categorias utilizadas" },
+    { id: "ferramentas", label: "Ferramentas de medição e mídia" },
     { id: "consentimento", label: "Como o consentimento funciona" },
     { id: "gestao", label: "Como personalizar ou retirar o consentimento" },
-    { id: "mapa-operacional", label: "Mapa de cookies e preferências" }
+    { id: "retencao", label: "Retenção e revisão" }
   ]
 } as const;
 
 export const returnsPolicy = {
-  updatedAt: "13/05/2026",
+  updatedAt: "29/05/2026",
   intro:
-    "A Política de Trocas e Devoluções apresenta como a BelaPop conduz atendimento pós-venda, arrependimento, avarias, divergências e reembolso em pedidos próprios ou com sellers parceiros.",
+    "A Política de Trocas e Devoluções separa o direito de arrependimento em compras online, a garantia legal de cosméticos, reações adversas, avarias, divergências e reembolso.",
   tableOfContents: [
-    { id: "arrependimento", label: "Arrependimento e devolução" },
+    { id: "arrependimento", label: "Arrependimento em 7 dias" },
+    { id: "drops-circulo", label: "Drops e Círculo BelaPop" },
+    { id: "troca-garantia", label: "Troca, vício e garantia legal" },
+    { id: "reacao-adversa", label: "Reação adversa e segurança" },
     { id: "avaria-divergencia", label: "Avaria, divergência ou item incorreto" },
     { id: "marketplace", label: "Pedidos com sellers parceiros" },
-    { id: "análise-reembolso", label: "Análise e reembolso" },
+    { id: "atraso-entrega", label: "Atraso ou não entrega" },
+    { id: "analise-reembolso", label: "Análise e reembolso" },
     { id: "como-solicitar", label: "Como solicitar atendimento" }
   ]
 } as const;
 
 export const shippingPolicy = {
-  updatedAt: "13/05/2026",
+  updatedAt: "29/05/2026",
   intro:
     "A Política de Envio e Frete explica como prazos, custos, rastreio e responsabilidades logísticas são apresentados na BelaPop antes da conclusão do pedido.",
   tableOfContents: [

@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 
+import { legalRoutes } from "@/lib/legal/content";
 import { getSupabaseAdminClient } from "@/lib/supabase/admin";
 
 // Revalidar o sitemap a cada 1 hora.
@@ -79,6 +80,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: "monthly",
       priority: 0.4,
     },
+    ...Object.values(legalRoutes).map((route) => ({
+      url: `${baseUrl}${route}`,
+      lastModified: new Date(),
+      changeFrequency: "yearly" as const,
+      priority: 0.3,
+    })),
   ];
 
   const universos: MetadataRoute.Sitemap = UNIVERSOS.map((universo) => ({

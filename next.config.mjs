@@ -95,7 +95,7 @@ const securityHeaders = [
 const nextConfig = {
   reactStrictMode: true,
   images: {
-    formats:          ["image/webp"],
+    formats:          ["image/avif", "image/webp"],
     deviceSizes:      [360, 480, 640, 828, 1080, 1200, 1920],
     imageSizes:       [120, 256, 384, 600],
     minimumCacheTTL:  31536000,
@@ -103,6 +103,19 @@ const nextConfig = {
       protocol: hostname === "localhost" || hostname === "127.0.0.1" ? "http" : "https",
       hostname
     }))
+  },
+  async redirects() {
+    return [
+      { source: "/produtos",         destination: "/catalogo",       permanent: true },
+      { source: "/loja",             destination: "/catalogo",       permanent: true },
+      { source: "/collections/all",  destination: "/catalogo",       permanent: true },
+      { source: "/shop",             destination: "/catalogo",       permanent: true },
+      { source: "/envio-frete",      destination: "/envio-e-frete",  permanent: true },
+      { source: "/frete",            destination: "/envio-e-frete",  permanent: true },
+      // /círculo (com acento) → /circulo (URL canônica sem acento)
+      { source: "/c%C3%ADrculo",     destination: "/circulo",        permanent: true },
+      { source: "/c%C3%ADrculo/:path*", destination: "/circulo/:path*", permanent: true },
+    ];
   },
   async headers() {
     return [
