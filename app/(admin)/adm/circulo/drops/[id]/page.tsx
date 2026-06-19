@@ -7,6 +7,17 @@ import Link from "next/link";
 
 type DropStatus = "draft" | "scheduled" | "live" | "closed" | "sold_out" | "fulfilling" | "delivered";
 
+function toSlug(str: string): string {
+  return str
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[̀-ͯ]/g, "")
+    .replace(/[^a-z0-9\s-]/g, "")
+    .trim()
+    .replace(/\s+/g, "-")
+    .replace(/-+/g, "-");
+}
+
 interface DropItem {
   id: string;
   drop_price_cents: number;
@@ -71,6 +82,7 @@ export default function DropDetailPage() {
 
   // Form state
   const [title, setTitle] = useState("");
+  const [slug, setSlug] = useState("");
   const [subtitle, setSubtitle] = useState("");
   const [description, setDescription] = useState("");
   const [coverImageUrl, setCoverImageUrl] = useState<string | null>(null);
@@ -93,6 +105,7 @@ export default function DropDetailPage() {
     setDrop(data.drop);
     setItems(data.items ?? []);
     setTitle(data.drop.title);
+    setSlug(data.drop.slug ?? "");
     setSubtitle(data.drop.subtitle ?? "");
     setDescription(data.drop.description ?? "");
     setCoverImageUrl(data.drop.cover_image_url ?? null);
@@ -155,6 +168,7 @@ export default function DropDetailPage() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           title:           title.trim() || undefined,
+          slug:            slug.trim() || undefined,
           subtitle:        subtitle.trim() || undefined,
           description:     description.trim() || undefined,
           cover_image_url: coverImageUrl ?? null,
@@ -350,6 +364,30 @@ export default function DropDetailPage() {
           <label className={labelClass}>Título</label>
           <input type="text" value={title} onChange={(e) => setTitle(e.target.value)}
             maxLength={120} className={inputClass} required />
+        </div>
+
+        <div>
+          <div className="mb-1.5 flex items-center justify-between">
+            <span className={labelClass} style={{ marginBottom: 0 }}>Slug (URL)</span>
+            <button
+              type="button"
+              onClick={() => setSlug(toSlug(title))}
+              className="text-[11px] text-neutral-400 underline hover:text-neutral-700"
+            >
+              Gerar do título
+            </button>
+          </div>
+          <div className="flex items-center rounded-lg border border-neutral-200 bg-white focus-within:border-black focus-within:ring-2 focus-within:ring-black/10">
+            <span className="select-none pl-4 font-mono text-sm text-neutral-400">/drops/</span>
+            <input
+              type="text"
+              value={slug}
+              onChange={(e) => setSlug(e.target.value.toLowerCase().replace(/[^a-z0-9-]/g, ""))}
+              maxLength={80}
+              className="flex-1 bg-transparent py-2.5 pr-4 font-mono text-sm outline-none"
+            />
+          </div>
+          <p className="mt-1 text-[11px] text-neutral-400">Apenas letras minúsculas, números e hífens.</p>
         </div>
 
         <div>

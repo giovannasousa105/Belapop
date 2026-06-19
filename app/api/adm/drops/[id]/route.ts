@@ -57,6 +57,7 @@ export async function GET(_req: NextRequest, { params }: { params: Promise<{ id:
 
 const UpdateDropSchema = z.object({
   title:           z.string().min(3).max(120).optional(),
+  slug:            z.string().min(3).max(80).regex(/^[a-z0-9-]+$/, "Slug deve conter apenas letras minúsculas, números e hífens").optional(),
   subtitle:        z.string().max(200).optional(),
   description:     z.string().max(3000).optional(),
   cover_image_url: z.string().url().max(500).nullable().optional(),

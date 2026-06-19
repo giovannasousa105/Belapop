@@ -51,8 +51,11 @@ export async function GET(req: NextRequest) {
 
 // ── POST /api/adm/drops ───────────────────────────────────────────────────────
 
+const slugRegex = /^[a-z0-9-]+$/;
+
 const CreateDropSchema = z.object({
   title:       z.string().min(3).max(120),
+  slug:        z.string().min(3).max(80).regex(slugRegex, "Slug deve conter apenas letras minúsculas, números e hífens"),
   subtitle:    z.string().max(200).optional(),
   description: z.string().max(3000).optional(),
   opens_at:    z.string().datetime(),
@@ -75,7 +78,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: parsed.error.issues[0]?.message ?? "Dados inválidos." }, { status: 422 });
   }
 
-  const { title, subtitle, description, opens_at, closes_at, notes, glass_qty } = parsed.data;
+  const { title, slug, subtitle, description, opens_at, closes_at, notes, glass_qty } = parsed.data;
 
   if (new Date(closes_at) <= new Date(opens_at)) {
     return NextResponse.json({ error: "Data de fechamento deve ser posterior à abertura." }, { status: 422 });
@@ -86,6 +89,7 @@ export async function POST(req: NextRequest) {
     .from("drops")
     .insert({
       title,
+      slug,
       subtitle:    subtitle    ?? null,
       description: description ?? null,
       opens_at,

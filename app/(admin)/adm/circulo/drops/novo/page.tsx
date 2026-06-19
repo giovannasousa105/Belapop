@@ -3,10 +3,23 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
+function toSlug(str: string): string {
+  return str
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[̀-ͯ]/g, "")
+    .replace(/[^a-z0-9\s-]/g, "")
+    .trim()
+    .replace(/\s+/g, "-")
+    .replace(/-+/g, "-");
+}
+
 export default function NovoDropPage() {
   const router = useRouter();
 
   const [title, setTitle] = useState("");
+  const [slug, setSlug] = useState("");
+  const [slugEdited, setSlugEdited] = useState(false);
   const [subtitle, setSubtitle] = useState("");
   const [description, setDescription] = useState("");
   const [opensAt, setOpensAt] = useState("");
@@ -16,11 +29,23 @@ export default function NovoDropPage() {
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  function handleTitleChange(value: string) {
+    setTitle(value);
+    if (!slugEdited) setSlug(toSlug(value));
+  }
+
+  function handleSlugChange(value: string) {
+    setSlug(value.toLowerCase().replace(/[^a-z0-9-]/g, ""));
+    setSlugEdited(true);
+  }
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
 
     if (!title.trim()) { setError("Título é obrigatório."); return; }
+    if (!slug.trim()) { setError("Slug é obrigatório."); return; }
+    if (!/^[a-z0-9-]+$/.test(slug)) { setError("Slug deve conter apenas letras minúsculas, números e hífens."); return; }
     if (!opensAt || !closesAt) { setError("Datas de abertura e fechamento são obrigatórias."); return; }
     if (new Date(closesAt) <= new Date(opensAt)) { setError("Fechamento deve ser após a abertura."); return; }
 
@@ -31,6 +56,7 @@ export default function NovoDropPage() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           title,
+          slug,
           subtitle:    subtitle.trim()    || undefined,
           description: description.trim() || undefined,
           opens_at:    new Date(opensAt).toISOString(),
@@ -67,12 +93,38 @@ export default function NovoDropPage() {
           <input
             type="text"
             value={title}
-            onChange={(e) => setTitle(e.target.value)}
+            onChange={(e) => handleTitleChange(e.target.value)}
             placeholder="ex: Drops Coreanos de Inverno — Vol. 3"
             maxLength={120}
             className={inputClass}
             required
           />
+        </div>
+
+        <div>
+          <div className="mb-1.5 flex items-center justify-between">
+            <span className={labelClass} style={{ marginBottom: 0 }}>Slug (URL)</span>
+            <button
+              type="button"
+              onClick={() => { setSlug(toSlug(title)); setSlugEdited(false); }}
+              className="text-[11px] text-neutral-400 underline hover:text-neutral-700"
+            >
+              Gerar do título
+            </button>
+          </div>
+          <div className="flex items-center rounded-lg border border-neutral-200 bg-white focus-within:border-black focus-within:ring-2 focus-within:ring-black/10">
+            <span className="select-none pl-4 font-mono text-sm text-neutral-400">/drops/</span>
+            <input
+              type="text"
+              value={slug}
+              onChange={(e) => handleSlugChange(e.target.value)}
+              placeholder="meu-drop-vol-1"
+              maxLength={80}
+              className="flex-1 bg-transparent py-2.5 pr-4 font-mono text-sm outline-none"
+              required
+            />
+          </div>
+          <p className="mt-1 text-[11px] text-neutral-400">Apenas letras minúsculas, números e hífens. Gerado automaticamente do título.</p>
         </div>
 
         <div>
