@@ -28,7 +28,7 @@ export type HeaderSection =
   | "perfumes"
   | "skin-scan"
   | "popclub"
-  | "círculo"
+  | "circulo"
   | "kits"
   | "diario";
 
