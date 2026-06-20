@@ -4,6 +4,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { useRouter, useParams } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
+import { Search, X } from "lucide-react";
 
 type DropStatus = "draft" | "scheduled" | "live" | "closed" | "sold_out" | "fulfilling" | "delivered";
 
@@ -26,6 +27,13 @@ interface DropItem {
   fulfillment_eta_days: number;
   stripe_payment_link_url: string | null;
   products: { id: string; name: string; slug: string | null } | null;
+}
+
+interface ProductSearchResult {
+  id: string;
+  name: string;
+  price: number;
+  sellerId: string | null;
 }
 
 interface DropDetail {
@@ -95,6 +103,18 @@ export default function DropDetailPage() {
   const [uploadError, setUploadError] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
+  // Add-item state
+  const [itemQuery, setItemQuery] = useState("");
+  const [itemResults, setItemResults] = useState<ProductSearchResult[]>([]);
+  const [itemSearching, setItemSearching] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState<ProductSearchResult | null>(null);
+  const [newItemPrice, setNewItemPrice] = useState("");
+  const [newItemQty, setNewItemQty] = useState("1");
+  const [newItemEta, setNewItemEta] = useState("7");
+  const [addingItem, setAddingItem] = useState(false);
+  const [addItemError, setAddItemError] = useState<string | null>(null);
+  const searchDebounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
   const pollingRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   const fetchDrop = useCallback(async () => {
@@ -118,6 +138,81 @@ export default function DropDetailPage() {
   }, [id]);
 
   useEffect(() => { fetchDrop(); }, [fetchDrop]);
+
+  const handleItemQueryChange = (value: string) => {
+    setItemQuery(value);
+    if (searchDebounceRef.current) clearTimeout(searchDebounceRef.current);
+    if (value.trim().length < 2) { setItemResults([]); return; }
+    searchDebounceRef.current = setTimeout(async () => {
+      setItemSearching(true);
+      try {
+        const res = await fetch(`/api/products/search?q=${encodeURIComponent(value)}&pageSize=8`);
+        const data = await res.json() as { items?: ProductSearchResult[] };
+        setItemResults(data.items ?? []);
+      } finally {
+        setItemSearching(false);
+      }
+    }, 300);
+  };
+
+  const handleSelectProduct = (product: ProductSearchResult) => {
+    setSelectedProduct(product);
+    setNewItemPrice((product.price).toFixed(2));
+    setItemResults([]);
+    setItemQuery("");
+    setAddItemError(null);
+  };
+
+  const handleAddItem = async () => {
+    if (!selectedProduct) return;
+    if (!selectedProduct.sellerId) {
+      setAddItemError("Este produto não tem vendedor vinculado e não pode ser adicionado.");
+      return;
+    }
+    const priceCents = Math.round(parseFloat(newItemPrice) * 100);
+    const qty = parseInt(newItemQty, 10);
+    const eta = parseInt(newItemEta, 10);
+    if (!priceCents || priceCents <= 0 || !qty || qty < 1 || !eta || eta < 1) {
+      setAddItemError("Preencha preço, quantidade e prazo corretamente.");
+      return;
+    }
+    setAddingItem(true);
+    setAddItemError(null);
+    try {
+      const res = await fetch(`/api/adm/drops/${id}/items`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          product_id:           selectedProduct.id,
+          seller_id:            selectedProduct.sellerId,
+          drop_price_cents:     priceCents,
+          max_quantity:         qty,
+          fulfillment_eta_days: eta,
+        }),
+      });
+      const data = await res.json() as { error?: string };
+      if (!res.ok) { setAddItemError(data.error ?? "Erro ao adicionar."); return; }
+      setSelectedProduct(null);
+      setItemQuery("");
+      setNewItemPrice("");
+      setNewItemQty("1");
+      setNewItemEta("7");
+      await fetchDrop();
+    } finally {
+      setAddingItem(false);
+    }
+  };
+
+  const handleRemoveItem = async (itemId: string) => {
+    if (!confirm("Remover este produto do drop? O lote de estoque associado será suspenso.")) return;
+    const res = await fetch(`/api/adm/drops/${id}/items?item_id=${itemId}`, { method: "DELETE" });
+    if (res.ok) {
+      await fetchDrop();
+    } else {
+      const data = await res.json() as { error?: string };
+      setError(data.error ?? "Erro ao remover item.");
+    }
+  };
 
   // Live stats polling (10s)
   useEffect(() => {
@@ -267,18 +362,24 @@ export default function DropDetailPage() {
       </div>
 
       {/* Items */}
-      {items.length > 0 && (
-        <div className="rounded-xl border border-neutral-200">
-          <div className="border-b border-neutral-100 px-4 py-3">
-            <h2 className="text-xs font-semibold uppercase tracking-wider text-neutral-400">Itens do drop</h2>
-          </div>
+      <div className="rounded-xl border border-neutral-200">
+        <div className="flex items-center justify-between border-b border-neutral-100 px-4 py-3">
+          <h2 className="text-xs font-semibold uppercase tracking-wider text-neutral-400">Produto do drop</h2>
+          {items.length === 0 && (
+            <span className="rounded-full bg-amber-50 px-2 py-0.5 text-[10px] font-medium text-amber-600">Nenhum produto</span>
+          )}
+        </div>
+        {items.length > 0 ? (
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b border-neutral-100 bg-neutral-50">
                 <th className="px-4 py-2.5 text-left text-[11px] font-semibold uppercase tracking-wider text-neutral-400">Produto</th>
                 <th className="px-4 py-2.5 text-left text-[11px] font-semibold uppercase tracking-wider text-neutral-400">Preço</th>
-                <th className="px-4 py-2.5 text-left text-[11px] font-semibold uppercase tracking-wider text-neutral-400">Vendidos</th>
-                <th className="px-4 py-2.5 text-left text-[11px] font-semibold uppercase tracking-wider text-neutral-400">Total</th>
+                <th className="px-4 py-2.5 text-left text-[11px] font-semibold uppercase tracking-wider text-neutral-400">Vendidos / Total</th>
+                <th className="px-4 py-2.5 text-left text-[11px] font-semibold uppercase tracking-wider text-neutral-400">Prazo</th>
+                {(drop.status === "draft" || drop.status === "scheduled") && (
+                  <th className="px-4 py-2.5" />
+                )}
               </tr>
             </thead>
             <tbody>
@@ -290,12 +391,143 @@ export default function DropDetailPage() {
                     <span className={item.sold_quantity >= item.max_quantity ? "font-semibold text-red-600" : ""}>
                       {item.sold_quantity}
                     </span>
+                    <span className="text-neutral-400"> / {item.max_quantity}</span>
                   </td>
-                  <td className="px-4 py-3 text-neutral-500">{item.max_quantity}</td>
+                  <td className="px-4 py-3 text-neutral-500">{item.fulfillment_eta_days}d</td>
+                  {(drop.status === "draft" || drop.status === "scheduled") && (
+                    <td className="px-4 py-3">
+                      <button
+                        type="button"
+                        onClick={() => handleRemoveItem(item.id)}
+                        className="text-[11px] text-neutral-400 transition-colors hover:text-red-600"
+                      >
+                        Remover
+                      </button>
+                    </td>
+                  )}
                 </tr>
               ))}
             </tbody>
           </table>
+        ) : (
+          <p className="px-4 py-5 text-sm text-neutral-400">Nenhum produto adicionado ainda.</p>
+        )}
+      </div>
+
+      {/* Add item form — only for editable drops without an item yet */}
+      {(drop.status === "draft" || drop.status === "scheduled") && items.length === 0 && (
+        <div className="rounded-xl border border-neutral-200 bg-white p-5">
+          <h2 className="mb-4 text-xs font-semibold uppercase tracking-wider text-neutral-400">Adicionar produto</h2>
+
+          {!selectedProduct ? (
+            <div className="relative">
+              <label className={labelClass}>Buscar produto</label>
+              <div className="relative">
+                <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-neutral-400" />
+                <input
+                  type="search"
+                  value={itemQuery}
+                  onChange={(e) => handleItemQueryChange(e.target.value)}
+                  placeholder="Digite o nome do produto..."
+                  className={`${inputClass} pl-9`}
+                />
+              </div>
+              {itemSearching && (
+                <p className="mt-2 text-[11px] text-neutral-400">Buscando...</p>
+              )}
+              {itemResults.length > 0 && (
+                <div className="absolute z-10 mt-1 w-full rounded-lg border border-neutral-200 bg-white shadow-xl">
+                  {itemResults.map((product) => (
+                    <button
+                      key={product.id}
+                      type="button"
+                      onClick={() => handleSelectProduct(product)}
+                      className="flex w-full items-center justify-between px-4 py-3 text-left text-sm transition-colors hover:bg-neutral-50 first:rounded-t-lg last:rounded-b-lg"
+                    >
+                      <span className="font-medium text-neutral-900">{product.name}</span>
+                      <span className="ml-4 shrink-0 text-neutral-400">
+                        {product.price.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
+                      </span>
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+          ) : (
+            <div className="space-y-4">
+              <div className="flex items-center justify-between rounded-lg bg-neutral-50 px-4 py-3">
+                <div>
+                  <p className="text-sm font-medium text-neutral-900">{selectedProduct.name}</p>
+                  <p className="mt-0.5 text-[11px] text-neutral-400">
+                    Preço de catálogo: {selectedProduct.price.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => { setSelectedProduct(null); setAddItemError(null); }}
+                  className="ml-4 rounded-full p-1 text-neutral-400 transition-colors hover:bg-neutral-200 hover:text-neutral-700"
+                >
+                  <X className="h-4 w-4" />
+                </button>
+              </div>
+
+              <div className="grid gap-3 sm:grid-cols-3">
+                <div>
+                  <label className={labelClass}>Preço do drop (R$)</label>
+                  <input
+                    type="number"
+                    min="0.01"
+                    step="0.01"
+                    value={newItemPrice}
+                    onChange={(e) => setNewItemPrice(e.target.value)}
+                    placeholder="0,00"
+                    className={inputClass}
+                  />
+                </div>
+                <div>
+                  <label className={labelClass}>Qtd máxima</label>
+                  <input
+                    type="number"
+                    min="1"
+                    step="1"
+                    value={newItemQty}
+                    onChange={(e) => setNewItemQty(e.target.value)}
+                    className={inputClass}
+                  />
+                </div>
+                <div>
+                  <label className={labelClass}>Prazo (dias úteis)</label>
+                  <input
+                    type="number"
+                    min="1"
+                    step="1"
+                    value={newItemEta}
+                    onChange={(e) => setNewItemEta(e.target.value)}
+                    className={inputClass}
+                  />
+                </div>
+              </div>
+
+              {!selectedProduct.sellerId && (
+                <p className="rounded-lg bg-amber-50 px-4 py-2.5 text-xs text-amber-700">
+                  Este produto não tem vendedor vinculado e não pode ser adicionado.
+                </p>
+              )}
+
+              {addItemError && (
+                <p className="rounded-lg bg-red-50 px-4 py-2.5 text-xs text-red-700">{addItemError}</p>
+              )}
+
+              <button
+                type="button"
+                onClick={handleAddItem}
+                disabled={addingItem || !selectedProduct.sellerId}
+                className="w-full rounded-lg bg-black py-3 text-xs font-semibold tracking-wider text-white transition-colors hover:bg-neutral-700 disabled:opacity-50"
+              >
+                {addingItem ? "Adicionando..." : "Confirmar e adicionar ao drop"}
+              </button>
+            </div>
+          )}
         </div>
       )}
 
