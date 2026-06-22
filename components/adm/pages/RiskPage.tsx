@@ -22,7 +22,7 @@ const scoreByPriority = { baixa: 92, media: 74, alta: 58, critica: 37 } as const
 
 const statusBadge: Record<string, string> = {
   Pendente: "bg-amber-50 text-amber-700",
-  "Em Analise": "bg-blue-50 text-blue-700",
+  "Em Análise": "bg-blue-50 text-blue-700",
   Bloqueado: "bg-red-50 text-red-600",
   Liberado: "bg-emerald-50 text-emerald-700"
 };
@@ -54,7 +54,7 @@ export async function RiskPage({ filters, searchParamsSource = filters }: RiskPa
       amount,
       score,
       reason: alert.summary || alert.type,
-      status: alert.priority === "critica" ? "Bloqueado" : alert.priority === "alta" ? "Em Analise" : "Pendente"
+      status: alert.priority === "critica" ? "Bloqueado" : alert.priority === "alta" ? "Em Análise" : "Pendente"
     };
   });
 

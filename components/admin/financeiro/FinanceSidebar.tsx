@@ -34,7 +34,7 @@ const navItems: NavItem[] = [
   { label: "Clientes", href: "/adm/relacionamento/clientes", icon: Users },
   { label: "Risco", href: "/adm/financeiro/risco", icon: ShieldAlert },
   { label: "Financeiro", href: "/adm/financeiro", icon: Wallet },
-  { label: "configuracoes", href: "/adm/gestao/configuracoes", icon: Settings },
+  { label: "configurações", href: "/adm/gestao/configuracoes", icon: Settings },
 ];
 
 export function FinanceSidebar({ activeHref }: { activeHref: string }) {

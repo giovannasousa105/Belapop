@@ -110,7 +110,7 @@ const sidebarItems: SidebarItem[] = [
   { label: "Risco", href: "/adm/financeiro/risco", icon: ShieldAlert },
   { label: "Financeiro", href: "/adm/financeiro", icon: Wallet },
   { label: "Clientes", href: "/adm/relacionamento/clientes", icon: Users },
-  { label: "Configuracoes", href: "/adm/gestao/configuracoes", icon: Settings2 }
+  { label: "Configurações", href: "/adm/gestao/configuracoes", icon: Settings2 }
 ];
 
 const bannerVisuals: BannerVisual[] = [

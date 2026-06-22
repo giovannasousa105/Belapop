@@ -41,7 +41,7 @@ export async function FinanceOverviewPage({ filters: _filters }: { filters: AdmF
     {
       href: "/adm/financeiro/reembolsos",
       label: "Reembolsos",
-      description: "Devolucoes e aprovacoes",
+      description: "Devoluções e aprovacoes",
       icon: <RotateCcw className="h-5 w-5" strokeWidth={1.8} />,
       badge: pendingRefunds.length ? `${pendingRefunds.length}` : undefined,
       badgeVariant: "warning" as const

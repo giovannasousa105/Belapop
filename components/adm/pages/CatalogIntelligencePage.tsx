@@ -94,7 +94,7 @@ const sidebarItems: SidebarItem[] = [
   { label: "Pedidos", href: "/adm/operacao/pedidos-criticos", icon: ShoppingBag },
   { label: "Logística", href: "/adm/operacao/logistica", icon: Truck },
   { label: "Relatórios", href: "/adm/gestao/relatorios", icon: ShieldCheck },
-  { label: "configuracoes", href: "/adm/gestao/configuracoes", icon: Settings }
+  { label: "configurações", href: "/adm/gestao/configuracoes", icon: Settings }
 ];
 
 const distribution: DistributionItem[] = [

@@ -86,7 +86,7 @@ const sidebarItems: SidebarItem[] = [
   { label: "Catalogo", href: "/adm/catalogo-marca/inteligencia", icon: Package2 },
   { label: "Pedidos", href: "/adm/operacao/pedidos-criticos", icon: ShoppingBag },
   { label: "Comunicação", href: "/adm/operacao/comunicacao-sellers", icon: MessageSquare, active: true },
-  { label: "Configuracoes", href: "/adm/gestao/configuracoes", icon: Settings }
+  { label: "Configurações", href: "/adm/gestao/configuracoes", icon: Settings }
 ];
 
 const filters = [

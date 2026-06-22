@@ -84,7 +84,7 @@ const sidebarItems: SidebarItem[] = [
   { label: "Financeiro", href: "/adm/financeiro", icon: Wallet },
   { label: "Clientes", href: "/adm/relacionamento/clientes", icon: Users },
   { label: "Relatorios", href: "/adm/gestao/relatorios", icon: ChartColumn },
-  { label: "Configuracoes", href: "/adm/gestao/configuracoes", icon: Settings }
+  { label: "Configurações", href: "/adm/gestao/configuracoes", icon: Settings }
 ];
 
 const avatarByUserName: Record<string, AvatarConfig> = {

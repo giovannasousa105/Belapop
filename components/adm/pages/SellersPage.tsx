@@ -55,7 +55,7 @@ export async function SellersPage({ filters, searchParamsSource = filters }: Sel
     metrics: [
       { label: "GMV Mensal", value: formatCurrency(seller.gmv30d) },
       { label: "Produtos", value: String(seller.activeProducts) },
-      { label: "Aprovacao", value: `${Math.min(99, Math.max(0, seller.qualityScore + 8))}%` }
+      { label: "Aprovação", value: `${Math.min(99, Math.max(0, seller.qualityScore + 8))}%` }
     ]
   }));
 

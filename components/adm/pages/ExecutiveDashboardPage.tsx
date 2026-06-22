@@ -103,9 +103,9 @@ const fallbackSummaryCards: MetricCardItem[] = [
 
 const fallbackOperationCards: StatusCardItem[] = [
   { label: "Curadoria Pendente", value: "56 itens", iconKey: "wand2", href: "/adm/curadoria/produtos?status=pendente" },
-  { label: "Sellers Pendentes", value: "12 contas", iconKey: "user-plus", href: "/adm/operação/parceiros" },
+  { label: "Sellers Pendentes", value: "12 contas", iconKey: "user-plus", href: "/adm/operacao/parceiros" },
   { label: "Taxa de Aprovação", value: "94.2%", iconKey: "badge-check" },
-  { label: "Pedidos em Risco", value: "8 críticos", iconKey: "alert-triangle", accent: "danger", href: "/adm/operação/pedidos-criticos?priority=critica" },
+  { label: "Pedidos em Risco", value: "8 críticos", iconKey: "alert-triangle", accent: "danger", href: "/adm/operacao/pedidos-criticos?priority=critica" },
 ];
 
 const fallbackAlerts: AlertItem[] = [

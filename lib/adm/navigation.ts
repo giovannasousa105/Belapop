@@ -239,7 +239,7 @@ export const admSidebarGroups: AdmNavGroup[] = [
         requiredPermissions: ["manage_reviews"]
       },
       {
-        label: "inteligencia de Catálogo",
+        label: "inteligência de Catálogo",
         href: "/adm/catalogo-marca/inteligencia",
         icon: "brain-circuit",
         requiredPermissions: ["manage_campaigns", "view_quality"],
@@ -286,7 +286,7 @@ export const admSidebarGroups: AdmNavGroup[] = [
         requiredPermissions: ["view_activity_logs"]
       },
       {
-        label: "Configuracoes",
+        label: "Configurações",
         href: "/adm/gestao/configuracoes",
         icon: "settings",
         requiredPermissions: ["manage_settings"]

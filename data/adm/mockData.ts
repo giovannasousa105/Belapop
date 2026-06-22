@@ -887,7 +887,7 @@ export const platformSettings: PlatformSetting[] = [
     value: "48h sem evento",
     owner: "Operação",
     status: "alerta",
-    linkedRoute: "/adm/operação/logistica/incidentes",
+    linkedRoute: "/adm/operacao/logistica/incidentes",
     updatedAt: "2026-04-04T12:00:00Z"
   },
   {
@@ -989,7 +989,7 @@ export const auditTrail: AuditTrailEntry[] = [
     actionLabel: "Escalonou incidente para transportadora",
     status: "critico",
     createdAt: "2026-04-04T19:02:00Z",
-    contextPathname: "/adm/operação/logistica/incidentes?shipment=shp-401",
+    contextPathname: "/adm/operacao/logistica/incidentes?shipment=shp-401",
     summary: "Incidente logistico mantido em nivel critico e escalado para tratativa manual.",
     before: {
       status: "alerta",

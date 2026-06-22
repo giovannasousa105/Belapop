@@ -103,10 +103,12 @@ const filterNavItems = (
       return [];
     }
 
+    // Strip non-serializable fields (RegExp matchers) before passing to Client Components
+    const { matchers: _m, requiredPermissions: _p, permissionMode: _pm, ...clientSafe } = item;
     const children = item.children ? filterNavItems(user, item.children) : undefined;
     return [
       {
-        ...item,
+        ...clientSafe,
         children: children && children.length > 0 ? children : undefined
       }
     ];

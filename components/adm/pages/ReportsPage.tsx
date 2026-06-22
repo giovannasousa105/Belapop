@@ -106,7 +106,7 @@ const sidebarItems: SidebarItem[] = [
   { label: "Relatórios", href: "/adm/gestao/relatorios", icon: BarChart3, active: true },
   { label: "Financeiro", href: "/adm/financeiro", icon: Wallet },
   { label: "Clientes", href: "/adm/relacionamento/clientes", icon: Users },
-  { label: "configuracoes", href: "/adm/gestao/configuracoes", icon: Settings }
+  { label: "configurações", href: "/adm/gestao/configuracoes", icon: Settings }
 ];
 
 const metrics: Metric[] = [

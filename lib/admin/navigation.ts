@@ -50,7 +50,7 @@ export const adminNav: AdminNavGroup[] = [
       { label: "Usuarios e RBAC", href: "/admin/rbac" },
       { label: "Auditoria", href: "/admin/auditoria" },
       {
-        label: "Configuracoes",
+        label: "Configurações",
         href: "/admin/settings",
         match: ["/admin/configuracoes", "/admin/config"]
       }
