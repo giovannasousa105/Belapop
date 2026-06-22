@@ -9,7 +9,8 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Skin Scan BelaPop",
     description: "Diagnóstico de pele personalizado em 45 segundos.",
-    url: "https://belapopoficial.com.br/skin-scan"
+    url: "https://belapopoficial.com.br/skin-scan",
+    siteName: "BelaPop"
   }
 };
 

@@ -17,7 +17,7 @@ export const BELAPOP_CATALOG: Record<string, CatalogProduct> = {
     skinTypes: ["oleosa", "mista", "normal", "sensivel"],
     addresses: ["oleosidade", "poros", "acne", "textura", "brilho"],
     periodo: ["manha", "noite"],
-    ativosChave: ["glucosideo de decila", "glicerina 3%", "extrato de camomila"],
+    ativosChave: ["glucosídeo de decila", "glicerina 3%", "extrato de camomila"],
     porQueRecomendado:
       "Surfactantes suaves ajudam a limpar sem deslocar excessivamente lipideos da barreira, mantendo o pH fisiologico e reduzindo risco de efeito rebote.",
     comoUsar:
@@ -30,7 +30,7 @@ export const BELAPOP_CATALOG: Record<string, CatalogProduct> = {
     categoria: "tonico",
     preco: 159,
     skinTypes: ["seca", "normal", "sensivel", "mista"],
-    addresses: ["hidratacao", "sensibilidade", "uniformidade", "vermelhidao"],
+    addresses: ["hidratação", "sensibilidade", "uniformidade", "vermelhidao"],
     periodo: ["manha", "noite"],
     ativosChave: ["acido hialuronico 0.5%", "agua de rosas", "pantenol 2%"],
     porQueRecomendado:
@@ -61,7 +61,7 @@ export const BELAPOP_CATALOG: Record<string, CatalogProduct> = {
     categoria: "hidratante",
     preco: 259,
     skinTypes: ["seca", "sensivel", "mista", "normal"],
-    addresses: ["hidratacao", "sensibilidade", "descamacao", "barreira", "vermelhidao"],
+    addresses: ["hidratação", "sensibilidade", "descamacao", "barreira", "vermelhidao"],
     periodo: ["manha", "noite"],
     ativosChave: ["ceramidas NP/AP/EOP 5%", "esqualano 3%", "colesterol", "acido hialuronico 1%"],
     porQueRecomendado:
@@ -83,7 +83,7 @@ export const BELAPOP_CATALOG: Record<string, CatalogProduct> = {
       "Fotoprotecao diaria e o passo com melhor evidencia para prevenir fotoenvelhecimento e piora de manchas.",
     comoUsar:
       "Use como ultimo passo da manha, 15 a 20 minutos antes do sol. Aplique 1/4 de colher de cha no rosto e pescoco e reaplique em exposicao direta.",
-    alertaSinergia: "Nao misture com base ou hidratante; aplique em camada propria para manter o FPS.",
+    alertaSinergia: "Não misture com base ou hidratante; aplique em camada própria para manter o FPS.",
     evidencia: { grau: "A", fonte: "Hughes 2013 NEJM + AAD 2024 Sunscreen Guidelines" },
   },
   "patch-olhos-aurora": {
@@ -118,7 +118,7 @@ export const BELAPOP_CATALOG: Record<string, CatalogProduct> = {
       "Argila caulim adsorve excesso de sebo e impurezas dos poros; acido salicilico penetra o folículo e reduz comedoes e acne leve.",
     comoUsar:
       "Aplique camada fina no rosto limpo e seco. Aguarde 10 a 15 minutos e enxague com agua morna. Use 1 a 2 vezes por semana.",
-    alertaSinergia: "Nao use na mesma noite de retinol ou AHA. Evitar em pele muito seca ou com descamacao ativa.",
+    alertaSinergia: "Não use na mesma noite de retinol ou AHA. Evitar em pele muito seca ou com descamacao ativa.",
     evidencia: { grau: "B", fonte: "Del Rosso 2013, J Clin Aesthet Dermatol" },
   },
 
@@ -135,7 +135,7 @@ export const BELAPOP_CATALOG: Record<string, CatalogProduct> = {
       "Vitamina C inibe tirosinase e reduz manchas por hiperpigmentacao; acido ferulico estabiliza a vitamina C e potencializa a acao antioxidante.",
     comoUsar:
       "Aplique de 3 a 5 gotas no rosto limpo, antes do hidratante. Use de manha (com protetor solar) ou a noite, 2 a 3 vezes por semana. Guarde longe da luz.",
-    alertaSinergia: "Pode causar leve ardencia em pele sensivel. Sempre seguir com SPF50+ de manha.",
+    alertaSinergia: "Pode causar leve ardencia em pele sensível. Sempre seguir com SPF50+ de manha.",
     evidencia: { grau: "A", fonte: "Pullar 2017, Nutrients 9(8):866" },
   },
 
@@ -149,10 +149,10 @@ export const BELAPOP_CATALOG: Record<string, CatalogProduct> = {
     periodo: ["semanal"],
     ativosChave: ["papaína 2%", "bromelina 1%", "acido mandélico 5%"],
     porQueRecomendado:
-      "Enzimas proteolíticas (papaína, bromelina) dissolvem a ligação entre celulas mortas sem abrasao fisica; ideal para peles sensiveis que nao toleram esfoliantes granulares.",
+      "Enzimas proteolíticas (papaína, bromelina) dissolvem a ligação entre celulas mortas sem abrasao fisica; ideal para peles sensíveis que não toleram esfoliantes granulares.",
     comoUsar:
       "Aplique no rosto umido e massageie suavemente por 1 a 2 minutos. Enxague bem. Use 1 vez por semana, preferencialmente a noite.",
-    alertaSinergia: "Nao combine com retinol ou AHA/BHA na mesma noite. Aplique protetor solar no dia seguinte.",
+    alertaSinergia: "Não combine com retinol ou AHA/BHA na mesma noite. Aplique protetor solar no dia seguinte.",
     evidencia: { grau: "B", fonte: "Oresajo 2008, J Cosmet Dermatol 7(2)" },
   },
 
@@ -162,11 +162,11 @@ export const BELAPOP_CATALOG: Record<string, CatalogProduct> = {
     categoria: "tratamento",
     preco: 179,
     skinTypes: ["seca", "sensivel", "normal"],
-    addresses: ["hidratacao", "descamacao", "sensibilidade", "barreira", "conforto"],
+    addresses: ["hidratação", "descamacao", "sensibilidade", "barreira", "conforto"],
     periodo: ["semanal"],
     ativosChave: ["acido hialuronico de baixo peso molecular", "ceramidas", "pantenol 5%", "centella asiatica"],
     porQueRecomendado:
-      "Combinação de umectantes, oclusivos e emolientes proporciona hidratacao profunda e restaura a barreira em um unico tratamento semanal.",
+      "Combinação de umectantes, oclusivos e emolientes proporciona hidratação profunda e restaura a barreira em um unico tratamento semanal.",
     comoUsar:
       "Aplique camada generosa apos a limpeza e deixe agir por 20 minutos. Remova o excesso com lenco umido ou enxague levemente. Use 1 vez por semana.",
     evidencia: { grau: "A", fonte: "Elias 2008, J Invest Dermatol 128(8)" },
@@ -218,7 +218,7 @@ const normalizeText = (value: string) =>
 
 const normalizeFocus = (value: string) => {
   const normalized = normalizeText(value);
-  if (normalized.includes("hidrat") || normalized.includes("ressec")) return "hidratacao";
+  if (normalized.includes("hidrat") || normalized.includes("ressec")) return "hidratação";
   if (normalized.includes("oleos") || normalized.includes("brilho")) return "oleosidade";
   if (normalized.includes("mancha") || normalized.includes("hiperpig")) return "manchas";
   if (normalized.includes("linha") || normalized.includes("firme")) return "linhas";
@@ -236,7 +236,7 @@ export function normalizeFocos(focos: string[]) {
 
 function buildPasso(slug: string, ordem: number): RotinaPasso {
   const produto = BELAPOP_CATALOG[slug];
-  if (!produto) throw new Error(`Produto ${slug} nao encontrado`);
+  if (!produto) throw new Error(`Produto ${slug} não encontrado`);
 
   return {
     ordem,
@@ -273,12 +273,12 @@ export function buildRotina(
 
   if (
     ["seca", "sensivel", "normal", "mista"].includes(tipoPele) ||
-    has("hidratacao", "sensibilidade", "vermelhidao", "descamacao")
+    has("hidratação", "sensibilidade", "vermelhidao", "descamacao")
   ) {
     addUnique(manha, "tonico-nuvem-de-rosa");
   }
 
-  if (tipoPele === "seca" || tipoPele === "sensivel" || has("hidratacao", "descamacao")) {
+  if (tipoPele === "seca" || tipoPele === "sensivel" || has("hidratação", "descamacao")) {
     addUnique(manha, "creme-barrier-celeste");
   }
 
@@ -287,7 +287,7 @@ export function buildRotina(
   const noite: RotinaPasso[] = [];
   addUnique(noite, "gel-limpeza-veludo");
 
-  if (["seca", "sensivel"].includes(tipoPele) || has("hidratacao", "sensibilidade")) {
+  if (["seca", "sensivel"].includes(tipoPele) || has("hidratação", "sensibilidade")) {
     addUnique(noite, "tonico-nuvem-de-rosa");
   }
 
@@ -335,7 +335,7 @@ export function buildRotina(
   // Prioridade 4 — pele seca ou descamação → máscara hidratante
   if (
     semanal.length < MAX_SEMANAL &&
-    (temDescam || tipoPele === "seca" || has("hidratacao", "descamacao"))
+    (temDescam || tipoPele === "seca" || has("hidratação", "descamacao"))
   ) {
     addUnique(semanal, "mascara-hidratante-intensiva");
   }

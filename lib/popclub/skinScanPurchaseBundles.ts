@@ -27,7 +27,7 @@ export const skinScanPurchaseBundles = [
     title: "Rotina essencial",
     subtitle: "Entrada curada para manter hidratação, conforto e proteção diaria.",
     profileRead:
-      "Indicada para uma leitura com boa tolerancia cutanea, leve perda de agua e necessidade de consistencia sem excesso de camadas.",
+      "Indicada para uma leitura com boa tolerância cutanea, leve perda de agua e necessidade de consistencia sem excesso de camadas.",
     usageOrder: ["Limpeza suave", "Serum hidratante", "Proteção diaria"],
     ticketLabel: "R$ 787,00",
     ctaLabel: "Levar essencial ao carrinho",

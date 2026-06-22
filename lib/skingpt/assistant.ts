@@ -84,9 +84,9 @@ const concernUserCopy: Record<string, string> = {
   "dark-spots": "reduzir a pigmentacao sem irritar e manter fotoprotecao diaria",
   rosacea: "acalmar a pele e cortar estimulos que costumam piorar vermelhidao e ardor",
   dehydration: "recuperar agua e selar a barreira com uma rotina mais suave",
-  aging: "introduzir ativos de resultado com progressao lenta e boa tolerancia",
+  aging: "introduzir ativos de resultado com progressao lenta e boa tolerância",
   "barrier-damage": "reparar a barreira antes de pensar em ativos mais fortes",
-  "uneven-texture": "uniformizar a superficie da pele com progressao lenta e boa tolerancia",
+  "uneven-texture": "uniformizar a superficie da pele com progressao lenta e boa tolerância",
   "under-eye": "hidratar, suavizar marcas e proteger a area dos olhos com ativos bem tolerados"
 };
 
@@ -168,7 +168,7 @@ function summarizeEvidence(documents: EvidenceDocument[], concernSlug: string, i
   const priority = concernUserCopy[concernSlug] ?? "estabilizar a pele com rotina simples, consistente e toleravel";
   const ingredientLine = ingredientNames.length
     ? `Os ativos que mais fazem sentido neste momento sao ${ingredientNames.join(", ")}.`
-    : "O foco maior continua sendo tolerancia da pele e regularidade de uso.";
+    : "O foco maior continua sendo tolerância da pele e regularidade de uso.";
 
   return {
     lead: `Pelo que a melhor evidencia sugere hoje, o mais importante para você agora e ${priority}.`,
@@ -236,7 +236,7 @@ function buildFallbackAnswer(context: SkinGptContext): SkinGptAnswer {
     evidenceSummary.action,
     routineFocus.length
       ? `Em linguagem simples: eu comecaria por ${routineFocus.join(" | ")}.`
-      : "Em linguagem simples: eu comecaria por uma rotina curta, com hidratação e ativos de boa tolerancia."
+      : "Em linguagem simples: eu comecaria por uma rotina curta, com hidratação e ativos de boa tolerância."
   ]
     .filter(Boolean)
     .join(" ");
@@ -255,7 +255,7 @@ function buildFallbackAnswer(context: SkinGptContext): SkinGptAnswer {
     disclaimers: [
       "SkinBela organiza evidencia e contexto da sua pele, mas não faz diagnóstico médico.",
       concernEscalationCopy[concernSlug] ?? "Se houver dor, piora importante ou irritacao persistente, procure dermatologista.",
-      condition?.contraindications ? `Cautela pratica: ${condition.contraindications}.` : "Suba ativos fortes devagar e observe a tolerancia da sua pele."
+      condition?.contraindications ? `Cautela pratica: ${condition.contraindications}.` : "Suba ativos fortes devagar e observe a tolerância da sua pele."
     ],
     source_mode: "fallback"
   };

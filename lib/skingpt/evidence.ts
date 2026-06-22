@@ -321,7 +321,7 @@ export function evidenceLeadCopy(documents: EvidenceDocument[]) {
   );
 
   if (topFamilies.length === 0) {
-    return "Vou responder de forma conservadora, priorizando tolerancia da pele, consistencia da rotina e o que costuma ter melhor respaldo dermatologico.";
+    return "Vou responder de forma conservadora, priorizando tolerância da pele, consistencia da rotina e o que costuma ter melhor respaldo dermatologico.";
   }
 
   if (topFamilies.length === 1) {

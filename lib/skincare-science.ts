@@ -10,7 +10,7 @@ export type SkinConcern =
   | "linhas_finas"
   | "sensibilidade"
   | "poros"
-  | "hidratacao"
+  | "hidratação"
   | "luminosidade"
   | "olheiras"
   | "textura";
@@ -89,7 +89,7 @@ export const EVIDENCE_BASED_ACTIVES: ActiveIngredient[] = [
     evidence: "A",
     mechanism:
       "Humectante: 1g de AH liga 6L de água. Multi-peso: AH alto PM forma filme, baixo PM penetra e estimula síntese endógena. Meta-análise Papakonstantinou 2012.",
-    concerns: ["hidratacao", "linhas_finas", "textura", "sensibilidade"],
+    concerns: ["hidratação", "linhas_finas", "textura", "sensibilidade"],
     contraindications: [],
     frequency: "2x_dia",
     period: "ambos",
@@ -137,7 +137,7 @@ export const EVIDENCE_BASED_ACTIVES: ActiveIngredient[] = [
     evidence: "A",
     mechanism:
       "Constituintes da barreira epidérmica (50% lipídios intercelulares). Reposição tópica restaura TEWL elevada. RCT Del Rosso 2016: ceramidas reduzem TEWL 43% em 4 semanas.",
-    concerns: ["hidratacao", "sensibilidade", "textura"],
+    concerns: ["hidratação", "sensibilidade", "textura"],
     contraindications: [],
     frequency: "2x_dia",
     period: "ambos",
@@ -151,7 +151,7 @@ export const EVIDENCE_BASED_ACTIVES: ActiveIngredient[] = [
       "UV induz 8-OHdG (dano DNA), ativa tirosinase (manchas), degrada colágeno via MMP. Cochrane 2016 (CD010991): único agente anti-aging com evidence Grade 1A.",
     concerns: [
       "manchas", "linhas_finas", "luminosidade", "oleosidade", "acne",
-      "sensibilidade", "textura", "poros", "hidratacao", "olheiras"
+      "sensibilidade", "textura", "poros", "hidratação", "olheiras"
     ],
     contraindications: [],
     frequency: "diaria",
@@ -197,11 +197,11 @@ export const SKIN_MATRIX: Record<SkinType, Partial<Record<SkinConcern, string[]>
     textura: ["Ácido Glicólico (AHA)", "Ácido Salicílico (BHA)", "Ácido Retinóico / Retinol"],
     linhas_finas: ["Ácido Retinóico / Retinol", "Peptídeos de Sinalização (Matrixyl 3000, Argireline)", "Ácido Ascórbico (Vitamina C)"],
     olheiras: ["Cafeína Tópica", "Peptídeos de Sinalização (Matrixyl 3000, Argireline)"],
-    hidratacao: ["Ácido Hialurônico (AH)", "Niacinamida (Vitamina B3)"],
+    hidratação: ["Ácido Hialurônico (AH)", "Niacinamida (Vitamina B3)"],
     sensibilidade: ["Ácido Azelaico", "Niacinamida (Vitamina B3)", "Ceramidas (Ceramida NP, AP, EOP)"]
   },
   seca: {
-    hidratacao: ["Ácido Hialurônico (AH)", "Ceramidas (Ceramida NP, AP, EOP)", "Peptídeos de Sinalização (Matrixyl 3000, Argireline)"],
+    hidratação: ["Ácido Hialurônico (AH)", "Ceramidas (Ceramida NP, AP, EOP)", "Peptídeos de Sinalização (Matrixyl 3000, Argireline)"],
     textura: ["Ácido Glicólico (AHA)", "Ceramidas (Ceramida NP, AP, EOP)", "Ácido Hialurônico (AH)"],
     linhas_finas: ["Ácido Retinóico / Retinol", "Peptídeos de Sinalização (Matrixyl 3000, Argireline)", "Ceramidas (Ceramida NP, AP, EOP)"],
     manchas: ["Niacinamida (Vitamina B3)", "Ácido Azelaico", "Ácido Ascórbico (Vitamina C)"],
@@ -214,7 +214,7 @@ export const SKIN_MATRIX: Record<SkinType, Partial<Record<SkinConcern, string[]>
   },
   mista: {
     oleosidade: ["Niacinamida (Vitamina B3)", "Ácido Salicílico (BHA)", "Ácido Glicólico (AHA)"],
-    hidratacao: ["Ácido Hialurônico (AH)", "Niacinamida (Vitamina B3)"],
+    hidratação: ["Ácido Hialurônico (AH)", "Niacinamida (Vitamina B3)"],
     manchas: ["Niacinamida (Vitamina B3)", "Ácido Ascórbico (Vitamina C)", "Ácido Azelaico"],
     poros: ["Ácido Salicílico (BHA)", "Niacinamida (Vitamina B3)", "Ácido Retinóico / Retinol"],
     acne: ["Ácido Salicílico (BHA)", "Ácido Azelaico", "Niacinamida (Vitamina B3)"],
@@ -228,7 +228,7 @@ export const SKIN_MATRIX: Record<SkinType, Partial<Record<SkinConcern, string[]>
     luminosidade: ["Ácido Ascórbico (Vitamina C)", "Niacinamida (Vitamina B3)"],
     manchas: ["Niacinamida (Vitamina B3)", "Ácido Ascórbico (Vitamina C)", "Ácido Azelaico"],
     linhas_finas: ["Ácido Retinóico / Retinol", "Peptídeos de Sinalização (Matrixyl 3000, Argireline)", "Ácido Ascórbico (Vitamina C)"],
-    hidratacao: ["Ácido Hialurônico (AH)", "Ceramidas (Ceramida NP, AP, EOP)"],
+    hidratação: ["Ácido Hialurônico (AH)", "Ceramidas (Ceramida NP, AP, EOP)"],
     textura: ["Ácido Glicólico (AHA)", "Ácido Retinóico / Retinol"],
     olheiras: ["Cafeína Tópica", "Peptídeos de Sinalização (Matrixyl 3000, Argireline)"],
     poros: ["Niacinamida (Vitamina B3)", "Ácido Retinóico / Retinol"],
@@ -238,7 +238,7 @@ export const SKIN_MATRIX: Record<SkinType, Partial<Record<SkinConcern, string[]>
   },
   sensivel: {
     sensibilidade: ["Ceramidas (Ceramida NP, AP, EOP)", "Ácido Hialurônico (AH)", "Ácido Azelaico"],
-    hidratacao: ["Ácido Hialurônico (AH)", "Ceramidas (Ceramida NP, AP, EOP)"],
+    hidratação: ["Ácido Hialurônico (AH)", "Ceramidas (Ceramida NP, AP, EOP)"],
     manchas: ["Ácido Azelaico", "Niacinamida (Vitamina B3)"],
     oleosidade: ["Niacinamida (Vitamina B3)", "Ácido Azelaico"],
     poros: ["Niacinamida (Vitamina B3)"],
@@ -274,7 +274,7 @@ export const PRODUCT_CATALOG: CatalogProduct[] = [
     step: 2,
     period: ["manha", "noite"],
     skinTypes: ["seca", "sensivel", "normal", "mista"],
-    addresses: ["hidratacao", "sensibilidade", "luminosidade", "textura"],
+    addresses: ["hidratação", "sensibilidade", "luminosidade", "textura"],
     keyActives: ["água de rosas", "ácido hialurônico", "pantenol"],
     description: "Prepara a pele para absorção dos próximos passos, hidrata e acalma",
     ritual: "PREPARO — aplique com as mãos após limpeza"
@@ -300,7 +300,7 @@ export const PRODUCT_CATALOG: CatalogProduct[] = [
     step: 4,
     period: ["manha", "noite"],
     skinTypes: ["seca", "sensivel", "normal", "mista"],
-    addresses: ["hidratacao", "sensibilidade", "textura", "linhas_finas"],
+    addresses: ["hidratação", "sensibilidade", "textura", "linhas_finas"],
     keyActives: ["ceramidas", "ácido hialurônico", "esqualano"],
     description: "Hidratação imediata com acabamento luminoso, reforça a barreira cutânea",
     ritual: "BARREIRA REFORÇADA — aplique sobre pele limpa em camada uniforme"
@@ -308,7 +308,7 @@ export const PRODUCT_CATALOG: CatalogProduct[] = [
   {
     slug: "protetor-solar-luz-de-vela-fps50",
     name: "Protetor Solar Luz de Vela FPS 50",
-    category: "protecao",
+    category: "proteção",
     price: 279,
     step: 5,
     period: ["manha"],
@@ -326,7 +326,7 @@ export const PRODUCT_CATALOG: CatalogProduct[] = [
     step: 3,
     period: ["manha"],
     skinTypes: ["normal", "seca", "sensivel", "mista", "oleosa"],
-    addresses: ["olheiras", "linhas_finas", "hidratacao"],
+    addresses: ["olheiras", "linhas_finas", "hidratação"],
     keyActives: ["cafeína", "peptídeos", "ácido hialurônico"],
     description: "Tratamento intensivo para a área dos olhos — olheiras, bolsas e linhas finas",
     ritual: "TRATAMENTO OLHOS — aplique sob os olhos, deixe agir 15–20 minutos"
@@ -370,7 +370,7 @@ export function generatePersonalizedRoutine(
   // Passo 2: Tônico — pele seca, sensível, normal ou com concern de hidratação
   if (
     ["seca", "sensivel", "normal", "mista"].includes(skinType) ||
-    concerns.includes("hidratacao")
+    concerns.includes("hidratação")
   ) {
     const tonic = PRODUCT_CATALOG.find((p) => p.category === "tonico");
     if (tonic) {
@@ -421,7 +421,7 @@ export function generatePersonalizedRoutine(
         whyRecommended: `Ceramidas repõem lipídios intercelulares da barreira — reduzem TEWL em 43% (Del Rosso 2016). Essencial para pele ${skinType}`
       });
     }
-    if (concerns.includes("hidratacao") || concerns.includes("sensibilidade")) {
+    if (concerns.includes("hidratação") || concerns.includes("sensibilidade")) {
       noite.push({
         ...moisturizer,
         whyRecommended:
@@ -500,7 +500,7 @@ export function normalizeSkinType(raw: string): SkinType {
 export function normalizeConcerns(raw: string[]): SkinConcern[] {
   const valid = new Set<SkinConcern>([
     "acne", "oleosidade", "manchas", "linhas_finas", "sensibilidade",
-    "poros", "hidratacao", "luminosidade", "olheiras", "textura"
+    "poros", "hidratação", "luminosidade", "olheiras", "textura"
   ]);
   const synonyms: Record<string, SkinConcern> = {
     acne: "acne",
@@ -513,8 +513,8 @@ export function normalizeConcerns(raw: string[]): SkinConcern[] {
     rugas: "linhas_finas",
     firmeza: "linhas_finas",
     sensibilidade: "sensibilidade",
-    hidratacao: "hidratacao",
-    "hidratação": "hidratacao",
+    hidratacao: "hidratação",
+    "hidratação": "hidratação",
     oleosidade: "oleosidade",
     luminosidade: "luminosidade",
     brilho: "luminosidade",

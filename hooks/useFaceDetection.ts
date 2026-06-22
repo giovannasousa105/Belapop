@@ -94,14 +94,14 @@ export function useFaceDetection(
     }
   }, []);
 
-  const runDetection = useCallback(() => {
+  const runDetection = useCallback(function detectFrame() {
     const video = videoRef.current;
     const canvas = canvasRef.current;
     const landmarker = landmarkerRef.current;
 
     if (!video || !canvas || !landmarker || !active) return;
     if (video.readyState < 2) {
-      animFrameRef.current = requestAnimationFrame(runDetection);
+      animFrameRef.current = requestAnimationFrame(detectFrame);
       return;
     }
 
@@ -123,7 +123,7 @@ export function useFaceDetection(
     try {
       result = landmarker.detectForVideo(video, performance.now());
     } catch {
-      animFrameRef.current = requestAnimationFrame(runDetection);
+      animFrameRef.current = requestAnimationFrame(detectFrame);
       return;
     }
 
@@ -136,7 +136,7 @@ export function useFaceDetection(
       lastPosRef.current = null;
       stableStartRef.current = null;
       setStableSeconds(0);
-      animFrameRef.current = requestAnimationFrame(runDetection);
+      animFrameRef.current = requestAnimationFrame(detectFrame);
       return;
     }
 
@@ -246,7 +246,7 @@ export function useFaceDetection(
     // Oval guide
     drawOval(ctx, W, H, score);
 
-    animFrameRef.current = requestAnimationFrame(runDetection);
+    animFrameRef.current = requestAnimationFrame(detectFrame);
   }, [videoRef, canvasRef, active]);
 
   useEffect(() => {

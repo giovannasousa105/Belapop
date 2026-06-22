@@ -30,7 +30,7 @@ export function ImageCapture() {
   const [error, setError] = useState<string | null>(null);
   const [autoCapturing, setAutoCapturing] = useState(false);
   const [countdown, setCountdown] = useState<number | null>(null);  // 3 → 2 → 1 → null
-  const [focos, setFocos] = useState<string[]>(["hidratacao"]);
+  const [focos, setFocos] = useState<string[]>(["hidratação"]);
 
   const { quality, readyToCapture, stableSeconds, isModelLoading } =
     useFaceDetection(videoRef, overlayCanvasRef, mode === "camera");

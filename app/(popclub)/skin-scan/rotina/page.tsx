@@ -258,9 +258,28 @@ export default function SkinScanRotinaPage() {
 
   const tabs = useMemo<RoutineTab[]>(() => {
     const base: RoutineTab[] = ["manha", "noite"];
-    if (result?.rotina.semanal?.length) base.push("semanal");
-    if (result?.rotina.semana1?.length) base.unshift("semana1");
+    if (result?.rotina?.semanal?.length) base.push("semanal");
+    if (result?.rotina?.semana1?.length) base.unshift("semana1");
     return base;
+  }, [result]);
+
+  // ✅ allProducts ANTES do early return — respeita a Regra dos Hooks
+  const allProducts = useMemo(() => {
+    if (!result?.rotina) return [];
+    const seen = new Set<string>();
+    const items: RotinaPasso[] = [];
+    for (const produto of [
+      ...(result.rotina.manha ?? []),
+      ...(result.rotina.noite ?? []),
+      ...(result.rotina.semanal ?? []),
+      ...(result.rotina.semana1 ?? []),
+    ]) {
+      if (!seen.has(produto.slug)) {
+        seen.add(produto.slug);
+        items.push(produto);
+      }
+    }
+    return items;
   }, [result]);
 
   if (!result) {
@@ -274,24 +293,6 @@ export default function SkinScanRotinaPage() {
   const rotina: SkinRotina = result.rotina;
   const currentProducts = rotina[activeTab] ?? [];
   const tipoPele = result.analise.tipoPele;
-
-  // Produtos únicos de toda a rotina (para o CTA de kit completo)
-  const allProducts = useMemo(() => {
-    const seen = new Set<string>();
-    const items: RotinaPasso[] = [];
-    for (const produto of [
-      ...(rotina.manha ?? []),
-      ...(rotina.noite ?? []),
-      ...(rotina.semanal ?? []),
-      ...(rotina.semana1 ?? []),
-    ]) {
-      if (!seen.has(produto.slug)) {
-        seen.add(produto.slug);
-        items.push(produto);
-      }
-    }
-    return items;
-  }, [rotina]);
 
   const totalRotina = allProducts.reduce((sum, p) => sum + p.preco, 0);
 

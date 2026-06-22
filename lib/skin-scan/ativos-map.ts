@@ -8,9 +8,9 @@
 
 export const ATIVOS_BENEFICIOS: Record<string, string> = {
   // ── Limpeza ────────────────────────────────────────────────────────────────
-  "glucosideo de decila": "Surfactante suave derivado de coco — limpa sem agredir a barreira cutânea",
+  "glucosídeo de decila": "Surfactante suave derivado de coco — limpa sem agredir a barreira cutânea",
   "cocamidopropil betaina": "Surfactante anfotérico — limpa e condiciona, reduz irritação",
-  "lauril glucosideo": "Surfactante não-iônico suave — ideal para pele sensível",
+  "lauril glucosídeo": "Surfactante não-iônico suave — ideal para pele sensível",
 
   // ── Hidratantes / Umectantes ───────────────────────────────────────────────
   "glicerina": "Umectante que atrai água para a pele e mantém a hidratação ao longo do dia",

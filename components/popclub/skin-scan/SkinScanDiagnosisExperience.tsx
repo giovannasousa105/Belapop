@@ -25,7 +25,7 @@ const sideLinks = [
   { label: "Diario BelaPop", href: popClubPaths.diary, icon: BookOpenText, active: false },
   { label: "Minha Rotina", href: popClubPaths.skinScanRoutine, icon: Sparkles, active: false },
   { label: "PopClub Exclusivo", href: popClubPaths.landing, icon: Star, active: false },
-  { label: "Configuracoes", href: "/conta", icon: Settings, active: false }
+  { label: "Configurações", href: "/conta", icon: Settings, active: false }
 ] as const;
 
 const profileMetrics = [

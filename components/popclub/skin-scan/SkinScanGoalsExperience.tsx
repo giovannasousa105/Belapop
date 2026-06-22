@@ -424,7 +424,7 @@ export default function SkinScanGoalsExperience() {
             <Link className="text-[10px] uppercase tracking-widest text-stone-400 transition-colors hover:text-white" href="/aviso-de-privacidade">
               Aviso de Privacidade
             </Link>
-            <Link className="text-[10px] uppercase tracking-widest text-stone-400 transition-colors hover:text-white" href="/termos-e-condicoes">
+            <Link className="text-[10px] uppercase tracking-widest text-stone-400 transition-colors hover:text-white" href="/termos-de-uso">
               Termos e Condicoes
             </Link>
           </div>
@@ -436,7 +436,7 @@ export default function SkinScanGoalsExperience() {
             <Link className="text-[10px] uppercase tracking-widest text-stone-400 transition-colors hover:text-white" href="/rastreio">
               Rastreio
             </Link>
-            <Link className="text-[10px] uppercase tracking-widest text-stone-400 transition-colors hover:text-white" href="/termos-e-condicoes">
+            <Link className="text-[10px] uppercase tracking-widest text-stone-400 transition-colors hover:text-white" href="/politica-de-trocas-e-devolucoes">
               Devolucoes
             </Link>
           </div>

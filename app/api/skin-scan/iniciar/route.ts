@@ -5,7 +5,7 @@ import { Queue } from "bullmq";
 
 import { getSupabaseAdminClient } from "@/lib/supabase/admin";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
-import { QUEUE_NAME, type SkinScanJobPayload } from "@/jobs/skinScanWorker";
+import { QUEUE_NAME, type SkinScanJobPayload } from "@/jobs/skinScanWorker.types";
 
 export const runtime = "nodejs";
 

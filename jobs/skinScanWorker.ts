@@ -13,6 +13,7 @@
  */
 
 import { Worker, type Job } from "bullmq";
+import { QUEUE_NAME, type SkinScanJobPayload } from "./skinScanWorker.types";
 
 import { posthogServer } from "@/lib/analytics/posthog";
 import { captureError } from "@/lib/analytics/sentry";
@@ -29,18 +30,6 @@ import {
   gerarESalvarInsight,
 } from "@/lib/digitalTwin/snapshotService";
 import { toTwinId } from "@/lib/digitalTwin/twinTypes";
-
-// ─── Tipos ────────────────────────────────────────────────────────────────────
-
-export const QUEUE_NAME = "skin-scan-pipeline";
-
-export interface SkinScanJobPayload {
-  scan_id: string;             // UUID do registro skin_scans
-  image_buffer_base64: string; // Nunca persistido — descartado após step 1
-  focos: string[];
-  session_bp: string;
-  user_id?: string;
-}
 
 // ─── Redis connection ─────────────────────────────────────────────────────────
 

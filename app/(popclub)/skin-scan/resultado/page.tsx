@@ -198,7 +198,7 @@ const TIPO_PELE_LABELS: Record<string, string> = {
   seca: "Seca",
   mista: "Mista",
   normal: "Normal",
-  sensivel: "Sensível",
+  sensível: "Sensível",
 };
 
 const FOCUS_LABELS: Record<string, string> = {
@@ -210,13 +210,13 @@ const FOCUS_LABELS: Record<string, string> = {
   sensibilidade: "Sensibilidade",
   poros: "Poros",
   brilho: "Luminosidade",
-  hidratacao: "Hidratação",
+  hidratação: "Hidratação",
   textura: "Textura",
   olheiras: "Olheiras",
 };
 
 const SCORE_LABELS: Record<string, string> = {
-  hidratacao: "Hidratação",
+  hidratação: "Hidratação",
   oleosidade: "Oleosidade",
   uniformidade: "Uniformidade",
   textura: "Textura",
@@ -479,6 +479,13 @@ export default function SkinScanResultadoPage() {
     return [...new Set(steps.flatMap((step) => step.ativosChave ?? []))].slice(0, 6);
   }, [result]);
 
+  // Score medio atual em escala 0-100 (para comparar com overall_score anterior)
+  const currentAvgScore = useMemo(() => {
+    const vals = Object.values(result?.analise.scores ?? {});
+    if (!vals.length) return 0;
+    return Math.round((vals.reduce((a, b) => a + b, 0) / vals.length) * 10);
+  }, [result]);
+
   if (!result) {
     return (
       <div className="flex min-h-screen items-center justify-center">
@@ -492,13 +499,6 @@ export default function SkinScanResultadoPage() {
   const achadosEntries = Object.entries(analise.achados).filter(([, value]) => Boolean(value));
   const badge = getConfidenceBadge(analise.confianca);
   const needsImprovement = analise.confianca < 60;
-
-  // Score médio atual em escala 0-100 (para comparar com overall_score anterior)
-  const currentAvgScore = useMemo(() => {
-    const vals = Object.values(analise.scores);
-    if (!vals.length) return 0;
-    return Math.round((vals.reduce((a, b) => a + b, 0) / vals.length) * 10);
-  }, [analise.scores]);
 
   return (
     <main className="mx-auto max-w-2xl space-y-10 px-4 py-10">
@@ -533,26 +533,63 @@ export default function SkinScanResultadoPage() {
           Sua análise de pele
         </h1>
         <div className="flex flex-wrap items-center justify-center gap-2">
-          <span className={`rounded-full px-3 py-1 text-[11px] font-semibold ${badge.bg} ${badge.text}`}>
-            {badge.label} · {analise.confianca}%
-          </span>
-          {analise.modoFallback && (
-            <span className="rounded-full bg-neutral-100 px-3 py-1 text-[11px] text-neutral-500">
-              Baseado nos focos selecionados
+          {analise.modoFallback ? (
+            <span className="rounded-full border border-amber-200 bg-amber-100 px-3 py-1 text-[11px] font-semibold text-amber-800">
+              Leitura parcial · baseada nos seus focos
             </span>
+          ) : (
+            <>
+              <span className="rounded-full border border-emerald-200 bg-emerald-100 px-3 py-1 text-[11px] font-semibold text-emerald-800">
+                ✓ Análise visual completa · {analise.confianca}%
+              </span>
+              <span className="rounded-full bg-neutral-100 px-3 py-1 text-[11px] text-neutral-500">
+                {badge.label}
+              </span>
+            </>
           )}
         </div>
-        {needsImprovement && (
+        {/* Botão "Refazer" apenas quando análise foi completa — em fallback a ação está no card */}
+        {needsImprovement && !analise.modoFallback && (
           <Link
             href="/skin-scan/captura"
             className="inline-block rounded-xl border border-neutral-300 px-4 py-2 text-xs tracking-wider transition-colors hover:border-black hover:text-black"
           >
-            📸 Melhorar minha análise
+            📸 Refazer análise
           </Link>
         )}
       </div>
 
-      {analise.alertas.length > 0 && (
+      {analise.modoFallback ? (
+        <section className="space-y-3 rounded-xl border border-amber-200 bg-amber-50 px-5 py-4">
+          <div className="flex items-start gap-3">
+            <span className="mt-0.5 text-lg leading-none">💡</span>
+            <div className="space-y-1.5">
+              <p className="text-[11px] font-semibold uppercase tracking-[0.1em] text-amber-700">
+                Rotina personalizada pelos seus focos
+              </p>
+              <p className="text-sm leading-6 text-amber-900/80">
+                A leitura visual não ficou conclusiva desta vez — iluminação ou ângulo da foto
+                podem afetar a precisão. Sua rotina foi montada diretamente com base nas suas
+                preocupações e segue os mesmos critérios clínicos de sempre.
+              </p>
+            </div>
+          </div>
+          <div className="flex flex-wrap gap-2 pt-1">
+            <Link
+              href="/skin-scan/captura"
+              className="inline-flex items-center gap-1.5 rounded-lg border border-amber-300 bg-white px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.1em] text-amber-800 transition-colors hover:bg-amber-100"
+            >
+              📸 Tentar com outra foto
+            </Link>
+            <Link
+              href="/skin-scan/foco"
+              className="inline-flex items-center gap-1.5 rounded-lg border border-amber-200 px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.1em] text-amber-700 transition-colors hover:border-amber-300"
+            >
+              Ajustar focos →
+            </Link>
+          </div>
+        </section>
+      ) : analise.alertas.length > 0 && (
         <section className="rounded-xl border border-amber-200 bg-amber-50 p-4 text-xs leading-relaxed text-amber-800">
           {analise.alertas.join(" ")}
         </section>
@@ -564,8 +601,13 @@ export default function SkinScanResultadoPage() {
         <h2 style={{ fontFamily: "var(--font-playfair, serif)" }} className="text-4xl capitalize">
           {TIPO_PELE_LABELS[analise.tipoPele] ?? analise.tipoPele}
         </h2>
-        {analise.subtipo && <p className="text-sm leading-relaxed text-neutral-600">{analise.subtipo}</p>}
-        <p className="text-sm leading-relaxed text-neutral-600">{analise.observacao}</p>
+        {/* Subtipo e observação: só quando não é fallback — em fallback já estão no card acima */}
+        {!analise.modoFallback && analise.subtipo && (
+          <p className="text-sm leading-relaxed text-neutral-600">{analise.subtipo}</p>
+        )}
+        {!analise.modoFallback && (
+          <p className="text-sm leading-relaxed text-neutral-600">{analise.observacao}</p>
+        )}
 
         {/* Melhoria 2.1 — fototipo com descrição Fitzpatrick completa */}
         {analise.fototipo && (
