@@ -46,3 +46,5 @@ Thumbs.db
 # Supabase local artifacts
 supabase/.branches/
 supabase/.temp/
+
+.env*.local
