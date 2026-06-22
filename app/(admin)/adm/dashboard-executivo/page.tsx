@@ -5,26 +5,25 @@ import { overviewRepository } from "@/lib/adm/repositories";
 import { getAdmDataSource } from "@/lib/adm/repositories/source";
 import { resolveAdmListRoute, type AdmListRouteProps } from "@/lib/adm/route";
 
-const ALERT_REFERENCE_TIME = new Date("2026-04-10T12:00:00-03:00").getTime();
+const ALERT_REFERENCE_TIME = new Date("2026-06-21T12:00:00-03:00").getTime();
 
-const formatAlertTime = (value: string) => {
-  const timestamp = new Date(value).getTime();
-  const diffHours = Math.max(0, Math.floor((ALERT_REFERENCE_TIME - timestamp) / (1000 * 60 * 60)));
+const formatAlertTime = (value: string): string => {
+  const ts = new Date(value).getTime();
+  const diffMs = Math.max(0, ALERT_REFERENCE_TIME - ts);
+  const diffMin = Math.floor(diffMs / 60_000);
+  const diffH = Math.floor(diffMin / 60);
+  const diffD = Math.floor(diffH / 24);
 
-  if (diffHours < 24) {
-    return new Intl.DateTimeFormat("pt-BR", {
-      hour: "2-digit",
-      minute: "2-digit"
-    }).format(new Date(value));
+  if (diffMin < 60) return `há ${diffMin}min`;
+  if (diffH < 24) {
+    const rem = diffMin % 60;
+    return rem > 0 ? `há ${diffH}h ${rem}min` : `há ${diffH}h`;
   }
-
-  if (diffHours < 48) {
-    return "Ontem";
-  }
-
+  if (diffD === 1) return "ontem";
+  if (diffD < 7) return `há ${diffD} dias`;
   return new Intl.DateTimeFormat("pt-BR", {
     day: "2-digit",
-    month: "2-digit"
+    month: "2-digit",
   }).format(new Date(value));
 };
 

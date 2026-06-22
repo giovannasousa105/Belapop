@@ -1,9 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Cormorant_Garamond } from "next/font/google";
 import { useState, type CSSProperties } from "react";
-// CSSProperties used for dashboardTheme inline style
 import type { LucideIcon } from "lucide-react";
 import {
   AlertTriangle,
@@ -30,11 +28,7 @@ import { MiniMetricCard } from "@/components/admin/dashboard/MiniMetricCard";
 import type { AlertSeverity, AlertFeedItem } from "@/components/admin/dashboard/AlertFeed";
 import type { ChartDataPoint } from "@/components/admin/dashboard/PerformanceChart";
 import type { Period } from "@/components/admin/dashboard/PeriodSelector";
-
-const cormorant = Cormorant_Garamond({
-  subsets: ["latin"],
-  weight: ["400", "500", "600"],
-});
+import { translateAlert } from "@/lib/alerts/translations";
 
 const dashboardTheme = {
   "--color-bg-primary":    "#FAFAF8",
@@ -109,16 +103,16 @@ const fallbackSummaryCards: MetricCardItem[] = [
 
 const fallbackOperationCards: StatusCardItem[] = [
   { label: "Curadoria Pendente", value: "56 itens", iconKey: "wand2", href: "/adm/curadoria/produtos?status=pendente" },
-  { label: "Sellers Pendentes", value: "12 contas", iconKey: "user-plus", href: "/adm/operacao/parceiros" },
+  { label: "Sellers Pendentes", value: "12 contas", iconKey: "user-plus", href: "/adm/operação/parceiros" },
   { label: "Taxa de Aprovação", value: "94.2%", iconKey: "badge-check" },
-  { label: "Pedidos em Risco", value: "8 críticos", iconKey: "alert-triangle", accent: "danger", href: "/adm/operacao/pedidos-criticos?priority=critica" },
+  { label: "Pedidos em Risco", value: "8 críticos", iconKey: "alert-triangle", accent: "danger", href: "/adm/operação/pedidos-criticos?priority=critica" },
 ];
 
 const fallbackAlerts: AlertItem[] = [
-  { title: "Atraso em Entregas (SP)", description: "4 transportadoras reportaram instabilidade na malha sudeste.", time: "14:20", iconKey: "truck" },
-  { title: "Chargebacks Elevados", description: "Pico de contestações identificado na categoria Perfumaria.", time: "12:05", iconKey: "wallet", tone: "danger" },
-  { title: "Devoluções Recentes", description: "Aumento de 3% em pedidos devolvidos por avaria física.", time: "Ontem", iconKey: "undo2" },
-  { title: "Sellers sem Resposta", description: "12 sellers não responderam tickets críticos em 24h.", time: "Ontem", iconKey: "user-x", tone: "neutral" },
+  { title: "Atraso sem movimentação", description: "4 transportadoras reportaram instabilidade na malha sudeste.", time: "há 3h", iconKey: "truck" },
+  { title: "Risco de chargeback", description: "Pico de contestações identificado na categoria Perfumaria.", time: "há 5h", iconKey: "wallet", tone: "danger" },
+  { title: "Reembolso em análise", description: "Aumento de 3% em pedidos devolvidos por avaria física.", time: "ontem", iconKey: "undo2" },
+  { title: "Plantão sem responsável", description: "Nenhum operador designado para o plantão de hoje.", time: "ontem", iconKey: "user-x", tone: "neutral" },
 ];
 
 const fallbackInsightCards: InsightCardItem[] = [
@@ -147,6 +141,18 @@ const toneToVariant: Record<MetricCardItem["tone"], "default" | "success" | "war
 const iconBgDanger = "bg-[#FEE2E2] text-[#EF4444]";
 const iconBgDefault = "bg-[rgba(139,94,60,0.08)] text-[#8B5E3C]";
 
+const iconKeyToPrefix: Record<ExecutiveDashboardIconKey, string> = {
+  wallet: "FIN",
+  truck: "LOG",
+  "shield-alert": "DOC",
+  undo2: "RFD",
+  "user-x": "CRM",
+  "user-plus": "CRM",
+  "alert-triangle": "OPS",
+  "badge-check": "OPS",
+  wand2: "CUR",
+};
+
 export function ExecutiveDashboardPage({
   summaryCards: summaryCardsProp,
   operationCards: operationCardsProp,
@@ -161,13 +167,22 @@ export function ExecutiveDashboardPage({
   const visibleAlerts = alertsProp ?? fallbackAlerts;
   const visibleInsightCards = insightCardsProp ?? fallbackInsightCards;
 
-  const alertFeedItems: AlertFeedItem[] = visibleAlerts.map((a, i) => ({
-    id: String(i),
-    code: `${a.iconKey === "wallet" ? "FIN" : a.iconKey === "truck" ? "LOG" : "ALT"}-${String(i + 1).padStart(3, "0")}`,
-    message: `${a.title} — ${a.description}`,
-    severity: (a.tone === "danger" ? "critica" : "alta") as AlertSeverity,
-    timestamp: a.time,
-  }));
+  const alertFeedItems: AlertFeedItem[] = visibleAlerts.map((a, i) => {
+    const prefix = iconKeyToPrefix[a.iconKey] ?? "ALT";
+    const code = `${prefix}-${String(i + 1).padStart(3, "0")}`;
+    const translation = translateAlert(a.title);
+
+    return {
+      id: String(i),
+      code,
+      title: translation.title,
+      description: a.description !== a.title ? (translation.description !== a.title ? a.description : translation.description) : translation.description,
+      action: translation.action,
+      actionHref: translation.actionHref,
+      severity: (a.tone === "danger" ? "critica" : "alta") as AlertSeverity,
+      timestamp: a.time,
+    };
+  });
 
   const statusCells = visibleOperationCards.map((card) => {
     const Icon = executiveIcons[card.iconKey];
@@ -189,6 +204,13 @@ export function ExecutiveDashboardPage({
     { date: "01-29", gmv: 89000, orders: 31 },
   ];
 
+  // Determine best "Ver todos" href based on majority alert type
+  const alertHref = visibleAlerts.some((a) => a.iconKey === "truck")
+    ? "/adm/operacao/logistica/incidentes"
+    : visibleAlerts.some((a) => a.iconKey === "wallet" || a.iconKey === "undo2")
+      ? "/adm/financeiro"
+      : "/adm/gestao/log-atividades";
+
   return (
     <div className="min-h-screen bg-[#FAFAF8] text-[#1A1714]" style={dashboardTheme}>
       <FinanceSidebar activeHref="/adm/dashboard-executivo" />
@@ -202,7 +224,7 @@ export function ExecutiveDashboardPage({
                 <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#9E9589]">
                   Dashboard Executivo
                 </p>
-                <h1 className={`${cormorant.className} text-[22px] font-medium leading-tight tracking-[-0.02em] text-[#1A1714]`}>
+                <h1 className="whitespace-nowrap text-[22px] font-semibold leading-tight tracking-tight text-[#1A1714]">
                   Visão Geral da Operação
                 </h1>
               </div>
@@ -245,7 +267,7 @@ export function ExecutiveDashboardPage({
         {/* Content */}
         <main className="flex-1 px-8 py-7">
           <div className="grid gap-6">
-            {/* KPI cards */}
+            {/* KPI cards — 4 uniformes */}
             <section className="grid grid-cols-2 gap-4 xl:grid-cols-4">
               {visibleSummaryCards.map((card) => (
                 <KpiCard
@@ -277,7 +299,7 @@ export function ExecutiveDashboardPage({
                 <AlertFeed
                   title="Alertas Operacionais"
                   items={alertFeedItems}
-                  href="/adm/operacao/pedidos-criticos"
+                  href={alertHref}
                 />
               </div>
 
