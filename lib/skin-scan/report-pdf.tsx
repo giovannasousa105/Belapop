@@ -38,6 +38,7 @@ Font.register({
   family: "Inter",
   fonts: [
     { src: path.join(FONTS_DIR, "Inter-Regular.ttf"), fontWeight: 400 },
+    { src: path.join(FONTS_DIR, "Inter-Italic.ttf"), fontWeight: 400, fontStyle: "italic" },
     { src: path.join(FONTS_DIR, "Inter-SemiBold.ttf"), fontWeight: 600 },
     { src: path.join(FONTS_DIR, "Inter-Bold.ttf"), fontWeight: 700 },
   ],
