@@ -198,7 +198,7 @@ const TIPO_PELE_LABELS: Record<string, string> = {
   seca: "Seca",
   mista: "Mista",
   normal: "Normal",
-  sensível: "Sensível",
+  sensivel: "Sensível",
 };
 
 const FOCUS_LABELS: Record<string, string> = {

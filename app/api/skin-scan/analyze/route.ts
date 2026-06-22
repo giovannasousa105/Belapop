@@ -100,10 +100,11 @@ const TIPO_PELE_VALUES: TipoPele[] = ["seca", "oleosa", "mista", "normal", "sens
 // ── Prompt clínico para Claude Vision ────────────────────────────────────────
 // Referências: AAD 2024 Acne Guidelines, BJD 2025, Fitzpatrick Dermatology 9th ed.
 
-const VISION_PROMPT = `Voce e um sistema especializado em analise dermatologica computacional.
-Analise a imagem facial fornecida e retorne uma avaliacao objetiva da pele visivel.
+const VISION_PROMPT = `Você é um sistema especializado em análise dermatológica computacional.
+Analise a imagem facial fornecida e retorne uma avaliação objetiva da pele visível.
+IMPORTANTE: Responda sempre em português brasileiro com acentuação correta (ã, ç, é, ó, etc.).
 
-INSTRUCOES OBRIGATORIAS:
+INSTRUÇÕES OBRIGATÓRIAS:
 1. Analise APENAS o que e claramente visivel na imagem. Nao invente dados.
 2. Se um aspecto nao for visivel, use o valor padrao indicado.
 3. Retorne APENAS JSON valido — sem markdown, sem texto adicional, sem codigo.
@@ -111,17 +112,17 @@ INSTRUCOES OBRIGATORIAS:
 
 ESTRUTURA JSON EXATA A RETORNAR:
 {
-  "tipoPele": "<seca|oleosa|mista|normal|sensivel>",
+  "tipoPele": "<seca|oleosa|mista|normal|sensível>",
   "subtipo": "<descricao especifica, ex: mista com zona T oleosa e bochechas normais>",
-  "fototipo": <numero 1-6 segundo Fitzpatrick, ou null se nao determinavel>,
+  "fototipo": <numero 1-6 segundo Fitzpatrick, ou null se não determinavel>,
   "confianca": <0-100 real, baseado na qualidade da imagem e clareza dos sinais — NAO use 55 fixo>,
   "scores": {
-    "hidratacao":   <1-10 — 10=muito hidratada, 1=muito desidratada. Avalie aspecto opaco vs brilho saudavel>,
+    "hidratação":   <1-10 — 10=muito hidratada, 1=muito desidratada. Avalie aspecto opaco vs brilho saudavel>,
     "oleosidade":   <1-10 — 10=muito oleosa. Avalie reflexo sebaceo, brilho zona T>,
     "uniformidade": <1-10 — 10=uniforme. Avalie manchas, hiperpigmentacao, eritema>,
     "textura":      <1-10 — 10=lisa. Avalie poros, irregularidades, descamacao>,
     "luminosidade": <1-10 — 10=radiante>,
-    "sensibilidade":<1-10 — 10=muito sensivel. Avalie eritema, rosacea, reatividade>
+    "sensibilidade":<1-10 — 10=muito sensível. Avalie eritema, rosacea, reatividade>
   },
   "achados": {
     "zonaT":        "<oleosa|mista|normal>",
@@ -133,7 +134,7 @@ ESTRUTURA JSON EXATA A RETORNAR:
     "linhasFinas":  "<presentes_moderadas|presentes_leves|ausentes>",
     "acne":         "<ativa_severa|ativa_leve|comedoes|ausente>"
   },
-  "observacao": "<1-2 frases objetivas descrevendo os achados principais visiveis>",
+  "observacao": "<1-2 frases objetivas descrevendo os achados principais visíveis>",
   "alertas": [],
   "modoFallback": false
 }
@@ -229,13 +230,13 @@ function inferTipoPele(focos: string[]): TipoPele {
   const norm = normalizeFocos(focos);
   if (norm.includes("oleosidade") || norm.includes("poros") || norm.includes("acne")) return "oleosa";
   if (norm.includes("sensibilidade")) return "sensivel";
-  if (norm.includes("hidratacao")) return "seca";
+  if (norm.includes("hidratação")) return "seca";
   return "mista";
 }
 
 function parseTipoPele(value: unknown, focos: string[]): TipoPele {
   const normalized = normalizeText(value);
-  if (normalized === "sensível" || normalized === "sensivel") return "sensivel";
+  if (normalized === "sensivel" || normalized === "sensivel") return "sensivel";
   if (TIPO_PELE_VALUES.includes(normalized as TipoPele)) return normalized as TipoPele;
   return inferTipoPele(focos);
 }
@@ -294,10 +295,10 @@ function parseVisionPayload(raw: unknown, focos: string[], forcedFallback: boole
     observacao:
       typeof p.observacao === "string" && p.observacao.trim()
         ? p.observacao.trim()
-        : "Analise visual estruturada concluida com base nos sinais dermatologicos identificados.",
+        : "Análise visual estruturada concluida com base nos sinais dermatologicos identificados.",
     alertas:
       modoFallback && alertas.length === 0
-        ? ["Visibilidade insuficiente para analise completa."]
+        ? ["Visibilidade insuficiente para análise completa."]
         : alertas,
     modoFallback,
   };
@@ -311,7 +312,7 @@ function buildFallbackAnalise(focos: string[], alertas: string[]): SkinAnaliseFu
 
   // Scores ajustados pelos focos selecionados — mais informativo que todos-6
   const scores: SkinScores = {
-    hidratacao:   norm.includes("hidratacao") ? 4 : 6,
+    hidratacao:   norm.includes("hidratação") ? 4 : 6,
     oleosidade:   norm.includes("oleosidade") ? 8 : 5,
     uniformidade: norm.includes("manchas") ? 5 : 7,
     textura:      norm.includes("textura") || norm.includes("poros") ? 5 : 7,
@@ -331,12 +332,12 @@ function buildFallbackAnalise(focos: string[], alertas: string[]): SkinAnaliseFu
       poros:      norm.includes("poros") ? "dilatados_moderados" : "normais",
       eritema:    norm.includes("sensibilidade") ? "leve" : "ausente",
       manchas:    norm.includes("manchas") ? "hiperpigmentadas" : "ausentes",
-      descamacao: norm.includes("hidratacao") ? "leve" : "ausente",
+      descamacao: norm.includes("hidratação") ? "leve" : "ausente",
       linhasFinas:norm.includes("linhas_finas") || norm.includes("linhas") ? "presentes_leves" : "ausentes",
       acne:       norm.includes("acne") ? "comedoes" : "ausente",
     },
     observacao:
-      "A leitura visual nao ficou conclusiva. A rotina foi personalizada pelos focos informados e prioriza passos seguros de limpeza, barreira e fotoprotecao.",
+      "A leitura visual não ficou conclusiva. A rotina foi personalizada pelos focos informados e prioriza passos seguros de limpeza, barreira e fotoproteção.",
     alertas,
     modoFallback: true,
   };
@@ -376,6 +377,9 @@ async function callClaudeVision(
   focos: string[],
   apiKey: string
 ): Promise<string> {
+  const sizeKb = Math.round((imageBase64.length * 3) / 4 / 1024);
+  console.log(`[skin-scan/analyze] Imagem: ${sizeKb}KB, mime: ${mimeType}, modelo: ${CLAUDE_MODEL}`);
+
   const Anthropic = (await import("@anthropic-ai/sdk")).default;
   const client = new Anthropic({ apiKey });
 
@@ -530,7 +534,7 @@ export async function POST(request: NextRequest) {
   if (!anthropicKey) {
     console.warn("[skin-scan/analyze] Nenhuma chave de API configurada — usando fallback.");
     const analise = buildFallbackAnalise(focos, [
-      "Servico de analise visual nao configurado. Rotina gerada pelos focos selecionados.",
+      "Servico de análise visual não configurado. Rotina gerada pelos focos selecionados.",
     ]);
     return NextResponse.json({ success: true, analysis: buildResult(focos, analise) });
   }
@@ -554,7 +558,7 @@ export async function POST(request: NextRequest) {
     const result = buildResult(focos, analise);
 
     console.log(
-      `[skin-scan/analyze] Analise concluida — tipoPele: ${analise.tipoPele}, confianca: ${analise.confianca}%, fallback: ${analise.modoFallback}`
+      `[skin-scan/analyze] Análise concluida — tipoPele: ${analise.tipoPele}, confianca: ${analise.confianca}%, fallback: ${analise.modoFallback}`
     );
 
     // Melhoria 4.1 — Persistir no backend se logada (silencioso, 5s de timeout)
@@ -567,11 +571,16 @@ export async function POST(request: NextRequest) {
   } catch (err) {
     // 5. Fallback inteligente apenas quando a análise real falha
     const isTimeout = err instanceof Error && err.message.includes("TIMEOUT");
+    const isAuthError = err instanceof Error && (err.message.includes("401") || err.message.includes("authentication") || err.message.includes("invalid_api_key") || err.message.includes("auth"));
     const errorMsg = isTimeout
-      ? "Analise visual excedeu o tempo limite. Rotina gerada pelos focos selecionados."
-      : "Nao foi possivel concluir a leitura visual. Rotina gerada pelos focos selecionados.";
+      ? "Análise visual excedeu o tempo limite. Rotina gerada pelos focos selecionados."
+      : "Não foi possível concluir a leitura visual. Rotina gerada pelos focos selecionados.";
 
-    console.error("[skin-scan/analyze] Erro na analise Claude Vision:", err instanceof Error ? err.message : err);
+    console.error("[skin-scan/analyze] ERRO tipo:", isTimeout ? "TIMEOUT" : isAuthError ? "AUTH_INVALID_KEY" : "UNKNOWN");
+    console.error("[skin-scan/analyze] Mensagem:", err instanceof Error ? err.message : String(err));
+    if (err instanceof Error && (err as NodeJS.ErrnoException).cause) {
+      console.error("[skin-scan/analyze] Causa:", (err as NodeJS.ErrnoException).cause);
+    }
 
     const analise = buildFallbackAnalise(focos, [errorMsg]);
     const result = buildResult(focos, analise);
