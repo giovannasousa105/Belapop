@@ -94,6 +94,9 @@ const securityHeaders = [
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  outputFileTracingIncludes: {
+    "/api/skin-scan/relatorio/route": ["./lib/skin-scan/fonts/**"]
+  },
   images: {
     formats:          ["image/avif", "image/webp"],
     deviceSizes:      [360, 480, 640, 828, 1080, 1200, 1920],

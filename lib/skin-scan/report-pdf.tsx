@@ -18,22 +18,28 @@ import {
   G,
 } from "@react-pdf/renderer";
 
+import path from "path";
+
 import type { SkinAnalysisSession } from "@/lib/skincare/skinAnalysis";
 
 // ─── Fonts ───────────────────────────────────────────────────────────────────
+// Bundladas localmente (não buscar via URL em runtime — gstatic muda hashes de
+// versão e quebra silenciosamente em produção serverless).
+const FONTS_DIR = path.join(process.cwd(), "lib/skin-scan/fonts");
+
 Font.register({
   family: "Playfair",
   fonts: [
-    { src: "https://fonts.gstatic.com/s/playfairdisplay/v30/nuFiD-vYSZviVYUb_rj3ij__anPXBYf9lW4e7i1I5.woff2", fontWeight: 400 },
-    { src: "https://fonts.gstatic.com/s/playfairdisplay/v30/nuFvD-vYSZviVYUb_rj3ij__anPXBYf9lVQe.woff2", fontWeight: 700 },
+    { src: path.join(FONTS_DIR, "PlayfairDisplay-Regular.ttf"), fontWeight: 400 },
+    { src: path.join(FONTS_DIR, "PlayfairDisplay-Bold.ttf"), fontWeight: 700 },
   ],
 });
 Font.register({
   family: "Inter",
   fonts: [
-    { src: "https://fonts.gstatic.com/s/inter/v13/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyfAZ9hiJ-Ek-_EeA.woff2", fontWeight: 400 },
-    { src: "https://fonts.gstatic.com/s/inter/v13/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuI6fAZ9hiJ-Ek-_EeA.woff2", fontWeight: 600 },
-    { src: "https://fonts.gstatic.com/s/inter/v13/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuFuYAZ9hiJ-Ek-_EeA.woff2", fontWeight: 700 },
+    { src: path.join(FONTS_DIR, "Inter-Regular.ttf"), fontWeight: 400 },
+    { src: path.join(FONTS_DIR, "Inter-SemiBold.ttf"), fontWeight: 600 },
+    { src: path.join(FONTS_DIR, "Inter-Bold.ttf"), fontWeight: 700 },
   ],
 });
 
