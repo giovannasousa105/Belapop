@@ -74,7 +74,8 @@ const SUBSTITUICOES: [RegExp, string][] = [
   [/\bExperiencia\b/g, "Experiência"],
   [/\bcirculo\b/g, "círculo"],
   [/\bCirculo\b/g, "Círculo"],
-  [/\binteligencia\b/g, "inteligencia"],
+  [/\binteligencia\b/g, "inteligência"],
+  [/\bInteligencia\b/g, "Inteligência"],
 
   // Adjetivos
   [/\bresponsavel\b/g, "responsável"],
@@ -114,7 +115,8 @@ const SUBSTITUICOES: [RegExp, string][] = [
   [/\bopcao\b/g, "opção"],
   [/\bOpcao\b/g, "Opção"],
   [/\bopcoes\b/g, "opções"],
-  [/\bconfiguracoes\b/g, "configuracoes"],
+  [/\bconfiguracoes\b/g, "configurações"],
+  [/\bConfiguracoes\b/g, "Configurações"],
   [/\bnotificacao\b/g, "notificação"],
   [/\bautorizacao\b/g, "autorização"],
   [/\bautenticacao\b/g, "autenticação"],
@@ -153,6 +155,18 @@ const SUBSTITUICOES: [RegExp, string][] = [
   [/\bColecao\b/g, "Coleção"],
   [/\bcolecao\b/g, "coleção"],
   [/\bcolecoes\b/g, "coleções"],
+
+  // Adicionais
+  [/\bvisiveis\b/g, "visíveis"],
+  [/\bVisiveis\b/g, "Visíveis"],
+  [/\binvisiveis\b/g, "invisíveis"],
+  [/\bInvisiveis\b/g, "Invisíveis"],
+  [/\btolerancia\b/g, "tolerância"],
+  [/\bTolerancia\b/g, "Tolerância"],
+  [/\bindecisao\b/g, "indecisão"],
+  [/\bIndecisao\b/g, "Indecisão"],
+  [/glucosideo de decil/gi, "glucosídeo de decil"],
+  [/\bglucosideo\b/g, "glucosídeo"],
 
   // Médico / clínico
   [/\bclinica\b/g, "clínica"],
