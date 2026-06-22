@@ -51,7 +51,7 @@ export function Footer({ fluxo, unsubscribe_url, grupo, motivo_recebimento }: Fo
           Cancelar {GRUPO_LABEL[grupo] ?? "e-mails"}
         </Link>
         {" · "}
-        <Link href={`${BASE_URL}/configuracoes/emails`} style={linkStyle}>
+        <Link href={`${BASE_URL}/configurações/emails`} style={linkStyle}>
           Gerenciar preferências
         </Link>
       </Text>

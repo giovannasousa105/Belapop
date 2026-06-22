@@ -220,26 +220,26 @@ export default function ContaPage() {
 
   return (
     <div className="space-y-8 pb-8">
-      <section className="relative overflow-hidden rounded-3xl border border-[#e8e0d8] bg-gradient-to-br from-[#1e1e1e] via-[#2a1f1a] to-[#3d2318] p-8 shadow-[0_20px_60px_rgba(30,15,5,0.25)]">
-        <div className="pointer-events-none absolute right-0 top-0 h-64 w-64 bg-[radial-gradient(ellipse_at_top_right,_rgba(212,132,95,0.18)_0%,_transparent_65%)]" />
-        <div className="pointer-events-none absolute bottom-0 left-0 h-40 w-40 bg-[radial-gradient(ellipse_at_bottom_left,_rgba(213,30,113,0.10)_0%,_transparent_65%)]" />
+      <section className="relative overflow-hidden border-b border-[rgba(201,169,110,0.30)] bg-[linear-gradient(135deg,#080808_0%,#160e1a_45%,#090909_100%)] px-8 py-14 sm:px-12">
+        <div className="pointer-events-none absolute right-[-80px] top-[-80px] h-[300px] w-[300px] rounded-full bg-[radial-gradient(ellipse,rgba(201,169,110,0.10)_0%,transparent_70%)]" />
+        <div className="pointer-events-none absolute bottom-[-60px] left-[-60px] h-[250px] w-[250px] rounded-full bg-[radial-gradient(ellipse,rgba(124,92,158,0.12)_0%,transparent_70%)]" />
 
-        <p className="text-[10px] font-medium uppercase tracking-[0.45em] text-[#d4845f]/80">
-          Painel Exclusivo
+        <p className="text-[9px] font-semibold uppercase tracking-[0.45em] text-[#c9a96e]">
+          ✦ Painel Exclusivo
         </p>
-        <h1 className="mt-3 font-display text-5xl font-light tracking-wide text-white/95">
+        <h1 className="mt-4 font-display text-[clamp(2.5rem,5vw,4rem)] font-light leading-none tracking-[-0.01em] text-white">
           Olá, {(user?.name ?? "Cliente").split(" ")[0]}
         </h1>
-        <p className="mt-3 max-w-2xl text-sm leading-relaxed text-white/55">
+        <p className="mt-4 max-w-xl text-sm leading-relaxed text-white/45">
           Seu resumo de compras, entregas por lojista e suporte com protocolo.
         </p>
 
         {profileIncomplete ? (
-          <div className="mt-6 inline-flex items-center gap-3 rounded-2xl border border-[#d4845f]/30 bg-[#d4845f]/10 px-5 py-3">
-            <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-[#d4845f]" />
-            <p className="text-xs text-[#d4845f]/90">
+          <div className="mt-6 inline-flex items-center gap-3 border border-[rgba(201,169,110,0.25)] bg-[rgba(201,169,110,0.08)] px-5 py-3">
+            <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-[#c9a96e]" />
+            <p className="text-xs text-[#c9a96e]/90">
               Complete seu perfil para rastreio completo e dados fiscais.{" "}
-              <Link href="/conta/dados" className="underline underline-offset-2 hover:text-[#d4845f]">
+              <Link href="/conta/dados" className="underline underline-offset-2 hover:text-[#c9a96e]">
                 Atualizar agora
               </Link>
             </p>
@@ -247,156 +247,180 @@ export default function ContaPage() {
         ) : null}
       </section>
 
-      <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-        <article className="group relative overflow-hidden rounded-2xl border border-[#e8e0d8] bg-white p-6 shadow-[0_4px_24px_rgba(30,15,5,0.06)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_8px_32px_rgba(30,15,5,0.12)]">
-          <div className="absolute inset-x-0 top-0 h-[2px] bg-gradient-to-r from-transparent via-[#d4845f]/60 to-transparent" />
-          <p className="text-[10px] font-medium uppercase tracking-[0.38em] text-[#9b9b96]">Pedidos ativos</p>
-          <p className="mt-4 font-display text-5xl font-light text-[#1e1e1e]">{activeOrders.length}</p>
-          <Link href="/conta/pedidos" className="mt-4 inline-flex items-center gap-1.5 text-xs uppercase tracking-[0.2em] text-[#d51e71] transition-all hover:gap-2.5">
+      <section className="grid grid-cols-2 gap-px bg-[#e2dbd4] border border-[#e2dbd4] lg:grid-cols-4">
+        <article className="relative bg-white p-7 transition-colors duration-300 hover:bg-[#faf8f5] hover:z-10 hover:ring-1 hover:ring-[#c9a96e]">
+          <p className="text-[10px] font-medium uppercase tracking-[0.38em] text-[#9a9290]">Pedidos ativos</p>
+          <p className="mt-5 font-display text-5xl font-light text-[#080808]">{activeOrders.length}</p>
+          <Link href="/conta/pedidos" className="mt-5 inline-flex items-center gap-1.5 text-[10px] uppercase tracking-[0.2em] text-[#c9a96e] transition-all hover:gap-2.5">
             Acompanhar →
           </Link>
         </article>
 
-        <article className="group relative overflow-hidden rounded-2xl border border-[#e8e0d8] bg-white p-6 shadow-[0_4px_24px_rgba(30,15,5,0.06)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_8px_32px_rgba(30,15,5,0.12)]">
-          <div className="absolute inset-x-0 top-0 h-[2px] bg-gradient-to-r from-transparent via-[#d4845f]/60 to-transparent" />
-          <p className="text-[10px] font-medium uppercase tracking-[0.38em] text-[#9b9b96]">Última compra</p>
+        <article className="relative bg-white p-7 transition-colors duration-300 hover:bg-[#faf8f5] hover:z-10 hover:ring-1 hover:ring-[#c9a96e]">
+          <p className="text-[10px] font-medium uppercase tracking-[0.38em] text-[#9a9290]">Última compra</p>
           {latestOrder ? (
             <>
-              <p className="mt-4 font-display text-xl font-light text-[#1e1e1e]">Pedido {shortId(latestOrder.id)}</p>
-              <p className="mt-1 text-sm text-[#4a4a47]/70">{formatMoneyFromCents(latestOrder.total_order_cents)}</p>
+              <p className="mt-5 font-display text-xl font-light text-[#080808]">Pedido {shortId(latestOrder.id)}</p>
+              <p className="mt-1 text-sm text-[#5f5a55]">{formatMoneyFromCents(latestOrder.total_order_cents)}</p>
               <ReorderButton
                 orderId={latestOrder.id}
                 label="Comprar de novo →"
-                className="mt-4 inline-flex text-xs uppercase tracking-[0.2em] text-[#d51e71]"
+                className="mt-5 inline-flex text-[10px] uppercase tracking-[0.2em] text-[#c9a96e]"
               />
             </>
           ) : (
-            <p className="mt-4 text-sm text-[#9b9b96]">Sem compras recentes.</p>
+            <p className="mt-5 text-sm text-[#9a9290]">Sem compras recentes.</p>
           )}
         </article>
 
-        <article className="group relative overflow-hidden rounded-2xl border border-[#e8e0d8] bg-white p-6 shadow-[0_4px_24px_rgba(30,15,5,0.06)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_8px_32px_rgba(30,15,5,0.12)]">
-          <div className="absolute inset-x-0 top-0 h-[2px] bg-gradient-to-r from-transparent via-[#d4845f]/60 to-transparent" />
-          <p className="text-[10px] font-medium uppercase tracking-[0.38em] text-[#9b9b96]">Entrega mais próxima</p>
+        <article className="relative bg-white p-7 transition-colors duration-300 hover:bg-[#faf8f5] hover:z-10 hover:ring-1 hover:ring-[#c9a96e]">
+          <p className="text-[10px] font-medium uppercase tracking-[0.38em] text-[#9a9290]">Entrega mais próxima</p>
           {nearestShipment ? (
             <>
-              <p className="mt-4 font-display text-xl font-light text-[#1e1e1e]">
+              <p className="mt-5 font-display text-xl font-light text-[#080808]">
                 {sellerMap[nearestShipment.subOrder.seller_id] ?? "Lojista"}
               </p>
-              <p className="mt-1 text-sm text-[#4a4a47]/70">{nearestShipment.summary.etaLabel}</p>
-              <p className="mt-1 text-xs text-[#9b9b96]">
+              <p className="mt-1 text-sm text-[#5f5a55]">{nearestShipment.summary.etaLabel}</p>
+              <p className="mt-1 text-xs text-[#9a9290]">
                 {nearestShipment.summary.detailLine} · {nearestShipment.summary.lastUpdatedLabel}
               </p>
               <Link
                 href={`/conta/rastreio?order=${nearestShipment.subOrder.order_id}`}
-                className="mt-4 inline-flex items-center gap-1.5 text-xs uppercase tracking-[0.2em] text-[#d51e71] transition-all hover:gap-2.5"
+                className="mt-5 inline-flex items-center gap-1.5 text-[10px] uppercase tracking-[0.2em] text-[#c9a96e] transition-all hover:gap-2.5"
               >
                 Ver rastreio →
               </Link>
             </>
           ) : (
-            <p className="mt-4 text-sm text-[#9b9b96]">Sem entregas em trânsito.</p>
+            <p className="mt-5 text-sm text-[#9a9290]">Sem entregas em trânsito.</p>
           )}
         </article>
 
-        <article className="group relative overflow-hidden rounded-2xl border border-[#e8e0d8] bg-white p-6 shadow-[0_4px_24px_rgba(30,15,5,0.06)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_8px_32px_rgba(30,15,5,0.12)]">
-          <div className="absolute inset-x-0 top-0 h-[2px] bg-gradient-to-r from-transparent via-[#d4845f]/60 to-transparent" />
-          <p className="text-[10px] font-medium uppercase tracking-[0.38em] text-[#9b9b96]">Suporte</p>
-          <p className="mt-4 font-display text-5xl font-light text-[#1e1e1e]">{ticketCount}</p>
-          <p className="mt-1 text-sm text-[#4a4a47]/70">Protocolos abertos</p>
-          <Link href="/conta/reclamacoes-suporte" className="mt-4 inline-flex items-center gap-1.5 text-xs uppercase tracking-[0.2em] text-[#d51e71] transition-all hover:gap-2.5">
+        <article className="relative bg-white p-7 transition-colors duration-300 hover:bg-[#faf8f5] hover:z-10 hover:ring-1 hover:ring-[#c9a96e]">
+          <p className="text-[10px] font-medium uppercase tracking-[0.38em] text-[#9a9290]">Suporte</p>
+          <p className="mt-5 font-display text-5xl font-light text-[#080808]">{ticketCount}</p>
+          <p className="mt-1 text-sm text-[#5f5a55]">Protocolos abertos</p>
+          <Link href="/conta/reclamacoes-suporte" className="mt-5 inline-flex items-center gap-1.5 text-[10px] uppercase tracking-[0.2em] text-[#c9a96e] transition-all hover:gap-2.5">
             Abrir reclamação →
           </Link>
         </article>
       </section>
 
-      <section className="relative overflow-hidden rounded-3xl border border-[#d4845f]/25 bg-gradient-to-br from-[#1e1e1e] to-[#2e1f14] p-8 shadow-[0_20px_60px_rgba(30,15,5,0.20)]">
-        <div className="pointer-events-none absolute right-[-20px] top-[-20px] h-56 w-56 rounded-full bg-[#d4845f]/8 blur-3xl" />
+      <section className="relative overflow-hidden border border-[rgba(201,169,110,0.22)] bg-[linear-gradient(135deg,#0d0d1a_0%,#1a1228_45%,#0a1020_100%)]">
+        {/* Glows decorativos */}
+        <div className="pointer-events-none absolute right-[-80px] top-[-80px] h-[300px] w-[300px] rounded-full bg-[radial-gradient(ellipse,rgba(201,169,110,0.12)_0%,transparent_70%)]" />
+        <div className="pointer-events-none absolute bottom-[-60px] left-[-60px] h-[250px] w-[250px] rounded-full bg-[radial-gradient(ellipse,rgba(124,92,158,0.15)_0%,transparent_70%)]" />
 
-        <div className="flex flex-wrap items-start justify-between gap-4">
+        {/* Header */}
+        <div className="relative z-10 flex flex-wrap items-start justify-between gap-6 border-b border-white/[0.06] px-10 py-10">
           <div>
-            <p className="text-[10px] font-medium uppercase tracking-[0.45em] text-[#d4845f]/70">
-              PopClub ✦
-            </p>
-            <h2 className="mt-2 font-display text-3xl font-light text-white">
-              Nível {currentPopClubTier.label}
+            <div className="flex items-center gap-3">
+              <span className="text-[9px] font-bold uppercase tracking-[0.3em] text-[#c9a96e]">✦ PopClub</span>
+              <span className="border border-[rgba(201,169,110,0.30)] bg-[rgba(201,169,110,0.12)] px-2 py-0.5 text-[8px] font-bold uppercase tracking-[0.15em] text-[#c9a96e]">
+                {currentPopClubTier.label}
+              </span>
+            </div>
+            <h2 className="mt-3 font-display text-[2.25rem] font-light leading-none tracking-[0.01em] text-white">
+              Seus Pontos
             </h2>
-            <p className="mt-2 max-w-md text-sm text-white/45">
-              Pontos, créditos e amostras exclusivas ligados aos seus pedidos.
-            </p>
+            <p className="mt-2 text-xs text-white/40">Acumulados em compras elegíveis</p>
           </div>
-          <Link
-            href="/popclub/inicio"
-            className="rounded-full border border-[#d4845f]/40 bg-[#d4845f]/15 px-5 py-2.5 text-xs uppercase tracking-[0.25em] text-[#d4845f] transition-all hover:bg-[#d4845f]/25"
-          >
-            Ver clube
-          </Link>
-        </div>
-
-        <div className="mt-8">
-          <div className="mb-2 flex justify-between text-[10px] uppercase tracking-[0.3em] text-white/40">
-            <span>{currentPopClubTier.label}</span>
-            <span>{getPopClubProgressLabel(popClubSummary)}</span>
-          </div>
-          <div className="h-2 w-full overflow-hidden rounded-full bg-white/8">
-            <div
-              className="h-full rounded-full bg-gradient-to-r from-[#d51e71] via-[#d4845f] to-[#a85a38] shadow-[0_0_12px_rgba(213,30,113,0.4)]"
-              style={{ width: `${Math.max(0, Math.min(popClubSummary.progressBps, 10000)) / 100}%` }}
-            />
-          </div>
-          <div className="mt-1 flex justify-between">
-            {["Essencial", "Premium", "Luxo"].map((nivel) => (
-              <span key={nivel} className="text-[9px] uppercase tracking-[0.3em] text-white/30">{nivel}</span>
-            ))}
-          </div>
-        </div>
-
-        <div className="mt-6 grid gap-4 lg:grid-cols-3">
-          <article className="rounded-2xl border border-white/10 bg-white/5 p-5 backdrop-blur-sm">
-            <p className="text-[10px] uppercase tracking-[0.35em] text-[#d4845f]/70">Pontos ativos</p>
-            <p className="mt-3 font-display text-4xl font-light text-white">
+          <div className="text-right">
+            <p className="font-display text-[4rem] font-light leading-none text-white">
               {formatPopClubPoints(popClubSummary.pointsBalance)}
             </p>
-            <p className="mt-1 text-xs text-white/35">{getPopClubProgressLabel(popClubSummary)}</p>
-          </article>
+            <p className="mt-1 text-[9px] uppercase tracking-[0.2em] text-white/40">pontos ativos</p>
+          </div>
+        </div>
 
-          <article className="rounded-2xl border border-white/10 bg-white/5 p-5 backdrop-blur-sm">
-            <p className="text-[10px] uppercase tracking-[0.35em] text-[#d4845f]/70">Créditos</p>
-            <p className="mt-3 font-display text-4xl font-light text-white">
+        {/* Barra de progresso */}
+        <div className="relative z-10 border-b border-white/[0.06] px-10 py-6">
+          <div className="mb-3 flex items-center justify-between text-[10px] uppercase tracking-[0.15em] text-white/50">
+            <span>
+              {popClubSummary.currentTier === "luxo"
+                ? "Nível máximo ✦"
+                : `Progresso para ${popClubSummary.currentTier === "essencial" ? "Premium" : "Luxo"}`}
+            </span>
+            <span className="text-[#c9a96e] font-medium">{getPopClubProgressLabel(popClubSummary)}</span>
+          </div>
+          <div className="relative h-[2px] w-full bg-white/[0.08]">
+            <div
+              className="absolute left-0 top-0 h-full bg-gradient-to-r from-[#7c5c9e] to-[#c9a96e] transition-[width] duration-[1500ms] ease-[cubic-bezier(0.4,0,0.2,1)]"
+              style={{ width: `${Math.max(2, Math.min(popClubSummary.progressBps, 10000)) / 100}%` }}
+            />
+          </div>
+          <div className="mt-3 flex justify-between">
+            {(["essencial", "premium", "luxo"] as const).map((tier) => {
+              const active = popClubSummary.currentTier === tier;
+              return (
+                <div key={tier} className="flex flex-col gap-0.5">
+                  <span className={`text-[8px] uppercase tracking-[0.15em] ${active ? "font-semibold text-[#c9a96e]" : "text-white/30"}`}>
+                    {active ? "● " : "○ "}{popClubTierMap[tier]?.label ?? tier}
+                  </span>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Stats */}
+        <div className="relative z-10 grid grid-cols-3 border-b border-white/[0.06]">
+          <div className="border-r border-white/[0.06] px-8 py-6 text-center">
+            <p className="text-[8px] uppercase tracking-[0.2em] text-white/40">Pontos</p>
+            <p className="mt-2 font-display text-[2rem] font-light leading-none text-white">
+              {formatPopClubPoints(popClubSummary.pointsBalance)}
+            </p>
+            <p className="mt-1 text-[8px] text-white/30">ativos</p>
+          </div>
+          <div className="border-r border-white/[0.06] px-8 py-6 text-center">
+            <p className="text-[8px] uppercase tracking-[0.2em] text-white/40">Créditos</p>
+            <p className="mt-2 font-display text-[2rem] font-light leading-none text-[#c9a96e]">
               {formatPopClubCredits(popClubSummary.creditBalanceCents)}
             </p>
-            <p className="mt-1 text-xs text-white/35">Saldo do clube</p>
-          </article>
-
-          <article className="rounded-2xl border border-white/10 bg-white/5 p-5 backdrop-blur-sm">
-            <p className="text-[10px] uppercase tracking-[0.35em] text-[#d4845f]/70">Amostras premium</p>
-            <p className="mt-3 font-display text-4xl font-light text-white">
-              {popClubSummary.latestSampleSlots > 0 ? popClubSummary.latestSampleSlots : <span className="text-white/40">—</span>}
+            <p className="mt-1 text-[8px] text-white/30">saldo clube</p>
+          </div>
+          <div className="px-8 py-6 text-center">
+            <p className="text-[8px] uppercase tracking-[0.2em] text-white/40">Amostras</p>
+            <p className="mt-2 font-display text-[2rem] font-light leading-none">
+              {popClubSummary.latestSampleSlots > 0
+                ? <span className="text-white">{popClubSummary.latestSampleSlots}</span>
+                : <span className="text-white/30">—</span>}
             </p>
-            <p className="mt-1 text-xs text-white/35">{getPopClubSampleMessage(popClubSummary)}</p>
-          </article>
+            <p className="mt-1 text-[8px] text-white/30">Premium+</p>
+          </div>
+        </div>
+
+        {/* Footer CTA */}
+        <div className="relative z-10 flex items-center justify-between px-10 py-5">
+          <p className="text-[11px] font-light text-white/35">Acumule pontos em cada pedido elegível</p>
+          <Link
+            href="/popclub/inicio"
+            className="bg-[#c9a96e] px-6 py-2.5 text-[9px] font-bold uppercase tracking-[0.2em] text-[#0d0d1a] transition-colors hover:bg-[#b8975a]"
+          >
+            Ver Clube →
+          </Link>
         </div>
       </section>
 
-      <section className="grid gap-3 md:grid-cols-2 xl:grid-cols-4">
+      <section className="grid gap-px bg-[#e2dbd4] border border-[#e2dbd4] md:grid-cols-2 xl:grid-cols-4">
         <Link
           href="/conta/rastreio"
-          className="group flex flex-col gap-3 rounded-2xl border border-[#e8e0d8] bg-white p-5 shadow-[0_2px_16px_rgba(30,15,5,0.05)] transition-all duration-300 hover:-translate-y-0.5 hover:border-[#d4845f]/40 hover:shadow-[0_6px_24px_rgba(30,15,5,0.10)]"
+          className="group flex flex-col gap-4 bg-white p-6 transition-colors duration-200 hover:bg-[#faf8f5] hover:ring-1 hover:ring-[#c9a96e] hover:z-10"
         >
-          <span className="text-lg text-[#d4845f] transition-transform group-hover:scale-110">📦</span>
+          <span className="text-lg text-[#c9a96e]">📦</span>
           <div>
-            <p className="text-sm font-medium text-[#1e1e1e]">Rastrear pedido</p>
-            <p className="text-xs text-[#9b9b96]">Ver entregas</p>
+            <p className="text-[11px] font-medium uppercase tracking-[0.15em] text-[#1e1e1e]">Rastrear pedido</p>
+            <p className="mt-0.5 text-[10px] text-[#9b9b96]">Ver entregas</p>
           </div>
         </Link>
         <Link
           href="/conta/reclamacoes-suporte"
-          className="group flex flex-col gap-3 rounded-2xl border border-[#e8e0d8] bg-white p-5 shadow-[0_2px_16px_rgba(30,15,5,0.05)] transition-all duration-300 hover:-translate-y-0.5 hover:border-[#d4845f]/40 hover:shadow-[0_6px_24px_rgba(30,15,5,0.10)]"
+          className="group flex flex-col gap-4 bg-white p-6 transition-colors duration-200 hover:bg-[#faf8f5] hover:ring-1 hover:ring-[#c9a96e] hover:z-10"
         >
-          <span className="text-lg text-[#d4845f] transition-transform group-hover:scale-110">💬</span>
+          <span className="text-lg text-[#c9a96e]">💬</span>
           <div>
-            <p className="text-sm font-medium text-[#1e1e1e]">Abrir suporte</p>
-            <p className="text-xs text-[#9b9b96]">Protocolo rápido</p>
+            <p className="text-[11px] font-medium uppercase tracking-[0.15em] text-[#1e1e1e]">Abrir suporte</p>
+            <p className="mt-0.5 text-[10px] text-[#9b9b96]">Protocolo rápido</p>
           </div>
         </Link>
         {whatsappHref ? (
@@ -404,47 +428,47 @@ export default function ContaPage() {
             href={whatsappHref}
             target="_blank"
             rel="noreferrer"
-            className="group flex flex-col gap-3 rounded-2xl border border-[#e8e0d8] bg-white p-5 shadow-[0_2px_16px_rgba(30,15,5,0.05)] transition-all duration-300 hover:-translate-y-0.5 hover:border-[#d4845f]/40 hover:shadow-[0_6px_24px_rgba(30,15,5,0.10)]"
+            className="group flex flex-col gap-4 bg-white p-6 transition-colors duration-200 hover:bg-[#faf8f5] hover:ring-1 hover:ring-[#c9a96e] hover:z-10"
           >
-            <span className="text-lg text-[#d4845f] transition-transform group-hover:scale-110">✦</span>
+            <span className="text-lg text-[#c9a96e]">✦</span>
             <div>
-              <p className="text-sm font-medium text-[#1e1e1e]">WhatsApp</p>
-              <p className="text-xs text-[#9b9b96]">Concierge exclusivo</p>
+              <p className="text-[11px] font-medium uppercase tracking-[0.15em] text-[#1e1e1e]">WhatsApp</p>
+              <p className="mt-0.5 text-[10px] text-[#9b9b96]">Concierge exclusivo</p>
             </div>
           </a>
         ) : (
-          <div className="flex flex-col gap-3 rounded-2xl border border-[#e8e0d8] bg-white p-5 opacity-50 shadow-[0_2px_16px_rgba(30,15,5,0.05)]">
+          <div className="flex flex-col gap-4 bg-white p-6 opacity-40">
             <span className="text-lg text-[#9b9b96]">✦</span>
             <div>
-              <p className="text-sm font-medium text-[#1e1e1e]">WhatsApp</p>
-              <p className="text-xs text-[#9b9b96]">Em atualização</p>
+              <p className="text-[11px] font-medium uppercase tracking-[0.15em] text-[#1e1e1e]">WhatsApp</p>
+              <p className="mt-0.5 text-[10px] text-[#9b9b96]">Em atualização</p>
             </div>
           </div>
         )}
         <Link
           href="/catalogo"
-          className="group flex flex-col gap-3 rounded-2xl border border-[#e8e0d8] bg-white p-5 shadow-[0_2px_16px_rgba(30,15,5,0.05)] transition-all duration-300 hover:-translate-y-0.5 hover:border-[#d4845f]/40 hover:shadow-[0_6px_24px_rgba(30,15,5,0.10)]"
+          className="group flex flex-col gap-4 bg-white p-6 transition-colors duration-200 hover:bg-[#faf8f5] hover:ring-1 hover:ring-[#c9a96e] hover:z-10"
         >
-          <span className="text-lg text-[#d4845f] transition-transform group-hover:scale-110">◈</span>
+          <span className="text-lg text-[#c9a96e]">◈</span>
           <div>
-            <p className="text-sm font-medium text-[#1e1e1e]">Comprar agora</p>
-            <p className="text-xs text-[#9b9b96]">Curadoria do mês</p>
+            <p className="text-[11px] font-medium uppercase tracking-[0.15em] text-[#1e1e1e]">Comprar agora</p>
+            <p className="mt-0.5 text-[10px] text-[#9b9b96]">Curadoria do mês</p>
           </div>
         </Link>
       </section>
 
-      <section className="relative overflow-hidden rounded-3xl border border-[#e8e0d8] bg-gradient-to-br from-[#fdf4f1] via-white to-[#faf8f5] p-8">
-        <div className="pointer-events-none absolute right-0 top-0 h-48 w-48 bg-[radial-gradient(ellipse,_rgba(213,30,113,0.06)_0%,_transparent_70%)]" />
-        <p className="text-[10px] font-medium uppercase tracking-[0.45em] text-[#d51e71]/60">
+      <section className="relative overflow-hidden border border-[#e2dbd4] bg-[#faf8f5] p-8">
+        <div className="pointer-events-none absolute right-0 top-0 h-56 w-56 bg-[radial-gradient(ellipse,rgba(201,169,110,0.08)_0%,transparent_70%)]" />
+        <p className="text-[10px] font-medium uppercase tracking-[0.45em] text-[#c9a96e]">
           Skin Intelligence ✦
         </p>
-        <p className="mt-2 text-xl font-semibold text-[#1e1e1e]">Monte sua rotina completa</p>
-        <p className="mt-2 max-w-2xl text-sm leading-relaxed text-[#4a4a47]/70">
+        <p className="mt-3 font-display text-[1.65rem] font-light leading-tight text-[#080808]">Monte sua rotina completa</p>
+        <p className="mt-3 max-w-2xl text-sm leading-relaxed text-[#4a4a47]/70">
           Responda o quiz de pele, receba uma rotina personalizada por etapa e gere um carrinho pronto para recompra.
         </p>
         <Link
           href="/conta/skincare"
-          className="mt-5 inline-flex items-center gap-2 rounded-full bg-[#1e1e1e] px-6 py-3 text-xs uppercase tracking-[0.25em] text-white shadow-[0_4px_16px_rgba(30,15,5,0.20)] transition-all hover:bg-[#2e1f14] hover:shadow-[0_6px_24px_rgba(30,15,5,0.30)]"
+          className="mt-6 inline-flex items-center gap-2 bg-[#080808] px-7 py-3 text-[10px] uppercase tracking-[0.25em] text-white transition-colors hover:bg-[#1e1e1e]"
         >
           Iniciar rotina →
         </Link>
@@ -452,41 +476,41 @@ export default function ContaPage() {
 
       <CustomerPaymentMethodsPanel compact />
 
-      <section className="grid gap-5 xl:grid-cols-[1.15fr_1fr]">
-        <article className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
-          <div className="flex items-center justify-between gap-3">
+      <section className="grid gap-px bg-[#e2dbd4] border border-[#e2dbd4] xl:grid-cols-[1.15fr_1fr]">
+        <article className="bg-white p-8">
+          <div className="flex items-center justify-between gap-3 border-b border-[#e2dbd4] pb-6">
             <div>
-              <p className="text-xs uppercase tracking-[0.3em] text-bpGraphite/60">Pedidos recentes</p>
-              <p className="mt-2 text-xl font-semibold text-bpBlack">Por pedido e por lojista</p>
+              <p className="text-[9px] font-medium uppercase tracking-[0.38em] text-[#9a9290]">Pedidos recentes</p>
+              <p className="mt-2 font-display text-2xl font-light text-[#080808]">Por pedido e por lojista</p>
             </div>
-            <Link href="/conta/pedidos" className="text-sm text-bpPink">
-              Ver tudo
+            <Link href="/conta/pedidos" className="text-[10px] uppercase tracking-[0.2em] text-[#c9a96e] hover:text-[#b8975a]">
+              Ver tudo →
             </Link>
           </div>
 
           {loading ? (
-            <p className="mt-6 text-sm text-bpGraphite/70">Carregando pedidos...</p>
+            <p className="mt-6 text-sm text-[#4a4a47]/70">Carregando pedidos...</p>
           ) : orders.length === 0 ? (
-            <p className="mt-6 text-sm text-bpGraphite/70">Você ainda não tem pedidos.</p>
+            <p className="mt-6 text-sm text-[#4a4a47]/70">Você ainda não tem pedidos.</p>
           ) : (
-            <div className="mt-5 space-y-3">
+            <div className="mt-5 space-y-2">
               {orders.slice(0, 5).map((order) => {
                 const orderSubOrders = subOrders.filter((row) => row.order_id === order.id);
                 return (
                   <Link
                     key={order.id}
                     href={`/conta/pedidos/${order.id}`}
-                    className="block rounded-2xl border border-black/10 p-4 transition hover:border-bpPink/30 hover:bg-bpOffWhite/60"
+                    className="block border border-[#e2dbd4] p-4 transition-colors hover:border-[#c9a96e]/40 hover:bg-[#faf8f5]"
                   >
                     <div className="flex flex-wrap items-center justify-between gap-3">
                       <div>
-                        <p className="text-sm font-semibold text-bpBlackSoft">Pedido {shortId(order.id)}</p>
-                        <p className="text-xs text-bpGraphite/70">{formatDateTimePtBr(order.created_at)}</p>
+                        <p className="text-[11px] font-semibold uppercase tracking-[0.1em] text-[#1e1e1e]">Pedido {shortId(order.id)}</p>
+                        <p className="text-[10px] text-[#9a9290]">{formatDateTimePtBr(order.created_at)}</p>
                       </div>
                       <div className="text-right">
-                        <p className="text-sm font-semibold text-bpBlack">{formatMoneyFromCents(order.total_order_cents)}</p>
+                        <p className="text-sm font-semibold text-[#080808]">{formatMoneyFromCents(order.total_order_cents)}</p>
                         <span
-                          className={`mt-1 inline-flex rounded-full border px-2 py-1 text-[11px] uppercase tracking-[0.16em] ${statusClassName(
+                          className={`mt-1 inline-flex border px-2 py-0.5 text-[9px] uppercase tracking-[0.16em] ${statusClassName(
                             order.status,
                             "order"
                           )}`}
@@ -495,14 +519,14 @@ export default function ContaPage() {
                         </span>
                       </div>
                     </div>
-                    <p className="mt-3 text-sm text-bpGraphite/75">{statusMessage(order.status, "order")}</p>
+                    <p className="mt-2 text-[11px] text-[#4a4a47]/70">{statusMessage(order.status, "order")}</p>
 
                     {orderSubOrders.length ? (
-                      <div className="mt-3 flex flex-wrap gap-2">
+                      <div className="mt-2 flex flex-wrap gap-1.5">
                         {orderSubOrders.map((subOrder) => (
                           <span
                             key={subOrder.id}
-                            className="rounded-full border border-black/10 bg-white px-3 py-1 text-[11px] text-bpGraphite/80"
+                            className="border border-[#e2dbd4] bg-[#faf8f5] px-2.5 py-0.5 text-[10px] text-[#4a4a47]/80"
                           >
                             {sellerMap[subOrder.seller_id] ?? "Lojista"} -{" "}
                             {
@@ -524,51 +548,51 @@ export default function ContaPage() {
           )}
         </article>
 
-        <article className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
-          <div className="rounded-2xl border border-black/10 bg-bpOffWhite/70 p-4">
+        <article className="bg-white p-8">
+          <div className="border border-[#e2dbd4] bg-[#faf8f5] p-5">
             <div className="flex items-center justify-between gap-3">
-              <p className="text-xs uppercase tracking-[0.2em] text-bpGraphite/60">Mensagens recentes</p>
-              <Link href="/conta/mensagens" className="text-xs uppercase tracking-[0.2em] text-bpPink">
-                Ver mensagens
+              <p className="text-[9px] uppercase tracking-[0.2em] text-[#9a9290]">Mensagens recentes</p>
+              <Link href="/conta/mensagens" className="text-[9px] uppercase tracking-[0.2em] text-[#c9a96e] hover:text-[#b8975a]">
+                Ver mensagens →
               </Link>
             </div>
             {notifications.length ? (
               <div className="mt-3 space-y-2">
                 {notifications.slice(0, 3).map((notification) => (
-                  <div key={notification.id} className="rounded-xl border border-black/10 bg-white p-3">
-                    <p className="text-sm font-medium text-bpBlackSoft">{notification.title}</p>
-                    <p className="mt-1 text-xs text-bpGraphite/70">{formatDateTimePtBr(notification.created_at)}</p>
+                  <div key={notification.id} className="border border-[#e2dbd4] bg-white p-3">
+                    <p className="text-[11px] font-medium text-[#1e1e1e]">{notification.title}</p>
+                    <p className="mt-1 text-[10px] text-[#9a9290]">{formatDateTimePtBr(notification.created_at)}</p>
                   </div>
                 ))}
               </div>
             ) : (
-              <p className="mt-3 text-sm text-bpGraphite/70">Sem atualizacoes recentes.</p>
+              <p className="mt-3 text-[11px] text-[#4a4a47]/70">Sem atualizações recentes.</p>
             )}
           </div>
 
-          <p className="mt-5 text-xs uppercase tracking-[0.3em] text-bpGraphite/60">Sugestões para você</p>
-          <p className="mt-2 text-xl font-semibold text-bpBlack">Curadoria editorial</p>
-          <div className="mt-4 space-y-3">
+          <p className="mt-7 text-[9px] uppercase tracking-[0.38em] text-[#9a9290]">Sugestões para você</p>
+          <p className="mt-2 font-display text-2xl font-light text-[#080808]">Curadoria editorial</p>
+          <div className="mt-4 space-y-2">
             {recommendations.length ? (
               recommendations.map((product) => (
-                <div key={product.id} className="rounded-2xl border border-black/10 p-4">
-                  <p className="text-sm font-semibold text-bpBlackSoft">{product.name}</p>
-                  <p className="mt-1 text-sm text-bpGraphite/75">{formatMoneyFromCents(product.price_cents)}</p>
-                  <Link href="/catalogo" className="mt-3 inline-flex text-xs uppercase tracking-[0.2em] text-bpPink">
-                    Ver no catalogo
+                <div key={product.id} className="border border-[#e2dbd4] p-4">
+                  <p className="text-[11px] font-semibold text-[#1e1e1e]">{product.name}</p>
+                  <p className="mt-1 text-sm text-[#4a4a47]/75">{formatMoneyFromCents(product.price_cents)}</p>
+                  <Link href="/catalogo" className="mt-2.5 inline-flex text-[9px] uppercase tracking-[0.2em] text-[#c9a96e] hover:text-[#b8975a]">
+                    Ver no catálogo →
                   </Link>
                 </div>
               ))
             ) : (
-              <p className="text-sm text-bpGraphite/70">Sem recomendacoes no momento.</p>
+              <p className="text-[11px] text-[#4a4a47]/70">Sem recomendações no momento.</p>
             )}
           </div>
 
-          <div className="mt-5 rounded-2xl border border-black/10 bg-bpOffWhite/70 p-4">
-            <p className="text-xs uppercase tracking-[0.2em] text-bpGraphite/60">Favoritos</p>
-            <p className="mt-2 text-2xl font-semibold text-bpBlack">{favoritesCount}</p>
-            <Link href="/conta/favoritos" className="mt-2 inline-flex text-sm text-bpPink">
-              Ver lista salva
+          <div className="mt-5 border border-[#e2dbd4] bg-[#faf8f5] p-5">
+            <p className="text-[9px] uppercase tracking-[0.2em] text-[#9a9290]">Favoritos</p>
+            <p className="mt-3 font-display text-4xl font-light text-[#080808]">{favoritesCount}</p>
+            <Link href="/conta/favoritos" className="mt-3 inline-flex text-[9px] uppercase tracking-[0.2em] text-[#c9a96e] hover:text-[#b8975a]">
+              Ver lista salva →
             </Link>
           </div>
         </article>

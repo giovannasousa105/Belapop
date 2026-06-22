@@ -15,6 +15,8 @@ import {
   weeklyCurationItems,
   worthInvestmentGuides
 } from "@/lib/content/popGuide";
+import { reels, artigos, reflexoes } from "@/lib/diario/data";
+import { ReelsBloco, ArtigosBloco, ReflexoesBloco } from "@/components/editorial/DiarioSection";
 
 export const metadata: Metadata = {
   title: "Guias BelaPop | Consultoria de beleza compravel",
@@ -72,12 +74,15 @@ export default function PopGuideIndexPage() {
         </section>
 
         <section className="px-4 py-10 sm:px-6 lg:px-8">
-          <div className="mx-auto grid max-w-[1440px] gap-4 md:grid-cols-4">
+          <div className="mx-auto grid max-w-[1440px] grid-cols-2 gap-4 md:grid-cols-4 xl:grid-cols-7">
             {[
               ["Guias de ativos", "/guias#ativos"],
               ["Rotinas por necessidade", "/guias#rotinas"],
               ["Curadoria da semana", "/guias/curadoria-da-semana"],
-              ["Vale o investimento?", "/guias#vale-o-investimento"]
+              ["Vale o investimento?", "/guias#vale-o-investimento"],
+              ["Reels", "/guias/reels"],
+              ["Artigos", "/guias/artigos"],
+              ["Reflexões", "/guias/reflexoes"],
             ].map(([label, href]) => (
               <Link
                 key={label}
@@ -199,6 +204,15 @@ export default function PopGuideIndexPage() {
                 </Link>
               ))}
             </div>
+          </div>
+        </section>
+
+        {/* ── Diário BelaPop: Reels, Artigos, Reflexões ── */}
+        <section className="px-4 py-14 sm:px-6 lg:px-8">
+          <div className="mx-auto max-w-[1440px] space-y-20">
+            <ReelsBloco reels={reels} idPrefix="guias" />
+            <ArtigosBloco artigos={artigos} idPrefix="guias" />
+            <ReflexoesBloco reflexoes={reflexoes} idPrefix="guias" />
           </div>
         </section>
       </main>
