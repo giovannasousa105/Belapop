@@ -7,13 +7,19 @@ import { useCallback, useEffect, useMemo, useRef, useState, type UIEvent } from 
 import {
   Check,
   ChevronDown,
+  ChevronLeft,
+  ChevronRight,
   Droplets,
   Heart,
   Layers3,
+  Minus,
+  Plus,
   Sparkles,
   Star,
   SunMedium,
-  X
+  Loader2,
+  X,
+  ZoomIn
 } from "lucide-react";
 
 import { CommerceTrustMarkers } from "@/components/commerce/CommerceTrustMarkers";
@@ -26,6 +32,7 @@ import {
   VerifiedProductBadge
 } from "@/components/catalog-standards";
 import { ConsultoraInlineEntry } from "@/components/assistant/ConsultoraBelaPop";
+import { ProductShareBar } from "@/components/product/ProductShareBar";
 import { BelaPopValidatedFooter } from "@/components/luxury/BelaPopValidatedFooter";
 import { BelaPopValidatedHeader } from "@/components/luxury/BelaPopValidatedHeader";
 import { BuyButton } from "@/components/checkout/BuyButton";
@@ -33,6 +40,7 @@ import { LoteStatus } from "@/components/lote/LoteStatus";
 import { brandCtas } from "@/lib/brand/ctas";
 import { brandSectionNames } from "@/lib/brand/sections";
 import { useCart } from "@/lib/CartContext";
+import { trackViewItem } from "@/lib/analytics";
 import { useFavorites } from "@/lib/favorites";
 import { useLoteStatus } from "@/lib/hooks/useLoteStatus";
 import { liberarReserva } from "@/lib/stripe/reservarLote";
@@ -48,6 +56,8 @@ import {
   PRODUCT_DETAILS,
   PRODUCT_NAMES,
 } from "@/lib/product-data";
+import { BELAPOP_SCAN_KEY } from "@/types/skin-scan";
+import type { SkinScanResult } from "@/types/skin-scan";
 
 type HeaderSection = "skincare" | "maquiagem" | "cabelos" | "perfumes";
 
@@ -96,24 +106,24 @@ const GALLERY_FALLBACK: ProductGalleryItem[] = [
   },
   {
     url: "https://lh3.googleusercontent.com/aida-public/AB6AXuB79WAf8yVglJIsXN0Oip8fyOZLgtyQlSELikq51_DOqKQsYc60qfd5Dr8ljQktwA6iGdWfpfQB9oLtj42x0SYnpZLA2d0fRuoek0XdOc_Nw9GC9RNozLB5_i4X_08-pO-FQJuFN_hAz-SBK23MTBfIv0dJwcoErnz4EtcAHEooN8-RKu7qeZ1SRyiYt15AjkyryF1bhXMlvZHSq1_s3ZkKeeL8eTsZOazXdxZER5iBnuWg4B9N6DJMtUcCqrns21Rfdx1lvpcRpW0s",
-    alt: "Lifestyle de aplicacao."
+    alt: "Lifestyle de aplicação."
   }
 ];
 
 const LOVE_POINTS = [
   "Hidratação imediata com conforto durante o dia.",
-  "Textura leve que encaixa facil na rotina.",
+  "Textura leve que encaixa fácil na rotina.",
   "Acabamento luminoso sem pesar na pele."
 ] as const;
 
 const RECOMMENDATION_POINTS = [
   {
     title: "Alinhado ao seu tipo de pele",
-    text: "Formula de absorcao leve para manter consistencia no uso diario."
+    text: "Fórmula de absorção leve para manter consistência no uso diário."
   },
   {
     title: "Melhora de textura",
-    text: "Aplicacao uniforme para reduzir aspecto irregular e reforcar maciez."
+    text: "Aplicação uniforme para reduzir aspecto irregular e reforçar maciez."
   },
   {
     title: "Encaixe na sua rotina",
@@ -137,11 +147,11 @@ const HOW_TO_USE_FALLBACK = [
 const REVIEWS = [
   {
     author: "Mariana S.",
-    text: "Textura leve, absorcao rapida e acabamento luminoso."
+    text: "Textura leve, absorção rápida e acabamento luminoso."
   },
   {
     author: "Clara P.",
-    text: "Produto consistente no uso diario, facil de combinar com outros passos."
+    text: "Produto consistente no uso diário, fácil de combinar com outros passos."
   },
   {
     author: "Beatriz M.",
@@ -151,20 +161,20 @@ const REVIEWS = [
 
 const FAQ_ITEMS = [
   {
-    question: "O produto e original?",
+    question: "O produto é original?",
     answer: "Sim. Item vendido por parceiro verificado com procedência validada."
   },
   {
     question: "Qual o prazo de entrega?",
-    answer: "O prazo e informado no checkout conforme seller e endereco de entrega."
+    answer: "O prazo é informado no checkout conforme seller e endereço de entrega."
   },
   {
     question: "Posso usar com outros ativos?",
     answer: "Sim. Mantenha camadas leves e ajuste de acordo com resposta da pele."
   },
   {
-    question: "Como funciona devolucao?",
-    answer: "Você pode solicitar devolucao pelo fluxo de pedidos dentro da conta."
+    question: "Como funciona devolução?",
+    answer: "Você pode solicitar devolução pelo fluxo de pedidos dentro da conta."
   }
 ] as const;
 
@@ -375,6 +385,113 @@ function ReviewsBottomSheet({
   );
 }
 
+// ─── ProductGalleryLightbox ───────────────────────────────────────────────────
+
+function ProductGalleryLightbox({
+  open,
+  onClose,
+  gallery,
+  activeIndex,
+  onNavigate,
+  title,
+}: {
+  open: boolean;
+  onClose: () => void;
+  gallery: ProductGalleryItem[];
+  activeIndex: number;
+  onNavigate: (index: number) => void;
+  title: string;
+}) {
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+      if (e.key === "ArrowRight") onNavigate((activeIndex + 1) % gallery.length);
+      if (e.key === "ArrowLeft") onNavigate((activeIndex - 1 + gallery.length) % gallery.length);
+    };
+    if (open) document.addEventListener("keydown", handler);
+    return () => document.removeEventListener("keydown", handler);
+  }, [open, onClose, onNavigate, activeIndex, gallery.length]);
+
+  useEffect(() => {
+    document.body.style.overflow = open ? "hidden" : "";
+    return () => { document.body.style.overflow = ""; };
+  }, [open]);
+
+  if (!open) return null;
+
+  const item = gallery[activeIndex];
+
+  return (
+    <div className="fixed inset-0 z-[300] flex flex-col bg-black/95" role="dialog" aria-modal="true" aria-label="Imagem ampliada do produto">
+      <div className="flex items-center justify-between p-4">
+        <span className="text-xs uppercase tracking-[0.2em] text-white/60">
+          {activeIndex + 1} / {gallery.length}
+        </span>
+        <button
+          type="button"
+          onClick={onClose}
+          aria-label="Fechar imagem ampliada"
+          className="flex h-11 w-11 items-center justify-center rounded-full text-white/80 hover:bg-white/10"
+        >
+          <X className="h-6 w-6" />
+        </button>
+      </div>
+
+      <div className="relative flex-1">
+        <Image
+          src={item?.url || GALLERY_FALLBACK[0].url}
+          alt={item?.alt || `${title} - imagem ampliada`}
+          fill
+          unoptimized
+          sizes="100vw"
+          className="object-contain"
+        />
+
+        {gallery.length > 1 ? (
+          <>
+            <button
+              type="button"
+              onClick={() => onNavigate((activeIndex - 1 + gallery.length) % gallery.length)}
+              aria-label="Imagem anterior"
+              className="absolute left-2 top-1/2 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-black/40 text-white hover:bg-black/60"
+            >
+              <ChevronLeft className="h-6 w-6" />
+            </button>
+            <button
+              type="button"
+              onClick={() => onNavigate((activeIndex + 1) % gallery.length)}
+              aria-label="Próxima imagem"
+              className="absolute right-2 top-1/2 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-black/40 text-white hover:bg-black/60"
+            >
+              <ChevronRight className="h-6 w-6" />
+            </button>
+          </>
+        ) : null}
+      </div>
+
+      {gallery.length > 1 ? (
+        <div className="flex justify-center gap-2 p-4">
+          {gallery.map((galleryItem, index) => (
+            <button
+              key={`${galleryItem.url}-lightbox-dot`}
+              type="button"
+              onClick={() => onNavigate(index)}
+              aria-label={`Ir para imagem ${index + 1}`}
+              className="flex h-11 w-11 items-center justify-center"
+            >
+              <span
+                className={`block rounded-full transition-all duration-200 ${
+                  activeIndex === index ? "h-2 w-7 bg-white" : "h-1.5 w-1.5 bg-white/35"
+                }`}
+              />
+            </button>
+          ))}
+        </div>
+      ) : null}
+    </div>
+  );
+}
+
 // ─── GalleryWishlistButton ────────────────────────────────────────────────────
 
 function GalleryWishlistButton({ productSlug }: { productSlug: string }) {
@@ -404,7 +521,51 @@ function GalleryWishlistButton({ productSlug }: { productSlug: string }) {
   );
 }
 
-function RatingRow() {
+function QuantitySelector({
+  quantity,
+  onDecrease,
+  onIncrease,
+  disabled
+}: {
+  quantity: number;
+  onDecrease: () => void;
+  onIncrease: () => void;
+  disabled?: boolean;
+}) {
+  return (
+    <div className="flex items-center gap-3">
+      <span className="text-[11px] font-semibold uppercase tracking-[0.17em] text-black/70">
+        Quantidade
+      </span>
+      <div className="flex items-center border border-black/15">
+        <button
+          type="button"
+          onClick={onDecrease}
+          disabled={disabled || quantity <= 1}
+          aria-label="Diminuir quantidade"
+          className="flex h-11 w-11 items-center justify-center text-black transition hover:bg-black/5 disabled:opacity-30"
+        >
+          <Minus className="h-4 w-4" />
+        </button>
+        <span className="flex h-11 min-w-[3rem] items-center justify-center text-[0.95rem] font-medium text-black">
+          {quantity}
+        </span>
+        <button
+          type="button"
+          onClick={onIncrease}
+          disabled={disabled}
+          aria-label="Aumentar quantidade"
+          className="flex h-11 w-11 items-center justify-center text-black transition hover:bg-black/5 disabled:opacity-30"
+        >
+          <Plus className="h-4 w-4" />
+        </button>
+      </div>
+    </div>
+  );
+}
+
+function RatingRow({ ratingMedio, totalAvaliacoes }: { ratingMedio: number; totalAvaliacoes: number }) {
+  if (totalAvaliacoes < 3) return null;
   return (
     <div className="flex items-center gap-2">
       <div className="flex items-center gap-0.5 text-black">
@@ -413,7 +574,7 @@ function RatingRow() {
         ))}
       </div>
       <span className="text-[11px] font-medium uppercase tracking-[0.16em] text-black/60">
-        4.9 (120 avaliacoes)
+        {ratingMedio.toFixed(1)} ({totalAvaliacoes} avaliações)
       </span>
     </div>
   );
@@ -468,11 +629,15 @@ function StandardsTrustBlock({
 export function ProductPdpPremiumMobile({
   product,
   productStandard: providedProductStandard,
-  sellerStandard: providedSellerStandard
+  sellerStandard: providedSellerStandard,
+  ratingMedio = 0,
+  totalAvaliacoes = 0,
 }: {
   product: ProductPdpPremiumMobileProduct;
   productStandard?: ProductSkuStandard;
   sellerStandard?: SellerStandardRecord;
+  ratingMedio?: number;
+  totalAvaliacoes?: number;
 }) {
   const router = useRouter();
   const { addItem } = useCart();
@@ -488,7 +653,7 @@ export function ProductPdpPremiumMobile({
     ? stockQuantity > 5
       ? "Em estoque"
       : `Ultimas ${stockQuantity} unidades`
-    : "Indisponivel no momento";
+    : "Indisponível no momento";
   const activeSection = resolveActiveSection(product.category);
   const howToUse = product.howToUse?.length ? product.howToUse.slice(0, 3) : HOW_TO_USE_FALLBACK;
   const productStandard = useMemo(
@@ -510,6 +675,9 @@ export function ProductPdpPremiumMobile({
   const [loteEncerrado, setLoteEncerrado] = useState(false);
 
   const [activeImageIndex, setActiveImageIndex] = useState(0);
+  const [lightboxOpen, setLightboxOpen] = useState(false);
+  const [quantity, setQuantity] = useState(1);
+  const [compatScore, setCompatScore] = useState<number | null>(null);
   const [pendingAction, setPendingAction] = useState<"cart" | "checkout" | null>(null);
   const [descExpanded, setDescExpanded] = useState(false);
   const [reviewsSheetOpen, setReviewsSheetOpen] = useState(false);
@@ -517,12 +685,12 @@ export function ProductPdpPremiumMobile({
   const mobileTrackRef = useRef<HTMLDivElement | null>(null);
   const mainCtaRef = useRef<HTMLDivElement | null>(null);
   const addToCartLabel = !isPurchasable
-    ? "Indisponivel"
+    ? "Indisponível"
     : pendingAction === "cart"
       ? "Adicionando..."
       : brandCtas.primary.addToCart;
   const buyNowLabel = !isPurchasable
-    ? "Indisponivel"
+    ? "Indisponível"
     : pendingAction === "checkout"
       ? "Redirecionando..."
       : brandCtas.primary.buyNow;
@@ -540,6 +708,29 @@ export function ProductPdpPremiumMobile({
       preload.src = item.url;
     });
   }, [gallery]);
+
+  useEffect(() => {
+    trackViewItem({
+      item_id: product.id,
+      item_name: product.title,
+      item_category: product.category ?? undefined,
+      price
+    });
+  }, [product.id, product.title, product.category, price]);
+
+  useEffect(() => {
+    try {
+      const raw = sessionStorage.getItem(BELAPOP_SCAN_KEY) ?? sessionStorage.getItem("BELAPOP_SCAN_KEY");
+      if (!raw) return;
+      const parsed = JSON.parse(raw) as SkinScanResult;
+      const s = parsed.analise?.scores;
+      if (!s) return;
+      const score = Math.round((s.hidratacao + s.uniformidade + s.textura + s.luminosidade) / 4);
+      setCompatScore(Math.min(100, Math.max(0, score)));
+    } catch {
+      // sessionStorage pode estar indisponível
+    }
+  }, []);
 
   // Release reservation immediately when Stripe redirects back after cancellation
   useEffect(() => {
@@ -590,9 +781,17 @@ export function ProductPdpPremiumMobile({
   const handleBuyAction = (target: "cart" | "checkout") => {
     if (pendingAction || !isPurchasable) return;
     setPendingAction(target);
-    addItem(product.id, 1, sellerId);
+    addItem(product.id, quantity, sellerId, {
+      name: product.title,
+      price,
+      category: product.category ?? undefined
+    });
     router.push(target === "cart" ? "/carrinho" : "/checkout");
   };
+
+  const decreaseQuantity = () => setQuantity((q) => Math.max(1, q - 1));
+  const increaseQuantity = () =>
+    setQuantity((q) => (stockQuantity > 0 ? Math.min(stockQuantity, q + 1) : q + 1));
 
   return (
     <div
@@ -603,7 +802,7 @@ export function ProductPdpPremiumMobile({
 
       <main
         className="pt-[78px] md:pb-0 lg:pt-[86px]"
-        style={{ paddingBottom: "calc(96px + env(safe-area-inset-bottom, 0px))" }}
+        style={{ paddingBottom: "calc(200px + env(safe-area-inset-bottom, 0px))" }}
       >
         <section className="bg-[#f8f3ee]">
           <div className="md:hidden">
@@ -629,8 +828,16 @@ export function ProductPdpPremiumMobile({
               </div>
 
               {/* WishlistButton: canto superior direito — touch target 44×44px */}
-              <div className="absolute right-3 top-3 z-10">
+              <div className="absolute right-3 top-3 z-10 flex flex-col gap-2">
                 <GalleryWishlistButton productSlug={product.slug ?? product.id} />
+                <button
+                  type="button"
+                  onClick={() => setLightboxOpen(true)}
+                  aria-label="Ampliar imagem"
+                  className="flex h-11 w-11 items-center justify-center rounded-full bg-white/85 text-black shadow-sm backdrop-blur"
+                >
+                  <ZoomIn className="h-5 w-5" />
+                </button>
               </div>
 
               {/* Dots: área clicável 44×44px, indicador visual menor */}
@@ -657,7 +864,7 @@ export function ProductPdpPremiumMobile({
 
             <div className="px-5 py-9">
               <div className="space-y-7">
-                <RatingRow />
+                <RatingRow ratingMedio={ratingMedio} totalAvaliacoes={totalAvaliacoes} />
 
                 <div className="space-y-2.5">
                   <h1 className="[font-family:var(--font-playfair)] text-[1.65rem] font-medium leading-[1.02] tracking-[-0.018em] text-black">
@@ -673,12 +880,21 @@ export function ProductPdpPremiumMobile({
                     {formatPrice(price)}
                   </p>
                   <p className="text-[11px] font-medium uppercase tracking-[0.13em] text-black/54">
-                    Em ate 6x de {installment} sem juros
+                    Em até 6x de {installment} sem juros
                   </p>
                   <p className="text-[11px] font-semibold uppercase tracking-[0.13em] text-black/58">
                     {availabilityCopy}
                   </p>
                 </div>
+
+                {isPurchasable ? (
+                  <QuantitySelector
+                    quantity={quantity}
+                    onDecrease={decreaseQuantity}
+                    onIncrease={increaseQuantity}
+                    disabled={pendingAction !== null}
+                  />
+                ) : null}
 
                 {/* ref para IntersectionObserver — CTA fixo some quando este está visível */}
                 <div ref={mainCtaRef} className="space-y-3">
@@ -688,7 +904,10 @@ export function ProductPdpPremiumMobile({
                     disabled={pendingAction !== null || !isPurchasable}
                     className="min-h-14 w-full bg-black px-6 text-[11px] font-semibold uppercase tracking-[0.22em] text-white transition hover:bg-black/90 disabled:opacity-60"
                   >
-                    {addToCartLabel}
+                    <span className="inline-flex items-center justify-center gap-2">
+                      {pendingAction === "cart" ? <Loader2 size={13} className="animate-spin" /> : null}
+                      {addToCartLabel}
+                    </span>
                   </button>
                   {loteConfig ? (
                     <>
@@ -700,7 +919,7 @@ export function ProductPdpPremiumMobile({
                       <BuyButton
                         lote_id={loteConfig.lote_id}
                         produto_id={product.id}
-                        quantidade={1}
+                        quantidade={quantity}
                         disabled={loteEncerrado || !isPurchasable}
                         className="min-h-14 w-full border border-black bg-transparent px-6 text-[11px] font-semibold uppercase tracking-[0.22em] text-black transition hover:bg-black hover:text-white disabled:opacity-60"
                       />
@@ -712,7 +931,10 @@ export function ProductPdpPremiumMobile({
                       disabled={pendingAction !== null || !isPurchasable}
                       className="min-h-14 w-full border border-black bg-transparent px-6 text-[11px] font-semibold uppercase tracking-[0.22em] text-black transition hover:bg-black hover:text-white disabled:opacity-60"
                     >
-                      {buyNowLabel}
+                      <span className="inline-flex items-center justify-center gap-2">
+                        {pendingAction === "checkout" ? <Loader2 size={13} className="animate-spin" /> : null}
+                        {buyNowLabel}
+                      </span>
                     </button>
                   )}
                 </div>
@@ -774,6 +996,8 @@ export function ProductPdpPremiumMobile({
                     ))}
                   </ul>
                 </div>
+
+                <ProductShareBar title={product.title} />
               </div>
             </div>
           </div>
@@ -790,6 +1014,14 @@ export function ProductPdpPremiumMobile({
                   className="object-cover"
                   priority
                 />
+                <button
+                  type="button"
+                  onClick={() => setLightboxOpen(true)}
+                  aria-label="Ampliar imagem"
+                  className="absolute right-4 top-4 flex h-11 w-11 items-center justify-center rounded-full bg-white/85 text-black shadow-sm backdrop-blur"
+                >
+                  <ZoomIn className="h-5 w-5" />
+                </button>
               </div>
               <div className="mt-4 flex gap-3 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
                 {gallery.map((item, index) => (
@@ -819,7 +1051,7 @@ export function ProductPdpPremiumMobile({
 
             <div className="bg-[#fcf9f8] px-10 py-10 lg:px-14 lg:py-14">
               <div className="space-y-7">
-                <RatingRow />
+                <RatingRow ratingMedio={ratingMedio} totalAvaliacoes={totalAvaliacoes} />
 
                 <div className="space-y-2.5">
                   <h1 className="[font-family:var(--font-playfair)] text-[3.05rem] font-medium leading-[0.98] tracking-[-0.022em] text-black">
@@ -835,12 +1067,21 @@ export function ProductPdpPremiumMobile({
                     {formatPrice(price)}
                   </p>
                   <p className="text-[11px] font-medium uppercase tracking-[0.13em] text-black/54">
-                    Em ate 6x de {installment} sem juros
+                    Em até 6x de {installment} sem juros
                   </p>
                   <p className="text-[11px] font-semibold uppercase tracking-[0.13em] text-black/58">
                     {availabilityCopy}
                   </p>
                 </div>
+
+                {isPurchasable ? (
+                  <QuantitySelector
+                    quantity={quantity}
+                    onDecrease={decreaseQuantity}
+                    onIncrease={increaseQuantity}
+                    disabled={pendingAction !== null}
+                  />
+                ) : null}
 
                 <div className="space-y-3">
                   <button
@@ -849,7 +1090,10 @@ export function ProductPdpPremiumMobile({
                     disabled={pendingAction !== null || !isPurchasable}
                     className="min-h-14 w-full bg-black px-6 text-[11px] font-semibold uppercase tracking-[0.22em] text-white transition hover:bg-black/90 disabled:opacity-60"
                   >
-                    {addToCartLabel}
+                    <span className="inline-flex items-center justify-center gap-2">
+                      {pendingAction === "cart" ? <Loader2 size={13} className="animate-spin" /> : null}
+                      {addToCartLabel}
+                    </span>
                   </button>
                   {loteConfig ? (
                     <>
@@ -861,7 +1105,7 @@ export function ProductPdpPremiumMobile({
                       <BuyButton
                         lote_id={loteConfig.lote_id}
                         produto_id={product.id}
-                        quantidade={1}
+                        quantidade={quantity}
                         disabled={loteEncerrado || !isPurchasable}
                         className="min-h-14 w-full border border-black bg-transparent px-6 text-[11px] font-semibold uppercase tracking-[0.22em] text-black transition hover:bg-black hover:text-white disabled:opacity-60"
                       />
@@ -873,7 +1117,10 @@ export function ProductPdpPremiumMobile({
                       disabled={pendingAction !== null || !isPurchasable}
                       className="min-h-14 w-full border border-black bg-transparent px-6 text-[11px] font-semibold uppercase tracking-[0.22em] text-black transition hover:bg-black hover:text-white disabled:opacity-60"
                     >
-                      {buyNowLabel}
+                      <span className="inline-flex items-center justify-center gap-2">
+                        {pendingAction === "checkout" ? <Loader2 size={13} className="animate-spin" /> : null}
+                        {buyNowLabel}
+                      </span>
                     </button>
                   )}
                 </div>
@@ -896,7 +1143,7 @@ export function ProductPdpPremiumMobile({
                   flow="routine"
                   origin="pdp_inline"
                   currentProductSlug={product.slug}
-                  title="Complete a rotina com inteligencia"
+                  title="Complete a rotina com inteligência"
                   description="Eu uso este item como ponto de partida para sugerir os próximos passos com mais coerência e menos excesso."
                   ctaLabel="Receber orientação"
                 />
@@ -914,6 +1161,8 @@ export function ProductPdpPremiumMobile({
                     ))}
                   </ul>
                 </div>
+
+                <ProductShareBar title={product.title} />
               </div>
             </div>
           </div>
@@ -924,23 +1173,37 @@ export function ProductPdpPremiumMobile({
             <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
               <div>
                 <p className="text-[10px] font-semibold uppercase tracking-[0.24em] text-black/50">
-                  Recomendacao
+                  Recomendação
                 </p>
                 <h2 className="mt-2 [font-family:var(--font-playfair)] text-[2.05rem] font-medium leading-[1.07] tracking-[-0.015em] text-black sm:text-[2.45rem]">
                   {brandSectionNames.product.forWho}
                 </h2>
                 <p className="mt-3 text-[0.95rem] leading-[1.62] text-black/64">
-                  Analise de contexto para uma rotina com aplicacao simples e consistente.
+                  Análise de contexto para uma rotina com aplicação simples e consistente.
                 </p>
               </div>
-              <div className="inline-flex items-end gap-2 border-b border-black/15 pb-1">
-                <span className="[font-family:var(--font-playfair)] text-[3.2rem] font-semibold leading-none tracking-[-0.014em] text-black">
-                  92%
-                </span>
-                <span className="pb-1 text-[10px] uppercase tracking-[0.2em] text-black/55">
-                  Compatibilidade
-                </span>
-              </div>
+              {compatScore !== null ? (
+                <div className="inline-flex items-end gap-2 border-b border-black/15 pb-1">
+                  <span className="[font-family:var(--font-playfair)] text-[3.2rem] font-semibold leading-none tracking-[-0.014em] text-black">
+                    {compatScore}%
+                  </span>
+                  <span className="pb-1 text-[10px] uppercase tracking-[0.2em] text-black/55">
+                    Compatibilidade
+                  </span>
+                </div>
+              ) : (
+                <Link
+                  href="/skin-scan"
+                  className="inline-flex flex-col items-center gap-1 border-b border-black/15 pb-2 text-center transition hover:border-black/40"
+                >
+                  <span className="text-[10px] font-semibold uppercase tracking-[0.2em] text-black/50">
+                    Compatibilidade
+                  </span>
+                  <span className="text-[11px] font-medium text-[#C17A90] underline underline-offset-2">
+                    Descobrir minha compatibilidade →
+                  </span>
+                </Link>
+              )}
             </div>
 
             <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
@@ -1058,10 +1321,10 @@ export function ProductPdpPremiumMobile({
             <div className="mx-auto max-w-[980px] space-y-6">
               <div>
                 <p className="text-[10px] font-semibold uppercase tracking-[0.24em] text-black/50">
-                  Formulacao
+                  Formulação
                 </p>
                 <h2 className="mt-2 [font-family:var(--font-playfair)] text-[2rem] font-medium leading-[1.1] tracking-[-0.014em] text-black sm:text-[2.35rem]">
-                  Ativos e Evidencias
+                  Ativos e Evidências
                 </h2>
               </div>
               <div className="space-y-3">
@@ -1107,7 +1370,7 @@ export function ProductPdpPremiumMobile({
                 </div>
                 <div className="space-y-4">
                   <p className="text-[10px] font-semibold uppercase tracking-[0.24em] text-black/50">
-                    Atencao
+                    Atenção
                   </p>
                   <ul className="space-y-2">
                     {productDetails.naoIndicadoPara.map((item, i) => (
@@ -1196,7 +1459,7 @@ export function ProductPdpPremiumMobile({
                     : pd.categoria === "Tonico" ? "💧"
                     : pd.categoria === "Serum" ? "✨"
                     : pd.categoria === "Hidratante" ? "🌿"
-                    : pd.categoria === "Protecao Solar" ? "☀️"
+                    : pd.categoria === "Proteção Solar" ? "☀️"
                     : pd.categoria === "Olhos" ? "◉"
                     : "◈";
                   return (
@@ -1262,10 +1525,19 @@ export function ProductPdpPremiumMobile({
         reviews={REVIEWS}
       />
 
+      <ProductGalleryLightbox
+        open={lightboxOpen}
+        onClose={() => setLightboxOpen(false)}
+        gallery={gallery}
+        activeIndex={activeImageIndex}
+        onNavigate={setActiveImageIndex}
+        title={product.title}
+      />
+
       {/* CTA fixo: visível apenas quando CTA principal sair do viewport */}
       <div
         aria-hidden={!fixedCtaVisible}
-        className={`fixed inset-x-0 bottom-0 z-50 border-t border-black/10 bg-[#fcf9f8]/95 px-4 backdrop-blur transition-[opacity,transform] duration-200 md:hidden ${
+        className={`fixed inset-x-0 bottom-[84px] z-50 border-t border-black/10 bg-[#fcf9f8]/95 px-4 backdrop-blur transition-[opacity,transform] duration-200 md:hidden ${
           fixedCtaVisible
             ? "translate-y-0 opacity-100"
             : "pointer-events-none translate-y-2 opacity-0"
@@ -1289,7 +1561,10 @@ export function ProductPdpPremiumMobile({
             disabled={pendingAction !== null || !isPurchasable}
             className="min-h-[52px] flex-1 bg-black px-4 text-[10px] font-semibold uppercase tracking-[0.2em] text-white transition hover:bg-black/90 disabled:opacity-60"
           >
-            {addToCartLabel}
+            <span className="inline-flex items-center justify-center gap-2">
+              {pendingAction === "cart" ? <Loader2 size={13} className="animate-spin" /> : null}
+              {addToCartLabel}
+            </span>
           </button>
         </div>
       </div>

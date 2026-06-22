@@ -2,24 +2,64 @@
 
 import Script from "next/script";
 import { usePathname } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { trackPageView } from "@/lib/analytics";
 
 const GA_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
 const META_PIXEL_ID = process.env.NEXT_PUBLIC_META_PIXEL_ID;
 const TIKTOK_PIXEL_ID = process.env.NEXT_PUBLIC_TIKTOK_PIXEL_ID;
+const CONSENT_STORAGE_NAME = "bp_cookie_consent";
+
+type CookieConsentState = {
+  performance?: boolean;
+  advertising?: boolean;
+  analytics?: boolean;
+  marketing?: boolean;
+};
+
+function readCookieConsent(): CookieConsentState | null {
+  if (typeof window === "undefined") return null;
+
+  try {
+    const raw = window.localStorage.getItem(CONSENT_STORAGE_NAME);
+    if (!raw) return null;
+    const parsed = JSON.parse(raw) as CookieConsentState;
+    return parsed && typeof parsed === "object" ? parsed : null;
+  } catch {
+    return null;
+  }
+}
 
 export function AnalyticsScripts() {
   const pathname = usePathname();
+  const [consent, setConsent] = useState<CookieConsentState | null>(null);
+
+  const performanceAllowed = Boolean(consent?.performance ?? consent?.analytics);
+  const advertisingAllowed = Boolean(consent?.advertising ?? consent?.marketing);
 
   useEffect(() => {
+    setConsent(readCookieConsent());
+
+    const handleConsentChange = (event: Event) => {
+      const customEvent = event as CustomEvent<CookieConsentState>;
+      setConsent(customEvent.detail ?? readCookieConsent());
+    };
+
+    window.addEventListener("belapop:cookie-consent-changed", handleConsentChange);
+    return () => {
+      window.removeEventListener("belapop:cookie-consent-changed", handleConsentChange);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!performanceAllowed && !advertisingAllowed) return;
     trackPageView(pathname);
-  }, [pathname]);
+  }, [advertisingAllowed, pathname, performanceAllowed]);
 
   return (
     <>
       {/* GA4 */}
-      {GA_ID && (
+      {GA_ID && performanceAllowed && (
         <>
           <Script
             src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}
@@ -37,7 +77,7 @@ export function AnalyticsScripts() {
       )}
 
       {/* Meta Pixel */}
-      {META_PIXEL_ID && (
+      {META_PIXEL_ID && advertisingAllowed && (
         <Script id="meta-pixel" strategy="afterInteractive">
           {`
             !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
@@ -52,7 +92,7 @@ export function AnalyticsScripts() {
       )}
 
       {/* TikTok Pixel */}
-      {TIKTOK_PIXEL_ID && (
+      {TIKTOK_PIXEL_ID && advertisingAllowed && (
         <Script id="tiktok-pixel" strategy="afterInteractive">
           {`
             !function(w,d,t){w.TiktokAnalyticsObject=t;var ttq=w[t]=w[t]||[];

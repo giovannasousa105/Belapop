@@ -3,6 +3,7 @@
 /* eslint-disable @next/next/no-img-element */
 
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { ArrowRight, Lock, ShieldCheck, Truck } from "lucide-react";
 import { useMemo, useState } from "react";
 
@@ -14,6 +15,7 @@ import { brandCtas } from "@/lib/brand/ctas";
 import { brandSectionNames } from "@/lib/brand/sections";
 import { useCart } from "@/lib/CartContext";
 import { useStoredProducts } from "@/lib/hooks/useStoredProducts";
+import { legalRoutes } from "@/lib/legal/content";
 import type { Product } from "@/lib/types";
 
 type PaymentMethod = "credit" | "pix";
@@ -80,7 +82,7 @@ export function CheckoutLuxuryExperience() {
                   { label: "CEP", placeholder: "00000-000", type: "text" }
                 ].map((field) => (
                   <div key={field.label} className={field.span ? "flex flex-col gap-2 md:col-span-2" : "flex flex-col gap-2"}>
-                    <label className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#444748]">{field.label}</label>
+                    <label className="text-[10px] font-medium tracking-[0.06em] text-[#444748]">{field.label}</label>
                     <input
                       type={field.type}
                       placeholder={field.placeholder}
@@ -99,16 +101,16 @@ export function CheckoutLuxuryExperience() {
 
               <div className="mb-8 grid grid-cols-1 gap-4 sm:grid-cols-2">
                 <button className="flex min-h-14 items-center justify-center gap-2 border border-black/15 px-4 transition-all duration-300 hover:bg-black hover:text-white">
-                  <span className="text-[10px] font-bold uppercase tracking-[0.2em]">Apple Pay</span>
+                  <span className="text-[10px] font-semibold uppercase tracking-[0.10em]">Apple Pay</span>
                 </button>
                 <button className="flex min-h-14 items-center justify-center gap-2 border border-black/15 px-4 transition-all duration-300 hover:bg-black hover:text-white">
-                  <span className="text-[10px] font-bold uppercase tracking-[0.2em]">Google Pay</span>
+                  <span className="text-[10px] font-semibold uppercase tracking-[0.10em]">Google Pay</span>
                 </button>
               </div>
 
               <div className="mb-8 flex items-center gap-4">
                 <div className="h-px flex-1 bg-black/10" />
-                <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#444748]">Ou pague com</span>
+                <span className="text-[10px] font-medium tracking-[0.06em] text-[#444748]">ou pague com</span>
                 <div className="h-px flex-1 bg-black/10" />
               </div>
 
@@ -122,7 +124,7 @@ export function CheckoutLuxuryExperience() {
                     className="border-black/20 text-black focus:ring-0"
                   />
                   <div className="flex flex-col">
-                    <span className="text-xs font-bold uppercase tracking-[0.2em]">Cartao de Credito</span>
+                    <span className="text-xs font-semibold tracking-[0.04em]">Cartão de Crédito</span>
                     <span className="text-[10px] text-[#444748]">Ate 10x sem juros</span>
                   </div>
                 </label>
@@ -136,7 +138,7 @@ export function CheckoutLuxuryExperience() {
                     className="border-black/20 text-black focus:ring-0"
                   />
                   <div className="flex flex-col">
-                    <span className="text-xs font-bold uppercase tracking-[0.2em]">Pix</span>
+                    <span className="text-xs font-semibold tracking-[0.04em]">Pix</span>
                     <span className="text-[10px] text-[#444748]">Confirmacao instantanea</span>
                   </div>
                 </label>
@@ -145,7 +147,7 @@ export function CheckoutLuxuryExperience() {
               {paymentMethod === "credit" ? (
                 <div className="space-y-8">
                   <div className="flex flex-col gap-2">
-                    <label className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#444748]">Cartoes salvos</label>
+                    <label className="text-[10px] font-medium tracking-[0.06em] text-[#444748]">Cartões salvos</label>
                     <div className="relative">
                       <select className="w-full appearance-none border-0 border-b border-black/15 bg-white px-0 py-3 text-sm focus:border-[#ed93d5] focus:outline-none focus:ring-0">
                         <option>Usar um novo cartao</option>
@@ -157,17 +159,17 @@ export function CheckoutLuxuryExperience() {
                   </div>
 
                   <div className="flex flex-col gap-2">
-                    <label className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#444748]">Numero do Cartao</label>
+                    <label className="text-[10px] font-medium tracking-[0.06em] text-[#444748]">Número do Cartão</label>
                     <input className="border-0 border-b border-black/15 bg-white px-0 py-3 text-sm focus:border-[#ed93d5] focus:outline-none focus:ring-0" placeholder="0000 0000 0000 0000" type="text" />
                   </div>
 
                   <div className="grid grid-cols-2 gap-8">
                     <div className="flex flex-col gap-2">
-                      <label className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#444748]">Validade</label>
+                      <label className="text-[10px] font-medium tracking-[0.06em] text-[#444748]">Validade</label>
                       <input className="border-0 border-b border-black/15 bg-white px-0 py-3 text-sm focus:border-[#ed93d5] focus:outline-none focus:ring-0" placeholder="MM/AA" type="text" />
                     </div>
                     <div className="flex flex-col gap-2">
-                      <label className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#444748]">CVV</label>
+                      <label className="text-[10px] font-medium tracking-[0.06em] text-[#444748]">CVV</label>
                       <input className="border-0 border-b border-black/15 bg-white px-0 py-3 text-sm focus:border-[#ed93d5] focus:outline-none focus:ring-0" placeholder="123" type="text" />
                     </div>
                   </div>
@@ -179,8 +181,8 @@ export function CheckoutLuxuryExperience() {
                       onChange={() => setSaveCard((current) => !current)}
                       className="h-4 w-4 rounded-none border-black/20 text-black focus:ring-0"
                     />
-                    <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#444748]">
-                      Salvar este cartao para proximas compras
+                    <span className="text-[10px] font-medium tracking-[0.04em] text-[#444748]">
+                      Salvar este cartão para próximas compras
                     </span>
                   </label>
                 </div>
@@ -202,7 +204,7 @@ export function CheckoutLuxuryExperience() {
                 className="flex min-h-14 w-full items-center justify-between bg-[#f6f3f2] px-5 text-left lg:hidden"
               >
                 <span className="font-headline text-2xl">{brandSectionNames.cart.orderSummary}</span>
-                <span className="text-[10px] font-bold uppercase tracking-[0.2em]">{mobileSummaryOpen ? "Fechar" : "Abrir"}</span>
+                <span className="text-[10px] font-medium tracking-[0.06em] text-[#444748]">{mobileSummaryOpen ? "Fechar" : "Ver resumo"}</span>
               </button>
 
               <div className={`${mobileSummaryOpen ? "mt-4 block" : "hidden"} space-y-10 bg-[#f6f3f2] p-8 lg:mt-0 lg:block lg:p-12`}>
@@ -213,7 +215,7 @@ export function CheckoutLuxuryExperience() {
                     <img alt={productTitle} className="h-full w-full object-cover" src={productImage} />
                   </div>
                   <div className="flex-1">
-                    <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#444748]">{productBrand}</span>
+                    <span className="text-[10px] font-medium tracking-[0.04em] text-[#444748]">{productBrand}</span>
                     <h4 className="mt-2 text-sm font-medium text-[#1c1b1b]">{productTitle}</h4>
                     <span className="mt-1 block text-[10px] text-[#444748]">Quantidade: {quantity}</span>
                     <span className="mt-4 block text-sm font-bold">{formatCurrency.format(subtotal)}</span>
@@ -222,13 +224,13 @@ export function CheckoutLuxuryExperience() {
                 </div>
 
                 <div className="space-y-4">
-                  <div className="flex justify-between text-xs uppercase tracking-[0.2em]">
-                    <span className="text-[#444748]">Subtotal</span>
-                    <span>{formatCurrency.format(subtotal)}</span>
+                  <div className="flex justify-between text-xs tracking-[0.04em] text-[#444748]">
+                    <span>Subtotal</span>
+                    <span className="text-[#1c1b1b]">{formatCurrency.format(subtotal)}</span>
                   </div>
-                  <div className="flex justify-between text-xs uppercase tracking-[0.2em]">
-                    <span className="text-[#444748]">Entrega</span>
-                    <span>Gratis</span>
+                  <div className="flex justify-between text-xs tracking-[0.04em] text-[#444748]">
+                    <span>Entrega</span>
+                    <span className="text-[#1c1b1b]">Grátis</span>
                   </div>
                   <div className="flex justify-between border-t border-black/10 pt-4 font-headline text-2xl">
                     <span>Total</span>
@@ -237,17 +239,27 @@ export function CheckoutLuxuryExperience() {
                 </div>
 
                 <div className="space-y-4 pt-4">
+                  <p className="rounded-[18px] border border-black/10 bg-white px-4 py-3 text-center text-[10px] leading-relaxed text-[#444748]">
+                    Antes de finalizar, consulte a{" "}
+                    <Link
+                      href={legalRoutes.returns}
+                      className="font-semibold text-[#1c1b1b] underline decoration-[#c88fa3] underline-offset-4"
+                    >
+                      Politica de Trocas e Devolucoes
+                    </Link>
+                    , incluindo arrependimento em 7 dias.
+                  </p>
                   <button
                     type="button"
                     onClick={handleSubmit}
-                    className="group flex min-h-14 w-full items-center justify-center gap-2 bg-black px-5 text-xs font-bold uppercase tracking-[0.2em] text-white transition-all duration-500 hover:bg-[#ed93d5]"
+                    className="group flex min-h-14 w-full items-center justify-center gap-2 bg-black px-5 text-[11px] font-semibold uppercase tracking-[0.08em] text-white transition-all duration-500 hover:bg-[#ed93d5]"
                   >
                     {brandCtas.primary.checkout}
                     <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                   </button>
                   <p className="px-4 text-center text-[10px] leading-relaxed text-[#444748]">
-                    A conclusao da compra depende da aprovacao do pagamento, da analise antifraude
-                    e das condicoes exibidas pela BelaPop.
+                    A conclusão da compra depende da aprovação do pagamento, da análise antifraude
+                    e das condições exibidas pela BelaPop.
                   </p>
                 </div>
 
