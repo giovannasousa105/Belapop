@@ -225,6 +225,7 @@ export default function SkinScanResultExperience() {
         generatedAt={sessionData.generatedAt}
         imageUrl={sessionData.imagePreviewDataUrl ?? null}
         recommendedProducts={sessionData.recommendedProducts}
+        sessionData={sessionData}
       />
     );
   }

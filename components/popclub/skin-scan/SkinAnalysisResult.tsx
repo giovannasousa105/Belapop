@@ -8,6 +8,7 @@ import { useMemo, useState } from "react";
 import {
   ArrowLeft,
   CalendarDays,
+  FileDown,
   Menu,
   MoonStar,
   RefreshCcw,
@@ -26,7 +27,8 @@ import {
   normalizeSkinConcern,
   type ConcernKey,
   type OpenAiSkinAnalysis,
-  type SkinAnalysisProduct
+  type SkinAnalysisProduct,
+  type SkinAnalysisSession,
 } from "@/lib/skincare/skinAnalysis";
 
 type SkinAnalysisResultProps = {
@@ -34,6 +36,7 @@ type SkinAnalysisResultProps = {
   generatedAt: string;
   imageUrl?: string | null;
   recommendedProducts: SkinAnalysisProduct[];
+  sessionData?: SkinAnalysisSession;
 };
 
 type ZoneKey =
@@ -656,7 +659,8 @@ export default function SkinAnalysisResult({
   analysis,
   generatedAt,
   imageUrl,
-  recommendedProducts
+  recommendedProducts,
+  sessionData,
 }: SkinAnalysisResultProps) {
   const router = useRouter();
   const { addItem } = useCart();
@@ -665,6 +669,7 @@ export default function SkinAnalysisResult({
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [allAdded, setAllAdded] = useState(false);
   const [shared, setShared] = useState(false);
+  const [pdfLoading, setPdfLoading] = useState(false);
 
   const routineTotal = recommendedProducts.reduce(
     (sum, p) => sum + (p.priceCents ?? 0),
@@ -685,6 +690,36 @@ export default function SkinAnalysisResult({
       await navigator.clipboard.writeText(url).catch(() => null);
       setShared(true);
       window.setTimeout(() => setShared(false), 2000);
+    }
+  };
+
+  const handleDownloadPdf = async () => {
+    if (pdfLoading) return;
+    setPdfLoading(true);
+    try {
+      const payload: SkinAnalysisSession = sessionData ?? {
+        analysis,
+        generatedAt,
+        recommendedProducts,
+        imagePreviewDataUrl: imageUrl ?? null,
+      };
+      const res = await fetch("/api/skin-scan/relatorio", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      if (!res.ok) throw new Error("Falha ao gerar PDF");
+      const blob = await res.blob();
+      const url = URL.createObjectURL(blob);
+      const anchor = document.createElement("a");
+      anchor.href = url;
+      anchor.download = `belapop-skin-scan-${Date.now()}.pdf`;
+      anchor.click();
+      URL.revokeObjectURL(url);
+    } catch {
+      // silently fail — user can retry
+    } finally {
+      setPdfLoading(false);
     }
   };
 
@@ -736,6 +771,20 @@ export default function SkinAnalysisResult({
           <DesktopResultNav />
 
           <div className="flex items-center gap-1">
+            <button
+              type="button"
+              onClick={() => void handleDownloadPdf()}
+              disabled={pdfLoading}
+              className="flex min-h-11 min-w-11 items-center justify-center text-[10px] uppercase tracking-[0.14em] text-[#444748] transition-opacity active:opacity-70 md:gap-1 disabled:opacity-40"
+              aria-label="Baixar relatório PDF"
+              title="Baixar relatório PDF"
+            >
+              {pdfLoading ? (
+                <span className="h-4 w-4 animate-spin rounded-full border-2 border-[#1A1A1A] border-t-transparent" />
+              ) : (
+                <FileDown className="h-4 w-4 text-[#1A1A1A]" aria-hidden="true" />
+              )}
+            </button>
             <button
               type="button"
               onClick={() => void handleShare()}

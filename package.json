@@ -4,6 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev -p 3001",
+    "worker": "tsx jobs/copilotScheduler.ts",
+    "worker:prod": "node --import tsx/esm jobs/copilotScheduler.ts",
     "build": "next build",
     "start": "next start",
     "test": "jest --no-coverage",
@@ -40,6 +42,7 @@
     "@mediapipe/tasks-vision": "^0.10.35",
     "@react-email/components": "^1.0.12",
     "@react-email/render": "^2.0.8",
+    "@react-pdf/renderer": "^4.5.1",
     "@sentry/nextjs": "^10.53.1",
     "@stripe/react-stripe-js": "^5.6.0",
     "@stripe/stripe-js": "^8.7.0",

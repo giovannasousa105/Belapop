@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Relatório Skin Scan · BelaPop</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --bg:   #F5EFE6;
+    --rose: #C4846B;
+    --dk:   #1A1A1A;
+    --d2:   #2C2C2C;
+    --mid:  #6B6B6B;
+    --acc:  #8B6F77;
+    --bdr:  #E0D5CC;
+    --wh:   #FFFFFF;
+    --gr:   #7BAF9E;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  @page {
+    size: A4;
+    margin: 0;
+  }
+
+  html, body {
+    width: 794px;
+    max-width: 794px;
+    margin: 0 auto;
+    background: var(--bg);
+    font-family: 'Inter', Arial, sans-serif;
+    color: var(--d2);
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+
+  .page-wrap {
+    padding: 0 0 52px 0;
+  }
+
+  /* ① HEADER */
+  .header {
+    background: var(--dk);
+    padding: 18px 28px 15px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+  }
+  .header-left .brand {
+    font-family: 'Playfair Display', serif;
+    font-size: 25px;
+    font-weight: 700;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: #fff;
+    line-height: 1;
+  }
+  .header-left .brand-sub {
+    font-family: 'Inter', sans-serif;
+    font-size: 7.5px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #C4A882;
+    margin-top: 4px;
+  }
+  .header-right {
+    text-align: right;
+  }
+  .header-right .report-label {
+    font-size: 7.5px;
+    text-transform: uppercase;
+    letter-spacing: 2.5px;
+    color: #C4A882;
+    display: block;
+  }
+  .header-right .report-date {
+    font-size: 7.5px;
+    color: #C4A882;
+    margin-top: 3px;
+    display: block;
+    letter-spacing: 0.5px;
+  }
+
+  /* CONTENT AREA */
+  .content {
+    padding: 14px 18px 0;
+  }
+
+  /* ② BANNER */
+  .banner {
+    background: linear-gradient(135deg, #C4846B, #9A6050);
+    border-radius: 11px;
+    padding: 13px 18px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 14px;
+  }
+  .banner h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 16px;
+    font-weight: 600;
+    color: #fff;
+    line-height: 1.2;
+  }
+  .banner p {
+    font-size: 8.5px;
+    color: rgba(255,255,255,0.85);
+    margin-top: 4px;
+    max-width: 380px;
+    line-height: 1.5;
+  }
+  .banner-pill {
+    background: rgba(255,255,255,0.18);
+    border: 1.5px solid rgba(255,255,255,0.45);
+    border-radius: 22px;
+    padding: 6px 16px;
+    font-size: 11.5px;
+    font-weight: 700;
+    color: #fff;
+    white-space: nowrap;
+  }
+
+  /* ③ GRID PRINCIPAL */
+  .main-grid {
+    display: grid;
+    grid-template-columns: 218px 1fr;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+
+  /* CARDS */
+  .card {
+    background: var(--wh);
+    border-radius: 13px;
+    border: 1px solid var(--bdr);
+    padding: 12px 14px;
+  }
+  .card-hd {
+    font-size: 7.5px;
+    font-weight: 700;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--acc);
+    padding-bottom: 8px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid var(--bdr);
+  }
+
+  /* CARD ESQUERDO — Mapa */
+  .card-map {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .card-map svg {
+    display: block;
+    margin: 0 auto;
+  }
+  .map-legend {
+    width: 100%;
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+  .legend-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 8px;
+  }
+  .legend-left {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--d2);
+    font-weight: 500;
+  }
+  .legend-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .legend-val {
+    font-size: 7.5px;
+    color: var(--mid);
+  }
+
+  /* COLUNA DIREITA */
+  .right-col {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  /* CARD SCORES */
+  .score-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 6px;
+  }
+  .score-row:last-child { margin-bottom: 0; }
+  .score-label {
+    font-size: 8px;
+    font-weight: 500;
+    color: var(--d2);
+    width: 74px;
+    flex-shrink: 0;
+  }
+  .score-bar-wrap {
+    flex: 1;
+    height: 5px;
+    background: #EBE3DC;
+    border-radius: 7px;
+    overflow: hidden;
+  }
+  .score-bar {
+    height: 100%;
+    border-radius: 7px;
+  }
+  .score-val {
+    font-size: 8px;
+    font-weight: 600;
+    color: var(--mid);
+    width: 28px;
+    text-align: right;
+    flex-shrink: 0;
+  }
+
+  /* CARD FOCOS */
+  .focos-pills {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-bottom: 10px;
+  }
+  .foco-pill {
+    background: #FFF0EA;
+    border: 1.5px solid var(--rose);
+    color: var(--rose);
+    border-radius: 18px;
+    padding: 4px 12px;
+    font-size: 8.5px;
+    font-weight: 600;
+  }
+  .achados-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5px 8px;
+  }
+  .achado-item {
+    font-size: 8px;
+    color: var(--mid);
+    line-height: 1.4;
+  }
+  .achado-item strong {
+    color: var(--d2);
+    font-weight: 600;
+  }
+  .achado-alerta {
+    color: var(--rose);
+    font-weight: 700;
+  }
+
+  /* ④ CARD FITZPATRICK */
+  .card-fitz {
+    margin-bottom: 12px;
+  }
+  .fitz-inner {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+  }
+  .fitz-scale {
+    display: flex;
+    gap: 5px;
+    flex-shrink: 0;
+  }
+  .fitz-swatch {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+  }
+  .fitz-circle {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    position: relative;
+  }
+  .fitz-circle.active::after {
+    content: '';
+    position: absolute;
+    inset: -3px;
+    border-radius: 50%;
+    border: 2px solid var(--rose);
+  }
+  .fitz-num {
+    font-size: 7px;
+    color: var(--mid);
+    font-weight: 500;
+  }
+  .fitz-info {
+    flex: 1;
+  }
+  .fitz-title {
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--d2);
+    margin-bottom: 4px;
+  }
+  .fitz-desc {
+    font-size: 8px;
+    color: var(--mid);
+    line-height: 1.55;
+  }
+  .fitz-tags {
+    display: flex;
+    gap: 5px;
+    flex-wrap: wrap;
+    margin-top: 7px;
+  }
+  .fitz-tag {
+    font-size: 7.5px;
+    font-weight: 600;
+    background: #F9F4F0;
+    border: 1px solid var(--bdr);
+    border-radius: 10px;
+    padding: 3px 9px;
+    color: var(--acc);
+  }
+
+  /* ⑤ CARD ATIVOS */
+  .card-ativos {
+    margin-bottom: 12px;
+  }
+  .ativos-pills {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+  .ativo-pill {
+    background: #F2EDF5;
+    border: 1px solid #C0B0C8;
+    color: var(--acc);
+    border-radius: 18px;
+    padding: 5px 12px;
+    font-size: 8.5px;
+    font-weight: 700;
+  }
+
+  /* ⑥ CARD ROTINA */
+  .card-rotina {
+    margin-bottom: 0;
+  }
+  .rotina-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  .rotina-period-title {
+    font-size: 8px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .rotina-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+  }
+  .step-card {
+    background: var(--bg);
+    border-radius: 8px;
+    border: 1px solid var(--bdr);
+    padding: 8px 10px;
+  }
+  .step-num {
+    font-size: 7px;
+    font-weight: 700;
+    color: var(--acc);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 3px;
+  }
+  .step-name {
+    font-size: 9px;
+    font-weight: 600;
+    color: var(--d2);
+    line-height: 1.3;
+  }
+  .step-price {
+    font-size: 9px;
+    font-weight: 700;
+    color: var(--rose);
+    margin-top: 3px;
+  }
+  .step-tip {
+    font-size: 7px;
+    color: var(--mid);
+    margin-top: 3px;
+    font-style: italic;
+  }
+  .rotina-noite-card {
+    background: var(--bg);
+    border-radius: 8px;
+    border: 1px solid var(--bdr);
+    padding: 10px;
+    font-size: 8.5px;
+    color: var(--mid);
+    line-height: 1.6;
+  }
+  .rotina-noite-card a {
+    color: var(--acc);
+    font-weight: 600;
+  }
+
+  /* ⑦ FOOTER */
+  .footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: var(--dk);
+    padding: 9px 26px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 7px;
+    color: #666;
+  }
+
+  @media print {
+    html, body { width: 794px; }
+    .footer { position: fixed; bottom: 0; }
+  }
+</style>
+</head>
+<body>
+<div class="page-wrap">
+
+  <!-- ① HEADER -->
+  <header class="header">
+    <div class="header-left">
+      <div class="brand">BelaPop</div>
+      <div class="brand-sub">Skincare Curado com Inteligência</div>
+    </div>
+    <div class="header-right">
+      <span class="report-label">✦ Relatório Skin Scan</span>
+      <span class="report-date" id="dt"></span>
+    </div>
+  </header>
+
+  <div class="content">
+
+    <!-- ② BANNER INTRODUTÓRIO -->
+    <div class="banner">
+      <div>
+        <h2>Sua Análise de Pele</h2>
+        <p>Baseada em evidências PubMed · AAD 2024 · Orientativa — não substitui avaliação dermatológica</p>
+      </div>
+      <div class="banner-pill">Pele Oleosa</div>
+    </div>
+
+    <!-- ③ GRID PRINCIPAL -->
+    <div class="main-grid">
+
+      <!-- ③-A CARD ESQUERDO: Mapa de Zonas da Pele -->
+      <div class="card card-map">
+        <div class="card-hd">Mapa de Zonas da Pele</div>
+
+        <!-- SVG ROSTO HUMANIZADO -->
+        <svg width="190" viewBox="0 0 240 310" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <radialGradient id="sk" cx="48%" cy="28%" r="68%">
+              <stop offset="0%" stop-color="#FDEBD8"/>
+              <stop offset="45%" stop-color="#F0CFB0"/>
+              <stop offset="82%" stop-color="#E0B890"/>
+              <stop offset="100%" stop-color="#C8A070"/>
+            </radialGradient>
+            <radialGradient id="skS" cx="50%" cy="60%" r="58%">
+              <stop offset="0%" stop-color="#903818" stop-opacity="0"/>
+              <stop offset="100%" stop-color="#903818" stop-opacity="0.20"/>
+            </radialGradient>
+            <linearGradient id="ztG" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="#D4956A" stop-opacity="0.40"/>
+              <stop offset="70%" stop-color="#D4956A" stop-opacity="0.16"/>
+              <stop offset="100%" stop-color="#D4956A" stop-opacity="0"/>
+            </linearGradient>
+            <radialGradient id="blL" cx="50%" cy="50%" r="60%">
+              <stop offset="0%" stop-color="#E8806A" stop-opacity="0.18"/>
+              <stop offset="100%" stop-color="#E8806A" stop-opacity="0"/>
+            </radialGradient>
+            <radialGradient id="blR" cx="50%" cy="50%" r="60%">
+              <stop offset="0%" stop-color="#E8806A" stop-opacity="0.18"/>
+              <stop offset="100%" stop-color="#E8806A" stop-opacity="0"/>
+            </radialGradient>
+            <radialGradient id="iL" cx="38%" cy="30%" r="70%">
+              <stop offset="0%" stop-color="#9B7050"/>
+              <stop offset="48%" stop-color="#5C3A1E"/>
+              <stop offset="100%" stop-color="#2C1A0A"/>
+            </radialGradient>
+            <radialGradient id="iR" cx="38%" cy="30%" r="70%">
+              <stop offset="0%" stop-color="#9B7050"/>
+              <stop offset="48%" stop-color="#5C3A1E"/>
+              <stop offset="100%" stop-color="#2C1A0A"/>
+            </radialGradient>
+            <linearGradient id="lU" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="#C07278"/>
+              <stop offset="100%" stop-color="#A05060"/>
+            </linearGradient>
+            <linearGradient id="lL" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="#D08888"/>
+              <stop offset="65%" stop-color="#BC7070"/>
+              <stop offset="100%" stop-color="#A85A60"/>
+            </linearGradient>
+            <filter id="b1"><feGaussianBlur stdDeviation="1.2"/></filter>
+            <filter id="b2"><feGaussianBlur stdDeviation="2.5"/></filter>
+            <filter id="b4"><feGaussianBlur stdDeviation="4"/></filter>
+            <filter id="fsh"><feDropShadow dx="0" dy="5" stdDeviation="7" flood-color="#00000020"/></filter>
+          </defs>
+
+          <!-- 1. CABELO -->
+          <ellipse cx="120" cy="46" rx="80" ry="58" fill="#1C100A"/>
+          <path d="M42,92 Q36,46 60,20 Q84,-4 120,-2 Q156,-4 180,20 Q204,46 198,92 Q182,58 162,42 Q142,28 120,26 Q98,28 78,42 Q58,58 42,92Z" fill="#1C100A"/>
+          <path d="M43,92 Q50,56 70,38 Q92,22 120,20 Q148,22 170,38 Q190,56 197,92 Q184,64 165,50 Q146,36 120,34 Q94,36 75,50 Q56,64 43,92Z" fill="#2E1810" opacity="0.55"/>
+
+          <!-- 2. ORELHAS -->
+          <path d="M46,122 Q32,122 30,138 Q28,156 35,166 Q41,174 50,170 Q46,160 46,146 Q46,132 50,124Z" fill="#E8C09A"/>
+          <path d="M38,136 Q36,148 38,156" stroke="#C8A080" stroke-width="1.1" fill="none" opacity="0.38"/>
+          <path d="M194,122 Q208,122 210,138 Q212,156 205,166 Q199,174 190,170 Q194,160 194,146 Q194,132 190,124Z" fill="#E8C09A"/>
+          <path d="M202,136 Q204,148 202,156" stroke="#C8A080" stroke-width="1.1" fill="none" opacity="0.38"/>
+
+          <!-- 3. PESCOÇO -->
+          <path d="M90,288 Q88,308 120,310 Q152,308 150,288 L150,260 Q149,248 120,248 Q91,248 90,260Z" fill="#E8C09A"/>
+          <ellipse cx="88" cy="278" rx="7" ry="20" fill="#A07848" opacity="0.13"/>
+          <ellipse cx="152" cy="278" rx="7" ry="20" fill="#A07848" opacity="0.13"/>
+          <line x1="120" y1="250" x2="120" y2="304" stroke="#C8A880" stroke-width="0.5" opacity="0.22"/>
+
+          <!-- 4. ROSTO -->
+          <path d="M50,106 Q44,62 66,37 Q90,11 120,9 Q150,11 174,37 Q196,62 190,106 L188,178 Q184,222 162,244 Q144,260 120,262 Q96,260 78,244 Q56,222 52,178Z" fill="#00000018" filter="url(#fsh)" transform="translate(3,6)"/>
+          <path d="M50,106 Q44,62 66,37 Q90,11 120,9 Q150,11 174,37 Q196,62 190,106 L188,178 Q184,222 162,244 Q144,260 120,262 Q96,260 78,244 Q56,222 52,178Z" fill="url(#sk)"/>
+          <path d="M50,106 Q44,62 66,37 Q90,11 120,9 Q150,11 174,37 Q196,62 190,106 L188,178 Q184,222 162,244 Q144,260 120,262 Q96,260 78,244 Q56,222 52,178Z" fill="url(#skS)"/>
+          <ellipse cx="120" cy="56" rx="78" ry="26" fill="#1A0A04" opacity="0.15" filter="url(#b4)"/>
+          <ellipse cx="49" cy="146" rx="22" ry="46" fill="#904820" opacity="0.11" filter="url(#b4)"/>
+          <ellipse cx="191" cy="146" rx="22" ry="46" fill="#904820" opacity="0.11" filter="url(#b4)"/>
+          <ellipse cx="73" cy="164" rx="24" ry="18" fill="#E89080" opacity="0.08" filter="url(#b2)"/>
+          <ellipse cx="167" cy="164" rx="24" ry="18" fill="#E89080" opacity="0.08" filter="url(#b2)"/>
+
+          <!-- 5. ZONA T + BOCHECHAS -->
+          <ellipse cx="120" cy="68" rx="54" ry="42" fill="url(#ztG)" filter="url(#b2)"/>
+          <rect x="112" y="102" width="16" height="82" rx="8" fill="#D4956A" opacity="0.12" filter="url(#b1)"/>
+          <ellipse cx="72" cy="166" rx="32" ry="25" fill="#C4A882" opacity="0.15"/>
+          <ellipse cx="168" cy="166" rx="32" ry="25" fill="#C4A882" opacity="0.15"/>
+          <ellipse cx="70" cy="164" rx="26" ry="20" fill="url(#blL)"/>
+          <ellipse cx="170" cy="164" rx="26" ry="20" fill="url(#blR)"/>
+
+          <!-- 6. SOBRANCELHAS -->
+          <path d="M59,92 Q76,80 98,84" stroke="#1E0E06" stroke-width="5" fill="none" stroke-linecap="round"/>
+          <path d="M60,93 Q77,81 98,85" stroke="#321808" stroke-width="2.8" fill="none" stroke-linecap="round" opacity="0.48"/>
+          <path d="M142,84 Q164,80 181,92" stroke="#1E0E06" stroke-width="5" fill="none" stroke-linecap="round"/>
+          <path d="M142,85 Q164,81 180,93" stroke="#321808" stroke-width="2.8" fill="none" stroke-linecap="round" opacity="0.48"/>
+
+          <!-- 7. OLHO ESQUERDO -->
+          <ellipse cx="79" cy="110" rx="21" ry="13" fill="#C09070" opacity="0.20" filter="url(#b1)"/>
+          <path d="M58,106 Q79,96 100,106 Q79,116 58,106Z" fill="#F6F0E8"/>
+          <path d="M58,106 Q79,96 100,106 Q79,116 58,106Z" fill="#D4B890" opacity="0.14"/>
+          <ellipse cx="79" cy="106" rx="11" ry="10.5" fill="url(#iL)"/>
+          <ellipse cx="79" cy="106" rx="11" ry="10.5" fill="none" stroke="#8B5A30" stroke-width="0.5" opacity="0.28"/>
+          <ellipse cx="79" cy="106" rx="5.8" ry="6" fill="#080402"/>
+          <ellipse cx="74" cy="102" rx="3" ry="2.2" fill="#fff" opacity="0.92"/>
+          <ellipse cx="84" cy="110" rx="1.3" ry="1" fill="#fff" opacity="0.40"/>
+          <path d="M58,106 Q79,94 100,106" stroke="#180A04" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+          <path d="M58,106 Q79,116 100,106" stroke="#C09070" stroke-width="0.8" fill="none" stroke-linecap="round" opacity="0.4"/>
+          <path d="M58,106 Q55,110 57,115" stroke="#C07868" stroke-width="1.7" fill="none" stroke-linecap="round" opacity="0.52"/>
+          <path d="M100,106 Q104,110 102,115" stroke="#805040" stroke-width="0.9" fill="none" stroke-linecap="round" opacity="0.42"/>
+          <path d="M60,104 L56,98" stroke="#0E0602" stroke-width="1.5" stroke-linecap="round"/>
+          <path d="M65,100 L62,94" stroke="#0E0602" stroke-width="1.5" stroke-linecap="round"/>
+          <path d="M71,97 L70,91" stroke="#0E0602" stroke-width="1.5" stroke-linecap="round"/>
+          <path d="M79,96 L79,90" stroke="#0E0602" stroke-width="1.5" stroke-linecap="round"/>
+          <path d="M87,97 L88,91" stroke="#0E0602" stroke-width="1.5" stroke-linecap="round"/>
+          <path d="M93,100 L95,94" stroke="#0E0602" stroke-width="1.5" stroke-linecap="round"/>
+          <path d="M98,104 L101,99" stroke="#0E0602" stroke-width="1.5" stroke-linecap="round"/>
+          <path d="M62,114 L60,119" stroke="#2C1408" stroke-width="0.85" stroke-linecap="round" opacity="0.62"/>
+          <path d="M69,117 L68,122" stroke="#2C1408" stroke-width="0.85" stroke-linecap="round" opacity="0.62"/>
+          <path d="M79,119 L79,124" stroke="#2C1408" stroke-width="0.85" stroke-linecap="round" opacity="0.62"/>
+          <path d="M89,117 L90,122" stroke="#2C1408" stroke-width="0.85" stroke-linecap="round" opacity="0.62"/>
+          <path d="M96,114 L98,119" stroke="#2C1408" stroke-width="0.85" stroke-linecap="round" opacity="0.62"/>
+
+          <!-- 8. OLHO DIREITO -->
+          <ellipse cx="161" cy="110" rx="21" ry="13" fill="#C09070" opacity="0.20" filter="url(#b1)"/>
+          <path d="M140,106 Q161,96 182,106 Q161,116 140,106Z" fill="#F6F0E8"/>
+          <path d="M140,106 Q161,96 182,106 Q161,116 140,106Z" fill="#D4B890" opacity="0.14"/>
+          <ellipse cx="161" cy="106" rx="11" ry="10.5" fill="url(#iR)"/>
+          <ellipse cx="161" cy="106" rx="11" ry="10.5" fill="none" stroke="#8B5A30" stroke-width="0.5" opacity="0.28"/>
+          <ellipse cx="161" cy="106" rx="5.8" ry="6" fill="#080402"/>
+          <ellipse cx="156" cy="102" rx="3" ry="2.2" fill="#fff" opacity="0.92"/>
+          <ellipse cx="166" cy="110" rx="1.3" ry="1" fill="#fff" opacity="0.40"/>
+          <path d="M140,106 Q161,94 182,106" stroke="#180A04" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+          <path d="M140,106 Q161,116 182,106" stroke="#C09070" stroke-width="0.8" fill="none" stroke-linecap="round" opacity="0.4"/>
+          <path d="M140,106 Q137,110 139,115" stroke="#C07868" stroke-width="1.7" fill="none" stroke-linecap="round" opacity="0.52"/>
+          <path d="M182,106 Q186,110 184,115" stroke="#805040" stroke-width="0.9" fill="none" stroke-linecap="round" opacity="0.42"/>
+          <path d="M142,104 L138,98" stroke="#0E0602" stroke-width="1.5" stroke-linecap="round"/>
+          <path d="M147,100 L144,94" stroke="#0E0602" stroke-width="1.5" stroke-linecap="round"/>
+          <path d="M153,97 L152,91" stroke="#0E0602" stroke-width="1.5" stroke-linecap="round"/>
+          <path d="M161,96 L161,90" stroke="#0E0602" stroke-width="1.5" stroke-linecap="round"/>
+          <path d="M169,97 L170,91" stroke="#0E0602" stroke-width="1.5" stroke-linecap="round"/>
+          <path d="M175,100 L177,94" stroke="#0E0602" stroke-width="1.5" stroke-linecap="round"/>
+          <path d="M180,104 L183,99" stroke="#0E0602" stroke-width="1.5" stroke-linecap="round"/>
+          <path d="M144,114 L142,119" stroke="#2C1408" stroke-width="0.85" stroke-linecap="round" opacity="0.62"/>
+          <path d="M151,117 L150,122" stroke="#2C1408" stroke-width="0.85" stroke-linecap="round" opacity="0.62"/>
+          <path d="M161,119 L161,124" stroke="#2C1408" stroke-width="0.85" stroke-linecap="round" opacity="0.62"/>
+          <path d="M171,117 L172,122" stroke="#2C1408" stroke-width="0.85" stroke-linecap="round" opacity="0.62"/>
+          <path d="M178,114 L180,119" stroke="#2C1408" stroke-width="0.85" stroke-linecap="round" opacity="0.62"/>
+
+          <!-- 9. NARIZ -->
+          <path d="M116,118 Q112,144 110,160 Q114,172 120,174 Q126,172 130,160 Q128,144 124,118Z" fill="#E8B880" opacity="0.35"/>
+          <path d="M112,130 Q106,150 106,162 Q112,172 118,168 Q112,158 114,138Z" fill="#B07848" opacity="0.17"/>
+          <path d="M128,130 Q134,150 134,162 Q128,172 122,168 Q128,158 126,138Z" fill="#B07848" opacity="0.17"/>
+          <path d="M106,158 Q96,163 96,173 Q101,181 112,178 Q108,170 108,162Z" fill="#D0A070" opacity="0.46"/>
+          <path d="M134,158 Q144,163 144,173 Q139,181 128,178 Q132,170 132,162Z" fill="#D0A070" opacity="0.46"/>
+          <path d="M96,171 Q94,178 98,181 Q106,183 110,179 Q100,177 96,171Z" fill="#805030" opacity="0.38"/>
+          <path d="M144,171 Q146,178 142,181 Q134,183 130,179 Q140,177 144,171Z" fill="#805030" opacity="0.38"/>
+          <ellipse cx="120" cy="164" rx="5" ry="3.5" fill="#fff" opacity="0.09"/>
+          <path d="M114,178 Q112,190 110,196" stroke="#B89068" stroke-width="0.8" fill="none" opacity="0.26"/>
+          <path d="M126,178 Q128,190 130,196" stroke="#B89068" stroke-width="0.8" fill="none" opacity="0.26"/>
+
+          <!-- 10. BOCA -->
+          <ellipse cx="120" cy="204" rx="27" ry="7" fill="#B06058" opacity="0.09" filter="url(#b2)"/>
+          <path d="M93,204 Q102,194 112,196 Q120,194 128,196 Q138,194 147,204 Q138,211 120,210 Q102,211 93,204Z" fill="url(#lU)"/>
+          <path d="M97,204 Q106,194 120,196 Q134,194 143,204" stroke="#903848" stroke-width="0.85" fill="none" stroke-linecap="round" opacity="0.42"/>
+          <path d="M93,204 Q102,222 120,224 Q138,222 147,204 Q138,211 120,210 Q102,211 93,204Z" fill="url(#lL)"/>
+          <path d="M93,204 Q120,210 147,204" stroke="#883848" stroke-width="0.95" fill="none" stroke-linecap="round"/>
+          <ellipse cx="120" cy="215" rx="16" ry="5" fill="#fff" opacity="0.12"/>
+          <ellipse cx="93" cy="204" rx="3" ry="2.2" fill="#903848" opacity="0.32"/>
+          <ellipse cx="147" cy="204" rx="3" ry="2.2" fill="#903848" opacity="0.32"/>
+
+          <!-- 11. MANCHAS HIPERPIGMENTADAS -->
+          <ellipse cx="152" cy="148" rx="7" ry="5.5" fill="#6A3C18" opacity="0.38" filter="url(#b1)"/>
+          <ellipse cx="153" cy="148" rx="4" ry="3.2" fill="#5A2E10" opacity="0.26"/>
+          <ellipse cx="77" cy="158" rx="5.5" ry="4.5" fill="#6A3C18" opacity="0.32" filter="url(#b1)"/>
+          <ellipse cx="158" cy="170" rx="4" ry="3.2" fill="#6A3C18" opacity="0.28" filter="url(#b1)"/>
+          <ellipse cx="89" cy="70" rx="3.5" ry="2.8" fill="#6A3C18" opacity="0.22" filter="url(#b1)"/>
+          <ellipse cx="118" cy="140" rx="1.2" ry="1" fill="#A07040" opacity="0.19"/>
+          <ellipse cx="122" cy="150" rx="1.1" ry="0.9" fill="#A07040" opacity="0.17"/>
+
+          <!-- 12. LABELS FLUTUANTES -->
+          <!-- ZONA T (topo) -->
+          <rect x="88" y="16" width="64" height="27" rx="6" fill="#FFFAF5" opacity="0.96" stroke="#D4956A" stroke-width="0.8"/>
+          <text x="120" y="28" text-anchor="middle" font-size="8" font-weight="700" fill="#8B4510" font-family="Inter,Arial,sans-serif" letter-spacing="0.8">ZONA T</text>
+          <text x="120" y="38" text-anchor="middle" font-size="6.5" fill="#A06030" font-family="Inter,Arial,sans-serif">Mista · Oleosa</text>
+          <line x1="120" y1="43" x2="120" y2="54" stroke="#C4956A" stroke-width="1" stroke-dasharray="2.5,2"/>
+          <circle cx="120" cy="55" r="2" fill="#C4956A" opacity="0.7"/>
+
+          <!-- OLEOSIDADE (esquerda) -->
+          <rect x="2" y="106" width="58" height="25" rx="6" fill="#FFFAF5" opacity="0.96" stroke="#D4956A" stroke-width="0.8"/>
+          <text x="31" y="117" text-anchor="middle" font-size="7" font-weight="700" fill="#8B4510" font-family="Inter,Arial,sans-serif">OLEOSIDADE</text>
+          <text x="31" y="126" text-anchor="middle" font-size="6" fill="#A06030" font-family="Inter,Arial,sans-serif">Alta · 8/10</text>
+          <line x1="60" y1="118" x2="74" y2="114" stroke="#D4956A" stroke-width="0.9"/>
+          <circle cx="74" cy="114" r="2" fill="#D4956A" opacity="0.7"/>
+
+          <!-- MANCHAS (direita) -->
+          <rect x="180" y="136" width="58" height="25" rx="6" fill="#FFF8F2" opacity="0.96" stroke="#8B5030" stroke-width="0.8"/>
+          <text x="209" y="147" text-anchor="middle" font-size="7" font-weight="700" fill="#6B3010" font-family="Inter,Arial,sans-serif">MANCHAS</text>
+          <text x="209" y="156" text-anchor="middle" font-size="6" fill="#8B4820" font-family="Inter,Arial,sans-serif">hiperpigm.</text>
+          <line x1="180" y1="148" x2="162" y2="148" stroke="#8B5030" stroke-width="0.9"/>
+          <circle cx="162" cy="148" r="2" fill="#8B5030" opacity="0.7"/>
+
+          <!-- BOCHECHA ESQ -->
+          <rect x="2" y="158" width="56" height="25" rx="6" fill="#FFFAF5" opacity="0.94" stroke="#C4A882" stroke-width="0.7"/>
+          <text x="30" y="169" text-anchor="middle" font-size="7" font-weight="700" fill="#5A3A1A" font-family="Inter,Arial,sans-serif">BOCHECHA</text>
+          <text x="30" y="178" text-anchor="middle" font-size="6" fill="#7A5A3A" font-family="Inter,Arial,sans-serif">Normal</text>
+          <line x1="58" y1="170" x2="70" y2="164" stroke="#C4A882" stroke-width="0.9"/>
+          <circle cx="70" cy="164" r="1.8" fill="#C4A882" opacity="0.6"/>
+
+          <!-- BOCHECHA DIR -->
+          <rect x="182" y="158" width="56" height="25" rx="6" fill="#FFFAF5" opacity="0.94" stroke="#C4A882" stroke-width="0.7"/>
+          <text x="210" y="169" text-anchor="middle" font-size="7" font-weight="700" fill="#5A3A1A" font-family="Inter,Arial,sans-serif">BOCHECHA</text>
+          <text x="210" y="178" text-anchor="middle" font-size="6" fill="#7A5A3A" font-family="Inter,Arial,sans-serif">Normal</text>
+          <line x1="182" y1="170" x2="170" y2="164" stroke="#C4A882" stroke-width="0.9"/>
+          <circle cx="170" cy="164" r="1.8" fill="#C4A882" opacity="0.6"/>
+
+          <!-- POROS (abaixo) -->
+          <rect x="88" y="232" width="64" height="25" rx="6" fill="#FFFAF5" opacity="0.94" stroke="#A89080" stroke-width="0.7"/>
+          <text x="120" y="243" text-anchor="middle" font-size="7" font-weight="700" fill="#5A4A3A" font-family="Inter,Arial,sans-serif">POROS</text>
+          <text x="120" y="252" text-anchor="middle" font-size="6" fill="#7A6A5A" font-family="Inter,Arial,sans-serif">Normais</text>
+          <line x1="120" y1="232" x2="120" y2="222" stroke="#A89080" stroke-width="0.9" stroke-dasharray="2,2"/>
+          <circle cx="120" cy="222" r="1.8" fill="#A89080" opacity="0.6"/>
+        </svg>
+
+        <!-- LEGENDA -->
+        <div class="map-legend">
+          <div class="legend-row">
+            <div class="legend-left">
+              <div class="legend-dot" style="background:#D4956A;"></div>
+              <span>Zona T</span>
+            </div>
+            <span class="legend-val">Mista</span>
+          </div>
+          <div class="legend-row">
+            <div class="legend-left">
+              <div class="legend-dot" style="background:#C4A882;"></div>
+              <span>Bochechas</span>
+            </div>
+            <span class="legend-val">Normais</span>
+          </div>
+          <div class="legend-row">
+            <div class="legend-left">
+              <div class="legend-dot" style="background:#6A3C18;"></div>
+              <span>Manchas</span>
+            </div>
+            <span class="legend-val">Hiperpigm.</span>
+          </div>
+          <div class="legend-row">
+            <div class="legend-left">
+              <div class="legend-dot" style="background:#A89080;"></div>
+              <span>Poros</span>
+            </div>
+            <span class="legend-val">Normais</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ③-B COLUNA DIREITA -->
+      <div class="right-col">
+
+        <!-- CARD SCORES VISUAIS -->
+        <div class="card">
+          <div class="card-hd">Scores Visuais</div>
+
+          <div class="score-row">
+            <span class="score-label">Hidratação</span>
+            <div class="score-bar-wrap">
+              <div class="score-bar" style="width:60%;background:linear-gradient(90deg,#C4846B,#E8B090);"></div>
+            </div>
+            <span class="score-val">6/10</span>
+          </div>
+          <div class="score-row">
+            <span class="score-label">Oleosidade</span>
+            <div class="score-bar-wrap">
+              <div class="score-bar" style="width:80%;background:linear-gradient(90deg,#8B6F77,#BBA0A8);"></div>
+            </div>
+            <span class="score-val">8/10</span>
+          </div>
+          <div class="score-row">
+            <span class="score-label">Uniformidade</span>
+            <div class="score-bar-wrap">
+              <div class="score-bar" style="width:50%;background:linear-gradient(90deg,#C4846B,#E8B090);"></div>
+            </div>
+            <span class="score-val">5/10</span>
+          </div>
+          <div class="score-row">
+            <span class="score-label">Textura</span>
+            <div class="score-bar-wrap">
+              <div class="score-bar" style="width:70%;background:linear-gradient(90deg,#8B6F77,#BBA0A8);"></div>
+            </div>
+            <span class="score-val">7/10</span>
+          </div>
+          <div class="score-row">
+            <span class="score-label">Luminosidade</span>
+            <div class="score-bar-wrap">
+              <div class="score-bar" style="width:60%;background:linear-gradient(90deg,#C4846B,#E8B090);"></div>
+            </div>
+            <span class="score-val">6/10</span>
+          </div>
+          <div class="score-row">
+            <span class="score-label">Sensibilidade</span>
+            <div class="score-bar-wrap">
+              <div class="score-bar" style="width:40%;background:linear-gradient(90deg,#7BAF9E,#A8CFC4);"></div>
+            </div>
+            <span class="score-val">4/10</span>
+          </div>
+        </div>
+
+        <!-- CARD FOCOS & ACHADOS -->
+        <div class="card">
+          <div class="card-hd">Focos &amp; Achados</div>
+
+          <div class="focos-pills">
+            <span class="foco-pill">Oleosidade</span>
+            <span class="foco-pill">Manchas</span>
+          </div>
+
+          <div class="achados-grid">
+            <div class="achado-item"><strong>Zona T:</strong> Mista</div>
+            <div class="achado-item"><strong>Bochechas:</strong> Normais</div>
+            <div class="achado-item"><strong>Vermelhidão:</strong> Ausente</div>
+            <div class="achado-item"><strong>Acne:</strong> Ausente</div>
+            <div class="achado-item"><strong>Descamação:</strong> Ausente</div>
+            <div class="achado-item"><strong>Linhas Finas:</strong> Ausentes</div>
+            <div class="achado-item"><strong>Poros:</strong> Normais</div>
+            <div class="achado-item"><strong>Manchas:</strong> <span class="achado-alerta">Presentes</span></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ④ CARD FITZPATRICK -->
+    <div class="card card-fitz">
+      <div class="card-hd">Fototipo Fitzpatrick</div>
+      <div class="fitz-inner">
+        <div class="fitz-scale">
+          <div class="fitz-swatch">
+            <div class="fitz-circle" style="background:#FDE8D0;"></div>
+            <span class="fitz-num">I</span>
+          </div>
+          <div class="fitz-swatch">
+            <div class="fitz-circle" style="background:#F5C9A0;"></div>
+            <span class="fitz-num">II</span>
+          </div>
+          <div class="fitz-swatch">
+            <div class="fitz-circle active" style="background:#E8B080;"></div>
+            <span class="fitz-num">III</span>
+          </div>
+          <div class="fitz-swatch">
+            <div class="fitz-circle" style="background:#C8845A;"></div>
+            <span class="fitz-num">IV</span>
+          </div>
+          <div class="fitz-swatch">
+            <div class="fitz-circle" style="background:#8B5A38;"></div>
+            <span class="fitz-num">V</span>
+          </div>
+          <div class="fitz-swatch">
+            <div class="fitz-circle" style="background:#4A2C18;"></div>
+            <span class="fitz-num">VI</span>
+          </div>
+        </div>
+        <div class="fitz-info">
+          <div class="fitz-title">Fototipo III — Pele Clara a Morena Clara</div>
+          <div class="fitz-desc">
+            Tom de pele que pode queimar levemente mas bronzeia com facilidade. Melanina intermediária confere alguma proteção natural, mas FPS diário é indispensável — especialmente para manchas identificadas na análise. Sensibilidade ao sol aumenta o risco de hiperpigmentação pós-inflamatória.
+          </div>
+          <div class="fitz-tags">
+            <span class="fitz-tag">FPS 50+ obrigatório</span>
+            <span class="fitz-tag">Reaplicar a cada 2h</span>
+            <span class="fitz-tag">Niacinamida para manchas</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ⑤ CARD ATIVOS PRIORITÁRIOS -->
+    <div class="card card-ativos">
+      <div class="card-hd">Ativos Prioritários · Base Científica (Grau A — PubMed · AAD 2024)</div>
+      <div class="ativos-pills">
+        <span class="ativo-pill">Glucosídeo de Decila</span>
+        <span class="ativo-pill">Glicerina 3%</span>
+        <span class="ativo-pill">Extrato de Camomila</span>
+        <span class="ativo-pill">FPS50+</span>
+        <span class="ativo-pill">Dióxido de Titânio 5%</span>
+        <span class="ativo-pill">Avobenzona 3%</span>
+        <span class="ativo-pill">Niacinamida 2%</span>
+      </div>
+    </div>
+
+    <!-- ⑥ CARD ROTINA PERSONALIZADA -->
+    <div class="card card-rotina">
+      <div class="card-hd">Rotina Personalizada</div>
+      <div class="rotina-grid">
+
+        <!-- MANHÃ -->
+        <div>
+          <div class="rotina-period-title" style="color:var(--rose);">☀ Manhã</div>
+          <div class="rotina-steps">
+            <div class="step-card">
+              <div class="step-num">Passo 1</div>
+              <div class="step-name">Gel Limpeza Veludo</div>
+              <div class="step-price">R$ 219,00</div>
+              <div class="step-tip">60s · manhã e noite</div>
+            </div>
+            <div class="step-card">
+              <div class="step-num">Passo 2</div>
+              <div class="step-name">Protetor Solar Luz de Vela FPS50</div>
+              <div class="step-price">R$ 189,00</div>
+              <div class="step-tip">15–20 min antes do sol</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- NOITE / SEMANAL -->
+        <div>
+          <div class="rotina-period-title" style="color:var(--acc);">🌙 Noite &amp; Semanal</div>
+          <div class="rotina-noite-card">
+            Rotina noturna e tratamentos semanais personalizados disponíveis em <strong>belapopoficial.com.br</strong>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div><!-- /content -->
+
+</div><!-- /page-wrap -->
+
+<!-- ⑦ FOOTER FIXO -->
+<footer class="footer">
+  <span>⚠ Análise orientativa · não substitui avaliação dermatológica presencial · imagem deletada após análise</span>
+  <span>belapopoficial.com.br · Skin Scan BelaPop</span>
+</footer>
+
+<script>
+  const now = new Date();
+  document.getElementById('dt').textContent =
+    now.toLocaleDateString('pt-BR',{day:'2-digit',month:'long',year:'numeric'})
+    + ' · ' +
+    now.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
+</script>
+</body>
+</html>
