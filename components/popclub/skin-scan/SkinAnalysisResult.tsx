@@ -1138,6 +1138,19 @@ export default function SkinAnalysisResult({
             >
               Ver produtos recomendados
             </Link>
+            <button
+              type="button"
+              onClick={() => void handleDownloadPdf()}
+              disabled={pdfLoading}
+              className="flex w-full items-center justify-center gap-2 border border-[#1c1b1b] px-6 py-5 text-center text-[10px] uppercase tracking-[0.2em] text-[#1c1b1b] transition-all active:bg-[#1c1b1b] active:text-white disabled:opacity-50"
+            >
+              {pdfLoading ? (
+                <span className="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
+              ) : (
+                <FileDown className="h-4 w-4" aria-hidden="true" />
+              )}
+              {pdfLoading ? "Gerando PDF..." : "Baixar relatório em PDF"}
+            </button>
             <Link
               href={popClubPaths.skinScanCapture}
               className="flex w-full items-center justify-center gap-2 px-6 py-5 text-center text-[10px] uppercase tracking-[0.2em] text-[#444748] transition-opacity active:opacity-50"
