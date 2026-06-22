@@ -1,9 +1,19 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 
+import { Queue } from "bullmq";
 import { getSupabaseServerClient } from "@/lib/supabaseServer";
 import { getSupabaseAdminClient } from "@/lib/supabase/admin";
-import { respostaQueue } from "@/jobs/copilotScheduler";
+
+let _respostaQueue: Queue | null = null;
+function getRespostaQueue(): Queue {
+  if (!_respostaQueue) {
+    _respostaQueue = new Queue("copilot-responses", {
+      connection: { url: process.env.REDIS_URL ?? "redis://localhost:6379" },
+    });
+  }
+  return _respostaQueue;
+}
 
 export const runtime = "nodejs";
 
@@ -130,7 +140,7 @@ export async function POST(request: Request) {
     .eq("id", interacao_id);
 
   // Enfileirar processamento assíncrono — não bloqueia a resposta
-  await respostaQueue.add(
+  await getRespostaQueue().add(
     "processar-resposta",
     {
       resposta_id: respostaRow.id as string,
