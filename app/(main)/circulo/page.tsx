@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { ChevronDown } from "lucide-react";
 
 import { CirculoForm } from "@/components/circulo/CirculoForm";
 import { StickyMobileCTA } from "@/components/circulo/StickyMobileCTA";
@@ -60,7 +61,7 @@ function HeroSection() {
 
       {/* Prova social mínima — mobile */}
       <p className="text-[11px] text-bpGraphite/40 sm:hidden">
-        Confirmação imediata por WhatsApp e e-mail.
+        Entre no grupo agora pelo link no e-mail.
       </p>
     </section>
   );
@@ -117,7 +118,7 @@ function GarantiasSection() {
     { icon: "◆", texto: "Autenticidade garantida com lote rastreado" },
     { icon: "◇", texto: "Pagamento processado via Stripe" },
     { icon: "○", texto: "Envio com rastreio em todas as entregas" },
-    { icon: "◎", texto: "Troca ou devolução em até 30 dias" },
+    { icon: "◎", texto: "Arrependimento em 7 dias e garantia legal de cosméticos" },
     { icon: "✦", texto: "Atendimento humano pelo WhatsApp" },
   ];
 
@@ -198,7 +199,7 @@ function FaqSection() {
     },
     {
       q: "Qual a política de devolução?",
-      a: "30 dias a contar da entrega, desde que o produto esteja lacrado e sem uso. Reembolso integral via Stripe.",
+      a: "Você pode exercer arrependimento em 7 dias corridos do recebimento. Vício ou defeito de cosmético segue garantia legal de 30 dias. Produtos abertos ou com higiene comprometida passam por análise.",
     },
     {
       q: "Como meus dados são tratados?",
@@ -217,9 +218,10 @@ function FaqSection() {
             <details key={i} className="group border-b border-neutral-100 py-4">
               <summary className="flex cursor-pointer list-none items-center justify-between gap-4 text-sm font-medium text-bpBlack">
                 {item.q}
-                <span className="shrink-0 text-bpGraphite/40 transition-transform group-open:rotate-45">
-                  +
-                </span>
+                <ChevronDown
+                  className="mt-0.5 h-4 w-4 shrink-0 text-bpGraphite/40 transition-transform group-open:rotate-180"
+                  aria-hidden="true"
+                />
               </summary>
               <p className="mt-3 text-xs leading-relaxed text-bpGraphite/70">{item.a}</p>
             </details>
@@ -260,7 +262,7 @@ function FormSection({ id }: { id?: string }) {
               Entre para o Círculo BelaPop
             </h2>
             <p className="text-xs leading-relaxed text-white/50">
-              Confirmação imediata por WhatsApp e e-mail.
+              Link do grupo direto no e-mail após o cadastro.
               Sem mensalidade. Cancele quando quiser.
             </p>
           </div>
@@ -287,6 +289,10 @@ function FormSection({ id }: { id?: string }) {
             <Link href="/aviso-de-privacidade" className="underline">
               Política de Privacidade
             </Link>
+            {" "}e com os{" "}
+            <Link href="/termos-de-uso" className="underline">
+              Termos de Uso
+            </Link>
             . Seus dados não são vendidos ou compartilhados.
           </p>
         </div>
@@ -300,8 +306,8 @@ function FormSection({ id }: { id?: string }) {
               Inscrição
             </p>
             <p className="text-sm leading-relaxed text-bpGraphite/60">
-              Preencha os dados abaixo. Você receberá uma confirmação por e-mail
-              e WhatsApp em até 5 minutos.
+              Preencha os dados abaixo. Link do grupo direto no e-mail após o
+              cadastro.
             </p>
           </div>
           <CirculoForm tone="light" source="circulo_page" />
@@ -309,6 +315,10 @@ function FormSection({ id }: { id?: string }) {
             Ao se inscrever, você concorda com nossa{" "}
             <Link href="/aviso-de-privacidade" className="underline">
               Política de Privacidade
+            </Link>
+            {" "}e com os{" "}
+            <Link href="/termos-de-uso" className="underline">
+              Termos de Uso
             </Link>
             . Seus dados não são vendidos ou compartilhados com terceiros.
           </p>

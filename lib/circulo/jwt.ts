@@ -74,5 +74,5 @@ export async function verifyUnsubscribeToken(token: string): Promise<string> {
 /** Constrói URL de unsubscribe completa. */
 export function buildUnsubscribeUrl(token: string): string {
   const base = (process.env.NEXT_PUBLIC_SITE_URL ?? "https://belapopoficial.com.br").replace(/\/+$/, "");
-  return `${base}/api/circulo/unsubscribe?token=${encodeURIComponent(token)}`;
+  return `${base}/api/círculo/unsubscribe?token=${encodeURIComponent(token)}`;
 }

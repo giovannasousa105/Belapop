@@ -7,6 +7,8 @@ import { getSupabaseAdminClient } from "@/lib/supabase/admin";
 import { deliverEmailNotification, deliverWhatsAppNotification } from "@/lib/notifications/providers";
 import { signUnsubscribeToken, buildUnsubscribeUrl } from "@/lib/circulo/jwt";
 import { renderCirculoBoasVindas } from "@/lib/circulo/renderEmail";
+import { buildWelcomeWhatsApp } from "@/lib/circulo/welcome-message";
+import { getSubgroupRoute } from "@/lib/circulo/subgroup-routing";
 
 export const runtime = "nodejs";
 export const maxDuration = 20;
@@ -49,7 +51,18 @@ const SubscribeSchema = z.object({
   spend_range: z.enum(["lt150", "150_300", "300_600", "gt600"], {
     message: "Selecione uma faixa de investimento.",
   }),
-  consent_marketing: z.boolean().default(true),
+  consent_skin_data: z.boolean().refine((value) => value === true, {
+    message: "Autorize o uso dos dados de pele para a curadoria.",
+  }),
+  consent_marketing: z.boolean().refine((value) => value === true, {
+    message: "Aceite receber comunicações do Círculo por WhatsApp e e-mail.",
+  }),
+  consent_terms: z.boolean().refine((value) => value === true, {
+    message: "Aceite os Termos de Uso do Círculo BelaPop.",
+  }),
+  declared_over_18: z.boolean().refine((value) => value === true, {
+    message: "Confirme que você tem 18 anos ou mais.",
+  }),
   source: z.string().max(80).default("website_footer_form"),
 });
 
@@ -63,12 +76,19 @@ async function sendWelcomeEmail(
   const token = await signUnsubscribeToken(member.id);
   const unsubscribeUrl = buildUnsubscribeUrl(token);
   const concernLabel = CONCERN_LABELS[member.skin_concern] ?? "skincare em geral";
+  const subgroup = getSubgroupRoute(member.skin_concern);
 
   let html: string;
   try {
-    html = await renderCirculoBoasVindas({ nome: member.name, skin_concern_label: concernLabel, unsubscribe_url: unsubscribeUrl });
+    html = await renderCirculoBoasVindas({
+      nome: member.name,
+      skin_concern_label: concernLabel,
+      unsubscribe_url: unsubscribeUrl,
+      subgroup_url: subgroup.url,
+      subgroup_label: subgroup.label,
+    });
   } catch (renderErr) {
-    console.error("[circulo/subscribe] Falha ao renderizar email:", renderErr);
+    console.error("[círculo/subscribe] Falha ao renderizar email:", renderErr);
     html = `<p>Olá ${member.name}, você está no Círculo BelaPop. Em breve o próximo drop chegará no seu WhatsApp.</p>`;
   }
 
@@ -80,7 +100,7 @@ async function sendWelcomeEmail(
   });
 
   if (!result.ok) {
-    console.warn("[circulo/subscribe] Falha ao enviar email de boas-vindas:", result.error);
+    console.warn("[círculo/subscribe] Falha ao enviar email de boas-vindas:", result.error);
   } else {
     // Registrar envio no banco
     const supabase = getSupabaseAdminClient();
@@ -94,15 +114,7 @@ async function sendWelcomeEmail(
 async function sendWelcomeWhatsApp(
   member: { id: string; name: string; whatsapp_e164: string; skin_concern: string }
 ): Promise<void> {
-  const firstName = member.name.split(" ")[0] ?? member.name;
-  const concernLabel = CONCERN_LABELS[member.skin_concern] ?? "skincare";
-  const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL ?? "https://belapopoficial.com.br").replace(/\/+$/, "");
-
-  const message =
-    `Olá, ${firstName}. Você está no Círculo BelaPop.\n\n` +
-    `Seu foco é: ${concernLabel}. Curadoria preparada para você.\n\n` +
-    `O próximo drop chega aqui em até 14 dias.\n` +
-    `Saiba mais: ${siteUrl}/circulo`;
+  const message = buildWelcomeWhatsApp(member.name, member.skin_concern);
 
   const result = await deliverWhatsAppNotification({
     to: member.whatsapp_e164,
@@ -110,7 +122,7 @@ async function sendWelcomeWhatsApp(
   });
 
   if (!result.ok) {
-    console.warn("[circulo/subscribe] Falha ao enviar WhatsApp de boas-vindas:", result.error);
+    console.warn("[círculo/subscribe] Falha ao enviar WhatsApp de boas-vindas:", result.error);
     // Enfileirar para envio manual (Redis se disponível, senão só loga)
     try {
       const redisUrl = process.env.REDIS_URL ?? process.env.UPSTASH_REDIS_REST_URL;
@@ -118,7 +130,7 @@ async function sendWelcomeWhatsApp(
         // Enfileirar via fetch simples (Upstash HTTP API)
         // Formato: LPUSH circulo:whatsapp:pending <json>
         const payload = JSON.stringify({ member_id: member.id, to: member.whatsapp_e164, body: message, queued_at: new Date().toISOString() });
-        await fetch(`${redisUrl}/lpush/circulo:whatsapp:pending/${encodeURIComponent(payload)}`, {
+        await fetch(`${redisUrl}/lpush/círculo:whatsapp:pending/${encodeURIComponent(payload)}`, {
           method: "POST",
           headers: { Authorization: `Bearer ${process.env.UPSTASH_REDIS_REST_TOKEN ?? ""}` },
         }).catch(() => {});
@@ -168,7 +180,10 @@ export async function POST(request: NextRequest) {
     spend_range: data.spend_range,
     source: data.source,
     consent_lgpd: true,
+    consent_skin_data: data.consent_skin_data,
     consent_marketing: data.consent_marketing,
+    consent_terms: data.consent_terms,
+    declared_over_18: data.declared_over_18,
     consent_at: new Date().toISOString(),
     unsubscribed_at: null,
   };
@@ -176,11 +191,35 @@ export async function POST(request: NextRequest) {
   // Tenta insert; se já existe (23505), faz update pelo email
   let member: { id: string; name: string; email: string; whatsapp_e164: string; skin_concern: string; welcome_email_sent_at: string | null; welcome_whatsapp_sent_at: string | null } | null = null;
 
-  const { data: inserted, error: insertError } = await supabase
-    .from("circulo_members")
-    .insert(payload)
-    .select("id, name, email, whatsapp_e164, skin_concern, welcome_email_sent_at, welcome_whatsapp_sent_at")
-    .single();
+  const insertMember = async (useLegacyPayload = false) => {
+    const insertPayload = useLegacyPayload
+      ? {
+          name: payload.name,
+          email: payload.email,
+          whatsapp_e164: payload.whatsapp_e164,
+          skin_concern: payload.skin_concern,
+          spend_range: payload.spend_range,
+          source: payload.source,
+          consent_lgpd: payload.consent_lgpd,
+          consent_marketing: payload.consent_marketing,
+          consent_at: payload.consent_at,
+          unsubscribed_at: payload.unsubscribed_at,
+        }
+      : payload;
+
+    return supabase
+      .from("circulo_members")
+      .insert(insertPayload)
+      .select("id, name, email, whatsapp_e164, skin_concern, welcome_email_sent_at, welcome_whatsapp_sent_at")
+      .single();
+  };
+
+  let { data: inserted, error: insertError } = await insertMember();
+
+  if (insertError?.code === "PGRST204") {
+    console.warn("[círculo/subscribe] Colunas novas de consentimento ausentes; usando payload legado até migração.");
+    ({ data: inserted, error: insertError } = await insertMember(true));
+  }
 
   if (insertError) {
     if (insertError.code === "23505") {
@@ -192,20 +231,45 @@ export async function POST(request: NextRequest) {
           whatsapp_e164: payload.whatsapp_e164,
           skin_concern: payload.skin_concern,
           spend_range: payload.spend_range,
+          consent_skin_data: payload.consent_skin_data,
           consent_marketing: payload.consent_marketing,
+          consent_terms: payload.consent_terms,
+          declared_over_18: payload.declared_over_18,
           unsubscribed_at: null,
         })
         .eq("email", data.email)
         .select("id, name, email, whatsapp_e164, skin_concern, welcome_email_sent_at, welcome_whatsapp_sent_at")
         .single();
 
-      if (updateError || !updated) {
-        console.error("[circulo/subscribe] Erro ao atualizar membro existente:", updateError?.message);
+      if (updateError?.code === "PGRST204") {
+        console.warn("[círculo/subscribe] Colunas novas de consentimento ausentes no update; usando payload legado até migração.");
+        const { data: legacyUpdated, error: legacyUpdateError } = await supabase
+          .from("circulo_members")
+          .update({
+            name: payload.name,
+            whatsapp_e164: payload.whatsapp_e164,
+            skin_concern: payload.skin_concern,
+            spend_range: payload.spend_range,
+            consent_marketing: payload.consent_marketing,
+            unsubscribed_at: null,
+          })
+          .eq("email", data.email)
+          .select("id, name, email, whatsapp_e164, skin_concern, welcome_email_sent_at, welcome_whatsapp_sent_at")
+          .single();
+
+        if (legacyUpdateError || !legacyUpdated) {
+          console.error("[círculo/subscribe] Erro ao atualizar membro existente:", legacyUpdateError?.message);
+          return NextResponse.json({ error: "Não foi possível registrar sua inscrição. Tente novamente." }, { status: 500 });
+        }
+        member = legacyUpdated;
+      } else if (updateError || !updated) {
+        console.error("[círculo/subscribe] Erro ao atualizar membro existente:", updateError?.message);
         return NextResponse.json({ error: "Não foi possível registrar sua inscrição. Tente novamente." }, { status: 500 });
+      } else {
+        member = updated;
       }
-      member = updated;
     } else {
-      console.error("[circulo/subscribe] Erro ao inserir membro:", insertError.message);
+      console.error("[círculo/subscribe] Erro ao inserir membro:", insertError.message);
       return NextResponse.json({ error: "Não foi possível registrar sua inscrição. Tente novamente." }, { status: 500 });
     }
   } else {
@@ -222,8 +286,16 @@ export async function POST(request: NextRequest) {
     member.welcome_whatsapp_sent_at ? Promise.resolve() : sendWelcomeWhatsApp(member),
   ]);
 
+  const protocolo = `BP-${member.id.slice(0, 8).toUpperCase()}`;
+  const subgroup = getSubgroupRoute(member.skin_concern);
+
   return NextResponse.json(
-    { success: true, message: "Você está no Círculo. O próximo drop chega no seu WhatsApp em até 14 dias." },
+    {
+      success: true,
+      protocolo,
+      message: "Você está no Círculo. O próximo drop chega no seu WhatsApp em até 14 dias.",
+      subgroup: { url: subgroup.url, label: subgroup.label },
+    },
     { status: 201 }
   );
 }

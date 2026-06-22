@@ -20,15 +20,15 @@ export async function GET(request: NextRequest) {
   const baseUrl = (process.env.NEXT_PUBLIC_SITE_URL ?? "https://belapopoficial.com.br").replace(/\/+$/, "");
 
   if (!token) {
-    return NextResponse.redirect(`${baseUrl}/circulo/cancelar?status=invalid`);
+    return NextResponse.redirect(`${baseUrl}/círculo/cancelar?status=invalid`);
   }
 
   let memberId: string;
   try {
     memberId = await verifyUnsubscribeToken(token);
   } catch (err) {
-    console.warn("[circulo/unsubscribe] Token inválido:", err instanceof Error ? err.message : err);
-    return NextResponse.redirect(`${baseUrl}/circulo/cancelar?status=invalid`);
+    console.warn("[círculo/unsubscribe] Token inválido:", err instanceof Error ? err.message : err);
+    return NextResponse.redirect(`${baseUrl}/círculo/cancelar?status=invalid`);
   }
 
   const supabase = getSupabaseAdminClient();
@@ -42,9 +42,9 @@ export async function GET(request: NextRequest) {
     .eq("id", memberId);
 
   if (error) {
-    console.error("[circulo/unsubscribe] Erro ao desinscrever:", error.message);
-    return NextResponse.redirect(`${baseUrl}/circulo/cancelar?status=error`);
+    console.error("[círculo/unsubscribe] Erro ao desinscrever:", error.message);
+    return NextResponse.redirect(`${baseUrl}/círculo/cancelar?status=error`);
   }
 
-  return NextResponse.redirect(`${baseUrl}/circulo/cancelar?status=success`);
+  return NextResponse.redirect(`${baseUrl}/círculo/cancelar?status=success`);
 }

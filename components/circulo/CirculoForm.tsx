@@ -41,6 +41,9 @@ function validateForm(fields: {
   whatsapp: string;
   skin_concern: SkinConcern | "";
   spend_range: SpendRange | "";
+  consent_skin_data: boolean;
+  consent_marketing: boolean;
+  declared_over_18: boolean;
 }): Record<string, string> {
   const errors: Record<string, string> = {};
   if (fields.name.trim().length < 2) errors.name = "Nome deve ter pelo menos 2 caracteres.";
@@ -49,7 +52,118 @@ function validateForm(fields: {
   if (digits.length < 10 || digits.length > 11) errors.whatsapp = "Número de WhatsApp inválido.";
   if (!fields.skin_concern) errors.skin_concern = "Selecione sua principal preocupação.";
   if (!fields.spend_range) errors.spend_range = "Selecione uma faixa de investimento.";
+  if (!fields.consent_skin_data) errors.consent_skin_data = "Autorize o uso dos dados de pele para a curadoria.";
+  if (!fields.consent_marketing) errors.consent_marketing = "Aceite receber comunicações do Círculo por WhatsApp e e-mail.";
+  if (!fields.declared_over_18) errors.declared_over_18 = "Confirme que você tem 18 anos ou mais.";
   return errors;
+}
+
+// ── Checkbox customizado com visual explícito (não depende do browser renderer) ──
+
+interface CustomCheckboxProps {
+  id: string;
+  checked: boolean;
+  onChange: (checked: boolean) => void;
+  label: React.ReactNode;
+  isLight: boolean;
+  required?: boolean;
+  "aria-describedby"?: string;
+  "aria-invalid"?: boolean;
+}
+
+function CustomCheckbox({
+  id,
+  checked,
+  onChange,
+  label,
+  isLight,
+  required,
+  "aria-describedby": ariaDescribedBy,
+  "aria-invalid": ariaInvalid,
+}: CustomCheckboxProps) {
+  return (
+    <div className="flex items-start gap-3">
+      <input
+        type="checkbox"
+        id={id}
+        checked={checked}
+        onChange={(e) => onChange(e.target.checked)}
+        required={required}
+        aria-describedby={ariaDescribedBy}
+        aria-invalid={ariaInvalid}
+        className="sr-only"
+      />
+      <label htmlFor={id} className="flex shrink-0 cursor-pointer items-start pt-0.5" aria-hidden="true">
+        <span
+          className={`flex h-5 w-5 items-center justify-center rounded border-2 transition-all duration-150 ${
+            checked
+              ? "border-bpPink bg-bpPink"
+              : isLight
+              ? "border-neutral-300 bg-white hover:border-bpPink/50"
+              : "border-white/20 bg-white/5 hover:border-white/40"
+          }`}
+        >
+          <svg
+            className={`h-3 w-3 text-white transition-opacity duration-100 ${checked ? "opacity-100" : "opacity-0"}`}
+            viewBox="0 0 12 12"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <polyline points="1.5,6 4.5,9 10.5,3" />
+          </svg>
+        </span>
+      </label>
+      <label
+        htmlFor={id}
+        className={`cursor-pointer text-xs leading-relaxed transition-colors duration-150 ${
+          isLight
+            ? checked ? "text-bpGraphite/90" : "text-bpGraphite/70"
+            : checked ? "text-bpPinkSoft/90" : "text-bpPinkSoft/60"
+        }`}
+      >
+        {label}
+      </label>
+    </div>
+  );
+}
+
+// ── Pill de opção (radio como pill) — fora do componente para evitar remount ──
+
+interface PillProps<T extends string> {
+  fieldName: string;
+  value: T;
+  current: T | "";
+  onChange: (v: T) => void;
+  label: string;
+  isLight: boolean;
+}
+
+function Pill<T extends string>({ fieldName, value, current, onChange, label, isLight }: PillProps<T>) {
+  const checked = current === value;
+  return (
+    <label
+      className={`cursor-pointer rounded-full border px-3 py-1.5 text-[11px] font-medium transition-all ${
+        checked
+          ? "border-black bg-black text-white"
+          : isLight
+          ? "border-neutral-200 bg-white text-bpGraphite hover:border-neutral-400"
+          : "border-white/10 bg-white/5 text-bpPinkSoft/70 hover:border-white/25"
+      }`}
+    >
+      <input
+        type="radio"
+        name={fieldName}
+        value={value}
+        checked={checked}
+        onChange={() => onChange(value)}
+        className="sr-only"
+      />
+      {label}
+    </label>
+  );
 }
 
 // ── Componente principal ──────────────────────────────────────────────────────
@@ -68,11 +182,15 @@ export function CirculoForm({ tone = "light", source = "website_footer_form" }: 
   const [whatsapp, setWhatsapp] = useState("");
   const [skinConcern, setSkinConcern] = useState<SkinConcern | "">("");
   const [spendRange, setSpendRange] = useState<SpendRange | "">("");
-  const [consentMarketing, setConsentMarketing] = useState(true);
+  const [consentSkinData, setConsentSkinData] = useState(false);
+  const [consentMarketing, setConsentMarketing] = useState(false);
+  const [declaredOver18, setDeclaredOver18] = useState(false);
 
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [submitting, setSubmitting] = useState(false);
   const [success, setSuccess] = useState(false);
+  const [protocolo, setProtocolo] = useState<string | null>(null);
+  const [subgroup, setSubgroup] = useState<{ url: string | null; label: string } | null>(null);
   const [serverError, setServerError] = useState<string | null>(null);
 
   const clearError = (field: string) => {
@@ -83,11 +201,25 @@ export function CirculoForm({ tone = "light", source = "website_footer_form" }: 
     e.preventDefault();
     setServerError(null);
 
-    const validation = validateForm({ name, email, whatsapp, skin_concern: skinConcern, spend_range: spendRange });
+    const validation = validateForm({
+      name,
+      email,
+      whatsapp,
+      skin_concern: skinConcern,
+      spend_range: spendRange,
+      consent_skin_data: consentSkinData,
+      consent_marketing: consentMarketing,
+      declared_over_18: declaredOver18,
+    });
     if (Object.keys(validation).length > 0) {
       setErrors(validation);
       const first = Object.keys(validation)[0];
-      if (first) document.getElementById(`${uid}-${first}`)?.focus();
+      const focusIds: Record<string, string> = {
+        consent_skin_data: `${uid}-consent-skin-data`,
+        consent_marketing: `${uid}-consent`,
+        declared_over_18: `${uid}-age`,
+      };
+      if (first) document.getElementById(focusIds[first] ?? `${uid}-${first}`)?.focus();
       return;
     }
 
@@ -102,18 +234,28 @@ export function CirculoForm({ tone = "light", source = "website_footer_form" }: 
           whatsapp,
           skin_concern: skinConcern,
           spend_range: spendRange,
+          consent_skin_data: consentSkinData,
           consent_marketing: consentMarketing,
+          consent_terms: consentMarketing,
+          declared_over_18: declaredOver18,
           source,
         }),
       });
 
-      const data = (await res.json()) as { error?: string; message?: string };
+      const data = (await res.json()) as {
+        error?: string;
+        message?: string;
+        protocolo?: string;
+        subgroup?: { url: string | null; label: string };
+      };
 
       if (!res.ok) {
         setServerError(data.error ?? "Não foi possível concluir a inscrição. Tente novamente.");
         return;
       }
 
+      if (data.protocolo) setProtocolo(data.protocolo);
+      if (data.subgroup) setSubgroup(data.subgroup);
       setSuccess(true);
     } catch {
       setServerError("Erro de conexão. Verifique sua internet e tente novamente.");
@@ -130,15 +272,40 @@ export function CirculoForm({ tone = "light", source = "website_footer_form" }: 
           isLight ? "border-neutral-200 bg-white" : "border-white/10 bg-white/5"
         }`}
       >
-        <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-black text-white text-xl">
-          ✓
-        </div>
-        <p className={`text-sm font-semibold ${isLight ? "text-bpBlack" : "text-bpOffWhite"}`}>
+        <p className="mb-4 text-4xl">✦</p>
+        <p className={`text-lg font-semibold ${isLight ? "text-bpBlack" : "text-bpOffWhite"}`}
+          style={{ fontFamily: "var(--font-playfair, serif)" }}>
           Você está no Círculo.
         </p>
-        <p className={`mt-2 text-xs leading-relaxed ${isLight ? "text-bpGraphite/70" : "text-bpPinkSoft/60"}`}>
+        <p className={`mt-2 text-sm leading-relaxed ${isLight ? "text-bpGraphite/70" : "text-bpPinkSoft/60"}`}>
+          Confirmação enviada para <strong>{email}</strong>.<br />
           O próximo drop chega no seu WhatsApp em até 14 dias.
         </p>
+
+        {subgroup?.url ? (
+          <a
+            href={subgroup.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-5 inline-flex items-center justify-center gap-2 rounded-full bg-[#25D366] px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-[#1ebe5b]"
+          >
+            Entrar no grupo de {subgroup.label} no WhatsApp
+          </a>
+        ) : (
+          <p className={`mt-4 text-xs leading-relaxed ${isLight ? "text-bpGraphite/60" : "text-bpPinkSoft/50"}`}>
+            Em até 48h, alguém do time BelaPop vai te chamar no WhatsApp para te indicar o grupo certo dentro da Comunidade.
+          </p>
+        )}
+
+        <p className={`mt-3 text-[11px] ${isLight ? "text-bpGraphite/50" : "text-bpPinkSoft/40"}`}>
+          O link também foi enviado para o seu e-mail.
+        </p>
+
+        {protocolo && (
+          <p className={`mt-4 text-[10px] uppercase tracking-[0.14em] ${isLight ? "text-bpGraphite/40" : "text-bpPinkSoft/30"}`}>
+            Protocolo: #{protocolo}
+          </p>
+        )}
       </div>
     );
   }
@@ -163,44 +330,6 @@ export function CirculoForm({ tone = "light", source = "website_footer_form" }: 
         {errors[field]}
       </p>
     ) : null;
-
-  // ── Pill de opção (radio como pill) ────────────────────────────────────────
-  function Pill<T extends string>({
-    name: fieldName,
-    value,
-    current,
-    onChange,
-    label,
-  }: {
-    name: string;
-    value: T;
-    current: T | "";
-    onChange: (v: T) => void;
-    label: string;
-  }) {
-    const checked = current === value;
-    return (
-      <label
-        className={`cursor-pointer rounded-full border px-3 py-1.5 text-[11px] font-medium transition-all ${
-          checked
-            ? "border-black bg-black text-white"
-            : isLight
-            ? "border-neutral-200 bg-white text-bpGraphite hover:border-neutral-400"
-            : "border-white/10 bg-white/5 text-bpPinkSoft/70 hover:border-white/25"
-        }`}
-      >
-        <input
-          type="radio"
-          name={fieldName}
-          value={value}
-          checked={checked}
-          onChange={() => { onChange(value); clearError(fieldName); }}
-          className="sr-only"
-        />
-        {label}
-      </label>
-    );
-  }
 
   return (
     <form
@@ -287,18 +416,17 @@ export function CirculoForm({ tone = "light", source = "website_footer_form" }: 
         <div
           className="mt-2 flex flex-wrap gap-2"
           role="group"
-          aria-required="true"
-          aria-invalid={!!errors.skin_concern}
           aria-describedby={errors.skin_concern ? `${uid}-skin_concern-error` : undefined}
         >
           {SKIN_CONCERNS.map((opt) => (
             <Pill
               key={opt.value}
-              name="skin_concern"
+              fieldName="skin_concern"
               value={opt.value}
               current={skinConcern}
-              onChange={(v) => setSkinConcern(v)}
+              onChange={(v) => { setSkinConcern(v); clearError("skin_concern"); }}
               label={opt.label}
+              isLight={isLight}
             />
           ))}
         </div>
@@ -311,48 +439,70 @@ export function CirculoForm({ tone = "light", source = "website_footer_form" }: 
         <div
           className="mt-2 flex flex-wrap gap-2"
           role="group"
-          aria-required="true"
-          aria-invalid={!!errors.spend_range}
           aria-describedby={errors.spend_range ? `${uid}-spend_range-error` : undefined}
         >
           {SPEND_RANGES.map((opt) => (
             <Pill
               key={opt.value}
-              name="spend_range"
+              fieldName="spend_range"
               value={opt.value}
               current={spendRange}
-              onChange={(v) => setSpendRange(v)}
+              onChange={(v) => { setSpendRange(v); clearError("spend_range"); }}
               label={opt.label}
+              isLight={isLight}
             />
           ))}
         </div>
         {errorMsg("spend_range")}
       </fieldset>
 
-      {/* Consentimento LGPD */}
-      <div className="flex items-start gap-3">
-        <input
-          id={`${uid}-consent`}
-          type="checkbox"
-          checked={consentMarketing}
-          onChange={(e) => setConsentMarketing(e.target.checked)}
-          className="mt-0.5 h-4 w-4 shrink-0 cursor-pointer accent-bpPink"
+      {/* Consentimentos LGPD */}
+      <div className="space-y-4">
+        <CustomCheckbox
+          id={`${uid}-consent-skin-data`}
+          checked={consentSkinData}
+          onChange={(v) => { setConsentSkinData(v); clearError("consent_skin_data"); }}
+          isLight={isLight}
+          aria-invalid={!!errors.consent_skin_data}
+          aria-describedby={errors.consent_skin_data ? `${uid}-consent_skin_data-error` : undefined}
+          label="Autorizo o uso da minha preocupação de pele e preferências de skincare apenas para personalizar a curadoria do Círculo BelaPop."
         />
-        <label
-          htmlFor={`${uid}-consent`}
-          className={`cursor-pointer text-xs leading-relaxed ${isLight ? "text-bpGraphite/70" : "text-bpPinkSoft/60"}`}
-        >
-          Aceito receber drops e comunicações do Círculo BelaPop por e-mail e WhatsApp. Li e concordo com a{" "}
-          <Link
-            href="/aviso-de-privacidade"
-            className="underline hover:text-bpPink"
-            target="_blank"
-            onClick={(e) => e.stopPropagation()}
-          >
-            Política de Privacidade
-          </Link>
-          .
-        </label>
+        {errorMsg("consent_skin_data")}
+
+        <CustomCheckbox
+          id={`${uid}-age`}
+          checked={declaredOver18}
+          onChange={(v) => { setDeclaredOver18(v); clearError("declared_over_18"); }}
+          isLight={isLight}
+          required
+          aria-invalid={!!errors.declared_over_18}
+          aria-describedby={errors.declared_over_18 ? `${uid}-declared_over_18-error` : undefined}
+          label="Declaro que tenho 18 anos ou mais."
+        />
+        {errorMsg("declared_over_18")}
+
+        <CustomCheckbox
+          id={`${uid}-consent`}
+          checked={consentMarketing}
+          onChange={(v) => { setConsentMarketing(v); clearError("consent_marketing"); }}
+          isLight={isLight}
+          aria-invalid={!!errors.consent_marketing}
+          aria-describedby={errors.consent_marketing ? `${uid}-consent_marketing-error` : undefined}
+          label={
+            <>
+              Aceito receber drops e comunicações do Círculo BelaPop por e-mail e WhatsApp. Li e concordo com o{" "}
+              <Link href="/aviso-de-privacidade" className="underline hover:text-bpPink" target="_blank" onClick={(e) => e.stopPropagation()}>
+                Aviso de Privacidade
+              </Link>{" "}
+              e com os{" "}
+              <Link href="/termos-de-uso" className="underline hover:text-bpPink" target="_blank" onClick={(e) => e.stopPropagation()}>
+                Termos de Uso
+              </Link>
+              .
+            </>
+          }
+        />
+        {errorMsg("consent_marketing")}
       </div>
 
       {/* Erro do servidor */}
