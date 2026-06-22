@@ -329,17 +329,28 @@ export default function DropDetailPage() {
           </div>
           <h1 className="mt-1 text-xl font-semibold text-neutral-900">{drop.title}</h1>
           <p className="mt-0.5 text-xs text-neutral-400">
-            Slug: <code className="font-mono">/drops/{drop.slug}</code>
+            {drop.slug
+              ? <><code className="font-mono">/drops/{drop.slug}</code></>
+              : <span className="italic text-neutral-300">slug pendente</span>}
           </p>
         </div>
-        <a
-          href={`/drops/${drop.slug}`}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="shrink-0 rounded-lg border border-neutral-200 px-3 py-2 text-xs text-neutral-600 hover:border-neutral-400"
-        >
-          Ver PDP ↗
-        </a>
+        {drop.slug && drop.status !== "draft" ? (
+          <a
+            href={`/drops/${drop.slug}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="shrink-0 rounded-lg border border-neutral-200 px-3 py-2 text-xs text-neutral-600 hover:border-neutral-400"
+          >
+            Ver PDP ↗
+          </a>
+        ) : (
+          <span
+            title={!drop.slug ? "Slug não configurado" : "Rascunhos não são públicos"}
+            className="shrink-0 cursor-not-allowed rounded-lg border border-neutral-100 px-3 py-2 text-xs text-neutral-300"
+          >
+            Ver PDP ↗
+          </span>
+        )}
       </div>
 
       {/* Stats */}

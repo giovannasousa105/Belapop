@@ -18,6 +18,33 @@ async function requireAdmAuth() {
 
 const EDITABLE_STATUSES = ["draft", "scheduled"] as const;
 
+// ── GET /api/adm/drops/[id]/items ────────────────────────────────────────────
+
+export async function GET(
+  _req: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  const user = await requireAdmAuth();
+  if (!user) return NextResponse.json({ error: "Não autorizado." }, { status: 401 });
+
+  const { id: dropId } = await params;
+  const supabase = getSupabaseAdminClient();
+
+  const { data: items, error } = await supabase
+    .from("drop_items")
+    .select(`
+      id, drop_price_cents, max_quantity, sold_quantity,
+      stripe_payment_link_url, fulfillment_eta_days, lote_id,
+      products (id, name, slug, price_cents, images)
+    `)
+    .eq("drop_id", dropId)
+    .order("id", { ascending: true });
+
+  if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+
+  return NextResponse.json({ items: items ?? [] });
+}
+
 const AddItemSchema = z.object({
   product_id:           z.string().uuid(),
   seller_id:            z.string().uuid(),

@@ -5,6 +5,7 @@ import { z } from "zod";
 
 import { expirarReservasVencidas } from "@/lib/lote/loteService";
 import { getSupabaseAdminClient } from "@/lib/supabase/admin";
+import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { getStripe } from "@/lib/stripe/stripeClient";
 
 export const runtime = "nodejs";
@@ -32,6 +33,23 @@ export async function POST(
 
   const { session_id, user_id } = parsed.data;
   const supabase = getSupabaseAdminClient();
+
+  // Verificar membership no Círculo quando user_id é fornecido
+  if (user_id) {
+    const authClient = await createSupabaseServerClient();
+    const { data: { user: authUser } } = await authClient.auth.getUser();
+    if (authUser?.email) {
+      const { data: member } = await supabase
+        .from("circulo_members")
+        .select("id")
+        .eq("email", authUser.email)
+        .is("unsubscribed_at", null)
+        .maybeSingle();
+      if (!member) {
+        return NextResponse.json({ error: "not_circulo_member" }, { status: 403 });
+      }
+    }
+  }
 
   // 1. Buscar drop + item pelo slug
   const { data: drop, error: dropError } = await supabase
