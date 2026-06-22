@@ -16,7 +16,9 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Universos BelaPop",
     description:
-      "Curadoria editorial e compravel para descobrir beleza por universos.",
+      "Curadoria editorial e comprável para descobrir beleza por universos.",
+    url: "/universos",
+    siteName: "BelaPop",
     images: [{ url: "/hero-bela-pop-editorial.jpg", alt: "Universos BelaPop" }],
     type: "website"
   }
@@ -43,7 +45,7 @@ export default function UniversesPage() {
                 Explore por universo.
               </h1>
               <p className="mt-6 max-w-2xl text-base leading-8 text-white/84 lg:text-lg">
-                Uma arquitetura editorial e compravel para entrar na BelaPop por desejo, pele, presente, ciencia ou descoberta.
+                Uma arquitetura editorial e comprável para entrar na BelaPop por desejo, pele, presente, ciência ou descoberta.
               </p>
               <div className="mt-8 flex flex-col gap-3 sm:flex-row">
                 <a
@@ -76,7 +78,7 @@ export default function UniversesPage() {
               </h2>
             </div>
             <div className="border-l border-[#d8d0c8] pl-5 text-sm leading-7 text-[#5f5a55]">
-              Cada universo conecta SKUs individuais, colecoes, kits, rotinas, guias de ativos e conteudos de decisao como vale o investimento.
+              Cada universo conecta SKUs individuais, coleções, kits, rotinas, guias de ativos e conteúdos de decisão como vale o investimento.
             </div>
           </div>
         </section>
@@ -112,10 +114,10 @@ export default function UniversesPage() {
                 Skin Scan quando fizer sentido
               </p>
               <h2 className="mt-4 font-headline text-4xl leading-tight tracking-normal sm:text-5xl">
-                Quando a pele entra na decisao, o universo vira rotina.
+                Quando a pele entra na decisão, o universo vira rotina.
               </h2>
               <p className="mt-5 max-w-xl text-sm leading-7 text-white/72">
-                Pele Sensivel e Clinical Luxury ganham mais precisao com diagnostico. Presentes e Novos no Atelier podem seguir por concierge quando a resposta nao depende so de tipo de pele.
+                Pele Sensível e Clinical Luxury ganham mais precisão com diagnóstico. Presentes e Novos no Atelier podem seguir por concierge quando a resposta não depende só de tipo de pele.
               </p>
               <div className="mt-8 flex flex-col gap-3 sm:flex-row">
                 <Link

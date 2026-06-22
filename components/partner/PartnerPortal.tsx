@@ -224,7 +224,7 @@ const navConfig: Array<{ section?: string; key?: TabKey; label?: string }> = [
   { key: "reports", label: "Relatorios" },
   { key: "help", label: "Central do vendedor" },
   { section: "CONFIGURACOES" },
-  { key: "settings", label: "Configuracoes" }
+  { key: "settings", label: "Configurações" }
 ];
 
 const RANGE_KEYS: RangeKey[] = ["today", "7d", "30d", "90d"];
@@ -1333,7 +1333,7 @@ export default function PartnerPortal() {
             ) : null}
 
             {tab === "settings" ? (
-              <Card title="Configuracoes do parceiro" subtitle="Identidade e links de acao do ambiente real">
+              <Card title="Configurações do parceiro" subtitle="Identidade e links de acao do ambiente real">
                 <div className="grid grid-cols-1 gap-2 md:grid-cols-2">
                   <Summary label="Loja" value={dashboard.storeName} />
                   <Summary label="Email da conta" value={user?.email ?? "--"} />
@@ -1711,7 +1711,7 @@ function titleFor(tab: TabKey) {
     growth: "Crescimento",
     logistics: "Frete & SLA",
     support: "Suporte",
-    settings: "Configuracoes",
+    settings: "Configurações",
     campaigns: "Campanhas & Ads",
     finance: "Financeiro detalhado",
     alerts: "Alertas & Regras",

@@ -158,7 +158,7 @@ const flowButtons: Array<{
   {
     flow: "post_scan",
     label: brandCtas.primary.continueAfterScan,
-    description: "Complete sua rotina com inteligencia.",
+    description: "Complete sua rotina com inteligência.",
     icon: ScanFace
   }
 ];

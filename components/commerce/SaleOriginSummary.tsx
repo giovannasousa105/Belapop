@@ -17,10 +17,10 @@ function resolveOriginLabel(saleOrigin: SaleOriginSummaryProps["saleOrigin"], se
 
 function resolveResponsibility(saleOrigin: SaleOriginSummaryProps["saleOrigin"], sellerName: string) {
   if (saleOrigin === "própria" || sellerName.toLowerCase() === belaPopFolded) {
-    return "Atendimento, envio e pos-venda conduzidos pela BelaPop.";
+    return "Atendimento, envio e pós-venda conduzidos pela BelaPop.";
   }
 
-  return `Envio e pos-venda conduzidos por ${sellerName}, com acompanhamento pela BelaPop.`;
+  return `Envio e pós-venda conduzidos por ${sellerName}, com acompanhamento pela BelaPop.`;
 }
 
 export function SaleOriginSummary({

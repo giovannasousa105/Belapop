@@ -21,7 +21,7 @@ const leftNavigation = [
 
 const footerLinks = [
   { label: "Privacidade", href: "/aviso-de-privacidade" },
-  { label: "Termos de Uso", href: "/termos-e-condicoes" },
+  { label: "Termos de Uso", href: "/termos-e-condições" },
   { label: "Rastreamento", href: "/rastreio" },
   { label: "Contato", href: "/contato" }
 ] as const;

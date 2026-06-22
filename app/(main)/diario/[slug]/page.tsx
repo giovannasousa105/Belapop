@@ -30,6 +30,8 @@ export async function generateMetadata({ params }: ArticlePageProps): Promise<Me
     openGraph: {
       title: "BelaPop - Diario | Biologia Estetica & Luxo",
       description: "BelaPop - Diario | Biologia Estetica & Luxo",
+      url: `/diario/${slug}`,
+      siteName: "BelaPop",
       images: [{ url: DIARY_ARTICLE_IMAGE }],
       type: "article"
     }

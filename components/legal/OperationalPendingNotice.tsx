@@ -22,7 +22,7 @@ export function OperationalPendingNotice({
         {title}
       </p>
       <p className="mt-3 text-sm leading-7 text-[#5b4f50]">
-        Use os canais abaixo para pedidos, LGPD, entrega, troca e pos-venda. A BelaPop registra o atendimento conforme o historico da compra.
+        Use os canais abaixo para pedidos, LGPD, entrega, troca e pós-venda. A BelaPop registra o atendimento conforme o historico da compra.
       </p>
       <ul className="mt-4 space-y-2 text-sm leading-6 text-[#5b4f50]">
         {items.map((item) => (

@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Home, Search, Layers3, Sparkles, User } from "lucide-react";
+import { BookOpen, Home, Search, Sparkles, User } from "lucide-react";
 import { usePathname } from "next/navigation";
 
 import { useAuth } from "@/lib/AuthContext";
@@ -25,7 +25,7 @@ export function MobileBottomNav() {
   ];
 
   const rightItems: NavItem[] = [
-    { label: "Kits", href: "/kits", icon: <Layers3 size={20} /> },
+    { label: "Diário", href: "/diario", icon: <BookOpen size={20} /> },
     { label: "Conta", href: accountHref, icon: <User size={20} /> },
   ];
 
@@ -35,8 +35,8 @@ export function MobileBottomNav() {
   }
 
   const itemClass = (href: string) =>
-    `flex flex-col items-center gap-1 min-w-[44px] py-1 text-[10px] uppercase tracking-[0.12em] transition-colors ${
-      isActive(href) ? "text-[#1c1b1b]" : "text-[#9a928e]"
+    `flex flex-col items-center gap-1 min-w-[44px] py-1 text-[9px] uppercase tracking-[0.16em] transition-colors ${
+      isActive(href) ? "font-medium text-[#C17A90]" : "font-normal text-[#8a8080]"
     }`;
 
   return (
@@ -66,7 +66,7 @@ export function MobileBottomNav() {
         >
           <Sparkles size={22} strokeWidth={1.6} />
         </span>
-        <span className="text-[10px] uppercase tracking-[0.12em] text-[#1c1b1b]">Scan</span>
+        <span className="text-[9px] font-medium uppercase tracking-[0.16em] text-[#C17A90]">Scan</span>
       </Link>
 
       {rightItems.map((item) => (

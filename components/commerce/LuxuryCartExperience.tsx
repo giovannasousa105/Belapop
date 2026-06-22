@@ -33,6 +33,8 @@ const formatCurrency = new Intl.NumberFormat("pt-BR", {
   currency: "BRL"
 });
 
+const FREE_SHIPPING_THRESHOLD = 350;
+
 const fallbackProductImage =
   "https://lh3.googleusercontent.com/aida-public/AB6AXuDJXqXTITm_Xfyh7Aup7xRF7cw3ZCJAPF-g7Z1m9vfxONcW7F0Kz0GpiRZoGzo5aDKM0SyWs2s2idW361OESpfNyRkN3vctpYBMbfzu0EYz8-ZFpzJ-6Wxy5TpkCC3pKGvt6FVT46b_-YSlPgOKtoriRYya1cUW3FGTxaR2HDEPrIKR9WgwrLeABkHsG7fZ3dJGwbvzfR3TIYpSLLR4OdCUgCoA5azYw5LVgEx4HCm2ljzlnK0Exv5V1VuPy8WtdeKf8xj5Z4Jm_GI5";
 
@@ -163,7 +165,7 @@ export function LuxuryCartExperience() {
         <div className="mb-8 flex items-center gap-3 text-[10px] uppercase tracking-[0.18em] text-black/55 sm:text-xs">
           <span className="font-semibold text-black/80">Carrinho</span>
           <span>•</span>
-          <span>Identificacao</span>
+          <span>Identificação</span>
           <span>•</span>
           <span>Pagamento</span>
         </div>
@@ -178,6 +180,32 @@ export function LuxuryCartExperience() {
                 Itens selecionados para a sua rotina de cuidado.
               </p>
             </header>
+
+            {!isEmpty && !isCartLoading ? (
+              <div className="rounded-2xl border border-black/10 bg-white p-4 sm:p-5">
+                {subtotal >= FREE_SHIPPING_THRESHOLD ? (
+                  <p className="text-xs font-semibold uppercase tracking-[0.14em] text-[#1D9E75]">
+                    Você garantiu frete grátis!
+                  </p>
+                ) : (
+                  <p className="text-xs font-medium leading-relaxed text-black/70">
+                    Faltam{" "}
+                    <span className="font-semibold">
+                      {formatCurrency.format(FREE_SHIPPING_THRESHOLD - subtotal)}
+                    </span>{" "}
+                    para você ganhar frete grátis.
+                  </p>
+                )}
+                <div className="mt-3 h-1.5 w-full overflow-hidden rounded-full bg-[#f0ebe6]">
+                  <div
+                    className="h-full rounded-full bg-[#1D9E75] transition-all duration-300"
+                    style={{
+                      width: `${Math.min(100, (subtotal / FREE_SHIPPING_THRESHOLD) * 100)}%`
+                    }}
+                  />
+                </div>
+              </div>
+            ) : null}
 
             {isCartLoading ? (
               <article className="rounded-2xl border border-black/10 bg-white p-8">
@@ -433,17 +461,29 @@ export function LuxuryCartExperience() {
                 </div>
               </div>
 
+              {!isEmpty && total > 0 && (
+                <div className="mt-6 flex items-center justify-between rounded-xl border border-[#1D9E75]/30 bg-[#f0faf5] px-4 py-3">
+                  <div className="flex items-center gap-2">
+                    <span className="text-[11px] font-semibold uppercase tracking-[0.12em] text-[#1D9E75]">Pix</span>
+                    <span className="text-[11px] text-black/55">5% OFF no checkout</span>
+                  </div>
+                  <span className="text-[11px] font-semibold text-[#1D9E75]">
+                    − {formatCurrency.format(total * 0.05)}
+                  </span>
+                </div>
+              )}
+
               <button
                 type="button"
                 onClick={goToCheckout}
                 disabled={isEmpty || hasUnresolvedItems || isCartLoading || hasStockIssue}
-                className="mt-8 min-h-14 w-full bg-black px-6 text-xs font-semibold uppercase tracking-[0.2em] text-white transition hover:bg-black/90 disabled:cursor-not-allowed disabled:opacity-45"
+                className="mt-4 min-h-14 w-full bg-black px-6 text-xs font-semibold uppercase tracking-[0.2em] text-white transition hover:bg-black/90 disabled:cursor-not-allowed disabled:opacity-45"
               >
                 {brandCtas.primary.checkout}
               </button>
 
               <p className="mt-4 text-center text-[11px] leading-relaxed text-black/55">
-                Ao continuar, voce confirma os termos da plataforma e condicoes do seller.
+                Ao continuar, você confirma os termos da plataforma e condições do seller.
               </p>
 
             </div>

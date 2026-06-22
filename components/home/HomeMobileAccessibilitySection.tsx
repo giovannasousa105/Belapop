@@ -10,7 +10,7 @@ const comfortItems = [
 const focusItems = [
   "Tipografia legivel em mobile e desktop",
   "Leitura confortavel para vitrines longas",
-  "CTAs visiveis sem poluir o layout",
+  "CTAs visíveis sem poluir o layout",
   "Navegacao clara para descoberta e conversao"
 ];
 

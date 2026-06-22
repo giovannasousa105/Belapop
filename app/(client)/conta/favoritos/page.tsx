@@ -11,7 +11,7 @@ const categoryStyles: Record<string, string> = {
   tonico: "bg-pink-50 text-pink-700 border-pink-100",
   serum: "bg-amber-50 text-amber-700 border-amber-100",
   hidratante: "bg-emerald-50 text-emerald-700 border-emerald-100",
-  protecao: "bg-yellow-50 text-yellow-700 border-yellow-100",
+  proteção: "bg-yellow-50 text-yellow-700 border-yellow-100",
   olhos: "bg-purple-50 text-purple-700 border-purple-100",
 };
 
@@ -52,7 +52,7 @@ export default function ContaFavoritosPage() {
             <p className="mt-3 text-sm leading-6 text-bpGraphite/75">
               {favoriteProducts.length > 0
                 ? `${favoriteProducts.length} produto${favoriteProducts.length > 1 ? "s" : ""} salvo${favoriteProducts.length > 1 ? "s" : ""} para comparar depois.`
-                : "Sua selecao salva para voltar, comparar e decidir melhor."}
+                : "Sua seleção salva para voltar, comparar e decidir melhor."}
             </p>
           </div>
           <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-bpPink/10 text-bpPink">

@@ -76,22 +76,34 @@ const sendEmailResend = async (input: EmailInput): Promise<DeliveryResult> => {
     };
   }
 
+  const replyTo = readEnv("EMAIL_REPLY_TO") ?? readEnv("EMAIL_CONTATO");
+  const unsubEmail = readEnv("EMAIL_CONTATO") ?? replyTo;
+
+  const payload: Record<string, unknown> = {
+    from,
+    to: [input.to],
+    subject: input.subject,
+    text: input.body,
+    html:
+      input.html && input.html.trim().length > 0
+        ? input.html
+        : `<p>${htmlEscape(input.body).replaceAll("\n", "<br/>")}</p>`
+  };
+
+  if (replyTo) payload.reply_to = replyTo;
+  if (unsubEmail) {
+    payload.headers = {
+      "List-Unsubscribe": `<mailto:${unsubEmail}?subject=cancelar-inscricao>`
+    };
+  }
+
   const response = await fetch("https://api.resend.com/emails", {
     method: "POST",
     headers: {
       Authorization: `Bearer ${apiKey}`,
       "Content-Type": "application/json"
     },
-    body: JSON.stringify({
-      from,
-      to: [input.to],
-      subject: input.subject,
-      text: input.body,
-      html:
-        input.html && input.html.trim().length > 0
-          ? input.html
-          : `<p>${htmlEscape(input.body).replaceAll("\n", "<br/>")}</p>`
-    })
+    body: JSON.stringify(payload)
   });
 
   if (!response.ok) {
@@ -165,6 +177,56 @@ const sendWhatsappTwilio = async (input: WhatsAppInput): Promise<DeliveryResult>
   };
 };
 
+const sendWhatsappZapi = async (input: WhatsAppInput): Promise<DeliveryResult> => {
+  const instanceId = readEnv("ZAPI_INSTANCE_ID");
+  const token = readEnv("ZAPI_TOKEN");
+  const clientToken = readEnv("ZAPI_CLIENT_TOKEN");
+
+  if (!instanceId || !token) {
+    return {
+      ok: false,
+      provider: "zapi",
+      error: "zapi_not_configured: ZAPI_INSTANCE_ID/ZAPI_TOKEN"
+    };
+  }
+
+  const to = String(input.to ?? "").replace(/\D/g, "");
+  if (!to) {
+    return {
+      ok: false,
+      provider: "zapi",
+      error: "invalid_whatsapp_recipient"
+    };
+  }
+
+  const headers: Record<string, string> = { "Content-Type": "application/json" };
+  if (clientToken) headers["Client-Token"] = clientToken;
+
+  const response = await fetch(
+    `https://api.z-api.io/instances/${instanceId}/token/${token}/send-text`,
+    {
+      method: "POST",
+      headers,
+      body: JSON.stringify({ phone: to, message: input.body })
+    }
+  );
+
+  if (!response.ok) {
+    return {
+      ok: false,
+      provider: "zapi",
+      error: `zapi_http_${response.status}: ${await safeText(response)}`
+    };
+  }
+
+  const data = await safeJson(response);
+  return {
+    ok: true,
+    provider: "zapi",
+    remoteId: typeof data?.messageId === "string" ? data.messageId : null
+  };
+};
+
 export const deliverEmailNotification = async (input: EmailInput): Promise<DeliveryResult> => {
   const provider = (readEnv("NOTIFICATION_EMAIL_PROVIDER") ?? "resend").toLowerCase();
   if (provider === "resend") return sendEmailResend(input);
@@ -179,8 +241,12 @@ export const deliverEmailNotification = async (input: EmailInput): Promise<Deliv
 export const deliverWhatsAppNotification = async (
   input: WhatsAppInput
 ): Promise<DeliveryResult> => {
+  // Z-API roda em paralelo ao provider padrão, atrás de feature flag (default off).
+  if (readEnv("ZAPI_ENABLED") === "true") return sendWhatsappZapi(input);
+
   const provider = (readEnv("NOTIFICATION_WHATSAPP_PROVIDER") ?? "twilio").toLowerCase();
   if (provider === "twilio") return sendWhatsappTwilio(input);
+  if (provider === "zapi") return sendWhatsappZapi(input);
 
   return {
     ok: false,

@@ -3,7 +3,7 @@ import { ChevronRight, CreditCard, Headset, RotateCcw, ShieldCheck, Truck } from
 
 const flowSteps = [
   { id: "bag", eyebrow: "Passo 01", title: "Carrinho" },
-  { id: "identification", eyebrow: "Passo 02", title: "Identificacao" },
+  { id: "identification", eyebrow: "Passo 02", title: "Identificação" },
   { id: "payment", eyebrow: "Passo 03", title: "Pagamento" }
 ] as const;
 
@@ -21,7 +21,7 @@ const assuranceItems = [
   {
     icon: RotateCcw,
     title: "Troca e reembolso",
-    body: "Regras visiveis antes da compra e no pos-venda."
+    body: "Regras visíveis antes da compra e no pos-venda."
   },
   {
     icon: CreditCard,

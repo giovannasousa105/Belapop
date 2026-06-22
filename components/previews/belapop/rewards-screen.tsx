@@ -10,7 +10,7 @@ const memberLinks = [
   { label: "Niveis de Status", icon: Crown, active: false },
   { label: "Vitrine de Recompensas", icon: Gift, active: true },
   { label: "SkinBela AI", icon: Bot, active: false },
-  { label: "Configuracoes", icon: Settings, active: false }
+  { label: "Configurações", icon: Settings, active: false }
 ] as const;
 
 const rewards = [

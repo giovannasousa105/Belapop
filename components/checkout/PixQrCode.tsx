@@ -98,7 +98,7 @@ export function PixQrCode({
 
   return (
     <div className="rounded-2xl border border-[#e8e0d8] bg-white p-8 text-center">
-      <p className="text-[10px] font-medium uppercase tracking-[0.35em] text-[#9b9b96]">
+      <p className="text-[10px] font-medium uppercase tracking-[0.14em] text-[#9b9b96]">
         Pix · Confirmação imediata
       </p>
       <p className="mt-2 text-sm text-[#4a4a47]">
@@ -122,7 +122,7 @@ export function PixQrCode({
       <button
         type="button"
         onClick={handleCopy}
-        className="mt-5 w-full rounded-full border border-[#d4845f]/40 bg-[#d4845f]/10 py-3 text-xs font-medium uppercase tracking-[0.25em] text-[#d4845f] transition hover:bg-[#d4845f]/20"
+        className="mt-5 w-full rounded-full border border-[#d4845f]/40 bg-[#d4845f]/10 py-3 text-xs font-medium uppercase tracking-[0.10em] text-[#d4845f] transition hover:bg-[#d4845f]/20"
       >
         {copied ? "✓ Código copiado!" : "Copiar código Pix"}
       </button>

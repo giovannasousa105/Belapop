@@ -24,6 +24,7 @@ export function gerarMetadataProduto(produto: ProdutoSeoData): Metadata {
     openGraph: {
       type:        "website",
       url,
+      siteName:    "BelaPop",
       title:       `${titulo} · BelaPop`,
       description: descricao,
       images: [{
@@ -94,6 +95,7 @@ export function gerarMetadataUniverso(
 
     openGraph: {
       url,
+      siteName:    "BelaPop",
       title:       `${titulo} · BelaPop`,
       description: desc,
       images: [{
@@ -130,6 +132,7 @@ export function gerarMetadataSkinId(data: SkinIdSeoData): Metadata {
     robots: { index: false, follow: false },
     openGraph: {
       url,
+      siteName:    "BelaPop",
       title:       `${titulo} · BelaPop`,
       description: descricao,
       images: [{ url: `${BASE_URL}/og-default.jpg`, width: 1200, height: 630 }],

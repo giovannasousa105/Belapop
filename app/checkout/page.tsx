@@ -12,6 +12,8 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Checkout | BelaPop",
     description: "Finalize sua curadoria com entrega e pagamento validados.",
+    url: "/checkout",
+    siteName: "BelaPop",
     type: "website"
   }
 };

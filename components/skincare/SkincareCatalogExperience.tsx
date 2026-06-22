@@ -25,6 +25,7 @@ import {
   type SkinTypeFilter,
 } from "@/lib/catalog-search";
 import { useFavorites } from "@/lib/favorites";
+import { ProductRatingStars } from "@/components/ui/ProductRatingStars";
 
 type SkincareProductInput = {
   id: string;
@@ -58,14 +59,14 @@ const SKIN_TYPE_OPTIONS: { key: SkinTypeFilter; label: string }[] = [
   { key: "seca", label: "Seca" },
   { key: "mista", label: "Mista" },
   { key: "normal", label: "Normal" },
-  { key: "sensivel", label: "Sensivel" },
+  { key: "sensível", label: "Sensível" },
 ];
 
 const CONCERN_OPTIONS: { key: ConcernFilter; label: string }[] = [
   { key: "acne", label: "Acne" },
   { key: "manchas", label: "Manchas" },
   { key: "oleosidade", label: "Oleosidade" },
-  { key: "hidratacao", label: "Hidratacao" },
+  { key: "hidratação", label: "Hidratação" },
   { key: "linhas-finas", label: "Linhas Finas" },
   { key: "poros", label: "Poros" },
   { key: "luminosidade", label: "Luminosidade" },
@@ -115,7 +116,7 @@ const CATEGORY_MAP: Record<(typeof primaryFilters)[number], string | null> = {
   Limpeza: "limpeza",
   Seruns: "serum",
   "Hidratação": "hidratante",
-  "Proteção": "protecao",
+  "Proteção": "proteção",
   Olhos: "olhos",
   Mascaras: "olhos",
 };
@@ -677,6 +678,7 @@ export function SkincareCatalogExperience({ products }: Props) {
                     <h3 className="mt-1 font-display text-[1.2rem] leading-tight text-[#1c1b1b]">
                       {product.title}
                     </h3>
+                    <ProductRatingStars seed={product.id} className="mt-1.5" />
                     <p className="mt-1 text-sm text-[#444748]">
                       {formatPrice(product.priceCents, product.currency ?? "BRL")}
                     </p>

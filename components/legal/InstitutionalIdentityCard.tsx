@@ -39,11 +39,11 @@ export function InstitutionalIdentityCard({
   return (
     <section className={`rounded-[28px] border p-5 sm:p-6 ${containerClass} ${className}`}>
       <p className={`text-[10px] font-semibold uppercase tracking-[0.28em] ${labelClass}`}>
-        Identificacao da BelaPop
+        IDENTIFICAÇÃO DA BELAPOP
       </p>
       <div className={compact ? "mt-4 space-y-3" : "mt-4 space-y-4"}>
         <div>
-          <p className={`text-[10px] uppercase tracking-[0.22em] ${labelClass}`}>Razao social</p>
+          <p className={`text-[10px] uppercase tracking-[0.22em] ${labelClass}`}>RAZÃO SOCIAL</p>
           <p className={`mt-1 text-sm leading-6 ${valueClass}`}>{belapopCompany.legalName}</p>
         </div>
         <div>
@@ -51,7 +51,7 @@ export function InstitutionalIdentityCard({
           <p className={`mt-1 text-sm leading-6 ${valueClass}`}>{belapopCompany.cnpj}</p>
         </div>
         <div>
-          <p className={`text-[10px] uppercase tracking-[0.22em] ${labelClass}`}>Endereco comercial</p>
+          <p className={`text-[10px] uppercase tracking-[0.22em] ${labelClass}`}>ENDEREÇO COMERCIAL</p>
           <p className={`mt-1 text-sm leading-6 ${valueClass}`}>{belapopCompany.address}</p>
         </div>
         <div className="grid gap-4 sm:grid-cols-2">
@@ -73,7 +73,7 @@ export function InstitutionalIdentityCard({
           </div>
           <div className="sm:col-span-2">
             <p className={`text-[10px] uppercase tracking-[0.22em] ${labelClass}`}>
-              Encarregado(a) / responsavel por dados
+              ENCARREGADO(A) / RESPONSÁVEL POR DADOS
             </p>
             <div className="mt-2">
               <p className={`text-sm ${valueClass}`}>
@@ -93,7 +93,7 @@ export function InstitutionalIdentityCard({
           }`}
         >
           A BelaPop atua como plataforma de curadoria e venda. Quando um seller parceiro
-          participar do pedido, a identificacao fica visivel antes da conclusao da compra.
+          participar do pedido, a identificação fica visível antes da conclusão da compra.
         </div>
       ) : null}
     </section>

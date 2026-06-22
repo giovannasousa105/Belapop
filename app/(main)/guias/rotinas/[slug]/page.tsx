@@ -150,7 +150,7 @@ export default async function RoutineGuidePage({ params }: RoutinePageProps) {
             </div>
             <BundleRecommendationCard
               bundleId={routine.recommendedBundleId}
-              reason="A compra em kit reduz indecisao e mantem a ordem de uso coerente."
+              reason="A compra em kit reduz indecisão e mantem a ordem de uso coerente."
             />
           </div>
         </section>

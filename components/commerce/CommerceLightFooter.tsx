@@ -48,8 +48,14 @@ export function CommerceLightFooter() {
               <Link href="/rastreio" className="block transition-colors hover:text-black">
                 Rastrear pedido
               </Link>
-              <Link href="/termos-e-condicoes" className="block transition-colors hover:text-black">
+              <Link href="/termos-de-uso" className="block transition-colors hover:text-black">
                 Termos de uso
+              </Link>
+              <Link href="/politica-de-trocas-e-devolucoes" className="block transition-colors hover:text-black">
+                Trocas e devolucoes
+              </Link>
+              <Link href="/politica-de-cookies" className="block transition-colors hover:text-black">
+                Cookies
               </Link>
               <Link href="/aviso-de-privacidade" className="block transition-colors hover:text-black">
                 Privacidade
@@ -64,7 +70,8 @@ export function CommerceLightFooter() {
             <div className="space-y-2 text-sm text-[#444748]">
               <p>63.945.608 GIOVANNA DE SOUSA FERREIRA SANTOS</p>
               <p>CNPJ 63.945.608/0001-09</p>
-              <p>Rua Coromandel, 189, Bairro Amorim, Araguari/MG, CEP 38446-093</p>
+              <p>Rua Coromandel, 189, Araguari/MG</p>
+              <p>contato@belapopoficial.com.br</p>
             </div>
           </div>
         </div>

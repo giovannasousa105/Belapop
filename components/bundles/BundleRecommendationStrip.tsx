@@ -14,7 +14,7 @@ type BundleRecommendationStripProps = {
 
 export function BundleRecommendationStrip({
   title = "Kits BelaPop para completar sua rotina",
-  subtitle = "Bundles pensados por intencao de cuidado, com ordem de uso e economia visivel.",
+  subtitle = "Bundles pensados por intenção de cuidado, com ordem de uso e economia visível.",
   limit = 3,
   className = ""
 }: BundleRecommendationStripProps) {

@@ -1,6 +1,7 @@
 import { redirect } from "next/navigation";
 import Link from "next/link";
 
+import { PurchaseTracker } from "@/components/checkout/PurchaseTracker";
 import { getStripe } from "@/lib/stripe/stripeClient";
 import { getSupabaseAdminClient } from "@/lib/supabase/admin";
 import { formatPrice } from "@/lib/utils";
@@ -98,6 +99,16 @@ export default async function PedidoConfirmadoPage({ searchParams }: ConfirmadoP
         color: "#1c1b1b",
       }}
     >
+      {produto && produtoId && (
+        <PurchaseTracker
+          transactionId={session_id}
+          itemId={produtoId}
+          itemName={produto.title}
+          price={produto.price_cents / 100}
+          quantity={quantidade}
+        />
+      )}
+
       <div style={{ maxWidth: 480, width: "100%", textAlign: "center" }}>
         <p
           style={{

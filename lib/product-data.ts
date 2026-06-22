@@ -30,7 +30,7 @@ export const PRODUCT_DETAILS: Record<string, ProductDetails> = {
     subtitulo: "Limpeza inteligente que respeita a barreira.",
     ativos: [
       {
-        nome: "Glucosideo de Decil (surfactante suave)",
+        nome: "glucosídeo de decil (surfactante suave)",
         concentracao: "~5%",
         funcao:
           "Limpeza eficaz com minima perturbacao do microbioma cutaneo",
@@ -40,7 +40,7 @@ export const PRODUCT_DETAILS: Record<string, ProductDetails> = {
         nome: "Glicerina",
         concentracao: "3-5%",
         funcao:
-          "Humectante — mantem hidratacao durante a limpeza, reduz ressecamento pos-uso",
+          "Humectante — mantem hidratação durante a limpeza, reduz ressecamento pos-uso",
         referencia: "PMID: 19379639",
       },
       {
@@ -90,7 +90,7 @@ export const PRODUCT_DETAILS: Record<string, ProductDetails> = {
 
   "tonico-nuvem-de-rosa": {
     descricao:
-      "Tonico facial aquoso com agua de rosas, acido hialuronico de multiplos pesos moleculares e extrato de camomila. Equilibra o pH apos a limpeza, prepara a pele para absorcao dos proximos ativos e entrega hidratacao imediata.",
+      "Tonico facial aquoso com agua de rosas, acido hialuronico de multiplos pesos moleculares e extrato de camomila. Equilibra o pH apos a limpeza, prepara a pele para absorcao dos próximos ativos e entrega hidratação imediata.",
     subtitulo: "O segundo passo que multiplica os outros.",
     ativos: [
       {
@@ -122,7 +122,7 @@ export const PRODUCT_DETAILS: Record<string, ProductDetails> = {
     ],
     indicadoPara: [
       "todos os tipos de pele",
-      "pele sensivel",
+      "pele sensível",
       "pele desidratada",
       "como preparacao para serum e creme",
     ],
@@ -135,7 +135,7 @@ export const PRODUCT_DETAILS: Record<string, ProductDetails> = {
         passos: [
           "Apos limpeza, aplique com as palmas das maos ou algodao suave",
           "Passe suavemente do centro para as laterais do rosto",
-          "Nao enxague — deixe absorver por 30 segundos",
+          "Não enxague — deixe absorver por 30 segundos",
           "Aplique o serum ou creme em seguida (pele ainda levemente umida)",
         ],
       },
@@ -143,13 +143,13 @@ export const PRODUCT_DETAILS: Record<string, ProductDetails> = {
     textura: "Agua levissima, sem alcool, absorcao imediata",
     fragrancia: "Rosa natural, muito suave",
     categoria: "Tonico",
-    tags: ["tonico", "agua de rosas", "hidratacao", "pele sensivel", "sem alcool", "preparo"],
+    tags: ["tonico", "agua de rosas", "hidratação", "pele sensível", "sem alcool", "preparo"],
   },
 
   "serum-radiance-01": {
     descricao:
       "Serum noturno de alta concentracao com niacinamida 5%, vitamina C estabilizada e acido hialuronico. Formulado para uniformizar tom de pele, reduzir manchas e estimular a renovacao celular durante o sono — quando a pele esta 25% mais receptiva a ativos.",
-    subtitulo: "O trabalho acontece enquanto voce dorme.",
+    subtitulo: "O trabalho acontece enquanto você dorme.",
     ativos: [
       {
         nome: "Niacinamida",
@@ -168,7 +168,7 @@ export const PRODUCT_DETAILS: Record<string, ProductDetails> = {
       {
         nome: "Acido Hialuronico (multi-peso)",
         concentracao: "1%",
-        funcao: "Hidratacao profunda em multiplas camadas da epiderme",
+        funcao: "Hidratação profunda em multiplas camadas da epiderme",
         referencia: "PMID: 22956862",
       },
       {
@@ -189,14 +189,14 @@ export const PRODUCT_DETAILS: Record<string, ProductDetails> = {
     ],
     naoIndicadoPara: [
       "pele extremamente seca sem hidratante sequencial",
-      "gestantes (verificar com medico)",
+      "gestantes (verificar com médico)",
     ],
     comoUsar: [
       {
         periodo: "RITUAL NOTURNO",
         passos: [
           "Apos limpeza e tonico, com pele levemente umida",
-          "Aplique 3-4 gotas e distribua pressionando suavemente (nao esfregar)",
+          "Aplique 3-4 gotas e distribua pressionando suavemente (não esfregar)",
           "Aguarde 60 segundos para absorcao",
           "Finalize com creme hidratante para selar os ativos",
         ],
@@ -216,7 +216,7 @@ export const PRODUCT_DETAILS: Record<string, ProductDetails> = {
 
   "creme-barrier-celeste": {
     descricao:
-      "Creme hidratante diurno com complexo de ceramidas, esqualano vegetal e acido hialuronico. Reforca a barreira cutanea, entrega hidratacao de 24h e acabamento luminoso sem peso. Formulado para uso sob protetor solar.",
+      "Creme hidratante diurno com complexo de ceramidas, esqualano vegetal e acido hialuronico. Reforca a barreira cutanea, entrega hidratação de 24h e acabamento luminoso sem peso. Formulado para uso sob protetor solar.",
     subtitulo: "Barreira forte, pele que dura o dia inteiro.",
     ativos: [
       {
@@ -230,7 +230,7 @@ export const PRODUCT_DETAILS: Record<string, ProductDetails> = {
         nome: "Esqualano Vegetal (azeitona)",
         concentracao: "3%",
         funcao:
-          "Oclusivo leve, nao comedogenico, mimetiza sebo saudavel, suaviza textura",
+          "Oclusivo leve, não comedogenico, mimetiza sebo saudavel, suaviza textura",
         referencia: "PMID: 22279374",
       },
       {
@@ -249,7 +249,7 @@ export const PRODUCT_DETAILS: Record<string, ProductDetails> = {
     ],
     indicadoPara: [
       "pele seca",
-      "pele sensivel",
+      "pele sensível",
       "pele normal",
       "uso matinal sob protetor",
       "pos-procedimento estetico",
@@ -269,29 +269,29 @@ export const PRODUCT_DETAILS: Record<string, ProductDetails> = {
         ],
       },
     ],
-    textura: "Creme leve, nao gorduroso, finalizamento mate-luminoso",
+    textura: "Creme leve, não gorduroso, finalizamento mate-luminoso",
     fragrancia: "Fragrancia suave, dermatologicamente testada",
     categoria: "Hidratante",
-    tags: ["hidratante", "ceramidas", "barreira", "pele seca", "pele sensivel", "diurno"],
+    tags: ["hidratante", "ceramidas", "barreira", "pele seca", "pele sensível", "diurno"],
   },
 
   "protetor-solar-luz-de-vela-fps50": {
     descricao:
-      "Protetor solar facial FPS 50+ com PPD 19 (protecao UVA), formula fluida de acabamento luminoso. Filtros organicos + inorganicos em combinacao para cobertura total UVA/UVB. Dermatologicamente testado, sem alcool.",
+      "Protetor solar facial FPS 50+ com PPD 19 (proteção UVA), formula fluida de acabamento luminoso. Filtros organicos + inorganicos em combinacao para cobertura total UVA/UVB. Dermatologicamente testado, sem alcool.",
     subtitulo: "O unico anti-aging com evidencia Cochrane Grau 1A.",
     ativos: [
       {
         nome: "Tinosorb M + Tinosorb S (UVB + UVA)",
         concentracao: "~10% combinado",
         funcao:
-          "Protecao de amplo espectro, fotostavel, nao produz radicais livres (superior a avobenzona)",
+          "Proteção de amplo espectro, fotostavel, não produz radicais livres (superior a avobenzona)",
         referencia: "PMID: 27474275",
       },
       {
         nome: "Oxido de Zinco (nano)",
         concentracao: "5%",
         funcao:
-          "Filtro fisico UVA/UVB, anti-inflamatorio, seguro para pele sensivel",
+          "Filtro físico UVA/UVB, anti-inflamatorio, seguro para pele sensível",
         referencia: "PMID: 29282145",
       },
       {
@@ -324,14 +324,14 @@ export const PRODUCT_DETAILS: Record<string, ProductDetails> = {
     ],
     textura: "Fluido levissimo, acabamento luminoso, toque seco",
     fragrancia: "Neutra, sem alcool",
-    categoria: "Protecao Solar",
+    categoria: "Proteção Solar",
     tags: ["protetor solar", "fps50", "uvb", "uva", "ppd19", "anti-aging", "obrigatorio"],
   },
 
   "patch-olhos-aurora": {
     descricao:
       "Patches hidrogelados para a area periorbital com cafeina 3%, complexo de peptideos e acido hialuronico. Tratamento intensivo de 15-20 minutos que reduz olheiras vasculares, bolsas infra-orbitais e linhas finas da expressao.",
-    subtitulo: "Quinze minutos. Resultado que voce ve.",
+    subtitulo: "Quinze minutos. Resultado que você ve.",
     ativos: [
       {
         nome: "Cafeina",
@@ -370,7 +370,7 @@ export const PRODUCT_DETAILS: Record<string, ProductDetails> = {
       "uso matinal antes de eventos",
     ],
     naoIndicadoPara: [
-      "uso sobre pele com lesoes abertas",
+      "uso sobre pele com lesões abertas",
       "pressao direta sobre o globo ocular",
     ],
     comoUsar: [
@@ -392,7 +392,7 @@ export const PRODUCT_DETAILS: Record<string, ProductDetails> = {
         ],
       },
     ],
-    textura: "Hidrogel de contato, fresco, nao escorrega",
+    textura: "Hidrogel de contato, fresco, não escorrega",
     fragrancia: "Sem fragrancia",
     categoria: "Olhos",
     tags: ["olheiras", "patches", "cafeina", "peptideos", "area dos olhos", "hidrogel"],
@@ -404,7 +404,7 @@ export const COMPLEMENTARY_PRODUCTS: Record<string, string[]> = {
   tonico: ["gel-limpeza-veludo", "serum-radiance-01", "creme-barrier-celeste"],
   serum: ["gel-limpeza-veludo", "tonico-nuvem-de-rosa", "creme-barrier-celeste"],
   hidratante: ["gel-limpeza-veludo", "serum-radiance-01", "protetor-solar-luz-de-vela-fps50"],
-  protecao: ["gel-limpeza-veludo", "serum-radiance-01", "creme-barrier-celeste"],
+  proteção: ["gel-limpeza-veludo", "serum-radiance-01", "creme-barrier-celeste"],
   olhos: ["gel-limpeza-veludo", "creme-barrier-celeste", "protetor-solar-luz-de-vela-fps50"],
 };
 

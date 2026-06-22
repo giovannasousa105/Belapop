@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { ArrowLeft, ArrowRight, Lock, ShieldCheck, Truck } from "lucide-react";
-import { useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 import { CommerceLightFooter } from "@/components/commerce/CommerceLightFooter";
 import { ShippingCalculator } from "@/components/ShippingCalculator";
@@ -14,6 +14,7 @@ import { useCart } from "@/lib/CartContext";
 import { useViaCepFill } from "@/hooks/useViaCep";
 import { usePublishedProducts } from "@/lib/hooks/useStoredProducts";
 import { buildShippingItems } from "@/lib/shipping/prepareItems";
+import { trackBeginCheckout } from "@/lib/analytics";
 import type { Product } from "@/lib/types";
 
 type PaymentMethod = "credit" | "pix";
@@ -338,6 +339,28 @@ export function LuxuryCheckoutExperience() {
       item.quantity > item.stockQuantity
   );
   const isEmpty = ready && items.length === 0;
+
+  // Dispara begin_checkout (GA4/Meta/TikTok) uma vez, quando o carrinho está resolvido
+  useEffect(() => {
+    if (isCartLoading || isEmpty || summaryItems.length === 0) return;
+    const analyticsItems = items
+      .map((item) => {
+        const product = findProduct(products, item.productId);
+        if (!product) return null;
+        return {
+          item_id: product.id,
+          item_name: product.name,
+          item_category: product.category,
+          price: product.price,
+          quantity: item.quantity
+        };
+      })
+      .filter((item): item is NonNullable<typeof item> => Boolean(item));
+
+    if (analyticsItems.length === 0) return;
+    trackBeginCheckout(analyticsItems, total);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isCartLoading, isEmpty]);
 
   // ── Address field update + masks + ViaCEP ────────────────────────────────
   const updateAddress = (field: keyof CheckoutAddressForm, raw: string) => {

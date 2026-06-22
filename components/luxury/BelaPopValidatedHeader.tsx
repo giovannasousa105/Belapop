@@ -282,6 +282,18 @@ function BelaPopValidatedHeaderContent({
               >
                 <Heart size={19} />
               </Link>
+              <Link
+                href="/carrinho"
+                aria-label="Carrinho"
+                className={`relative inline-flex h-11 w-11 items-center justify-center rounded-full transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#C17A90] ${mobileHover} ${mobileIconClass}`}
+              >
+                <ShoppingBag size={19} />
+                {cartCount > 0 ? (
+                  <span className="absolute right-1 top-1 inline-flex min-h-[15px] min-w-[15px] items-center justify-center rounded-full bg-[#E8A8B8] px-1 text-[9px] font-semibold text-[#1c1b1b]">
+                    {cartCount}
+                  </span>
+                ) : null}
+              </Link>
               {sidebarEnabled ? (
                 <button
                   ref={triggerButtonRef}

@@ -61,7 +61,7 @@ export function SkincareBundleSection({ mode = "catalog" }: SkincareBundleSectio
         <div className="mt-8 grid gap-3 md:grid-cols-3">
           {[
             ["Rotina completa", "Limpeza, tratamento e acabamento em uma única decisão."],
-            ["Compra inteligente", "Economia visivel sem transformar a marca em promocao."],
+            ["Compra inteligente", "Economia visível sem transformar a marca em promoção."],
             ["Curadoria semanal", "Selecionado pela BelaPop com contexto de uso real."]
           ].map(([title, detail]) => (
             <div key={title} className="border border-[#ded8d2] bg-white/70 px-4 py-4 text-sm shadow-[0_16px_60px_rgba(28,27,27,0.04)] backdrop-blur">

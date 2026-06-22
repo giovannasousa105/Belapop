@@ -75,7 +75,7 @@ export default function ContaDadosPage() {
     const timeout = window.setTimeout(() => {
       if (!active) return;
       setLoading(false);
-      setMessage("Nao foi possivel carregar seus dados. Voce pode preencher ou tentar recarregar a pagina.");
+      setMessage("Não foi possivel carregar seus dados. Você pode preencher ou tentar recarregar a pagina.");
     }, 5000);
 
     const load = async () => {

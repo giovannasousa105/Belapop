@@ -1,12 +1,12 @@
 export type ProductCategory =
   | "limpeza" | "tonico" | "serum" | "hidratante"
-  | "protecao" | "olhos" | "cabelos" | "maquiagem";
+  | "proteção" | "olhos" | "cabelos" | "maquiagem";
 
 export type SkinTypeFilter =
-  | "oleosa" | "seca" | "mista" | "normal" | "sensivel";
+  | "oleosa" | "seca" | "mista" | "normal" | "sensível";
 
 export type ConcernFilter =
-  | "acne" | "manchas" | "oleosidade" | "hidratacao"
+  | "acne" | "manchas" | "oleosidade" | "hidratação"
   | "linhas-finas" | "poros" | "luminosidade" | "olheiras" | "textura";
 
 export interface CatalogProduct {
@@ -32,7 +32,7 @@ export const CATALOG_PRODUCTS: CatalogProduct[] = [
     category: "limpeza",
     skinTypes: ["oleosa", "mista", "normal", "seca"],
     concerns: ["acne", "oleosidade", "poros", "textura"],
-    keyActives: ["glucosideo de decil", "glicerina", "pantenol"],
+    keyActives: ["glucosídeo de decil", "glicerina", "pantenol"],
     tags: ["limpeza", "gel", "sem sulfato", "limpeza facial", "sabonete", "cleanser"],
     searchTerms: ["lavar rosto", "limpar pele", "cleanser", "foam", "sabonete facial", "limpeza suave"],
     ritual: "ambos",
@@ -41,13 +41,13 @@ export const CATALOG_PRODUCTS: CatalogProduct[] = [
   {
     slug: "tonico-nuvem-de-rosa",
     name: "Tonico Nuvem de Rosa",
-    price: null,
+    price: 235,
     category: "tonico",
-    skinTypes: ["seca", "sensivel", "normal", "mista"],
-    concerns: ["hidratacao", "luminosidade", "textura"],
+    skinTypes: ["seca", "sensível", "normal", "mista"],
+    concerns: ["hidratação", "luminosidade", "textura"],
     keyActives: ["agua de rosas", "acido hialuronico", "camomila", "niacinamida"],
     tags: ["tonico", "agua de rosas", "hidratante", "sem alcool", "preparo", "essencia"],
-    searchTerms: ["toner", "essencia", "agua de rosas", "preparar pele", "hidratacao rapida"],
+    searchTerms: ["toner", "essencia", "agua de rosas", "preparar pele", "hidratação rapida"],
     ritual: "ambos",
   },
   {
@@ -68,8 +68,8 @@ export const CATALOG_PRODUCTS: CatalogProduct[] = [
     name: "Creme Barrier Celeste",
     price: 320,
     category: "hidratante",
-    skinTypes: ["seca", "sensivel", "normal"],
-    concerns: ["hidratacao", "textura", "linhas-finas"],
+    skinTypes: ["seca", "sensível", "normal"],
+    concerns: ["hidratação", "textura", "linhas-finas"],
     keyActives: ["ceramidas", "esqualano", "acido hialuronico", "pantenol"],
     tags: ["hidratante", "ceramidas", "barreira", "creme", "pele seca", "moisturizer"],
     searchTerms: ["hidratante facial", "creme moisturizer", "ceramida", "barreira cutanea", "pele seca hidratante"],
@@ -79,8 +79,8 @@ export const CATALOG_PRODUCTS: CatalogProduct[] = [
     slug: "protetor-solar-luz-de-vela-fps50",
     name: "Protetor Solar Luz de Vela FPS 50",
     price: 279,
-    category: "protecao",
-    skinTypes: ["oleosa", "mista", "normal", "seca", "sensivel"],
+    category: "proteção",
+    skinTypes: ["oleosa", "mista", "normal", "seca", "sensível"],
     concerns: ["manchas", "linhas-finas", "luminosidade", "oleosidade"],
     keyActives: ["tinosorb", "oxido de zinco", "niacinamida", "fps50"],
     tags: ["protetor solar", "fps50", "uva uvb", "anti-aging", "fotoprotetor"],
@@ -93,8 +93,8 @@ export const CATALOG_PRODUCTS: CatalogProduct[] = [
     name: "Patch Olhos Aurora",
     price: 198,
     category: "olhos",
-    skinTypes: ["oleosa", "mista", "normal", "seca", "sensivel"],
-    concerns: ["olheiras", "linhas-finas", "hidratacao"],
+    skinTypes: ["oleosa", "mista", "normal", "seca", "sensível"],
+    concerns: ["olheiras", "linhas-finas", "hidratação"],
     keyActives: ["cafeina", "peptideos", "acido hialuronico", "cha branco"],
     tags: ["olheiras", "patch", "hidrogel", "area dos olhos", "bolsas", "cafeina"],
     searchTerms: ["olheira", "patch olho", "eye patch", "bolsas olhos", "cansaco olhos", "eye cream", "area periorbital"],
@@ -109,14 +109,14 @@ export const CATALOG_PRODUCTS: CatalogProduct[] = [
     skinTypes: [],
     concerns: [],
     keyActives: ["oleo de argan", "vitamina e", "oleo de rosa mosqueta"],
-    tags: ["cabelos", "oleo capilar", "hidratacao capilar", "brilho", "cacheado", "crespo"],
-    searchTerms: ["oleo cabelo", "argan", "hidratacao capilar", "cabelo seco", "brilho cabelo", "leave-in", "hair oil"],
+    tags: ["cabelos", "oleo capilar", "hidratação capilar", "brilho", "cacheado", "crespo"],
+    searchTerms: ["oleo cabelo", "argan", "hidratação capilar", "cabelo seco", "brilho cabelo", "leave-in", "hair oil"],
     ritual: "noite",
   },
   {
     slug: "blush-veu-rose",
     name: "Blush Veu Rose",
-    price: null,
+    price: 189,
     category: "maquiagem",
     skinTypes: [],
     concerns: ["luminosidade"],

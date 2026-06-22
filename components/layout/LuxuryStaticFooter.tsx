@@ -2,7 +2,11 @@
 
 import Link from "next/link";
 
+import { sanitizePublicEnvValue } from "@/lib/publicEnv";
+
 export function LuxuryStaticFooter() {
+  const whatsappNumber = sanitizePublicEnvValue(process.env.NEXT_PUBLIC_WHATSAPP_NUMBER).replace(/\D/g, "");
+
   return (
     <footer className="border-t border-[#DDD3CA] bg-[#EFE7DE] px-6 py-10 md:px-10 lg:px-14">
       <div className="mx-auto max-w-[1440px]">
@@ -14,14 +18,16 @@ export function LuxuryStaticFooter() {
             </p>
             <div className="mt-5 space-y-2 text-sm text-[#5F5A55]">
               <p>contato@belapopoficial.com.br</p>
-              <a
-                href="https://wa.me/5511999999999"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="block hover:text-[#1B1A18]"
-              >
-                WhatsApp Concierge
-              </a>
+              {whatsappNumber ? (
+                <a
+                  href={`https://wa.me/${whatsappNumber}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block hover:text-[#1B1A18]"
+                >
+                  WhatsApp Concierge
+                </a>
+              ) : null}
             </div>
           </div>
 
@@ -59,7 +65,7 @@ export function LuxuryStaticFooter() {
             <p className="text-[11px] uppercase tracking-[0.35em] text-[#C88FA3]">Atendimento</p>
             <div className="mt-4 space-y-3 text-sm text-[#5F5A55]">
               <Link href="/contato" className="block transition hover:text-[#1B1A18]">Entrega e frete</Link>
-              <Link href="/trocas-e-devolucoes" className="block transition hover:text-[#1B1A18]">Trocas e devoluções</Link>
+              <Link href="/politica-de-trocas-e-devolucoes" className="block transition hover:text-[#1B1A18]">Trocas e devoluções</Link>
               <Link href="/rastreio" className="block transition hover:text-[#1B1A18]">Rastrear pedido</Link>
               <Link href="/conta/pedidos" className="block transition hover:text-[#1B1A18]">Meus pedidos</Link>
             </div>
@@ -77,10 +83,11 @@ export function LuxuryStaticFooter() {
         </div>
 
         <div className="mt-8 flex flex-col gap-3 border-t border-[#DDD3CA] pt-5 text-xs text-[#7A736D] md:flex-row md:items-center md:justify-between">
-          <p>© 2026 BelaPop Oficial. Todos os direitos reservados.</p>
+          <p>CNPJ 63.945.608/0001-09 · Rua Coromandel, 189, Araguari/MG · contato@belapopoficial.com.br</p>
           <div className="flex flex-wrap gap-4 uppercase tracking-[0.18em]">
             <Link href="/aviso-de-privacidade" className="transition hover:text-[#C88FA3]">Privacidade</Link>
-            <Link href="/termos-e-condicoes" className="transition hover:text-[#C88FA3]">Termos</Link>
+            <Link href="/termos-de-uso" className="transition hover:text-[#C88FA3]">Termos</Link>
+            <Link href="/politica-de-trocas-e-devolucoes" className="transition hover:text-[#C88FA3]">Trocas</Link>
             <Link href="/politica-de-cookies" className="transition hover:text-[#C88FA3]">Cookies</Link>
           </div>
         </div>

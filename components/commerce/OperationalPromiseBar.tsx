@@ -48,12 +48,12 @@ const PRODUCT_ITEMS: PromiseItem[] = [
   },
   {
     title: "Troca e devolucao rastreaveis",
-    body: "Abertura por protocolo e acompanhamento do fluxo de pos-venda no painel do cliente.",
+    body: "Abertura por protocolo e acompanhamento do fluxo de pós-venda no painel do cliente.",
     icon: <RotateCcw className="h-4 w-4" aria-hidden="true" />
   },
   {
     title: "Suporte acompanhado",
-    body: "Histórico do atendimento e SLA ficam visiveis durante o pedido e no detalhe do protocolo.",
+    body: "Histórico do atendimento e SLA ficam visíveis durante o pedido e no detalhe do protocolo.",
     icon: <Headset className="h-4 w-4" aria-hidden="true" />
   },
   {
@@ -75,7 +75,7 @@ const CHECKOUT_ITEMS: PromiseItem[] = [
     icon: <BadgeCheck className="h-4 w-4" aria-hidden="true" />
   },
   {
-    title: "Suporte e pos-venda com protocolo",
+    title: "Suporte e pós-venda com protocolo",
     body: "Troca, devolucao e atendimento seguem trilha rastreavel por pedido e subpedido depois da compra.",
     icon: <Headset className="h-4 w-4" aria-hidden="true" />
   },

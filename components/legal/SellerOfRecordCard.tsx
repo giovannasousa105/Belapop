@@ -27,7 +27,7 @@ export function SellerOfRecordCard({ className = "" }: { className?: string }) {
       </div>
       <div className="mt-5 flex flex-col gap-2 text-[11px] font-semibold uppercase tracking-[0.18em]">
         <Link
-          href={`${legalRoutes.terms}#reembolso-e-devolucao`}
+          href={legalRoutes.returns}
           className="text-[#1c1b1b] underline decoration-[#c88fa3] underline-offset-4"
         >
           Politica de reembolso e devolucao

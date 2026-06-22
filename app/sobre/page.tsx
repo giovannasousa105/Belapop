@@ -11,6 +11,8 @@ export const metadata: Metadata = {
     title: "Sobre a BelaPop",
     description:
       "Conheça a história e a missão da BelaPop — skincare guiado por critério clínico e curadoria precisa.",
+    url: "/sobre",
+    siteName: "BelaPop",
     images: [{ url: "/hero-bela-pop-editorial.jpg", alt: "BelaPop — Skincare editorial" }]
   }
 };

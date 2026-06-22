@@ -106,13 +106,13 @@ export const AppShell = ({ children }: { children: React.ReactNode }) => {
   return (
     <ShellManagedHeaderProvider enabled={hasPublicHeader}>
       {hasPublicHeader ? <BPHeader /> : null}
-      <div id="main-content" className={hasPublicHeader && !hasInternalHeaderSpacing ? "pt-[106px] tablet:pt-[124px]" : "pt-0"}>
+      <div id="main-content" className={hasPublicHeader ? "pt-[100px] lg:pt-[124px]" : "pt-0"}>
         {children}
       </div>
       {isSellerRoute || isAdminRoute || hasPageOwnedLightFooter ? null : <BPFooter />}
       {!hideFloating && !hasConsultoraBelaPop ? <WhatsappWidget /> : null}
       {!hideFloating && hasAccessibilityWidget ? <AccessibilityButton /> : null}
-      {!isSellerRoute && !isAdminRoute && !isSkinScanRoute ? <CookieConsent /> : null}
+      {!isSellerRoute && !isAdminRoute ? <CookieConsent /> : null}
       {!hideBottomNav ? <MobileBottomNav /> : null}
     </ShellManagedHeaderProvider>
   );

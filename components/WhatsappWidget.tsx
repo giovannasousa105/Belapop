@@ -24,7 +24,7 @@ export function WhatsappWidget({ phone }: WhatsappWidgetProps) {
       target="_blank"
       rel="noreferrer"
       aria-label="Falar com concierge no WhatsApp"
-      className="fixed bottom-6 right-4 z-50 inline-flex h-12 w-12 items-center justify-center rounded-full bg-[#25D366] text-white shadow-lg shadow-black/20 transition hover:scale-[1.03] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+      className="fixed bottom-[80px] right-4 z-50 inline-flex h-12 w-12 items-center justify-center rounded-full bg-[#25D366] text-white shadow-lg shadow-black/20 transition hover:scale-[1.03] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white tablet:bottom-6"
     >
       <MessageCircle size={20} />
     </a>

@@ -5,6 +5,7 @@ import { gerarBreadcrumbSchema } from "@/lib/seo/structuredData";
 import { SkincareBundleSection } from "@/components/skincare/SkincareBundleSection";
 import { BelaPopValidatedHeader } from "@/components/luxury/BelaPopValidatedHeader";
 import { BelaPopValidatedFooter } from "@/components/luxury/BelaPopValidatedFooter";
+import { skincareBundles } from "@/lib/skincare/skincareBundles";
 
 const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://belapopoficial.com.br";
 
@@ -40,9 +41,20 @@ export default function KitsPage() {
     { nome: "Kits", url: `${BASE_URL}/kits` },
   ]);
 
+  const itemList = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    itemListElement: skincareBundles.map((bundle, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      name: bundle.name,
+      url: `${BASE_URL}/kits/${bundle.slug}`,
+    })),
+  };
+
   return (
     <div className="min-h-screen bg-[#fcf9f8] text-[#1c1b1b]">
-      <JsonLd schema={breadcrumb} />
+      <JsonLd schema={[breadcrumb, itemList]} />
       <BelaPopValidatedHeader activeSection="skincare" />
       <main className="pt-20 lg:pt-28">
         <SkincareBundleSection />

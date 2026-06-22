@@ -281,7 +281,7 @@ export default function PopClubMembershipExperience() {
             <div className="mt-5 flex flex-wrap justify-center gap-6 lg:justify-start">
               {[
                 { label: "Aviso de Privacidade", href: "/aviso-de-privacidade" },
-                { label: "Termos e Condições", href: "/termos-e-condicoes" },
+                { label: "Termos de Uso", href: "/termos-de-uso" },
                 { label: "Fale Conosco", href: "/contato" }
               ].map((item) => (
                 <Link

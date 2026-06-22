@@ -169,7 +169,7 @@ export function OrderConfirmationExperience() {
                   Precisa de assistencia especializada?
                 </h5>
                 <p className="px-2 text-sm leading-7 text-[#444748]">
-                  O time de atendimento pode ajudar com pedido, entrega, troca e pos-venda quando voce precisar.
+                  O time de atendimento pode ajudar com pedido, entrega, troca e pós-venda quando voce precisar.
                 </p>
                 <Link
                   className="inline-block border-b border-black pb-1 text-[11px] font-bold uppercase tracking-[0.22em]"

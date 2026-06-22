@@ -277,8 +277,8 @@ export default function PopClubLandingExperience() {
             <div className="mt-8 flex flex-wrap gap-6">
               {[
                 { label: "Privacidade", href: "/aviso-de-privacidade" },
-                { label: "Termos", href: "/termos-e-condicoes" },
-                { label: "Entrega e devoluções", href: "/contato" },
+                { label: "Termos", href: "/termos-de-uso" },
+                { label: "Entrega e devoluções", href: "/política-de-trocas-e-devoluções" },
                 { label: "Fale conosco", href: "/contato" }
               ].map((item) => (
                 <Link

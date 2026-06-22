@@ -38,6 +38,8 @@ export async function generateMetadata({ params }: KitPageProps): Promise<Metada
     openGraph: {
       title: `${bundle.name} | Kits BelaPop`,
       description: bundle.description,
+      url: `/kits/${bundle.slug}`,
+      siteName: "BelaPop",
       images: [{ url: bundle.image, alt: bundle.imageAlt }],
       type: "website"
     }

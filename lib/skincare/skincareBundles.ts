@@ -74,7 +74,7 @@ function withProductIds(bundle: Omit<SkinBundle, "productIds" | "price">): SkinB
 export const skincareBundles: SkinBundle[] = [
   withProductIds({
     id: "ritual-manha",
-    name: "Ritual da Manha",
+    name: "Ritual da Manhã",
     slug: "ritual-da-manha",
     subtitle: "Preparar, hidratar e proteger.",
     description:
@@ -82,10 +82,10 @@ export const skincareBundles: SkinBundle[] = [
     promise: "Hidratação, proteção e vico para o dia.",
     skinTypes: ["normal", "mista", "seca", "oleosa"],
     concerns: ["proteção diaria", "opacidade", "rotina essencial"],
-    useMoment: ["manha"],
+    useMoment: ["manhã"],
     priceRange: "premium",
     goal: "manha",
-    goalLabel: "Manha",
+    goalLabel: "Manhã",
     objective: "proteção diaria",
     badge: "Curadoria BelaPop",
     conversionBadge: "Estoque limitado",
@@ -196,7 +196,7 @@ export const skincareBundles: SkinBundle[] = [
         productId: "p1",
         sellerId: sellerSkin,
         name: "Serum Radiance 01",
-        usage: "Use em noites alternadas conforme tolerancia.",
+        usage: "Use em noites alternadas conforme tolerância.",
         benefit: "Apoia luminosidade e uniformidade.",
         price: 289
       },
@@ -226,7 +226,7 @@ export const skincareBundles: SkinBundle[] = [
     promise: "Mais conforto, menos ressecamento e barreira fortalecida.",
     skinTypes: ["seca", "sensível", "normal"],
     concerns: ["barreira", "ressecamento", "sensibilidade"],
-    useMoment: ["manha", "noite"],
+    useMoment: ["manhã", "noite"],
     priceRange: "medio",
     goal: "barreira",
     goalLabel: "Barreira",
@@ -237,7 +237,7 @@ export const skincareBundles: SkinBundle[] = [
     bundlePrice: 769,
     savings: 113,
     benefit: "Conforto imediato com rotina de baixo atrito.",
-    expectedResult: "Pele menos repuxada, mais macia e com melhor tolerancia.",
+    expectedResult: "Pele menos repuxada, mais macia e com melhor tolerância.",
     recommendedFor: ["Pele seca", "Pele sensibilizada", "Uso pos-procedimento cosmético leve"],
     ticketLabel: "Ticket sugerido",
     recommendationScore: 94,
@@ -463,7 +463,7 @@ export const skincareBundles: SkinBundle[] = [
         sellerId: sellerSkin,
         name: "Serum Radiance 01",
         usage: "Teste por alguns dias.",
-        benefit: "Ajuda a entender tolerancia e sensorial.",
+        benefit: "Ajuda a entender tolerância e sensorial.",
         price: 289
       },
       {

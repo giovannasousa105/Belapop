@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
+import { Package } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 
 import {
@@ -17,8 +18,8 @@ const CATEGORY_LABELS: Record<string, string> = {
   limpeza: "Limpeza",
   tonico: "Tonico",
   serum: "Seruns",
-  hidratante: "Hidratacao",
-  protecao: "Protecao",
+  hidratante: "Hidratação",
+  proteção: "Proteção",
   olhos: "Olhos",
   cabelos: "Cabelos",
   maquiagem: "Maquiagem",
@@ -29,14 +30,14 @@ const SKIN_TYPE_LABELS: Record<string, string> = {
   seca: "Seca",
   mista: "Mista",
   normal: "Normal",
-  sensivel: "Sensivel",
+  sensível: "Sensível",
 };
 
 const CONCERN_LABELS: Record<string, string> = {
   acne: "Acne",
   manchas: "Manchas",
   oleosidade: "Oleosidade",
-  hidratacao: "Hidratacao",
+  hidratação: "Hidratação",
   "linhas-finas": "Linhas Finas",
   poros: "Poros",
   luminosidade: "Luminosidade",
@@ -49,7 +50,7 @@ const CATEGORY_ICONS: Record<string, string> = {
   tonico: "💧",
   serum: "✨",
   hidratante: "🌿",
-  protecao: "☀️",
+  proteção: "☀️",
   olhos: "👁️",
   cabelos: "💇",
   maquiagem: "💄",
@@ -288,19 +289,8 @@ export function CatalogoClientSearch() {
                 href={`/produto/${product.slug}`}
                 className="group block overflow-hidden rounded-2xl border border-neutral-100 bg-white transition-all hover:border-neutral-300 hover:shadow-sm"
               >
-                <div
-                  className={`flex aspect-square items-center justify-center text-4xl ${
-                    product.category === "limpeza" ? "bg-blue-50"
-                    : product.category === "tonico" ? "bg-pink-50"
-                    : product.category === "serum" ? "bg-amber-50"
-                    : product.category === "hidratante" ? "bg-green-50"
-                    : product.category === "protecao" ? "bg-yellow-50"
-                    : product.category === "olhos" ? "bg-purple-50"
-                    : product.category === "cabelos" ? "bg-orange-50"
-                    : "bg-rose-50"
-                  }`}
-                >
-                  <span>{CATEGORY_ICONS[product.category] ?? "✦"}</span>
+                <div className="flex aspect-square items-center justify-center bg-[linear-gradient(135deg,#f8f0f4_0%,#f0e8ee_100%)]">
+                  <Package size={28} strokeWidth={1.2} className="text-[#C17A90]/50" />
                 </div>
                 <div className="space-y-2 p-3">
                   <div className="flex gap-1">
@@ -329,9 +319,9 @@ export function CatalogoClientSearch() {
                     ))}
                   </div>
                   <p className="text-sm font-medium">
-                    {product.price
+                    {product.price != null
                       ? `R$ ${product.price.toLocaleString("pt-BR", { minimumFractionDigits: 2 })}`
-                      : "Ver preco"}
+                      : "Ver preço"}
                   </p>
                 </div>
               </Link>
@@ -361,9 +351,9 @@ export function CatalogoClientSearch() {
         {/* CTA Skin Scan */}
         <div className="mt-10 space-y-3 rounded-2xl bg-black p-6 text-center text-white">
           <p className="text-[10px] uppercase tracking-widest text-neutral-400">
-            Nao sabe por onde comecar?
+            Não sabe por onde começar?
           </p>
-          <p className="font-serif text-xl">Faca o diagnostico da sua pele</p>
+          <p className="font-serif text-xl">Faça o diagnóstico da sua pele</p>
           <p className="text-xs text-neutral-400">
             A IA analisa sua pele em segundos e monta a rotina ideal
           </p>

@@ -346,7 +346,7 @@ export const routineGuides: RoutineGuide[] = [
     metaTitle: "Rotina para pele sensível | Guia BelaPop",
     metaDescription: "Rotina BelaPop para pele sensível com ordem de uso, kit indicado e compra assistida.",
     diagnosis: "A pele costuma reagir quando a rotina tem ativos demais, limpeza agressiva ou pouca reparacao.",
-    promise: "Menos atrito, mais conforto e uma rotina que respeita a tolerancia da pele.",
+    promise: "Menos atrito, mais conforto e uma rotina que respeita a tolerância da pele.",
     needTags: ["sensibilidade", "barreira"],
     skinTypes: ["sensível", "seca", "normal"],
     priceRange: "intermediario",
@@ -411,7 +411,7 @@ export const routineGuides: RoutineGuide[] = [
     ],
     nightSteps: [
       { period: "noite", order: 1, title: "Limpeza", description: "Remova oleosidade e protetor.", productRole: "Gel de limpeza" },
-      { period: "noite", order: 2, title: "Tratamento pontual", description: "Use ativo conforme tolerancia.", productRole: "Acido salicilico" },
+      { period: "noite", order: 2, title: "Tratamento pontual", description: "Use ativo conforme tolerância.", productRole: "Acido salicilico" },
       { period: "noite", order: 3, title: "Hidratar", description: "Não pule hidratação.", productRole: "Hidratante leve" }
     ]
   },
@@ -574,7 +574,7 @@ export const weeklyCurationItems: WeeklyCurationItem[] = [
     id: "curadora",
     label: "Recomendação da curadora",
     title: "Comece pela Edição Descoberta",
-    description: "Menor risco para sentir texturas, entender tolerancia e comprar melhor na segunda rotina.",
+    description: "Menor risco para sentir texturas, entender tolerância e comprar melhor na segunda rotina.",
     href: "/kits#edição-descoberta",
     cta: "Conhecer edição",
     productIds: ["p10"],

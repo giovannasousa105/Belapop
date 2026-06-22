@@ -11,7 +11,7 @@ type ReturnPolicyCardProps = {
 
 const fallbackPolicy: SellerReturnPolicy = {
   exchangeRules: "Trocas e devoluções seguem a política BelaPop e a legislacao aplicavel.",
-  fullPolicyHref: "/termos-e-condicoes",
+  fullPolicyHref: "/política-de-trocas-e-devoluções",
   id: "return-fallback",
   packagingCondition: "Produto deve retornar com embalagem e itens recebidos quando aplicavel.",
   returnWindowDays: 7,

@@ -28,7 +28,7 @@ const memberLinks = [
   { label: "Niveis de Status", icon: Crown, active: false },
   { label: "Galeria de Recompensas", icon: Sparkles, active: false },
   { label: "SkinBela AI", icon: Bot, active: true },
-  { label: "Configuracoes", icon: Settings, active: false }
+  { label: "Configurações", icon: Settings, active: false }
 ] as const;
 
 const products = [

@@ -14,10 +14,16 @@ import { CartItem, SellerShipment } from "@/lib/types";
 import { readStorage, storageKeys, writeStorage } from "@/lib/storage";
 import { getCookie, setCookie } from "@/lib/cookies";
 import { trackEvent } from "@/lib/analytics/tracker";
+import { trackAddToCart } from "@/lib/analytics";
 
 type CartContextValue = {
   items: CartItem[];
-  addItem: (productId: string, quantity?: number, sellerId?: string) => void;
+  addItem: (
+    productId: string,
+    quantity?: number,
+    sellerId?: string,
+    analyticsItem?: { name: string; price: number; category?: string }
+  ) => void;
   removeItem: (productId: string) => void;
   updateQuantity: (productId: string, quantity: number) => void;
   replaceCart: (items: CartItem[]) => void;
@@ -156,7 +162,12 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
     };
   }, [items, anonId, cartId, ready, user?.id]);
 
-  const addItem = (productId: string, quantity = 1, sellerId?: string) => {
+  const addItem = (
+    productId: string,
+    quantity = 1,
+    sellerId?: string,
+    analyticsItem?: { name: string; price: number; category?: string }
+  ) => {
     const resolvedSellerId = sellerId ?? "unknown";
     void trackEvent({
       type: "add_to_cart",
@@ -164,6 +175,21 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
       sellerId: resolvedSellerId,
       metadata: { quantity }
     });
+
+    if (analyticsItem) {
+      trackAddToCart(
+        [
+          {
+            item_id: productId,
+            item_name: analyticsItem.name,
+            item_category: analyticsItem.category,
+            price: analyticsItem.price,
+            quantity
+          }
+        ],
+        analyticsItem.price * quantity
+      );
+    }
 
     setItems((prev) => {
       const existing = prev.find((item) => item.productId === productId);

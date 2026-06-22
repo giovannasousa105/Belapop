@@ -32,13 +32,13 @@ export function CommerceTrustMarkers({
   return (
     <section
       className={`rounded-[24px] border border-black/8 bg-white p-5 sm:p-6 ${className}`}
-      aria-label="Sinais de confianca de compra"
+      aria-label="Sinais de confiança de compra"
     >
       <p className="text-[10px] font-semibold uppercase tracking-[0.28em] text-[#8c5d66]">
         Compra com contexto
       </p>
       <h3 className="mt-3 font-display text-2xl text-[#1c1b1b] sm:text-3xl">
-        Autenticidade, curadoria, entrega, pos-venda e pagamento visiveis antes da decisao.
+        Autenticidade, curadoria, entrega, pós-venda e pagamento visiveis antes da decisao.
       </h3>
 
       <div className={`mt-6 grid gap-3 ${compact ? "sm:grid-cols-2 xl:grid-cols-3" : "md:grid-cols-2 xl:grid-cols-3"}`}>

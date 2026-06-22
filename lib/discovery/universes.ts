@@ -144,7 +144,7 @@ export const universeCollections: UniverseCollection[] = [
     name: "Clinical Edit",
     subtitle: "ativos, barreira e performance",
     description:
-      "Produtos e guias para quem compra por evidencia, tolerancia e resultado, sem abrir mao do sensorial.",
+      "Produtos e guias para quem compra por evidencia, tolerância e resultado, sem abrir mao do sensorial.",
     href: "/guias/ativos",
     image: "/editorial/home-ai-card.jpg",
     imageAlt: "Close editorial de pele e tecnologia BelaPop.",
@@ -247,7 +247,7 @@ export const universeRoutines: UniverseRoutine[] = [
     title: "Clinical Night Protocol",
     subtitle: "performance com recuperacao",
     description:
-      "Tratamento noturno com foco em ativo principal, barreira e tolerancia ao longo da semana.",
+      "Tratamento noturno com foco em ativo principal, barreira e tolerância ao longo da semana.",
     href: "/guias/ativos/retinol",
     cta: "Explorar protocolo",
     bundleId: "ritual-noite",
@@ -316,7 +316,7 @@ export const universeRoutines: UniverseRoutine[] = [
       },
       {
         label: "Proteger",
-        description: "Consistencia diaria para manter tolerancia."
+        description: "Consistencia diaria para manter tolerância."
       }
     ]
   },
@@ -352,13 +352,13 @@ export const belaPopUniverses: BelaPopUniverse[] = [
   {
     id: "ícones-da-curadoria",
     slug: "ícones-da-curadoria",
-    legacySlugs: ["ícones-da-belapop"],
+    legacySlugs: ["ícones-da-belapop", "ícones-da-curadoria"],
     name: "Ícones da Curadoria",
     subtitle: "Produtos mais desejados, recomendados e validados pela BelaPop.",
     description:
       "A seleção que traduz autoridade, confianca e desejo: produtos com razao clara para existir na rotina.",
     editorialText:
-      "Entrar por Ícones da Curadoria e entender o critério BelaPop antes de olhar para quantidade. Aqui ficam os produtos que voltam para a conversa, os kits que reduzem indecisao e as rotinas que explicam por que algo merece espaco no banheiro.",
+      "Entrar por Ícones da Curadoria e entender o critério BelaPop antes de olhar para quantidade. Aqui ficam os produtos que voltam para a conversa, os kits que reduzem indecisão e as rotinas que explicam por que algo merece espaco no banheiro.",
     image: "/hero-bela-pop-editorial.jpg",
     imageAlt: "Composicao editorial de skincare premium BelaPop.",
     heroImage: "/hero-bela-pop-editorial.jpg",
@@ -385,7 +385,7 @@ export const belaPopUniverses: BelaPopUniverse[] = [
     startHere: [
       {
         title: "Comece por limpeza e serum",
-        description: "Dois passos mostram textura, tolerancia e resultado sem alongar a rotina.",
+        description: "Dois passos mostram textura, tolerância e resultado sem alongar a rotina.",
         href: "/guias/rotinas/barreira-cutanea-fragilizada",
         cta: "Ver ordem essencial"
       },
@@ -509,7 +509,7 @@ export const belaPopUniverses: BelaPopUniverse[] = [
     name: "Clinical Luxury",
     subtitle: "Dermocosmeticos com apelo clínico, performance, tecnologia e sofisticacao.",
     description:
-      "Ciencia, resultado e luxo discreto para comprar por ativo, tolerancia e consistencia de uso.",
+      "Ciencia, resultado e luxo discreto para comprar por ativo, tolerância e consistencia de uso.",
     editorialText:
       "Clinical Luxury e a area técnica da BelaPop. A linguagem e de performance, mas a experiência continua sensorial: ativo certo, frequencia possivel, barreira respeitada e uma compra que não depende de promessas barulhentas.",
     image: "/editorial/home-ai-card.jpg",
@@ -533,7 +533,7 @@ export const belaPopUniverses: BelaPopUniverse[] = [
     },
     tone: "ciencia, resultado e luxo discreto",
     discoveryPrompt: "O produto que entrega performance sem teatralizar a rotina.",
-    skinScanPrompt: "O Skin Scan ajuda a ajustar intensidade, tolerancia e ordem de uso.",
+    skinScanPrompt: "O Skin Scan ajuda a ajustar intensidade, tolerância e ordem de uso.",
     conciergePrompt: "A concierge organiza ativos para evitar combinacoes redundantes.",
     startHere: [
       {
@@ -615,7 +615,7 @@ export const belaPopUniverses: BelaPopUniverse[] = [
     startHere: [
       {
         title: "Escolha a intencao",
-        description: "Glow, conforto, descoberta ou bem-estar ja reduzem quase toda indecisao.",
+        description: "Glow, conforto, descoberta ou bem-estar ja reduzem quase toda indecisão.",
         href: "/kits/edição-descoberta",
         cta: "Ver presente seguro"
       },
@@ -659,6 +659,7 @@ export const belaPopUniverses: BelaPopUniverse[] = [
   {
     id: "pele-sensível",
     slug: "pele-sensível",
+    legacySlugs: ["pele-sensível"],
     name: "Pele Sensível",
     subtitle: "Produtos, rotinas e kits para conforto, barreira cutanea e baixa irritabilidade.",
     description:
@@ -715,7 +716,7 @@ export const belaPopUniverses: BelaPopUniverse[] = [
       {
         id: "sensitive-clinical",
         label: "Combina com",
-        title: "Clinical Luxury com tolerancia",
+        title: "Clinical Luxury com tolerância",
         description: "Performance so entra quando a pele tem conforto para sustentar.",
         href: "/universos/clinical-luxury",
         cta: "Explorar clinical",
@@ -725,7 +726,7 @@ export const belaPopUniverses: BelaPopUniverse[] = [
     weeklyCuration: {
       label: "Conforto da semana",
       title: "Gel Limpeza Veludo para reduzir atrito",
-      description: "Um primeiro passo gentil muda a tolerancia da rotina inteira.",
+      description: "Um primeiro passo gentil muda a tolerância da rotina inteira.",
       productId: "p10",
       bundleId: "pele-sensível",
       href: "/guias/rotinas/pele-sensível"

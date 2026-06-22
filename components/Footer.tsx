@@ -53,9 +53,10 @@ export const Footer = () => {
     "/catalogo",
     "/sobre",
     "/seguranca",
-    "/privacidade",
-    "/cookies",
-    "/termos",
+    "/aviso-de-privacidade",
+    "/política-de-cookies",
+    "/termos-de-uso",
+    "/política-de-trocas-e-devoluções",
     "/carreiras"
   ]);
   const isRetail = retailRoutes.has(pathname) || pathname.startsWith("/produto/");
@@ -120,6 +121,9 @@ export const Footer = () => {
             <h3 className="font-display text-xl font-bold text-bpBlack md:text-bpBlackSoft dark:text-bpOffWhite">
               Beleza editorial, concierge e curadoria premium.
             </h3>
+            <p className="text-xs leading-relaxed text-bpGraphite/70 dark:text-bpPinkSoft/70">
+              CNPJ 63.945.608/0001-09 · Rua Coromandel, 189, Araguari/MG · contato@belapopoficial.com.br
+            </p>
           </div>
 
           {/* Institucional */}
@@ -132,14 +136,17 @@ export const Footer = () => {
               <Link href="/seguranca" className={linkClass}>
                 Segurança
               </Link>
-              <Link href="/privacidade" className={linkClass}>
+              <Link href="/aviso-de-privacidade" className={linkClass}>
                 Aviso de Privacidade
               </Link>
-              <Link href="/cookies" className={linkClass}>
+              <Link href="/politica-de-cookies" className={linkClass}>
                 Politica de Cookies
               </Link>
-              <Link href="/termos" className={linkClass}>
-                Termos e Condições Gerais
+              <Link href="/termos-de-uso" className={linkClass}>
+                Termos de Uso
+              </Link>
+              <Link href="/politica-de-trocas-e-devolucoes" className={linkClass}>
+                Trocas e Devolucoes
               </Link>
               <Link href="/carreiras" className={linkClass}>
                 Trabalhe Conosco

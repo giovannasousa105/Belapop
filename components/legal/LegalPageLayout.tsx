@@ -40,7 +40,7 @@ export function LegalPageLayout({
             </p>
             <div className="mt-8 rounded-[28px] border border-black/10 bg-white p-5 sm:p-6">
               <p className="text-[10px] font-semibold uppercase tracking-[0.28em] text-[#6d6667]">
-                Navegacao da pagina
+                NAVEGAÇÃO DA PÁGINA
               </p>
               <div className="mt-4 grid gap-3 sm:grid-cols-2">
                 {tableOfContents.map((item) => (

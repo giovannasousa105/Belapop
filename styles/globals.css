@@ -91,6 +91,17 @@ a {
   @apply text-bpBlackSoft;
 }
 
+/* Compensa o header fixo (announcement bar + header) ao navegar para âncoras */
+[id] {
+  scroll-margin-top: 100px;
+}
+
+@media (min-width: 1024px) {
+  [id] {
+    scroll-margin-top: 124px;
+  }
+}
+
 .bg-bpPink.text-white,
 .bg-bpPink.text-bpOffWhite {
   color: var(--bp-black) !important;
@@ -303,4 +314,50 @@ textarea {
   display: none !important;
   visibility: hidden !important;
   pointer-events: none !important;
+}
+
+/* ── Tipografia mobile refinada (max 767px) ─────────────────────────────────
+   Regra geral BelaPop:
+   - letter-spacing excessivo + uppercase em mobile = pesado
+   - Eyebrows: tracking max 0.10em, weight 500
+   - CTAs: tracking max 0.06em em mobile, mantém uppercase
+   - Body/labels: normal-case, tracking mínimo
+   - Preços: tracking tight, weight semibold
+   ─────────────────────────────────────────────────────────────────────────── */
+@media (max-width: 767px) {
+  /* Títulos de seção com tracking excessivo */
+  .section-title,
+  h2.tracking-widest,
+  h3.tracking-widest {
+    letter-spacing: 0.06em;
+    font-weight: 600;
+    line-height: 1.3;
+  }
+
+  /* Subtítulos em serif (Playfair / Cormorant) */
+  .section-subtitle,
+  h2.font-serif,
+  h3.font-serif {
+    letter-spacing: 0.01em;
+    line-height: 1.4;
+  }
+
+  /* Eyebrow labels pequenos */
+  .eyebrow,
+  p.text-xs.uppercase.tracking-widest,
+  span.text-xs.uppercase.tracking-widest {
+    font-size: 11px;
+    letter-spacing: 0.10em;
+    font-weight: 500;
+  }
+
+  /* Inputs: placeholder mais leve */
+  input::placeholder,
+  textarea::placeholder {
+    font-size: 14px;
+    font-weight: 400;
+    letter-spacing: 0.01em;
+    color: #9ca3af;
+  }
+
 }

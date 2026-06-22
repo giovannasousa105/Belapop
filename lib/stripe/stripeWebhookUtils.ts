@@ -24,8 +24,8 @@ export async function checkAndMarkIdempotency(
   if (error) {
     // Unique violation (23505) = already processed
     if (error.code === "23505") return { skip: true };
-    // Table missing = migration not applied yet, skip gracefully
-    if (error.code === "42P01") {
+    // Table missing = migration not applied yet (42P01 = Postgres, PGRST205 = PostgREST schema cache), skip gracefully
+    if (error.code === "42P01" || error.code === "PGRST205") {
       console.warn("[stripe-webhook] stripe_eventos_processados missing — idempotency disabled");
       return { skip: false };
     }
@@ -175,7 +175,7 @@ export async function registrarEventoLote(args: {
     metadata: args.metadata ?? {},
   });
 
-  if (error && error.code !== "42P01") {
+  if (error && error.code !== "42P01" && error.code !== "PGRST205") {
     console.warn("[stripe-webhook] lote_eventos insert failed", error.message);
   }
 }

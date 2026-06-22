@@ -18,18 +18,18 @@ type TrustSignalsProps = {
 };
 
 export function TrustSignals({
-  title = "Informacoes objetivas antes da compra",
-  description = "A BelaPop deixa visivel o que sustenta pagamento, envio, autenticidade, suporte e pos-venda.",
+  title = "Informações objetivas antes da compra",
+  description = "A BelaPop deixa visivel o que sustenta pagamento, envio, autenticidade, suporte e pós-venda.",
   className = ""
 }: TrustSignalsProps) {
   return (
     <section
       className={`rounded-[32px] border border-black/8 bg-[linear-gradient(180deg,rgba(255,255,255,0.98),rgba(248,241,242,0.72)_100%)] p-6 sm:p-8 ${className}`}
-      aria-label="Sinais de confianca"
+      aria-label="Sinais de confiança"
     >
       <div className="max-w-2xl">
         <p className="text-[10px] font-semibold uppercase tracking-[0.3em] text-[#8c5d66]">
-          Sinais de confianca
+          Sinais de confiança
         </p>
         <h2 className="mt-3 font-display text-3xl leading-tight text-[#1c1b1b] sm:text-4xl">
           {title}

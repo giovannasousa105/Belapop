@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 
 import BelaPopLuxuryHomepage from "@/components/home/BelaPopLuxuryHomepage";
+import { JsonLd } from "@/components/seo/JsonLd";
 import {
   firstSearchParam,
   hasOAuthFailureParams,
@@ -10,6 +11,9 @@ import {
   type SearchParamValue
 } from "@/lib/home/publicHome";
 import { getPublicProducts } from "@/lib/queries/products";
+import { gerarOrganizationSchema, gerarWebSiteSchema } from "@/lib/seo/structuredData";
+
+const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://belapopoficial.com.br";
 
 export const revalidate = 120;
 
@@ -23,6 +27,8 @@ export const metadata: Metadata = {
   openGraph: {
     title: "BelaPop | Skincare guiado pela sua pele",
     description: HOME_PAGE_DESCRIPTION,
+    url: "/",
+    siteName: "BelaPop",
     images: [{ url: "/og-home.jpg", width: 1200, height: 630, alt: "BelaPop — Skincare guiado pela sua pele" }],
     videos: [{
       url: "https://belapopoficial.com.br/editorial/belapop-skin-scan-hero-mobile.webm",
@@ -54,5 +60,21 @@ export default async function HomePage({ searchParams }: HomePageProps) {
 
   const featuredProducts = await getPublicProducts(4);
 
-  return <BelaPopLuxuryHomepage featuredProducts={featuredProducts} />;
+  const itemListSchema = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    itemListElement: featuredProducts.map((product, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      name: product.title,
+      url: `${BASE_URL}/produto/${product.slug}`,
+    })),
+  };
+
+  return (
+    <>
+      <JsonLd schema={[gerarOrganizationSchema(), gerarWebSiteSchema(), itemListSchema]} />
+      <BelaPopLuxuryHomepage featuredProducts={featuredProducts} />
+    </>
+  );
 }

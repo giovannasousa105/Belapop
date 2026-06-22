@@ -33,7 +33,7 @@ const NAV_SECTIONS: NavSection[] = [
     items: [
       { label: "Meus Pedidos", href: "/conta/pedidos" },
       { label: "Rastreio", href: "/conta/rastreio" },
-      { label: "Devoluções", href: "/conta/devolucoes" },
+      { label: "Devoluções", href: "/conta/devoluções" },
       { label: "Reclamações e Suporte", href: "/conta/reclamacoes-suporte" },
       { label: "Mensagens", href: "/conta/mensagens" }
     ]

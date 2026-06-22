@@ -8,11 +8,13 @@ const DIARY_PAGE_IMAGE =
 export const revalidate = 300;
 
 export const metadata: Metadata = {
-  title: "BelaPop - Diario | Biologia Estetica & Luxo",
-  description: "BelaPop - Diario | Biologia Estetica & Luxo",
+  title: "Diário BelaPop | Skincare com critério",
+  description: "Ciência, ritual e cultura da pele. Conteúdo editorial de skincare da BelaPop.",
   openGraph: {
-    title: "BelaPop - Diario | Biologia Estetica & Luxo",
-    description: "BelaPop - Diario | Biologia Estetica & Luxo",
+    title: "Diário BelaPop | Skincare com critério",
+    description: "Ciência, ritual e cultura da pele. Conteúdo editorial de skincare da BelaPop.",
+    url: "/diario",
+    siteName: "BelaPop",
     images: [{ url: DIARY_PAGE_IMAGE }],
     type: "article"
   }
@@ -22,8 +24,8 @@ export default function DiarioPage() {
   const articleSchema = {
     "@context": "https://schema.org",
     "@type": "Article",
-    headline: "BelaPop - Diario | Biologia Estetica & Luxo",
-    description: "BelaPop - Diario | Biologia Estetica & Luxo",
+    headline: "Diário BelaPop | Skincare com critério",
+    description: "Ciência, ritual e cultura da pele. Conteúdo editorial de skincare da BelaPop.",
     image: DIARY_PAGE_IMAGE,
     author: {
       "@type": "Organization",

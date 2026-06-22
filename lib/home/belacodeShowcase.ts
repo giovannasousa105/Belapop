@@ -45,7 +45,7 @@ const CONCERN_COPY: Record<
   },
   dark_spots: {
     label: "Manchas e marcas",
-    summary: "Pigmentacao desigual, marcas visiveis e perda de uniformidade puxam a leitura dominante.",
+    summary: "Pigmentacao desigual, marcas visíveis e perda de uniformidade puxam a leitura dominante.",
     sidebarSummary: "A leitura atual pede uniformizacao, luminosidade estavel e fotoprotecao consistente.",
     productKeywords: ["lumi", "glow", "bright", "radiance", "mancha", "pigment", "tone", "uniform", "solar"]
   },

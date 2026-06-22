@@ -9,9 +9,9 @@ const sensoryUniverses = [
     id: "glass-skin",
     name: "Glass Skin",
     headline: "Luminosidade refinada e hidratação profunda.",
-    description: "Para pele opaca, cansada ou sem vico, com camadas leves e acabamento polido.",
+    description: "Para pele opaca, cansada ou sem viço, com camadas leves e acabamento polido.",
     objective: "Hidratação + glow elegante",
-    sensation: "Pele vicosa, macia e fotografica",
+    sensation: "Pele viçosa, macia e fotográfica",
     badge: "Rotina mais procurada",
     href: "/universos/ícones-da-curadoria",
     image: "/hero-bela-pop-editorial.jpg",
@@ -23,8 +23,8 @@ const sensoryUniverses = [
     name: "Acne Care",
     headline: "Controle inteligente sem agredir sua barreira.",
     description: "Uma entrada técnica e calma para oleosidade, poros e textura irregular.",
-    objective: "Equilibrio + baixa friccao",
-    sensation: "Pele mais controlada, sem sensacao de castigo",
+    objective: "Equilíbrio + baixa fricção",
+    sensation: "Pele mais controlada, sem sensação de castigo",
     badge: "Escolha frequente entre peles acneicas",
     href: "/guias/rotinas/acne-e-oleosidade",
     image: "/editorial/home-ai-card.jpg",
@@ -34,7 +34,7 @@ const sensoryUniverses = [
   {
     id: "barrier-repair",
     name: "Barrier Repair",
-    headline: "Reconstrucao da pele sensibilizada.",
+    headline: "Reconstrução da pele sensibilizada.",
     description: "Para pele repuxando, reativa ou fragilizada, com conforto como prioridade.",
     objective: "Barreira + previsibilidade",
     sensation: "Toque calmo, macio e protegido",
@@ -126,7 +126,7 @@ export function HomeUniversesSection() {
                     </p>
                     <p>
                       <span className="block text-[10px] font-semibold uppercase tracking-[0.08em] text-white/48">
-                        Sensacao aspiracional
+                        Sensação aspiracional
                       </span>
                       {universe.sensation}
                     </p>

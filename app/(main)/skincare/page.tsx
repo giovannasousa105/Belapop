@@ -18,6 +18,8 @@ export const metadata: Metadata = {
     title: "Skincare | BelaPop",
     description:
       "Skincare BelaPop com curadoria ativa, rotina guiada e experiência viva da categoria.",
+    url: "/skincare",
+    siteName: "BelaPop",
     images: [{ url: "/og-default.jpg", alt: "Skincare BelaPop" }],
     type: "website"
   }
@@ -60,9 +62,20 @@ export default async function SkincarePage() {
     { nome: "Skincare", url: `${BASE_URL}/skincare` },
   ]);
 
+  const itemList = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    itemListElement: skincareProducts.map((product, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      name: product.title,
+      url: `${BASE_URL}/produto/${product.slug}`,
+    })),
+  };
+
   return (
     <>
-      <JsonLd schema={breadcrumb} />
+      <JsonLd schema={[breadcrumb, itemList]} />
       <SkincareCatalogExperience products={skincareProducts} />
     </>
   );

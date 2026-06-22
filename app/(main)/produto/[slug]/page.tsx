@@ -6,6 +6,7 @@ import { Breadcrumbs }                                       from "@/components/
 import { ProductPdpPremiumMobile }                           from "@/components/product/ProductPdpPremiumMobile";
 import { getProductStandardForProduct, getSellerStandardBySellerId } from "@/lib/catalog-standards/server";
 import { getPublicProductById, getPublicProductBySlug }      from "@/lib/queries/products";
+import { getProductRatingSummary }                           from "@/lib/queries/reviews";
 import { CATALOG_PRODUCTS }                                  from "@/lib/catalog-search";
 import { PRODUCT_DETAILS }                                   from "@/lib/product-data";
 import { gerarProductSchema, gerarBreadcrumbSchema }         from "@/lib/seo/structuredData";
@@ -31,7 +32,10 @@ async function resolveProduct(value: string) {
 }
 
 // Mapeia EditorialProduct → ProdutoSeoData para as funções de SEO
-function toSeoData(product: EditorialProduct): ProdutoSeoData {
+function toSeoData(
+  product: EditorialProduct,
+  ratingSummary: { ratingMedio: number; totalAvaliacoes: number } = { ratingMedio: 0, totalAvaliacoes: 0 }
+): ProdutoSeoData {
   const imagens = product.gallery.map((g) => g.url);
   const imagem_principal = imagens[0] ?? product.coverImage ?? "";
   const details = PRODUCT_DETAILS[product.slug] ?? null;
@@ -45,8 +49,8 @@ function toSeoData(product: EditorialProduct): ProdutoSeoData {
     imagens:           imagens.length > 0 ? imagens : [product.coverImage ?? ""],
     preco_centavos:    product.price_cents,
     seller_nome:       product.sellerName ?? "BelaPop",
-    rating_medio:      0,
-    total_avaliacoes:  0,
+    rating_medio:      ratingSummary.ratingMedio,
+    total_avaliacoes:  ratingSummary.totalAvaliacoes,
     sku:               null,
     categoria:         product.category ?? null,
     ativos_principais:
@@ -97,13 +101,14 @@ export async function generateMetadata({ params }: ProductPageProps): Promise<Me
   const ogUrl = `${BASE_URL}/api/og/produto?nome=${encodeURIComponent(catalogItem.name)}&slug=${encodeURIComponent(catalogItem.slug)}&subtitulo=${encodeURIComponent(details.subtitulo)}&categoria=${encodeURIComponent(catalogItem.category)}&preco=${encodeURIComponent(priceSEO)}`;
 
   return {
-    title: `${catalogItem.name} - ${details.subtitulo} · BelaPop`,
+    title: `${catalogItem.name} - ${details.subtitulo}`,
     description: description.slice(0, 160),
     keywords,
     openGraph: {
       title: `${catalogItem.name} · BelaPop`,
       description: description.slice(0, 120),
       url,
+      siteName: "BelaPop",
       type: "website",
       images: [
         {
@@ -136,10 +141,13 @@ export default async function ProdutoPage({ params }: ProductPageProps) {
 
   if (!product) notFound();
 
-  const productStandard = await getProductStandardForProduct(product);
-  const sellerStandard  = await getSellerStandardBySellerId(productStandard.sellerId);
+  const [productStandard, ratingSummary] = await Promise.all([
+    getProductStandardForProduct(product),
+    getProductRatingSummary(product.id),
+  ]);
+  const sellerStandard = await getSellerStandardBySellerId(productStandard.sellerId);
 
-  const seoData = toSeoData(product);
+  const seoData = toSeoData(product, ratingSummary);
 
   const productSchema    = gerarProductSchema(seoData);
   const breadcrumbSchema = gerarBreadcrumbSchema([
@@ -164,6 +172,8 @@ export default async function ProdutoPage({ params }: ProductPageProps) {
         product={product}
         productStandard={productStandard}
         sellerStandard={sellerStandard}
+        ratingMedio={ratingSummary.ratingMedio}
+        totalAvaliacoes={ratingSummary.totalAvaliacoes}
       />
     </>
   );

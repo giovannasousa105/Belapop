@@ -20,7 +20,7 @@
       "Soar técnico demais em áreas de inspiração."
     ],
     examples: [
-      "Skincare não é excesso. É inteligencia de cuidado.",
+      "Skincare não é excesso. É inteligência de cuidado.",
       "Uma curadoria pensada para a pele real.",
       "O cuidado começa quando a escolha fica mais simples."
     ]

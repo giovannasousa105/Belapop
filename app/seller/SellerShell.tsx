@@ -31,7 +31,7 @@ const navItems = [
   { href: "/seller/alerts", label: "Alertas & Regras" },
   { href: "/seller/automations", label: "Automacoes" },
   { href: "/seller/analytics", label: "Analytics Avancado" },
-  { href: "/seller/settings", label: "Configuracoes" },
+  { href: "/seller/settings", label: "Configurações" },
   { href: "/seller/help", label: "Central do Vendedor" }
 ];
 

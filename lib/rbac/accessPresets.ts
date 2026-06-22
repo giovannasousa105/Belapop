@@ -65,7 +65,7 @@ export const SELLER_ACCESS_PRESETS: SellerAccessPreset[] = [
   {
     key: "financeiro_lider",
     label: "Financeiro Lider",
-    description: "Financeiro com acesso opcional a configuracoes criticas.",
+    description: "Financeiro com acesso opcional a configurações criticas.",
     role: "FINANCEIRO",
     permissions: withOverrides("FINANCEIRO", {
       "settings.edit_store": true

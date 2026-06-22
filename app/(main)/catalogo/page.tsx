@@ -51,6 +51,8 @@ export async function generateMetadata({ searchParams }: CatalogPageProps): Prom
     openGraph: {
       title: q ? `${q} - Catalogo | BelaPop` : "Catalogo | BelaPop",
       description: "Catalogo BelaPop com busca por ativo, tipo de pele e necessidade.",
+      url: "/catalogo",
+      siteName: "BelaPop",
       images: [{ url: "/og-default.jpg", alt: "Catalogo BelaPop" }],
       type: "website",
     },

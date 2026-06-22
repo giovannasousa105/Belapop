@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Search, X } from "lucide-react";
+import { ChevronDown, Search, X } from "lucide-react";
 
 type FaqItem = { question: string; answer: string };
 type FaqSection = { title: string; items: FaqItem[] };
@@ -70,12 +70,10 @@ export function FaqSearch({ sections }: { sections: FaqSection[] }) {
                   >
                     <summary className="flex cursor-pointer list-none items-start justify-between gap-4">
                       <span className="text-sm font-semibold text-[#1B1A18]">{item.question}</span>
-                      <span
-                        className="mt-0.5 shrink-0 text-[#C88FA3] transition-transform group-open:rotate-45"
+                      <ChevronDown
+                        className="mt-0.5 h-4 w-4 shrink-0 text-[#C88FA3] transition-transform group-open:rotate-180"
                         aria-hidden="true"
-                      >
-                        +
-                      </span>
+                      />
                     </summary>
                     <p className="mt-3 text-sm leading-7 text-[#5F5A55]">{item.answer}</p>
                   </details>

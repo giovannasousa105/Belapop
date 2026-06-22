@@ -47,6 +47,8 @@ export async function generateMetadata({ params }: UniversePageProps): Promise<M
     openGraph: {
       title: `${universe.name} | BelaPop`,
       description: universe.description,
+      url: `/universos/${universe.slug}`,
+      siteName: "BelaPop",
       images: [{ url: universe.heroImage, alt: universe.heroImageAlt }],
       type: "website"
     }

@@ -37,7 +37,7 @@ const faqSections = [
       {
         question: "Como funciona o frete?",
         answer:
-          "O frete é calculado no carrinho com base no CEP de entrega. Oferecemos PAC e SEDEX pelos Correios. Frete grátis para compras acima de R$ 299."
+          "O frete é calculado no carrinho com base no CEP de entrega. Oferecemos PAC e SEDEX pelos Correios. Frete grátis para compras acima de R$ 350."
       },
       {
         question: "Qual é o prazo de entrega?",
@@ -77,7 +77,7 @@ const faqSections = [
       {
         question: "Posso trocar ou devolver um produto?",
         answer:
-          "Sim. Você tem 7 dias corridos após o recebimento para solicitar devolução ou troca, conforme o Código de Defesa do Consumidor. Inicie o processo em /trocas-e-devolucoes ou via WhatsApp Concierge."
+          "Sim. Você tem 7 dias corridos após o recebimento para solicitar devolução por arrependimento, conforme o Código de Defesa do Consumidor. Inicie o processo em /política-de-trocas-e-devoluções ou via WhatsApp Concierge."
       },
       {
         question: "Em quanto tempo recebo o reembolso?",
@@ -187,7 +187,7 @@ export default function ContatoPage() {
                 </p>
               </div>
               <a
-                href="https://wa.me/5511999999999?text=Olá%2C+BelaPop.+Preciso+de+atendimento."
+                href="https://wa.me/5534980470367?text=Olá%2C+BelaPop.+Preciso+de+atendimento."
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex shrink-0 items-center gap-2 rounded-full bg-white px-6 py-3 text-xs font-bold uppercase tracking-[0.2em] text-[#1B1A18] transition hover:bg-[#F6F1EB]"
@@ -266,7 +266,7 @@ export default function ContatoPage() {
               </a>
               <a
                 className="rounded-full border border-[#DDD3CA] px-6 py-3 text-xs uppercase tracking-[0.25em] text-[#1B1A18] transition hover:border-[#C88FA3]"
-                href="/trocas-e-devolucoes"
+                href="/politica-de-trocas-e-devolucoes"
               >
                 Ver trocas e devoluções
               </a>

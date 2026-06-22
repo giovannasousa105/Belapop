@@ -3,7 +3,7 @@ const CATEGORY_STYLES: Record<string, { bg: string; icon: string; accent: string
   tonico:    { bg: "bg-pink-50",   icon: "💧", accent: "border-pink-200" },
   serum:     { bg: "bg-amber-50",  icon: "✨", accent: "border-amber-200" },
   hidratante:{ bg: "bg-green-50",  icon: "🌿", accent: "border-green-200" },
-  protecao:  { bg: "bg-yellow-50", icon: "☀️", accent: "border-yellow-200" },
+  proteção:  { bg: "bg-yellow-50", icon: "☀️", accent: "border-yellow-200" },
   olhos:     { bg: "bg-purple-50", icon: "◉",  accent: "border-purple-200" },
 };
 

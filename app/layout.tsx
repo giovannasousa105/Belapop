@@ -5,17 +5,16 @@ import {
   DM_Serif_Display,
   Inter,
   Manrope,
-  Playfair_Display,
 } from "next/font/google";
+import localFont from "next/font/local";
 import Script from "next/script";
-import { Analytics } from "@vercel/analytics/next";
-import { SpeedInsights } from "@vercel/speed-insights/next";
 
 import "@/styles/globals.css";
 import "@/styles/theme.css";
 import { AppShell } from "@/components/AppShell";
 import { Providers } from "@/components/Providers";
 import { AnalyticsScripts } from "@/components/analytics/AnalyticsScripts";
+import { VercelInsightsConsent } from "@/components/analytics/VercelInsightsConsent";
 import { getAcsbConfig, initGuarded } from "@/lib/accessibilityWidget";
 import { getPublicUrl, sanitizePublicEnvValue } from "@/lib/publicEnv";
 
@@ -52,11 +51,19 @@ const cormorant = Cormorant_Garamond({
   weight: ["500", "600", "700"],
   display: "swap"
 });
-const playfair = Playfair_Display({
-  subsets: ["latin"],
+// Mont Serif — fonte de destaque principal (font-headline / var(--font-playfair))
+// Arquivos em /public/fonts/ — substituir por Mont Serif real (Fontfabric) quando licenciado.
+// Placeholder atual: Fraunces (SIL OFL) com DNA visual similar.
+const montSerif = localFont({
   variable: "--font-playfair",
-  weight: ["400", "500", "600", "700"],
-  display: "swap"
+  display: "swap",
+  src: [
+    { path: "../public/fonts/MontSerif-Light.woff2",    weight: "300", style: "normal" },
+    { path: "../public/fonts/MontSerif-Regular.woff2",  weight: "400", style: "normal" },
+    { path: "../public/fonts/MontSerif-Italic.woff2",   weight: "400", style: "italic" },
+    { path: "../public/fonts/MontSerif-SemiBold.woff2", weight: "600", style: "normal" },
+    { path: "../public/fonts/MontSerif-Bold.woff2",     weight: "700", style: "normal" },
+  ],
 });
 const metadataBaseUrl = getPublicUrl(
   process.env.NEXT_PUBLIC_SITE_URL,
@@ -73,8 +80,10 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   metadataBase: new URL(metadataBaseUrl),
 
+  manifest: "/manifest.json",
+
   title: {
-    default:  "BelaPop — Skincare Curado com inteligencia",
+    default:  "BelaPop — Skincare Curado com inteligência",
     template: "%s · BelaPop",
   },
 
@@ -102,13 +111,13 @@ export const metadata: Metadata = {
     locale:      "pt_BR",
     url:         metadataBaseUrl,
     siteName:    "BelaPop",
-    title:       "BelaPop — Skincare Curado com inteligencia",
+    title:       "BelaPop — Skincare Curado com inteligência",
     description: "Curadoria clínica, análise facial e lotes limitados verificados.",
     images: [{
       url:    "/og-default.jpg",
       width:  1200,
       height: 630,
-      alt:    "BelaPop — Skincare com inteligencia",
+      alt:    "BelaPop — Skincare com inteligência",
     }],
   },
 
@@ -116,7 +125,7 @@ export const metadata: Metadata = {
     card:        "summary_large_image",
     site:        "@belapop",
     creator:     "@belapop",
-    title:       "BelaPop — Skincare Curado com inteligencia",
+    title:       "BelaPop — Skincare Curado com inteligência",
     description: "Curadoria clínica, análise facial e lotes limitados verificados.",
     images:      ["/og-default.jpg"],
   },
@@ -170,7 +179,7 @@ export default function RootLayout({
         />
       </head>
       <body
-        className={`${dmSans.variable} ${dmSerifDisplay.variable} ${manrope.variable} ${inter.variable} ${cormorant.variable} ${playfair.variable} font-sans text-bpOffWhite`}
+        className={`${dmSans.variable} ${dmSerifDisplay.variable} ${manrope.variable} ${inter.variable} ${cormorant.variable} ${montSerif.variable} font-sans text-bpOffWhite`}
       >
         <a
           href="#main-content"
@@ -182,8 +191,7 @@ export default function RootLayout({
           <AppShell>{children}</AppShell>
         </Providers>
         <AnalyticsScripts />
-        <Analytics />
-        <SpeedInsights />
+        <VercelInsightsConsent />
         {acsbAccountId ? (
           <>
             <Script

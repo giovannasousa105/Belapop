@@ -17,9 +17,14 @@ const config: Config = {
           from: { transform: 'translateX(0)' },
           to:   { transform: 'translateX(-50%)' },
         },
+        'bela-pulse': {
+          '0%, 100%': { transform: 'scale(1)', opacity: '0.80' },
+          '50%': { transform: 'scale(1.07)', opacity: '1' },
+        },
       },
       animation: {
         marquee: 'belapop-marquee 32s linear infinite',
+        'bela-pulse': 'bela-pulse 3.8s ease-in-out infinite',
       },
       colors: {
         // ── Paleta legada (mantida para compatibilidade) ──────────────────
@@ -86,10 +91,9 @@ const config: Config = {
         "belapop-rose": "linear-gradient(135deg, #D8A0AC 0%, #5B3138 100%)",
       },
       fontFamily: {
-        // DM Sans como sans principal, DM Serif Display como serif editorial
+        // DM Sans — corpo | Cormorant — h2 editorial | Fraunces — h1 headline (--font-playfair)
         sans:      ["var(--font-sans)", "var(--font-manrope)", "sans-serif"],
         serif:     ["var(--font-serif)", "var(--font-playfair)", "serif"],
-        // Legados mantidos
         display:   ["var(--font-cormorant)", "serif"],
         editorial: ["var(--font-playfair)", "serif"],
         headline:  ["var(--font-playfair)", "serif"],
