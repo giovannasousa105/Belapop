@@ -24,6 +24,7 @@ import {
   findReservaPorPaymentIntent,
   logWebhookEvent,
 } from "@/lib/stripe/stripeWebhookUtils";
+import { confirmarDropVenda } from "@/lib/drops/queries.server";
 
 export const runtime = "nodejs";
 
@@ -703,6 +704,50 @@ async function routeStripeEvent(stripe: Stripe, event: Stripe.Event): Promise<vo
           logWebhookEvent("info", event.id, event.type,
             confirmResult.ok ? "lote_venda_confirmada" : "lote_confirmar_falhou",
             { reserva_id: reserva.id, lote_id: reserva.lote_id });
+
+          // Drop: increment sold_quantity + gmv if this PI came from a drop checkout
+          const dropId      = paymentIntent.metadata?.drop_id;
+          const dropItemId  = paymentIntent.metadata?.drop_item_id;
+          const priceCents  = Number(paymentIntent.metadata?.drop_price_cents ?? 0);
+
+          if (dropId && dropItemId && priceCents > 0) {
+            try {
+              const dropResult = await confirmarDropVenda({
+                dropId,
+                dropItemId,
+                priceCents,
+              });
+              logWebhookEvent("info", event.id, event.type,
+                dropResult.ok ? "drop_venda_confirmada" : "drop_confirmar_falhou",
+                { drop_id: dropId, drop_item_id: dropItemId });
+
+              if (dropResult.ok) {
+                const dropUserId = paymentIntent.metadata?.user_id ?? null;
+                const dropSessionId = paymentIntent.metadata?.stripe_session_id ?? null;
+                await getSupabaseAdminClient()
+                  .from("drop_orders")
+                  .insert({
+                    drop_id:           dropId,
+                    drop_item_id:      dropItemId,
+                    user_id:           dropUserId && dropUserId !== "anonimo" ? dropUserId : null,
+                    stripe_session_id: dropSessionId,
+                    stripe_payment_id: paymentIntent.id,
+                    status:            "paid",
+                    total_cents:       priceCents,
+                    items_snapshot:    { drop_id: dropId, drop_item_id: dropItemId, price_cents: priceCents },
+                  })
+                  .then(({ error }) => {
+                    if (error && error.code !== "23505") {
+                      logWebhookEvent("error", event.id, event.type, "drop_order_insert_failed",
+                        { drop_id: dropId, err: error.message });
+                    }
+                  });
+              }
+            } catch (dropErr) {
+              logWebhookEvent("error", event.id, event.type, "drop_confirmar_exception",
+                { drop_id: dropId, err: String(dropErr) });
+            }
+          }
         }
       }
     }

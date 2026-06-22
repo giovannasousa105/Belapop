@@ -84,7 +84,7 @@ export async function POST(req: Request) {
       user_id: user.id,
       tipo:    "EXCLUSAO",
       status:  "PENDENTE",
-      motivo:  "Solicitação voluntária via configuracoes de conta.",
+      motivo:  "Solicitação voluntária via configurações de conta.",
     });
 
   if (insertError) {

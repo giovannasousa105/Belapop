@@ -62,7 +62,7 @@ export async function GET(request: NextRequest) {
     );
 
     if (existingOrder && existingOrder.customer_id !== user.id) {
-      return NextResponse.json({ error: "Pedido nao encontrado." }, { status: 404 });
+      return NextResponse.json({ error: "Pedido não encontrado." }, { status: 404 });
     }
 
     if (paymentIntent.status === "succeeded") {
