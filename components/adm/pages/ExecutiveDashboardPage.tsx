@@ -161,11 +161,40 @@ export function ExecutiveDashboardPage({
   chartData,
 }: ExecutiveDashboardPageProps) {
   const [period, setPeriod] = useState<Period>("30d");
+  const [exporting, setExporting] = useState(false);
 
   const visibleSummaryCards = summaryCardsProp ?? fallbackSummaryCards;
   const visibleOperationCards = operationCardsProp ?? fallbackOperationCards;
   const visibleAlerts = alertsProp ?? fallbackAlerts;
   const visibleInsightCards = insightCardsProp ?? fallbackInsightCards;
+
+  const handleExport = () => {
+    if (exporting) return;
+    setExporting(true);
+    try {
+      const summaryRows = visibleSummaryCards.map((card) => [card.label, card.value, card.detail]);
+      const chartRows = (chartData ?? []).map((point) => [point.date, String(point.gmv), String(point.orders)]);
+      const csv = [
+        ["Métrica", "Valor", "Detalhe"],
+        ...summaryRows,
+        [],
+        ["Data", "GMV", "Pedidos"],
+        ...chartRows,
+      ]
+        .map((row) => row.map((cell) => `"${String(cell).replace(/"/g, '""')}"`).join(";"))
+        .join("\n");
+
+      const blob = new Blob([`﻿${csv}`], { type: "text/csv;charset=utf-8" });
+      const url = URL.createObjectURL(blob);
+      const anchor = document.createElement("a");
+      anchor.href = url;
+      anchor.download = `belapop-dashboard-${new Date().toISOString().slice(0, 10)}.csv`;
+      anchor.click();
+      URL.revokeObjectURL(url);
+    } finally {
+      setExporting(false);
+    }
+  };
 
   const alertFeedItems: AlertFeedItem[] = visibleAlerts.map((a, i) => {
     const prefix = iconKeyToPrefix[a.iconKey] ?? "ALT";
@@ -241,8 +270,13 @@ export function ExecutiveDashboardPage({
                 >
                   Relatórios
                 </Link>
-                <button type="button" className="text-[12px] font-medium text-[#9E9589] transition hover:text-[#1A1714]">
-                  Exportar
+                <button
+                  type="button"
+                  onClick={handleExport}
+                  disabled={exporting}
+                  className="text-[12px] font-medium text-[#9E9589] transition hover:text-[#1A1714] disabled:opacity-50"
+                >
+                  {exporting ? "Exportando..." : "Exportar"}
                 </button>
               </nav>
               <div className="hidden h-4 w-px bg-[rgba(139,94,60,0.14)] md:block" />

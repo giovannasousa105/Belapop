@@ -3,6 +3,7 @@ import { AlertTriangle, Clock, Store, UserCheck } from "lucide-react";
 
 import { FinanceSidebar } from "@/components/admin/financeiro/FinanceSidebar";
 import { SellerFilters } from "@/components/admin/sellers/SellerFilters";
+import { SellerHighlightOnLoad } from "@/components/admin/sellers/SellerHighlightOnLoad";
 import type { SellerCardData } from "@/components/admin/sellers/SellerCard";
 import { SummaryStrip } from "@/components/admin/financeiro/SummaryStrip";
 import { formatCurrency } from "@/lib/adm/format";
@@ -65,6 +66,7 @@ export async function SellersPage({ filters, searchParamsSource = filters }: Sel
 
   return (
     <div className="min-h-screen bg-[#FAFAF8] text-[#1A1714]">
+      <SellerHighlightOnLoad />
       <FinanceSidebar activeHref="/adm/operacao/parceiros" />
 
       <main className="pl-[220px]">

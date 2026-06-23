@@ -80,6 +80,13 @@ const ALERT_TRANSLATIONS: Record<string, AlertTranslation> = {
     actionHref: "/adm/financeiro/repasses",
     category: "financeiro",
   },
+  "conta bancaria vencida": {
+    title: "Conta bancária vencida",
+    description: "Dados bancários do seller expiraram e precisam de atualização.",
+    action: "Solicitar atualização",
+    actionHref: "/adm/curadoria/documentos",
+    category: "financeiro",
+  },
   // Curadoria / Documentos
   contrato_vencendo: {
     title: "Contrato prestes a vencer",

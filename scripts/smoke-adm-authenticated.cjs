@@ -31,7 +31,8 @@ const ROUTES = [
   "/adm/financeiro/reembolsos?status=pendente",
   "/adm/catalogo-marca/reviews?status=critico",
   "/adm/curadoria/documentos?status=pendente",
-  "/adm/gestao/log-atividades?action=aprovou"
+  "/adm/gestao/log-atividades?action=aprovou",
+  "/adm/gestao/configuracoes"
 ];
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));

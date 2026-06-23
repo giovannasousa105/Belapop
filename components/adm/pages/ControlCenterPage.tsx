@@ -23,7 +23,7 @@ export async function ControlCenterPage() {
     {
       label: "GMV Operacional",
       value: formatCurrency(metrics.gmv),
-      delta: "Consolidado mock de pedidos ativos",
+      delta: "Volume consolidado de pedidos no período",
       href: canVisit("/adm/dashboard-executivo") ? "/adm/dashboard-executivo?period=30d" : undefined
     },
     {

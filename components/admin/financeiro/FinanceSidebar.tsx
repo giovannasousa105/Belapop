@@ -34,10 +34,18 @@ const navItems: NavItem[] = [
   { label: "Clientes", href: "/adm/relacionamento/clientes", icon: Users },
   { label: "Risco", href: "/adm/financeiro/risco", icon: ShieldAlert },
   { label: "Financeiro", href: "/adm/financeiro", icon: Wallet },
-  { label: "configurações", href: "/adm/gestao/configuracoes", icon: Settings },
+  { label: "Configurações", href: "/adm/gestao/configuracoes", icon: Settings },
 ];
 
+function resolveActiveHref(activeHref: string): string | undefined {
+  return navItems
+    .filter((item) => activeHref === item.href || activeHref.startsWith(`${item.href}/`))
+    .sort((a, b) => b.href.length - a.href.length)[0]?.href;
+}
+
 export function FinanceSidebar({ activeHref }: { activeHref: string }) {
+  const resolvedActiveHref = resolveActiveHref(activeHref);
+
   return (
     <aside className="fixed left-0 top-0 z-30 flex h-screen w-[220px] flex-col border-r border-[rgba(139,94,60,0.10)] bg-[#F4F1EE] py-7">
       <div className="px-6">
@@ -52,7 +60,7 @@ export function FinanceSidebar({ activeHref }: { activeHref: string }) {
       <nav className="mt-7 flex-1 space-y-0.5 px-3">
         {navItems.map((item) => {
           const Icon = item.icon;
-          const isActive = activeHref === item.href || (item.href !== "/adm" && activeHref.startsWith(item.href));
+          const isActive = item.href === resolvedActiveHref;
           return (
             <Link
               key={item.href}

@@ -59,7 +59,7 @@ export async function RiskPage({ filters, searchParamsSource = filters }: RiskPa
   });
 
   const avgScore = rows.reduce((sum, row) => sum + row.score, 0) / Math.max(1, rows.length);
-  const inReview = rows.filter((row) => row.status === "Em Analise" || row.status === "Pendente").length;
+  const inReview = rows.filter((row) => row.status === "Em Análise" || row.status === "Pendente").length;
   const blockedToday = rows.filter((row) => row.status === "Bloqueado").length;
 
   return (

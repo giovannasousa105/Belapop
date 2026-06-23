@@ -49,7 +49,7 @@ function CustomTooltip({ active, payload, label }: CustomTooltipProps) {
           />
           <span className="text-[13px] text-[#1A1714]">
             {entry.name === "gmv"
-              ? `R$ ${entry.value.toLocaleString("pt-BR", { minimumFractionDigits: 0 })}`
+              ? `R$ ${entry.value.toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
               : `${entry.value} pedidos`}
           </span>
         </div>

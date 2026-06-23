@@ -29,6 +29,7 @@ export function SellerCard({ seller }: { seller: SellerCardData }) {
 
   return (
     <article
+      id={`seller-${seller.id}`}
       className={`flex flex-col gap-4 rounded-2xl border border-[rgba(139,94,60,0.07)] bg-white p-[22px] transition-all hover:-translate-y-0.5 hover:border-[rgba(139,94,60,0.30)] hover:shadow-[0_8px_28px_rgba(0,0,0,0.07)] ${
         atRisk ? "border-l-[3px] border-l-[#F59E0B]" : ""
       }`}

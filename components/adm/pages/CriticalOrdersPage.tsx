@@ -475,16 +475,6 @@ export async function CriticalOrdersPage({
           </section>
         </div>
       </main>
-
-      {/* FAB — Intervenção Rápida */}
-      <Link
-        href="/adm/operacao/logistica/incidentes"
-        className="fixed bottom-7 right-7 z-[100] flex items-center gap-2 rounded-full bg-[#EF4444] px-5 py-3 text-[13px] font-semibold text-white shadow-[0_4px_20px_rgba(239,68,68,0.4)] transition-all hover:bg-[#DC2626] hover:shadow-[0_8px_28px_rgba(239,68,68,0.5)] hover:-translate-y-0.5"
-        aria-label="Intervenção Rápida"
-      >
-        <Zap className="h-4 w-4" strokeWidth={2.2} />
-        <span>Intervenção Rápida</span>
-      </Link>
     </div>
   );
 }
