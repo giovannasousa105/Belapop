@@ -55,8 +55,8 @@ export function FinanceKpiCard({
 
       <div>
         <p
-          className={`${cormorant.className} text-[34px] font-medium leading-none tracking-[-0.02em] text-[#1A1714]`}
-          style={{ fontVariantNumeric: "tabular-nums" }}
+          className={`${cormorant.className} text-[34px] font-medium leading-none text-[#1A1714]`}
+          style={{ fontVariantNumeric: "tabular-nums", letterSpacing: "0.01em" }}
         >
           {value}
         </p>
