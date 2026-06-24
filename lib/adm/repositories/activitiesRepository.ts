@@ -79,7 +79,7 @@ const withRelations = (
   return {
     id: entry.id,
     userId: entry.userId,
-    userName: userMap[entry.userId]?.name ?? "Usuario removido",
+    userName: userMap[entry.userId]?.name ?? (entry.userId === "system" ? "Sistema" : "Usuario removido"),
     entityType: entry.entityType,
     entityId: entry.entityId,
     actionType: entry.actionType,

@@ -42,7 +42,12 @@ export async function RiskPage({ filters, searchParamsSource = filters }: RiskPa
   const orderMap = Object.fromEntries(dataSource.orders.map((order) => [order.id, order]));
   const payoutMap = Object.fromEntries(dataSource.payouts.map((payout) => [payout.id, payout]));
 
-  const rows = alertsResult.data.items.map((alert) => {
+  // Alertas sem seller_id são monitoramento de infraestrutura (DR test, on-call,
+  // reconciliação de gateway) — não são casos de risco de seller e não pertencem
+  // a esta tabela de Antifraude (ficam visíveis no feed de alertas do dashboard).
+  const sellerRiskAlerts = alertsResult.data.items.filter((alert) => Boolean(alert.sellerId));
+
+  const rows = sellerRiskAlerts.map((alert) => {
     const order = alert.orderId ? orderMap[alert.orderId] : undefined;
     const payout = alert.payoutId ? payoutMap[alert.payoutId] : undefined;
     const amount = payout?.grossAmount ?? order?.total ?? 0;
@@ -139,6 +144,13 @@ export async function RiskPage({ filters, searchParamsSource = filters }: RiskPa
                 </tr>
               </thead>
               <tbody>
+                {rows.length === 0 ? (
+                  <tr>
+                    <td colSpan={7} className="border-b border-[rgba(139,94,60,0.07)] px-4 py-10 text-center text-sm text-[#9E9589]">
+                      Nenhum alerta de risco de seller no momento.
+                    </td>
+                  </tr>
+                ) : null}
                 {rows.map((row) => (
                   <tr key={row.id} className="transition-colors hover:bg-[rgba(139,94,60,0.08)]">
                     <td className="border-b border-[rgba(139,94,60,0.07)] px-4 py-3.5 font-mono text-[12px] text-[#1A1714]">

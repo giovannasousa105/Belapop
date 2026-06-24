@@ -1026,7 +1026,10 @@ export async function loadSupabaseAdmDataSource(base: AdmDataSource): Promise<Ad
               entityId: pickFirstString(row.entity_id, "sem-id") ?? "sem-id",
               actionType: pickFirstString(row.permission_used, action) ?? action,
               actionLabel: action,
-              status: normalizeAdminStatus(row.action ?? row.permission_used),
+              // Entradas de audit log registram eventos já ocorridos — não fazem
+              // sentido como "pendente" (normalizeAdminStatus cai nesse fallback
+              // para qualquer action não reconhecida, ex.: "update", "insert").
+              status: "resolvido",
               createdAt: toIsoString(row.occurred_at),
               contextPathname: undefined,
               summary: pickFirstString(row.notes) ?? undefined,

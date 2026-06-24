@@ -29,6 +29,20 @@ const ALERT_TRANSLATIONS: Record<string, AlertTranslation> = {
     actionHref: "/adm/gestao/usuarios-internos",
     category: "sistema",
   },
+  dr_drill_upcoming: {
+    title: "Simulação de recuperação agendada",
+    description: "Há uma simulação de recuperação de desastre programada para os próximos dias.",
+    action: "Ver agenda de DR",
+    actionHref: "/adm/gestao/log-atividades",
+    category: "sistema",
+  },
+  gateway_reconciliation: {
+    title: "Divergência na reconciliação do gateway",
+    description: "O fechamento financeiro do provedor de pagamento apresentou divergência entre valores registrados e repassados.",
+    action: "Revisar reconciliação",
+    actionHref: "/adm/gestao/log-atividades",
+    category: "financeiro",
+  },
   // Logística
   "atraso sem movimentacao": {
     title: "Atraso sem movimentação",
