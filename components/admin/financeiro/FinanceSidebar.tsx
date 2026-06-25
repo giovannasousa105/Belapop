@@ -2,6 +2,7 @@
 import Link from "next/link";
 import { Cormorant_Garamond } from "next/font/google";
 import {
+  BarChart3,
   LayoutDashboard,
   Sparkles,
   Store,
@@ -34,6 +35,7 @@ const navItems: NavItem[] = [
   { label: "Clientes", href: "/adm/relacionamento/clientes", icon: Users },
   { label: "Risco", href: "/adm/financeiro/risco", icon: ShieldAlert },
   { label: "Financeiro", href: "/adm/financeiro", icon: Wallet },
+  { label: "Relatórios", href: "/adm/gestao/relatorios", icon: BarChart3 },
   { label: "Configurações", href: "/adm/gestao/configuracoes", icon: Settings },
 ];
 

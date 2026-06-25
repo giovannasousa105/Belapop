@@ -2,25 +2,9 @@
 import Link from "next/link";
 import { Noto_Serif } from "next/font/google";
 import type { CSSProperties } from "react";
-import type { LucideIcon } from "lucide-react";
-import {
-  BarChart3,
-  Bell,
-  ChevronDown,
-  Download,
-  FileText,
-  LayoutDashboard,
-  Search,
-  Settings,
-  ShoppingBag,
-  ShoppingCart,
-  Sparkles,
-  Store,
-  Truck,
-  Users,
-  Wallet
-} from "lucide-react";
+import { ChevronDown, Download, FileText } from "lucide-react";
 
+import { FinanceSidebar } from "@/components/admin/financeiro/FinanceSidebar";
 import { formatCurrency } from "@/lib/adm/format";
 import { getAdmDataSource } from "@/lib/adm/repositories/source";
 import type { AdmFilters, SearchParamsInput } from "@/lib/adm/url";
@@ -53,13 +37,6 @@ const reportsTheme = {
   "--reports-tertiary": "#a23d3e",
   "--reports-shadow": "0 18px 40px rgba(49, 51, 44, 0.04)"
 } as CSSProperties;
-
-type SidebarItem = {
-  label: string;
-  href: string;
-  icon: LucideIcon;
-  active?: boolean;
-};
 
 type Metric = {
   label: string;
@@ -96,18 +73,6 @@ type SellerPerformance = {
   status: string;
   statusTone: "green" | "neutral" | "tertiary";
 };
-
-const sidebarItems: SidebarItem[] = [
-  { label: "Dashboard", href: "/adm/dashboard-executivo", icon: LayoutDashboard },
-  { label: "Curadoria", href: "/adm/curadoria/produtos", icon: Sparkles },
-  { label: "Sellers", href: "/adm/operacao/parceiros", icon: Store },
-  { label: "Pedidos", href: "/adm/operacao/pedidos-criticos", icon: ShoppingCart },
-  { label: "Logística", href: "/adm/operacao/logistica", icon: Truck },
-  { label: "Relatórios", href: "/adm/gestao/relatorios", icon: BarChart3, active: true },
-  { label: "Financeiro", href: "/adm/financeiro", icon: Wallet },
-  { label: "Clientes", href: "/adm/relacionamento/clientes", icon: Users },
-  { label: "configurações", href: "/adm/gestao/configuracoes", icon: Settings }
-];
 
 const metrics: Metric[] = [
   {
@@ -224,24 +189,6 @@ const sellerPerformance: SellerPerformance[] = [
     statusTone: "tertiary"
   }
 ];
-
-function ReportsSidebarLink({ item }: { item: SidebarItem }) {
-  const Icon = item.icon;
-
-  return (
-    <Link
-      href={item.href}
-      className={`flex items-center gap-3 pl-4 text-sm tracking-wide transition-all duration-200 ${
-        item.active
-          ? "translate-x-1 border-l-2 border-[var(--reports-primary)] font-bold text-[var(--reports-text)]"
-          : "translate-x-1 text-[var(--reports-primary)] hover:text-[var(--reports-text)]"
-      }`}
-    >
-      <Icon className="h-5 w-5" strokeWidth={1.7} />
-      <span>{item.label}</span>
-    </Link>
-  );
-}
 
 function FilterField({
   label,
@@ -465,75 +412,9 @@ export async function ReportsPage({ filters: _filters, searchParamsSource: _sear
     .slice(0, 6);
   return (
     <div className="min-h-screen bg-[var(--reports-bg)] text-[var(--reports-text)]" style={reportsTheme}>
-      <aside className="fixed left-0 top-0 z-40 flex h-screen w-64 flex-col overflow-y-auto bg-[var(--reports-sidebar)] px-4 py-8">
-        <div className="mb-12 px-4">
-          <span className={`mb-1 block text-xl text-[var(--reports-text)] ${notoSerif.className}`}>
-            BelaPop
-          </span>
-          <span className="text-[10px] uppercase tracking-[0.28em] text-[var(--reports-primary)] opacity-70">
-            Backoffice Premium
-          </span>
-        </div>
+      <FinanceSidebar activeHref="/adm/gestao/relatorios" />
 
-        <nav className="space-y-6 text-sm tracking-wide">
-          {sidebarItems.map((item) => (
-            <ReportsSidebarLink key={item.href} item={item} />
-          ))}
-        </nav>
-
-        <div className="mt-auto flex items-center gap-3 border-t border-[rgba(177,179,169,0.1)] px-4 pt-8">
-          <div className="h-8 w-8 overflow-hidden rounded-full bg-[var(--reports-surface-highest)]">
-            <Image
-              alt="BelaPop Admin"
-              className="h-full w-full object-cover"
-              src="https://lh3.googleusercontent.com/aida-public/AB6AXuBNymLNKD3JuMSRSkOoN80xdGIzi_NhrXUdapUxQrTKuyCeKM-uvabqy5t2NI1VC5C97Lvn4yByox4OrOtyOwpjwRHiVfmWX4HH0Wl1kRRpxgDAZTSeLXyJEuN4DsCdbo9Ok4OKvSeFyYK_VuMq2tDnzjQqx9rFinRJeDz7BCmKAz0QAg6qhVMjn8yCD738mU5eP_mdm3jWsBp8sMgLID9jCgcaD_cF059spFdMkyDZdrffss_QlHEANnZ63Amk0ruw6xS2iMTvdlO0"
-              width={32}
-              height={32}
-            />
-          </div>
-          <div>
-            <p className="text-xs font-bold">Admin BelaPop</p>
-            <p className="text-[10px] opacity-60">Level 4</p>
-          </div>
-        </div>
-      </aside>
-
-      <main className="ml-64 min-h-screen pb-20">
-        <header className="sticky top-0 z-30 flex h-16 w-full items-center justify-between bg-[var(--reports-bg)] px-12">
-          <div className="flex items-center gap-6">
-            <h1 className={`text-2xl italic text-[var(--reports-text)] ${notoSerif.className}`}>
-              BelaPop
-            </h1>
-          </div>
-          <div className="flex items-center gap-6">
-            <button
-              type="button"
-              aria-label="Buscar"
-              className="text-[var(--reports-primary)] opacity-70"
-            >
-              <Search className="h-5 w-5" strokeWidth={1.8} />
-            </button>
-            <div className="flex gap-4">
-              <button
-                type="button"
-                aria-label="Notificações"
-                className="text-[var(--reports-primary)] opacity-90 transition-opacity hover:opacity-100"
-              >
-                <Bell className="h-5 w-5" strokeWidth={1.8} />
-              </button>
-              <button
-                type="button"
-                aria-label="Pedidos"
-                className="text-[var(--reports-primary)] opacity-90 transition-opacity hover:opacity-100"
-              >
-                <ShoppingBag className="h-5 w-5" strokeWidth={1.8} />
-              </button>
-            </div>
-          </div>
-        </header>
-
-        <div className="block h-px w-full bg-[var(--reports-surface-low)]" />
-
+      <main className="pl-[220px] min-h-screen pb-20">
         <div className="mx-auto max-w-[1200px] px-12 pt-12">
           <div className="mb-16 flex flex-col items-end justify-between gap-6 md:flex-row">
             <div className="space-y-2 self-start">
