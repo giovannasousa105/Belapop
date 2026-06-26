@@ -5,20 +5,14 @@ import type { CSSProperties } from "react";
 import type { LucideIcon } from "lucide-react";
 import {
   AlertTriangle,
-  Bell,
   CalendarDays,
   ChevronDown,
   ChevronLeft,
   ChevronRight,
-  LayoutDashboard,
-  LogOut,
-  Package2,
-  Settings,
-  ShieldAlert,
-  Truck,
-  Undo2
+  ShieldAlert
 } from "lucide-react";
 
+import { FinanceSidebar } from "@/components/admin/financeiro/FinanceSidebar";
 import { qualityRepository } from "@/lib/adm/repositories";
 import { getAdmDataSource } from "@/lib/adm/repositories/source";
 import type { QualityScoreListItem } from "@/lib/adm/repositories/qualityRepository";
@@ -49,13 +43,6 @@ type CurationMonitoringPageProps = {
   searchParamsSource: SearchParamsInput;
 };
 
-type SidebarItem = {
-  label: string;
-  href: string;
-  icon: LucideIcon;
-  active?: boolean;
-};
-
 type SummaryCard = {
   label: string;
   value: string;
@@ -84,14 +71,6 @@ type MonitoringRow = {
   secondaryLabel: string;
 };
 
-const sidebarItems: SidebarItem[] = [
-  { label: "Dashboard", href: "/adm/dashboard-executivo", icon: LayoutDashboard },
-  { label: "Sellers em Risco", href: "/adm/curadoria/monitoramento", icon: ShieldAlert, active: true },
-  { label: "Produtos", href: "/adm/curadoria/produtos", icon: Package2 },
-  { label: "Logistica", href: "/adm/operacao/logistica", icon: Truck },
-  { label: "Devoluções", href: "/adm/financeiro/reembolsos", icon: Undo2 }
-];
-
 const periodLabelMap: Record<string, string> = {
   "7d": "Ultimos 7 dias",
   "30d": "Ultimos 30 dias",
@@ -114,24 +93,6 @@ const entityPreviewImages = {
   avatar:
     "https://lh3.googleusercontent.com/aida-public/AB6AXuD0ROAVx3Wxiz6hrCIiioEX05scT1IVaDQ1sIkKGAH4naSeVdaDzkm0ZeExBtszzOuThL0auyA1uQXxBefOnXkCf_UcHTo5WGTaf4zfPsvAQueCkC-h4p3mg1GV6p8GHK2PYyeFL5-Ny12JrFZ4dI4M5lyF_U9CbYUM5M5s2Raf3UJ1uY5VWpEAqzdCQuEOkobQgggRnSFobkECpPHJJ2n_WH5jZOKhROQ-uhLjspxriY_eDor1N-V9MfX6zjvWFG8kxFwAvcT5G6CV"
 };
-
-function SidebarLink({ item }: { item: SidebarItem }) {
-  const Icon = item.icon;
-
-  return (
-    <Link
-      href={item.href}
-      className={`flex items-center gap-3 py-2 text-sm transition-all ${
-        item.active
-          ? "translate-x-1 border-l-2 border-neutral-900 pl-4 font-bold text-neutral-900"
-          : "pl-4 text-neutral-500 hover:bg-white/50 hover:text-neutral-900"
-      }`}
-    >
-      <Icon className="h-[18px] w-[18px]" strokeWidth={1.7} />
-      <span>{item.label}</span>
-    </Link>
-  );
-}
 
 function SummaryCardView({ card }: { card: SummaryCard }) {
   const Icon = card.icon;
@@ -397,85 +358,9 @@ export async function CurationMonitoringPage({
       className="flex min-h-screen overflow-hidden bg-[var(--monitoring-bg)] text-[var(--monitoring-text)]"
       style={monitoringTheme}
     >
-      <aside className="fixed inset-y-0 left-0 z-40 hidden w-64 flex-col bg-[var(--monitoring-surface-low)] px-6 py-10 md:flex">
-        <div className="mb-8 flex flex-col space-y-1">
-          <span className={`${notoSerif.className} text-xl italic text-[var(--monitoring-primary)]`}>
-            Qualidade
-          </span>
-          <span className="text-[10px] uppercase tracking-[0.2em] text-[var(--monitoring-outline)]">
-            Monitoramento Premium
-          </span>
-        </div>
+      <FinanceSidebar activeHref="/adm/curadoria/monitoramento" />
 
-        <nav className="flex flex-1 flex-col space-y-4">
-          {sidebarItems.map((item) => (
-            <SidebarLink key={item.href} item={item} />
-          ))}
-        </nav>
-
-        <div className="mt-8 flex flex-col space-y-4 border-t border-[var(--monitoring-border)] pt-8">
-          <button
-            type="button"
-            className="rounded-xl bg-[var(--monitoring-primary)] px-4 py-3 text-xs font-medium tracking-wide text-white shadow-sm transition-opacity hover:opacity-90"
-          >
-            Gerar Relatorio Anual
-          </button>
-
-          <Link
-            href="/adm/gestao/configuracoes"
-            className="flex items-center gap-3 py-2 pl-4 text-sm text-neutral-500 transition-colors hover:bg-white/50 hover:text-neutral-900"
-          >
-            <Settings className="h-[18px] w-[18px]" strokeWidth={1.7} />
-            <span>Suporte</span>
-          </Link>
-
-          <Link
-            href="/adm/login"
-            className="flex items-center gap-3 py-2 pl-4 text-sm text-neutral-500 transition-colors hover:bg-white/50 hover:text-neutral-900"
-          >
-            <LogOut className="h-[18px] w-[18px]" strokeWidth={1.7} />
-            <span>Sair</span>
-          </Link>
-        </div>
-      </aside>
-
-      <main className="flex h-screen min-h-screen flex-1 flex-col overflow-y-auto md:ml-64">
-        <header className="sticky top-0 z-30 flex items-center justify-between bg-stone-50/80 px-6 py-6 backdrop-blur-xl sm:px-10 xl:px-12">
-          <div className="flex flex-col">
-            <span className="text-lg font-semibold tracking-[-0.02em] text-neutral-900">
-              The Editorial Curator
-            </span>
-          </div>
-
-          <div className="flex items-center gap-8">
-            <nav className="hidden items-center gap-8 font-[Noto_Serif] text-sm tracking-tight lg:flex">
-              <Link href="/adm/curadoria/monitoramento" className="border-b border-neutral-900 pb-1 text-neutral-900">
-                Visao Geral
-              </Link>
-              <Link href="/adm/gestao/relatorios" className="text-neutral-500 transition-colors hover:text-neutral-900">
-                Relatorios
-              </Link>
-              <Link href="/adm/financeiro/risco" className="text-neutral-500 transition-colors hover:text-neutral-900">
-                Alertas
-              </Link>
-            </nav>
-
-            <div className="flex items-center gap-5 text-neutral-800">
-              <Bell className="h-5 w-5 cursor-pointer transition-opacity hover:opacity-60" strokeWidth={1.7} />
-              <Settings className="h-5 w-5 cursor-pointer transition-opacity hover:opacity-60" strokeWidth={1.7} />
-              <div className="relative h-8 w-8 overflow-hidden rounded-full">
-                <Image
-                  src={entityPreviewImages.avatar}
-                  alt="Avatar do curador"
-                  fill
-                  sizes="32px"
-                  className="object-cover"
-                />
-              </div>
-            </div>
-          </div>
-        </header>
-
+      <main className="flex h-screen min-h-screen flex-1 flex-col overflow-y-auto pl-[220px]">
         <div className="space-y-12 p-6 sm:p-10 xl:p-12">
           <section className="flex flex-col justify-between gap-6 md:flex-row md:items-end">
             <div className="space-y-2">

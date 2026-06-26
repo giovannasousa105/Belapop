@@ -2,28 +2,18 @@
 import Link from "next/link";
 import { Noto_Serif } from "next/font/google";
 import type { CSSProperties } from "react";
-import type { LucideIcon } from "lucide-react";
 import {
   Bell,
-  ChartColumn,
   ChevronLeft,
   ChevronRight,
   Clock3,
   Download,
-  LayoutDashboard,
   Printer,
   ScrollText,
-  Search,
-  Settings,
-  ShieldAlert,
-  ShoppingBag,
-  Sparkles,
-  Store,
-  Truck,
-  Users,
-  Wallet
+  Search
 } from "lucide-react";
 
+import { FinanceSidebar } from "@/components/admin/financeiro/FinanceSidebar";
 import { activitiesRepository, optionsRepository } from "@/lib/adm/repositories";
 import type {
   ActivityLogDetailItem,
@@ -56,13 +46,6 @@ type CurationHistoryPageProps = {
   searchParamsSource: SearchParamsInput;
 };
 
-type SidebarItem = {
-  label: string;
-  href: string;
-  icon: LucideIcon;
-  active?: boolean;
-};
-
 type ActivityVisual = {
   title: string;
   meta: string;
@@ -73,19 +56,6 @@ type AvatarConfig = {
   initials: string;
   toneClassName: string;
 };
-
-const sidebarItems: SidebarItem[] = [
-  { label: "Dashboard", href: "/adm/dashboard-executivo", icon: LayoutDashboard },
-  { label: "Curadoria", href: "/adm/curadoria/produtos", icon: Sparkles, active: true },
-  { label: "Sellers", href: "/adm/operacao/parceiros", icon: Store },
-  { label: "Pedidos", href: "/adm/operacao/pedidos-criticos", icon: ShoppingBag },
-  { label: "Logistica", href: "/adm/operacao/logistica", icon: Truck },
-  { label: "Risco", href: "/adm/financeiro/risco", icon: ShieldAlert },
-  { label: "Financeiro", href: "/adm/financeiro", icon: Wallet },
-  { label: "Clientes", href: "/adm/relacionamento/clientes", icon: Users },
-  { label: "Relatorios", href: "/adm/gestao/relatorios", icon: ChartColumn },
-  { label: "Configurações", href: "/adm/gestao/configuracoes", icon: Settings }
-];
 
 const avatarByUserName: Record<string, AvatarConfig> = {
   "Ana Curadoria": {
@@ -111,24 +81,6 @@ const avatarByUserName: Record<string, AvatarConfig> = {
 };
 
 const periodOptions = optionsRepository.listPeriodOptions();
-
-function SidebarLink({ item }: { item: SidebarItem }) {
-  const Icon = item.icon;
-
-  return (
-    <Link
-      href={item.href}
-      className={`flex items-center gap-3 py-2 text-sm transition-colors ${
-        item.active
-          ? "border-l-2 border-[var(--history-primary)] bg-stone-200/30 pl-4 font-semibold text-[var(--history-text)]"
-          : "pl-4 font-medium text-[var(--history-primary)] hover:bg-stone-200/40 hover:text-[var(--history-text)]"
-      }`}
-    >
-      <Icon className="h-4 w-4" strokeWidth={1.7} />
-      <span>{item.label}</span>
-    </Link>
-  );
-}
 
 function HiddenFilterFields({
   filters,
@@ -325,43 +277,9 @@ export async function CurationHistoryPage({
       className="min-h-screen bg-[var(--history-bg)] text-[var(--history-text)]"
       style={historyTheme}
     >
-      <div className="flex min-h-screen">
-        <aside className="hidden h-screen w-72 shrink-0 flex-col gap-8 border-r border-stone-200/20 bg-[var(--history-sidebar)] px-6 py-10 lg:flex">
-          <div className="mb-4">
-            <span className="text-xl tracking-[0.2em] text-stone-900">BelaPop</span>
-            <p className="mt-1 text-[10px] font-medium uppercase tracking-widest text-stone-500">
-              Premium Management
-            </p>
-          </div>
+      <FinanceSidebar activeHref="/adm/curadoria/historico-versoes" />
 
-          <nav className="flex flex-1 flex-col gap-1 overflow-y-auto pr-2">
-            {sidebarItems.map((item) => (
-              <SidebarLink key={item.href} item={item} />
-            ))}
-          </nav>
-
-          <div className="mt-auto border-t border-stone-200/20 pt-8">
-            <div className="flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center overflow-hidden rounded-full bg-stone-200">
-                <Image
-                  src="https://lh3.googleusercontent.com/aida-public/AB6AXuB8t9IC4oaDqM7JlDfEMx-IhNVFVasGJPkTwq8JT13q0RTj8nECp1BWUFZCiUU-XKX5d-kpLTB_dr81so_wMElZmRvnr9Cr4UfmIYNVoF_1ln5XpfsxRz2zodnzlALPTANWreXief8Mt5AD1BbXlmvp766xfsBknupKUZD_jdMR8Bt4ZdL48gMlD695HR732fM7dwY87xYoIymuKpqxoDE9mBwI5R2OoABuO4YTkRmT_z0BL4Oa1VjMqN2zQNVMYVpyK8aGJ__Trp5c"
-                  alt="Admin BelaPop"
-                  width={40}
-                  height={40}
-                  className="h-full w-full object-cover"
-                />
-              </div>
-              <div className="flex flex-col">
-                <span className="text-sm font-semibold text-stone-900">Adrian Curator</span>
-                <span className="text-[10px] uppercase tracking-widest text-stone-500">
-                  Platform Admin
-                </span>
-              </div>
-            </div>
-          </div>
-        </aside>
-
-        <main className="min-w-0 flex-1">
+      <main className="pl-[220px] min-w-0">
           <header className="sticky top-0 z-40 flex w-full items-center justify-between bg-stone-50/80 px-6 py-6 backdrop-blur-xl sm:px-8 xl:px-12">
             <h1 className={`${notoSerif.className} text-2xl italic tracking-tight text-stone-900`}>
               Historico de Versoes
@@ -667,7 +585,6 @@ export async function CurationHistoryPage({
             </div>
           </div>
         </main>
-      </div>
     </div>
   );
 }

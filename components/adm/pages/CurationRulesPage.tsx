@@ -6,22 +6,14 @@ import type { LucideIcon } from "lucide-react";
 import {
   AlignLeft,
   AlertTriangle,
-  Bell,
-  ChartColumn,
   Edit3,
   FileText,
   Flag,
-  Gavel,
-  HelpCircle,
-  LayoutDashboard,
-  LogOut,
-  Package2,
-  Search,
   Settings2,
-  WandSparkles,
   Wallpaper
 } from "lucide-react";
 
+import { FinanceSidebar } from "@/components/admin/financeiro/FinanceSidebar";
 import { governanceRepository } from "@/lib/adm/repositories";
 import { getAdmDataSource } from "@/lib/adm/repositories/source";
 import { toListQueryParams, type AdmFilters, type SearchParamsInput } from "@/lib/adm/url";
@@ -51,13 +43,6 @@ const rulesTheme = {
   "--rules-border": "rgba(177, 179, 169, 0.15)",
   "--rules-shadow": "0 20px 40px rgba(49, 51, 44, 0.03)"
 } as CSSProperties;
-
-type SidebarItem = {
-  label: string;
-  href: string;
-  icon: LucideIcon;
-  active?: boolean;
-};
 
 type ContentRule = {
   eyebrow: string;
@@ -89,13 +74,6 @@ type CategoryRule = {
   detail: string;
 };
 
-const sidebarItems: SidebarItem[] = [
-  { label: "Dashboard", href: "/adm/dashboard-executivo", icon: LayoutDashboard },
-  { label: "Inventory", href: "/adm/curadoria/produtos", icon: Package2 },
-  { label: "Curadoria", href: "/adm/curadoria/regras", icon: Gavel, active: true },
-  { label: "Marketing", href: "/adm/catalogo-marca/campanhas", icon: WandSparkles },
-  { label: "Analytics", href: "/adm/gestao/relatorios", icon: ChartColumn }
-];
 
 const contentRules: ContentRule[] = [
   {
@@ -160,24 +138,6 @@ const categoryRules: CategoryRule[] = [
     detail: "Exigir registro ANVISA valido no campo 'Legal'."
   }
 ];
-
-function SidebarLink({ item }: { item: SidebarItem }) {
-  const Icon = item.icon;
-
-  return (
-    <Link
-      href={item.href}
-      className={`flex items-center gap-3 py-3 font-sans text-sm uppercase tracking-wide transition-transform duration-200 ${
-        item.active
-          ? "border-l-2 border-stone-800 pl-4 font-bold text-stone-900"
-          : "pl-4 text-stone-500 hover:translate-x-1 hover:text-stone-700"
-      }`}
-    >
-      <Icon className="h-4 w-4" strokeWidth={1.7} />
-      <span>{item.label}</span>
-    </Link>
-  );
-}
 
 function Switch({
   enabled,
@@ -268,86 +228,9 @@ export async function CurationRulesPage({
       className="flex min-h-screen overflow-hidden bg-[var(--rules-bg)] font-body text-[var(--rules-text)] selection:bg-[#f8decc]"
       style={rulesTheme}
     >
-      <aside className="hidden h-screen w-64 shrink-0 flex-col border-r border-stone-200/20 bg-stone-100 py-8 md:flex">
-        <div className="mb-12 px-8">
-          <h1 className={`${notoSerif.className} text-2xl italic text-stone-900`}>BelaPop</h1>
-          <p className="mt-1 text-[10px] uppercase tracking-[0.2em] text-stone-500">Premium Curator</p>
-        </div>
+      <FinanceSidebar activeHref="/adm/curadoria/regras" />
 
-        <nav className="flex-1 space-y-2">
-          {sidebarItems.map((item) => (
-            <SidebarLink key={item.href} item={item} />
-          ))}
-        </nav>
-
-        <div className="mb-8 px-4">
-          <button
-            type="button"
-            className="w-full rounded-xl bg-[var(--rules-primary)] py-3 text-sm font-medium tracking-wide text-white transition-opacity duration-300 hover:opacity-90"
-          >
-            New Rule Set
-          </button>
-        </div>
-
-        <footer className="space-y-2 border-t border-stone-200/10 pt-6">
-          <Link
-            href="/adm/gestao/configuracoes"
-            className="flex items-center gap-3 py-2 pl-4 font-sans text-sm uppercase tracking-wide text-stone-500 transition-transform duration-200 hover:translate-x-1 hover:text-stone-700"
-          >
-            <HelpCircle className="h-4 w-4" strokeWidth={1.7} />
-            <span>Support</span>
-          </Link>
-          <Link
-            href="/adm/login"
-            className="flex items-center gap-3 py-2 pl-4 font-sans text-sm uppercase tracking-wide text-stone-500 transition-transform duration-200 hover:translate-x-1 hover:text-stone-700"
-          >
-            <LogOut className="h-4 w-4" strokeWidth={1.7} />
-            <span>Logout</span>
-          </Link>
-        </footer>
-      </aside>
-
-      <main className="relative flex h-screen min-h-screen flex-1 flex-col overflow-y-auto">
-        <header className="sticky top-0 z-50 flex h-20 w-full items-center justify-between bg-stone-50/80 px-6 backdrop-blur-xl sm:px-10 xl:px-12">
-          <nav className="hidden items-center gap-8 font-sans text-[11px] uppercase tracking-widest lg:flex">
-            <Link href="/adm/curadoria/regras" className="text-stone-400 transition-colors duration-300 hover:text-stone-600">
-              Global Rules
-            </Link>
-            <Link href="/adm/gestao/log-atividades" className="text-stone-400 transition-colors duration-300 hover:text-stone-600">
-              Audit Log
-            </Link>
-            <Link href="/adm/gestao/configuracoes" className="border-b border-stone-800 pb-1 font-semibold text-stone-900">
-              Settings
-            </Link>
-          </nav>
-
-          <div className="ml-auto flex items-center gap-4 sm:gap-6">
-            <div className="relative hidden sm:block">
-              <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-stone-400" strokeWidth={1.7} />
-              <input
-                readOnly
-                value=""
-                placeholder="Search rules..."
-                className="w-64 rounded-full bg-[var(--rules-surface-low)] py-2 pl-10 pr-4 text-sm text-stone-700 placeholder:text-stone-400 focus:outline-none focus:ring-1 focus:ring-[rgba(95,94,94,0.2)]"
-              />
-            </div>
-
-            <button type="button" aria-label="Notificacoes" className="text-stone-800 transition-opacity hover:opacity-70">
-              <Bell className="h-5 w-5" strokeWidth={1.7} />
-            </button>
-
-            <div className="h-8 w-8 overflow-hidden rounded-full bg-stone-200">
-              <Image
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuDpP8B8NkZ7Ydmp12uBGa6nYZ-y6lkjjMLBHZ8jQIpyc1zU2PrkEgDtTZtxm7oVXEkFt18vceWjqIwPgteialgONxTn772IsriSWjlbUjLYMFmE6TCHWb4CfKlH7JjynpaW5A30o6HR6foNynPbmr0UQBsH72MNYB6k5Av104-Swi518JQuNe7h6SsAmczxGI1oP9abVlUhGJmtczAQx4SvAXdPn2RblM7-EP_p-hQ-4MLKJrI7hHUIYuaPbSwlsUeXhDoIw0YxZlwQ"
-                alt="Admin"
-                width={32}
-                height={32}
-                className="h-full w-full object-cover"
-              />
-            </div>
-          </div>
-        </header>
-
+      <main className="relative flex h-screen min-h-screen flex-1 flex-col overflow-y-auto pl-[220px]">
         <div className="mx-auto w-full max-w-7xl space-y-16 p-6 sm:p-10 xl:p-12">
           <section>
             <h2 className={`${notoSerif.className} mb-4 text-4xl tracking-[-0.02em] text-[var(--rules-text)] xl:text-5xl`}>

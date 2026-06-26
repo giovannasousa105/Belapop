@@ -7,20 +7,15 @@ import {
   ArrowUpDown,
   Eye,
   ImagePlus,
-  LayoutDashboard,
   MoreVertical,
   Plus,
   Settings2,
-  ShieldAlert,
-  ShoppingCart,
   Sparkles,
   Star,
-  Store,
-  Truck,
-  Users,
   Wallet
 } from "lucide-react";
 
+import { FinanceSidebar } from "@/components/admin/financeiro/FinanceSidebar";
 import { campaignsRepository } from "@/lib/adm/repositories";
 import { getAdmDataSource } from "@/lib/adm/repositories/source";
 import type { AdmFilters, SearchParamsInput } from "@/lib/adm/url";
@@ -49,13 +44,6 @@ const shelvesTheme = {
 type ContentShelvesPageProps = {
   filters: AdmFilters;
   searchParamsSource: SearchParamsInput;
-};
-
-type SidebarItem = {
-  label: string;
-  href: string;
-  icon: LucideIcon;
-  active?: boolean;
 };
 
 type HeroSlotVisual = {
@@ -97,18 +85,6 @@ type SlotDisplay = {
   slotLabel: string;
   status: string;
 };
-
-const sidebarItems: SidebarItem[] = [
-  { label: "Dashboard", href: "/adm/dashboard-executivo", icon: LayoutDashboard },
-  { label: "Curadoria", href: "/adm/curadoria/produtos", icon: Sparkles, active: true },
-  { label: "Sellers", href: "/adm/operacao/parceiros", icon: Store },
-  { label: "Pedidos", href: "/adm/operacao/pedidos-criticos", icon: ShoppingCart },
-  { label: "Logistica", href: "/adm/operacao/logistica", icon: Truck },
-  { label: "Risco", href: "/adm/financeiro/risco", icon: ShieldAlert },
-  { label: "Financeiro", href: "/adm/financeiro", icon: Wallet },
-  { label: "Clientes", href: "/adm/relacionamento/clientes", icon: Users },
-  { label: "Configurações", href: "/adm/gestao/configuracoes", icon: Settings2 }
-];
 
 const heroSlotVisuals: HeroSlotVisual[] = [
   {
@@ -219,9 +195,6 @@ const slotDisplays: SlotDisplay[] = [
   }
 ];
 
-const avatarImage =
-  "https://lh3.googleusercontent.com/aida-public/AB6AXuA1_kf_3I2JsVepNHg-nKBYRkm5QcrCPANSuFgeCq4cLFQrxGVA-0I4XU7o7QDYUMtI_xW-NTImuvAb-E4liICP0LLGj53s-er7SZuRLUZzsC6rtE7p4A-VizvjixN-Ul4FRwa3cyrJuy2JxHQiNcqCjXsvMAn8pIkNWTbE6pol4a_b4QhpYWJZQRiMI1AbpFQj4u4Nt0OrPBk2ApuypMj6J-M9rHciFCeyO04mZIs-DtBgHIXocQJUxEMw5MH2p9CKDICRVyFjN4Ud";
-
 function shelfStateChip(status: Campaign["status"]) {
   if (status === "destaque" || status === "aprovado" || status === "premium") {
     return "bg-white/80 text-[var(--shelves-text)]";
@@ -244,24 +217,6 @@ function buildHighlightProducts(products: Product[], productFilter?: string) {
     : featured;
 
   return prioritized.slice(0, 3);
-}
-
-function SidebarLink({ item }: { item: SidebarItem }) {
-  const Icon = item.icon;
-
-  return (
-    <Link
-      href={item.href}
-      className={`flex items-center gap-4 px-8 py-3 text-sm transition-all ${
-        item.active
-          ? "border-l-2 border-[var(--shelves-primary)] pl-4 font-semibold text-[var(--shelves-text)]"
-          : "text-[var(--shelves-primary)] hover:bg-[var(--shelves-surface-muted)]"
-      }`}
-    >
-      <Icon className="h-5 w-5" strokeWidth={1.7} />
-      <span>{item.label}</span>
-    </Link>
-  );
 }
 
 function EditorialStars({ stars }: { stars: number }) {
@@ -313,32 +268,9 @@ export async function ContentShelvesPage({
 
   return (
     <div className="flex min-h-screen bg-[var(--shelves-bg)] text-[var(--shelves-text)]" style={shelvesTheme}>
-      <aside className="fixed left-0 top-0 z-40 flex h-screen w-64 flex-col gap-y-6 border-r border-[rgba(177,179,169,0.15)] bg-[var(--shelves-sidebar)] py-8 text-sm tracking-wide">
-        <div className="mb-4 px-8">
-          <h1 className={`${notoSerif.className} text-lg text-[var(--shelves-text)]`}>Editorial Admin</h1>
-          <p className="mt-1 text-xs uppercase tracking-[0.24em] text-[var(--shelves-primary)]">
-            Marketplace Premium
-          </p>
-        </div>
+      <FinanceSidebar activeHref="/adm/catalogo-marca/conteudo-vitrines" />
 
-        <nav className="flex flex-col gap-y-1">
-          {sidebarItems.map((item) => (
-            <SidebarLink key={item.href} item={item} />
-          ))}
-        </nav>
-
-        <div className="mt-auto flex items-center gap-3 px-8">
-          <div className="relative h-8 w-8 overflow-hidden rounded-full bg-[var(--shelves-surface-high)]">
-            <Image src={avatarImage} alt="Beatriz S." fill sizes="32px" className="object-cover" />
-          </div>
-          <div>
-            <p className="text-xs font-bold text-[var(--shelves-text)]">Beatriz S.</p>
-            <p className="text-[10px] uppercase text-[var(--shelves-primary)]">Head of Curation</p>
-          </div>
-        </div>
-      </aside>
-
-      <main className="ml-64 flex-1 overflow-y-auto p-12">
+      <main className="pl-[220px] flex-1 overflow-y-auto p-12">
         <header className="mb-16 flex flex-col justify-between gap-6 lg:flex-row lg:items-center">
           <div>
             <h2 className={`${notoSerif.className} text-3xl font-normal tracking-tight text-[var(--shelves-text)]`}>
