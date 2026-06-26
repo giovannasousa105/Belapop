@@ -32,7 +32,12 @@ const ROUTES = [
   "/adm/catalogo-marca/reviews?status=critico",
   "/adm/curadoria/documentos?status=pendente",
   "/adm/gestao/log-atividades?action=aprovou",
-  "/adm/gestao/configuracoes"
+  "/adm/gestao/configuracoes",
+  "/adm/catalogo-marca/campanhas",
+  "/adm/catalogo-marca/conteudo-vitrines",
+  "/adm/curadoria/historico-versoes",
+  "/adm/curadoria/monitoramento",
+  "/adm/curadoria/regras"
 ];
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
