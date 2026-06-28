@@ -99,6 +99,13 @@ export default function PopClubLandingExperience() {
             <p className="mt-5 max-w-2xl text-base leading-8 text-white/90 sm:text-lg md:text-2xl">
               Um clube premium com niveis claros, vantagens reais e apoio continuo para comprar melhor.
             </p>
+            <p className="mt-4 inline-flex items-center gap-2 rounded-full border border-white/30 bg-white/10 px-4 py-1.5 text-[11px] font-bold uppercase tracking-[0.2em] text-white">
+              <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <circle cx="8" cy="8" r="7.5" stroke="currentColor" />
+                <path d="M5 8l2 2 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+              Participar é gratuito
+            </p>
             <div className="mt-10 flex w-full max-w-md flex-col gap-4 sm:max-w-none sm:flex-row sm:justify-center">
               <Link
                 href="/popclub/membership"
