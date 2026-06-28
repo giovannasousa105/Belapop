@@ -25,7 +25,6 @@ import {
   type SkinTypeFilter,
 } from "@/lib/catalog-search";
 import { useFavorites } from "@/lib/favorites";
-import { ProductRatingStars } from "@/components/ui/ProductRatingStars";
 
 type SkincareProductInput = {
   id: string;
@@ -678,7 +677,6 @@ export function SkincareCatalogExperience({ products }: Props) {
                     <h3 className="mt-1 font-display text-[1.2rem] leading-tight text-[#1c1b1b]">
                       {product.title}
                     </h3>
-                    <ProductRatingStars seed={product.id} className="mt-1.5" />
                     <p className="mt-1 text-sm text-[#444748]">
                       {formatPrice(product.priceCents, product.currency ?? "BRL")}
                     </p>

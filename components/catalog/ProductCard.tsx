@@ -5,7 +5,6 @@ import { ShoppingBag } from "lucide-react";
 
 import { Badge } from "@/components/ui/Badge";
 import { EditorialCoverHeader } from "@/components/ui/EditorialCoverHeader";
-import { ProductRatingStars } from "@/components/ui/ProductRatingStars";
 import { getProductDisplayImage } from "@/lib/product/productCovers";
 import { useCart } from "@/lib/CartContext";
 import { formatPrice } from "@/lib/utils";
@@ -91,7 +90,6 @@ export function CatalogProductCard({ product }: ProductCardProps) {
           <p className="mt-2 text-[11px] uppercase tracking-[0.16em] text-bpGraphite/78 sm:text-xs sm:tracking-[0.18em]">
             {(product.category ?? "curadoria premium").replaceAll("_", " ")}
           </p>
-          <ProductRatingStars seed={product.id} className="mt-2" />
           <div className="mt-3 flex flex-wrap gap-2 sm:mt-4">
             {(visualTags.length > 0 ? visualTags : ["Curadoria BelaPop"]).map((tag) => (
               <span
