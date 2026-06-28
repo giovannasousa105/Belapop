@@ -135,18 +135,16 @@ export function LoginForm({
         </div>
       ) : null}
 
-      <div className="mt-6 rounded-2xl border border-[#e3dbcf] bg-white/70 p-4 text-xs text-[#655d54]">
-        <p className="font-semibold uppercase tracking-[0.18em] text-[#5a534b]">Ambiente interno</p>
-        <p className="mt-2 leading-relaxed">
-          Esta camada usa sessao mockada por cookie assinado e foi preparada para troca futura por provedor real,
-          JWT ou sessao server-side.
-        </p>
-        {showMockProfiles && mockPasswordHint ? (
-          <p className="mt-3 uppercase tracking-[0.14em] text-[#5a534b]">
-            Senha local mock: <span className="font-semibold">{mockPasswordHint}</span>
-          </p>
-        ) : null}
-      </div>
+      {showMockProfiles ? (
+        <div className="mt-6 rounded-2xl border border-[#e3dbcf] bg-white/70 p-4 text-xs text-[#655d54]">
+          <p className="font-semibold uppercase tracking-[0.18em] text-[#5a534b]">Ambiente interno (dev)</p>
+          {mockPasswordHint ? (
+            <p className="mt-3 uppercase tracking-[0.14em] text-[#5a534b]">
+              Senha local mock: <span className="font-semibold">{mockPasswordHint}</span>
+            </p>
+          ) : null}
+        </div>
+      ) : null}
 
       {showMockProfiles && mockProfiles.length > 0 ? (
         <div className="mt-6">

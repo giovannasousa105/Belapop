@@ -37,26 +37,26 @@ export default async function AdmLoginPage({
               Governanca silenciosa para um ADM real.
             </h2>
             <p className="mt-6 max-w-xl text-sm leading-relaxed text-[#5f564d]">
-              A nova camada do backoffice foi organizada para receber sessao server-side,
-              provider externo de autenticacao e regras de acesso por papel sem quebrar o App Router.
+              Acesso restrito à equipe BelaPop. Navegação organizada por papel, com permissões e
+              ações sensíveis centralizadas para cada área da operação.
             </p>
             <div className="mt-10 grid gap-4 sm:grid-cols-2">
               <div className="rounded-3xl border border-[#ddd5c9] bg-white/75 p-5">
-                <p className="text-[11px] uppercase tracking-[0.18em] text-[#756d62]">RBAC</p>
+                <p className="text-[11px] uppercase tracking-[0.18em] text-[#756d62]">Acesso por papel</p>
                 <p className="mt-3 text-sm text-[#403932]">
-                  Roles, permissions, guards por rota e acoes sensiveis centralizadas.
+                  Cada pessoa vê apenas o que precisa para sua função na operação.
                 </p>
               </div>
               <div className="rounded-3xl border border-[#ddd5c9] bg-white/75 p-5">
-                <p className="text-[11px] uppercase tracking-[0.18em] text-[#756d62]">Server First</p>
+                <p className="text-[11px] uppercase tracking-[0.18em] text-[#756d62]">Visibilidade total</p>
                 <p className="mt-3 text-sm text-[#403932]">
-                  Sessao validada no server antes do layout administrativo renderizar.
+                  Indicadores e operações centralizados num único painel.
                 </p>
               </div>
               <div className="rounded-3xl border border-[#ddd5c9] bg-white/75 p-5">
-                <p className="text-[11px] uppercase tracking-[0.18em] text-[#756d62]">Mock preparado</p>
+                <p className="text-[11px] uppercase tracking-[0.18em] text-[#756d62]">Em evolução</p>
                 <p className="mt-3 text-sm text-[#403932]">
-                  Cookie assinado local hoje, troca futura para backend real sem refazer a arquitetura.
+                  Backoffice em constante refinamento junto com o crescimento da operação.
                 </p>
               </div>
               <div className="rounded-3xl border border-[#ddd5c9] bg-white/75 p-5">
