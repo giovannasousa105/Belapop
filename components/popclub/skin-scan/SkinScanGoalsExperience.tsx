@@ -21,6 +21,8 @@ import {
   X
 } from "lucide-react";
 
+import { SkinScanProgress } from "@/components/skin-scan/SkinScanProgress";
+
 type FocusKey =
   | "acne"
   | "oleosidade"
@@ -63,7 +65,7 @@ const focusItems: FocusItem[] = [
     key: "manchas",
     number: "03",
     labelMobile: "Manchas",
-    labelDesktop: "Poros aparentes",
+    labelDesktop: "Manchas e hiperpigmentacao",
     icon: Blend,
     accentClass: "text-[#B2847A]"
   },
@@ -71,7 +73,7 @@ const focusItems: FocusItem[] = [
     key: "linhas",
     number: "04",
     labelMobile: "Linhas Finas",
-    labelDesktop: "Manchas e marcas",
+    labelDesktop: "Linhas finas e firmeza",
     icon: Waves,
     accentClass: "text-[#C5B358]"
   },
@@ -79,7 +81,7 @@ const focusItems: FocusItem[] = [
     key: "sensibilidade",
     number: "05",
     labelMobile: "Sensibilidade",
-    labelDesktop: "Desidratacao",
+    labelDesktop: "Barreira sensibilizada",
     icon: Shield,
     accentClass: "text-[#7FB3D5]"
   },
@@ -87,7 +89,7 @@ const focusItems: FocusItem[] = [
     key: "poros",
     number: "06",
     labelMobile: "Poros",
-    labelDesktop: "Barreira sensibilizada",
+    labelDesktop: "Poros aparentes e textura",
     icon: ScanLine,
     accentClass: "text-[#E9967A]"
   },
@@ -95,7 +97,7 @@ const focusItems: FocusItem[] = [
     key: "brilho",
     number: "07",
     labelMobile: "Brilho",
-    labelDesktop: "Vermelhidao e rosacea",
+    labelDesktop: "Falta de luminosidade",
     icon: Flame,
     accentClass: "text-[#7FB394]"
   },
@@ -103,7 +105,7 @@ const focusItems: FocusItem[] = [
     key: "hidratação",
     number: "08",
     labelMobile: "Hidratação",
-    labelDesktop: "Linhas finas e firmeza",
+    labelDesktop: "Desidratacao e ressecamento",
     icon: Droplets,
     accentClass: "text-[#CD7F32]"
   },
@@ -233,6 +235,10 @@ export default function SkinScanGoalsExperience() {
         </div>
       </header>
 
+      <div className="fixed inset-x-0 top-16 z-40 border-b border-black/5 bg-[#fcf9f8] py-2 md:top-[88px]">
+        <SkinScanProgress />
+      </div>
+
       {menuOpen ? (
         <div className="fixed inset-0 z-[70] bg-black/45 backdrop-blur-sm">
           <aside className="h-full w-[86%] max-w-[340px] bg-[#fcf9f8] p-6">
@@ -269,7 +275,7 @@ export default function SkinScanGoalsExperience() {
         </div>
       ) : null}
 
-      <main className="mx-auto max-w-7xl px-6 pb-32 pt-24 md:px-12 md:pb-24 md:pt-32">
+      <main className="mx-auto max-w-7xl px-6 pb-32 pt-36 md:px-12 md:pb-24 md:pt-44">
         <section className="mb-12 text-center md:mb-24 md:flex md:items-end md:justify-between md:text-left">
           <div className="md:max-w-2xl">
             <span className="mb-4 block text-[10px] uppercase tracking-[0.22em] text-[#444748] md:mb-6">
@@ -337,7 +343,16 @@ export default function SkinScanGoalsExperience() {
 
           <Link
             href="/skin-scan/captura"
-            className="hidden min-h-14 items-center justify-center bg-black px-16 text-xs font-bold uppercase tracking-[0.2em] text-white transition hover:bg-[#1c1b1b] md:inline-flex"
+            aria-disabled={selected.length === 0}
+            title={selected.length === 0 ? "Selecione pelo menos 1 foco" : undefined}
+            onClick={(event) => {
+              if (selected.length === 0) event.preventDefault();
+            }}
+            className={`hidden min-h-14 items-center justify-center bg-black px-16 text-xs font-bold uppercase tracking-[0.2em] text-white transition md:inline-flex ${
+              selected.length === 0
+                ? "cursor-not-allowed opacity-50"
+                : "hover:bg-[#1c1b1b]"
+            }`}
           >
             Iniciar leitura
           </Link>
@@ -346,7 +361,14 @@ export default function SkinScanGoalsExperience() {
         <div className="md:hidden">
           <Link
             href="/skin-scan/captura"
-            className="inline-flex min-h-14 w-full items-center justify-center gap-3 bg-black px-8 text-xs font-extrabold uppercase tracking-[0.2em] text-white transition hover:opacity-90"
+            aria-disabled={selected.length === 0}
+            title={selected.length === 0 ? "Selecione pelo menos 1 foco" : undefined}
+            onClick={(event) => {
+              if (selected.length === 0) event.preventDefault();
+            }}
+            className={`inline-flex min-h-14 w-full items-center justify-center gap-3 bg-black px-8 text-xs font-extrabold uppercase tracking-[0.2em] text-white transition ${
+              selected.length === 0 ? "cursor-not-allowed opacity-50" : "hover:opacity-90"
+            }`}
           >
             INICIAR LEITURA
             <span aria-hidden>→</span>
