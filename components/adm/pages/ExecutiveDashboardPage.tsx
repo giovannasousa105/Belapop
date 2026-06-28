@@ -257,13 +257,13 @@ export function ExecutiveDashboardPage({
                   Visão Geral da Operação
                 </h1>
               </div>
-              <div className="hidden md:block">
+              <div className="hidden lg:block">
                 <PeriodSelector value={period} onChange={setPeriod} />
               </div>
             </div>
 
             <div className="flex items-center gap-2">
-              <nav className="hidden items-center gap-5 md:flex">
+              <nav className="hidden items-center gap-5 lg:flex">
                 <Link
                   href="/adm/gestao/relatorios"
                   className="text-[12px] font-medium text-[#6B5E54] transition hover:text-[#1A1714]"
@@ -279,7 +279,7 @@ export function ExecutiveDashboardPage({
                   {exporting ? "Exportando..." : "Exportar"}
                 </button>
               </nav>
-              <div className="hidden h-4 w-px bg-[rgba(139,94,60,0.14)] md:block" />
+              <div className="hidden h-4 w-px bg-[rgba(139,94,60,0.14)] lg:block" />
               <button
                 type="button"
                 className="inline-flex h-9 w-9 items-center justify-center rounded-xl text-[#9E9589] transition hover:bg-[#F4F1ED] hover:text-[#1A1714]"
