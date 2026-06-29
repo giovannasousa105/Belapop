@@ -14,6 +14,7 @@ import {
   Waves,
   X
 } from "lucide-react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 
 import { brandCtas } from "@/lib/brand/ctas";
@@ -149,19 +150,67 @@ function previewRating(product: SkincareProduct) {
   return (product.title.length * 13 + product.priceCents) % 500;
 }
 
+function isPrimaryFilter(value: string | null): value is (typeof primaryFilters)[number] {
+  return !!value && (primaryFilters as readonly string[]).includes(value);
+}
+
+function isSortOption(value: string | null): value is (typeof sortOptions)[number] {
+  return !!value && (sortOptions as readonly string[]).includes(value);
+}
+
+function isSkinType(value: string | null): value is SkinTypeFilter {
+  return !!value && SKIN_TYPE_OPTIONS.some((option) => option.key === value);
+}
+
+function isConcern(value: string | null): value is ConcernFilter {
+  return !!value && CONCERN_OPTIONS.some((option) => option.key === value);
+}
+
 export function SkincareCatalogExperience({ products }: Props) {
   const { addItem } = useCart();
   const { isFavorite, toggleFavorite } = useFavorites();
-  const [query, setQuery] = useState("");
-  const [activeFilter, setActiveFilter] =
-    useState<(typeof primaryFilters)[number]>("Todos");
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
+  const [query, setQuery] = useState(() => searchParams.get("q") ?? "");
+  const [activeFilter, setActiveFilter] = useState<(typeof primaryFilters)[number]>(
+    () => {
+      const fromUrl = searchParams.get("categoria");
+      return isPrimaryFilter(fromUrl) ? fromUrl : "Todos";
+    }
+  );
   const [activeRefinementTab, setActiveRefinementTab] = useState<RefinementTab | null>(null);
-  const [activeSkinType, setActiveSkinType] = useState<SkinTypeFilter | null>(null);
-  const [activeConcern, setActiveConcern] = useState<ConcernFilter | null>(null);
-  const [activeSort, setActiveSort] =
-    useState<(typeof sortOptions)[number]>("Mais desejados");
-  const [activePage, setActivePage] = useState(1);
+  const [activeSkinType, setActiveSkinType] = useState<SkinTypeFilter | null>(() => {
+    const fromUrl = searchParams.get("tipoPele");
+    return isSkinType(fromUrl) ? fromUrl : null;
+  });
+  const [activeConcern, setActiveConcern] = useState<ConcernFilter | null>(() => {
+    const fromUrl = searchParams.get("necessidade");
+    return isConcern(fromUrl) ? fromUrl : null;
+  });
+  const [activeSort, setActiveSort] = useState<(typeof sortOptions)[number]>(() => {
+    const fromUrl = searchParams.get("ordenar");
+    return isSortOption(fromUrl) ? fromUrl : "Mais desejados";
+  });
+  const [activePage, setActivePage] = useState(() => {
+    const fromUrl = Number(searchParams.get("pagina"));
+    return Number.isInteger(fromUrl) && fromUrl > 0 ? fromUrl : 1;
+  });
   const [quickAdded, setQuickAdded] = useState<string | null>(null);
+
+  useEffect(() => {
+    const params = new URLSearchParams();
+    if (query) params.set("q", query);
+    if (activeFilter !== "Todos") params.set("categoria", activeFilter);
+    if (activeSkinType) params.set("tipoPele", activeSkinType);
+    if (activeConcern) params.set("necessidade", activeConcern);
+    if (activeSort !== "Mais desejados") params.set("ordenar", activeSort);
+    if (activePage > 1) params.set("pagina", String(activePage));
+
+    const nextUrl = params.toString() ? `${pathname}?${params.toString()}` : pathname;
+    router.replace(nextUrl, { scroll: false });
+  }, [query, activeFilter, activeSkinType, activeConcern, activeSort, activePage, pathname, router]);
 
   const handleQuickAdd = (product: SkincareProduct, event: React.MouseEvent) => {
     event.preventDefault();
