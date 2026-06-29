@@ -110,6 +110,7 @@ export interface Product {
   status: AdminVisualStatus;
   curationStatus: AdminVisualStatus;
   qualityScore: number;
+  heroImageUrl?: string | null;
   featured: boolean;
   stock: number;
 }

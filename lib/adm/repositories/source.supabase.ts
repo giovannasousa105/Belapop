@@ -645,6 +645,7 @@ export async function loadSupabaseAdmDataSource(base: AdmDataSource): Promise<Ad
               status,
               curationStatus: toCurationStatus(row, qualityScore),
               qualityScore,
+              heroImageUrl: toNullableString(row.hero_image_url),
               featured,
               stock: Math.max(0, Math.round(toNumberValue(row.stock_quantity)))
             };

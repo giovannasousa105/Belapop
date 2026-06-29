@@ -2,6 +2,7 @@
 
 import { AdminActionPanel } from "@/components/adm/AdminActionPanel";
 import { AdminDrawer } from "@/components/adm/AdminDrawer";
+import { ProductImageUploader } from "@/components/adm/products/ProductImageUploader";
 import { AdminFilters } from "@/components/adm/AdminFilters";
 import { AdminTable } from "@/components/adm/AdminTable";
 import { EmptyState } from "@/components/adm/EmptyState";
@@ -118,12 +119,23 @@ export async function ProductsPage({ filters, searchParamsSource }: ProductsPage
             {
               id: "produto",
               label: "Produto",
-              render: (product) => (
-                <div>
-                  <p className="font-semibold">{product.name}</p>
-                  <p className="text-xs text-[#6f675e]">{product.id}</p>
-                </div>
-              )
+              render: (product) => {
+                const hasRealImage =
+                  !!product.heroImageUrl && !product.heroImageUrl.includes("/editorial/product-hero-");
+                return (
+                  <div>
+                    <div className="flex items-center gap-2">
+                      <p className="font-semibold">{product.name}</p>
+                      {!hasRealImage && (
+                        <span className="rounded-full bg-amber-50 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.08em] text-amber-700">
+                          Imagem pendente
+                        </span>
+                      )}
+                    </div>
+                    <p className="text-xs text-[#6f675e]">{product.id}</p>
+                  </div>
+                );
+              }
             },
             {
               id: "seller",
@@ -201,6 +213,11 @@ export async function ProductsPage({ filters, searchParamsSource }: ProductsPage
           {curationActions.length > 0 ? (
             <AdminActionPanel title="Acoes de curadoria" actions={curationActions} />
           ) : null}
+
+          <ProductImageUploader
+            productId={selectedProduct.product.id}
+            initialImageUrl={selectedProduct.product.heroImageUrl ?? null}
+          />
 
           <div className="rounded-xl border border-[#ddd8ce] bg-white p-4">
             <p className="text-[11px] uppercase tracking-[0.16em] text-[#6f675f]">Contexto do seller</p>
