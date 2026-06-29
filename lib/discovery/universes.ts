@@ -351,7 +351,7 @@ export const universeRoutines: UniverseRoutine[] = [
 export const belaPopUniverses: BelaPopUniverse[] = [
   {
     id: "ícones-da-curadoria",
-    slug: "ícones-da-curadoria",
+    slug: "icones-da-curadoria",
     legacySlugs: ["ícones-da-belapop", "ícones-da-curadoria"],
     name: "Ícones da Curadoria",
     subtitle: "Produtos mais desejados, recomendados e validados pela BelaPop.",
@@ -658,7 +658,7 @@ export const belaPopUniverses: BelaPopUniverse[] = [
   },
   {
     id: "pele-sensível",
-    slug: "pele-sensível",
+    slug: "pele-sensivel",
     legacySlugs: ["pele-sensível"],
     name: "Pele Sensível",
     subtitle: "Produtos, rotinas e kits para conforto, barreira cutanea e baixa irritabilidade.",

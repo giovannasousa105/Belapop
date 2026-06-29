@@ -13,7 +13,7 @@ const sensoryUniverses = [
     objective: "Hidratação + glow elegante",
     sensation: "Pele viçosa, macia e fotográfica",
     badge: "Rotina mais procurada",
-    href: "/universos/ícones-da-curadoria",
+    href: "/universos/icones-da-curadoria",
     image: "/hero-bela-pop-editorial.jpg",
     gradient: "from-[#1d1712]/12 via-[#1d1712]/42 to-[#050403]/94",
     accent: "#DAC769"
@@ -39,7 +39,7 @@ const sensoryUniverses = [
     objective: "Barreira + previsibilidade",
     sensation: "Toque calmo, macio e protegido",
     badge: "Selecionado pela BelaPop",
-    href: "/universos/pele-sensível",
+    href: "/universos/pele-sensivel",
     image: "/hero-bela.jpg",
     gradient: "from-[#141812]/10 via-[#141812]/42 to-[#050604]/94",
     accent: "#C5D0B8"

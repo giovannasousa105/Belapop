@@ -39,7 +39,11 @@ export const config = {
     "/skinbela",
     "/skinbela/:path*",
     "/skin-scan/diagnostico",
-    "/skin-scan/diagnóstico"
+    "/skin-scan/diagnóstico",
+    "/universos/ícones-da-curadoria",
+    "/universos/ícones-da-belapop",
+    "/universos/pele-sensível",
+    "/universos/glass-skin"
   ]
 };
 
@@ -85,6 +89,18 @@ function normalizeLegacyAlias(pathname: string) {
 
   if (pathname === "/skin-scan/diagnostico" || pathname === "/skin-scan/diagnóstico") {
     return "/skin-scan/leitura";
+  }
+
+  if (pathname === "/universos/ícones-da-curadoria" || pathname === "/universos/ícones-da-belapop") {
+    return "/universos/icones-da-curadoria";
+  }
+
+  if (pathname === "/universos/pele-sensível") {
+    return "/universos/pele-sensivel";
+  }
+
+  if (pathname === "/universos/glass-skin") {
+    return "/universos/icones-da-curadoria";
   }
 
   return normalizeAccountAlias(pathname);
