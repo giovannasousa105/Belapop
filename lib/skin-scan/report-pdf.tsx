@@ -657,7 +657,7 @@ export function SkinScanReportPdf({ session, generatedAt }: { session: SkinAnaly
             <Text style={s.brandSub}>Skincare Curado com Inteligência</Text>
           </View>
           <View>
-            <Text style={s.reportLabel}>✦ Relatório Skin Scan</Text>
+            <Text style={s.reportLabel}>Relatório Skin Scan</Text>
             <Text style={s.reportDate}>{dateStr}</Text>
           </View>
         </View>
@@ -814,7 +814,7 @@ export function SkinScanReportPdf({ session, generatedAt }: { session: SkinAnaly
                 ))}
               </View>
               <View style={s.rotinaCol}>
-                <Text style={[s.rotinaPeriodTitle, { color: C.acc }]}>🌙 Noite & Semanal</Text>
+                <Text style={[s.rotinaPeriodTitle, { color: C.acc }]}>Noite & Semanal</Text>
                 <View style={s.rotinaNoite}>
                   <Text style={s.rotinaNoiteText}>
                     Rotina noturna e tratamentos semanais personalizados disponíveis em belapopoficial.com.br

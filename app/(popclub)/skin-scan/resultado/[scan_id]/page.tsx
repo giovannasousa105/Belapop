@@ -6,6 +6,8 @@ import { RotateCcw } from "lucide-react";
 import { getSupabaseAdminClient } from "@/lib/supabase/admin";
 import { SkinIdCard } from "@/components/skinScan/SkinIdCard";
 import { RotinaDisplay } from "@/components/skinScan/RotinaDisplay";
+import { PdfDownloadButton } from "@/components/skinScan/PdfDownloadButton";
+import { buildPdfSessionFromScan } from "@/lib/skin-scan/buildPdfSessionFromScan";
 import type { SkinProfile } from "@/lib/skinScan/types";
 import type { RotinaResult } from "@/lib/skinScan/rotinaBuilder";
 
@@ -72,6 +74,13 @@ export default async function SkinScanResultadoPage({ params }: PageProps) {
     redirect(`/skin-scan/processando/${scan_id}`);
   }
 
+  const pdfSession = await buildPdfSessionFromScan(
+    skinProfile,
+    rotinasMap["manha"] ?? null,
+    rotinasMap["noite"] ?? null,
+    new Date().toISOString()
+  );
+
   return (
     <div
       style={{
@@ -107,24 +116,28 @@ export default async function SkinScanResultadoPage({ params }: PageProps) {
           Skin Scan
         </p>
 
-        <Link
-          href="/skin-scan/foco"
-          style={{
-            display: "inline-flex",
-            alignItems: "center",
-            gap: 6,
-            fontSize: 10,
-            fontWeight: 600,
-            letterSpacing: "0.18em",
-            textTransform: "uppercase",
-            color: "rgba(30,30,30,0.45)",
-            textDecoration: "none",
-          }}
-          aria-label="Refazer análise"
-        >
-          <RotateCcw size={12} />
-          Refazer
-        </Link>
+        <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
+          <PdfDownloadButton session={pdfSession} variant="icon" />
+
+          <Link
+            href="/skin-scan/foco"
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 6,
+              fontSize: 10,
+              fontWeight: 600,
+              letterSpacing: "0.18em",
+              textTransform: "uppercase",
+              color: "rgba(30,30,30,0.45)",
+              textDecoration: "none",
+            }}
+            aria-label="Refazer análise"
+          >
+            <RotateCcw size={12} />
+            Refazer
+          </Link>
+        </div>
       </header>
 
       <main
@@ -162,6 +175,10 @@ export default async function SkinScanResultadoPage({ params }: PageProps) {
             scanId={scan_id}
           />
         </section>
+
+        <div style={{ marginTop: 40 }}>
+          <PdfDownloadButton session={pdfSession} variant="labeled" />
+        </div>
       </main>
     </div>
   );

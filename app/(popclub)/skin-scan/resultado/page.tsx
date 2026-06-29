@@ -98,7 +98,7 @@ function SkinGptWidget({
       <div className="rounded-xl border border-neutral-200 p-5 text-center">
         <p className="text-sm text-neutral-600">Faça login para perguntar sobre sua pele ao SkinGPT.</p>
         <Link
-          href="/conta/login?returnTo=/skin-scan/resultado"
+          href="/login?returnTo=/skin-scan/resultado"
           className="mt-3 inline-block rounded-lg bg-black px-5 py-2.5 text-xs tracking-wider text-white transition-colors hover:bg-neutral-800"
         >
           Entrar
