@@ -6,6 +6,7 @@ export const metadata: Metadata = {
   title: "Perfumes | BelaPop",
   description:
     "Perfumes BelaPop com seleção viva da categoria, notas olfativas e curadoria ativa.",
+  alternates: { canonical: "/perfumes" },
   openGraph: {
     title: "Perfumes | BelaPop",
     description:

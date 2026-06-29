@@ -14,6 +14,7 @@ export const metadata: Metadata = {
   title: "Skincare",
   description:
     "Skincare BelaPop com curadoria ativa, rotina guiada e experiência viva da categoria.",
+  alternates: { canonical: "/skincare" },
   openGraph: {
     title: "Skincare | BelaPop",
     description:

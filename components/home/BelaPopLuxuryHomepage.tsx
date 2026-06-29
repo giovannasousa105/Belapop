@@ -126,7 +126,7 @@ function LuxuryProductCard({
 }
 
 const heroTrustSignals = [
-  "Faça seu diagnóstico BelaPop",
+  "Faça sua leitura BelaPop",
   "Descubra a rotina certa para sua pele",
   "Curadoria baseada nas necessidades reais da sua pele"
 ] as const;
@@ -148,11 +148,10 @@ const seasonalHeroVideos = [
   }
 ] as const;
 
-const heroSocialProof = "\u2605\u2605\u2605\u2605\u2605  \u00b7  Skin Scan personalizado  \u00b7  originais";
+const heroSocialProof = "Skin Scan personalizado \u00b7 produtos originais";
 
 const trustMetrics = [
-  { label: "Avaliação dos clientes", value: "4,9 ★ · 127 avaliações" },
-  { label: "Skin Scan", value: "Diagnóstico personalizado" },
+  { label: "Skin Scan", value: "Leitura personalizada" },
   { label: "Importação oficial", value: "Produtos originais" },
   { label: "Compra segura", value: "Suporte humano" }
 ] as const;
@@ -212,7 +211,7 @@ function SkinScanTechnologySection() {
               Skin Scan BelaPop
             </p>
             <h2 className="max-w-3xl font-headline text-3xl leading-[1.12] tracking-normal sm:text-4xl">
-              Seu diagnóstico começa aqui.
+              Sua leitura começa aqui.
             </h2>
             <div className="max-w-2xl space-y-3 text-sm leading-7 text-white/72 sm:text-base">
               <p>Entenda sua pele em segundos.</p>
@@ -233,7 +232,7 @@ function SkinScanTechnologySection() {
             href="/skin-scan"
             className="group inline-flex min-h-14 items-center justify-center gap-3 bg-white px-7 text-xs font-semibold uppercase tracking-[0.08em] text-black shadow-[0_20px_70px_rgba(255,255,255,0.08)] transition duration-300 hover:-translate-y-0.5 hover:bg-[#dac769] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"
           >
-            Fazer diagnóstico BelaPop
+            Fazer leitura BelaPop
             <Sparkles className="h-4 w-4 transition duration-300 group-hover:translate-x-1" aria-hidden="true" />
           </Link>
         </div>
@@ -244,7 +243,7 @@ function SkinScanTechnologySection() {
             <div className="relative aspect-[4/5] overflow-hidden bg-[#151312]">
               <img
                 src="/editorial/home-ai-card.jpg"
-                alt="Interface elegante de diagnóstico visual de pele BelaPop"
+                alt="Interface elegante de leitura visual de pele BelaPop"
                 loading="lazy"
                 decoding="async"
                 width={900}
@@ -340,7 +339,7 @@ function MobileStickyCta() {
           tabIndex={visible ? 0 : -1}
           className="inline-flex min-h-12 items-center justify-center rounded-[6px] bg-white px-4 text-xs font-semibold uppercase tracking-[0.06em] text-black"
         >
-          Diagnóstico
+          Leitura de pele
         </Link>
         <Link
           href="/kits"
@@ -471,7 +470,7 @@ function LuxuryVideoHero() {
           >
             <Link
               href="/skin-scan"
-              aria-label="Abrir diagnóstico Skin AI"
+              aria-label="Abrir leitura Skin AI"
               className="block border border-white/18 bg-black/28 p-2.5 shadow-2xl backdrop-blur-xl transition-colors duration-300 hover:border-white/36 hover:bg-black/38 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"
             >
               <div className="mb-2.5 flex items-center justify-between text-[8px] uppercase tracking-[0.08em] text-white/68">
@@ -523,7 +522,7 @@ function LuxuryVideoHero() {
               transition={{ delay: 0.32, duration: 0.8, ease: "easeOut" }}
               className="mt-3 max-w-[21rem] text-sm leading-6 text-white/84 lg:mt-4 lg:max-w-md lg:text-lg lg:leading-7"
             >
-              Produtos selecionados com critério. Diagnóstico personalizado incluído. Compre com quem entende de pele.
+              Produtos selecionados com critério. Leitura personalizada incluída. Compre com quem entende de pele.
             </motion.p>
             <motion.div
               initial={entranceStart}

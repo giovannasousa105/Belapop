@@ -16,7 +16,7 @@ const mobileMenu = [
   { label: "Skin Scan", href: "/skin-scan" },
   { label: "Objetivos", href: "/skin-scan/foco" },
   { label: "Captura", href: "/skin-scan/captura" },
-  { label: "Leitura", href: "/skin-scan/diagnóstico" },
+  { label: "Leitura", href: "/skin-scan/leitura" },
   { label: "Skincare", href: "/skincare" },
   { label: "Maquiagem", href: "/maquiagem" },
   { label: "Cabelos", href: "/cabelos" },

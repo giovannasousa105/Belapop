@@ -788,7 +788,7 @@ export function ConsultoraBelaPopProvider({
 
                       {routineStep === 0 ? (
                         <QuestionBlock
-                          eyebrow="Diagnóstico rapido"
+                          eyebrow="Leitura rapida"
                           title="Como esta sua pele hoje?"
                           options={routineSkinTypeOptions}
                           selectedValue={routineAnswers.skinType}

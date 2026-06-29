@@ -119,7 +119,7 @@ const faqItems = [
     answer: "A experiência completa leva cerca de 45 segundos. Três perguntas, uma foto e o resultado já aparece."
   },
   {
-    question: "Posso refazer o diagnóstico?",
+    question: "Posso refazer a leitura?",
     answer: "Sim. Você pode iniciar uma nova leitura quando quiser, por exemplo após mudanças na rotina ou na pele."
   }
 ] as const;

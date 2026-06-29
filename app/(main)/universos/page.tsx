@@ -13,6 +13,7 @@ export const metadata: Metadata = {
   title: "Universos BelaPop | Curadoria editorial de beleza",
   description:
     "Explore universos editoriais BelaPop para descobrir produtos, kits, coleções e rotinas por desejo, momento de pele e intencao de compra.",
+  alternates: { canonical: "/universos" },
   openGraph: {
     title: "Universos BelaPop",
     description:
@@ -117,7 +118,7 @@ export default function UniversesPage() {
                 Quando a pele entra na decisão, o universo vira rotina.
               </h2>
               <p className="mt-5 max-w-xl text-sm leading-7 text-white/72">
-                Pele Sensível e Clinical Luxury ganham mais precisão com diagnóstico. Presentes e Novos no Atelier podem seguir por concierge quando a resposta não depende só de tipo de pele.
+                Pele Sensível e Clinical Luxury ganham mais precisão com a leitura do Skin Scan. Presentes e Novos no Atelier podem seguir por concierge quando a resposta não depende só de tipo de pele.
               </p>
               <div className="mt-8 flex flex-col gap-3 sm:flex-row">
                 <Link

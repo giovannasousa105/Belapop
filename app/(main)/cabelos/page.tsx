@@ -6,6 +6,7 @@ export const metadata: Metadata = {
   title: "Cabelos | BelaPop",
   description:
     "Cabelos BelaPop com experiência viva da categoria e jornada de cuidado capilar.",
+  alternates: { canonical: "/cabelos" },
   openGraph: {
     title: "Cabelos | BelaPop",
     description:

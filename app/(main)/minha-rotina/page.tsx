@@ -52,7 +52,7 @@ export default function MinhaRotinaPage() {
               href="/skin-scan"
               className="mt-4 inline-flex text-xs font-semibold uppercase tracking-[0.18em] text-[#211c18] underline underline-offset-4"
             >
-              Atualizar diagnostico
+              Atualizar leitura de pele
             </Link>
           </div>
         </section>

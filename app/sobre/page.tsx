@@ -7,6 +7,7 @@ export const metadata: Metadata = {
   title: "Sobre a BelaPop",
   description:
     "Conheça a história e a missão da BelaPop — skincare guiado por critério clínico e curadoria precisa.",
+  alternates: { canonical: "/sobre" },
   openGraph: {
     title: "Sobre a BelaPop",
     description:
@@ -125,7 +126,7 @@ export default function SobrePage() {
                   href="/skin-scan"
                   className="mt-8 inline-flex items-center justify-center rounded-full bg-[#1B1A18] px-6 py-3 text-[11px] font-semibold uppercase tracking-[0.22em] text-white transition hover:bg-[#3d3530]"
                 >
-                  Fazer meu diagnóstico →
+                  Fazer minha leitura de pele →
                 </Link>
               </div>
               <div className="rounded-2xl border border-[#DDD3CA] bg-white/60 p-8">

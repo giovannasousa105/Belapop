@@ -39,7 +39,7 @@ export default function NotFound() {
           href="/skin-scan"
           className="w-full py-3.5 border border-neutral-200 text-xs tracking-widest rounded-xl hover:border-black transition-colors"
         >
-          FAZER DIAGNÓSTICO DE PELE
+          FAZER LEITURA DE PELE
         </Link>
       </div>
 

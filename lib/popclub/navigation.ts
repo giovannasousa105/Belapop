@@ -26,7 +26,7 @@ export const popClubPaths = {
   skinScan: "/skin-scan",
   skinScanFocus: "/skin-scan/foco",
   skinScanCapture: "/skin-scan/captura",
-  skinScanDiagnosis: "/skin-scan/diagnóstico",
+  skinScanDiagnosis: "/skin-scan/leitura",
   skinScanResult: "/skin-scan/resultado",
   skinScanRoutine: "/skin-scan/rotina",
   faceShield: "/faceshield",

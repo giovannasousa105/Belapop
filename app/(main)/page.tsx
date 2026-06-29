@@ -24,6 +24,7 @@ type HomePageProps = {
 export const metadata: Metadata = {
   title: "BelaPop | Skincare guiado pela sua pele",
   description: HOME_PAGE_DESCRIPTION,
+  alternates: { canonical: "/" },
   openGraph: {
     title: "BelaPop | Skincare guiado pela sua pele",
     description: HOME_PAGE_DESCRIPTION,

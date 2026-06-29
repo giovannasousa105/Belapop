@@ -172,7 +172,7 @@ export function CurationCartExperience() {
         logoPosition="left"
         primaryItems={primaryItems}
         secondaryItems={secondaryItems}
-        mobileCtaHref="/skin-scan/diagnóstico"
+        mobileCtaHref="/skin-scan/leitura"
         mobileCtaLabel="Voltar ao Skin Scan"
       />
 
@@ -284,7 +284,7 @@ export function CurationCartExperience() {
                     </p>
                   </div>
                   <Link
-                    href="/skin-scan/diagnostico"
+                    href="/skin-scan/leitura"
                     className="inline-flex min-h-14 items-center justify-center border border-black px-6 text-[11px] font-semibold uppercase tracking-[0.24em] transition-colors hover:bg-black hover:text-white"
                   >
                     Continuar explorando
@@ -327,7 +327,7 @@ export function CurationCartExperience() {
                   </button>
 
                   <Link
-                    href="/skin-scan/diagnostico"
+                    href="/skin-scan/leitura"
                     className="block text-center text-xs font-bold uppercase tracking-[0.2em] text-black underline decoration-[#ed93d5] underline-offset-8"
                   >
                     Continuar explorando

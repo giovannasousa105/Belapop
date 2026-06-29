@@ -3,12 +3,13 @@ import type { Metadata } from "next";
 import SkinScanIntroExperience from "@/components/popclub/skin-scan/SkinScanIntroExperience";
 
 export const metadata: Metadata = {
-  title: "Skin Scan BelaPop | Diagnóstico de pele em 45 segundos",
+  title: "Skin Scan BelaPop | Leitura de pele em 45 segundos",
   description:
     "Faça sua leitura visual de pele com o Skin Scan BelaPop. Em 45 segundos você descobre sua rotina ideal de skincare com produtos coreanos originais.",
+  alternates: { canonical: "/skin-scan" },
   openGraph: {
     title: "Skin Scan BelaPop",
-    description: "Diagnóstico de pele personalizado em 45 segundos.",
+    description: "Leitura de pele personalizada em 45 segundos.",
     url: "https://belapopoficial.com.br/skin-scan",
     siteName: "BelaPop"
   }

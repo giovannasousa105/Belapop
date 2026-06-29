@@ -21,7 +21,8 @@ import { ReelsBloco, ArtigosBloco, ReflexoesBloco } from "@/components/editorial
 export const metadata: Metadata = {
   title: "Guias BelaPop | Consultoria de beleza compravel",
   description:
-    "Guias de ativos, rotinas por necessidade, curadoria da semana e analises vale o investimento conectadas a produtos e kits BelaPop."
+    "Guias de ativos, rotinas por necessidade, curadoria da semana e analises vale o investimento conectadas a produtos e kits BelaPop.",
+  alternates: { canonical: "/guias" }
 };
 
 export default function PopGuideIndexPage() {

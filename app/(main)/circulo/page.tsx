@@ -9,6 +9,7 @@ export const metadata: Metadata = {
   title: "O Círculo BelaPop — Acesso a drops curados de skincare coreano",
   description:
     "Um espaço fechado para quem trata a pele como decisão. Drops quinzenais com lote rastreado, curadoria clínica e atendimento humano.",
+  alternates: { canonical: "/circulo" },
   openGraph: {
     title: "O Círculo BelaPop",
     description: "Drops quinzenais de skincare coreano, curadoria por tipo de pele e acesso antecipado ao app.",

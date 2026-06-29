@@ -2429,7 +2429,7 @@ export default function SkincareRoutineExperience() {
           >
             <div>
               <p className="text-xs uppercase tracking-[0.28em] text-bpGraphite/84">Historico BelaCode</p>
-              <p className="mt-2 text-xl font-semibold text-bpBlack">Diagnosticos recentes</p>
+              <p className="mt-2 text-xl font-semibold text-bpBlack">Leituras recentes</p>
               <p className="mt-2 text-sm text-bpGraphite/80">
                 Abra apenas quando quiser comparar scans anteriores e selecionar outra leitura.
               </p>

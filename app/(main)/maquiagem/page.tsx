@@ -6,6 +6,7 @@ export const metadata: Metadata = {
   title: "Maquiagem | BelaPop",
   description:
     "Maquiagem BelaPop com seleção viva da categoria, foco em uso, acabamento e rotina.",
+  alternates: { canonical: "/maquiagem" },
   openGraph: {
     title: "Maquiagem | BelaPop",
     description:

@@ -353,7 +353,7 @@ export function CatalogoClientSearch() {
           <p className="text-[10px] uppercase tracking-widest text-neutral-400">
             Não sabe por onde começar?
           </p>
-          <p className="font-serif text-xl">Faça o diagnóstico da sua pele</p>
+          <p className="font-serif text-xl">Faça a leitura da sua pele</p>
           <p className="text-xs text-neutral-400">
             A IA analisa sua pele em segundos e monta a rotina ideal
           </p>

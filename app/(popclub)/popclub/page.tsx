@@ -19,7 +19,7 @@ const LEVELS = [
       "Acesso ao catálogo curado BelaPop",
       "Histórico de pedidos e rastreio",
       "Suporte humano no pós-compra",
-      "Skin Scan — diagnóstico gratuito de pele",
+      "Skin Scan — leitura gratuita de pele",
     ],
     pointsRate: "R$ 1 gasto = 1 ponto",
     highlight: false,

@@ -37,7 +37,9 @@ export const config = {
     "/minha-conta",
     "/minha-conta/:path*",
     "/skinbela",
-    "/skinbela/:path*"
+    "/skinbela/:path*",
+    "/skin-scan/diagnostico",
+    "/skin-scan/diagnóstico"
   ]
 };
 
@@ -79,6 +81,10 @@ function normalizeAccountAlias(pathname: string) {
 function normalizeLegacyAlias(pathname: string) {
   if (pathname === "/skinbela" || pathname === "/skinbela/concierge") {
     return "/belacode";
+  }
+
+  if (pathname === "/skin-scan/diagnostico" || pathname === "/skin-scan/diagnóstico") {
+    return "/skin-scan/leitura";
   }
 
   return normalizeAccountAlias(pathname);

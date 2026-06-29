@@ -144,7 +144,7 @@ function BelaPopValidatedHeaderContent({
   const sidebarLead =
     featureSet === "skin-scan"
       ? "Sua leitura de pele continua ligada a rotina e compra."
-      : "Sua rotina começa por um diagnóstico claro.";
+      : "Sua rotina começa por uma leitura clara.";
 
   const myAccountLinks: DrawerNavLink[] = [
     { href: favoritesHref, label: "Favoritos" },
@@ -450,7 +450,7 @@ function BelaPopValidatedHeaderContent({
                     className="mt-3 inline-block text-xs font-medium text-[#8E5B68] underline underline-offset-4 transition-opacity hover:opacity-70"
                     onClick={closeMenu}
                   >
-                    Fazer diagnóstico →
+                    Fazer leitura →
                   </Link>
                 </div>
                 <button
