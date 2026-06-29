@@ -57,7 +57,7 @@ const faqSections = [
       {
         question: "Quais formas de pagamento são aceitas?",
         answer:
-          "Cartão de crédito (até 6x sem juros nos principais bandeiras), PIX (com desconto de 5%) e boleto bancário (vencimento em 3 dias úteis)."
+          "Cartão de crédito (até 6x sem juros nos principais bandeiras), PIX e boleto bancário (vencimento em 3 dias úteis)."
       },
       {
         question: "É seguro comprar na BelaPop?",
