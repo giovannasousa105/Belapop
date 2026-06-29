@@ -4,6 +4,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, Check, ShieldCheck, Sparkles, Truck } from "lucide-react";
 
+import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { BundleAddToCartButton } from "@/components/bundles/BundleAddToCartButton";
 import { BundleRecommendationStrip } from "@/components/bundles/BundleRecommendationStrip";
 import { BelaPopValidatedFooter } from "@/components/luxury/BelaPopValidatedFooter";
@@ -89,7 +90,16 @@ export default async function KitDetailPage({ params }: KitPageProps) {
     <div className="min-h-screen bg-[#fcf9f8] text-[#1c1b1b]">
       <BelaPopValidatedHeader activeSection="skincare" />
       <main className="pt-20 lg:pt-28">
-        <section className="px-4 pb-12 sm:px-6 lg:px-8">
+        <div className="px-4 pt-4 sm:px-6 lg:px-8">
+          <Breadcrumbs
+            items={[
+              { label: "Início", href: "/" },
+              { label: "Kits", href: "/kits" },
+              { label: bundle.name }
+            ]}
+          />
+        </div>
+        <section className="px-4 pb-12 pt-3 sm:px-6 lg:px-8">
           <div className="mx-auto grid max-w-[1440px] gap-8 lg:grid-cols-[minmax(0,0.82fr)_minmax(420px,0.58fr)] lg:items-center">
             <div className="relative min-h-[420px] overflow-hidden bg-[#111] lg:min-h-[620px]">
               <Image

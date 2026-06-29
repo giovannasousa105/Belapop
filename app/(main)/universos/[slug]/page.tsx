@@ -12,6 +12,7 @@ import { UniverseProductRail } from "@/components/universes/UniverseProductRail"
 import { UniverseRoutineBlock } from "@/components/universes/UniverseRoutineBlock";
 import { BelaPopValidatedFooter } from "@/components/luxury/BelaPopValidatedFooter";
 import { BelaPopValidatedHeader } from "@/components/luxury/BelaPopValidatedHeader";
+import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import {
   belaPopUniverses,
   getRelatedUniverses,
@@ -110,6 +111,15 @@ export default async function UniverseDetailPage({ params }: UniversePageProps) 
       <JsonLd universe={universe} products={products} />
       <BelaPopValidatedHeader activeSection="universos" />
       <main className="pb-24 pt-20 lg:pb-0 lg:pt-28">
+        <div className="px-5 pt-3 sm:px-6 lg:px-8">
+          <Breadcrumbs
+            items={[
+              { label: "Início", href: "/" },
+              { label: "Universos", href: "/universos" },
+              { label: universe.name }
+            ]}
+          />
+        </div>
         <UniverseHero universe={universe} />
         <UniverseNavigationTabs universe={universe} relatedUniverses={relatedUniverses} />
 

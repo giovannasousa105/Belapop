@@ -17,6 +17,7 @@ import {
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 
+import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { brandCtas } from "@/lib/brand/ctas";
 import { useCart } from "@/lib/CartContext";
 import {
@@ -337,6 +338,9 @@ export function SkincareCatalogExperience({ products }: Props) {
       data-belapop-page="skincare-public"
     >
       <main className="bg-[#fcf9f8]">
+        <div className="px-5 pt-4 pb-1 md:px-8">
+          <Breadcrumbs items={[{ label: "Início", href: "/" }, { label: "Skincare" }]} />
+        </div>
         <section className="bg-[#f6f1ed]">
           <Link href="/skin-scan" className="group block">
             <div className="relative overflow-hidden bg-[#f6f1ed] lg:min-h-[410px]">
