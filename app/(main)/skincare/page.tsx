@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 
 import { JsonLd } from "@/components/seo/JsonLd";
 import { gerarBreadcrumbSchema } from "@/lib/seo/structuredData";
@@ -77,7 +78,9 @@ export default async function SkincarePage() {
   return (
     <>
       <JsonLd schema={[breadcrumb, itemList]} />
-      <SkincareCatalogExperience products={skincareProducts} />
+      <Suspense fallback={null}>
+        <SkincareCatalogExperience products={skincareProducts} />
+      </Suspense>
     </>
   );
 }
