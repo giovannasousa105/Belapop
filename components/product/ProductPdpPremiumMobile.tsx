@@ -32,6 +32,7 @@ import {
   VerifiedProductBadge
 } from "@/components/catalog-standards";
 import { ConsultoraInlineEntry } from "@/components/assistant/ConsultoraBelaPop";
+import { BundleRecommendationStrip } from "@/components/bundles/BundleRecommendationStrip";
 import { ProductShareBar } from "@/components/product/ProductShareBar";
 import { BelaPopValidatedFooter } from "@/components/luxury/BelaPopValidatedFooter";
 import { BelaPopValidatedHeader } from "@/components/luxury/BelaPopValidatedHeader";
@@ -1426,22 +1427,12 @@ export function ProductPdpPremiumMobile({
           </div>
         </section>
 
-        <section className="bg-[#f6f1eb] px-5 py-14 md:px-8 md:py-20">
-          <div className="mx-auto max-w-[1180px]">
-            <h2 className="[font-family:var(--font-playfair)] text-[1.8rem] font-medium leading-[1.1] tracking-[-0.014em] text-black sm:text-[2.2rem]">
-              Encontrado nos kits
-            </h2>
-            <p className="mt-3 text-sm leading-7 text-black/60">
-              Este produto faz parte de rotinas curadas pela BelaPop.
-            </p>
-            <Link
-              href="/kits"
-              className="mt-6 inline-flex min-h-12 items-center justify-center border border-black px-6 text-[11px] font-semibold uppercase tracking-[0.2em] transition hover:bg-black hover:text-white"
-            >
-              Ver todos os kits →
-            </Link>
-          </div>
-        </section>
+        <BundleRecommendationStrip
+          title="Combine com kits BelaPop"
+          subtitle="Complete sua rotina com kits curados que incluem produtos como este."
+          limit={3}
+          className="bg-[#f6f1eb]"
+        />
 
         {complementarySlugs.length > 0 && (
           <section className="bg-white px-5 py-14 md:px-8 md:py-20">
