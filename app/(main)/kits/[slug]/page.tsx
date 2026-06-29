@@ -13,6 +13,35 @@ import {
   getSkinBundleBySlug,
   skincareBundles
 } from "@/lib/skincare/skincareBundles";
+import { getProductDisplayImage } from "@/lib/product/productCovers";
+import { getSupabaseAdminClient } from "@/lib/supabase/admin";
+
+async function getProductImagesByName(names: string[]): Promise<Record<string, string>> {
+  const uniqueNames = Array.from(new Set(names));
+  if (uniqueNames.length === 0) return {};
+
+  try {
+    const supabase = getSupabaseAdminClient();
+    const { data, error } = await supabase
+      .from("products")
+      .select("name, hero_image_url, category")
+      .in("name", uniqueNames);
+
+    if (error || !data) return {};
+
+    return Object.fromEntries(
+      data.map((row) => [
+        row.name as string,
+        getProductDisplayImage({
+          heroImageUrl: row.hero_image_url as string | null,
+          category: row.category as string | null
+        })
+      ])
+    );
+  } catch {
+    return {};
+  }
+}
 
 type KitPageProps = {
   params: Promise<{ slug: string }>;
@@ -51,6 +80,10 @@ export default async function KitDetailPage({ params }: KitPageProps) {
   const bundle = getSkinBundleBySlug(slug);
 
   if (!bundle) notFound();
+
+  const productImagesByName = await getProductImagesByName(
+    bundle.products.map((product) => product.name)
+  );
 
   return (
     <div className="min-h-screen bg-[#fcf9f8] text-[#1c1b1b]">
@@ -152,9 +185,19 @@ export default async function KitDetailPage({ params }: KitPageProps) {
             <ol className="grid gap-4">
               {bundle.products.map((product) => (
                 <li key={product.productId} className="grid gap-4 border border-[#ded8d2] bg-white p-5 sm:grid-cols-[72px_1fr_auto] sm:items-center">
-                  <span className="font-headline text-5xl leading-none text-[#1c1b1b]/18">
-                    {String(product.step).padStart(2, "0")}
-                  </span>
+                  <div className="relative aspect-square w-full overflow-hidden bg-[#f6f3f2] sm:h-[72px] sm:w-[72px]">
+                    <Image
+                      src={productImagesByName[product.name] ?? "/editorial/product-hero-signature.svg"}
+                      alt={product.name}
+                      fill
+                      unoptimized
+                      sizes="72px"
+                      className="object-cover"
+                    />
+                    <span className="absolute bottom-0.5 right-0.5 bg-white/90 px-1 text-[9px] font-bold uppercase tracking-[0.1em] text-[#1c1b1b]">
+                      {String(product.step).padStart(2, "0")}
+                    </span>
+                  </div>
                   <div>
                     <h3 className="font-headline text-2xl tracking-[-0.03em]">{product.name}</h3>
                     <p className="mt-2 text-sm leading-6 text-[#5f5a55]">{product.usage}</p>
