@@ -119,7 +119,9 @@ function LoginPreviewScreenContent({ mode = "preview" }: LoginPreviewScreenProps
   const router = useRouter();
   const searchParams = useSearchParams();
   const { login, loginWithMagicLink, loginWithOAuth, ready, registerCustomer, user } = useAuth();
-  const [authMode, setAuthMode] = useState<"login" | "signup">("login");
+  const [authMode, setAuthMode] = useState<"login" | "signup">(
+    searchParams.get("mode") === "signup" ? "signup" : "login"
+  );
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
