@@ -4,6 +4,7 @@ import type Stripe from "stripe";
 
 import { buildShortOrderCode } from "@/lib/orders/orderReference";
 import { getSupabaseAdminClient } from "@/lib/supabase/admin";
+import { enviarPedidoConfirmado } from "@/lib/crm/flows/transacionais";
 
 type OrderPaymentRow = {
   id: string;
@@ -123,6 +124,40 @@ const ensureCustomerNotification = async (order: OrderPaymentRow) => {
   }
 };
 
+async function dispararEmailPedidoConfirmado(
+  orderId: string,
+  customerId: string,
+  paymentIntent: Stripe.PaymentIntent
+): Promise<void> {
+  try {
+    const admin = getSupabaseAdminClient();
+    const { data: profile } = await admin
+      .from("profiles")
+      .select("email,full_name")
+      .eq("id", customerId)
+      .maybeSingle();
+
+    if (!profile?.email) return;
+
+    const totalCents = Number(paymentIntent.amount_received ?? paymentIntent.amount ?? 0);
+    const totalBrl = totalCents / 100;
+    const numeroPedido = buildShortOrderCode(orderId);
+
+    await enviarPedidoConfirmado({
+      user_id: customerId,
+      email: profile.email as string,
+      pedido_id: orderId,
+      numero_pedido: numeroPedido,
+      itens: [],
+      subtotal_brl: totalBrl,
+      frete_brl: 0,
+      total_brl: totalBrl,
+    });
+  } catch (err) {
+    console.warn("[stripe] email pedido confirmado falhou (nao-critico)", String(err));
+  }
+}
+
 export const finalizePaymentIntentOrder = async (paymentIntent: Stripe.PaymentIntent) => {
   const admin = getSupabaseAdminClient();
   const order = await findOrderForPaymentIntent(paymentIntent);
@@ -160,6 +195,9 @@ export const finalizePaymentIntentOrder = async (paymentIntent: Stripe.PaymentIn
 
   await clearCustomerCart(order.customer_id, order.id);
   await ensureCustomerNotification({ ...order, payment_intent_id: paymentIntent.id });
+
+  // Dispara email de confirmação de pedido — não bloqueia a resposta
+  void dispararEmailPedidoConfirmado(order.id, order.customer_id, paymentIntent);
 
   return {
     order: {

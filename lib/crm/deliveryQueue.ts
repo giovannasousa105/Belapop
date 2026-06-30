@@ -48,12 +48,34 @@ export const emailQueue = redis ? new Queue("crm-emails", { connection: redis })
 
 // ─── enfileirar ───────────────────────────────────────────────────────────────
 
+async function enviarDiretamente(params: EnfileirarParams): Promise<string | null> {
+  if (!resend) {
+    console.warn("[deliveryQueue] RESEND_API_KEY não configurada; email perdido.", { fluxo: params.fluxo });
+    return null;
+  }
+  try {
+    const html = await renderizarTemplate(params.template_id, params.metadata as Record<string, unknown>);
+    const { data: sent, error } = await resend.emails.send({
+      from: FROM,
+      to: params.email,
+      subject: params.subject,
+      html,
+    });
+    if (error || !sent?.id) {
+      console.error("[deliveryQueue] envio direto Resend falhou", error?.message);
+      return null;
+    }
+    console.info("[deliveryQueue] email enviado diretamente (sem fila)", { fluxo: params.fluxo, id: sent.id });
+    return sent.id;
+  } catch (err) {
+    console.error("[deliveryQueue] envio direto inesperado", err);
+    return null;
+  }
+}
+
 export async function enfileirar(params: EnfileirarParams): Promise<string | null> {
   if (!redis || !emailQueue) {
-    console.warn("[deliveryQueue] Redis indisponivel; email não enfileirado.", {
-      fluxo: params.fluxo,
-    });
-    return null;
+    return enviarDiretamente(params);
   }
 
   const admin = getSupabaseAdminClient();
