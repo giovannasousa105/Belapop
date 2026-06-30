@@ -26,9 +26,8 @@ export function ReelsBloco({ reels, idPrefix = "diario" }: { reels: ReelItem[]; 
         {reels.length > 0 ? (
           <div className="flex gap-4 overflow-x-auto px-4 pb-3 sm:px-0 sm:pb-0 lg:grid lg:grid-cols-4 lg:overflow-visible">
             {reels.slice(0, 4).map((reel) => (
-              <Link
+              <div
                 key={reel.slug}
-                href={`/guias/reels/${reel.slug}`}
                 className="group relative w-[160px] shrink-0 overflow-hidden lg:w-auto"
               >
                 <div className="relative aspect-[9/16] w-full overflow-hidden bg-[#e8e4e0]">
@@ -65,7 +64,7 @@ export function ReelsBloco({ reels, idPrefix = "diario" }: { reels: ReelItem[]; 
                   )}
                   <h5 className="font-headline text-base leading-tight text-black">{reel.title}</h5>
                 </div>
-              </Link>
+              </div>
             ))}
           </div>
         ) : (

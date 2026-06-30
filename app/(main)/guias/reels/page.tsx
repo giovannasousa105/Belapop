@@ -37,10 +37,9 @@ export default function ReelsPage() {
             {reels.length > 0 ? (
               <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
                 {reels.map((reel) => (
-                  <Link
+                  <div
                     key={reel.slug}
-                    href={`/guias/reels/${reel.slug}`}
-                    className="group overflow-hidden border border-[#ded8d2] bg-white transition hover:border-[#1c1b1b]"
+                    className="group overflow-hidden border border-[#ded8d2] bg-white"
                   >
                     <div className="relative aspect-[9/16] w-full overflow-hidden bg-[#e8e4e0]">
                       {reel.thumbnailUrl ? (
@@ -63,7 +62,7 @@ export default function ReelsPage() {
                       {reel.tag && <p className="text-[10px] font-semibold uppercase tracking-[0.1em] text-[#6c5e06]">{reel.tag}</p>}
                       <h3 className="mt-1.5 font-headline text-base leading-tight text-black">{reel.title}</h3>
                     </div>
-                  </Link>
+                  </div>
                 ))}
               </div>
             ) : (
