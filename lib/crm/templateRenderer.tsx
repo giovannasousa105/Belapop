@@ -5,6 +5,7 @@ type TemplateModule = { default: React.ComponentType<Record<string, unknown>> };
 
 const LOADERS: Record<string, () => Promise<TemplateModule>> = {
   PedidoConfirmado:      () => import("@/emails/templates/PedidoConfirmado"),
+  PedidoEnviado:         () => import("@/emails/templates/PedidoEnviado"),
   ScanResultado:         () => import("@/emails/templates/ScanResultado"),
   PopClubBoasVindas:     () => import("@/emails/templates/PopClubBoasVindas"),
   PopClubPromocaoTier:   () => import("@/emails/templates/PopClubPromocaoTier"),

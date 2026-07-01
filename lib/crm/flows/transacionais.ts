@@ -1,5 +1,28 @@
 import { enfileirar } from "@/lib/crm/deliveryQueue";
 
+export async function enviarPedidoEnviado(params: {
+  user_id: string;
+  email: string;
+  numero_pedido: string;
+  codigo_rastreio: string;
+  transportadora: string;
+  previsao_entrega?: string;
+}) {
+  await enfileirar({
+    user_id: params.user_id,
+    email: params.email,
+    fluxo: "PEDIDO_ENVIADO",
+    template_id: "PedidoEnviado",
+    subject: `Seu pedido #${params.numero_pedido} foi enviado`,
+    metadata: {
+      numero_pedido: params.numero_pedido,
+      codigo_rastreio: params.codigo_rastreio,
+      transportadora: params.transportadora,
+      previsao_entrega: params.previsao_entrega,
+    },
+  });
+}
+
 export async function enviarPedidoConfirmado(params: {
   user_id: string;
   email: string;

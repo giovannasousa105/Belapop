@@ -16,6 +16,8 @@ import { getSupabaseAdminClient } from "@/lib/supabase/admin";
 import { getSupabaseServerClient } from "@/lib/supabaseServer";
 import { resolveStoreIdForSeller } from "@/lib/tracking/shipmentLookup";
 import { syncSubOrderStatusFromTracking } from "@/lib/tracking/syncSubOrders";
+import { buildShortOrderCode } from "@/lib/orders/orderReference";
+import { enviarPedidoEnviado } from "@/lib/crm/flows/transacionais";
 
 export const runtime = "nodejs";
 
@@ -194,6 +196,30 @@ export async function POST(
         carrier
       }
     });
+  }
+
+  if (actors.customerUserId) {
+    void (async () => {
+      try {
+        const adminClient = getSupabaseAdminClient();
+        const { data: profile } = await adminClient
+          .from("profiles")
+          .select("email")
+          .eq("id", actors.customerUserId)
+          .maybeSingle();
+        if (profile?.email) {
+          await enviarPedidoEnviado({
+            user_id: actors.customerUserId as string,
+            email: profile.email as string,
+            numero_pedido: buildShortOrderCode(orderId),
+            codigo_rastreio: trackingCode,
+            transportadora: carrier,
+          });
+        }
+      } catch (err) {
+        console.warn("[add-tracking] email pedido enviado falhou (nao-critico)", String(err));
+      }
+    })();
   }
 
   await logSellerAuditEvent({
