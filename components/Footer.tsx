@@ -151,7 +151,7 @@ export const Footer = () => {
               <Link href="/carreiras" className={linkClass}>
                 Trabalhe Conosco
               </Link>
-              <Link href="/faq" className={linkClass}>
+              <Link href="/contato#faq" className={linkClass}>
                 Perguntas Frequentes
               </Link>
             </div>
