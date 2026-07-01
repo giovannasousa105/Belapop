@@ -21,7 +21,7 @@ export function ComplementaryProductCard({ product, className = "" }: Complement
       <div className="relative aspect-[4/5] overflow-hidden rounded-[8px] bg-[#f7f1ea]">
         <Image
           src={product.image ?? "/catalog/premium-product-placeholder.svg"}
-          alt=""
+          alt={product.name}
           fill
           sizes="92px"
           className="object-cover"
