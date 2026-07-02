@@ -4,6 +4,7 @@
 
 import { motion, useReducedMotion } from "framer-motion";
 import { BadgeCheck, Check, CreditCard, PackageCheck, ShieldCheck, ShoppingBag, Sparkles, Truck } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
@@ -405,7 +406,16 @@ function LuxuryVideoHero() {
   return (
     <section className="hero flex flex-col overflow-hidden bg-[#090807] text-white lg:block">
       <div className="mx-auto flex w-full max-w-[1580px] flex-col lg:grid lg:min-h-[clamp(520px,66vh,720px)] lg:grid-cols-[minmax(0,0.95fr)_minmax(390px,0.82fr)] lg:items-center lg:gap-7 lg:px-[clamp(40px,5vw,76px)] lg:py-[clamp(34px,4.6vw,64px)]">
-        <div className="hero-media relative order-1 flex h-[42svh] min-h-[300px] max-h-[380px] w-full items-center justify-center overflow-hidden bg-[radial-gradient(circle_at_center,#0a0a0a_0%,#000_100%)] lg:order-2 lg:block lg:h-[clamp(360px,50vh,560px)] lg:min-h-0 lg:max-h-none lg:translate-x-2 lg:scale-[0.88] lg:bg-[#111] lg:opacity-90" style={{ backgroundImage: "url('/editorial/belapop-skin-scan-hero-mobile-poster.jpg')", backgroundSize: "cover", backgroundPosition: "center" }}>
+        <div className="hero-media relative order-1 flex h-[42svh] min-h-[300px] max-h-[380px] w-full items-center justify-center overflow-hidden bg-[#090807] lg:order-2 lg:block lg:h-[clamp(360px,50vh,560px)] lg:min-h-0 lg:max-h-none lg:translate-x-2 lg:scale-[0.88] lg:opacity-90">
+          <Image
+            src="/editorial/belapop-skin-scan-hero-mobile-poster.jpg"
+            alt=""
+            aria-hidden="true"
+            fill
+            priority
+            sizes="(max-width: 1023px) 100vw, 50vw"
+            className="object-cover object-center"
+          />
           {prefersStaticHero ? (
             <picture className="block h-full w-full">
               <source srcSet={heroVideo.mobilePoster} media="(max-width: 767px)" />

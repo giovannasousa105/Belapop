@@ -74,9 +74,7 @@ export default async function HomePage({ searchParams }: HomePageProps) {
 
   return (
     <>
-      {/* Preload do LCP hero (CSS background image não é detectado pelo preload scanner) */}
-      <link rel="preload" as="image" href="/editorial/belapop-skin-scan-hero-mobile-poster.jpg" />
-      <JsonLd schema={[gerarOrganizationSchema(), gerarWebSiteSchema(), itemListSchema]} />
+<JsonLd schema={[gerarOrganizationSchema(), gerarWebSiteSchema(), itemListSchema]} />
       <BelaPopLuxuryHomepage featuredProducts={featuredProducts} />
     </>
   );

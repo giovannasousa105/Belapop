@@ -206,7 +206,7 @@ export async function createCheckoutSession(
     expires_at: expiresAt,
     customer_email: customer_email ?? undefined,
     locale: "pt-BR",
-    allow_promotion_codes: false,
+    allow_promotion_codes: true,
   });
 
   // ── 6. Link Checkout Session back to the reservation ──────────────────────
