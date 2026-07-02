@@ -91,7 +91,7 @@ const MAX_IMAGE_BYTES = 10 * 1024 * 1024;        // 10 MB
 const MIN_IMAGE_BYTES = 10 * 1024;               // 10 KB — descarta strings aleatórias
 const RATE_LIMIT_WINDOW_MS = 10 * 60 * 1000;    // 10 minutos
 const RATE_LIMIT_MAX_REQUESTS = 10;
-const CLAUDE_MODEL = "claude-sonnet-4-5";
+const CLAUDE_MODEL = "claude-sonnet-4-6";
 const CLAUDE_TIMEOUT_MS = 35_000;
 
 const requestLimitStore = new Map<string, { count: number; resetAt: number }>();

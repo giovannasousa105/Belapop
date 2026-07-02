@@ -261,103 +261,68 @@ function buildFallbackAnswer(context: SkinGptContext): SkinGptAnswer {
   };
 }
 
-async function askOpenAi(context: SkinGptContext): Promise<SkinGptAnswer | null> {
-  const apiKey = sanitizeOptionalEnv(process.env.OPENAI_API_KEY);
+async function askClaude(context: SkinGptContext): Promise<SkinGptAnswer | null> {
+  const apiKey = sanitizeOptionalEnv(process.env.ANTHROPIC_API_KEY);
   if (!apiKey) return null;
 
-  const model = sanitizeOptionalEnv(process.env.OPENAI_MODEL) ?? "gpt-4.1-mini";
   const fallback = buildFallbackAnswer(context);
-  const payload = {
-    model,
-    input: [
-      {
-        role: "system",
-        content:
-          "You are SkinBela for BelaPop. Answer in Brazilian Portuguese, with simple patient-friendly language, grounded only in the provided evidence documents and user context. Prioritize stronger and more recent dermatology evidence. Give highest weight to meta-analyses, systematic reviews, randomized controlled trials, and clinical guidelines. Prefer point-of-care summaries and high-evidence dermatology sources when present: UpToDate, DynaMed, BMJ Best Practice, Cochrane, AAD/BAD/ECRI guidelines, JAMA Dermatology, JAAD, BJD, PubMed/MEDLINE, Embase, LILACS, SciELO, DermNet and Anais Brasileiros de Dermatologia. Use VisualDx only as visual support, not as stronger evidence than high-level trials or guidelines. Never invent licensed content, never diagnose, never promise outcomes, and return JSON only."
-      },
-      {
-        role: "user",
-        content: JSON.stringify({
-          question: context.question,
-          profile: {
-            skin_type: context.profile?.skin_type?.name ?? null,
-            main_concern: context.profile?.main_concern?.name ?? null,
-            sensitivity_level: context.profile?.sensitivity_level ?? null
-          },
-          metrics: context.metrics,
-          latest_overall_score: context.latestOverallScore,
-          condition_knowledge: context.conditions,
-          knowledge_documents: context.knowledgeDocuments.map((document) => ({
-            ...document,
-            citation: formatEvidenceCitation(document),
-            evidence_badge: buildEvidenceBadge(document)
-          })),
-          ingredient_links: context.ingredientLinks,
-          routine_products: context.recommendedProducts,
-          response_style: {
-            answer_shape: [
-              "comece explicando em uma frase o que parece mais importante agora",
-              "depois diga o que a melhor evidencia sustenta em linguagem simples",
-              "inclua o que priorizar e o que evitar",
-              "se houver risco, diga quando vale procurar dermatologista"
-            ]
-          }
-        })
-      }
-    ],
-    text: {
-      format: {
-        type: "json_schema",
-        name: "skingpt_answer",
-        schema: {
-          type: "object",
-          additionalProperties: false,
-          properties: {
-            answer: { type: "string" },
-            highlights: { type: "array", items: { type: "string" } },
-            suggested_ingredients: { type: "array", items: { type: "string" } },
-            suggested_routine_focus: { type: "array", items: { type: "string" } },
-            citations: { type: "array", items: { type: "string" } },
-            disclaimers: { type: "array", items: { type: "string" } }
-          },
-          required: ["answer", "highlights", "suggested_ingredients", "suggested_routine_focus", "citations", "disclaimers"]
-        }
+
+  const systemPrompt =
+    "Você é SkinBela da BelaPop. Responda em português brasileiro, com linguagem simples e acessível, fundamentada apenas nos documentos de evidência e no contexto do usuário fornecidos. Priorize evidências mais fortes e recentes em dermatologia: meta-análises, revisões sistemáticas, ensaios clínicos randomizados e diretrizes clínicas (AAD, BAD, ECRI, JAMA Dermatology, JAAD, BJD, PubMed, Cochrane, DermNet). Nunca invente conteúdo licenciado, nunca dê diagnósticos, nunca prometa resultados. Retorne APENAS JSON válido no formato especificado, sem markdown nem texto fora do JSON.";
+
+  const userContent = JSON.stringify({
+    question: context.question,
+    profile: {
+      skin_type: context.profile?.skin_type?.name ?? null,
+      main_concern: context.profile?.main_concern?.name ?? null,
+      sensitivity_level: context.profile?.sensitivity_level ?? null
+    },
+    metrics: context.metrics,
+    latest_overall_score: context.latestOverallScore,
+    condition_knowledge: context.conditions,
+    knowledge_documents: context.knowledgeDocuments.map((document) => ({
+      ...document,
+      citation: formatEvidenceCitation(document),
+      evidence_badge: buildEvidenceBadge(document)
+    })),
+    ingredient_links: context.ingredientLinks,
+    routine_products: context.recommendedProducts,
+    response_format: {
+      type: "json_object",
+      schema: {
+        answer: "string — resposta principal em português",
+        highlights: "string[] — pontos-chave (máx 3)",
+        suggested_ingredients: "string[] — ativos recomendados (máx 3)",
+        suggested_routine_focus: "string[] — focos de rotina (máx 3)",
+        citations: "string[] — fontes citadas",
+        disclaimers: "string[] — avisos importantes"
       }
     }
-  };
+  });
 
   try {
-    const response = await fetch("https://api.openai.com/v1/responses", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${apiKey}`
-      },
-      body: JSON.stringify(payload)
+    const { default: Anthropic } = await import("@anthropic-ai/sdk");
+    const client = new Anthropic({ apiKey });
+
+    const msg = await client.messages.create({
+      model: "claude-sonnet-4-6",
+      max_tokens: 1024,
+      system: systemPrompt,
+      messages: [{ role: "user", content: userContent }]
     });
 
-    if (!response.ok) return null;
-    const json = (await response.json()) as Record<string, unknown>;
-    const outputText =
-      typeof json.output_text === "string"
-        ? json.output_text
-        : Array.isArray(json.output)
-          ? ""
-          : "";
+    const block = msg.content[0];
+    if (!block || block.type !== "text") return fallback;
 
-    if (!outputText) return null;
-    const parsed = JSON.parse(outputText) as Omit<SkinGptAnswer, "source_mode">;
-    return {
-      ...parsed,
-      source_mode: "llm"
-    };
+    const parsed = JSON.parse(block.text) as Omit<SkinGptAnswer, "source_mode">;
+    return { ...parsed, source_mode: "llm" };
   } catch {
     return fallback;
   }
 }
 
 export async function answerSkinGpt(context: SkinGptContext): Promise<SkinGptAnswer> {
-  const llm = await askOpenAi(context);
+  const llm = await askClaude(context);
   if (llm) return llm;
   return buildFallbackAnswer(context);
 }
