@@ -9,6 +9,8 @@ import { getBeneficio } from "@/lib/skin-scan/ativos-map";
 import { findLocalEvidence } from "@/lib/evidence/evidence-database";
 import { BELAPOP_SCAN_KEY } from "@/types/skin-scan";
 import type { SkinScanResult } from "@/types/skin-scan";
+import type { SkinAnalysisSession } from "@/lib/skincare/skinAnalysis";
+import { PdfDownloadButton } from "@/components/skinScan/PdfDownloadButton";
 
 const LAST_SCAN_DATE_KEY = "belapop_last_scan_date";
 
@@ -189,6 +191,103 @@ function SkinGptWidget({
       <div ref={bottomRef} />
     </div>
   );
+}
+
+// ── Mapper SkinScanResult → SkinAnalysisSession (para geração de PDF) ────────
+
+function buildPdfSession(result: SkinScanResult): SkinAnalysisSession {
+  const { analise, rotina, focos } = result;
+
+  const scoreToLabel = (v: number) => (v >= 7 ? "Alta" : v >= 4 ? "Moderada" : "Baixa");
+
+  const allPassos = [
+    ...(rotina.manha ?? []),
+    ...(rotina.noite ?? []),
+    ...(rotina.semanal ?? []),
+    ...(rotina.semana1 ?? []),
+  ];
+  const uniquePassos = allPassos.filter(
+    (p, i, arr) => arr.findIndex((x) => x.slug === p.slug) === i
+  );
+  const topActives = [...new Set(uniquePassos.flatMap((p) => p.ativosChave ?? []))].slice(0, 4);
+  const tipoPeleLabel = analise.tipoPele.charAt(0).toUpperCase() + analise.tipoPele.slice(1);
+
+  return {
+    analysis: {
+      imageQuality: {
+        status: analise.confianca >= 60 ? "good" : analise.confianca >= 40 ? "medium" : "poor",
+        issues: [],
+        canAnalyze: !analise.modoFallback,
+      },
+      skinTexture: { label: scoreToLabel(analise.scores.textura), score: Math.round(analise.scores.textura * 10), confidence: 0.8 },
+      visiblePores: {
+        label: analise.achados.poros === "dilatados_severos" ? "Alta" : analise.achados.poros === "dilatados_moderados" ? "Moderada" : "Baixa",
+        score: analise.achados.poros === "dilatados_severos" ? 80 : analise.achados.poros === "dilatados_moderados" ? 50 : 20,
+        confidence: 0.8,
+      },
+      oilinessAppearance: {
+        label: scoreToLabel(analise.scores.oleosidade),
+        zones: analise.achados.zonaT === "oleosa" || analise.achados.zonaT === "mista" ? ["Zona T"] : [],
+        confidence: 0.8,
+      },
+      drynessAppearance: {
+        label: analise.achados.bochechas === "secas" ? "Alta" : "Baixa",
+        zones: analise.achados.bochechas === "secas" ? ["Bochechas"] : [],
+        confidence: 0.8,
+      },
+      rednessAppearance: {
+        label: analise.achados.eritema === "presente" ? "Alta" : analise.achados.eritema === "leve" ? "Moderada" : "Baixa",
+        zones: analise.achados.eritema === "presente" ? ["Bochechas e nariz"] : [],
+        confidence: 0.8,
+      },
+      toneUniformity: { label: scoreToLabel(analise.scores.uniformidade), score: Math.round(analise.scores.uniformidade * 10), confidence: 0.8 },
+      fineLinesAppearance: {
+        label: analise.achados.linhasFinas === "presentes_moderadas" ? "Moderada" : analise.achados.linhasFinas === "presentes_leves" ? "Leve" : "Baixa",
+        zones: [],
+        confidence: 0.8,
+      },
+      topConcerns: focos.length > 0 ? focos.slice(0, 4) : ["Rotina personalizada"],
+      summary: analise.observacao || `Pele ${analise.tipoPele} com foco em ${focos[0] ?? "rotina personalizada"}.`,
+      routineRecommendation: {
+        morning: rotina.manha.length > 0 ? rotina.manha.map((p) => p.nome) : ["Rotina BelaPop"],
+        night: rotina.noite.length > 0 ? rotina.noite.map((p) => p.nome) : ["Rotina BelaPop"],
+      },
+      disclaimer: "Esta leitura é uma orientação cosmética baseada em sinais visuais, não substitui avaliação dermatológica.",
+    },
+    recommendedProducts: uniquePassos.map((passo) => ({
+      id: passo.slug,
+      slug: passo.slug,
+      name: passo.nome,
+      brand: null,
+      category: passo.categoria,
+      heroImageUrl: null,
+      priceCents: passo.preco ? Math.round(passo.preco * 100) : null,
+      sellerId: null,
+      reason: passo.porQueRecomendado,
+      matchedConcern: focos[0] ?? "Rotina personalizada",
+    })),
+    generatedAt: new Date().toISOString(),
+    imagePreviewDataUrl: null,
+    scienceRoutine: {
+      manha: rotina.manha.map((p) => ({
+        slug: p.slug, name: p.nome, category: p.categoria, price: p.preco,
+        step: p.ordem, period: ["manha"], description: p.comoUsar,
+        ritual: `Aplicar na etapa de ${p.categoria}.`, whyRecommended: p.porQueRecomendado,
+      })),
+      noite: rotina.noite.map((p) => ({
+        slug: p.slug, name: p.nome, category: p.categoria, price: p.preco,
+        step: p.ordem, period: ["noite"], description: p.comoUsar,
+        ritual: `Aplicar na etapa de ${p.categoria}.`, whyRecommended: p.porQueRecomendado,
+      })),
+      semanal: (rotina.semanal ?? []).map((p) => ({
+        slug: p.slug, name: p.nome, category: p.categoria, price: p.preco,
+        step: p.ordem, period: ["semanal"], description: p.comoUsar,
+        ritual: `Aplicar na etapa de ${p.categoria}.`, whyRecommended: p.porQueRecomendado,
+      })),
+      topActives,
+      skinProfile: tipoPeleLabel,
+    },
+  };
 }
 
 // ── Labels ────────────────────────────────────────────────────────────────────
@@ -486,6 +585,8 @@ export default function SkinScanResultadoPage() {
     return Math.round((vals.reduce((a, b) => a + b, 0) / vals.length) * 10);
   }, [result]);
 
+  const pdfSession = useMemo(() => (result ? buildPdfSession(result) : null), [result]);
+
   if (!result) {
     return (
       <div className="flex min-h-screen items-center justify-center">
@@ -759,6 +860,7 @@ export default function SkinScanResultadoPage() {
         >
           VER MINHA ROTINA PERSONALIZADA →
         </Link>
+        {pdfSession && <PdfDownloadButton session={pdfSession} variant="labeled" />}
         <button
           type="button"
           onClick={() => router.push("/skin-scan/foco")}
