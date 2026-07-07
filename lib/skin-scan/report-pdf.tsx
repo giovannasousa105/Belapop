@@ -551,9 +551,9 @@ const GRADE_STYLES: Record<EvidenceGrade, { bg: string; color: string; label: st
   C: { bg: C.gradeCBg, color: C.gradeC, label: "Grau C" },
 };
 
-// ─── SVG Face — Ilustração editorial estilizada ──────────────────────────────
-// Zonas são dinâmicas: refletem os achados reais da análise.
-// Manchas aparecem somente se o perfil indica hiperpigmentação.
+// ─── SVG Face — Ilustração editorial premium ──────────────────────────────────
+// Estética minimalista de beleza: traços finos, gradientes suaves, proporções
+// harmônicas. Zonas refletem achados reais; manchas aparecem só se indicado.
 function FaceMapSvg({
   highOiliness,
   showRedness,
@@ -564,128 +564,202 @@ function FaceMapSvg({
   showSpots: boolean;
 }) {
   return (
-    <Svg width={150} viewBox="0 0 240 314">
+    <Svg width={150} viewBox="0 0 240 316">
       <Defs>
-        {/* Gradiente de pele — perolado, luminoso */}
-        <RadialGradient id="sk" cx="44%" cy="30%" r="66%">
-          <Stop offset="0%"   stopColor="#FEE9D6" />
-          <Stop offset="28%"  stopColor="#F5D0AE" />
-          <Stop offset="62%"  stopColor="#EAB892" />
-          <Stop offset="100%" stopColor="#D4A07C" />
+        {/* Pele — luminosa, com luz natural no centro */}
+        <RadialGradient id="sk" cx="42%" cy="28%" r="68%">
+          <Stop offset="0%"   stopColor="#FEF0E2" />
+          <Stop offset="20%"  stopColor="#F8D8BC" />
+          <Stop offset="54%"  stopColor="#EDBF98" />
+          <Stop offset="100%" stopColor="#D8A07C" />
         </RadialGradient>
-        {/* Zona T — rose-gold suave, intensidade varia com oleosidade */}
+        {/* Zona T — dourado rosê muito suave */}
         <LinearGradient id="ztG" x1="0%" y1="0%" x2="0%" y2="100%">
-          <Stop offset="0%"   stopColor="#C4846B" stopOpacity={highOiliness ? 0.38 : 0.18} />
-          <Stop offset="60%"  stopColor="#C4846B" stopOpacity={highOiliness ? 0.14 : 0.06} />
-          <Stop offset="100%" stopColor="#C4846B" stopOpacity={0} />
+          <Stop offset="0%"   stopColor="#C8906A" stopOpacity={highOiliness ? 0.30 : 0.13} />
+          <Stop offset="55%"  stopColor="#C8906A" stopOpacity={highOiliness ? 0.09 : 0.03} />
+          <Stop offset="100%" stopColor="#C8906A" stopOpacity={0} />
         </LinearGradient>
-        {/* Lábio superior */}
+        {/* Lábio superior — rosé médio quente */}
         <LinearGradient id="lU" x1="0%" y1="0%" x2="0%" y2="100%">
-          <Stop offset="0%"   stopColor="#C8887E" />
-          <Stop offset="100%" stopColor="#AA6E68" />
+          <Stop offset="0%"   stopColor="#CC9090" />
+          <Stop offset="100%" stopColor="#AA6A6A" />
         </LinearGradient>
-        {/* Lábio inferior */}
+        {/* Lábio inferior — rosé mais claro e luminoso */}
         <LinearGradient id="lL" x1="0%" y1="0%" x2="0%" y2="100%">
-          <Stop offset="0%"   stopColor="#D29890" />
-          <Stop offset="60%"  stopColor="#BC8080" />
-          <Stop offset="100%" stopColor="#AA6E68" />
+          <Stop offset="0%"   stopColor="#DCA8A0" />
+          <Stop offset="55%"  stopColor="#C48880" />
+          <Stop offset="100%" stopColor="#AA6A6A" />
         </LinearGradient>
       </Defs>
 
-      {/* Cabelo — castanho escuro quente */}
-      <Ellipse cx={120} cy={46} rx={80} ry={58} fill="#201008" />
+      {/* ── Cabelo — castanho escuro com volume e brilho ── */}
+      <Ellipse cx={120} cy={42} rx={82} ry={62} fill="#1C0A06" />
       <Path
-        d="M42,92 Q36,46 60,20 Q84,-4 120,-2 Q156,-4 180,20 Q204,46 198,92 Q182,58 162,42 Q142,28 120,26 Q98,28 78,42 Q58,58 42,92Z"
-        fill="#201008"
+        d="M38,96 Q32,48 58,20 Q82,-6 120,-4 Q158,-6 182,20 Q208,48 202,96 Q186,58 164,40 Q144,26 120,24 Q96,26 76,40 Q54,58 38,96Z"
+        fill="#1C0A06"
       />
+      {/* Reflexo de luz no cabelo — mecha sutil */}
+      <Path d="M94,27 Q102,21 110,25 Q106,31 98,33Z" fill="#3A1A0C" fillOpacity={0.55} />
+      <Path d="M120,24 Q128,19 136,23 Q132,29 124,31Z" fill="#3A1A0C" fillOpacity={0.55} />
 
-      {/* Orelhas */}
-      <Path d="M46,122 Q32,122 30,138 Q28,156 35,166 Q41,174 50,170 Q46,160 46,146 Q46,132 50,124Z" fill="#E4B898" />
-      <Path d="M194,122 Q208,122 210,138 Q212,156 205,166 Q199,174 190,170 Q194,160 194,146 Q194,132 190,124Z" fill="#E4B898" />
+      {/* ── Orelhas com detalhe interno ── */}
+      <Path d="M44,124 Q30,124 28,140 Q26,158 33,168 Q39,176 48,172 Q44,162 44,148 Q44,132 48,124Z" fill="#E4B898" />
+      <Path d="M196,124 Q210,124 212,140 Q214,158 207,168 Q201,176 192,172 Q196,162 196,148 Q196,132 192,124Z" fill="#E4B898" />
+      <Path d="M37,138 Q35,150 37,160 Q41,164 45,160 Q42,152 42,142Z" fill="#C89878" fillOpacity={0.28} />
+      <Path d="M203,138 Q205,150 203,160 Q199,164 195,160 Q198,152 198,142Z" fill="#C89878" fillOpacity={0.28} />
 
-      {/* Pescoço */}
+      {/* ── Pescoço ── */}
       <Path
-        d="M90,288 Q88,308 120,310 Q152,308 150,288 L150,260 Q149,248 120,248 Q91,248 90,260Z"
+        d="M92,290 Q90,310 120,312 Q150,310 148,290 L146,262 Q145,250 120,250 Q95,250 94,262Z"
         fill="#E4B898"
       />
-
-      {/* Rosto base */}
       <Path
-        d="M50,106 Q44,62 66,37 Q90,11 120,9 Q150,11 174,37 Q196,62 190,106 L188,178 Q184,222 162,244 Q144,260 120,262 Q96,260 78,244 Q56,222 52,178Z"
+        d="M94,262 Q96,254 120,252 Q144,254 146,262 L144,272 Q120,266 96,272Z"
+        fill="#C49878" fillOpacity={0.18}
+      />
+
+      {/* ── Rosto base ── */}
+      <Path
+        d="M48,108 Q42,64 64,38 Q88,10 120,8 Q152,10 176,38 Q198,64 192,108 L190,182 Q186,226 164,248 Q146,264 120,266 Q94,264 76,248 Q54,226 50,182Z"
         fill="url(#sk)"
       />
 
-      {/* Highlight perolado — testa/fronte */}
-      <Ellipse cx={120} cy={60} rx={30} ry={20} fill="#FFFFFF" fillOpacity={0.1} />
-      <Ellipse cx={122} cy={124} rx={6}  ry={10} fill="#FFFFFF" fillOpacity={0.07} />
-
-      {/* Zona T */}
-      <Ellipse cx={120} cy={68} rx={54} ry={42} fill="url(#ztG)" />
-      <Rect x={113} y={102} width={14} height={78} rx={7} fill="#C4846B" fillOpacity={highOiliness ? 0.13 : 0.06} />
-
-      {/* Bochechas — blush suave (vermelhidão ou rosa elegante) */}
-      <Ellipse
-        cx={70}  cy={168}
-        rx={34} ry={26}
-        fill={showRedness ? "#D06060" : "#E4A0B4"}
-        fillOpacity={showRedness ? 0.26 : 0.14}
+      {/* ── Sombra leve lateral — estrutura e profundidade ── */}
+      <Path
+        d="M48,108 Q43,78 56,52 Q72,28 94,18"
+        stroke="#B88060" strokeWidth={14} fill="none" strokeLinecap="round" fillOpacity={0}
       />
-      <Ellipse
-        cx={170} cy={168}
-        rx={34} ry={26}
-        fill={showRedness ? "#D06060" : "#E4A0B4"}
-        fillOpacity={showRedness ? 0.26 : 0.14}
+      <Path
+        d="M192,108 Q197,78 184,52 Q168,28 146,18"
+        stroke="#B88060" strokeWidth={14} fill="none" strokeLinecap="round" fillOpacity={0}
       />
 
-      {/* Sobrancelhas — arco suave */}
-      <Path d="M60,90 Q77,80 97,84" stroke="#201008" strokeWidth={4.2} fill="none" strokeLinecap="round" />
-      <Path d="M143,84 Q163,80 180,90" stroke="#201008" strokeWidth={4.2} fill="none" strokeLinecap="round" />
+      {/* ── Highlight testa — ponto de luz central ── */}
+      <Ellipse cx={118} cy={56}  rx={28} ry={18} fill="#FFFFFF" fillOpacity={0.10} />
+      <Ellipse cx={118} cy={57}  rx={13} ry={8}  fill="#FFFFFF" fillOpacity={0.06} />
+      {/* Highlight dorso nasal */}
+      <Ellipse cx={120} cy={134} rx={4}  ry={14} fill="#FFFFFF" fillOpacity={0.07} />
 
-      {/* Olho esquerdo */}
+      {/* ── Zona T ── */}
+      <Ellipse cx={120} cy={66} rx={52} ry={44} fill="url(#ztG)" />
+      <Rect x={116} y={104} width={8} height={72} rx={4}
+        fill="#C8906A" fillOpacity={highOiliness ? 0.09 : 0.03} />
+
+      {/* ── Bochechas — blush editorial, muito suave ── */}
+      <Ellipse
+        cx={66}  cy={172}
+        rx={30} ry={20}
+        fill={showRedness ? "#CC5858" : "#E8A0BC"}
+        fillOpacity={showRedness ? 0.20 : 0.11}
+      />
+      <Ellipse
+        cx={174} cy={172}
+        rx={30} ry={20}
+        fill={showRedness ? "#CC5858" : "#E8A0BC"}
+        fillOpacity={showRedness ? 0.20 : 0.11}
+      />
+
+      {/* ── Sobrancelhas — traço fino e elegante, afina nas pontas ── */}
+      <Path
+        d="M62,92 Q74,82 90,83 Q96,84 101,87"
+        stroke="#1C0A06" strokeWidth={2.6} fill="none" strokeLinecap="round"
+      />
+      <Path
+        d="M62,93 Q74,84 89,85"
+        stroke="#1C0A06" strokeWidth={1.2} fill="none" strokeLinecap="round" fillOpacity={0.4}
+      />
+      <Path
+        d="M139,87 Q144,84 160,83 Q176,82 178,92"
+        stroke="#1C0A06" strokeWidth={2.6} fill="none" strokeLinecap="round"
+      />
+      <Path
+        d="M151,85 Q166,84 178,92"
+        stroke="#1C0A06" strokeWidth={1.2} fill="none" strokeLinecap="round" fillOpacity={0.4}
+      />
+
+      {/* ── Olho esquerdo — forma amendoada com profundidade ── */}
       <G>
-        <Path d="M59,106 Q79,96 100,106 Q79,116 59,106Z" fill="#F4EEE6" />
-        <Ellipse cx={79} cy={106} rx={11} ry={10.5} fill="#4A2E18" />
-        <Ellipse cx={79} cy={106} rx={5.8} ry={6.1} fill="#060402" />
-        <Ellipse cx={75} cy={102} rx={2.8} ry={2.1} fill="#FFFFFF" fillOpacity={0.94} />
-        <Ellipse cx={82} cy={109} rx={1.2} ry={1}   fill="#FFFFFF" fillOpacity={0.55} />
-        <Path d="M59,106 Q79,94 100,106" stroke="#180A04" strokeWidth={2} fill="none" strokeLinecap="round" />
-        {/* Cílios */}
-        {([60,65,71,79,87,93,98] as number[]).map((x, i) => (
-          <Line key={i} x1={x} y1={104} x2={x + (x < 79 ? -2.5 : x === 79 ? 0 : 1.8)} y2={97} stroke="#0E0602" strokeWidth={1.2} strokeLinecap="round" />
-        ))}
+        {/* Pálpebra inferior */}
+        <Path d="M57,109 Q79,120 103,109" stroke="#D4A890" strokeWidth={0.7} fill="none" strokeLinecap="round" />
+        {/* Branco */}
+        <Path d="M57,109 Q79,97 103,109 Q79,121 57,109Z" fill="#F6F0EA" />
+        {/* Íris */}
+        <Ellipse cx={80} cy={109} rx={10.5} ry={10}  fill="#4A2E1A" />
+        <Ellipse cx={80} cy={109} rx={5.5}  ry={5.8} fill="#050302" />
+        {/* Brilho principal */}
+        <Ellipse cx={76} cy={105} rx={2.6} ry={2.0}  fill="#FFFFFF" fillOpacity={0.96} />
+        {/* Brilho secundário */}
+        <Ellipse cx={84} cy={112} rx={1.0} ry={0.8}  fill="#FFFFFF" fillOpacity={0.50} />
+        {/* Pálpebra superior */}
+        <Path d="M57,109 Q79,97 103,109" stroke="#160806" strokeWidth={1.7} fill="none" strokeLinecap="round" />
+        {/* Canto externo */}
+        <Path d="M103,109 Q107,105 105,101" stroke="#160806" strokeWidth={1.0} fill="none" strokeLinecap="round" />
+        {/* Cílios — 5 finos e delicados */}
+        <Line x1={62}  y1={106} x2={58}  y2={98}  stroke="#0C0602" strokeWidth={1.0} strokeLinecap="round" />
+        <Line x1={70}  y1={102} x2={68}  y2={94}  stroke="#0C0602" strokeWidth={1.0} strokeLinecap="round" />
+        <Line x1={80}  y1={100} x2={80}  y2={92}  stroke="#0C0602" strokeWidth={1.0} strokeLinecap="round" />
+        <Line x1={90}  y1={102} x2={92}  y2={94}  stroke="#0C0602" strokeWidth={1.0} strokeLinecap="round" />
+        <Line x1={98}  y1={106} x2={103} y2={100} stroke="#0C0602" strokeWidth={1.0} strokeLinecap="round" />
       </G>
 
-      {/* Olho direito */}
+      {/* ── Olho direito — espelho ── */}
       <G>
-        <Path d="M140,106 Q161,96 181,106 Q161,116 140,106Z" fill="#F4EEE6" />
-        <Ellipse cx={161} cy={106} rx={11} ry={10.5} fill="#4A2E18" />
-        <Ellipse cx={161} cy={106} rx={5.8} ry={6.1} fill="#060402" />
-        <Ellipse cx={157} cy={102} rx={2.8} ry={2.1} fill="#FFFFFF" fillOpacity={0.94} />
-        <Ellipse cx={164} cy={109} rx={1.2} ry={1}   fill="#FFFFFF" fillOpacity={0.55} />
-        <Path d="M140,106 Q161,94 181,106" stroke="#180A04" strokeWidth={2} fill="none" strokeLinecap="round" />
-        {/* Cílios */}
-        {([142,147,153,161,169,175,180] as number[]).map((x, i) => (
-          <Line key={i} x1={x} y1={104} x2={x + (x < 161 ? -2.5 : x === 161 ? 0 : 1.8)} y2={97} stroke="#0E0602" strokeWidth={1.2} strokeLinecap="round" />
-        ))}
+        <Path d="M137,109 Q161,120 183,109" stroke="#D4A890" strokeWidth={0.7} fill="none" strokeLinecap="round" />
+        <Path d="M137,109 Q161,97 183,109 Q161,121 137,109Z" fill="#F6F0EA" />
+        <Ellipse cx={160} cy={109} rx={10.5} ry={10}  fill="#4A2E1A" />
+        <Ellipse cx={160} cy={109} rx={5.5}  ry={5.8} fill="#050302" />
+        <Ellipse cx={156} cy={105} rx={2.6}  ry={2.0} fill="#FFFFFF" fillOpacity={0.96} />
+        <Ellipse cx={164} cy={112} rx={1.0}  ry={0.8} fill="#FFFFFF" fillOpacity={0.50} />
+        <Path d="M137,109 Q161,97 183,109" stroke="#160806" strokeWidth={1.7} fill="none" strokeLinecap="round" />
+        <Path d="M137,109 Q133,105 135,101" stroke="#160806" strokeWidth={1.0} fill="none" strokeLinecap="round" />
+        <Line x1={178} y1={106} x2={182} y2={98}  stroke="#0C0602" strokeWidth={1.0} strokeLinecap="round" />
+        <Line x1={170} y1={102} x2={172} y2={94}  stroke="#0C0602" strokeWidth={1.0} strokeLinecap="round" />
+        <Line x1={160} y1={100} x2={160} y2={92}  stroke="#0C0602" strokeWidth={1.0} strokeLinecap="round" />
+        <Line x1={150} y1={102} x2={148} y2={94}  stroke="#0C0602" strokeWidth={1.0} strokeLinecap="round" />
+        <Line x1={142} y1={106} x2={137} y2={100} stroke="#0C0602" strokeWidth={1.0} strokeLinecap="round" />
       </G>
 
-      {/* Nariz */}
-      <Path d="M116,118 Q112,144 110,160 Q114,172 120,174 Q126,172 130,160 Q128,144 124,118Z" fill="#D0A070" fillOpacity={0.26} />
-      <Path d="M108,160 Q98,164 98,172 Q103,180 113,177 Q109,170 110,162Z" fill="#C09068" fillOpacity={0.35} />
-      <Path d="M132,160 Q142,164 142,172 Q137,180 127,177 Q131,170 130,162Z" fill="#C09068" fillOpacity={0.35} />
+      {/* ── Nariz — sugestão refinada ── */}
+      <Path
+        d="M118,122 Q115,148 113,164 Q116,175 120,177 Q124,175 127,164 Q125,148 122,122Z"
+        fill="#C89870" fillOpacity={0.18}
+      />
+      <Path d="M110,165 Q100,168 100,176 Q104,183 115,180 Q111,173 112,166Z"
+        fill="#C09070" fillOpacity={0.26} />
+      <Path d="M130,165 Q140,168 140,176 Q136,183 125,180 Q129,173 128,166Z"
+        fill="#C09070" fillOpacity={0.26} />
+      <Ellipse cx={120} cy={174} rx={4} ry={2.5} fill="#FFFFFF" fillOpacity={0.09} />
 
-      {/* Boca — nude-rose elegante */}
-      <Path d="M94,204 Q103,194 112,196 Q120,194 128,196 Q137,194 146,204 Q137,211 120,210 Q103,211 94,204Z" fill="url(#lU)" />
-      <Path d="M94,204 Q103,222 120,224 Q137,222 146,204 Q137,211 120,210 Q103,211 94,204Z" fill="url(#lL)" />
-      <Path d="M94,204 Q120,210 146,204" stroke="#9A6058" strokeWidth={0.7} fill="none" strokeLinecap="round" />
-      <Ellipse cx={120} cy={215} rx={14} ry={4.5} fill="#FFFFFF" fillOpacity={0.09} />
+      {/* ── Boca — cupid's bow definido, nude-rose ── */}
+      {/* Arco de cupido + lábio superior */}
+      <Path
+        d="M96,207 Q104,197 112,199 Q116,196 120,197 Q124,196 128,199 Q136,197 144,207 Q136,214 120,213 Q104,214 96,207Z"
+        fill="url(#lU)"
+      />
+      {/* Sulco do philtrum — define o arco */}
+      <Path d="M114,199 Q120,195 126,199" stroke="#C07872" strokeWidth={0.8} fill="none" strokeLinecap="round" />
+      {/* Lábio inferior */}
+      <Path
+        d="M96,207 Q105,225 120,227 Q135,225 144,207 Q136,214 120,213 Q104,214 96,207Z"
+        fill="url(#lL)"
+      />
+      {/* Linha de contato */}
+      <Path d="M96,207 Q120,213 144,207" stroke="#A86860" strokeWidth={0.6} fill="none" strokeLinecap="round" />
+      {/* Highlight lábio inferior */}
+      <Ellipse cx={120} cy={219} rx={13} ry={3.8} fill="#FFFFFF" fillOpacity={0.09} />
+      {/* Cantos naturais */}
+      <Circle cx={96}  cy={207} r={1.5} fill="#986058" fillOpacity={0.55} />
+      <Circle cx={144} cy={207} r={1.5} fill="#986058" fillOpacity={0.55} />
 
-      {/* Manchas — apenas se análise indica hiperpigmentação */}
+      {/* Sombra queixo */}
+      <Ellipse cx={120} cy={258} rx={26} ry={9} fill="#8B5A38" fillOpacity={0.09} />
+
+      {/* ── Manchas — somente se análise indica hiperpigmentação ── */}
       {showSpots && (
         <G>
-          <Ellipse cx={152} cy={150} rx={6}   ry={4.5} fill="#6A3C18" fillOpacity={0.28} />
-          <Ellipse cx={77}  cy={161} rx={5}   ry={4}   fill="#6A3C18" fillOpacity={0.23} />
-          <Ellipse cx={130} cy={188} rx={3.5} ry={2.5} fill="#6A3C18" fillOpacity={0.18} />
+          <Ellipse cx={152} cy={153} rx={5.5} ry={4}   fill="#6A3C18" fillOpacity={0.22} />
+          <Ellipse cx={78}  cy={164} rx={4.5} ry={3.5} fill="#6A3C18" fillOpacity={0.18} />
+          <Ellipse cx={132} cy={191} rx={3}   ry={2.2} fill="#6A3C18" fillOpacity={0.14} />
         </G>
       )}
     </Svg>
