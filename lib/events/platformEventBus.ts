@@ -63,6 +63,15 @@ const isMissingRelationOrColumn = (error: { code?: string | null; message?: stri
   );
 };
 
+// FK violation (23503): recipient_user_id refers to a user that no longer exists.
+// Treat as non-fatal — skip the notification rather than crashing the job.
+const isForeignKeyViolation = (error: { code?: string | null; message?: string | null } | null) => {
+  if (!error) return false;
+  if (error.code === "23503") return true;
+  const message = String(error.message ?? "").toLowerCase();
+  return message.includes("foreign key") && message.includes("violates");
+};
+
 export const buildDeterministicKey = (parts: Array<string | null | undefined>) =>
   createHash("sha256")
     .update(
@@ -156,6 +165,8 @@ export const queueNotificationOutbox = async (input: QueueNotificationInput) => 
 
   if (!insert.error) return { queued: true as const, dedupeKey };
   if (isDuplicateError(insert.error)) return { queued: false as const, dedupeKey };
+  // Recipient user was deleted from auth — skip notification instead of crashing.
+  if (isForeignKeyViolation(insert.error)) return { queued: false as const, dedupeKey };
 
   if (isMissingRelationOrColumn(insert.error)) {
     // Compatibility fallback for environments that still do not have outbox table:
@@ -172,8 +183,11 @@ export const queueNotificationOutbox = async (input: QueueNotificationInput) => 
         metadata: input.metadata ?? {},
         is_read: false
       });
-      if (fallback.error) throw new Error(fallback.error.message);
-      return { queued: true as const, dedupeKey };
+      if (!fallback.error) return { queued: true as const, dedupeKey };
+      if (isDuplicateError(fallback.error)) return { queued: false as const, dedupeKey };
+      // Recipient user deleted from auth — skip silently.
+      if (isForeignKeyViolation(fallback.error)) return { queued: false as const, dedupeKey };
+      throw new Error(fallback.error.message);
     }
     return { queued: false as const, dedupeKey };
   }
