@@ -21,26 +21,26 @@ import {
 import path from "path";
 
 import type { SkinAnalysisSession } from "@/lib/skincare/skinAnalysis";
+import { getSkinTypeRecommendations } from "@/lib/skin-scan/evidence-by-skin-type";
+import type { EvidenceGrade } from "@/lib/skin-scan/evidence-by-skin-type";
 
 // ─── Fonts ───────────────────────────────────────────────────────────────────
-// Bundladas localmente (não buscar via URL em runtime — gstatic muda hashes de
-// versão e quebra silenciosamente em produção serverless).
 const FONTS_DIR = path.join(process.cwd(), "lib/skin-scan/fonts");
 
 Font.register({
   family: "Playfair",
   fonts: [
     { src: path.join(FONTS_DIR, "PlayfairDisplay-Regular.ttf"), fontWeight: 400 },
-    { src: path.join(FONTS_DIR, "PlayfairDisplay-Bold.ttf"), fontWeight: 700 },
+    { src: path.join(FONTS_DIR, "PlayfairDisplay-Bold.ttf"),    fontWeight: 700 },
   ],
 });
 Font.register({
   family: "Inter",
   fonts: [
-    { src: path.join(FONTS_DIR, "Inter-Regular.ttf"), fontWeight: 400 },
-    { src: path.join(FONTS_DIR, "Inter-Italic.ttf"), fontWeight: 400, fontStyle: "italic" },
-    { src: path.join(FONTS_DIR, "Inter-SemiBold.ttf"), fontWeight: 600 },
-    { src: path.join(FONTS_DIR, "Inter-Bold.ttf"), fontWeight: 700 },
+    { src: path.join(FONTS_DIR, "Inter-Regular.ttf"),   fontWeight: 400 },
+    { src: path.join(FONTS_DIR, "Inter-Italic.ttf"),    fontWeight: 400, fontStyle: "italic" },
+    { src: path.join(FONTS_DIR, "Inter-SemiBold.ttf"),  fontWeight: 600 },
+    { src: path.join(FONTS_DIR, "Inter-Bold.ttf"),      fontWeight: 700 },
   ],
 });
 
@@ -57,6 +57,12 @@ const C = {
   wh:       "#FFFFFF",
   gr:       "#7BAF9E",
   barBg:    "#EBE3DC",
+  gradeA:   "#2D6A4F",
+  gradeABg: "#D8F0E8",
+  gradeB:   "#1D4E89",
+  gradeBBg: "#D6E8F7",
+  gradeC:   "#555",
+  gradeCBg: "#EBEBEB",
 };
 
 // ─── Styles ──────────────────────────────────────────────────────────────────
@@ -66,8 +72,6 @@ const s = StyleSheet.create({
     fontFamily: "Inter",
     paddingBottom: 40,
   },
-
-  // Header
   header: {
     backgroundColor: C.dk,
     paddingHorizontal: 22,
@@ -106,14 +110,10 @@ const s = StyleSheet.create({
     marginTop: 2,
     textAlign: "right",
   },
-
-  // Content wrapper
   content: {
     paddingHorizontal: 14,
     paddingTop: 10,
   },
-
-  // Banner
   banner: {
     borderRadius: 8,
     paddingHorizontal: 14,
@@ -149,8 +149,6 @@ const s = StyleSheet.create({
     fontWeight: 700,
     color: C.wh,
   },
-
-  // Card
   card: {
     backgroundColor: C.wh,
     borderRadius: 10,
@@ -170,8 +168,6 @@ const s = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: C.bdr,
   },
-
-  // Main grid
   grid: {
     flexDirection: "row",
     gap: 8,
@@ -184,8 +180,6 @@ const s = StyleSheet.create({
     flex: 1,
     gap: 8,
   },
-
-  // Score rows
   scoreRow: {
     flexDirection: "row",
     alignItems: "center",
@@ -215,8 +209,6 @@ const s = StyleSheet.create({
     width: 24,
     textAlign: "right",
   },
-
-  // Focos pills
   pill: {
     borderRadius: 14,
     borderWidth: 1,
@@ -237,8 +229,6 @@ const s = StyleSheet.create({
     flexWrap: "wrap",
     marginBottom: 6,
   },
-
-  // Achados grid
   achadosGrid: {
     flexDirection: "row",
     flexWrap: "wrap",
@@ -261,8 +251,6 @@ const s = StyleSheet.create({
     fontWeight: 700,
     color: C.rose,
   },
-
-  // Fitzpatrick
   fitzRow: {
     flexDirection: "row",
     gap: 12,
@@ -317,25 +305,93 @@ const s = StyleSheet.create({
     paddingVertical: 2,
   },
 
-  // Ativos
-  ativosPills: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    gap: 5,
+  // ── Evidências ──────────────────────────────────────────────────────────────
+  evidenceHeadline: {
+    fontSize: 7,
+    color: C.mid,
+    fontStyle: "italic",
+    marginBottom: 8,
+    lineHeight: 1.45,
   },
-  ativoPill: {
+  evidenceRow: {
+    flexDirection: "row",
+    gap: 7,
+    marginBottom: 7,
+    alignItems: "flex-start",
+  },
+  gradeBadge: {
+    borderRadius: 5,
+    paddingHorizontal: 6,
+    paddingVertical: 2,
+    minWidth: 36,
+    alignItems: "center",
+  },
+  gradeBadgeText: {
+    fontSize: 6,
+    fontWeight: 700,
+    letterSpacing: 0.5,
+  },
+  evidenceBody: {
+    flex: 1,
+  },
+  evidenceName: {
     fontSize: 7.5,
     fontWeight: 700,
+    color: C.d2,
+    marginBottom: 1,
+  },
+  evidenceBenefit: {
+    fontSize: 6.5,
+    color: C.mid,
+    lineHeight: 1.4,
+  },
+  evidenceSource: {
+    fontSize: 5.8,
     color: C.acc,
-    backgroundColor: "#F2EDF5",
-    borderWidth: 1,
-    borderColor: "#C0B0C8",
-    borderRadius: 14,
-    paddingHorizontal: 9,
-    paddingVertical: 3,
+    fontStyle: "italic",
+    marginTop: 1,
+  },
+  evidenceCaution: {
+    fontSize: 5.8,
+    color: "#B86040",
+    marginTop: 1,
+    fontStyle: "italic",
+  },
+  evidenceDivider: {
+    height: 1,
+    backgroundColor: C.bdr,
+    marginVertical: 4,
+  },
+  tipsSection: {
+    marginTop: 4,
+  },
+  tipsTitleText: {
+    fontSize: 6,
+    fontWeight: 700,
+    color: C.acc,
+    letterSpacing: 1.2,
+    textTransform: "uppercase",
+    marginBottom: 4,
+  },
+  tipRow: {
+    flexDirection: "row",
+    gap: 5,
+    marginBottom: 3,
+    alignItems: "flex-start",
+  },
+  tipBullet: {
+    fontSize: 6.5,
+    color: C.rose,
+    marginTop: 0.5,
+  },
+  tipText: {
+    flex: 1,
+    fontSize: 6.5,
+    color: C.mid,
+    lineHeight: 1.4,
   },
 
-  // Rotina
+  // ── Rotina ──────────────────────────────────────────────────────────────────
   rotinaGrid: {
     flexDirection: "row",
     gap: 8,
@@ -425,7 +481,6 @@ const s = StyleSheet.create({
     color: C.mid,
   },
 
-  // Footer
   footer: {
     position: "absolute",
     bottom: 0,
@@ -448,24 +503,14 @@ const s = StyleSheet.create({
 
 function formatCurrency(cents: number | null): string {
   if (cents == null) return "–";
-  return new Intl.NumberFormat("pt-BR", {
-    style: "currency",
-    currency: "BRL",
-  }).format(cents / 100);
+  return new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(cents / 100);
 }
 
 function mapConcernLabel(concern: string): string {
   const m: Record<string, string> = {
-    hydration: "Hidratação",
-    uniformity: "Uniformidade",
-    oiliness: "Oleosidade",
-    sensitivity: "Sensibilidade",
-    texture: "Textura",
-    luminosity: "Luminosidade",
-    pores: "Poros",
-    fine_lines: "Linhas finas",
-    redness: "Vermelhidão",
-    acne: "Acne",
+    hydration: "Hidratação", uniformity: "Uniformidade", oiliness: "Oleosidade",
+    sensitivity: "Sensibilidade", texture: "Textura", luminosity: "Luminosidade",
+    pores: "Poros", fine_lines: "Linhas finas", redness: "Vermelhidão", acne: "Acne",
   };
   return m[concern] ?? concern;
 }
@@ -475,8 +520,8 @@ function tipoPeleFromAnalysis(session: SkinAnalysisSession): string {
   const oily = session.analysis.oilinessAppearance.label.toLowerCase();
   const dry  = session.analysis.drynessAppearance.label.toLowerCase();
   if (oily.includes("alta") || oily.includes("elevada")) return "Oleosa";
-  if (dry.includes("alta") || dry.includes("elevada"))  return "Seca";
-  if (oily.includes("moderada") && dry.includes("leve")) return "Mista";
+  if (dry.includes("alta")  || dry.includes("elevada"))  return "Seca";
+  if (oily.includes("moderada")) return "Mista";
   return "Normal/Equilibrada";
 }
 
@@ -492,108 +537,162 @@ function scoreFromLabel(label: string): { pct: number; display: string } {
 }
 
 function fitzparickFromSkinType(tipoPele: string): number {
-  if (tipoPele.toLowerCase().includes("mista")) return 3;
+  if (tipoPele.toLowerCase().includes("mista"))  return 3;
   if (tipoPele.toLowerCase().includes("oleosa")) return 3;
-  if (tipoPele.toLowerCase().includes("seca")) return 2;
+  if (tipoPele.toLowerCase().includes("seca"))   return 2;
   return 3;
 }
 
 const FITZ_COLORS = ["#FDE8D0", "#F5C9A0", "#E8B080", "#C8845A", "#8B5A38", "#4A2C18"];
 
-// ─── SVG Face ────────────────────────────────────────────────────────────────
-function FaceMapSvg() {
+const GRADE_STYLES: Record<EvidenceGrade, { bg: string; color: string; label: string }> = {
+  A: { bg: C.gradeABg, color: C.gradeA, label: "Grau A" },
+  B: { bg: C.gradeBBg, color: C.gradeB, label: "Grau B" },
+  C: { bg: C.gradeCBg, color: C.gradeC, label: "Grau C" },
+};
+
+// ─── SVG Face — Ilustração editorial estilizada ──────────────────────────────
+// Zonas são dinâmicas: refletem os achados reais da análise.
+// Manchas aparecem somente se o perfil indica hiperpigmentação.
+function FaceMapSvg({
+  highOiliness,
+  showRedness,
+  showSpots,
+}: {
+  highOiliness: boolean;
+  showRedness: boolean;
+  showSpots: boolean;
+}) {
   return (
-    <Svg width={150} viewBox="0 0 240 310">
+    <Svg width={150} viewBox="0 0 240 314">
       <Defs>
-        <RadialGradient id="sk" cx="48%" cy="28%" r="68%">
-          <Stop offset="0%"   stopColor="#FDEBD8" />
-          <Stop offset="45%"  stopColor="#F0CFB0" />
-          <Stop offset="82%"  stopColor="#E0B890" />
-          <Stop offset="100%" stopColor="#C8A070" />
+        {/* Gradiente de pele — perolado, luminoso */}
+        <RadialGradient id="sk" cx="44%" cy="30%" r="66%">
+          <Stop offset="0%"   stopColor="#FEE9D6" />
+          <Stop offset="28%"  stopColor="#F5D0AE" />
+          <Stop offset="62%"  stopColor="#EAB892" />
+          <Stop offset="100%" stopColor="#D4A07C" />
         </RadialGradient>
+        {/* Zona T — rose-gold suave, intensidade varia com oleosidade */}
         <LinearGradient id="ztG" x1="0%" y1="0%" x2="0%" y2="100%">
-          <Stop offset="0%"   stopColor="#D4956A" stopOpacity={0.4} />
-          <Stop offset="70%"  stopColor="#D4956A" stopOpacity={0.16} />
-          <Stop offset="100%" stopColor="#D4956A" stopOpacity={0} />
+          <Stop offset="0%"   stopColor="#C4846B" stopOpacity={highOiliness ? 0.38 : 0.18} />
+          <Stop offset="60%"  stopColor="#C4846B" stopOpacity={highOiliness ? 0.14 : 0.06} />
+          <Stop offset="100%" stopColor="#C4846B" stopOpacity={0} />
         </LinearGradient>
+        {/* Lábio superior */}
         <LinearGradient id="lU" x1="0%" y1="0%" x2="0%" y2="100%">
-          <Stop offset="0%"   stopColor="#C07278" />
-          <Stop offset="100%" stopColor="#A05060" />
+          <Stop offset="0%"   stopColor="#C8887E" />
+          <Stop offset="100%" stopColor="#AA6E68" />
         </LinearGradient>
+        {/* Lábio inferior */}
         <LinearGradient id="lL" x1="0%" y1="0%" x2="0%" y2="100%">
-          <Stop offset="0%"   stopColor="#D08888" />
-          <Stop offset="65%"  stopColor="#BC7070" />
-          <Stop offset="100%" stopColor="#A85A60" />
+          <Stop offset="0%"   stopColor="#D29890" />
+          <Stop offset="60%"  stopColor="#BC8080" />
+          <Stop offset="100%" stopColor="#AA6E68" />
         </LinearGradient>
       </Defs>
 
-      {/* Cabelo */}
-      <Ellipse cx={120} cy={46} rx={80} ry={58} fill="#1C100A" />
-      <Path d="M42,92 Q36,46 60,20 Q84,-4 120,-2 Q156,-4 180,20 Q204,46 198,92 Q182,58 162,42 Q142,28 120,26 Q98,28 78,42 Q58,58 42,92Z" fill="#1C100A" />
+      {/* Cabelo — castanho escuro quente */}
+      <Ellipse cx={120} cy={46} rx={80} ry={58} fill="#201008" />
+      <Path
+        d="M42,92 Q36,46 60,20 Q84,-4 120,-2 Q156,-4 180,20 Q204,46 198,92 Q182,58 162,42 Q142,28 120,26 Q98,28 78,42 Q58,58 42,92Z"
+        fill="#201008"
+      />
 
       {/* Orelhas */}
-      <Path d="M46,122 Q32,122 30,138 Q28,156 35,166 Q41,174 50,170 Q46,160 46,146 Q46,132 50,124Z" fill="#E8C09A" />
-      <Path d="M194,122 Q208,122 210,138 Q212,156 205,166 Q199,174 190,170 Q194,160 194,146 Q194,132 190,124Z" fill="#E8C09A" />
+      <Path d="M46,122 Q32,122 30,138 Q28,156 35,166 Q41,174 50,170 Q46,160 46,146 Q46,132 50,124Z" fill="#E4B898" />
+      <Path d="M194,122 Q208,122 210,138 Q212,156 205,166 Q199,174 190,170 Q194,160 194,146 Q194,132 190,124Z" fill="#E4B898" />
 
       {/* Pescoço */}
-      <Path d="M90,288 Q88,308 120,310 Q152,308 150,288 L150,260 Q149,248 120,248 Q91,248 90,260Z" fill="#E8C09A" />
+      <Path
+        d="M90,288 Q88,308 120,310 Q152,308 150,288 L150,260 Q149,248 120,248 Q91,248 90,260Z"
+        fill="#E4B898"
+      />
 
       {/* Rosto base */}
-      <Path d="M50,106 Q44,62 66,37 Q90,11 120,9 Q150,11 174,37 Q196,62 190,106 L188,178 Q184,222 162,244 Q144,260 120,262 Q96,260 78,244 Q56,222 52,178Z" fill="url(#sk)" />
+      <Path
+        d="M50,106 Q44,62 66,37 Q90,11 120,9 Q150,11 174,37 Q196,62 190,106 L188,178 Q184,222 162,244 Q144,260 120,262 Q96,260 78,244 Q56,222 52,178Z"
+        fill="url(#sk)"
+      />
+
+      {/* Highlight perolado — testa/fronte */}
+      <Ellipse cx={120} cy={60} rx={30} ry={20} fill="#FFFFFF" fillOpacity={0.1} />
+      <Ellipse cx={122} cy={124} rx={6}  ry={10} fill="#FFFFFF" fillOpacity={0.07} />
 
       {/* Zona T */}
       <Ellipse cx={120} cy={68} rx={54} ry={42} fill="url(#ztG)" />
-      <Rect x={112} y={102} width={16} height={82} rx={8} fill="#D4956A" fillOpacity={0.12} />
+      <Rect x={113} y={102} width={14} height={78} rx={7} fill="#C4846B" fillOpacity={highOiliness ? 0.13 : 0.06} />
 
-      {/* Bochechas */}
-      <Ellipse cx={72}  cy={166} rx={32} ry={25} fill="#C4A882" fillOpacity={0.15} />
-      <Ellipse cx={168} cy={166} rx={32} ry={25} fill="#C4A882" fillOpacity={0.15} />
+      {/* Bochechas — blush suave (vermelhidão ou rosa elegante) */}
+      <Ellipse
+        cx={70}  cy={168}
+        rx={34} ry={26}
+        fill={showRedness ? "#D06060" : "#E4A0B4"}
+        fillOpacity={showRedness ? 0.26 : 0.14}
+      />
+      <Ellipse
+        cx={170} cy={168}
+        rx={34} ry={26}
+        fill={showRedness ? "#D06060" : "#E4A0B4"}
+        fillOpacity={showRedness ? 0.26 : 0.14}
+      />
 
-      {/* Sobrancelhas */}
-      <Path d="M59,92 Q76,80 98,84" stroke="#1E0E06" strokeWidth={4.5} fill="none" strokeLinecap="round" />
-      <Path d="M142,84 Q164,80 181,92" stroke="#1E0E06" strokeWidth={4.5} fill="none" strokeLinecap="round" />
+      {/* Sobrancelhas — arco suave */}
+      <Path d="M60,90 Q77,80 97,84" stroke="#201008" strokeWidth={4.2} fill="none" strokeLinecap="round" />
+      <Path d="M143,84 Q163,80 180,90" stroke="#201008" strokeWidth={4.2} fill="none" strokeLinecap="round" />
 
       {/* Olho esquerdo */}
-      <Path d="M58,106 Q79,96 100,106 Q79,116 58,106Z" fill="#F6F0E8" />
-      <Ellipse cx={79} cy={106} rx={11} ry={10.5} fill="#5C3A1E" />
-      <Ellipse cx={79} cy={106} rx={5.8} ry={6}    fill="#080402" />
-      <Ellipse cx={74} cy={102} rx={3}   ry={2.2}  fill="#fff" fillOpacity={0.92} />
-      <Path d="M58,106 Q79,94 100,106" stroke="#180A04" strokeWidth={2.2} fill="none" strokeLinecap="round" />
-      {/* Cílios esq */}
-      {[60,65,71,79,87,93,98].map((x, i) => (
-        <Line key={i} x1={x} y1={104} x2={x + (x < 79 ? -3 : x === 79 ? 0 : 2)} y2={98} stroke="#0E0602" strokeWidth={1.3} strokeLinecap="round" />
-      ))}
+      <G>
+        <Path d="M59,106 Q79,96 100,106 Q79,116 59,106Z" fill="#F4EEE6" />
+        <Ellipse cx={79} cy={106} rx={11} ry={10.5} fill="#4A2E18" />
+        <Ellipse cx={79} cy={106} rx={5.8} ry={6.1} fill="#060402" />
+        <Ellipse cx={75} cy={102} rx={2.8} ry={2.1} fill="#FFFFFF" fillOpacity={0.94} />
+        <Ellipse cx={82} cy={109} rx={1.2} ry={1}   fill="#FFFFFF" fillOpacity={0.55} />
+        <Path d="M59,106 Q79,94 100,106" stroke="#180A04" strokeWidth={2} fill="none" strokeLinecap="round" />
+        {/* Cílios */}
+        {([60,65,71,79,87,93,98] as number[]).map((x, i) => (
+          <Line key={i} x1={x} y1={104} x2={x + (x < 79 ? -2.5 : x === 79 ? 0 : 1.8)} y2={97} stroke="#0E0602" strokeWidth={1.2} strokeLinecap="round" />
+        ))}
+      </G>
 
       {/* Olho direito */}
-      <Path d="M140,106 Q161,96 182,106 Q161,116 140,106Z" fill="#F6F0E8" />
-      <Ellipse cx={161} cy={106} rx={11} ry={10.5} fill="#5C3A1E" />
-      <Ellipse cx={161} cy={106} rx={5.8} ry={6}   fill="#080402" />
-      <Ellipse cx={156} cy={102} rx={3}   ry={2.2} fill="#fff" fillOpacity={0.92} />
-      <Path d="M140,106 Q161,94 182,106" stroke="#180A04" strokeWidth={2.2} fill="none" strokeLinecap="round" />
-      {/* Cílios dir */}
-      {[142,147,153,161,169,175,180].map((x, i) => (
-        <Line key={i} x1={x} y1={104} x2={x + (x < 161 ? -3 : x === 161 ? 0 : 2)} y2={98} stroke="#0E0602" strokeWidth={1.3} strokeLinecap="round" />
-      ))}
+      <G>
+        <Path d="M140,106 Q161,96 181,106 Q161,116 140,106Z" fill="#F4EEE6" />
+        <Ellipse cx={161} cy={106} rx={11} ry={10.5} fill="#4A2E18" />
+        <Ellipse cx={161} cy={106} rx={5.8} ry={6.1} fill="#060402" />
+        <Ellipse cx={157} cy={102} rx={2.8} ry={2.1} fill="#FFFFFF" fillOpacity={0.94} />
+        <Ellipse cx={164} cy={109} rx={1.2} ry={1}   fill="#FFFFFF" fillOpacity={0.55} />
+        <Path d="M140,106 Q161,94 181,106" stroke="#180A04" strokeWidth={2} fill="none" strokeLinecap="round" />
+        {/* Cílios */}
+        {([142,147,153,161,169,175,180] as number[]).map((x, i) => (
+          <Line key={i} x1={x} y1={104} x2={x + (x < 161 ? -2.5 : x === 161 ? 0 : 1.8)} y2={97} stroke="#0E0602" strokeWidth={1.2} strokeLinecap="round" />
+        ))}
+      </G>
 
       {/* Nariz */}
-      <Path d="M116,118 Q112,144 110,160 Q114,172 120,174 Q126,172 130,160 Q128,144 124,118Z" fill="#E8B880" fillOpacity={0.35} />
-      <Path d="M106,158 Q96,163 96,173 Q101,181 112,178 Q108,170 108,162Z" fill="#D0A070" fillOpacity={0.46} />
-      <Path d="M134,158 Q144,163 144,173 Q139,181 128,178 Q132,170 132,162Z" fill="#D0A070" fillOpacity={0.46} />
+      <Path d="M116,118 Q112,144 110,160 Q114,172 120,174 Q126,172 130,160 Q128,144 124,118Z" fill="#D0A070" fillOpacity={0.26} />
+      <Path d="M108,160 Q98,164 98,172 Q103,180 113,177 Q109,170 110,162Z" fill="#C09068" fillOpacity={0.35} />
+      <Path d="M132,160 Q142,164 142,172 Q137,180 127,177 Q131,170 130,162Z" fill="#C09068" fillOpacity={0.35} />
 
-      {/* Boca */}
-      <Path d="M93,204 Q102,194 112,196 Q120,194 128,196 Q138,194 147,204 Q138,211 120,210 Q102,211 93,204Z" fill="url(#lU)" />
-      <Path d="M93,204 Q102,222 120,224 Q138,222 147,204 Q138,211 120,210 Q102,211 93,204Z" fill="url(#lL)" />
-      <Path d="M93,204 Q120,210 147,204" stroke="#883848" strokeWidth={0.9} fill="none" strokeLinecap="round" />
-      <Ellipse cx={120} cy={215} rx={16} ry={5} fill="#fff" fillOpacity={0.1} />
+      {/* Boca — nude-rose elegante */}
+      <Path d="M94,204 Q103,194 112,196 Q120,194 128,196 Q137,194 146,204 Q137,211 120,210 Q103,211 94,204Z" fill="url(#lU)" />
+      <Path d="M94,204 Q103,222 120,224 Q137,222 146,204 Q137,211 120,210 Q103,211 94,204Z" fill="url(#lL)" />
+      <Path d="M94,204 Q120,210 146,204" stroke="#9A6058" strokeWidth={0.7} fill="none" strokeLinecap="round" />
+      <Ellipse cx={120} cy={215} rx={14} ry={4.5} fill="#FFFFFF" fillOpacity={0.09} />
 
-      {/* Mancha hiperpigmentada */}
-      <Ellipse cx={152} cy={148} rx={7} ry={5.5} fill="#6A3C18" fillOpacity={0.38} />
-      <Ellipse cx={77}  cy={158} rx={5.5} ry={4.5} fill="#6A3C18" fillOpacity={0.32} />
+      {/* Manchas — apenas se análise indica hiperpigmentação */}
+      {showSpots && (
+        <G>
+          <Ellipse cx={152} cy={150} rx={6}   ry={4.5} fill="#6A3C18" fillOpacity={0.28} />
+          <Ellipse cx={77}  cy={161} rx={5}   ry={4}   fill="#6A3C18" fillOpacity={0.23} />
+          <Ellipse cx={130} cy={188} rx={3.5} ry={2.5} fill="#6A3C18" fillOpacity={0.18} />
+        </G>
+      )}
     </Svg>
   );
 }
 
-// ─── Score Bar component ──────────────────────────────────────────────────────
+// ─── Score Bar ────────────────────────────────────────────────────────────────
 function ScoreBar({ label, pct, color, display }: { label: string; pct: number; color: string; display: string }) {
   return (
     <View style={s.scoreRow}>
@@ -606,27 +705,88 @@ function ScoreBar({ label, pct, color, display }: { label: string; pct: number; 
   );
 }
 
-// ─── Main Document ────────────────────────────────────────────────────────────
-export function SkinScanReportPdf({ session, generatedAt }: { session: SkinAnalysisSession; generatedAt: string }) {
-  const a         = session.analysis;
-  const routine   = session.scienceRoutine;
-  const products  = session.recommendedProducts;
-  const tipoPele  = tipoPeleFromAnalysis(session);
-  const fitz      = fitzparickFromSkinType(tipoPele);
-  const dateStr   = new Date(generatedAt).toLocaleDateString("pt-BR", { day: "2-digit", month: "long", year: "numeric" });
+// ─── Seção de Evidências Individualizada ─────────────────────────────────────
+function EvidenceSection({ tipoPele }: { tipoPele: string }) {
+  const profile = getSkinTypeRecommendations(tipoPele);
 
-  const hidratacao   = scoreFromLabel(a.drynessAppearance.label);
-  const oleosidade   = scoreFromLabel(a.oilinessAppearance.label);
-  const uniformidade = { pct: a.toneUniformity.score, display: a.toneUniformity.label };
-  const textura      = { pct: a.skinTexture.score,    display: a.skinTexture.label };
-  const luminosidade = { pct: Math.round((a.toneUniformity.score + a.skinTexture.score) / 2), display: "Estimada" };
+  return (
+    <View style={s.card}>
+      <Text style={s.cardTitle}>
+        Recomendações para {profile.label} — Evidência Clínica
+      </Text>
+      <Text style={s.evidenceHeadline}>{profile.headline}</Text>
+
+      {profile.actives.map((active, i) => {
+        const gs = GRADE_STYLES[active.grade];
+        return (
+          <View key={active.name}>
+            <View style={s.evidenceRow}>
+              <View style={[s.gradeBadge, { backgroundColor: gs.bg }]}>
+                <Text style={[s.gradeBadgeText, { color: gs.color }]}>{gs.label}</Text>
+              </View>
+              <View style={s.evidenceBody}>
+                <Text style={s.evidenceName}>{active.name}</Text>
+                <Text style={s.evidenceBenefit}>{active.benefit}</Text>
+                {active.caution && (
+                  <Text style={s.evidenceCaution}>⚠ {active.caution}</Text>
+                )}
+                <Text style={s.evidenceSource}>{active.source}</Text>
+              </View>
+            </View>
+            {i < profile.actives.length - 1 && (
+              <View style={s.evidenceDivider} />
+            )}
+          </View>
+        );
+      })}
+
+      <View style={s.tipsSection}>
+        <Text style={s.tipsTitleText}>Notas de Rotina</Text>
+        {profile.routineTips.map((tip, i) => (
+          <View key={i} style={s.tipRow}>
+            <Text style={s.tipBullet}>·</Text>
+            <Text style={s.tipText}>{tip}</Text>
+          </View>
+        ))}
+      </View>
+    </View>
+  );
+}
+
+// ─── Main Document ────────────────────────────────────────────────────────────
+export function SkinScanReportPdf({
+  session,
+  generatedAt,
+}: {
+  session: SkinAnalysisSession;
+  generatedAt: string;
+}) {
+  const a        = session.analysis;
+  const routine  = session.scienceRoutine;
+  const products = session.recommendedProducts;
+  const tipoPele = tipoPeleFromAnalysis(session);
+  const fitz     = fitzparickFromSkinType(tipoPele);
+  const dateStr  = new Date(generatedAt).toLocaleDateString("pt-BR", {
+    day: "2-digit", month: "long", year: "numeric",
+  });
+
+  const hidratacao    = scoreFromLabel(a.drynessAppearance.label);
+  const oleosidade    = scoreFromLabel(a.oilinessAppearance.label);
+  const uniformidade  = { pct: a.toneUniformity.score,    display: a.toneUniformity.label };
+  const textura       = { pct: a.skinTexture.score,        display: a.skinTexture.label };
+  const luminosidade  = { pct: Math.round((a.toneUniformity.score + a.skinTexture.score) / 2), display: "Estimada" };
   const sensibilidade = scoreFromLabel(a.rednessAppearance.label);
 
-  const ativos: string[] = routine?.topActives.length
-    ? routine.topActives
-    : ["Niacinamida", "Glicerina 3%", "FPS50+", "Ácido Hialurônico"];
-
   const focos = a.topConcerns.map(mapConcernLabel);
+
+  // Flags dinâmicos para a ilustração
+  const highOiliness = a.oilinessAppearance.zones.length > 0 ||
+    a.oilinessAppearance.label.toLowerCase().includes("alta");
+  const showRedness  = a.rednessAppearance.label.toLowerCase().includes("alta") ||
+    a.rednessAppearance.label.toLowerCase().includes("present");
+  const showSpots    = a.topConcerns.some((c) =>
+    ["mancha", "uniform", "pigment", "dark_spot"].some((k) => c.toLowerCase().includes(k))
+  );
 
   const fitzTitle = [
     "Tipo I — Muito Clara",
@@ -645,6 +805,23 @@ export function SkinScanReportPdf({ session, generatedAt }: { session: SkinAnaly
         price: p.priceCents,
         ritual: "Aplicar em movimentos suaves",
       }));
+
+  const legendItems = [
+    {
+      color: highOiliness ? "#C4846B" : "#D4B8A0",
+      name: "Zona T",
+      val: highOiliness ? "Oleosa" : "Mista",
+    },
+    {
+      color: showRedness ? "#D06060" : "#E4A0B4",
+      name: "Bochechas",
+      val: showRedness ? "Vermelhidão" : "Normais",
+    },
+    ...(showSpots
+      ? [{ color: "#6A3C18", name: "Manchas", val: "Hiperpigm." }]
+      : []),
+    { color: "#A89080", name: "Poros", val: a.visiblePores.label },
+  ];
 
   return (
     <Document title="Relatório Skin Scan BelaPop" author="BelaPop">
@@ -669,7 +846,7 @@ export function SkinScanReportPdf({ session, generatedAt }: { session: SkinAnaly
             <View>
               <Text style={s.bannerTitle}>Sua Análise de Pele</Text>
               <Text style={s.bannerSub}>
-                Baseada em evidências PubMed · AAD 2024 · Orientativa — não substitui avaliação dermatológica
+                Baseada em evidências PubMed · AAD · Orientativa — não substitui avaliação dermatológica
               </Text>
             </View>
             <View style={s.bannerPill}>
@@ -680,20 +857,18 @@ export function SkinScanReportPdf({ session, generatedAt }: { session: SkinAnaly
           {/* ③ GRID PRINCIPAL */}
           <View style={s.grid}>
 
-            {/* ③-A MAPA */}
+            {/* ③-A MAPA DE ZONAS */}
             <View style={[s.card, s.leftCol]}>
               <Text style={s.cardTitle}>Mapa de Zonas da Pele</Text>
               <View style={{ alignItems: "center" }}>
-                <FaceMapSvg />
+                <FaceMapSvg
+                  highOiliness={highOiliness}
+                  showRedness={showRedness}
+                  showSpots={showSpots}
+                />
               </View>
-              {/* Legenda */}
               <View style={{ marginTop: 6 }}>
-                {[
-                  { color: "#D4956A", name: "Zona T",    val: "Mista" },
-                  { color: "#C4A882", name: "Bochechas",  val: "Normais" },
-                  { color: "#6A3C18", name: "Manchas",    val: "Hiperpigm." },
-                  { color: "#A89080", name: "Poros",      val: a.visiblePores.label },
-                ].map((item) => (
+                {legendItems.map((item) => (
                   <View key={item.name} style={s.legendRow}>
                     <View style={s.legendLeft}>
                       <View style={[s.legendDot, { backgroundColor: item.color }]} />
@@ -707,19 +882,16 @@ export function SkinScanReportPdf({ session, generatedAt }: { session: SkinAnaly
 
             {/* ③-B SCORES + FOCOS */}
             <View style={s.rightCol}>
-
-              {/* Scores */}
               <View style={s.card}>
                 <Text style={s.cardTitle}>Scores Visuais</Text>
-                <ScoreBar label="Hidratação"   pct={100 - hidratacao.pct}   color={C.rose}  display={hidratacao.display} />
-                <ScoreBar label="Oleosidade"   pct={oleosidade.pct}          color={C.acc}   display={oleosidade.display} />
-                <ScoreBar label="Uniformidade" pct={uniformidade.pct}        color={C.rose}  display={uniformidade.display} />
-                <ScoreBar label="Textura"      pct={textura.pct}             color={C.acc}   display={textura.display} />
-                <ScoreBar label="Luminosidade" pct={luminosidade.pct}        color={C.rose}  display={luminosidade.display} />
-                <ScoreBar label="Sensibilidade" pct={sensibilidade.pct}      color={C.gr}    display={sensibilidade.display} />
+                <ScoreBar label="Hidratação"    pct={100 - hidratacao.pct}    color={C.rose} display={hidratacao.display} />
+                <ScoreBar label="Oleosidade"    pct={oleosidade.pct}           color={C.acc}  display={oleosidade.display} />
+                <ScoreBar label="Uniformidade"  pct={uniformidade.pct}         color={C.rose} display={uniformidade.display} />
+                <ScoreBar label="Textura"       pct={textura.pct}              color={C.acc}  display={textura.display} />
+                <ScoreBar label="Luminosidade"  pct={luminosidade.pct}         color={C.rose} display={luminosidade.display} />
+                <ScoreBar label="Sensibilidade" pct={sensibilidade.pct}        color={C.gr}   display={sensibilidade.display} />
               </View>
 
-              {/* Focos & Achados */}
               <View style={s.card}>
                 <Text style={s.cardTitle}>Focos & Achados</Text>
                 <View style={s.pillsRow}>
@@ -767,7 +939,8 @@ export function SkinScanReportPdf({ session, generatedAt }: { session: SkinAnaly
               <View style={s.fitzInfo}>
                 <Text style={s.fitzTitle}>{fitzTitle}</Text>
                 <Text style={s.fitzDesc}>
-                  FPS diário é indispensável para prevenção de manchas e fotoenvelhecimento. Sensibilidade ao sol aumenta o risco de hiperpigmentação pós-inflamatória.
+                  FPS diário é indispensável para prevenção de manchas e fotoenvelhecimento.
+                  Sensibilidade ao sol aumenta o risco de hiperpigmentação pós-inflamatória.
                 </Text>
                 <View style={s.fitzTags}>
                   {["FPS 50+ obrigatório", "Reaplicar a cada 2h", "Niacinamida para manchas"].map((tag) => (
@@ -778,15 +951,8 @@ export function SkinScanReportPdf({ session, generatedAt }: { session: SkinAnaly
             </View>
           </View>
 
-          {/* ⑤ ATIVOS */}
-          <View style={s.card}>
-            <Text style={s.cardTitle}>Ativos Prioritários · Base Científica (Grau A — PubMed · AAD 2024)</Text>
-            <View style={s.ativosPills}>
-              {ativos.map((a) => (
-                <Text key={a} style={s.ativoPill}>{a}</Text>
-              ))}
-            </View>
-          </View>
+          {/* ⑤ EVIDÊNCIAS INDIVIDUALIZADAS */}
+          <EvidenceSection tipoPele={tipoPele} />
 
           {/* ⑥ ROTINA */}
           <View style={s.card}>
@@ -829,7 +995,7 @@ export function SkinScanReportPdf({ session, generatedAt }: { session: SkinAnaly
         {/* ⑦ FOOTER */}
         <View style={s.footer} fixed>
           <Text style={s.footerText}>
-            ⚠ Análise orientativa · não substitui avaliação dermatológica presencial · imagem deletada após análise
+            ⚠ Análise orientativa · não substitui avaliação dermatológica · imagem deletada após análise
           </Text>
           <Text style={s.footerText}>belapopoficial.com.br · Skin Scan BelaPop</Text>
         </View>
