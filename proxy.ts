@@ -1,5 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 
+// ── Proteção ADM ─────────────────────────────────────────────────────────────
+// Cookie name deve coincidir com ADM_AUTH_COOKIE_NAME em lib/adm/auth/config.ts
+const ADM_COOKIE = "belapop_adm_session";
+const ADM_PUBLIC_PAGES = new Set(["/adm/login"]);
+const ADM_PUBLIC_API = new Set(["/api/adm/auth/login"]);
+
 // Headers de segurança complementares ao next.config.mjs
 // next.config.mjs já define CSP, HSTS, X-Frame-Options etc. para todas as rotas.
 // Aqui adicionamos apenas o que exige execução dinâmica por requisição.
@@ -108,6 +114,27 @@ function normalizeLegacyAlias(pathname: string) {
 
 export function proxy(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
+
+  // ── Gate de sessão ADM — Edge level (antes de qualquer render) ───────────
+  if (pathname.startsWith("/adm") && !ADM_PUBLIC_PAGES.has(pathname)) {
+    const cookie = request.cookies.get(ADM_COOKIE);
+    if (!cookie?.value) {
+      const loginUrl = new URL("/adm/login", request.url);
+      loginUrl.searchParams.set("next", pathname);
+      loginUrl.searchParams.set("reason", "missing");
+      return NextResponse.redirect(loginUrl);
+    }
+  }
+  if (pathname.startsWith("/api/adm/") && !ADM_PUBLIC_API.has(pathname)) {
+    const cookie = request.cookies.get(ADM_COOKIE);
+    if (!cookie?.value) {
+      return new NextResponse(
+        JSON.stringify({ error: "Autenticação necessária." }),
+        { status: 401, headers: { "Content-Type": "application/json" } }
+      );
+    }
+  }
+
   const legacyAlias = normalizeLegacyAlias(pathname);
 
   if (legacyAlias) {
