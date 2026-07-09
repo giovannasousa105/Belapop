@@ -214,6 +214,9 @@ const getStockQuantity = (row: Record<string, unknown>) =>
   Math.max(0, Math.floor(getNumber(row.stock_quantity)));
 
 const resolveSellerMetadata = (row: Record<string, unknown>) => {
+  const hasExternalSeller =
+    (typeof row.seller_id === "string" && row.seller_id) ||
+    (typeof row.sellerId === "string" && row.sellerId);
   const sellerRecord =
     row.sellers && typeof row.sellers === "object"
       ? (row.sellers as Record<string, unknown>)
@@ -223,9 +226,10 @@ const resolveSellerMetadata = (row: Record<string, unknown>) => {
     (sellerRecord && typeof sellerRecord.name === "string" && sellerRecord.name) ||
     (typeof row.seller_name === "string" && row.seller_name) ||
     "BelaPop";
+  // Products with no seller_id are BelaPop's own inventory — treat as active.
   const sellerStatus =
     (sellerRecord && typeof sellerRecord.status === "string" && sellerRecord.status) ||
-    null;
+    (hasExternalSeller ? null : "active");
   const sellerId =
     (typeof row.seller_id === "string" && row.seller_id) ||
     (typeof row.sellerId === "string" && row.sellerId) ||

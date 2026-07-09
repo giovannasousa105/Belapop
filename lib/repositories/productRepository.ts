@@ -96,7 +96,7 @@ export const productRepository = {
     const supabase = getSupabaseClient();
     const { data, error } = await supabase
       .from("products")
-      .select(`${selectFields}, sellers!products_seller_id_fkey(status)`)
+      .select(selectFields)
       .eq("status", "published")
       .gt("price_cents", 0)
       .gt("stock_quantity", 0);
@@ -104,13 +104,7 @@ export const productRepository = {
       console.error("[products] getPublished failed:", error);
       return [];
     }
-    const rows = data ?? [];
-    return rows
-      .filter((row: any) => {
-        const sellerStatus = row.sellers?.status;
-        return sellerStatus === "active" || sellerStatus === "approved";
-      })
-      .map(mapProduct);
+    return (data ?? []).map(mapProduct);
   },
   getById: async (id: string): Promise<Product | null> => {
     const supabase = getSupabaseClient();
