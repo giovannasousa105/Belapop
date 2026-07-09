@@ -35,8 +35,7 @@ const formatCurrency = new Intl.NumberFormat("pt-BR", {
 
 const FREE_SHIPPING_THRESHOLD = 350;
 
-const fallbackProductImage =
-  "https://lh3.googleusercontent.com/aida-public/AB6AXuDJXqXTITm_Xfyh7Aup7xRF7cw3ZCJAPF-g7Z1m9vfxONcW7F0Kz0GpiRZoGzo5aDKM0SyWs2s2idW361OESpfNyRkN3vctpYBMbfzu0EYz8-ZFpzJ-6Wxy5TpkCC3pKGvt6FVT46b_-YSlPgOKtoriRYya1cUW3FGTxaR2HDEPrIKR9WgwrLeABkHsG7fZ3dJGwbvzfR3TIYpSLLR4OdCUgCoA5azYw5LVgEx4HCm2ljzlnK0Exv5V1VuPy8WtdeKf8xj5Z4Jm_GI5";
+const fallbackProductImage = "/og-default.jpg";
 
 function isRenderableProductImage(value?: string | null) {
   if (!value) return false;

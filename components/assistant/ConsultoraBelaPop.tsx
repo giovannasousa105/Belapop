@@ -165,8 +165,7 @@ const flowButtons: Array<{
 
 const trustBadges = ["Produtos originais", "Sellers verificados", "Compra segura"];
 
-const fallbackImage =
-  "https://lh3.googleusercontent.com/aida-public/AB6AXuAU2BbAbeAwR5Vu09mQLjv0INQ3dKGhvUBcc4k7j91FBWyYf2Nh_x7eKFzKwzEIeHMhRGItg2_LrBVpLY5p5Wmpu72xuexID-FBVP9zl9y-CMTQhkGxyOgGaMcYPMeRYA8uqeIlLlmBTUZNy0BJGadN2Y3rx9ERHNwR8MHZiwkO_0yTkHqvh8fIgzJEGrlQUORnbsGhg-kq9Xo1u2cMDOMH250uY6mwOXRi2IyI044h_7bIyqWL5teoU-2_lDCCvSf2l9fu8VBu14OJ";
+const fallbackImage = "/og-default.jpg";
 
 const resolveRoutineDepth = (time?: RoutineTime): RoutineDepth =>
   time === "ritual" ? "completa" : "simples";

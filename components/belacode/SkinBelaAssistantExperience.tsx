@@ -42,8 +42,7 @@ const recommendedProduct = {
   brand: "CHANEL",
   title: "Hydra Beauty Micro Serum",
   price: "R$ 890,00",
-  image:
-    "https://lh3.googleusercontent.com/aida-public/AB6AXuAkPSPvhW1sBuGfYdUMIElLuh8bkt3zONeqZBUVuS9owpMjzB48suyVWXBa6PsdYOlJqYcv2LRpiRSaiPSXg3s-vbZzksJXir6GndDxfb_Rsd7_waQ7mExCdLUmTrnL-tv20chreospOXbmHnIc-qluRCvqwnnhkXfQbR-Dq52volsm8t41GolokgwI1nYLdwQNkAw4CgjVR6YVL2Cs71FlSJN87BV_d9Mp_wTvR33G9QqzgKf-lHdHAu1cVa-FkXbRM1iGVpucGhW9"
+  image: "/og-default.jpg"
 } as const;
 
 export function SkinBelaAssistantExperience() {

@@ -262,7 +262,7 @@ function SkinScanTechnologySection() {
               <div className="absolute inset-x-5 bottom-5 border border-white/16 bg-black/34 p-4 backdrop-blur-2xl">
                 <div className="mb-4 flex items-center justify-between text-[10px] font-semibold uppercase tracking-[0.08em] text-white/62">
                   <span>Skin intelligence</span>
-                  <span>Live</span>
+                  <span>Exemplo</span>
                 </div>
                 <div className="space-y-4">
                   {skinScanMetrics.map((metric) => (
@@ -485,7 +485,7 @@ function LuxuryVideoHero() {
             >
               <div className="mb-2.5 flex items-center justify-between text-[8px] uppercase tracking-[0.08em] text-white/68">
                 <span>Skin AI</span>
-                <span>Live</span>
+                <span>Exemplo</span>
               </div>
               <div className="space-y-2">
                 {[
