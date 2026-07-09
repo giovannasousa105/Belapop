@@ -145,20 +145,6 @@ const HOW_TO_USE_FALLBACK = [
   "Finalize com hidratante e protetor solar na rotina diurna."
 ] as const;
 
-const REVIEWS = [
-  {
-    author: "Mariana S.",
-    text: "Textura leve, absorção rápida e acabamento luminoso."
-  },
-  {
-    author: "Clara P.",
-    text: "Produto consistente no uso diário, fácil de combinar com outros passos."
-  },
-  {
-    author: "Beatriz M.",
-    text: "Entrega no prazo informado e produto em embalagem original."
-  }
-] as const;
 
 const FAQ_ITEMS = [
   {
@@ -1513,7 +1499,7 @@ export function ProductPdpPremiumMobile({
       <ReviewsBottomSheet
         open={reviewsSheetOpen}
         onClose={() => setReviewsSheetOpen(false)}
-        reviews={REVIEWS}
+        reviews={[]}
       />
 
       <ProductGalleryLightbox

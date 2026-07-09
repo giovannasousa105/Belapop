@@ -69,19 +69,15 @@ export const ProductCard = ({
   );
   const imageIsSvg = imageUrl.toLowerCase().includes(".svg");
 
-  const rating = useMemo(() => {
-    if (typeof ratingAvg === "number" && ratingAvg > 0) {
-      return ratingAvg.toFixed(1);
-    }
-    return (4.6 + (product.name.length % 3) * 0.1).toFixed(1);
-  }, [ratingAvg, product.name.length]);
+  const rating = useMemo<string | null>(() => {
+    if (typeof ratingAvg === "number" && ratingAvg > 0) return ratingAvg.toFixed(1);
+    return null;
+  }, [ratingAvg]);
 
-  const reviewCount = useMemo(() => {
-    if (typeof ratingCount === "number" && ratingCount > 0) {
-      return ratingCount;
-    }
-    return 120 + ((product.name.length * 37) % 900);
-  }, [ratingCount, product.name.length]);
+  const reviewCount = useMemo<number | null>(() => {
+    if (typeof ratingCount === "number" && ratingCount > 0) return ratingCount;
+    return null;
+  }, [ratingCount]);
 
   useEffect(() => {
     let active = true;
@@ -162,13 +158,17 @@ export const ProductCard = ({
             isLight ? "text-bpGraphite/80" : "text-bpPinkSoft/60"
           }`}
         >
-          <span className="flex items-center gap-1 text-amber-500">
-            <Star size={14} fill="currentColor" stroke="none" />
-            {rating}
-          </span>
-          <span className={isLight ? "text-bpGraphite/70" : "text-bpPinkSoft/60"}>
-            ({reviewCount})
-          </span>
+          {rating !== null && (
+            <>
+              <span className="flex items-center gap-1 text-amber-500">
+                <Star size={14} fill="currentColor" stroke="none" />
+                {rating}
+              </span>
+              <span className={isLight ? "text-bpGraphite/70" : "text-bpPinkSoft/60"}>
+                ({reviewCount})
+              </span>
+            </>
+          )}
         </div>
 
         <div className="mt-auto space-y-2">

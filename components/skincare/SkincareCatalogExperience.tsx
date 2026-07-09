@@ -147,9 +147,6 @@ function resolveCategory(product: SkincareProduct) {
   return "Hidratação";
 }
 
-function previewRating(product: SkincareProduct) {
-  return (product.title.length * 13 + product.priceCents) % 500;
-}
 
 function isPrimaryFilter(value: string | null): value is (typeof primaryFilters)[number] {
   return !!value && (primaryFilters as readonly string[]).includes(value);
@@ -298,7 +295,7 @@ export function SkincareCatalogExperience({ products }: Props) {
       case "Maior preco":
         return list.sort((a, b) => b.priceCents - a.priceCents);
       case "Melhor avaliados":
-        return list.sort((a, b) => previewRating(b) - previewRating(a));
+        return list.sort((a, b) => a.title.localeCompare(b.title));
       default:
         return list;
     }

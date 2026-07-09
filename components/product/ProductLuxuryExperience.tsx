@@ -91,20 +91,6 @@ const FAQ_ITEMS = [
   }
 ] as const;
 
-const REVIEWS = [
-  {
-    author: "Mariana S.",
-    text: "Textura leve, absorção rápida e acabamento luminoso desde a primeira semana."
-  },
-  {
-    author: "Clara P.",
-    text: "Produto consistente no uso diário e fácil de encaixar na rotina da manhã."
-  },
-  {
-    author: "Beatriz M.",
-    text: "Entrega dentro do prazo informado e produto em embalagem original."
-  }
-] as const;
 
 function resolveActiveSection(category: string | null | undefined): HeaderSection {
   const value = (category ?? "").toLowerCase();
@@ -195,20 +181,6 @@ function MicroProofs() {
   );
 }
 
-function RatingRow() {
-  return (
-    <div className="flex items-center gap-2">
-      <div className="flex items-center gap-0.5 text-black">
-        {Array.from({ length: 5 }).map((_, index) => (
-          <Star key={index} className="h-3.5 w-3.5 fill-current" />
-        ))}
-      </div>
-      <span className="text-[11px] font-medium uppercase tracking-[0.16em] text-black/60">
-        4.9 (120 avaliações)
-      </span>
-    </div>
-  );
-}
 
 function PurchasePanel({
   product,
@@ -222,8 +194,6 @@ function PurchasePanel({
 
   return (
     <div className="space-y-6">
-      <RatingRow />
-
       <div className="space-y-2">
         <h1 className="font-editorial text-[2.2rem] leading-[0.95] tracking-[-0.03em] text-black sm:text-[2.8rem]">
           {product.title}
@@ -548,33 +518,6 @@ export function ProductLuxuryExperience({
                 <article key={step} className="text-center">
                   <p className="font-editorial text-5xl leading-none text-black/20">{`0${index + 1}`}</p>
                   <p className="mt-3 text-sm leading-relaxed text-black/70">{step}</p>
-                </article>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        <section className="border-y border-black/10 bg-white px-5 py-14 md:px-8 md:py-20">
-          <div className="mx-auto max-w-[1200px]">
-            <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
-              <div>
-                <h2 className="font-editorial text-3xl text-black sm:text-4xl">Avaliações</h2>
-                <p className="mt-2 text-sm text-black/60">Nota média 4.9 baseada em 120 avaliações</p>
-              </div>
-              <div className="flex items-center gap-2">
-                {Array.from({ length: 5 }).map((_, index) => (
-                  <Star key={index} className="h-4 w-4 fill-black text-black" />
-                ))}
-              </div>
-            </div>
-
-            <div className="mt-8 grid grid-cols-1 gap-4 md:grid-cols-3">
-              {REVIEWS.map((review) => (
-                <article key={review.author} className="rounded-2xl border border-black/10 px-5 py-6">
-                  <p className="text-sm leading-relaxed text-black/70">&ldquo;{review.text}&rdquo;</p>
-                  <p className="mt-4 text-xs font-semibold uppercase tracking-[0.16em] text-black/65">
-                    {review.author}
-                  </p>
                 </article>
               ))}
             </div>
