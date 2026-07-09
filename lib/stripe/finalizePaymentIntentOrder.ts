@@ -131,27 +131,41 @@ async function dispararEmailPedidoConfirmado(
 ): Promise<void> {
   try {
     const admin = getSupabaseAdminClient();
-    const { data: profile } = await admin
-      .from("profiles")
-      .select("email,full_name")
-      .eq("id", customerId)
-      .maybeSingle();
+
+    const [{ data: profile }, { data: rawItems }] = await Promise.all([
+      admin.from("profiles").select("email,full_name").eq("id", customerId).maybeSingle(),
+      admin
+        .from("order_items")
+        .select("quantity, price_cents, products(title, hero_image_url, slug)")
+        .eq("order_id", orderId),
+    ]);
 
     if (!profile?.email) return;
 
     const totalCents = Number(paymentIntent.amount_received ?? paymentIntent.amount ?? 0);
-    const totalBrl = totalCents / 100;
     const numeroPedido = buildShortOrderCode(orderId);
+
+    const itens = (rawItems ?? []).map((item) => {
+      const pRaw = item.products;
+      const p = (Array.isArray(pRaw) ? pRaw[0] : pRaw) as { title: string; hero_image_url: string | null; slug: string } | null;
+      return {
+        nome: p?.title ?? "Produto",
+        foto: p?.hero_image_url ?? null,
+        slug: p?.slug ?? "",
+        preco_brl: (item.price_cents ?? 0) / 100,
+        quantidade: item.quantity ?? 1,
+      };
+    });
 
     await enviarPedidoConfirmado({
       user_id: customerId,
       email: profile.email as string,
       pedido_id: orderId,
       numero_pedido: numeroPedido,
-      itens: [],
-      subtotal_brl: totalBrl,
+      itens,
+      subtotal_brl: totalCents / 100,
       frete_brl: 0,
-      total_brl: totalBrl,
+      total_brl: totalCents / 100,
     });
   } catch (err) {
     console.warn("[stripe] email pedido confirmado falhou (nao-critico)", String(err));

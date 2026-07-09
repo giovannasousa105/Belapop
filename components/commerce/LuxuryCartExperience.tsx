@@ -87,11 +87,7 @@ export function LuxuryCartExperience() {
   const { items, ready, removeItem, updateQuantity, totalShipping } = useCart();
   const { products, loading: productsLoading } = usePublishedProducts();
 
-  // ── Cupom ────────────────────────────────────────────────────────────────────
-  const [couponOpen, setCouponOpen] = useState(false);
-  const [couponCode, setCouponCode] = useState("");
-  const [couponStatus, setCouponStatus] = useState<"idle" | "valid" | "invalid">("idle");
-  const [couponDiscount, setCouponDiscount] = useState(0);
+  // Cupom: desativado — validação é server-side no checkout, não no carrinho
 
   const cartEntries = useMemo(() => mapCartEntries(items, products), [items, products]);
   const liveShippingItems = useMemo(
@@ -122,19 +118,7 @@ export function LuxuryCartExperience() {
     () => displayedEntries.reduce((total, entry) => total + entry.unitPrice * entry.quantity, 0),
     [displayedEntries]
   );
-  const total = subtotal - couponDiscount + totalShipping;
-
-  const applyCoupon = () => {
-    const code = couponCode.trim().toUpperCase();
-    if (!code) return;
-    if (code === "BELAPOP10") {
-      setCouponStatus("valid");
-      setCouponDiscount(subtotal * 0.1);
-    } else {
-      setCouponStatus("invalid");
-      setCouponDiscount(0);
-    }
-  };
+  const total = subtotal + totalShipping;
 
   const decreaseQuantity = (entry: CartEntry) => {
     updateQuantity(entry.id, entry.quantity - 1);
@@ -391,46 +375,9 @@ export function LuxuryCartExperience() {
               </h2>
 
               <div className="mt-6 border-t border-black/10 pt-5">
-                <button
-                  type="button"
-                  onClick={() => setCouponOpen((v) => !v)}
-                  className="flex w-full items-center justify-between text-sm font-medium"
-                >
-                  <span>Tem um cupom?</span>
-                  <ChevronDown
-                    className={`h-4 w-4 text-black/50 transition-transform duration-200${couponOpen ? " rotate-180" : ""}`}
-                  />
-                </button>
-                {couponOpen && (
-                  <div className="mt-4 space-y-2">
-                    <div className="flex gap-2">
-                      <input
-                        type="text"
-                        value={couponCode}
-                        onChange={(e) => {
-                          setCouponCode(e.target.value);
-                          if (couponStatus !== "idle") setCouponStatus("idle");
-                        }}
-                        placeholder="Digite o código"
-                        onKeyDown={(e) => e.key === "Enter" && applyCoupon()}
-                        className="h-10 flex-1 border border-black/15 bg-[#f6f3f2] px-3 text-xs font-medium uppercase tracking-[0.12em] placeholder:normal-case placeholder:tracking-normal placeholder:text-black/35 focus:border-black focus:outline-none"
-                      />
-                      <button
-                        type="button"
-                        onClick={applyCoupon}
-                        className="h-10 bg-black px-4 text-[11px] font-semibold uppercase tracking-[0.16em] text-white transition hover:bg-black/80"
-                      >
-                        Aplicar
-                      </button>
-                    </div>
-                    {couponStatus === "valid" && (
-                      <p className="text-xs font-semibold text-[#1D9E75]">Cupom aplicado com sucesso.</p>
-                    )}
-                    {couponStatus === "invalid" && (
-                      <p className="text-xs font-semibold text-red-600">Cupom inválido ou expirado.</p>
-                    )}
-                  </div>
-                )}
+                <p className="text-xs text-black/45">
+                  Cupons e descontos são aplicados no checkout.
+                </p>
               </div>
 
               <div className="mt-6 space-y-4 text-sm">
@@ -438,12 +385,6 @@ export function LuxuryCartExperience() {
                   <span className="text-black/60">Subtotal</span>
                   <span className="font-medium">{formatCurrency.format(subtotal)}</span>
                 </div>
-                {couponDiscount > 0 && (
-                  <div className="flex justify-between text-[#1D9E75]">
-                    <span>Desconto cupom</span>
-                    <span className="font-medium">− {formatCurrency.format(couponDiscount)}</span>
-                  </div>
-                )}
                 <div className="flex justify-between">
                   <span className="text-black/60">Frete</span>
                   <span className="font-medium text-[#6c5e06]">
@@ -462,14 +403,9 @@ export function LuxuryCartExperience() {
               </div>
 
               {!isEmpty && total > 0 && (
-                <div className="mt-6 flex items-center justify-between rounded-xl border border-[#1D9E75]/30 bg-[#f0faf5] px-4 py-3">
-                  <div className="flex items-center gap-2">
-                    <span className="text-[11px] font-semibold uppercase tracking-[0.12em] text-[#1D9E75]">Pix</span>
-                    <span className="text-[11px] text-black/55">5% OFF no checkout</span>
-                  </div>
-                  <span className="text-[11px] font-semibold text-[#1D9E75]">
-                    − {formatCurrency.format(total * 0.05)}
-                  </span>
+                <div className="mt-6 flex items-center gap-2 rounded-xl border border-[#1D9E75]/30 bg-[#f0faf5] px-4 py-3">
+                  <span className="text-[11px] font-semibold uppercase tracking-[0.12em] text-[#1D9E75]">Pix</span>
+                  <span className="text-[11px] text-black/55">5% OFF — aplicado automaticamente no pagamento</span>
                 </div>
               )}
 

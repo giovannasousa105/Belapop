@@ -2,12 +2,12 @@ import React from "react";
 import { Section, Text, Link, Img, Row, Column, Hr } from "@react-email/components";
 import { EmailBase, BASE_URL, baseStyles as s } from "./base/EmailBase";
 
-interface Item { nome: string; foto: string | null; preco_cents: number }
+interface Item { nome: string; foto: string | null; preco_brl: number }
 
 interface Props {
   numero_pedido?: string;
   itens?: Item[];
-  total_cents?: number;
+  total_brl?: number;
   prazo_entrega?: string;
   codigo_rastreio?: string | null;
   pontos_ganhos?: number;
@@ -18,14 +18,14 @@ interface Props {
   [key: string]: unknown;
 }
 
-function brl(cents: number) {
-  return (cents / 100).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+function formatBrl(value: number) {
+  return (value ?? 0).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
 }
 
 export default function PedidoConfirmado({
   numero_pedido = "—",
   itens = [],
-  total_cents = 0,
+  total_brl = 0,
   prazo_entrega,
   codigo_rastreio,
   pontos_ganhos,
@@ -52,7 +52,7 @@ export default function PedidoConfirmado({
           </Column>
           <Column>
             <Text style={{ fontSize: 13, color: "#1e1e1e", margin: 0, fontWeight: 500 }}>{item.nome}</Text>
-            <Text style={{ fontSize: 12, color: "#999", margin: 0 }}>{brl(item.preco_cents)}</Text>
+            <Text style={{ fontSize: 12, color: "#999", margin: 0 }}>{formatBrl(item.preco_brl)}</Text>
           </Column>
         </Row>
       ))}
@@ -62,7 +62,7 @@ export default function PedidoConfirmado({
       <Row>
         <Column><Text style={{ fontSize: 13, color: "#666", margin: 0 }}>Total</Text></Column>
         <Column style={{ textAlign: "right" as const }}>
-          <Text style={{ fontSize: 14, fontWeight: 600, color: "#1e1e1e", margin: 0 }}>{brl(total_cents)}</Text>
+          <Text style={{ fontSize: 14, fontWeight: 600, color: "#1e1e1e", margin: 0 }}>{formatBrl(total_brl)}</Text>
         </Column>
       </Row>
 
