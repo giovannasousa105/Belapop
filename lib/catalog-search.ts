@@ -41,7 +41,7 @@ export const CATALOG_PRODUCTS: CatalogProduct[] = [
   {
     slug: "tonico-nuvem-de-rosa",
     name: "Tonico Nuvem de Rosa",
-    price: 235,
+    price: 239,
     category: "tonico",
     skinTypes: ["seca", "sensível", "normal", "mista"],
     concerns: ["hidratação", "luminosidade", "textura"],
