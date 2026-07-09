@@ -1,8 +1,17 @@
-import { NextRequest } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 import { resolveUserRoleState, setActiveLegacyRole } from "@/lib/auth/roleState";
 import { getSupabaseAdminClient } from "@/lib/supabase/admin";
 import { getSupabaseServerClient } from "@/lib/supabaseServer";
+
+/** Loga o erro real no servidor e retorna mensagem genérica para o cliente. */
+export function adminDbError(
+  error: { message?: string | null } | null,
+  context: string
+): NextResponse {
+  console.error(`[admin-api] ${context}:`, error?.message ?? "unknown");
+  return NextResponse.json({ error: "Erro interno. Tente novamente." }, { status: 500 });
+}
 
 type AdminContext = {
   supabase: Awaited<ReturnType<typeof getSupabaseServerClient>>;

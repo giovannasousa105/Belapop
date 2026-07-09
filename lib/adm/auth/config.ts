@@ -8,9 +8,11 @@ export const ADM_AUTH_SECRET =
   process.env.ADM_AUTH_SECRET ??
   process.env.AUTH_SECRET ??
   process.env.NEXTAUTH_SECRET ??
-  "belapop-adm-local-mock-secret";
+  // Em produção sem env var: HMAC continua funcionando mas com segredo fixo conhecido —
+  // garanta que ADM_AUTH_SECRET, AUTH_SECRET ou NEXTAUTH_SECRET estão setados na Vercel.
+  (process.env.NODE_ENV === "production" ? "__misconfigured_set_adm_auth_secret__" : "belapop-adm-local-dev-only");
 
-export const ADM_MOCK_DEFAULT_PASSWORD = "BelaPopADM#2026";
+// ADM_MOCK_DEFAULT_PASSWORD removido — senha lida de ADM_ADMIN_PASSWORD em runtime.
 export const ADM_ENABLE_MOCK_SHORTCUTS = process.env.NODE_ENV !== "production";
 
 export const ADM_DEFAULT_HOME_BY_ROLE: Record<AdmRole, string> = {

@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 import { LoginForm } from "@/components/adm/auth/LoginForm";
-import { ADM_MOCK_DEFAULT_PASSWORD } from "@/lib/adm/auth/config";
+
 import { getAdmMockProfiles, isAdmMockShortcutEnabled } from "@/lib/adm/auth/current-user";
 
 type SearchParams = Promise<Record<string, string | string[] | undefined>>;
@@ -79,7 +79,7 @@ export default async function AdmLoginPage({
               reason={reason}
               mockProfiles={mockProfiles}
               showMockProfiles={showMockProfiles}
-              mockPasswordHint={showMockProfiles ? ADM_MOCK_DEFAULT_PASSWORD : undefined}
+              mockPasswordHint={undefined}
             />
           </section>
         </div>

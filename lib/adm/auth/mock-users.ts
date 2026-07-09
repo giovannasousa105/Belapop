@@ -1,6 +1,6 @@
 import type { AdmMockProfileOption, AdmRole, AdmUserStatus } from "@/types/adm/auth";
 
-import { ADM_ENABLE_MOCK_SHORTCUTS, ADM_MOCK_DEFAULT_PASSWORD } from "@/lib/adm/auth/config";
+import { ADM_ENABLE_MOCK_SHORTCUTS } from "@/lib/adm/auth/config";
 import { getAdmRoleLabel } from "@/lib/adm/auth/roles";
 
 type AdmMockUserRecord = {
@@ -9,12 +9,9 @@ type AdmMockUserRecord = {
   email: string;
   role: AdmRole;
   status: AdmUserStatus;
-  password: string;
   lastLoginAt?: string | null;
   avatarUrl?: string | null;
 };
-
-const mockPassword = ADM_MOCK_DEFAULT_PASSWORD;
 
 export const ADM_MOCK_USERS: AdmMockUserRecord[] = [
   {
@@ -23,7 +20,6 @@ export const ADM_MOCK_USERS: AdmMockUserRecord[] = [
     email: "helena.master@belapop.internal",
     role: "admin_master",
     status: "active",
-    password: mockPassword,
     lastLoginAt: "2026-04-05T19:10:00.000Z"
   },
   {
@@ -32,7 +28,6 @@ export const ADM_MOCK_USERS: AdmMockUserRecord[] = [
     email: "sofia.curadoria@belapop.internal",
     role: "curadoria",
     status: "active",
-    password: mockPassword,
     lastLoginAt: "2026-04-05T18:42:00.000Z"
   },
   {
@@ -41,7 +36,6 @@ export const ADM_MOCK_USERS: AdmMockUserRecord[] = [
     email: "mateus.financeiro@belapop.internal",
     role: "financeiro",
     status: "active",
-    password: mockPassword,
     lastLoginAt: "2026-04-05T17:55:00.000Z"
   },
   {
@@ -50,7 +44,6 @@ export const ADM_MOCK_USERS: AdmMockUserRecord[] = [
     email: "livia.logistica@belapop.internal",
     role: "logistica",
     status: "active",
-    password: mockPassword,
     lastLoginAt: "2026-04-05T17:21:00.000Z"
   },
   {
@@ -59,7 +52,6 @@ export const ADM_MOCK_USERS: AdmMockUserRecord[] = [
     email: "rafael.operação@belapop.internal",
     role: "operação",
     status: "active",
-    password: mockPassword,
     lastLoginAt: "2026-04-05T16:48:00.000Z"
   },
   {
@@ -68,7 +60,6 @@ export const ADM_MOCK_USERS: AdmMockUserRecord[] = [
     email: "clara.catalogo@belapop.internal",
     role: "catalogo_marca",
     status: "active",
-    password: mockPassword,
     lastLoginAt: "2026-04-05T16:11:00.000Z"
   },
   {
@@ -77,7 +68,6 @@ export const ADM_MOCK_USERS: AdmMockUserRecord[] = [
     email: "bruno.suporte@belapop.internal",
     role: "suporte",
     status: "active",
-    password: mockPassword,
     lastLoginAt: "2026-04-05T15:33:00.000Z"
   },
   {
@@ -86,7 +76,6 @@ export const ADM_MOCK_USERS: AdmMockUserRecord[] = [
     email: "ana.leitura@belapop.internal",
     role: "leitura",
     status: "active",
-    password: mockPassword,
     lastLoginAt: "2026-04-05T14:58:00.000Z"
   }
 ];
@@ -106,7 +95,19 @@ export function authenticateAdmMockUser(email: string, password: string) {
   const user = findAdmMockUserByEmail(email);
   if (!user) return null;
   if (user.status !== "active") return null;
-  if (user.password !== password) return null;
+
+  // Senha lida de env var em runtime — nunca hardcoded no código-fonte.
+  // Em produção: defina ADM_ADMIN_PASSWORD na Vercel. Sem ela, auth é bloqueado.
+  const configuredPassword = process.env.ADM_ADMIN_PASSWORD;
+  if (!configuredPassword) {
+    if (process.env.NODE_ENV === "production") return null;
+    // Desenvolvimento local: senha padrão temporária (não commitada — use .env.local)
+    const devFallback = process.env.ADM_ADMIN_PASSWORD_DEV ?? "";
+    if (!devFallback || devFallback !== password) return null;
+    return user;
+  }
+
+  if (configuredPassword !== password) return null;
   return user;
 }
 

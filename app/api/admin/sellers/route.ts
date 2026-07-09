@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { ensureAdminRequest } from "@/lib/admin/adminAuth";
+import { adminDbError, ensureAdminRequest } from "@/lib/admin/adminAuth";
 
 export async function GET(req: Request) {
   const admin = await ensureAdminRequest(req as any);
@@ -12,6 +12,6 @@ export async function GET(req: Request) {
     .order("created_at", { ascending: false })
     .limit(200);
 
-  if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+  if (error) return adminDbError(error, "sellers list");
   return NextResponse.json({ sellers: data });
 }

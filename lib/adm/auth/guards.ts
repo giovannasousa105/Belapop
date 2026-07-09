@@ -79,9 +79,12 @@ export function canAccessRoute(
 
   const routeItem = findAdmRouteDefinition(normalizedPath);
   if (!routeItem) {
+    // /adm raiz é landing page válida para todos os usuários autenticados.
+    // Qualquer outra rota não registrada na nav é negada por padrão.
+    const allowed = normalizedPath === "/adm";
     return {
-      allowed: true,
-      reason: "allowed",
+      allowed,
+      reason: allowed ? "allowed" : "forbidden",
       item: null
     };
   }
