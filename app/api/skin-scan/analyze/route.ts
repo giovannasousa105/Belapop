@@ -82,6 +82,37 @@ async function persistScanIfLoggedIn(analise: SkinAnaliseFull, scanId: string): 
   }
 }
 
+async function registerLgpdConsent(request: NextRequest): Promise<void> {
+  try {
+    const { getSupabaseAdminClient } = await import("@/lib/supabase/admin");
+    const { createSupabaseServer } = await import("@/lib/supabase/server");
+
+    const supabase = await createSupabaseServer();
+    const { data: { user } } = await supabase.auth.getUser();
+
+    const ip = getClientIp(request);
+    const ipBuf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(ip));
+    const ipHash = Array.from(new Uint8Array(ipBuf))
+      .map((b) => b.toString(16).padStart(2, "0"))
+      .join("");
+
+    const userAgent = (request.headers.get("user-agent") ?? "").slice(0, 500);
+    const sessionId = request.cookies.get("session_bp")?.value?.slice(0, 128) ?? null;
+
+    const admin = getSupabaseAdminClient();
+    await admin.from("lgpd_consentimentos").insert({
+      user_id: user?.id ?? null,
+      session_id: sessionId,
+      tipo: "BIOMETRICO_SCAN",
+      acao: "CONCEDIDO",
+      ip_hash: ipHash,
+      user_agent: userAgent,
+    });
+  } catch {
+    // Fire-and-forget — falha silenciosa
+  }
+}
+
 export const runtime = "nodejs";
 export const maxDuration = 45;
 
@@ -426,7 +457,7 @@ Priorize esses aspectos na sua analise e reflita-os nos scores relevantes.`;
 
 // ── Leitura e validação do payload da requisição ──────────────────────────────
 
-type PayloadOk = { imageBase64: string; mimeType: string; focos: string[] };
+type PayloadOk = { imageBase64: string; mimeType: string; focos: string[]; consentimento: string };
 type PayloadError = { error: string; status: 400 | 413 };
 
 async function readPayload(request: NextRequest): Promise<PayloadOk | PayloadError> {
@@ -434,6 +465,7 @@ async function readPayload(request: NextRequest): Promise<PayloadOk | PayloadErr
   let imageBase64 = "";
   let mimeType = "image/jpeg";
   let focos: string[] = [];
+  let consentimento = "";
 
   try {
     if (contentType.includes("multipart/form-data")) {
@@ -462,12 +494,14 @@ async function readPayload(request: NextRequest): Promise<PayloadOk | PayloadErr
           }
         } catch { /* ignora focos malformados */ }
       }
+      consentimento = String(formData.get("consentimento") ?? "");
     } else {
       const body = (await request.json()) as {
         image_base64?: string;
         image?: string;
         focos?: unknown;
         mime_type?: string;
+        consentimento?: string;
       };
 
       const rawImage = body.image_base64 ?? body.image ?? "";
@@ -501,6 +535,7 @@ async function readPayload(request: NextRequest): Promise<PayloadOk | PayloadErr
       if (Array.isArray(body.focos)) {
         focos = body.focos.filter((x): x is string => typeof x === "string");
       }
+      consentimento = body.consentimento ?? "";
     }
   } catch (e) {
     console.error("[skin-scan/analyze] Erro ao ler payload:", e);
@@ -511,7 +546,7 @@ async function readPayload(request: NextRequest): Promise<PayloadOk | PayloadErr
   const allowedMimes = ["image/jpeg", "image/png", "image/gif", "image/webp"];
   if (!allowedMimes.includes(mimeType)) mimeType = "image/jpeg";
 
-  return { imageBase64, mimeType, focos: normalizeFocos(focos) };
+  return { imageBase64, mimeType, focos: normalizeFocos(focos), consentimento };
 }
 
 // ── Handler principal ─────────────────────────────────────────────────────────
@@ -526,7 +561,15 @@ export async function POST(request: NextRequest) {
   if ("error" in payload) {
     return NextResponse.json({ error: payload.error }, { status: payload.status });
   }
-  const { imageBase64, mimeType, focos } = payload;
+  const { imageBase64, mimeType, focos, consentimento } = payload;
+
+  // 2b. Consentimento LGPD obrigatório (art. 11 — dado biométrico sensível)
+  if (consentimento !== "true") {
+    return NextResponse.json(
+      { error: "Consentimento obrigatório para processar a imagem." },
+      { status: 400 }
+    );
+  }
 
   // 3. Verificar se a chave Anthropic está configurada
   // Aceita tanto ANTHROPIC_API_KEY quanto OPENAI_API_KEY (alias para quem salvou com esse nome)
@@ -561,11 +604,16 @@ export async function POST(request: NextRequest) {
       `[skin-scan/analyze] Análise concluida — tipoPele: ${analise.tipoPele}, confianca: ${analise.confianca}%, fallback: ${analise.modoFallback}`
     );
 
-    // Melhoria 4.1 — Persistir no backend se logada (silencioso, 5s de timeout)
+    // Melhoria 4.1 — Persistir no backend se logada + registrar consentimento LGPD
     void Promise.race([
       persistScanIfLoggedIn(analise, result.scanId),
       new Promise<void>((resolve) => setTimeout(resolve, 5000)),
     ]).catch(() => { /* garantia extra — nenhum erro vaza */ });
+
+    void Promise.race([
+      registerLgpdConsent(request),
+      new Promise<void>((resolve) => setTimeout(resolve, 5000)),
+    ]).catch(() => {});
 
     return NextResponse.json({ success: true, analysis: result });
   } catch (err) {

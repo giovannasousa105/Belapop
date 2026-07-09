@@ -2,13 +2,13 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
-import { Upload } from "lucide-react";
+import { ShieldCheck, Upload } from "lucide-react";
 
 import { useFaceDetection } from "@/hooks/useFaceDetection";
 import { BELAPOP_SCAN_KEY, LEGACY_SKIN_SCAN_KEYS, SKIN_SCAN_FOCOS_KEY } from "@/types/skin-scan";
 import type { SkinScanResult } from "@/types/skin-scan";
 
-type Mode = "idle" | "camera" | "preview" | "analyzing";
+type Mode = "consent" | "idle" | "camera" | "preview" | "analyzing";
 
 const QUALITY_LABELS = [
   { key: "centered" as const, label: "Posição" },
@@ -24,7 +24,8 @@ export function ImageCapture() {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const streamRef = useRef<MediaStream | null>(null);
 
-  const [mode, setMode] = useState<Mode>("idle");
+  const [mode, setMode] = useState<Mode>("consent");
+  const [consentChecked, setConsentChecked] = useState(false);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [previewBase64, setPreviewBase64] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -189,7 +190,7 @@ export function ImageCapture() {
       const res = await fetch("/api/skin-scan/analyze", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ image_base64: previewBase64, focos }),
+        body: JSON.stringify({ image_base64: previewBase64, focos, consentimento: "true" }),
       });
 
       if (!res.ok) {
@@ -254,6 +255,76 @@ export function ImageCapture() {
           100% { transform: scale(1); opacity: 1; }
         }
       `}</style>
+
+      {/* ── CONSENT — gate LGPD obrigatório (art. 11 — dado biométrico) ─────── */}
+      {mode === "consent" && (
+        <div>
+          <div className="mb-5 flex h-10 w-10 items-center justify-center rounded-full border border-black/10 bg-[rgba(30,30,30,0.04)]">
+            <ShieldCheck className="h-5 w-5 text-[rgba(30,30,30,0.55)]" aria-hidden="true" />
+          </div>
+
+          <p className="text-[11px] uppercase tracking-[0.22em] text-[rgba(30,30,30,0.45)]">
+            Consentimento LGPD
+          </p>
+          <h2 className="mt-2 text-lg font-semibold text-[#1e1e1e]">
+            Antes de começar
+          </h2>
+          <p className="mt-3 text-sm leading-relaxed text-[rgba(30,30,30,0.6)]">
+            Para gerar sua leitura de pele personalizada, a BelaPop precisa processar sua
+            imagem facial. Nos termos da LGPD (Art. 11), imagem facial é considerada dado
+            sensível e exige seu consentimento explícito.
+          </p>
+
+          <label
+            htmlFor="skin-scan-consent"
+            className="mt-5 flex cursor-pointer items-start gap-3 rounded-2xl border border-black/10 bg-[rgba(30,30,30,0.03)] p-4 transition hover:border-black/20"
+          >
+            <input
+              id="skin-scan-consent"
+              type="checkbox"
+              checked={consentChecked}
+              onChange={(e) => setConsentChecked(e.target.checked)}
+              className="mt-0.5 h-4 w-4 flex-shrink-0 cursor-pointer rounded accent-[#a44a64]"
+              aria-required="true"
+            />
+            <span className="text-xs leading-relaxed text-[rgba(30,30,30,0.75)]">
+              Autorizo a BelaPop a processar minha imagem facial para gerar uma leitura de pele
+              personalizada, conforme a{" "}
+              <a
+                href="/politica-de-privacidade"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline underline-offset-2"
+                onClick={(e) => e.stopPropagation()}
+              >
+                Política de Privacidade
+              </a>
+              .
+            </span>
+          </label>
+
+          <p className="mt-3 text-[11px] leading-relaxed text-[rgba(30,30,30,0.38)]">
+            A imagem é processada em memória e não fica armazenada após a análise. Você pode
+            solicitar a exclusão dos seus dados a qualquer momento em{" "}
+            <a
+              href="/conta/privacidade-preferencias"
+              className="underline underline-offset-2"
+            >
+              Privacidade
+            </a>
+            .
+          </p>
+
+          <button
+            type="button"
+            onClick={() => setMode("idle")}
+            disabled={!consentChecked}
+            className="mt-6 w-full rounded-2xl bg-[#1e1e1e] py-3 text-[11px] font-semibold uppercase tracking-[0.18em] text-white transition hover:bg-black/80 disabled:cursor-not-allowed disabled:opacity-40"
+          >
+            Continuar →
+          </button>
+        </div>
+      )}
 
       {/* ── IDLE — mode selection ──────────────────────────────────────────────── */}
       {mode === "idle" && (
