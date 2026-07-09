@@ -3,7 +3,10 @@
 import { Suspense, useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { ArrowRight, CheckCircle, Package, Truck } from "lucide-react";
+import { ArrowRight, CheckCircle, Clock, Package, Truck } from "lucide-react";
+
+const POLL_INTERVAL_MS = 3000;
+const MAX_POLL_ATTEMPTS = 8; // 24 segundos — tempo suficiente para confirmação Pix
 
 type OrderSummary = {
   order_id: string;
@@ -12,6 +15,7 @@ type OrderSummary = {
     grand_total?: number;
   };
   status: string;
+  payment_status?: string;
   sub_orders?: Array<{
     seller_name: string;
     items_count: number;
@@ -38,57 +42,70 @@ function ConfirmationContent() {
   const orderCode = searchParams.get("code");
   const [order, setOrder] = useState<OrderSummary | null>(null);
   const [loading, setLoading] = useState(true);
+  const [pollAttempts, setPollAttempts] = useState(0);
 
+  // Carga inicial
   useEffect(() => {
     if (!orderId) {
       router.replace("/conta/pedidos");
       return;
     }
-
     let active = true;
     setLoading(true);
-
-    fetch(`/api/v1/orders/${encodeURIComponent(orderId)}`, {
-      credentials: "include",
-      cache: "no-store"
-    })
-      .then((response) => (response.ok ? response.json() : null))
-      .then((data: OrderSummary | null) => {
-        if (!active) return;
-        setOrder(data);
-        setLoading(false);
-      })
-      .catch(() => {
-        if (active) setLoading(false);
-      });
-
-    return () => {
-      active = false;
-    };
+    fetch(`/api/v1/orders/${encodeURIComponent(orderId)}`, { credentials: "include", cache: "no-store" })
+      .then((res) => (res.ok ? (res.json() as Promise<OrderSummary>) : null))
+      .then((data) => { if (active) { setOrder(data); setLoading(false); } })
+      .catch(() => { if (active) setLoading(false); });
+    return () => { active = false; };
   }, [orderId, router]);
+
+  // Polling: para pagamentos assíncronos (Pix) que ainda não foram confirmados
+  const isPending = !loading && (order?.status === "created" || order?.status === "pending" || order?.payment_status === "pending");
+  useEffect(() => {
+    if (!orderId || !isPending || pollAttempts >= MAX_POLL_ATTEMPTS) return;
+    const timer = setTimeout(() => {
+      fetch(`/api/v1/orders/${encodeURIComponent(orderId)}`, { credentials: "include", cache: "no-store" })
+        .then((res) => (res.ok ? (res.json() as Promise<OrderSummary>) : null))
+        .then((data) => { if (data) setOrder(data); setPollAttempts((n) => n + 1); })
+        .catch(() => setPollAttempts((n) => n + 1));
+    }, POLL_INTERVAL_MS);
+    return () => clearTimeout(timer);
+  }, [orderId, isPending, pollAttempts]);
 
   if (loading) return <LoadingState />;
 
   const total = order?.totals?.grand_total ?? 0;
   const displayCode = order?.order_number ?? orderCode ?? orderId?.slice(0, 8).toUpperCase();
+  const isConfirmed = order?.status === "paid" || order?.payment_status === "paid";
 
   return (
     <div className="mx-auto max-w-lg px-4 py-16 text-center">
-      <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-[#d51e71]/10">
-        <CheckCircle className="h-10 w-10 text-[#d51e71]" strokeWidth={1.5} />
+      <div className={`mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full ${isConfirmed ? "bg-[#d51e71]/10" : "bg-amber-50"}`}>
+        {isConfirmed
+          ? <CheckCircle className="h-10 w-10 text-[#d51e71]" strokeWidth={1.5} />
+          : <Clock className="h-10 w-10 text-amber-500" strokeWidth={1.5} />
+        }
       </div>
 
       <h1 className="font-['Cormorant_Garamond'] text-4xl font-light tracking-[-0.02em] text-[#1e1e1e]">
-        Pedido confirmado
+        {isConfirmed ? "Pedido confirmado" : "Aguardando pagamento"}
       </h1>
       <p className="mt-2 text-sm text-black/45">
         Pedido <span className="font-semibold text-black/65">#{displayCode}</span>
         {total > 0 ? <> · {formatCurrency.format(total)}</> : null}
       </p>
       <p className="mt-4 text-sm leading-relaxed text-black/50">
-        Receba atualizações por e-mail. Acompanhe o status em{" "}
-        <strong className="text-black/70">Meus Pedidos</strong>.
+        {isConfirmed
+          ? <>Receba atualizações por e-mail. Acompanhe o status em <strong className="text-black/70">Meus Pedidos</strong>.</>
+          : "Seu pagamento está sendo processado. Esta página atualiza automaticamente assim que confirmarmos."}
       </p>
+
+      {isPending && pollAttempts < MAX_POLL_ATTEMPTS && (
+        <div className="mt-4 flex items-center justify-center gap-2 text-xs text-amber-600">
+          <span className="inline-block h-3 w-3 animate-spin rounded-full border border-amber-400 border-t-amber-600" />
+          Verificando confirmação…
+        </div>
+      )}
 
       <div className="mt-8 rounded-2xl border border-black/8 bg-white p-6 text-left shadow-sm">
         <p className="mb-4 text-[10px] font-semibold uppercase tracking-[0.14em] text-black/35">
@@ -96,7 +113,7 @@ function ConfirmationContent() {
         </p>
         <ol className="space-y-3">
           {[
-            { icon: CheckCircle, label: "Pagamento confirmado", done: true },
+            { icon: isConfirmed ? CheckCircle : Clock, label: isConfirmed ? "Pagamento confirmado" : "Aguardando confirmação do pagamento", done: isConfirmed },
             { icon: Package, label: "Loja separando os itens", done: false },
             { icon: Truck, label: "Envio via Mandabem com rastreio", done: false }
           ].map((item) => (

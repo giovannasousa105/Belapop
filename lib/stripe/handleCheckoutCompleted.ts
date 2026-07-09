@@ -1,6 +1,8 @@
 import type Stripe from "stripe";
 
+import { buildShortOrderCode } from "@/lib/orders/orderReference";
 import { getSupabaseAdminClient } from "@/lib/supabase/admin";
+import { enviarPedidoConfirmado } from "@/lib/crm/flows/transacionais";
 import { getStripe } from "./stripeClient";
 import {
   checkAndMarkIdempotency,
@@ -10,6 +12,103 @@ import {
 
 const REEMBOLSO_AUTOMATICO_ENABLED =
   process.env.REEMBOLSO_AUTOMATICO_ENABLED !== "false";
+
+// ─── Criar pedido + email após venda de lote confirmada ──────────────────────
+
+async function criarPedidoLote(args: {
+  session: Stripe.Checkout.Session;
+  userId: string;
+  produtoId: string | undefined;
+  quantidade: number;
+  stripeEventId: string;
+}): Promise<void> {
+  const { session, userId, produtoId, quantidade, stripeEventId } = args;
+  try {
+    const admin = getSupabaseAdminClient();
+
+    const paymentIntentId =
+      typeof session.payment_intent === "string"
+        ? session.payment_intent
+        : (session.payment_intent as Stripe.PaymentIntent | null)?.id ?? null;
+
+    const totalCents = session.amount_total ?? 0;
+
+    // Busca info do produto para itens do email
+    const productResult = produtoId
+      ? await admin
+          .from("products")
+          .select("title, hero_image_url, seller_id")
+          .eq("id", produtoId)
+          .maybeSingle()
+      : { data: null };
+    const product = productResult.data;
+
+    // Cria registro de pedido
+    const { data: newOrder, error: orderError } = await admin
+      .from("orders")
+      .insert({
+        customer_id: userId,
+        total_products_cents: totalCents,
+        total_shipping_cents: 0,
+        total_order_cents: totalCents,
+        total_cents: totalCents,
+        status: "paid",
+        payment_status: "paid",
+        payment_provider: "stripe",
+        payment_intent_id: paymentIntentId,
+      })
+      .select("id")
+      .single();
+
+    if (orderError || !newOrder) {
+      logWebhookEvent("warn", stripeEventId, "checkout.session.completed",
+        "criarPedidoLote: order insert failed", { error: orderError?.message });
+      return;
+    }
+
+    // Cria item do pedido
+    if (produtoId) {
+      await admin.from("order_items").insert({
+        order_id: newOrder.id,
+        product_id: produtoId,
+        seller_id: product?.seller_id ?? null,
+        quantity: quantidade,
+        price_cents: totalCents,
+        total_cents: totalCents,
+      });
+    }
+
+    // Busca email do cliente (prefere session, fallback para profiles)
+    const customerEmail =
+      session.customer_email ??
+      (await admin.from("profiles").select("email").eq("id", userId).maybeSingle()).data?.email;
+
+    if (!customerEmail) return;
+
+    const numeroPedido = buildShortOrderCode(newOrder.id);
+
+    void enviarPedidoConfirmado({
+      user_id: userId,
+      email: customerEmail,
+      pedido_id: newOrder.id,
+      numero_pedido: numeroPedido,
+      itens: produtoId
+        ? [{ nome: product?.title ?? "Produto", foto: (product?.hero_image_url ?? null) as string | null, slug: produtoId, preco_brl: totalCents / 100, quantidade }]
+        : [],
+      subtotal_brl: totalCents / 100,
+      frete_brl: 0,
+      total_brl: totalCents / 100,
+    }).catch((err: unknown) => {
+      logWebhookEvent("warn", stripeEventId, "checkout.session.completed",
+        "criarPedidoLote: email dispatch failed",
+        { error: err instanceof Error ? err.message : String(err) });
+    });
+  } catch (err) {
+    logWebhookEvent("warn", stripeEventId, "checkout.session.completed",
+      "criarPedidoLote: unexpected error",
+      { error: err instanceof Error ? err.message : String(err) });
+  }
+}
 
 // ─── Metadata guard ───────────────────────────────────────────────────────────
 
@@ -166,6 +265,17 @@ export async function handleCheckoutCompleted(
     logWebhookEvent("info", stripeEventId, "checkout.session.completed",
       result.ok ? "venda_confirmada" : "confirmar_falhou",
       { reserva_id, lote_id, skipped: result.skipped });
+
+    // Cria pedido no banco e dispara email de confirmação (não bloqueia o webhook)
+    if (result.ok && !result.skipped) {
+      await criarPedidoLote({
+        session,
+        userId: user_id,
+        produtoId: produto_id,
+        quantidade: reserva.quantidade ?? 1,
+        stripeEventId,
+      });
+    }
     return;
   }
 
