@@ -98,16 +98,17 @@ export function authenticateAdmMockUser(email: string, password: string) {
 
   // Senha lida de env var em runtime — nunca hardcoded no código-fonte.
   // Em produção: defina ADM_ADMIN_PASSWORD na Vercel. Sem ela, auth é bloqueado.
-  const configuredPassword = process.env.ADM_ADMIN_PASSWORD;
+  // .trim() defensivo previne falhas por newline vindo de pipe de CLI.
+  const configuredPassword = (process.env.ADM_ADMIN_PASSWORD ?? "").trim();
   if (!configuredPassword) {
     if (process.env.NODE_ENV === "production") return null;
-    // Desenvolvimento local: senha padrão temporária (não commitada — use .env.local)
-    const devFallback = process.env.ADM_ADMIN_PASSWORD_DEV ?? "";
-    if (!devFallback || devFallback !== password) return null;
+    // Desenvolvimento local: defina ADM_ADMIN_PASSWORD no .env.local
+    const devFallback = (process.env.ADM_ADMIN_PASSWORD_DEV ?? "").trim();
+    if (!devFallback || devFallback !== password.trim()) return null;
     return user;
   }
 
-  if (configuredPassword !== password) return null;
+  if (configuredPassword !== password.trim()) return null;
   return user;
 }
 
