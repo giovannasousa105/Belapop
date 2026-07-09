@@ -45,9 +45,9 @@ const institucionalLinks = [
 const legalLinks = [
   { label: "Aviso de Privacidade", href: "/aviso-de-privacidade" },
   { label: "Termos de Uso", href: "/termos-de-uso" },
-  { label: "Política de Cookies", href: "/política-de-cookies" },
-  { label: "Trocas e Devoluções", href: "/política-de-trocas-e-devoluções" },
-  { label: "Envio e Frete", href: "/política-de-envio" },
+  { label: "Política de Cookies", href: "/politica-de-cookies" },
+  { label: "Trocas e Devoluções", href: "/politica-de-trocas-e-devolucoes" },
+  { label: "Envio e Frete", href: "/politica-de-envio" },
 ];
 
 const socialLinks = [

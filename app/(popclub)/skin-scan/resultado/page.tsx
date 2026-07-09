@@ -612,13 +612,13 @@ export default function SkinScanResultadoPage() {
           </p>
           <div className="flex shrink-0 gap-2">
             <Link
-              href={`/conta/login?returnTo=/skin-scan/resultado`}
+              href={`/login?returnTo=/skin-scan/resultado`}
               className="rounded-lg bg-black px-4 py-2 text-[11px] font-semibold tracking-wider text-white transition-colors hover:bg-neutral-800"
             >
               Entrar
             </Link>
             <Link
-              href={`/conta/cadastro?returnTo=/skin-scan/resultado`}
+              href={`/login?returnTo=/skin-scan/resultado`}
               className="rounded-lg border border-neutral-300 px-4 py-2 text-[11px] font-semibold tracking-wider text-neutral-700 transition-colors hover:border-black"
             >
               Criar conta

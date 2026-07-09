@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 
 import { LuxuryStaticFooter } from "@/components/layout/LuxuryStaticFooter";
+import { BelaPopValidatedHeader } from "@/components/luxury/BelaPopValidatedHeader";
 import { FaqSearch } from "@/components/contato/FaqSearch";
 import { belapopContact, buildBelapopMailto } from "@/lib/brand/contact";
 
@@ -159,7 +160,8 @@ export default function ContatoPage() {
 
   return (
     <div className="min-h-screen bg-[#F6F1EB] text-[#1B1A18]">
-      <main className="overflow-hidden">
+      <BelaPopValidatedHeader activeSection="skincare" />
+      <main className="overflow-hidden pt-[72px] lg:pt-[80px]">
         {/* Header */}
         <section className="border-b border-[#DDD3CA] px-6 py-12 md:px-10 lg:px-14">
           <div className="mx-auto max-w-[1440px]">
