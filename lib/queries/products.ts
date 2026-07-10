@@ -42,12 +42,6 @@ const isExpectedNextDynamicUsageError = (error: unknown) =>
   error !== null &&
   "digest" in error &&
   String((error as { digest?: unknown }).digest).includes("DYNAMIC_SERVER_USAGE");
-const PDP_FALLBACK_GALLERY = [
-  "https://lh3.googleusercontent.com/aida-public/AB6AXuAU2BbAbeAwR5Vu09mQLjv0INQ3dKGhvUBcc4k7j91FBWyYf2Nh_x7eKFzKwzEIeHMhRGItg2_LrBVpLY5p5Wmpu72xuexID-FBVP9zl9y-CMTQhkGxyOgGaMcYPMeRYA8uqeIlLlmBTUZNy0BJGadN2Y3rx9ERHNwR8MHZiwkO_0yTkHqvh8fIgzJEGrlQUORnbsGhg-kq9Xo1u2cMDOMH250uY6mwOXRi2IyI044h_7bIyqWL5teoU-2_lDCCvSf2l9fu8VBu14OJ",
-  "https://lh3.googleusercontent.com/aida-public/AB6AXuDUsV-42Fm_NmyAAmgNIXMTnYW-9Gp3NRScNNj0iD-tS-7WvHwTXN2SGRq9jp_xqGq4V3sheVMrqUccCXn9iAla4WBQT4DAnANg3O5kd-TRIV-AbQT63ZndWmKF1oxfzQHQ6NT1w9TRK2EjGBbfG7cnM_JBDLg-hyr0TCxKPqqV9uJ7t6kN2cnUFqDJ543kFkFsu2t9rSRO3kdMsc-G-gdw5XPrEfX1HdoVM62Zof5M9ExDWXGyOzhjMQMN6jn3e5vz3576T2QTmeOl",
-  "https://lh3.googleusercontent.com/aida-public/AB6AXuDx4QqBs-OI7R_d-TTai2nIqjhpE66x7FT4NKmm5cqnQ-S9GICzlkfoZ7FmRHCVEkdenmcssFNuy76JrSg1uG1OgkV6B4z3qrJAp27ibnmEphm4J8PxvtNFbwIu4UiBBvdfANDcnHoc08uIDCOAiczFb2C6i-ZpDvp_BXH5KlImfx7tI9VEO8JQUOOixBP9jC2p6Zcwt0FDFx_v3W2TNsHTtj02oc025UnncevKG7giyoRj0nYLie9rMjq5OaaIM4rL7cbWq3y1hiLK",
-  "https://lh3.googleusercontent.com/aida-public/AB6AXuB79WAf8yVglJIsXN0Oip8fyOZLgtyQlSELikq51_DOqKQsYc60qfd5Dr8ljQktwA6iGdWfpfQB9oLtj42x0SYnpZLA2d0fRuoek0XdOc_Nw9GC9RNozLB5_i4X_08-pO-FQJuFN_hAz-SBK23MTBfIv0dJwcoErnz4EtcAHEooN8-RKu7qeZ1SRyiYt15AjkyryF1bhXMlvZHSq1_s3ZkKeeL8eTsZOazXdxZER5iBnuWg4B9N6DJMtUcCqrns21Rfdx1lvpcRpW0s"
-] as const;
 
 const LOGO_IMAGE_SET = new Set(["/logo.svg", "/logo-dark.svg"]);
 
@@ -271,7 +265,7 @@ const buildFallbackProducts = (): EditorialProduct[] =>
         price_cents: Math.round(product.price * 100),
         price: product.price,
         currency: "BRL",
-        hero_image_url: PDP_FALLBACK_GALLERY[0],
+        hero_image_url: "",
         stock_quantity: Math.max(1, product.stockQuantity ?? 1),
         stockQuantity: Math.max(1, product.stockQuantity ?? 1),
         inStock: true,
@@ -296,11 +290,8 @@ const buildFallbackProducts = (): EditorialProduct[] =>
         sellerName: "BelaPop",
         sellerStatus: "active",
         saleOrigin: "própria",
-        coverImage: PDP_FALLBACK_GALLERY[0],
-        gallery: PDP_FALLBACK_GALLERY.map((url, index) => ({
-          url,
-          alt: `${product.name} - imagem ${index + 1}`
-        }))
+        coverImage: "",
+        gallery: []
       };
     });
 
@@ -345,9 +336,9 @@ const mapSupabaseProduct = (row: Record<string, unknown>): EditorialProduct => {
   const heroImage =
     (heroImageFromRow && isRenderableProductGalleryImage(heroImageFromRow) && heroImageFromRow) ||
     selectedGallery[0] ||
-    PDP_FALLBACK_GALLERY[0];
+    "";
   const coverImage = selectedGallery[0] || heroImage;
-  const galleryForPdp = selectedGallery.length > 0 ? selectedGallery : Array.from(PDP_FALLBACK_GALLERY);
+  const galleryForPdp = selectedGallery;
 
   const howToUseJson = Array.isArray(row.how_to_use)
     ? parseStringArray(row.how_to_use)
