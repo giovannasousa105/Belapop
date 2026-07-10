@@ -59,12 +59,14 @@ const primaryNav: readonly PrimaryNavLink[] = [
   { href: "/skin-scan", label: "Entender minha pele", key: "skin-scan" },
   { href: "/popclub", label: "PopClub", key: "popclub" },
   { href: "/circulo", label: "Círculo", key: "circulo" },
+  { href: "/diario", label: "Diário", key: "diario" },
   { href: "/skincare", label: "Skincare", key: "skincare" },
   { href: "/universos", label: "Universos", key: "universos" }
 ];
 
 const editorialLinks: readonly DrawerNavLink[] = [
   { href: "/circulo", label: "Círculo BelaPop" },
+  { href: "/diario", label: "Diário BelaPop" },
 ];
 
 const categoriaLinks: readonly DrawerNavLink[] = [
