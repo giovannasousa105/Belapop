@@ -1,45 +1,20 @@
 import type { Metadata } from "next";
 
-import { DiaryArticleExperience } from "@/components/diary/DiaryArticleExperience";
+import { EmBrevePage } from "@/components/layout/EmBrevePage";
 
-const DIARY_PAGE_IMAGE =
-  "https://lh3.googleusercontent.com/aida-public/AB6AXuAHE2-GdHr9GjE-DsdApHTy1DydtvnmlkDenC7ss9bDQSXq50w1fzVnw1uagqNgoHXtdS3Qvj91IY9yfbDcxmxPU_uoyz3e2CLpi2H93LsPjipFKiEo5VmIspDEaCUa9fIS0gsgjQMd6bNj973XEWCsXES56hW08m_Bgq5qtCxE6ko71VZ80AHQf-OVkXDgJ3kPAyOwZ8PZIl69ekpEw8BzWONeB7UBs6XYVsPw3dpRKS9Hc8HC8zlmhoiq2u2J55BCa3r70naLitU9";
-
-export const revalidate = 300;
-
+// LANÇAMENTO: diário bloqueado temporariamente
+// Para reativar: substituir por <DiaryArticleExperience /> e restaurar metadata abaixo
 export const metadata: Metadata = {
-  title: "Diário BelaPop | Skincare com critério",
-  description: "Ciência, ritual e cultura da pele. Conteúdo editorial de skincare da BelaPop.",
-  openGraph: {
-    title: "Diário BelaPop | Skincare com critério",
-    description: "Ciência, ritual e cultura da pele. Conteúdo editorial de skincare da BelaPop.",
-    url: "/diario",
-    siteName: "BelaPop",
-    images: [{ url: DIARY_PAGE_IMAGE }],
-    type: "article"
-  }
+  title: "Diário BelaPop | Em breve",
+  description: "Conteúdo editorial sobre skincare e beleza — em breve.",
+  robots: { index: false, follow: true },
 };
 
 export default function DiarioPage() {
-  const articleSchema = {
-    "@context": "https://schema.org",
-    "@type": "Article",
-    headline: "Diário BelaPop | Skincare com critério",
-    description: "Ciência, ritual e cultura da pele. Conteúdo editorial de skincare da BelaPop.",
-    image: DIARY_PAGE_IMAGE,
-    author: {
-      "@type": "Organization",
-      name: "BelaPop"
-    }
-  };
-
   return (
-    <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
-      />
-      <DiaryArticleExperience />
-    </>
+    <EmBrevePage
+      titulo="Diário BelaPop"
+      subtitulo="Guias, rotinas e ciência da pele em linguagem humana — em breve."
+    />
   );
 }

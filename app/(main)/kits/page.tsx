@@ -1,65 +1,20 @@
 import type { Metadata } from "next";
 
-import { JsonLd } from "@/components/seo/JsonLd";
-import { gerarBreadcrumbSchema } from "@/lib/seo/structuredData";
-import { SkincareBundleSection } from "@/components/skincare/SkincareBundleSection";
-import { BelaPopValidatedHeader } from "@/components/luxury/BelaPopValidatedHeader";
-import { BelaPopValidatedFooter } from "@/components/luxury/BelaPopValidatedFooter";
-import { skincareBundles } from "@/lib/skincare/skincareBundles";
+import { EmBrevePage } from "@/components/layout/EmBrevePage";
 
-const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://belapopoficial.com.br";
-
+// LANÇAMENTO: kits bloqueado temporariamente
+// Para reativar: substituir por <SkincareBundleSection /> e restaurar metadata abaixo
 export const metadata: Metadata = {
-  title: "Kits de skincare",
-  description:
-    "Kits BelaPop organizados por ritual, necessidade e tipo de pele para comprar uma rotina completa com mais clareza.",
-  alternates: {
-    canonical: "/kits",
-  },
-  openGraph: {
-    title: "Kits de skincare | BelaPop",
-    description:
-      "Kits BelaPop organizados por ritual, necessidade e tipo de pele para comprar uma rotina completa com mais clareza.",
-    url: "/kits",
-    siteName: "BelaPop",
-    locale: "pt_BR",
-    type: "website",
-    images: [
-      {
-        url: "/og-default.jpg",
-        width: 1200,
-        height: 630,
-        alt: "Kits de skincare BelaPop",
-      },
-    ],
-  }
+  title: "Kits | Em breve — BelaPop",
+  description: "Kits e rotinas completas de skincare da BelaPop em breve.",
+  robots: { index: false, follow: true },
 };
 
 export default function KitsPage() {
-  const breadcrumb = gerarBreadcrumbSchema([
-    { nome: "Início", url: `${BASE_URL}/` },
-    { nome: "Kits", url: `${BASE_URL}/kits` },
-  ]);
-
-  const itemList = {
-    "@context": "https://schema.org",
-    "@type": "ItemList",
-    itemListElement: skincareBundles.map((bundle, index) => ({
-      "@type": "ListItem",
-      position: index + 1,
-      name: bundle.name,
-      url: `${BASE_URL}/kits/${bundle.slug}`,
-    })),
-  };
-
   return (
-    <div className="min-h-screen bg-[#fcf9f8] text-[#1c1b1b]">
-      <JsonLd schema={[breadcrumb, itemList]} />
-      <BelaPopValidatedHeader activeSection="skincare" />
-      <main className="pt-20 lg:pt-28">
-        <SkincareBundleSection />
-      </main>
-      <BelaPopValidatedFooter />
-    </div>
+    <EmBrevePage
+      titulo="Kits"
+      subtitulo="Rotinas completas com curadoria científica — chegando em breve."
+    />
   );
 }

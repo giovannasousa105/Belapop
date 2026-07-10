@@ -31,7 +31,7 @@ VALUES (
 
   'Cinco produtos coreanos, uma rotina que se completa. O Glass Skin Starter tira a adivinhação da sua skincare: limpar sem agredir, hidratar em camadas, selar e proteger — na ordem certa, com curadoria científica. Sem promessa de milagre. Com método.',
 
-  39900,   -- R$ 399,00
+  99900,   -- R$ 999,00
 
   'BRL',
 

@@ -129,7 +129,7 @@ export const CATALOG_PRODUCTS: CatalogProduct[] = [
   {
     slug: "glass-skin-starter",
     name: "Glass Skin Starter",
-    price: 399,
+    price: 999,
     category: "kit",
     skinTypes: ["oleosa", "mista", "normal", "seca", "sensível"],
     concerns: ["hidratação", "textura", "luminosidade", "poros"],
