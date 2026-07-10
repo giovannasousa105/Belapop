@@ -656,11 +656,12 @@ export function ProductPdpPremiumMobile({
   const [fixedCtaVisible, setFixedCtaVisible] = useState(false);
   const mobileTrackRef = useRef<HTMLDivElement | null>(null);
   const mainCtaRef = useRef<HTMLDivElement | null>(null);
+  const kitCta = productDetails?.customCta ?? null;
   const addToCartLabel = !isPurchasable
     ? "Indisponível"
     : pendingAction === "cart"
       ? "Adicionando..."
-      : brandCtas.primary.addToCart;
+      : (kitCta ?? brandCtas.primary.addToCart);
   const buyNowLabel = !isPurchasable
     ? "Indisponível"
     : pendingAction === "checkout"
@@ -1209,6 +1210,45 @@ export function ProductPdpPremiumMobile({
           </div>
         </section>
 
+        {productDetails?.kitItems?.length ? (
+          <section className="bg-white px-5 py-14 md:px-8 md:py-20">
+            <div className="mx-auto max-w-[980px]">
+              <p className="text-[10px] font-semibold uppercase tracking-[0.24em] text-black/50">
+                O que vem no kit
+              </p>
+              <h2 className="mt-2 [font-family:var(--font-playfair)] text-[2rem] font-medium leading-[1.1] tracking-[-0.014em] text-black sm:text-[2.35rem]">
+                5 produtos. 1 rotina completa.
+              </h2>
+              <ol className="mt-8 space-y-4">
+                {productDetails.kitItems.map((item, i) => (
+                  <li
+                    key={item.nome}
+                    className="flex gap-5 rounded-2xl border border-black/8 bg-[#fcf9f8] p-5"
+                  >
+                    <p
+                      aria-hidden="true"
+                      className="shrink-0 [font-family:var(--font-playfair)] text-4xl font-medium leading-none text-black/15"
+                    >
+                      {String(i + 1).padStart(2, "0")}
+                    </p>
+                    <div className="min-w-0">
+                      <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[#c08fa3]">
+                        {item.passo}
+                      </p>
+                      <p className="mt-1 text-sm font-semibold text-black/80">
+                        {item.marca} · {item.nome}
+                      </p>
+                      <p className="mt-1.5 text-[0.88rem] leading-[1.6] text-black/58">
+                        {item.descricao}
+                      </p>
+                    </div>
+                  </li>
+                ))}
+              </ol>
+            </div>
+          </section>
+        ) : null}
+
         <section className="bg-[#fcf9f8] px-5 py-14 md:px-8 md:py-20">
           <div className="mx-auto max-w-[980px]">
             <div className="mb-6 flex flex-wrap items-center gap-3">
@@ -1446,13 +1486,28 @@ export function ProductPdpPremiumMobile({
           </section>
         )}
 
+        {productDetails?.cienciaSemHype ? (
+          <section className="bg-white px-5 py-14 md:px-8 md:py-20">
+            <div className="mx-auto max-w-[980px]">
+              <div className="rounded-2xl border border-black/8 bg-[#f6f1eb] p-8 md:p-10">
+                <p className="text-[10px] font-semibold uppercase tracking-[0.28em] text-black/45">
+                  A ciência, sem hype
+                </p>
+                <p className="mt-4 text-[0.94rem] leading-[1.75] text-black/65">
+                  {productDetails.cienciaSemHype}
+                </p>
+              </div>
+            </div>
+          </section>
+        ) : null}
+
         <section className="bg-[#f6f1eb] px-5 py-14 md:px-8 md:py-20">
           <div className="mx-auto max-w-[920px]">
             <h2 className="text-center [font-family:var(--font-playfair)] text-[2rem] font-medium leading-[1.1] tracking-[-0.014em] text-black sm:text-[2.35rem]">
               Perguntas frequentes
             </h2>
             <div className="mt-8 space-y-3">
-              {FAQ_ITEMS.map((item) => (
+              {(productDetails?.faqItems ?? FAQ_ITEMS).map((item) => (
                 <details
                   key={item.question}
                   className="group rounded-2xl border border-black/10 bg-white px-5 py-4"

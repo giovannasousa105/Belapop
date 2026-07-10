@@ -1,6 +1,6 @@
 export type ProductCategory =
   | "limpeza" | "tonico" | "serum" | "hidratante"
-  | "proteção" | "olhos" | "cabelos" | "maquiagem";
+  | "proteção" | "olhos" | "cabelos" | "maquiagem" | "kit";
 
 export type SkinTypeFilter =
   | "oleosa" | "seca" | "mista" | "normal" | "sensível";
@@ -124,6 +124,22 @@ export const CATALOG_PRODUCTS: CatalogProduct[] = [
     tags: ["blush", "maquiagem", "corar", "rose", "luminoso", "glow"],
     searchTerms: ["blush", "rouge", "maquiagem bochechas", "cor natural", "makeup", "corar"],
     ritual: "manha",
+    isNew: true,
+  },
+  {
+    slug: "glass-skin-starter",
+    name: "Glass Skin Starter",
+    price: 399,
+    category: "kit",
+    skinTypes: ["oleosa", "mista", "normal", "seca", "sensível"],
+    concerns: ["hidratação", "textura", "luminosidade", "poros"],
+    keyActives: ["mucina de caracol", "ácido hialurônico", "spf50+", "panthenol"],
+    tags: ["kit", "k-beauty", "glass skin", "rotina coreana", "sem fragrância", "spf50"],
+    searchTerms: [
+      "kit coreano", "glass skin", "rotina k-beauty", "mucina de caracol",
+      "pele de vidro", "kit skincare", "rotina completa", "cosrx", "torriden"
+    ],
+    ritual: "ambos",
     isNew: true,
   },
 ];

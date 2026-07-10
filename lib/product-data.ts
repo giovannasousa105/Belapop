@@ -10,6 +10,13 @@ export interface ProductComoUsar {
   passos: string[];
 }
 
+export interface ProductKitItem {
+  passo: string;
+  marca: string;
+  nome: string;
+  descricao: string;
+}
+
 export interface ProductDetails {
   descricao: string;
   subtitulo: string;
@@ -21,6 +28,10 @@ export interface ProductDetails {
   fragrancia: string;
   categoria: string;
   tags: string[];
+  kitItems?: ProductKitItem[];
+  faqItems?: { question: string; answer: string }[];
+  customCta?: string;
+  cienciaSemHype?: string;
 }
 
 export const PRODUCT_DETAILS: Record<string, ProductDetails> = {
@@ -397,6 +408,156 @@ export const PRODUCT_DETAILS: Record<string, ProductDetails> = {
     categoria: "Olhos",
     tags: ["olheiras", "patches", "cafeina", "peptideos", "area dos olhos", "hidrogel"],
   },
+  "glass-skin-starter": {
+    descricao:
+      "Cinco produtos coreanos, uma rotina que se completa. O Glass Skin Starter tira a adivinhação da sua skincare: limpar sem agredir, hidratar em camadas, selar e proteger — na ordem certa, com curadoria científica. Sem promessa de milagre. Com método.",
+    subtitulo: "Pele de vidro não é filtro. É método. E a gente testou cada passo.",
+    ativos: [
+      {
+        nome: "Filtrado de Secreção de Helix Aspersa (Mucina de Caracol) 96%",
+        concentracao: "96%",
+        funcao:
+          "Glicoproteínas, ácido hialurônico natural e alantoína — hidratação, viço e conforto. Sem fragrância.",
+        referencia: "Fórmula COSRX • Snail 96 Mucin Power Essence",
+      },
+      {
+        nome: "Ácido Hialurônico (5 Pesos Moleculares)",
+        concentracao: "múltiplos PM",
+        funcao:
+          "Ação da superfície às camadas mais profundas da epiderme — hidratação em cascata",
+        referencia: "PMID: 22956862",
+      },
+      {
+        nome: "Panthenol (Pró-Vitamina B5)",
+        concentracao: "–",
+        funcao: "Conforto, suavidade e sustentação da barreira cutânea",
+        referencia: "PMID: 22606818",
+      },
+      {
+        nome: "Extrato de Arroz (30%) + Probióticos",
+        concentracao: "30%",
+        funcao:
+          "Base do SPF50+ PA++++; conforto pós-solar, leve e sem white cast",
+        referencia: "Fórmula Beauty of Joseon • Relief Sun Rice + Probiotics",
+      },
+    ],
+    indicadoPara: [
+      "maioria dos tipos de pele",
+      "pele sensível",
+      "pele com tendência a acne",
+      "quem quer estruturar uma rotina coreana",
+    ],
+    naoIndicadoPara: [
+      "alergia conhecida a mucina de caracol",
+      "pele com lesões abertas ativas",
+    ],
+    comoUsar: [
+      {
+        periodo: "MANHÃ",
+        passos: [
+          "Cleanser — pH baixo, 60 seg, enxágue com água fria",
+          "Snail 96 Essence — pele úmida, patting suave até absorver",
+          "Torriden Dive-In Serum — 3 gotas, pressionar (não esfregar)",
+          "Snail 92 Cream — camada leve para selar",
+          "Relief Sun SPF50+ — último passo, sempre",
+        ],
+      },
+      {
+        periodo: "NOITE",
+        passos: [
+          "Cleanser — double cleanse se usou filtro ou maquiagem",
+          "Snail 96 Essence — pele úmida, patting suave",
+          "Torriden Dive-In Serum — 3 gotas, pressionar",
+          "Snail 92 Cream — finaliza e sela as camadas",
+        ],
+      },
+      {
+        periodo: "DICA",
+        passos: [
+          "Aplique essência e sérum com a pele levemente úmida para potencializar a absorção.",
+        ],
+      },
+    ],
+    textura:
+      "Gel (cleanser), essência fluida, sérum aquoso, creme leve, fluido solar sem white cast",
+    fragrancia: "Sem fragrância em todos os 5 produtos",
+    categoria: "Kit Skincare",
+    tags: [
+      "kit",
+      "k-beauty",
+      "glass skin",
+      "rotina coreana",
+      "spf50+",
+      "mucina de caracol",
+      "ácido hialurônico",
+      "sem fragrância",
+    ],
+    kitItems: [
+      {
+        passo: "1 · Limpeza",
+        marca: "COSRX",
+        nome: "Low pH Good Morning Gel Cleanser",
+        descricao:
+          "Gel de pH baixo (~5) que remove sem repuxar nem comprometer a barreira.",
+      },
+      {
+        passo: "2 · Essência",
+        marca: "COSRX",
+        nome: "Advanced Snail 96 Mucin Power Essence",
+        descricao:
+          "96% de filtrado de secreção de caracol; glicoproteínas, HA e alantoína para pele viçosa. Sem fragrância.",
+      },
+      {
+        passo: "3 · Sérum",
+        marca: "Torriden",
+        nome: "Dive-In Serum",
+        descricao:
+          "Hialurônico com 5 pesos moleculares; com panthenol, alantoína e ceramida. Vegano, testado como não irritante.",
+      },
+      {
+        passo: "4 · Creme",
+        marca: "COSRX",
+        nome: "Advanced Snail 92 All-in-One Cream",
+        descricao:
+          "Creme que tranca as camadas de hidratação e sustenta o resultado.",
+      },
+      {
+        passo: "5 · Proteção",
+        marca: "Beauty of Joseon",
+        nome: "Relief Sun: Rice + Probiotics SPF50+ PA++++",
+        descricao:
+          "SPF50+ PA++++ amplo espectro, leve, sem white cast, com 30% de extrato de arroz.",
+      },
+    ],
+    faqItems: [
+      {
+        question: "Em quanto tempo vejo resultado?",
+        answer:
+          "Hidratação e viço nos primeiros dias; textura é trabalho de consistência.",
+      },
+      {
+        question: "Serve pra pele oleosa/acneica?",
+        answer: "Sim; fórmulas leves e sem fragrância.",
+      },
+      {
+        question: "Posso usar com ácidos/retinóico?",
+        answer:
+          "Sim, são passos hidratantes; introduza um ativo por vez e use SPF de dia.",
+      },
+      {
+        question: "Grávida pode usar?",
+        answer:
+          "São cosméticos de hidratação/proteção; na dúvida sobre ingredientes, consulte seu médico.",
+      },
+      {
+        question: "Os produtos são originais?",
+        answer: "Sim, curadoria e procedência garantidas.",
+      },
+    ],
+    customCta: "Quero minha pele de vidro",
+    cienciaSemHype:
+      "Na BelaPop, cada produto entra por evidência e sinergia — não por moda. Aqui a ciência testa antes de qualquer promessa. As afirmações referem-se a benefícios cosméticos (hidratação, viço, conforto e proteção UV). Produtos de skincare não substituem acompanhamento profissional.",
+  },
 };
 
 export const COMPLEMENTARY_PRODUCTS: Record<string, string[]> = {
@@ -415,4 +576,5 @@ export const PRODUCT_NAMES: Record<string, string> = {
   "creme-barrier-celeste": "Creme Barrier Celeste",
   "protetor-solar-luz-de-vela-fps50": "Protetor Solar Luz de Vela FPS 50",
   "patch-olhos-aurora": "Patch Olhos Aurora",
+  "glass-skin-starter": "Glass Skin Starter",
 };

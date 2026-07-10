@@ -109,7 +109,8 @@ const nextConfig = {
   },
   async redirects() {
     return [
-      { source: "/produtos",         destination: "/catalogo",       permanent: true },
+      { source: "/produtos",              destination: "/catalogo",       permanent: true },
+      { source: "/produtos/:path*",       destination: "/produto/:path*", permanent: true },
       { source: "/loja",             destination: "/catalogo",       permanent: true },
       { source: "/collections/all",  destination: "/catalogo",       permanent: true },
       { source: "/shop",             destination: "/catalogo",       permanent: true },
