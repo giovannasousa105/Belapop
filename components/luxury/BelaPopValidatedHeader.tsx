@@ -61,9 +61,7 @@ const primaryNav: readonly PrimaryNavLink[] = [
   { href: "/circulo", label: "Círculo", key: "circulo" },
   { href: "/diario", label: "Diário", key: "diario" },
   { href: "/skincare", label: "Skincare", key: "skincare" },
-  { href: "/cabelos", label: "Cabelos", key: "cabelos" },
   { href: "/rituais", label: "Autocuidado", key: "autocuidado" },
-  { href: "/maquiagem", label: "Maquiagem", key: "maquiagem" },
   { href: "/universos", label: "Universos", key: "universos" },
   { href: "/kits", label: "Kits", key: "kits" }
 ];
@@ -75,9 +73,7 @@ const editorialLinks: readonly DrawerNavLink[] = [
 
 const categoriaLinks: readonly DrawerNavLink[] = [
   { href: "/skincare", label: "Skincare" },
-  { href: "/cabelos", label: "Cabelos" },
   { href: "/rituais", label: "Autocuidado" },
-  { href: "/maquiagem", label: "Maquiagem" },
   { href: "/universos", label: "Universos" },
 ];
 

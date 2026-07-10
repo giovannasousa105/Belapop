@@ -1,23 +1,20 @@
 import type { Metadata } from "next";
 
-import { MakeupAtelierExperience } from "@/components/maquiagem/MakeupAtelierExperience";
+import { EmBrevePage } from "@/components/layout/EmBrevePage";
 
+// LANÇAMENTO: maquiagem bloqueada temporariamente
+// Para reativar: substituir por <MakeupAtelierExperience /> e restaurar metadata abaixo
 export const metadata: Metadata = {
-  title: "Maquiagem | BelaPop",
-  description:
-    "Maquiagem BelaPop com seleção viva da categoria, foco em uso, acabamento e rotina.",
-  alternates: { canonical: "/maquiagem" },
-  openGraph: {
-    title: "Maquiagem | BelaPop",
-    description:
-      "Maquiagem BelaPop com seleção viva da categoria, foco em uso, acabamento e rotina.",
-    url: "/maquiagem",
-    siteName: "BelaPop",
-    images: [{ url: "/og-default.jpg", alt: "Maquiagem BelaPop" }],
-    type: "website"
-  }
+  title: "Maquiagem | Em breve — BelaPop",
+  description: "Seleção de maquiagem da BelaPop em breve.",
+  robots: { index: false, follow: true },
 };
 
 export default function MaquiagemPage() {
-  return <MakeupAtelierExperience />;
+  return (
+    <EmBrevePage
+      titulo="Maquiagem"
+      subtitulo="Curadoria de maquiagem com foco em uso, acabamento e rotina — chegando em breve."
+    />
+  );
 }

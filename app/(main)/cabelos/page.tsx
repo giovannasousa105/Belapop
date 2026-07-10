@@ -1,23 +1,20 @@
 import type { Metadata } from "next";
 
-import { HairAtelierExperience } from "@/components/cabelos/HairAtelierExperience";
+import { EmBrevePage } from "@/components/layout/EmBrevePage";
 
+// LANÇAMENTO: cabelos bloqueada temporariamente
+// Para reativar: substituir por <HairAtelierExperience /> e restaurar metadata abaixo
 export const metadata: Metadata = {
-  title: "Cabelos | BelaPop",
-  description:
-    "Cabelos BelaPop com experiência viva da categoria e jornada de cuidado capilar.",
-  alternates: { canonical: "/cabelos" },
-  openGraph: {
-    title: "Cabelos | BelaPop",
-    description:
-      "Cabelos BelaPop com experiência viva da categoria e jornada de cuidado capilar.",
-    url: "/cabelos",
-    siteName: "BelaPop",
-    images: [{ url: "/og-default.jpg", alt: "Cabelos BelaPop" }],
-    type: "website"
-  }
+  title: "Cabelos | Em breve — BelaPop",
+  description: "Tratamentos capilares da BelaPop em breve.",
+  robots: { index: false, follow: true },
 };
 
 export default function CabelosPage() {
-  return <HairAtelierExperience />;
+  return (
+    <EmBrevePage
+      titulo="Cabelos"
+      subtitulo="Tratamentos capilares com curadoria científica — chegando em breve."
+    />
+  );
 }
