@@ -31,6 +31,7 @@ const config: Config = {
         "<rootDir>/lib/popclub/invariants/__tests__/**/*.test.ts",
         "<rootDir>/lib/skinScan/__tests__/**/*.test.ts",
         "<rootDir>/lib/lote/__tests__/**/*.test.ts",
+        "<rootDir>/src/features/skinScan/*.test.ts",
       ],
     },
     {
